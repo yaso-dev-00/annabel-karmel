@@ -38,6 +38,7 @@ export function HomePageContent() {
   const [recipeAutoScrollEnabled, setRecipeAutoScrollEnabled] = useState(true);
   const [appCardIndex, setAppCardIndex] = useState(0);
   const [appCardDirection, setAppCardDirection] = useState(1);
+  const [appPanelLockedHeight, setAppPanelLockedHeight] = useState<number | null>(null);
   const [recipeStep, setRecipeStep] = useState(0);
   const [visibleRecipeCards, setVisibleRecipeCards] = useState(5);
   const [cookbookIndex, setCookbookIndex] = useState(0);
@@ -50,6 +51,7 @@ export function HomePageContent() {
   });
   const finderRef = useRef<HTMLFormElement | null>(null);
   const recipeTrackRef = useRef<HTMLDivElement | null>(null);
+  const appPanelRef = useRef<HTMLDivElement | null>(null);
   const cookbookTrackRef = useRef<HTMLDivElement | null>(null);
   const collabTrackRef = useRef<HTMLDivElement | null>(null);
   const collabLoopWidthRef = useRef(0);
@@ -110,9 +112,37 @@ export function HomePageContent() {
     moveCookbooks(step);
   };
 
+  const syncAppPanelHeight = () => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    // Glitch is only visible on smaller screens; keep desktop fully fluid.
+    if (window.innerWidth >= 1080) {
+      setAppPanelLockedHeight(null);
+      return;
+    }
+    const panel = appPanelRef.current;
+    if (!panel) {
+      return;
+    }
+    const measuredHeight = panel.offsetHeight;
+    if (measuredHeight > 0) {
+      setAppPanelLockedHeight(measuredHeight);
+    }
+  };
+
   useEffect(() => {
     const timer = setInterval(() => moveSlide(1), 5500);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const updatePanelLockOnResize = () => {
+      setAppPanelLockedHeight(null);
+      window.requestAnimationFrame(syncAppPanelHeight);
+    };
+    window.addEventListener("resize", updatePanelLockOnResize);
+    return () => window.removeEventListener("resize", updatePanelLockOnResize);
   }, []);
 
   useEffect(() => {
@@ -692,7 +722,11 @@ export function HomePageContent() {
           </article>
 
           <article className="relative mx-auto w-full max-w-[380px] pt-1 md:max-w-[420px] lg:justify-self-end lg:pt-0">
-            <div className="relative flex min-h-[300px] w-full items-center justify-center overflow-hidden rounded-[14px] bg-[#efe8ea] sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]">
+            <div
+              ref={appPanelRef}
+              style={appPanelLockedHeight ? { height: `${appPanelLockedHeight}px` } : undefined}
+              className="relative flex min-h-[300px] w-full items-center justify-center overflow-hidden rounded-[14px] bg-[#efe8ea] sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]"
+            >
               <AnimatePresence mode="wait" custom={appCardDirection}>
                 <motion.img
                   key={`app-card-${appCardIndex}`}
@@ -702,6 +736,7 @@ export function HomePageContent() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: appCardDirection > 0 ? -20 : 20 }}
                   transition={{ duration: 0.45, ease: "easeOut" }}
+                  onLoad={syncAppPanelHeight}
                   className="block h-auto w-full max-w-full object-contain max-h-[min(68dvh,520px)] sm:max-h-[min(70dvh,560px)]"
                 />
               </AnimatePresence>

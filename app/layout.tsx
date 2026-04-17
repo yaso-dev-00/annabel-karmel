@@ -25,8 +25,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Annabel Karmel Replica",
-  description: "High-fidelity homepage replica project.",
+  title: "Annabel Karmel",
+  description: "Nutritious recipes, expert advice, and family meal inspiration.",
 };
 
 export default function RootLayout({

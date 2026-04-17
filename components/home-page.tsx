@@ -868,7 +868,7 @@ export function HomePageContent() {
             recipe books are a household staple.
           </p>
 
-          <div className="relative mt-18 overflow-hidden px-6 md:px-8 lg:px-12">
+          <div className="cookbook-carousel-viewport relative mt-18 overflow-hidden px-6 md:px-8 lg:px-12">
             <motion.div
               ref={cookbookTrackRef}
               className="flex gap-8 will-change-transform"

@@ -954,6 +954,11 @@ a {
   stroke-linejoin: round;
 }
 
+/* Keep cookbook carousel viewport stable on mobile without altering card sizes. */
+.cookbook-carousel-viewport {
+  min-height: 0;
+}
+
 .app-highlight {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -1459,6 +1464,10 @@ a {
   .latest-recipes {
     margin-block: 1.4rem;
     padding: 1.25rem 0 1.2rem;
+  }
+
+  .cookbook-carousel-viewport {
+    min-height: 510px;
   }
 
   .footer-top {

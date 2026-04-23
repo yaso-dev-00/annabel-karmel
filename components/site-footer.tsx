@@ -1,22 +1,22 @@
 export function SiteFooter() {
   return (
-    <footer className="site-footer pt-5! md:pt-10!">
-      <div className="site-footer-shell">
+    <footer className="site-footer md:mb-[140px]!  pt-5! md:pt-10!">
+      <div className="site-footer-shell md:mt-[0px]! md:pt-[100px]!">
         <section className="footer-top">
           <a className="footer-logo" href="/" aria-label="Annabel Karmel home">
             <img src="/hero-slides/logo.webp" alt="Annabel Karmel" />
           </a>
 
           <div className="footer-link-columns" aria-label="Footer links">
-            <ul>
-              <li>
-                <a href="/about-annabel-karmel">About Annabel Karmel</a>
+            <ul className="md:gap-y-0!">
+              <li className="">
+                <a href="/about-annabel-karmel" className="p-0!">About Annabel <br className="max-[900px]:hidden"/> Karmel</a>
               </li>
               <li>
                 <a href="/contact">Contact Us</a>
               </li>
             </ul>
-            <ul>
+            <ul className="">
               <li>
                 <a href="/recipe-app">
                   Annabel&apos;s Baby &amp; Toddler App
@@ -34,32 +34,30 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <article className="footer-app-cta flex flex-col gap-y-2">
+          <article className="footer-app-cta flex flex-col gap-y-2 text-[#922f57]!">
             <h3>Download Annabel&apos;s award-winning recipe app</h3>
             <p className="text-base !text-[#636262]">
               Discover nutritious recipes and expert meal planning tools for the whole family.
             </p>
             <div className="footer-store-links">
-              <a href="/recipe-app/download/ios" aria-label="Download on the App Store">
-                <span>Download on the</span>
-                <strong>App Store</strong>
+              <a href="/recipe-app/download/ios" aria-label="Download on the App Store" className="footer-store-badge">
+                <img src="/Download-Apple-Store.svg" alt="Download on the App Store" />
               </a>
-              <a href="/recipe-app/download/android" aria-label="Get it on Google Play">
-                <span>GET IT ON</span>
-                <strong>Google Play</strong>
+              <a href="/recipe-app/download/android" aria-label="Get it on Google Play" className="footer-store-badge">
+                <img src="/Download-Google-Play.svg" alt="Get it on Google Play" />
               </a>
             </div>
           </article>
         </section>
 
-        <section className="footer-newsletter">
-          <h2>Sign up for our newsletter</h2>
+        <section className="footer-newsletter md:mt-[0px]!">
+          <h2 className="text-[24px]! font-[400]! mb-[20px]!">Sign up for our newsletter</h2>
           <form>
             <label htmlFor="email-newsletter" className="sr-only">
               Email address
             </label>
             <input id="email-newsletter" type="email" placeholder="Enter your email" />
-            <button type="submit" className="text-[17px]! h-[40px]! md:h-[30px]! md:text-[20px]!">Subscribe</button>
+            <button type="submit" className="text-[17px]! h-[40px]! md:h-[30px]! md:text-[16px]!">Subscribe</button>
           </form>
         </section>
 

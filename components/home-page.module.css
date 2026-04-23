@@ -1,0 +1,47 @@
+.displayMedium {
+  font-family: var(--font-playfair);
+}
+
+.bodyFont {
+  font-family: var(--font-montserrat);
+}
+
+.labelCaps {
+  font-family: var(--font-montserrat);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ctaButton {
+  font-family: var(--font-montserrat);
+}
+
+.ctaPink {
+  background-color: #b74772;
+}
+
+.ctaPink:hover {
+  background-color: #a23d63;
+}
+
+.ctaTeal {
+  background-color: #73a3b0;
+}
+
+.ctaTeal:hover {
+  background-color: #6697a5;
+}
+
+.ctaLabel {
+  color: #fff;
+  font-weight: 400;
+}
+
+.ctaPinkIcon {
+  color: #b74772;
+}
+
+.ctaTealIcon {
+  color: #73a3b0;
+}

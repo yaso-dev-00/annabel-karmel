@@ -1,0 +1,148 @@
+.title {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.32;
+  font-weight: 500;
+  color: #3a3a3a;
+  
+  
+}
+ 
+
+.partner {
+  margin: 10px 0 30px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.4;
+  color: #6f646d;
+}
+
+.partnerWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.12;
+  font-weight: 400;
+  color: #3a3a3a;
+}
+
+
+.partnerWrap img {
+  width: 118px;
+  height: auto;
+}
+
+.lead {
+  margin: 0 0 35px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.45;
+  color: #3f3841;
+}
+
+.lead a {
+  text-decoration: underline;
+}
+
+.goBanner {
+  margin: 60px auto 30px;
+  width: min(510px, 100%);
+  background: #11a8ad;
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  line-height: 1;
+  font-weight: 700;
+  padding: 18px 16px;
+}
+
+.didTitle {
+  margin: 0 0 45px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  line-height: 1.15;
+  color: #3a3a3a;
+  font-weight: 450;
+}
+
+.didBody {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.45;
+  color: #3f3841;
+}
+
+.didImage {
+  width: 100%;
+  border-radius: 16px;
+  display: block;
+}
+
+.mushyTitle {
+  margin: 0 0 23px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.15;
+  color: #3a3a3a;
+  font-weight: 450;
+}
+
+.mushyText {
+  margin: 0 0 25px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.45;
+  color: #3f3841;
+}
+
+.mushyText a {
+  text-decoration: underline;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.socialLink img {
+  width: 26px;
+  height: 26px;
+}
+
+.socialLink a {
+  text-decoration: none;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size:40px;
+  line-height: 1.2;
+  color: #3a3a3a;
+  font-weight: 500;
+}
+
+.relatedText {
+  margin: 10px 0 35px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  color: #4e434b;
+}
+

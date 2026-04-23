@@ -1,0 +1,107 @@
+.page {
+  background: #ffffff;
+}
+
+.hero {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 30px 16px 0;
+}
+
+.heroImage {
+  width: 100%;
+  max-height: 560px;
+  object-fit: cover;
+}
+
+.content {
+  width: min(980px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 72px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b7b83;
+}
+
+.title {
+  margin: 10px 0 14px;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: #231f24;
+}
+
+.intro {
+  margin: 0 0 26px;
+  max-width: 780px;
+  font-family: var(--font-body);
+  font-size: clamp(1.02rem, 1.8vw, 1.28rem);
+  line-height: 1.6;
+  color: #514a52;
+}
+
+.sectionGrid {
+  display: grid;
+  gap: 18px;
+}
+
+.sectionCard {
+  background: #f7f2f4;
+  border: 1px solid #eadde2;
+  padding: 20px;
+}
+
+.sectionTitle {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.4vw, 2rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: #2c2629;
+}
+
+.sectionList {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #3f3841;
+}
+
+.sectionParagraph {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #3f3841;
+}
+
+.ctaRow {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: #b34769;
+  color: #fff;
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+}

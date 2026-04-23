@@ -175,7 +175,7 @@ export function SiteHeader() {
             </div>
             <div className="border-y border-[#b9afb3]">
               <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                <span className="block px-[0.15rem] py-[0.7rem] [font-family:var(--font-montserrat),var(--font-geist-sans),Arial,sans-serif] text-[16px] font-semibold text-[#373136]">
+                <span className="block px-[0.15rem] py-[0.7rem] [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[16px] font-semibold text-[#373136]">
                   Login
                 </span>
               </Link>
@@ -189,7 +189,7 @@ export function SiteHeader() {
                     onClick={() => toggleMobileGroup(menu.label)}
                     aria-expanded={isOpen}
                     aria-controls={`mobile-group-${menu.label}`}
-                    className="flex w-full items-center justify-between bg-transparent px-[0.15rem] py-[0.82rem] text-left [font-family:var(--font-montserrat),var(--font-geist-sans),Arial,sans-serif] text-[16px] font-bold text-[#373136]"
+                    className="flex w-full items-center justify-between bg-transparent px-[0.15rem] py-[0.82rem] text-left [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[16px] font-bold text-[#373136]"
                   >
                     <span>{menu.label}</span>
                     <span className={`text-[15px] text-[#6a6368] ${isOpen ? "rotate-180" : "translate-y-px"}`} aria-hidden>
@@ -213,7 +213,7 @@ export function SiteHeader() {
                               onClick={() => toggleMobileSubGroup(subGroupKey)}
                               aria-expanded={isSubOpen}
                               aria-controls={`${navId}-mobile-sub-${menu.label}-${group.title}`}
-                              className="flex w-full items-center justify-between bg-transparent px-[0.15rem] py-[0.62rem] text-left [font-family:var(--font-montserrat),var(--font-geist-sans),Arial,sans-serif] text-[14px] font-semibold text-[#4a4348]"
+                              className="flex w-full items-center justify-between bg-transparent px-[0.15rem] py-[0.62rem] text-left [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[14px] font-semibold text-[#4a4348]"
                             >
                               <span>{group.title}</span>
                               <span
@@ -235,7 +235,7 @@ export function SiteHeader() {
                                     <Link
                                       href={link.href}
                                       onClick={() => setIsMobileMenuOpen(false)}
-                                      className="block px-[0.15rem] py-2 [font-family:var(--font-montserrat),var(--font-geist-sans),Arial,sans-serif] text-[14px] text-[#3f3841]"
+                                      className="block px-[0.15rem] py-2 [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[14px] text-[#3f3841]"
                                     >
                                       {link.label}
                                     </Link>

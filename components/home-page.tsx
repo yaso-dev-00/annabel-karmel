@@ -15,18 +15,19 @@ import {
   partnerLogos,
   type CollabCard,
 } from "@/data/site-content";
+import styles from "./home-page.module.css";
 
 const heroThemeByIndex = [
-  { panelColor: "#dcb8c7", buttonColor: "#b34769" },
-  { panelColor: "#e6e2dc", buttonColor: "#8f887a" },
-  { panelColor: "#c8dce4", buttonColor: "#6f9fb2" },
+  { panelColor: "#E9C6CE", buttonColor: "#b34769" },
+  { panelColor: "#F4F2E8", buttonColor: "#8f887a" },
+  { panelColor: "#DBEEF2", buttonColor: "#6f9fb2" },
 ];
 
 /** Left/right: circular badges ~110px at lg. Center: vertical rectangle ~1.4× that height. */
 const awardBadgeImgClasses = [
-  "h-[88px] w-[88px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-[104px] md:w-[104px] lg:h-[110px] lg:w-[110px]",
-  "h-[120px] w-auto shrink-0 max-w-[88px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[100px] lg:h-[154px] lg:max-w-[110px]",
-  "h-[88px] w-[88px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-[104px] md:w-[104px] lg:h-[110px] lg:w-[110px]",
+  "h-[88px] w-[88px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
+  "h-[120px] w-auto shrink-0 max-w-[88px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[150px] lg:h-auto lg:max-w-[150px]",
+  "h-[88px] w-[88px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
 ];
 
 export function HomePageContent() {
@@ -132,8 +133,8 @@ export function HomePageContent() {
   };
 
   useEffect(() => {
-    const timer = setInterval(() => moveSlide(1), 5500);
-    return () => clearInterval(timer);
+    // const timer = setInterval(() => moveSlide(1), 5500);
+    // return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -454,16 +455,17 @@ export function HomePageContent() {
             href={collab.href}
             target="_blank"
             rel="noreferrer"
-            className="absolute bottom-4 right-4 inline-flex items-center gap-3 rounded-[20px] bg-[#efefef] px-4 py-2.5 [font-family:var(--font-montserrat)] text-[16px] font-medium text-[#6a8796] md:bottom-5 md:right-5 md:px-5 md:py-3 md:text-[16px]"
+            className="absolute bottom-4 right-4 inline-flex items-center gap-3 rounded-[20px] bg-white px-3 py-2.5 [font-family:var(--font-montserrat)] text-[16px] font-medium text-[#6a8796] md:bottom-5 md:right-5 md:px-4 md:py-2 md:text-[16px]"
           >
-            <span className="text-[16px] text-[#6a8796]">Discover</span>
+            <span className="text-[16px] text-[#6a8796] hover:text-[#f78da7]">Discover</span>
             <span
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#74a6b6] text-white md:h-12 md:w-12"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-[15px] bg-[#74a6b6] text-white md:h-12 md:w-12"
               aria-hidden
             >
-              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.6] md:h-5 md:w-5">
-                <path d="M9 5L16 12L9 19" />
-              </svg>
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                                    <path d="M5 12.9619H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path d="M12 5.96191L19 12.9619L12 19.9619" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
             </span>
           </a>
         </div>
@@ -483,7 +485,7 @@ export function HomePageContent() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.38, ease: "easeOut" }}
-                className="hero-copy-content"
+                className="hero-copy-content max-[900px]:text-center max-[900px]:items-center"
               >
                 <h1>{current.title}</h1>
                 <p>{current.subtitle}</p>
@@ -492,15 +494,21 @@ export function HomePageContent() {
                   target="_blank"
                   rel="noreferrer"
                   style={{ backgroundColor: theme.buttonColor }}
+                  className={`inline-flex items-center gap-2 rounded-[15px] px-4 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] whitespace-nowrap transition-colors ${styles.ctaButton}`}
                 >
-                  {current.cta}
-                  <span aria-hidden>→</span>
+                  <span className={`${styles.ctaLabel} inline-block w-auto h-auto text-[20px] font-medium leading-none`}>{current.cta}</span>
+                  <span className="inline-flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-[15px] bg-white" aria-hidden>
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-[#6e9ca5] stroke-[2.3]">
+                      <path d="M5 12h14" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
                 </a>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          <div className="hero-image-panel">
+          <div className="hero-image-panel max-[900px]:h-[450px]!">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.img
                 key={`image-${activeSlide}`}
@@ -530,10 +538,10 @@ export function HomePageContent() {
         </article>
       </section>
 
-      <section className="recipe-finder container">
+      <section className="recipe-finder container py-4!">
         <form className="finder-row" ref={finderRef}>
           <label>
-            Recipe
+            <span className="finder-title font-[600]!">Recipe</span>
             <input type="search" placeholder="Search recipes" />
           </label>
           <div className={`finder-dropdown ${openFinderMenu === "age" ? "open" : ""}`}>
@@ -596,8 +604,13 @@ export function HomePageContent() {
               ))}
             </div>
           </div>
-          <button type="submit" className="finder-submit" aria-label="Search recipes">
-            🔍
+          <button
+            type="submit"
+            className="inline-flex items-center justify-center gap-2 rounded-[15px] bg-[#b34769] px-5 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors max-[1100px]:col-span-1 max-[1100px]:mt-2 max-[1100px]:w-full"
+            aria-label="Search recipes"
+          >
+          <img decoding="async" src="https://www.annabelkarmel.com/wp-content/uploads/2025/03/Search-optimized.png" alt="Search" className="h-[40px] w-[40px]"/>
+          
           </button>
         </form>
       </section>
@@ -605,10 +618,10 @@ export function HomePageContent() {
       <section className="latest-recipes">
         <div className="latest-recipes-inner">
           <div className="heading latest-recipes-heading">
-            <h4 className="latest-recipes-title">Latest recipes</h4>
-            <p className="latest-recipes-subtitle">Recipes for every age, stage and occasion</p>
+            <h4 className="latest-recipes-title text-[56px]! font-[500]!">Latest recipes</h4>
+            <p className="latest-recipes-subtitle mt-[25px]!">Recipes for every age, stage and occasion</p>
           </div>
-          <div className="latest-recipes-carousel">
+          <div className="latest-recipes-carousel mt-[25px]!">
             <motion.div
               ref={recipeTrackRef}
               className="latest-recipes-track"
@@ -620,8 +633,17 @@ export function HomePageContent() {
                   <a href={recipe.href} target="_blank" rel="noreferrer">
                     <img src={recipe.image} alt={recipe.title} className="recipe-image" />
                   </a>
-                  <p>{recipe.duration}</p>
-                  <h3>{recipe.title}</h3>
+                  <h3 className="text-[22px]! font-[550]! mt-[10px]! font-family-montserrat">{recipe.title}</h3>
+                  <p className="latest-recipe-duration mt-[20px]!">
+                    <span className="latest-recipe-duration-icon" aria-hidden>
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#c64a73">
+                        <circle cx="12" cy="13" r="8.5" strokeWidth="1.8" />
+                        <path d="M12 8.2v5.1l3.3 1.9" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M8.9 3.8h6.2" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+                    </span>
+                    <span className="text-[18px] font-[500]!">{recipe.duration}</span>
+                  </p>
                 </article>
               ))}
             </motion.div>
@@ -648,13 +670,13 @@ export function HomePageContent() {
           </div>
           <div className="latest-recipes-cta">
             <a
-              className="inline-flex items-center gap-2 rounded-[10px] bg-[#b74772]  px-4 py-2 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors hover:bg-[#a53f67]"
+              className={`inline-flex items-center gap-2 px-4 py-4 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors ${styles.ctaButton} ${styles.ctaPink}  rounded-[15px]!`}
               href="/recipes"
               target="_blank"
               rel="noreferrer"
             >
-              <span className="text-white font-normal tracking-[0.5px]">See all recipes</span>
-              <span className="inline-grid h-8 w-8 place-items-center rounded-full bg-white text-xl leading-none text-[#b74772]" aria-hidden>
+              <span className={`${styles.ctaLabel} tracking-[0.2px] text-[20px]! font-[500]!`}>See all recipes</span>
+              <span className={`inline-grid h-8 w-8 place-items-center rounded-[10px]! bg-white text-xl leading-none ${styles.ctaPinkIcon}`} aria-hidden>
                 →
               </span>
             </a>
@@ -663,7 +685,7 @@ export function HomePageContent() {
       </section>
 
       <section
-        className="relative min-h-[760px] overflow-hidden py-22 md:min-h-[820px] md:py-14 lg:min-h-[860px] lg:py-22"
+        className="relative min-h-[760px] overflow-hidden py-22 md:min-h-[820px] md:py-14 lg:min-h-[860px] lg:py-28"
       >
         <img
           src={backgroundImage.src}
@@ -671,9 +693,9 @@ export function HomePageContent() {
           aria-hidden
           className="pointer-events-none absolute top-0 left-0 h-full w-full object-cover object-center"
         />
-        <div className="relative z-1 mx-auto grid w-full max-w-[980px] grid-cols-1 items-start gap-10 px-4 md:px-6 lg:grid-cols-[0.92fr_1fr]">
+        <div className="relative z-1 mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start gap-10 px-4 md:px-6 lg:grid-cols-[0.92fr_1fr]">
           <article className="mx-auto flex w-full max-w-[410px] flex-col items-center gap-4 pt-2 text-center [font-family:var(--font-montserrat)] lg:mx-0 lg:max-w-none lg:items-start lg:gap-5 lg:pt-6 lg:text-left">
-            <div className="flex w-full items-end justify-center gap-3 md:gap-5 lg:justify-start">
+            <div className="flex w-full items-end justify-center lg:items-center gap-3 md:gap-5 lg:justify-start">
               {appSectionContent.awards.map((award, index) => (
                 <img
                   key={`${award}-${index}`}
@@ -684,25 +706,17 @@ export function HomePageContent() {
                 />
               ))}
             </div>
-            <h2 className="text-center text-[32px] mt-3 leading-[1.08] tracking-[-0.02em] text-[#15131a] md:text-[38px] lg:text-left lg:text-[40px]">
-              <span className="[font-family:var(--font-playfair)] font-[500]">Annabel&apos;s </span>
-              <span className="[font-family:var(--font-playfair)] font-[500]">#1 recipe app</span>
+            <h2 className={`text-center text-[38px] font-[600] max-[900px]:max-w-[350px] mt-3 leading-[50px] tracking-[-0.02em] text-[#15131a] md:text-[48px] lg:text-left md:font-[600]! ${styles.displayMedium}`}>
+              <span>Annabel&apos;s </span>
+              <span>#1 recipe app</span>
             </h2>
             <ul className="w-full space-y-4 mt-3 text-[14px] font-semibold leading-[1.45] text-[#1f1d23] md:text-[15px] lg:text-left">
               {appSectionContent.bullets.map((bullet) => (
-                <li key={bullet} className="flex items-start justify-center gap-2.5 lg:justify-start">
+                <li key={bullet} className="flex items-start  gap-2.5 lg:justify-start">
                   <span className="mt-0.5 flex shrink-0 text-[#494747]" aria-hidden>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none" className="h-5 w-5">
-                      <path
-                        d="M30 9L13.5 25.5L6 18"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M30 9L13.5 25.5L6 18" stroke="#494747" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                   </span>
-                  <span>{bullet}</span>
+                  <span className="text-[22px]! font-[600]! text-left">{bullet}</span>
                 </li>
               ))}
             </ul>
@@ -711,21 +725,21 @@ export function HomePageContent() {
               href={appSectionContent.ctaHref}
               target="_blank"
               rel="noreferrer"
-              className="mt-1 inline-flex items-center gap-2.5 self-center rounded-[10px] bg-[#b74772] px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-[#a23d63] lg:self-start"
+              className={`mt-1 inline-flex items-center gap-2.5 self-center rounded-[10px] px-5 py-4.5 text-[13px] font-semibold text-white transition-colors lg:self-start ${styles.ctaButton} ${styles.ctaPink}`}
             >
-              <span className="text-white font-normal text-[18px] md:text-[20px]">{appSectionContent.ctaLabel}</span>
-              <span className="inline-grid h-6 w-6 shrink-0 place-items-center rounded-[8px] bg-white text-[15px] text-[#b74772]" aria-hidden>
-                →
+              <span className={`${styles.ctaLabel} text-[18px] md:text-[20px]`}>{appSectionContent.ctaLabel}</span>
+              <span className={`inline-grid h-[41px] w-[41px] shrink-0 place-items-center rounded-[15px] bg-white text-[15px] ${styles.ctaPinkIcon}`} aria-hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               </span>
             </a>
            </div>
           </article>
 
-          <article className="relative mx-auto w-full max-w-[380px] pt-1 md:max-w-[420px] lg:justify-self-end lg:pt-0">
+          <article className="relative mx-auto w-full max-w-[380px] pt-1 md:max-w-[570px] lg:justify-self-end lg:pt-0">
             <div
               ref={appPanelRef}
               style={appPanelLockedHeight ? { height: `${appPanelLockedHeight}px` } : undefined}
-              className="relative flex min-h-[300px] w-full items-center justify-center overflow-hidden rounded-[14px] bg-[#efe8ea] sm:min-h-[360px] md:min-h-[400px] lg:min-h-[440px]"
+              className="relative flex min-h-[400px] w-full items-center justify-center overflow-hidden rounded-[14px] bg-[#efe8ea]  md:min-h-[400px] lg:min-h-[600px]"
             >
               <AnimatePresence mode="wait" custom={appCardDirection}>
                 <motion.img
@@ -737,73 +751,78 @@ export function HomePageContent() {
                   exit={{ opacity: 0, x: appCardDirection > 0 ? -20 : 20 }}
                   transition={{ duration: 0.45, ease: "easeOut" }}
                   onLoad={syncAppPanelHeight}
-                  className="block h-auto w-full max-w-full object-contain max-h-[min(68dvh,520px)] sm:max-h-[min(70dvh,560px)]"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
                 />
               </AnimatePresence>
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 text-white">
-                <h3 className="[font-family:var(--font-montserrat)] text-[22px] font-bold leading-[1.05] md:text-[24px]">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-white/10 to-transparent" />
+              <div className="absolute bottom-5 left-5 right-40 md:bottom-15 md:left-10 md:right-40 text-white">
+                <h3 className="[font-family:var(--font-body)]! font-[700]! text-[17px] md:text-[35px] leading-[1.02]">
                   {currentAppCard.title}
                 </h3>
-                <p className="mt-1 max-w-[280px] text-[12px] leading-[1.25] md:text-[13px]">{currentAppCard.subtitle}</p>
+                <p className="mt-2 max-w-[590px]  text-[13px] md:text-[17px] font-normal leading-[1.24]">{currentAppCard.subtitle}</p>
               </div>
-            </div>
-            <div className="mt-3 flex items-center justify-center gap-2 pr-1 lg:justify-end">
-              <button
-                type="button"
-                onClick={() => moveAppCard(-1)}
-                aria-label="Previous app feature"
-                className="inline-grid h-8 w-8 place-items-center rounded-full border border-[#b34769]/35 bg-white text-[#b34769] shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-colors hover:border-[#b34769]/55 hover:bg-[#fdf6f8]"
-              >
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2.8]">
-                  <path d="M14.5 5L8 11.5L14.5 18" />
-                </svg>
-              </button>
-              {appFeatureCards.map((_, index) => (
+              <div className="absolute bottom-8 right-8 z-10 flex items-center gap-3">
                 <button
-                  key={`app-dot-${index}`}
                   type="button"
-                  onClick={() => moveAppCard(index - appCardIndex)}
-                  aria-label={`Go to app feature ${index + 1}`}
-                  className={`h-3 w-3 rounded-full transition-colors ${
-                    index === appCardIndex
-                      ? "bg-[#b34769] shadow-sm"
-                      : "bg-[#c9bcc2] hover:bg-[#a898a2]"
-                  }`}
-                />
-              ))}
+                  onClick={() => moveAppCard(-1)}
+                  aria-label="Previous app feature"
+                  className="inline-grid h-10 w-10 place-items-center rounded-full border border-white/65 bg-transparent text-white shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:border-white hover:bg-white/10"
+                >
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.8]">
+                    <path d="M14.5 5L8 11.5L14.5 18" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => moveAppCard(1)}
+                  aria-label="Next app feature"
+                  className="inline-grid h-10 w-10 place-items-center rounded-full border border-white bg-white text-[#c7c2c6] shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:bg-[#f7f6f7] hover:text-[#b4afb3]"
+                >
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.8]">
+                    <path d="M9.5 5L16 11.5L9.5 18" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </article>
         </div>
-        <div className="relative z-[1] mx-auto mt-5 grid w-full max-w-[980px] items-center gap-10 px-4 md:mt-5 md:px-6 lg:grid-cols-[1fr_0.88fr] lg:gap-14">
-          <div className="relative order-2 mx-auto w-full max-w-[380px] md:max-w-[420px] lg:order-1 lg:justify-self-start">
+        <div className="relative z-[1] mx-auto mt-5 grid w-full max-w-[1200px] items-center gap-10 px-4 md:mt-[70px] md:px-6 lg:grid-cols-[1fr_0.88fr] lg:gap-14">
+          <div className="relative order-2  w-full max-w-[380px] md:max-w-full lg:order-1 lg:justify-self-start">
             <img
               src="/home page/Pancake-Traybake-776x1024-optimized.webp"
               alt="Pancake Traybake"
               className="w-full rounded-[14px] object-cover"
             />
-            <div className="absolute bottom-3 left-3 rounded-[9px] bg-white/95 px-3.5 py-2 shadow-[0_10px_22px_rgba(0,0,0,0.12)]">
-              <p className="[font-family:var(--font-montserrat)] text-[10px] font-semibold text-[#1f1d23]">Pancake Traybake</p>
-              <p className="mt-0.5 text-[9px] text-[#6f6973]">25 Mins</p>
+            <div className="absolute bottom-3 left-3 rounded-[15px] bg-white/95 px-3.5 py-4 shadow-[0_10px_22px_rgba(0,0,0,0.12)]">
+              <p className="[font-family:var(--font-montserrat)] text-[15px] font-semibold text-[#1f1d23]">Pancake Traybake</p>
+              <p className="mt-[10px] text-[9px] text-[#6f6973]">
+              <span className="latest-recipe-duration-icon text-[18px]!" aria-hidden>
+                      <svg viewBox="0 0 24 24" width="18" height="16" fill="none" stroke="#c64a73">
+                        <circle cx="12" cy="13" r="8.5" strokeWidth="1.8" />
+                        <path d="M12 8.2v5.1l3.3 1.9" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M8.9 3.8h6.2" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+                      </span>
+                <sup className="text-[13px]">25 Mins</sup>  </p>
             </div>
           </div>
-          <div className="order-1 mx-auto flex w-full max-w-[320px] flex-col items-center justify-center gap-y-[8px] text-center lg:order-2 lg:mt-2 lg:max-w-[340px] lg:justify-self-center lg:text-left">
-            <p className="[font-family:var(--font-montserrat)] text-[10px] font-semibold uppercase tracking-[0.08em] text-[#8d4a67]">EXCLUSIVE</p>
-            <h2 className="mt-2 [font-family:var(--font-playfair)] text-center [font-family:var(--font-playfair)] text-[34px] leading-[1.05] font-[500] text-[#1f1b24] md:text-[42px]">
+          <div className="order-1 mx-auto flex w-full max-w-[400px] flex-col mt-[50px]  gap-y-[10px] text-center lg:order-2 lg:mt-2 lg:max-w-[440px] justify-center items-center lg:justify-self-center lg:text-left">
+            <p className={`${styles.labelCaps} text-[18px] font-[600] text-[#8d4a67]`}>EXCLUSIVE</p>
+            <h2 className={`mt-2 text-center max-[900px]:max-w-[300px] text-[38px] leading-[50.4px] font-[500] text-[#1f1b24] md:text-[48px] font-[600]! ${styles.displayMedium}`}>
               App recipe of the week
             </h2>
-            <p className="mt-4 [font-family:var(--font-montserrat)] text-center text-[13px] leading-[1.45] text-[#4f4a54] md:text-[14px]">
+            <p className={`mt-4 text-center text-[22px] leading-[1.45] text-[#4f4a54] md:text-[22px] ${styles.bodyFont}`}>
               Get this tasty recipe fresh from Annabel&apos;s kitchen direct to your inbox.
             </p>
             <a
               href="/recipe-app"
               target="_blank"
               rel="noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-[10px] bg-[#b74772] px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-[#a23d63]"
+              className={`mt-6 inline-flex items-center gap-2 rounded-[15px] px-4 py-4 text-[13px] font-semibold text-white transition-colors ${styles.ctaButton} ${styles.ctaPink}`}
             >
-              <span className="text-white font-normal text-[18px] md:text-[20px]">Get the recipe</span>
-              <span className="inline-grid h-6 w-6 place-items-center rounded-[8px] bg-white text-[15px] text-[#b74772]" aria-hidden>
-                →
+              <span className={`${styles.ctaLabel} text-[17px] font-[500]! md:text-[20px]`}>Get the recipe</span>
+              <span className={`inline-grid h-[40px] w-[40px] place-items-center rounded-[15px] bg-white text-[15px] ${styles.ctaPinkIcon}`} aria-hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               </span>
             </a>
           </div>
@@ -816,11 +835,11 @@ export function HomePageContent() {
           className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#fdf2f4] to-transparent"
           aria-hidden
         /> */}
-        <div className="relative mx-auto flex w-full max-w-[1100px] flex-col items-center px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="[font-family:var(--font-playfair)] text-[2rem] text-center tracking-[1px] font-[600] leading-[1.15] tracking-[-0.02em] text-[#111] md:text-[2.125rem] lg:text-[2.375rem]">
+        <div className="relative mx-auto flex w-full max-w-[1200px] flex-col items-center px-4 text-center sm:px-6 lg:px-8">
+          <h2 className={`text-[38px] text-center max-[500px]:max-w-[350px] max-[900px]:max-w-[420px] tracking-[1px] font-[600] leading-[50px] tracking-[-0.02em] text-[#111] md:text-[56px] ${styles.displayMedium}`}>
             Annabel&apos;s expert ranges
           </h2>
-          <p className="mt-5 max-w-[420px] text-pretty [font-family:var(--font-montserrat)] text-[1.44rem] text-center font-normal leading-[1.45] text-[#6b6568] md:mt-6 md:text-[1.05rem] lg:text-[15px]">
+          <p className="mt-5 max-w-[600px] text-pretty [font-family:var(--font-montserrat)] text-[1.44rem] text-center font-normal leading-[1.45] text-[#6b6568] md:mt-6 md:text-[1.05rem] lg:text-[22px]">
             My famous cookbook recipes are enjoyed by toddlers and children all over the world. And now they can refuel on
             my trusted favourites in a flash with my chilled and frozen meal ranges.
           </p>
@@ -831,7 +850,7 @@ export function HomePageContent() {
           >
             <motion.div
               ref={awardMarqueeTrackRef}
-              className="flex min-w-max cursor-grab touch-pan-x items-center gap-x-5 pr-12 will-change-transform select-none active:cursor-grabbing"
+              className="flex min-w-max cursor-grab touch-pan-x items-center gap-x-3 md:gap-x-5 pr-12 will-change-transform select-none active:cursor-grabbing"
               style={{ x: awardX }}
               drag="x"
               dragElastic={0}
@@ -846,44 +865,42 @@ export function HomePageContent() {
                   src={logo}
                   alt=""
                   aria-hidden
-                  className="h-[7rem] w-auto max-h-[8.25rem] max-w-[min(12rem,42vw)] shrink-0 object-contain"
+                  className="h-[180px] w-auto max-h-[200px] max-w-[min(256px,52vw)] shrink-0 object-contain sm:h-[164px] sm:max-h-[188px] sm:max-w-[min(268px,50vw)]"
                   draggable={false}
                 />
               ))}
             </motion.div>
           </div>
-          <div className="mt-12 hidden w-full max-w-[1140px] flex-wrap items-center justify-center gap-x-8 gap-y-10 md:mt-[32px] md:flex md:gap-x-10 lg:mt-[24px] lg:gap-x-8">
+          <div className="mt-12 hidden w-full max-w-[1200px] flex-wrap items-center justify-center gap-x-8 gap-y-10 md:mt-[32px] md:flex md:gap-x-10 lg:mt-[24px] lg:gap-x-3">
             {awardLogos.map((logo) => (
               <img
                 key={logo}
                 src={logo}
                 alt=""
                 aria-hidden
-                className="h-[5.25rem] w-auto max-h-[6rem] max-w-[min(10.5rem,32vw)] object-contain md:h-[5.75rem] md:max-h-[6.5rem] md:max-w-[min(11rem,28vw)] lg:h-[6.5rem] lg:max-h-[7rem]"
+                className="h-[104px] w-auto max-h-[112px] max-w-[min(184px,34vw)] object-contain md:h-[124px] md:max-h-[132px] md:max-w-[192px] lg:h-[172px] lg:max-h-[176px] lg:max-w-[204px]"
               />
             ))}
           </div>
-          <div className="mt-10 grid w-full max-w-[800px] grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 md:gap-5">
+          <div className="mt-10 grid w-full  grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 md:gap-5">
             {expertRangeCards.map((card) => (
               <article key={card.title} className="overflow-hidden rounded-[12px] bg-[#f7f4ea]">
                 <a href={card.href} target="_blank" rel="noreferrer" className="block">
                   <img src={card.image} alt={card.title} className="h-[400px] w-full object-cover md:h-[400px]" />
                 </a>
-                <div className="flex items-center justify-between px-4 py-5 md:px-5">
-                  <h3 className="[font-family:var(--font-playfair)] text-[26px] leading-[1.1] text-[#212023] md:text-[30px] font-[500]">
+                <div className="flex items-center justify-between px-4 py-9 md:px-5">
+                  <h3 className="[font-family:var(--font-playfair)] text-[26px] leading-[1.1] text-[#3a3a3a] md:text-[36px] font-[600]">
                     {card.title}
                   </h3>
                   <a
                     href={card.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-[10px] bg-[#8a8776] px-3.5 py-2 text-[12px] font-semibold text-white transition-colors hover:bg-[#7b7869]"
+                    className="inline-flex items-center gap-2 rounded-[15px] bg-[#8a8776] px-4 py-3 text-[12px] font-semibold text-white transition-colors hover:bg-[#7b7869]"
                   >
-                    <span className="text-white font-normal">Explore</span>
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-[8px] bg-white text-[#8a8776]" aria-hidden>
-                      <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2.6]">
-                        <path d="M9 5L16 12L9 19" />
-                      </svg>
+                    <span className="text-white text-[17px] font-[500]!">Explore</span>
+                    <span className="inline-flex h-[40px] w-[40px] items-center justify-center rounded-[15px] bg-white text-[#8a8776]" aria-hidden>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none"><rect width="41" height="41" rx="16" fill="white"></rect><path d="M13 20.5H27" stroke="#8D8575" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 13.5L27 20.5L20 27.5" stroke="#8D8575" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     </span>
                   </a>
                 </div>
@@ -895,10 +912,10 @@ export function HomePageContent() {
 
       <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen overflow-hidden bg-white  py-5 md:py-8 lg:py-6">
         <div className="mx-auto w-full max-w-full px-4 text-center sm:px-6 lg:px-0">
-          <h3 className="[font-family:var(--font-playfair)] text-[40px] text-center tracking-[1px] font-[800] leading-[1.3] text-[#161418] md:text-[42px]">
+          <h3 className={`text-[40px] text-center tracking-[1px] font-[800] leading-[1.3] text-[#161418] md:text-[56px] ${styles.displayMedium}`}>
             Bestselling cookbooks
           </h3>
-          <p className="mx-auto mt-6 max-w-[700px] [font-family:var(--font-montserrat)] text-[23px] leading-[1.3] text-[#444344] md:text-[24px]">
+          <p className="mx-auto mt-6 max-w-[700px] [font-family:var(--font-montserrat)] text-[23px] leading-[1.3] text-[#444344] md:text-[22px]">
             From weaning to kids cooking and quick and easy family meals, Annabel&apos;s delicious, nutritious and simple
             recipe books are a household staple.
           </p>
@@ -924,9 +941,9 @@ export function HomePageContent() {
                       className="h-[400px] w-auto max-w-[84%] bg-[#ecdde0] object-contain object-center transition-transform duration-300 group-hover:scale-[1.02]"
                     />
                   </a>
-                  <h4 className="mt-4 px-2 text-center [font-family:var(--font-montserrat)] text-[20px] font-bold leading-[1.32] text-[#25222a]">
+                  <h3 className={`mt-5 px-2 text-center text-[20px] font-bold leading-[1.32] text-[#25222a] ${styles.bodyFont}`}>
                     {book.title}
-                  </h4>
+                  </h3>
                 </article>
               ))}
             </motion.div>
@@ -968,13 +985,11 @@ export function HomePageContent() {
               href="/our-products/cookbooks"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2.5 rounded-[10px] bg-[#b34769] px-6 py-3 [font-family:var(--font-montserrat)] text-[15px] font-semibold text-white transition-colors hover:bg-[#9e3f5f]"
+              className={`inline-flex items-center gap-2.5 rounded-[10px] px-6 py-3 text-[15px] font-semibold text-white transition-colors ${styles.ctaButton} ${styles.ctaPink}`}
             >
-              <span className="text-white font-[500] text-[20px] md:text-[24px]">Discover all cookbooks</span>
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-[10px] bg-white text-[#b34769]" aria-hidden>
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2.6]">
-                  <path d="M9 5L16 12L9 19" />
-                </svg>
+              <span className={`${styles.ctaLabel} font-[500] text-[20px] md:text-[20px]`}>Discover all cookbooks</span>
+              <span className={`inline-flex h-[40px] w-[40px] items-center justify-center rounded-[15px] bg-white ${styles.ctaPinkIcon}`} aria-hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               </span>
             </a>
           </div>
@@ -983,7 +998,7 @@ export function HomePageContent() {
 
       <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen overflow-hidden bg-transparent py-10 md:py-16 lg:py-20">
         <div className="mx-auto w-full max-w-none px-0">
-          <h3 className="text-center [font-family:var(--font-playfair)] text-[34px] font-medium leading-[1.1] text-[#17141b] md:text-[42px]">
+          <h3 className={`text-center text-[34px] font-[600] leading-[1.1] text-[#17141b] md:text-[56px] ${styles.displayMedium}`}>
             Annabel&apos;s collabs
           </h3>
 
@@ -997,7 +1012,7 @@ export function HomePageContent() {
             )}
           </div>
 
-          <div className="mt-9 hidden overflow-hidden md:block">
+          <div className="mt-[50px] hidden overflow-hidden md:block">
             <motion.div
               ref={collabTrackRef}
               className="flex cursor-grab gap-6 pl-0 will-change-transform select-none [touch-action:pan-y] active:cursor-grabbing"
@@ -1021,23 +1036,21 @@ export function HomePageContent() {
 
       <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-white py-14 md:py-16">
         <div className="mx-auto flex w-full max-w-[1100px] flex-col space-y-3 px-4 text-center sm:px-6 lg:px-8">
-          <h3 className="[font-family:var(--font-playfair)] text-[40px] font-bold leading-[1.1] text-[#19161d] md:text-[52px]">
+          <h3 className={`text-[40px] font-bold leading-[1.1] text-[#19161d] md:text-[52px] ${styles.displayMedium}`}>
             Partner with us
           </h3>
-          <p className="mx-auto mt-4 max-w-[600px] [font-family:var(--font-montserrat)] text-[23px] leading-[1.55] text-[#5d5660] md:text-[22px]">
+          <p className="mx-auto mt-5 max-w-[600px] [font-family:var(--font-montserrat)] text-[23px] leading-[1.55] text-[#5d5660] md:text-[22px]">
             Partner with Annabel Karmel to connect your brand with young families through trusted, impactful collaborations.
           </p>
           <a
             href="/contact"
             target="_blank"
             rel="noreferrer"
-            className="mt-7 inline-flex w-fit items-center gap-3 self-center rounded-[20px] bg-[#73a3b0] px-5 py-3 [font-family:var(--font-montserrat)] text-[16px] font-semibold text-white transition-colors hover:bg-[#6697a5]"
+              className={`mt-8 inline-flex w-fit items-center gap-3 self-center rounded-[20px] px-5 py-3 text-[16px] font-semibold text-white transition-colors ${styles.ctaButton} ${styles.ctaTeal}`}
           >
-            <span className="text-white font-[400] text-[22px] md:text-[24px]">Get in touch</span>
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-[16px] bg-white text-[#73a3b0]" aria-hidden>
-              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.4]">
-                <path d="M9 5L16 12L9 19" />
-              </svg>
+              <span className={`${styles.ctaLabel} font-[500] text-[22px] md:text-[20px]`}>Get in touch</span>
+              <span className={`inline-flex h-10 w-10 items-center justify-center rounded-[16px] bg-white ${styles.ctaTealIcon}`} aria-hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none"><rect width="41" height="41" rx="16" fill="white"></rect><path d="M13 20.5H27" stroke="#6E9CA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 13.5L27 20.5L20 27.5" stroke="#6E9CA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             </span>
           </a>
 

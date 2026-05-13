@@ -394,17 +394,17 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
             {prevPage ? (
               <Link
                 href={`/category/articles?page=${prevPage}#articles-list`}
-                className="inline-flex h-10 items-center justify-center rounded-[4px] border border-[#e8e1e3] bg-white px-4 font-medium text-[#373136] transition-colors hover:border-[#8f2f58] hover:bg-[#f4eef0] hover:text-[#8f2f58]"
+                className="inline-flex h-10 min-w-10 items-center justify-center rounded-[4px] border border-[#e8e1e3] bg-white px-3 font-medium text-[#373136] transition-colors hover:border-[#8f2f58] hover:bg-[#f4eef0] hover:text-[#8f2f58] sm:px-4"
                 aria-label="Previous page"
               >
-                &laquo; Previous
+                &laquo;<span className="hidden sm:ml-1 sm:inline">Previous</span>
               </Link>
             ) : (
               <span
                 aria-disabled="true"
-                className="inline-flex h-10 cursor-not-allowed items-center justify-center rounded-[4px] border border-[#ece5e7] bg-[#f8f5f6] px-4 font-medium text-[#bdb4b8]"
+                className="inline-flex h-10 min-w-10 cursor-not-allowed items-center justify-center rounded-[4px] border border-[#ece5e7] bg-[#f8f5f6] px-3 font-medium text-[#bdb4b8] sm:px-4"
               >
-                &laquo; Previous
+                &laquo;<span className="hidden sm:ml-1 sm:inline">Previous</span>
               </span>
             )}
             <ol className="m-0 flex list-none items-center gap-2 p-0">
@@ -432,17 +432,17 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
             {nextPage ? (
               <Link
                 href={`/category/articles?page=${nextPage}#articles-list`}
-                className="inline-flex h-10 items-center justify-center rounded-[4px] border border-[#e8e1e3] bg-white px-4 font-medium text-[#373136] transition-colors hover:border-[#8f2f58] hover:bg-[#f4eef0] hover:text-[#8f2f58]"
+                className="inline-flex h-10 min-w-10 items-center justify-center rounded-[4px] border border-[#e8e1e3] bg-white px-3 font-medium text-[#373136] transition-colors hover:border-[#8f2f58] hover:bg-[#f4eef0] hover:text-[#8f2f58] sm:px-4"
                 aria-label="Next page"
               >
-                Next &raquo;
+                <span className="hidden sm:mr-1 sm:inline">Next</span>&raquo;
               </Link>
             ) : (
               <span
                 aria-disabled="true"
-                className="inline-flex h-10 cursor-not-allowed items-center justify-center rounded-[4px] border border-[#ece5e7] bg-[#f8f5f6] px-4 font-medium text-[#bdb4b8]"
+                className="inline-flex h-10 min-w-10 cursor-not-allowed items-center justify-center rounded-[4px] border border-[#ece5e7] bg-[#f8f5f6] px-3 font-medium text-[#bdb4b8] sm:px-4"
               >
-                Next &raquo;
+                <span className="hidden sm:mr-1 sm:inline">Next</span>&raquo;
               </span>
             )}
           </nav>

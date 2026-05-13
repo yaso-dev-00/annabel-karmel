@@ -351,7 +351,7 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
           </article>
         </section>
 
-        <section className="mx-auto w-full max-w-[1120px] px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+        <section id="articles-list" className="mx-auto w-full max-w-[1120px] scroll-mt-[120px] px-4 pb-16 pt-6 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-18 md:gap-16">
             {visibleArticles.map((article) => (
               <article
@@ -388,27 +388,39 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
             ))}
           </div>
           <nav
-            className="mt-12 flex items-center justify-center gap-4 [font-family:var(--font-montserrat)] text-[16px] text-[#373136]"
+            className="mt-12 flex flex-wrap items-center justify-center gap-2 [font-family:var(--font-montserrat)] text-[15px] text-[#373136]"
             aria-label="Articles pagination"
           >
             {prevPage ? (
-              <Link href={`/category/articles?page=${prevPage}`} className="font-semibold hover:text-[#8f2f58]">
+              <Link
+                href={`/category/articles?page=${prevPage}#articles-list`}
+                className="inline-flex h-10 items-center justify-center rounded-[4px] border border-[#e8e1e3] bg-white px-4 font-medium text-[#373136] transition-colors hover:border-[#8f2f58] hover:bg-[#f4eef0] hover:text-[#8f2f58]"
+                aria-label="Previous page"
+              >
                 &laquo; Previous
               </Link>
             ) : (
-              <span className="opacity-40">&laquo; Previous</span>
+              <span
+                aria-disabled="true"
+                className="inline-flex h-10 cursor-not-allowed items-center justify-center rounded-[4px] border border-[#ece5e7] bg-[#f8f5f6] px-4 font-medium text-[#bdb4b8]"
+              >
+                &laquo; Previous
+              </span>
             )}
-            <ol className="m-0 flex list-none items-center gap-3 p-0">
+            <ol className="m-0 flex list-none items-center gap-2 p-0">
               {Array.from({ length: totalPages }, (_, index) => {
                 const pageNumber = index + 1;
                 const isActive = pageNumber === currentPage;
                 return (
                   <li key={pageNumber}>
                     <Link
-                      href={`/category/articles?page=${pageNumber}`}
+                      href={`/category/articles?page=${pageNumber}#articles-list`}
                       aria-current={isActive ? "page" : undefined}
-                      className={`font-semibold ${
-                        isActive ? "text-[#8f2f58] underline underline-offset-4" : "hover:text-[#8f2f58]"
+                      aria-label={`Page ${pageNumber}${isActive ? ", current page" : ""}`}
+                      className={`inline-flex h-10 min-w-10 items-center justify-center rounded-[4px] border px-3 font-semibold transition-colors ${
+                        isActive
+                          ? "border-[#8f2f58] bg-[#8f2f58] text-white! shadow-[0_1px_0_rgba(143,47,88,0.25)]"
+                          : "border-[#e8e1e3] bg-white text-[#373136] hover:border-[#8f2f58] hover:bg-[#f4eef0] hover:text-[#8f2f58]"
                       }`}
                     >
                       {pageNumber}
@@ -418,11 +430,20 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
               })}
             </ol>
             {nextPage ? (
-              <Link href={`/category/articles?page=${nextPage}`} className="font-semibold hover:text-[#8f2f58]">
+              <Link
+                href={`/category/articles?page=${nextPage}#articles-list`}
+                className="inline-flex h-10 items-center justify-center rounded-[4px] border border-[#e8e1e3] bg-white px-4 font-medium text-[#373136] transition-colors hover:border-[#8f2f58] hover:bg-[#f4eef0] hover:text-[#8f2f58]"
+                aria-label="Next page"
+              >
                 Next &raquo;
               </Link>
             ) : (
-              <span className="opacity-40">Next &raquo;</span>
+              <span
+                aria-disabled="true"
+                className="inline-flex h-10 cursor-not-allowed items-center justify-center rounded-[4px] border border-[#ece5e7] bg-[#f8f5f6] px-4 font-medium text-[#bdb4b8]"
+              >
+                Next &raquo;
+              </span>
             )}
           </nav>
         </section>

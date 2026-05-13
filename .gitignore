@@ -43,3 +43,6 @@ next-env.d.ts
 # large binaries / installers (exceed GitHub's 100 MB limit)
 *.exe
 public/CursorUserSetup-*.exe
+
+# scratch / scraped working files
+/tmp/

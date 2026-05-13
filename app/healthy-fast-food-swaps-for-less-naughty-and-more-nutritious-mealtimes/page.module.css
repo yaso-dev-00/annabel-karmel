@@ -1,0 +1,150 @@
+.kicker {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.45;
+  color: #3a3a3a;
+  font-weight: 700;
+}
+
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.45;
+  color: #3f3841;
+}
+
+.bodyTight {
+  margin: 20px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.45;
+  color: #3f3841;
+}
+
+.swapTitle {
+  margin: 60px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.swapImageWrap {
+  margin: 20px auto 0;
+  width: 100%;
+  max-width: 800px;
+}
+
+.swapImage {
+  margin: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+ 
+
+.bookImage {
+   
+  max-width: 600px;
+  display: block;
+}
+
+.bookBody {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 22px; 
+  line-height: 1.45;
+  color: #3f3841;
+}
+
+.bookBodyHighlight {
+  color: #3d3d3d;
+  font-weight: 700;
+  font-family: var(--font-body);
+  
+}
+
+.bookBodyHighlight:hover {
+  color: var(--hover-color);
+}
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+.bookWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  margin-top: 40px;
+  gap: 20px; 
+  width: 100%;
+   
+}
+
+
+
+@media (max-width: 900px) {
+  .kicker,
+  .body,
+  .bodyTight,
+  .swapTitle,
+  .swapImageWrap,
+  .bookBody,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+   
+  .bookWrap {
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+  }
+  
+  .bookImage {
+    max-width: 300px;  
+    margin: 0 auto;  
+  }
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1024px) {
+  .bookImage {
+    max-width: 400px;
+    margin: 0 auto; 
+  }
+  .bookWrap {
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 300px) {
+  .bookImage {    
+    max-width: 100%;  
+    margin: 0 auto;    
+  }   
+}  
+ 

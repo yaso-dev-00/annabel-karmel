@@ -49,6 +49,10 @@
 .lead a {
   text-decoration: underline;
 }
+ 
+.partnerLinkText:hover {
+  color:var(--hover-color) !important;
+}
 
 .goBanner {
   margin: 60px auto 30px;

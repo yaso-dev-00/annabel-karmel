@@ -156,7 +156,7 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
         type="button"
         aria-label="Previous related articles"
         onClick={goPrev}
-        className="absolute left-2 top-[34%] grid h-8 w-8 place-items-center rounded-full bg-white/95 text-[22px] leading-none text-[#222] shadow-sm disabled:cursor-not-allowed disabled:opacity-40"
+        className="absolute left-2 top-[34%] grid h-8 w-8 place-items-center rounded-full cursor-pointer bg-white/95 text-[22px] leading-none text-[#222] shadow-sm disabled:cursor-not-allowed disabled:opacity-40"
         disabled={!canCycle}
       >
         ‹
@@ -165,7 +165,7 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
         type="button"
         aria-label="Next related articles"
         onClick={goNext}
-        className="absolute right-2 top-[34%] grid h-8 w-8 place-items-center rounded-full bg-white/95 text-[22px] leading-none text-[#222] shadow-sm disabled:cursor-not-allowed disabled:opacity-40"
+        className="absolute right-2 top-[34%] grid h-8 w-8 place-items-center rounded-full cursor-pointer bg-white/95 text-[22px] leading-none text-[#222] shadow-sm disabled:cursor-not-allowed disabled:opacity-40"
         disabled={!canCycle}
       >
         ›

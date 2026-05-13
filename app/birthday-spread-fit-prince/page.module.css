@@ -1,0 +1,111 @@
+.pageTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.12;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.recipeTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.recipeLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.recipeLink:hover {
+  color: var(--hover-color);
+}
+
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.milestoneText {
+  margin: 26px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  font-weight: 700;
+  color: #2f2f35;
+}
+
+.downloadText {
+  margin: 30px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.downloadLink {
+  color: #2f2f35;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.downloadLink:hover {
+  color: var(--hover-color);
+}
+
+.appPromoCopy > p:first-child {
+  margin-top: 0;
+}
+
+.postViews {
+  margin: 30px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .pageTitle,
+  .recipeTitle,
+  .body,
+  .milestoneText,
+  .downloadText,
+  .postViews,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+   
+ 
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}

@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# large binaries / installers (exceed GitHub's 100 MB limit)
+*.exe
+public/CursorUserSetup-*.exe

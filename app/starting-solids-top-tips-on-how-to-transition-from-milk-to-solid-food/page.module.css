@@ -1,0 +1,93 @@
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 52px;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.partner {
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.4;
+  color: #3d3d3d;;
+}
+
+.sectionTitle {
+  margin: 60px 0 10px;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height:52px;
+  color: #3a3a3a;
+  font-weight: 500;
+}
+
+.subTitle {
+  margin: 30px 0 8px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.2;
+  color: #3a3a3a;
+  font-weight: 700;
+}
+
+.bodyText {
+  margin: 40px 0 12px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.45;
+  color: #3f3841;
+}
+
+.note {
+  margin: 10px 0 30px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.35;
+  color: #4e434b;
+}
+
+.relatedTitle {
+  margin:0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  color: #3a3a3a;
+  font-weight: 500;
+}
+
+.relatedText {
+  margin: 10px 0 14px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .relatedText{
+     margin-top: 25px;
+     font-size: 17px;
+  }
+  .bodyText {
+     text-align: center;
+  }
+
+  .relatedText {
+    text-align: center;
+  }
+  .relatedTitle {
+    text-align: center;
+  }
+  .sectionTitle {
+    text-align: center;
+  }
+  .subTitle {
+    text-align: center;
+  }
+  .note {
+    text-align: center;
+  }
+
+   
+}

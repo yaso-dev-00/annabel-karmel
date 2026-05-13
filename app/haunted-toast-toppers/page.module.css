@@ -8,6 +8,16 @@
   font-weight: 500;
 }
 
+/* .partnerLinkText {
+  text-decoration: underline;
+} */
+
+.partnerLinkText a:hover {
+  color:red
+  
+}
+
+
 .partnerLine {
   margin: 8px 0 14px;
   text-align: center;
@@ -39,9 +49,14 @@
 }
 
 .introText a {
-  text-decoration: underline;
+   display: none ;
 }
 
+ .introText a:hover {
+  color:red !important;
+  display: none;
+  
+}
 .recipeTitle {
   margin: 0 0 14px;
   font-family: var(--font-display);

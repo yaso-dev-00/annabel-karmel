@@ -1,0 +1,285 @@
+.sectionTitle {
+  margin: 40px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight:900;
+  color: #3a3a3a;
+}
+
+.subSectionTitle {
+  margin: 40px 0 0 !important;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 700 !important ;
+  color: #3a3a3a;
+}
+
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3d3d3d;
+}
+
+.bodyNoTop {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.bulletList {
+  margin: 20px 0 0;
+  padding-left: 100px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+  list-style: disc;
+}
+
+.bulletList li + li {
+  margin-top: 8px;
+}
+
+.didYouKnow {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.footnotes {
+  margin: 28px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px !important;
+  line-height: 1.4;
+  color: #5a5058;
+}
+
+.authorLabel {
+  margin: 44px 0 8px;
+  font-family: var(--font-body);
+  font-size: 22px !important;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #3d3d3d;
+  text-align: center;
+}
+
+.authorIntro { 
+  margin-top: 40px;
+}
+
+.authorIntro::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.authorPhoto {
+  float: left;
+  width: 245px;
+  max-width: 42%;
+  margin: 0 24px 12px 0;
+  height: auto;
+}
+
+.authorIntro .bodyNoTop {
+  margin: 40px !important;
+}
+
+.authorBodyPara {
+  margin-top: 16px !important;
+}
+
+.authorFollowRow {
+  clear: both;
+  margin-top: 40px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.foodSafetyLogo {
+  width: 288px; 
+  height: auto;
+}
+
+.followText {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3d3d3d;
+}
+
+.followLink {
+  color: #2f2f35;
+  text-decoration: none;
+}
+
+.followLink:hover {
+  color: var(--hover-color);
+}
+
+.refLink {
+  color: #3f3841;
+  text-decoration: none;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+.accordionRow {
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.accordionRow:last-child {
+  border-bottom: none;
+}
+
+.accordionSummary {
+  border: 0;
+  border-top: none;
+  width: 100%;
+  text-align: left;
+  margin: 0;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #2f2f35;
+  background: #fff;
+  cursor: pointer;
+}
+
+.accordionSummaryOpen {
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.accordionSummary:hover {
+  color: var(--hover-color) !important;
+}
+
+.marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: #111;
+  flex-shrink: 0;
+}
+
+.accordionBody {
+  padding: 0 16px 30px;
+  background: #fff;
+}
+
+.accordionText {
+  margin-top: 30px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+@media (max-width: 900px) {
+  .sectionTitle,
+  .subSectionTitle,
+  .body,
+ 
+  .bulletList,
+  .didYouKnow,
+  .footnotes,
+  .authorLabel,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+  .authorIntro{
+    padding: 0 10px;
+  } 
+  
+ .followText{
+  text-align: center; 
+ }
+
+ .authorFollowRow{
+  flex-direction: column;
+  align-items: center;
+  gap: 25px; 
+  padding: 0 10px ;
+ }
+ 
+
+   
+
+  .subSectionTitle {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  .bulletList{
+    padding-left:35px !important;
+  }
+
+  
+  .accordionSummary{
+    font-size: 20px;
+  }
+
+  .body,
+  .bodyNoTop,
+  .bulletList,
+  .didYouKnow,
+  .accordionText,
+  .followText {
+    font-size: 20px;
+  }
+
+  .footnotes {
+    font-size: 15px;
+  }
+
+  .authorLabel {
+    font-size: 15px;
+  }
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}

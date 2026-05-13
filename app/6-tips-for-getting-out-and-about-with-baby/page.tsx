@@ -2,40 +2,10 @@ import { InstagramShareSection } from "@/components/instagram-share-section";
 import { RelatedArticlesCarousel } from "@/components/related-articles-carousel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { getRelatedArticles } from "@/data/related-articles";
 import styles from "./page.module.css";
 
-const relatedArticles = [
-  {
-    href: "/best-foods-to-help-your-baby-sleep",
-    image: "/articles/6-tips-for-getting-out-and-about-with-baby/related-best-foods.png",
-    title: "The Best Foods to Help Your Baby Sleep",
-  },
-  {
-    href: "/haunted-toast-toppers",
-    image: "/articles/6-tips-for-getting-out-and-about-with-baby/related-haunted-toast.png",
-    title: "Haunted Toast Toppers",
-  },
-  {
-    href: "/get-your-free-top-50-first-foods-list",
-    image: "/articles/6-tips-for-getting-out-and-about-with-baby/related-first-foods.jpg",
-    title: "Get your FREE top 50 First Foods Checklist",
-  },
-  {
-    href: "/tips-on-how-to-keep-baby-hydrated",
-    image: "/articles/tips-on-how-to-keep-baby-hydrated/hero.jpg",
-    title: "Tips on how to keep baby hydrated!",
-  },
-  {
-    href: "/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food",
-    image: "/articles/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food/hero.jpg",
-    title: "Starting solids: Top tips on how to transition from milk to solid food",
-  },
-  {
-    href: "/pedal-power",
-    image: "/articles/pedal-power/hero.jpg",
-    title: "Pedal Power!",
-  },
-];
+const relatedArticles = getRelatedArticles("/6-tips-for-getting-out-and-about-with-baby");
 
 export default function GettingOutWithBabyPage() {
   return (
@@ -45,7 +15,7 @@ export default function GettingOutWithBabyPage() {
         <article className="mx-auto w-full max-w-[1200px] px-[14px] pb-[10px] pt-[30px]">
           <h1 className={styles.title}>6 tips for getting out and about with baby</h1>
           <p className={styles.partner}>
-            In partnership with <a href="https://www.micro-scooters.co.uk/">Micro Scooters</a>
+            In partnership with <a className="hover:text-[#e98c9a]!" href="https://www.micro-scooters.co.uk/">Micro Scooters</a>
           </p>
 
           <p className={styles.lead}>

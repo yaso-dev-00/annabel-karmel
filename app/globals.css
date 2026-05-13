@@ -16,6 +16,7 @@
   /* Typography: primary UI = Montserrat, display/headings = Playfair Display (see app layout next/font) */
   --font-body: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
+  --hover-color: #e98c9a;
 }
 
 @theme inline {
@@ -30,6 +31,11 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html {
+  /* 100vw full-bleed sections are slightly wider than the layout viewport when a vertical scrollbar is present; clip document overflow so the page does not scroll horizontally. */
+  overflow-x: hidden;
 }
 
 html,
@@ -740,7 +746,7 @@ a {
   background: transparent;
   color: #918d89;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 20px;
   outline: none;
   padding: 0;
 }
@@ -784,10 +790,10 @@ a {
 
 .finder-title {
   color: #3a3a3a;
-  font-family: var(--font-display);
-  font-size: 20px;
+  font-family: var(--font-display),sans-serif;
+  font-size: 22px;
   line-height: 1.2;
-  font-weight:bolder !important;
+  font-weight:900;
 }
 
 .finder-value {
@@ -934,22 +940,33 @@ a {
   gap: 8px;
 }
 
+/* Icon size is controlled here only — the wrapper sets the box; img fills it (Tailwind w-/h- on <img> will not win vs .latest-recipe-duration-icon img). */
 .latest-recipe-duration-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
-  min-height: 16px;
-  color: #c64a73;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
   flex-shrink: 0;
 }
 
-.latest-recipe-duration-icon svg {
+.latest-recipe-duration-icon img {
   display: block;
-  width: 16px !important;
-  height: 16px !important;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+}
+
+.latest-recipe-duration-icon-lg {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
 }
 
 .latest-recipe-card h3 {
@@ -1391,8 +1408,8 @@ a {
   }
 
   .hero-copy-content {
-    height: 252px;
-    min-height: 252px;
+    height: auto;
+    min-height: 300px;
   }
 
   .hero-copy-content h1 {
@@ -1405,8 +1422,8 @@ a {
   }
 
   .hero-image-panel {
-    height: 360px;
-    min-height: 360px;
+    height: auto;
+    min-height: auto;
   }
 
   .finder-row {
@@ -1491,8 +1508,8 @@ a {
   }
   
   .hero-copy-content {
-    height: 240px;
-    min-height: 240px;
+    height: 270px;
+    min-height: 270px;
   }
    .footer-newsletter input {  
     min-height: 40px !important;
@@ -1502,11 +1519,11 @@ a {
   .footer-store-links a.footer-store-badge img {
     display: block;
     width: auto;
-    height: 44px;
+    height: 60px;
   }
   .hero-image-panel {
-    height: 280px;
-    min-height: 280px;
+    height:auto;
+    min-height: 450px;
   }
 
   .finder-row {

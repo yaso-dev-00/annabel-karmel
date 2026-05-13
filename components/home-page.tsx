@@ -25,9 +25,9 @@ const heroThemeByIndex = [
 
 /** Left/right: circular badges ~110px at lg. Center: vertical rectangle ~1.4× that height. */
 const awardBadgeImgClasses = [
-  "h-[88px] w-[88px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
-  "h-[120px] w-auto shrink-0 max-w-[88px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[150px] lg:h-auto lg:max-w-[150px]",
-  "h-[88px] w-[88px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
+  "h-[120px] max-w-[150px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
+  "h-[180px] max-w-[150px] shrink-0 max-w-[150px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[150px] lg:h-auto lg:max-w-[150px]",
+  "h-[120px] max-w-[150px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
 ];
 
 export function HomePageContent() {
@@ -133,8 +133,8 @@ export function HomePageContent() {
   };
 
   useEffect(() => {
-    // const timer = setInterval(() => moveSlide(1), 5500);
-    // return () => clearInterval(timer);
+    const timer = setInterval(() => moveSlide(1), 5500);
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -494,21 +494,18 @@ export function HomePageContent() {
                   target="_blank"
                   rel="noreferrer"
                   style={{ backgroundColor: theme.buttonColor }}
-                  className={`inline-flex items-center gap-2 rounded-[15px] px-4 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] whitespace-nowrap transition-colors ${styles.ctaButton}`}
+                  className={`inline-flex items-center gap-2 rounded-[15px] px-6! py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] whitespace-nowrap transition-colors ${styles.ctaButton}`}
                 >
                   <span className={`${styles.ctaLabel} inline-block w-auto h-auto text-[20px] font-medium leading-none`}>{current.cta}</span>
                   <span className="inline-flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-[15px] bg-white" aria-hidden>
-                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-[#6e9ca5] stroke-[2.3]">
-                      <path d="M5 12h14" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                   </span>
                 </a>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          <div className="hero-image-panel max-[900px]:h-[450px]!">
+          <div className="hero-image-panel">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.img
                 key={`image-${activeSlide}`}
@@ -541,18 +538,18 @@ export function HomePageContent() {
       <section className="recipe-finder container py-4!">
         <form className="finder-row" ref={finderRef}>
           <label>
-            <span className="finder-title font-[600]!">Recipe</span>
-            <input type="search" placeholder="Search recipes" />
+            <span className="finder-title  font-[900]!">Recipe</span>
+            <input type="search"  placeholder="Search recipes" />
           </label>
           <div className={`finder-dropdown ${openFinderMenu === "age" ? "open" : ""}`}>
             <button type="button" onClick={() => setOpenFinderMenu((current) => (current === "age" ? null : "age"))}>
-              <span className="finder-title">Age</span>
-              <span className="finder-value">{displaySelection("age", "Select age")}</span>
+              <span className="finder-title font-[900]!">Age</span>
+              <span className="finder-value text-[20px]!">{displaySelection("age", "Select age")}</span>
             </button>
             <div className="finder-dropdown-panel">
               {finderOptions.age.map((option) => (
-                <label key={option}>
-                  <span>{option}</span>
+                <label key={option} className="text-[20px]!">
+                  <span className="text-[20px]!">{option}</span>
                   <input
                     type="checkbox"
                     checked={finderSelections.age.includes(option)}
@@ -567,13 +564,13 @@ export function HomePageContent() {
               type="button"
               onClick={() => setOpenFinderMenu((current) => (current === "mealTime" ? null : "mealTime"))}
             >
-              <span className="finder-title">Meal Time</span>
-              <span className="finder-value">{displaySelection("mealTime", "Select time")}</span>
+              <span className="finder-title font-[900]!">Meal Time</span>
+              <span className="finder-value text-[20px]!">{displaySelection("mealTime", "Select time")}</span>
             </button>
             <div className="finder-dropdown-panel">
               {finderOptions.mealTime.map((option) => (
-                <label key={option}>
-                  <span>{option}</span>
+                <label key={option} className="text-[20px]!">
+                  <span className="text-[20px]!">{option}</span>
                   <input
                     type="checkbox"
                     checked={finderSelections.mealTime.includes(option)}
@@ -588,13 +585,13 @@ export function HomePageContent() {
               type="button"
               onClick={() => setOpenFinderMenu((current) => (current === "freeFrom" ? null : "freeFrom"))}
             >
-              <span className="finder-title">Free From</span>
-              <span className="finder-value">{displaySelection("freeFrom", "Select type")}</span>
+              <span className="finder-title font-[900]!">Free From</span>
+              <span className="finder-value text-[20px]!">{displaySelection("freeFrom", "Select type")}</span>
             </button>
             <div className="finder-dropdown-panel">
               {finderOptions.freeFrom.map((option) => (
-                <label key={option}>
-                  <span>{option}</span>
+                <label key={option} className="text-[20px]!">
+                  <span className="text-[20px]!">{option}</span>
                   <input
                     type="checkbox"
                     checked={finderSelections.freeFrom.includes(option)}
@@ -604,14 +601,16 @@ export function HomePageContent() {
               ))}
             </div>
           </div>
-          <button
+       <div className="w-full px-2 pt-[6px] min-[1080px]:p-0">
+       <button
             type="submit"
-            className="inline-flex items-center justify-center gap-2 rounded-[15px] bg-[#b34769] px-5 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors max-[1100px]:col-span-1 max-[1100px]:mt-2 max-[1100px]:w-full"
+            className="inline-flex relative  right-[0px] min-[1080px]:right-[20px] items-center justify-center gap-2 rounded-[15px] bg-[#b34769] px-5 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors max-[1100px]:col-span-1 max-[1100px]:mt-2 max-[1100px]:w-full"
             aria-label="Search recipes"
           >
           <img decoding="async" src="https://www.annabelkarmel.com/wp-content/uploads/2025/03/Search-optimized.png" alt="Search" className="h-[40px] w-[40px]"/>
           
           </button>
+       </div>
         </form>
       </section>
 
@@ -633,14 +632,10 @@ export function HomePageContent() {
                   <a href={recipe.href} target="_blank" rel="noreferrer">
                     <img src={recipe.image} alt={recipe.title} className="recipe-image" />
                   </a>
-                  <h3 className="text-[22px]! font-[550]! mt-[10px]! font-family-montserrat">{recipe.title}</h3>
+                  <h3 className="text-[22px]! font-[550]! mt-[10px]! text-center font-family-montserrat">{recipe.title}</h3>
                   <p className="latest-recipe-duration mt-[20px]!">
                     <span className="latest-recipe-duration-icon" aria-hidden>
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#c64a73">
-                        <circle cx="12" cy="13" r="8.5" strokeWidth="1.8" />
-                        <path d="M12 8.2v5.1l3.3 1.9" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M8.9 3.8h6.2" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
+                      <img src="/icons/timer-icon.svg" alt="" width={24} height={25} />
                     </span>
                     <span className="text-[18px] font-[500]!">{recipe.duration}</span>
                   </p>
@@ -649,7 +644,7 @@ export function HomePageContent() {
             </motion.div>
             <div className="latest-carousel-controls">
               {recipeIndex > 0 ? (
-                <button className="relative top-[20px]" type="button" onClick={() => handleRecipeNavigation(-1)} aria-label="Previous recipes">
+                <button className="relative top-[50px] md:top-[20px] cursor-pointer" type="button" onClick={() => handleRecipeNavigation(-1)} aria-label="Previous recipes">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M14.5 5L8 11.5L14.5 18" />
                   </svg>
@@ -658,7 +653,7 @@ export function HomePageContent() {
                 <span />
               )}
               {recipeIndex < maxRecipeIndex ? (
-                <button className="relative top-[20px]" type="button" onClick={() => handleRecipeNavigation(1)} aria-label="Next recipes">
+                <button className="relative top-[50px] md:top-[20px] cursor-pointer" type="button" onClick={() => handleRecipeNavigation(1)} aria-label="Next recipes">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M9.5 5L16 11.5L9.5 18" />
                   </svg>
@@ -676,16 +671,15 @@ export function HomePageContent() {
               rel="noreferrer"
             >
               <span className={`${styles.ctaLabel} tracking-[0.2px] text-[20px]! font-[500]!`}>See all recipes</span>
-              <span className={`inline-grid h-8 w-8 place-items-center rounded-[10px]! bg-white text-xl leading-none ${styles.ctaPinkIcon}`} aria-hidden>
-                →
-              </span>
+                           <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              
             </a>
           </div>
         </div>
       </section>
 
       <section
-        className="relative min-h-[760px] overflow-hidden py-22 md:min-h-[820px] md:py-14 lg:min-h-[860px] lg:py-28"
+        className="relative min-h-[760px] overflow-hidden py-22! md:min-h-[820px] md:py-[150px]! lg:min-h-[860px] lg:py-28"
       >
         <img
           src={backgroundImage.src}
@@ -695,7 +689,7 @@ export function HomePageContent() {
         />
         <div className="relative z-1 mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start gap-10 px-4 md:px-6 lg:grid-cols-[0.92fr_1fr]">
           <article className="mx-auto flex w-full max-w-[410px] flex-col items-center gap-4 pt-2 text-center [font-family:var(--font-montserrat)] lg:mx-0 lg:max-w-none lg:items-start lg:gap-5 lg:pt-6 lg:text-left">
-            <div className="flex w-full items-end justify-center lg:items-center gap-3 md:gap-5 lg:justify-start">
+            <div className="flex w-full items-center justify-center  lg:items-center gap-3 md:gap-5 lg:justify-start">
               {appSectionContent.awards.map((award, index) => (
                 <img
                   key={`${award}-${index}`}
@@ -713,10 +707,10 @@ export function HomePageContent() {
             <ul className="w-full space-y-4 mt-3 text-[14px] font-semibold leading-[1.45] text-[#1f1d23] md:text-[15px] lg:text-left">
               {appSectionContent.bullets.map((bullet) => (
                 <li key={bullet} className="flex items-start  gap-2.5 lg:justify-start">
-                  <span className="mt-0.5 flex shrink-0 text-[#494747]" aria-hidden>
+                  <span className="mt-0.5 flex shrink-0 text-[#3a3a3a]" aria-hidden>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M30 9L13.5 25.5L6 18" stroke="#494747" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                   </span>
-                  <span className="text-[22px]! font-[600]! text-left">{bullet}</span>
+                  <span className="text-[22px]! font-[600]! text-left text-[#3a3a3a]">{bullet}</span>
                 </li>
               ))}
             </ul>
@@ -725,9 +719,9 @@ export function HomePageContent() {
               href={appSectionContent.ctaHref}
               target="_blank"
               rel="noreferrer"
-              className={`mt-1 inline-flex items-center gap-2.5 self-center rounded-[10px] px-5 py-4.5 text-[13px] font-semibold text-white transition-colors lg:self-start ${styles.ctaButton} ${styles.ctaPink}`}
+              className={`mt-1 inline-flex items-center gap-2.5 self-center rounded-[10px] px-6! py-[15px]! font-[500]! text-[13px] font-semibold text-white transition-colors lg:self-start ${styles.ctaButton} ${styles.ctaPink}`}
             >
-              <span className={`${styles.ctaLabel} text-[18px] md:text-[20px]`}>{appSectionContent.ctaLabel}</span>
+              <span className={`${styles.ctaLabel} text-[18px] md:text-[17px]`}>{appSectionContent.ctaLabel}</span>
               <span className={`inline-grid h-[41px] w-[41px] shrink-0 place-items-center rounded-[15px] bg-white text-[15px] ${styles.ctaPinkIcon}`} aria-hidden>
               <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               </span>
@@ -766,7 +760,7 @@ export function HomePageContent() {
                   type="button"
                   onClick={() => moveAppCard(-1)}
                   aria-label="Previous app feature"
-                  className="inline-grid h-10 w-10 place-items-center rounded-full border border-white/65 bg-transparent text-white shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:border-white hover:bg-white/10"
+                  className="inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-white/65 bg-transparent text-white shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:border-white hover:bg-white/10"
                 >
                   <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.8]">
                     <path d="M14.5 5L8 11.5L14.5 18" />
@@ -776,7 +770,7 @@ export function HomePageContent() {
                   type="button"
                   onClick={() => moveAppCard(1)}
                   aria-label="Next app feature"
-                  className="inline-grid h-10 w-10 place-items-center rounded-full border border-white bg-white text-[#c7c2c6] shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:bg-[#f7f6f7] hover:text-[#b4afb3]"
+                  className="inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-white bg-white text-[#c7c2c6] shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:bg-[#f7f6f7] hover:text-[#b4afb3]"
                 >
                   <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.8]">
                     <path d="M9.5 5L16 11.5L9.5 18" />
@@ -796,14 +790,11 @@ export function HomePageContent() {
             <div className="absolute bottom-3 left-3 rounded-[15px] bg-white/95 px-3.5 py-4 shadow-[0_10px_22px_rgba(0,0,0,0.12)]">
               <p className="[font-family:var(--font-montserrat)] text-[15px] font-semibold text-[#1f1d23]">Pancake Traybake</p>
               <p className="mt-[10px] text-[9px] text-[#6f6973]">
-              <span className="latest-recipe-duration-icon text-[18px]!" aria-hidden>
-                      <svg viewBox="0 0 24 24" width="18" height="16" fill="none" stroke="#c64a73">
-                        <circle cx="12" cy="13" r="8.5" strokeWidth="1.8" />
-                        <path d="M12 8.2v5.1l3.3 1.9" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M8.9 3.8h6.2" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
-                      </span>
-                <sup className="text-[13px]">25 Mins</sup>  </p>
+                <span className="latest-recipe-duration-icon latest-recipe-duration-icon-lg" aria-hidden>
+                  <img src="/icons/timer-icon.svg" alt="" width={28} height={29} />
+                </span>
+                <sup className="text-[15px]">25 Mins</sup>
+              </p>
             </div>
           </div>
           <div className="order-1 mx-auto flex w-full max-w-[400px] flex-col mt-[50px]  gap-y-[10px] text-center lg:order-2 lg:mt-2 lg:max-w-[440px] justify-center items-center lg:justify-self-center lg:text-left">
@@ -878,7 +869,7 @@ export function HomePageContent() {
                 src={logo}
                 alt=""
                 aria-hidden
-                className="h-[104px] w-auto max-h-[112px] max-w-[min(184px,34vw)] object-contain md:h-[124px] md:max-h-[132px] md:max-w-[192px] lg:h-[172px] lg:max-h-[176px] lg:max-w-[204px]"
+                className="h-[104px] w-auto max-h-[112px] max-w-[min(184px,34vw)] object-contain md:h-[124px] md:max-h-[132px] md:max-w-[192px] lg:h-[130px] lg:max-h-[176px] lg:max-w-[180px]"
               />
             ))}
           </div>

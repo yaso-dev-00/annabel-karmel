@@ -2,35 +2,10 @@ import { InstagramShareSection } from "@/components/instagram-share-section";
 import { RelatedArticlesCarousel } from "@/components/related-articles-carousel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { getRelatedArticles } from "@/data/related-articles";
 import styles from "./page.module.css";
 
-const relatedArticles = [
-  {
-    href: "/best-foods-to-help-your-baby-sleep",
-    image: "/articles/6-tips-for-getting-out-and-about-with-baby/related-best-foods.png",
-    title: "The Best Foods to Help Your Baby Sleep",
-  },
-  {
-    href: "/haunted-toast-toppers",
-    image: "/articles/6-tips-for-getting-out-and-about-with-baby/related-haunted-toast.png",
-    title: "Haunted Toast Toppers",
-  },
-  {
-    href: "/6-tips-for-getting-out-and-about-with-baby",
-    image: "/articles/get-your-free-top-50-first-foods-list/related-6tips.jpg",
-    title: "6 tips for getting out and about with baby",
-  },
-  {
-    href: "/get-your-free-top-50-first-foods-list",
-    image: "/articles/get-your-free-top-50-first-foods-list/related-first-foods.jpg",
-    title: "Get your FREE top 50 First Foods Checklist",
-  },
-  {
-    href: "/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food",
-    image: "/articles/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food/hero.jpg",
-    title: "Starting solids: Top tips on how to transition from milk to solid food",
-  },
-];
+const relatedArticles = getRelatedArticles("/tips-on-how-to-keep-baby-hydrated");
 
 export default function HydrationPage() {
   return (

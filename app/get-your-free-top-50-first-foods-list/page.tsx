@@ -2,35 +2,10 @@ import { InstagramShareSection } from "@/components/instagram-share-section";
 import { RelatedArticlesCarousel } from "@/components/related-articles-carousel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { getRelatedArticles } from "@/data/related-articles";
 import styles from "./page.module.css";
 
-const relatedArticles = [
-  {
-    href: "/best-foods-to-help-your-baby-sleep",
-    image: "/articles/get-your-free-top-50-first-foods-list/related-best-foods.png",
-    title: "The Best Foods to Help Your Baby Sleep",
-  },
-  {
-    href: "/haunted-toast-toppers",
-    image: "/articles/get-your-free-top-50-first-foods-list/related-haunted-toast.png",
-    title: "Haunted Toast Toppers",
-  },
-  {
-    href: "/6-tips-for-getting-out-and-about-with-baby",
-    image: "/articles/get-your-free-top-50-first-foods-list/related-6tips.jpg",
-    title: "6 tips for getting out and about with baby",
-  },
-  {
-    href: "/tips-on-how-to-keep-baby-hydrated",
-    image: "/articles/tips-on-how-to-keep-baby-hydrated/hero.jpg",
-    title: "Tips on how to keep baby hydrated!",
-  },
-  {
-    href: "/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food",
-    image: "/articles/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food/hero.jpg",
-    title: "Starting solids: Top tips on how to transition from milk to solid food",
-  },
-];
+const relatedArticles = getRelatedArticles("/get-your-free-top-50-first-foods-list");
 
 export default function FirstFoodsListPage() {
   return (
@@ -53,7 +28,7 @@ export default function FirstFoodsListPage() {
           </p>
 
           <p className={styles.lead}>
-            We&apos;ve teamed up with <a href="https://www.pampers.co.uk/">Pampers</a> to help little food explorers
+            We&apos;ve teamed up with <a className={styles.partnerLinkText} href="https://www.pampers.co.uk/">Pampers</a> to help little food explorers
             #GetToGrips with 50 of the most nutritious foods around.
           </p>
           <p className={styles.lead}>
@@ -87,7 +62,7 @@ export default function FirstFoodsListPage() {
           <h2 className={styles.mushyTitle}>For all those mushy, squishy moments...</h2>
           <p className={styles.mushyText}>
             As little ones have fun getting to grips with a world of food, pair with{" "}
-            <a href="https://www.pampers.co.uk/">Pampers</a> Harmonie Aqua Baby Wipes which are safe and gentle to use
+            <a className={styles.partnerLinkText} href="https://www.pampers.co.uk/">Pampers</a> Harmonie Aqua Baby Wipes which are safe and gentle to use
             even on the most delicate skin.
           </p>
 

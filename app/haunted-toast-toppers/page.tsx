@@ -2,40 +2,10 @@ import { InstagramShareSection } from "@/components/instagram-share-section";
 import { RelatedArticlesCarousel } from "@/components/related-articles-carousel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { getRelatedArticles } from "@/data/related-articles";
 import styles from "./haunted.module.css";
 
-const relatedArticles = [
-  {
-    href: "/best-foods-to-help-your-baby-sleep",
-    image: "/articles/6-tips-for-getting-out-and-about-with-baby/related-best-foods.png",
-    title: "The Best Foods to Help Your Baby Sleep",
-  },
-  {
-    href: "/6-tips-for-getting-out-and-about-with-baby",
-    image: "/articles/get-your-free-top-50-first-foods-list/related-6tips.jpg",
-    title: "6 tips for getting out and about with baby",
-  },
-  {
-    href: "/get-your-free-top-50-first-foods-list",
-    image: "/articles/6-tips-for-getting-out-and-about-with-baby/related-first-foods.jpg",
-    title: "Get your FREE top 50 First Foods Checklist",
-  },
-  {
-    href: "/tips-on-how-to-keep-baby-hydrated",
-    image: "/articles/tips-on-how-to-keep-baby-hydrated/hero.jpg",
-    title: "Tips on how to keep baby hydrated!",
-  },
-  {
-    href: "/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food",
-    image: "/articles/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food/hero.jpg",
-    title: "Starting solids: Top tips on how to transition from milk to solid food",
-  },
-  {
-    href: "/pedal-power",
-    image: "/articles/pedal-power/hero.jpg",
-    title: "Pedal Power!",
-  },
-];
+const relatedArticles = getRelatedArticles("/haunted-toast-toppers");
 
 const recipes = [
   {
@@ -156,7 +126,7 @@ export default function HauntedToastToppersPage() {
          <div className="md:min-w-[1020px] mx-auto">
          <p className={styles.introText}>
             Your breakfast staple but make it SPOOKY! These easy ideas in partnership with{" "}
-            <a href="https://www.egginfo.co.uk/">British Lion eggs</a> make for the scariest wake-up call.
+            <a className={styles.partnerLinkText} href="https://www.egginfo.co.uk/">British Lion eggs</a> make for the scariest wake-up call.
           </p>
           <p className={`${styles.introText} mt-[40px]!`}>
             Eggs are the BEST fuel as they're packed with protein, vitamins + minerals - ideal for growing little

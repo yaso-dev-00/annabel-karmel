@@ -2,69 +2,10 @@ import { InstagramShareSection } from "@/components/instagram-share-section";
 import { RelatedArticlesCarousel } from "@/components/related-articles-carousel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { getRelatedArticles } from "@/data/related-articles";
 import styles from "./page.module.css";
 
-const relatedArticles = [
-  {
-    href: "/6-tips-for-getting-out-and-about-with-baby",
-    image: "/articles/best-foods-to-help-your-baby-sleep/related-getting-out.jpg",
-    title: "6 tips for getting out and about with baby",
-  },
-  {
-    href: "/get-your-free-top-50-first-foods-list",
-    image: "/articles/best-foods-to-help-your-baby-sleep/related-first-foods.jpg",
-    title: "Get your FREE top 50 First Foods Checklist",
-  },
-  {
-    href: "/category/articles",
-    title: "Annabel Karmel Kids Recipes Survey Terms & Conditions",
-  },
-  {
-    href: "/tips-on-how-to-keep-baby-hydrated",
-    image: "/articles/tips-on-how-to-keep-baby-hydrated/hero.jpg",
-    title: "Tips on how to keep baby hydrated!",
-  },
-  {
-    href: "/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food",
-    image: "/articles/starting-solids-top-tips-on-how-to-transition-from-milk-to-solid-food/hero.jpg",
-    title: "Starting solids: Top tips on how to transition from milk to solid food",
-  },
-  {
-    href: "/your-guide-to-supporting-babys-gut-health",
-    image: "/articles/your-guide-to-supporting-babys-gut-health/hero.jpg",
-    title: "Your guide to supporting baby's gut health",
-  },
-  {
-    href: "/fibre-intake-for-babies-what-you-need-to-know",
-    image: "/articles/fibre-intake-for-babies-what-you-need-to-know/hero.jpg",
-    title: "Fibre intake for babies - what you need to know!",
-  },
-  {
-    href: "/pedal-power",
-    image: "/articles/pedal-power/hero.jpg",
-    title: "Pedal Power!",
-  },
-  {
-    href: "/annabels-6-family-favourites-with-heck",
-    image: "/articles/annabels-6-family-favourites-with-heck/hero.jpg",
-    title: "Annabel's 6 family favourites with HECK!",
-  },
-  {
-    href: "/10-delicious-cherry-tomato-recipes",
-    image: "/articles/10-delicious-cherry-tomato-recipes/hero.jpg",
-    title: "10 delicious cherry tomato recipes",
-  },
-  {
-    href: "/get-your-free-top-50-first-foods-list",
-    image: "/articles/get-your-free-top-50-first-foods-list/hero.jpg",
-    title: "Get your FREE top 50 First Foods Checklist",
-  },
-  {
-    href: "/haunted-toast-toppers",
-    image: "/articles/best-foods-to-help-your-baby-sleep/related-haunted-toast.png",
-    title: "Haunted Toast Toppers",
-  },
-];
+const relatedArticles = getRelatedArticles("/best-foods-to-help-your-baby-sleep");
 
 export default function BestFoodsSleepPage() {
   return (
@@ -254,15 +195,15 @@ export default function BestFoodsSleepPage() {
           </p>
           <p className={`${styles.closingItalic} mt-[35px]! text-[21px]! text-center!  `}>
             For more sleep-friendly recipes and expert advice, explore the{" "}
-            <a href="#" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
+            <a className={`${styles.link}`} href="#" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
               Annabel Karmel Recipes App
             </a>
             . And check out{" "}
-            <a href="https://nanituk.co.uk/" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
+            <a className={`${styles.link}`} href="https://nanituk.co.uk/" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
               Nanit
             </a>{" "}
             for smart tools like{" "}
-            <a href="#" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
+            <a className={`${styles.link}`} href="#" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
               Next Nap
             </a>{" "}
             to help track routines and support better sleep.

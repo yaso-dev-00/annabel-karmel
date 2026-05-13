@@ -1,0 +1,210 @@
+.faqRow {
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.faqRow:last-child {
+  border-bottom: none;
+}
+
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.sectionTitle {
+  margin: 40px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px !important;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3a3a3a;
+  
+}
+
+.link {
+  color: #3f3841;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: var(--hover-color);
+}
+
+.allergenTitle {
+  margin: 26px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.1;
+  font-weight:900;
+  color: #3a3a3a;
+  text-decoration: underline ;
+  
+}
+
+.allergenTable {
+  width: max-content;
+  min-width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  table-layout: auto;
+  font-family: var(--font-body);
+ 
+}
+
+.allergenTableWrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.allergenTableWrap::-webkit-scrollbar {
+  display: none;
+}
+
+.allergenTable th,
+.allergenTable td {
+  border: 1px solid #d3d3d3;
+  padding: 10px 15px;
+  font-size: 15px;
+  line-height: 1.2;
+  text-align: left;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+ 
+}
+
+.faqSummary {
+  width: 100%;
+  border: 0;
+  background: #fff;
+  padding: 15px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.faqSummaryOpen {
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.faqMarker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  font-size: 25px;
+  line-height: 1;
+  color: #111;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.faqSummary:hover {
+  color: var(--hover-color);
+}
+
+.faqBody {
+  background: #fff;
+  padding: 10px 40px 25px;
+}
+
+.faqText {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.faqText + .faqText {
+  margin-top: 16px;
+}
+
+.faqSection {
+  margin-top: 20px;
+}
+
+.faqSubheading {
+  margin: 0 0 16px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3f3841;
+}
+
+.faqList {
+  margin: 0px 0 0;
+  padding-left: 24px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.contactText {
+  margin: 24px 0 0;
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .body,
+  .sectionTitle,
+  .allergenTitle,
+  .faqText,
+  .faqList,
+  .contactText,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+   .faqSummary{
+    font-size: 20px;
+   }
+   
+.faqBody{
+  padding: 10px 20px 15px;
+}
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+
+}

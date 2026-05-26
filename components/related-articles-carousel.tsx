@@ -1,7 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import styles from "./related-articles-carousel.module.css";
+
+const NAV_BUTTON_CLASS =
+  "grid h-8 w-8 cursor-pointer place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] transition-colors hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11";
 
 export type RelatedArticleItem = {
   href: string;
@@ -26,6 +30,16 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
   const pointerCurrentX = useRef<number | null>(null);
   const activePointerId = useRef<number | null>(null);
   const isDragging = useRef(false);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+
+  const measureNavPosition = useCallback(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const image = stage.querySelector<HTMLElement>("[data-related-thumb]");
+    if (!image || image.offsetWidth <= 0) return;
+    stage.style.setProperty("--nav-center-y", `${image.offsetHeight / 2}px`);
+    stage.dataset.navReady = "";
+  }, []);
 
   useEffect(() => {
     const onResize = () => setPerView(perViewFromWidth(window.innerWidth));
@@ -48,6 +62,21 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
       setPage(Math.max(0, pages.length - 1));
     }
   }, [page, pages.length]);
+
+  useLayoutEffect(() => {
+    measureNavPosition();
+  }, [measureNavPosition, page, perView, items.length]);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", measureNavPosition);
+      return () => window.removeEventListener("resize", measureNavPosition);
+    }
+    const ro = new ResizeObserver(measureNavPosition);
+    ro.observe(stage);
+    return () => ro.disconnect();
+  }, [measureNavPosition]);
 
   const canCycle = pages.length > 1;
   const goPrev = () => {
@@ -110,7 +139,7 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
   };
 
   return (
-    <div className="relative mt-[30px]">
+    <div className={`${styles.carouselStage} mt-[30px]`} ref={stageRef}>
       <div
         className="overflow-hidden touch-pan-y select-none cursor-grab active:cursor-grabbing"
         onPointerDown={onPointerDown}
@@ -133,10 +162,14 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
                         src={article.image}
                         alt={article.title}
                         draggable={false}
+                        data-related-thumb
                         className="block aspect-[1.18/1] w-full rounded-[14px] object-cover"
                       />
                     ) : (
-                      <div className="relative block aspect-[1.18/1] w-full overflow-hidden rounded-[14px] bg-[#d9dde2]">
+                      <div
+                        data-related-thumb
+                        className="relative block aspect-[1.18/1] w-full overflow-hidden rounded-[14px] bg-[#d9dde2]"
+                      >
                         <div className="absolute left-[12%] top-[24%] h-6 w-6 rounded-full bg-[#f1f3f5]" />
                         <div className="absolute -bottom-6 left-[28%] h-[72%] w-[78%] rounded-t-[80px] bg-[#f1f3f5]" />
                       </div>
@@ -156,19 +189,37 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
         type="button"
         aria-label="Previous related articles"
         onClick={goPrev}
-        className="absolute left-2 top-[34%] grid h-8 w-8 place-items-center rounded-full cursor-pointer bg-white/95 text-[22px] leading-none text-[#222] shadow-sm disabled:cursor-not-allowed disabled:opacity-40"
         disabled={!canCycle}
+        className={`${styles.navButton} left-1 min-[700px]:left-3 ${NAV_BUTTON_CLASS}`}
       >
-        ‹
+        <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
+          <path
+            d="M14.5 5.5L8 12l6.5 6.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </button>
       <button
         type="button"
         aria-label="Next related articles"
         onClick={goNext}
-        className="absolute right-2 top-[34%] grid h-8 w-8 place-items-center rounded-full cursor-pointer bg-white/95 text-[22px] leading-none text-[#222] shadow-sm disabled:cursor-not-allowed disabled:opacity-40"
         disabled={!canCycle}
+        className={`${styles.navButton} right-1 min-[700px]:right-3 ${NAV_BUTTON_CLASS}`}
       >
-        ›
+        <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
+          <path
+            d="M9.5 5.5L16 12l-6.5 6.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </button>
 
       <div className="mt-3 flex items-center justify-center gap-2">

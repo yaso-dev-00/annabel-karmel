@@ -7,6 +7,11 @@ import styles from "./page.module.css";
 
 const relatedArticles = getRelatedArticles("/best-foods-to-help-your-baby-sleep");
 
+const NANIT_URL = "https://nanituk.co.uk/";
+const NANIT_NEXT_NAP_URL =
+  "https://www.nanit.com/blogs/parent-confidently/nextnap-baby-nap-schedule-predictor";
+const RECIPES_APP_URL = "https://annabelkaremel.onelink.me/MP0T/y7jrx92n";
+
 export default function BestFoodsSleepPage() {
   return (
     <>
@@ -17,20 +22,17 @@ export default function BestFoodsSleepPage() {
             The Best Foods to Help Your Baby Sleep
           </h1>
           <p className={`${styles.partner} mb-[26px] mt-[30px]! text-center text-[16px]!`}>
-            In partnership with{" "}
-            <a href="https://nanituk.co.uk/" className="underline">
-              Nanit
-            </a>
+            In partnership with <a href={NANIT_URL}>Nanit</a>
           </p>
 
           <p className={`${styles.lead} mb-4 mt-20!`}>
-            We all know that a good night&apos;s sleep is golden - for babies and for parents! But did you know that
-            certain foods can help set the stage for more restful nights?
+            We all know that a good night&apos;s sleep is golden – for babies <em>and</em> for parents! But did you know
+            that certain foods can help set the stage for more restful nights?
           </p>
           <p className={`${styles.lead} mb-4 mt-9!`}>
             I&apos;ve spent over three decades supporting families with delicious, nutritious recipes and easy-to-follow
-            advice, and now, together with Dr. Natalie Barnett, VP of Clinical Research at Nanit, we&apos;re here to help
-            set the whole family up for a good night&apos;s sleep.
+            advice, and now, together with Dr. Natalie Barnett, VP of Clinical Research at{" "}
+            <a href={NANIT_URL}>Nanit</a>, we&apos;re here to help set the whole family up for a good night&apos;s sleep.
           </p>
           <p className={`${styles.lead} mb-4 mt-9!`}>
             While there&apos;s no magic food that guarantees 12 hours straight (oh, if only!), including the right
@@ -132,7 +134,7 @@ export default function BestFoodsSleepPage() {
             <p className={`${styles.bodyText} mb-[44px]`}>
               Avoid giving baby a big meal too close to starting the bedtime routine. Babies have tiny tummies, and a
               big meal will cause their metabolic rate and body temperature to increase which will make it harder for
-              them to drift off. Aim to offer their dinner 1 1/2 - 2 hours before bedtime to give them the chance to
+              them to drift off. Aim to offer their dinner 1 ½ – 2 hours before bedtime to give them the chance to
               fully digest their food.
             </p>
             <p className={`${styles.bodyText} mb-[44px]`}>
@@ -153,14 +155,14 @@ export default function BestFoodsSleepPage() {
           <p className={`${styles.bodyText} mb-[35px]!`}>
             <strong>Time the last feed well</strong>
             <br />
-            Offer a full milk feed 15-30 minutes before bedtime so baby settles with a full tummy - with enough time
-            to reduce spit-up or discomfort.
+            Offer a full milk feed <strong>15–30 minutes before bedtime</strong> so baby settles with a full tummy –
+            with enough time to reduce spit-up or discomfort.
           </p>
           <p className={`${styles.bodyText} mb-[60px]!`}>
             <strong>Don&apos;t let feeding be the only way to fall asleep</strong>
             <br />
-            Feeding is soothing, but if baby always falls asleep on the bottle/breast, they may struggle to resettle
-            at night. From around 3 months, try adding a short wind-down (song or quick story) and put them down
+            Feeding is soothing, but if baby <em>always</em> falls asleep on the bottle/breast, they may struggle to
+            resettle at night. From around 3 months, try adding a short wind-down (song or quick story) and put them down
             drowsy but awake.
           </p>
           <div className="my-[22px] mb-[60px]">
@@ -174,7 +176,8 @@ export default function BestFoodsSleepPage() {
             <strong>Keep meals and milk on a steady schedule</strong>
             <br />
             Regular milk feeds and mealtimes help set baby&apos;s body clock and support better nights. Consistency is
-            key - tools like Nanit&apos;s Next Nap can help keep the day on track.
+            key – tools like{" "}
+            <a href={NANIT_NEXT_NAP_URL}>Nanit&apos;s Next Nap</a> can help keep the day on track.
           </p>
           <p className={`${styles.bodyText} mb-[35px]!`}>
             <strong>Watch for tummy trouble</strong>
@@ -194,19 +197,12 @@ export default function BestFoodsSleepPage() {
             you both a better shot at restful nights.
           </p>
           <p className={`${styles.closingItalic} mt-[35px]! text-[21px]! text-center!  `}>
-            For more sleep-friendly recipes and expert advice, explore the{" "}
-            <a className={`${styles.link}`} href="#" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
-              Annabel Karmel Recipes App
-            </a>
-            . And check out{" "}
-            <a className={`${styles.link}`} href="https://nanituk.co.uk/" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
-              Nanit
-            </a>{" "}
-            for smart tools like{" "}
-            <a className={`${styles.link}`} href="#" style={{ textDecoration: "underline", textUnderlineOffset: "2px" }}>
-              Next Nap
-            </a>{" "}
-            to help track routines and support better sleep.
+            <em>
+              For more sleep-friendly recipes and expert advice, explore the{" "}
+              <a href={RECIPES_APP_URL}>Annabel Karmel Recipes App</a>. And check out <a href={NANIT_URL}>Nanit</a> for
+              smart tools like <a href={NANIT_NEXT_NAP_URL}>Next Nap</a> to help track routines and support better
+              sleep.
+            </em>
           </p>
 
           <section className="relative left-1/2 right-1/2 mt-[100px] flex w-screen -translate-x-1/2 flex-col items-center px-2 md:px-4">

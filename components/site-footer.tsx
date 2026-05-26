@@ -12,7 +12,7 @@ export function SiteFooter() {
               <li className="">
                 <a href="/about-annabel-karmel" className="p-0!">About Annabel <br className="max-[900px]:hidden"/> Karmel</a>
               </li>
-              <li>
+              <li className="mb-0 min-[900px]:mb-[30px]!">
                 <a href="/contact">Contact Us</a>
               </li>
             </ul>
@@ -57,7 +57,7 @@ export function SiteFooter() {
               Email address
             </label>
             <input id="email-newsletter" type="email" placeholder="Enter your email" />
-            <button type="submit" className="text-[17px]! h-[40px]! md:h-[30px]! md:text-[16px]!">Subscribe</button>
+            <button type="submit" className="text-[17px]! h-[40px]! cursor-pointer md:h-[30px]! md:text-[16px]!">Subscribe</button>
           </form>
         </section>
 

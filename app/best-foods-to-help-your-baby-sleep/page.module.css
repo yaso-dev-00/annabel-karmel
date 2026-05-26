@@ -290,7 +290,29 @@
   font-weight: 500;
 }
 
-.link:hover {
+.inlineLink {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.inlineLink:hover {
+  color: var(--hover-color);
+}
+
+.partner a,
+.lead a,
+.bodyText a,
+.closingItalic a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.partner a:hover,
+.lead a:hover,
+.bodyText a:hover,
+.closingItalic a:hover {
   color: var(--hover-color);
 }
 

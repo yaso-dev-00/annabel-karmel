@@ -46,3 +46,4 @@ public/CursorUserSetup-*.exe
 
 # scratch / scraped working files
 /tmp/
+/tmp-*.html

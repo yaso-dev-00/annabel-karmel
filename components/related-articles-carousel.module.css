@@ -1,0 +1,16 @@
+.carouselStage {
+  position: relative;
+}
+
+.navButton {
+  position: absolute;
+  top: var(--nav-center-y, 34%);
+  z-index: 30;
+  transform: translateY(-50%);
+  transition: none;
+  visibility: hidden;
+}
+
+.carouselStage[data-nav-ready] .navButton {
+  visibility: visible;
+}

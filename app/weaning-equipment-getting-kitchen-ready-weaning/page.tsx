@@ -136,7 +136,7 @@ export default function WeaningEquipmentKitchenReadyPage() {
             alt="Plan ahead meal prep board"
             width={550}
             height={552}
-            className="mx-auto mt-[20px]  max-w-[550px]!"
+            className="mx-auto mt-[20px] w-full  max-w-[550px]!"
           />
           <p className={styles.body}>
             Planning ahead the meals you want to cook for baby (and yourself!) for the next couple of days will help
@@ -167,7 +167,7 @@ export default function WeaningEquipmentKitchenReadyPage() {
             alt="Top 10 kitchen essentials list"
             width={550}
             height={550}
-            className="mx-auto mt-[20px]   max-w-[550px]"
+            className="mx-auto mt-[20px] w-full   max-w-[550px]"
           />
           <p className={styles.body}>
             Get ready to wean by making sure you have all the kitchen essentials.

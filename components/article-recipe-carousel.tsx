@@ -1,67 +1,269 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import styles from "./article-recipe-carousel.module.css";
+
+function RecipeLockIcon() {
+  return <span className={styles.lockGlyph} aria-hidden />;
+}
+
+function RecipeHeartIcon({ saved }: { saved: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden
+      className={`${styles.heartIcon} ${saved ? styles.heartIconSaved : ""}`}
+    >
+      <path
+        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+        fill={saved ? "currentColor" : "none"}
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
 
 export type ArticleRecipeCarouselItem = {
   title: string;
   href: string;
   image: string;
+  appExclusive?: boolean;
 };
 
 type ArticleRecipeCarouselProps = {
   items: ArticleRecipeCarouselItem[];
   className?: string;
+  perDesktopView?: 3 | 4 | 5;
+  loop?: boolean;
+  autoplayMs?: number;
+  /**
+   * Smaller cards + full-bleed layout. On desktop (≥900px) shows 3 full cards with
+   * half a card peeking on each side (4 card-width units across the viewport).
+   */
+  compact?: boolean;
 };
 
-function perViewFromWidth(width: number) {
-  if (width < 700) return 1;
-  if (width < 900) return 2;
-  return 5;
+const SLIDE_TRANSITION = { duration: 0.32, ease: [0.4, 0, 0.2, 1] as const };
+
+type PeekMode = "none" | "center" | "start";
+
+type CarouselLayout = {
+  perView: number;
+  /** Visible card-width units in the viewport (e.g. 1.5 = one full + half of next). */
+  slots: number;
+  peek: boolean;
+  peekMode: PeekMode;
+};
+
+function getCarouselLayout(width: number, compact: boolean, perDesktopView: number): CarouselLayout {
+  if (compact) {
+    if (width < 700) return { perView: 1, slots: 1.2, peek: true, peekMode: "start" };
+    if (width < 900) return { perView: 2, slots: 2, peek: false, peekMode: "none" };
+    return {
+      perView: perDesktopView,
+      slots: perDesktopView === 3 ? 4 : perDesktopView,
+      peek: perDesktopView === 3,
+      peekMode: perDesktopView === 3 ? "center" : "none",
+    };
+  }
+  if (width < 700) return { perView: 1, slots: 1, peek: false, peekMode: "none" };
+  if (width < 900) return { perView: 2, slots: 2, peek: false, peekMode: "none" };
+  return { perView: perDesktopView, slots: perDesktopView, peek: false, peekMode: "none" };
 }
 
-export function ArticleRecipeCarousel({ items, className = "mt-[60px]" }: ArticleRecipeCarouselProps) {
-  const [perView, setPerView] = useState(() => (typeof window === "undefined" ? 5 : perViewFromWidth(window.innerWidth)));
-  const [index, setIndex] = useState(0);
+function getCardWidth(viewportWidth: number, layout: CarouselLayout, gap: number) {
+  const { slots, peek, peekMode } = layout;
+
+  if (layout.peekMode === "start" && slots > 1 && slots < 2) {
+    return (viewportWidth - gap) / slots;
+  }
+
+  if (peek && peekMode === "center") {
+    return (viewportWidth - slots * gap) / slots;
+  }
+
+  const count = Math.round(slots);
+  return (viewportWidth - (count - 1) * gap) / count;
+}
+
+function getPeekOffset(step: number, layout: CarouselLayout) {
+  if (!layout.peek || step <= 0) return 0;
+  if (layout.peekMode === "start") return 0;
+  if (layout.peekMode === "center") return step / 2;
+  return 0;
+}
+
+function buildLoopTrack(items: ArticleRecipeCarouselItem[], perView: number) {
+  const minLength = Math.max(items.length * 3, items.length * 2 + perView - 1);
+  const track: ArticleRecipeCarouselItem[] = [];
+  while (track.length < minLength) {
+    track.push(...items);
+  }
+  return track;
+}
+
+export function ArticleRecipeCarousel({
+  items,
+  className = "mt-[60px]",
+  perDesktopView = 5,
+  loop = true,
+  autoplayMs = 0,
+  compact = false,
+}: ArticleRecipeCarouselProps) {
+  const prefersReducedMotion = useReducedMotion();
+
+  const [layout, setLayout] = useState<CarouselLayout>(() =>
+    typeof window === "undefined"
+      ? { perView: perDesktopView, slots: perDesktopView, peek: false, peekMode: "none" }
+      : getCarouselLayout(window.innerWidth, compact, perDesktopView),
+  );
+  const { perView, peek: peekLayout } = layout;
   const [step, setStep] = useState(0);
+  const [cardWidthPx, setCardWidthPx] = useState<number | null>(null);
+  const [position, setPosition] = useState(0);
+  const [activeDot, setActiveDot] = useState(0);
+  const [instant, setInstant] = useState(false);
+  const [savedTitles, setSavedTitles] = useState<Set<string>>(() => new Set());
+
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleSaved = useCallback((title: string) => {
+    setSavedTitles((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) {
+        next.delete(title);
+      } else {
+        next.add(title);
+      }
+      return next;
+    });
+  }, []);
+  const pausedRef = useRef(false);
   const pointerStartX = useRef<number | null>(null);
   const pointerCurrentX = useRef<number | null>(null);
   const activePointerId = useRef<number | null>(null);
   const isDragging = useRef(false);
-  const trackRef = useRef<HTMLDivElement | null>(null);
+
+  const useLoop = loop && items.length > 1;
+  const canCycle = items.length > 1;
+  const loopStart = items.length;
+
+  const trackItems = useMemo(() => {
+    if (!useLoop) return items;
+    return buildLoopTrack(items, perView);
+  }, [items, useLoop, perView]);
+
+  const updateDot = useCallback(
+    (index: number) => {
+      if (items.length === 0) return;
+      if (useLoop) {
+        const dot = (((index - loopStart) % items.length) + items.length) % items.length;
+        setActiveDot(dot);
+      } else {
+        setActiveDot(Math.min(index, Math.max(0, items.length - 1)));
+      }
+    },
+    [items.length, loopStart, useLoop],
+  );
+
+  const gap = compact ? 10 : 14;
+
+  const measureStep = useCallback(() => {
+    const viewport = viewportRef.current;
+    const stage = stageRef.current;
+    if (!viewport || viewport.clientWidth <= 0) return;
+
+    const cardWidth = getCardWidth(viewport.clientWidth, layout, gap);
+    if (cardWidth <= 0) return;
+
+    setCardWidthPx(cardWidth);
+    setStep(cardWidth + gap);
+
+    if (stage) {
+      stage.style.setProperty("--card-width", `${cardWidth}px`);
+      stage.style.setProperty("--nav-center-y", `${(cardWidth * 3) / 8}px`);
+      stage.dataset.navReady = "";
+    }
+  }, [gap, layout]);
+
+  useLayoutEffect(() => {
+    const start = useLoop ? loopStart : 0;
+    setPosition(start);
+    updateDot(start);
+    measureStep();
+  }, [items.length, useLoop, loopStart, measureStep, updateDot, perView, trackItems.length, layout]);
 
   useEffect(() => {
-    const onResize = () => setPerView(perViewFromWidth(window.innerWidth));
+    updateDot(position);
+  }, [position, updateDot]);
+
+  useEffect(() => {
+    const onResize = () => {
+      setLayout(getCarouselLayout(window.innerWidth, compact, perDesktopView));
+    };
     onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  const maxIndex = Math.max(0, items.length - perView);
-  const canCycle = maxIndex > 0;
+  }, [compact, perDesktopView]);
 
   useEffect(() => {
-    if (index > maxIndex) setIndex(maxIndex);
-  }, [index, maxIndex]);
+    measureStep();
+    const viewport = viewportRef.current;
+    if (!viewport || typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", measureStep);
+      return () => window.removeEventListener("resize", measureStep);
+    }
+    const ro = new ResizeObserver(measureStep);
+    ro.observe(viewport);
+    return () => ro.disconnect();
+  }, [measureStep, trackItems.length, layout]);
 
   useEffect(() => {
-    const updateStep = () => {
-      const track = trackRef.current;
-      if (!track) return;
-      const firstCard = track.querySelector<HTMLElement>(".article-recipe-card");
-      if (!firstCard) return;
-      const styles = window.getComputedStyle(track);
-      const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
-      setStep(firstCard.offsetWidth + gap);
-    };
-    updateStep();
-    window.addEventListener("resize", updateStep);
-    return () => window.removeEventListener("resize", updateStep);
-  }, [perView, items.length]);
+    if (!instant) return;
+    const id = requestAnimationFrame(() => setInstant(false));
+    return () => cancelAnimationFrame(id);
+  }, [instant]);
 
-  const goPrev = () => setIndex((p) => (!canCycle ? 0 : p === 0 ? maxIndex : p - 1));
-  const goNext = () => setIndex((p) => (!canCycle ? 0 : p === maxIndex ? 0 : p + 1));
+  const normalizeLoop = useCallback(() => {
+    if (!useLoop || items.length === 0) return;
+    if (position >= loopStart + items.length) {
+      setInstant(true);
+      setPosition(loopStart + ((position - loopStart) % items.length));
+    } else if (position < loopStart) {
+      setInstant(true);
+      const offset = ((position - loopStart) % items.length + items.length) % items.length;
+      setPosition(loopStart + offset);
+    }
+  }, [items.length, loopStart, position, useLoop]);
+
+  const goPrev = useCallback(() => {
+    if (!canCycle) return;
+    setPosition((p) => p - 1);
+  }, [canCycle]);
+
+  const goNext = useCallback(() => {
+    if (!canCycle) return;
+    setPosition((p) => p + 1);
+  }, [canCycle]);
+
+  useEffect(() => {
+    if (!canCycle || !autoplayMs || autoplayMs <= 0 || prefersReducedMotion) return;
+    const id = window.setInterval(() => {
+      if (!pausedRef.current) goNext();
+    }, autoplayMs);
+    return () => window.clearInterval(id);
+  }, [canCycle, autoplayMs, goNext, prefersReducedMotion]);
+
+  const goToDot = (dotIndex: number) => {
+    setPosition(useLoop ? loopStart + dotIndex : dotIndex);
+  };
 
   const onPointerDown: React.PointerEventHandler<HTMLDivElement> = (event) => {
+    pausedRef.current = true;
     activePointerId.current = event.pointerId;
     event.currentTarget.setPointerCapture(event.pointerId);
     pointerStartX.current = event.clientX;
@@ -77,7 +279,9 @@ export function ArticleRecipeCarousel({ items, className = "mt-[60px]" }: Articl
 
   const onPointerEnd: React.PointerEventHandler<HTMLDivElement> = (event) => {
     if (activePointerId.current !== event.pointerId) return;
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
     if (pointerStartX.current === null || pointerCurrentX.current === null) return;
 
     const deltaX = pointerCurrentX.current - pointerStartX.current;
@@ -87,6 +291,9 @@ export function ArticleRecipeCarousel({ items, className = "mt-[60px]" }: Articl
     pointerStartX.current = null;
     pointerCurrentX.current = null;
     activePointerId.current = null;
+    window.setTimeout(() => {
+      pausedRef.current = false;
+    }, 400);
   };
 
   const onCardClickCapture: React.MouseEventHandler<HTMLElement> = (event) => {
@@ -96,73 +303,148 @@ export function ArticleRecipeCarousel({ items, className = "mt-[60px]" }: Articl
     }
   };
 
+  const peekOffset = getPeekOffset(step, layout);
+  const x = step > 0 ? -position * step + peekOffset : 0;
+  const cardStyle = cardWidthPx ? { width: cardWidthPx } : { width: "85vw", maxWidth: 320 };
+
+  const wrapperClass = compact
+    ? `relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] px-[8px] md:px-[14px] ${className}`
+    : `relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] px-[8px] md:px-[14px] ${className}`;
+
   return (
-    <div className={`relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen px-[8px] md:px-[14px] ${className}`}>
+    <motion.div className={wrapperClass} initial={false}>
       <div
-        className="cursor-grab touch-pan-y select-none overflow-hidden active:cursor-grabbing"
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerEnd}
-        onPointerCancel={onPointerEnd}
-        onPointerLeave={onPointerEnd}
+        ref={stageRef}
+        className={`${styles.carouselStage} ${compact ? styles.carouselStageCompact : ""} ${peekLayout ? styles.carouselStagePeek : ""}`}
       >
-        <div ref={trackRef} className="flex gap-[18px] transition-transform duration-500 ease-out" style={{ transform: `translateX(-${index * step}px)` }}>
-          {items.map((recipe) => (
-            <section
-              key={recipe.title}
-              className="article-recipe-card shrink-0 overflow-hidden rounded-[14px] bg-white pb-[14px] shadow-[0_8px_24px_rgba(58,58,58,0.08)]"
-              style={{ width: `calc((100% - ${(perView - 1) * 18}px) / ${perView})` }}
+        <motion.div
+          ref={viewportRef}
+          className={`${styles.carouselViewport} cursor-grab touch-pan-x select-none active:cursor-grabbing`}
+          onMouseEnter={() => {
+            pausedRef.current = true;
+          }}
+          onMouseLeave={() => {
+            pausedRef.current = false;
+          }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerEnd}
+          onPointerCancel={onPointerEnd}
+        >
+          <motion.div
+            ref={trackRef}
+            className={compact ? "flex gap-[10px]" : "flex gap-[14px]"}
+            animate={{ x }}
+            transition={instant || prefersReducedMotion ? { duration: 0 } : SLIDE_TRANSITION}
+            onAnimationComplete={normalizeLoop}
+          >
+            {trackItems.map((recipe, i) => (
+              <motion.section
+              key={`${recipe.title}-${i}`}
+              className={`article-recipe-card shrink-0 overflow-visible rounded-[12px] bg-white shadow-[0_6px_18px_rgba(58,58,58,0.08)] ${compact ? "pb-[6px]" : "pb-[10px]"}`}
+              style={cardStyle}
               onClickCapture={onCardClickCapture}
+              whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+              transition={{ duration: 0.2 }}
             >
-              <a href={recipe.href} target="_blank" rel="noopener">
-                <img src={recipe.image} alt={recipe.title} className="block aspect-4/3 w-full object-cover transition-transform duration-300 hover:scale-[1.02]" draggable={false} />
-              </a>
-              <div className="min-h-[70px] px-[14px] pt-[12px] text-center">
-                <h3 className="m-0 text-[20px] leading-[1.32] font-semibold text-[#3a3a3a]" style={{ fontFamily: "var(--font-body)" }}>
+              <div className={styles.imageWrap}>
+                <a href={recipe.href} target="_blank" rel="noopener" className={styles.imageLink}>
+                  <img
+                    src={recipe.image}
+                    alt={recipe.title}
+                    loading={i < perView + 2 ? "eager" : "lazy"}
+                    decoding="async"
+                    className="block aspect-4/3 w-full object-cover"
+                    draggable={false}
+                  />
+                </a>
+                <div className={styles.iconRow}>
+                  <span
+                    className={styles.iconButton}
+                    aria-label={recipe.appExclusive ? "App exclusive recipe" : "Recipe"}
+                    title={recipe.appExclusive ? "App exclusive" : undefined}
+                  >
+                    <RecipeLockIcon />
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.iconButton}
+                    aria-label={savedTitles.has(recipe.title) ? "Recipe saved" : "Click to save recipe"}
+                    title={savedTitles.has(recipe.title) ? "Recipe saved" : "Click to save"}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      toggleSaved(recipe.title);
+                    }}
+                  >
+                    <RecipeHeartIcon saved={savedTitles.has(recipe.title)} />
+                  </button>
+                </div>
+              </div>
+              <motion.div
+                className={`px-[8px] text-center ${compact ? "min-h-[44px] pt-[10px]" : "min-h-[52px] pt-[15px] px-[10px]"}`}
+              >
+                <h3
+                  className={`m-0 mt-[10px] font-semibold text-[#3a3a3a] ${
+                    compact
+                      ? "text-[15px] leading-[1.25] min-[700px]:text-[17px] min-[900px]:text-[20px]"
+                      : "text-[16px] leading-[1.3] min-[700px]:text-[18px] min-[900px]:text-[20px]"
+                  }`}
+                  style={{ fontFamily: "var(--font-body)" }}
+                >
                   <a href={recipe.href} target="_blank" rel="noopener" className="text-inherit no-underline hover:text-(--hover-color)">
                     {recipe.title}
                   </a>
                 </h3>
-              </div>
-            </section>
+              </motion.div>
+              </motion.section>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <button
+          type="button"
+          aria-label="Previous recipes"
+          onClick={goPrev}
+          disabled={!canCycle}
+          className={`${styles.navButton} left-1 grid h-8 w-8 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:left-3 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11`}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
+            <path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          aria-label="Next recipes"
+          onClick={goNext}
+          disabled={!canCycle}
+          className={`${styles.navButton} right-1 grid h-8 w-8 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:right-3 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11`}
+        >
+          <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
+            <path d="M9.5 5.5L16 12l-6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      {canCycle ? (
+        <motion.div
+          className="mt-2 flex items-center justify-center gap-2"
+          initial={false}
+          animate={{ opacity: 1 }}
+        >
+          {items.map((_, i) => (
+            <motion.button
+              key={`dot-${i}`}
+              type="button"
+              aria-label={`Go to recipe ${i + 1}`}
+              onClick={() => goToDot(i)}
+              className={`h-[6px] w-[6px] rounded-full ${i === activeDot ? "bg-[#222]" : "bg-[#c7c7c7]"}`}
+              animate={i === activeDot ? { scale: 1.35 } : { scale: 1 }}
+              transition={{ duration: 0.2 }}
+            />
           ))}
-        </div>
-      </div>
-
-      <button
-        type="button"
-        aria-label="Previous recipes"
-        onClick={goPrev}
-        className="absolute left-3 top-1/2 z-30 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_8px_20px_rgba(179,71,105,0.22)] transition hover:scale-[1.03] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40"
-        disabled={!canCycle}
-      >
-        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden>
-          <path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        aria-label="Next recipes"
-        onClick={goNext}
-        className="absolute right-3 top-1/2 z-30 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_8px_20px_rgba(179,71,105,0.22)] transition hover:scale-[1.03] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40"
-        disabled={!canCycle}
-      >
-        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden>
-          <path d="M9.5 5.5L16 12l-6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-
-      <div className="mt-2 flex items-center justify-center gap-2">
-        {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-          <button
-            key={`dot-${i}`}
-            type="button"
-            aria-label={`Go to recipes page ${i + 1}`}
-            onClick={() => setIndex(i)}
-            className={`h-[6px] w-[6px] rounded-full transition-colors ${i === index ? "bg-[#222]" : "bg-[#c7c7c7]"}`}
-          />
-        ))}
-      </div>
-    </div>
+        </motion.div>
+      ) : null}
+    </motion.div>
   );
 }

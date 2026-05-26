@@ -1,0 +1,159 @@
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.bodyFirst {
+  margin: 20px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.sectionTitle {
+  margin: 44px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.12;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.subheading {
+  margin: 30px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.12;
+  font-weight: 700;
+  color: #3a3a3a;
+  text-decoration: underline;
+}
+
+.subheadingSans {
+  margin: 30px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  font-weight: 700;
+  color: #3d3d3d;
+}
+
+.contentImage {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  margin: 40px auto 0;
+}
+
+.bulletList {
+  margin: 30px 0 0;
+  padding: 0 0 0 100px;
+  list-style: disc;
+}
+
+.bulletItem {
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.bulletItem + .bulletItem {
+  margin-top: 10px;
+}
+
+.numberedList {
+  margin: 30px 0 0;
+  padding: 0 0 0 100px;
+  list-style: decimal;
+}
+
+.numberedItem {
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.numberedItem + .numberedItem {
+  margin-top: 10px;
+}
+
+.divider {
+  margin: 50px 0 0;
+  border: 0;
+  border-top: 1px solid #d8d8d8;
+}
+
+.summaryBlock {
+  margin: 40px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.35;
+  font-weight: 700;
+
+  color: #3a3a3a;
+}
+
+.summaryBlock + .summaryBlock {
+  margin-top: 28px;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .body,
+  .bodyFirst,
+  .sectionTitle,
+  .subheading,
+  .subheadingSans,
+  .summaryBlock,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+ 
+
+  
+  .summaryBlock {
+    font-size: 22px;
+  }
+
+  .bulletItem{
+     font-size: 16px;
+  }
+  .numberedItem{
+    font-size: 16px;
+  }
+
+  .bulletList,
+  .numberedList {
+    padding-left: 50px;
+  }
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}

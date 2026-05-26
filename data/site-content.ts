@@ -143,7 +143,7 @@ export const megaMenus: MegaMenu[] = [
         links: [
           { label: "Articles", href: "/category/articles" },
           { label: "Our Experts", href: "/meet-our-experts" },
-          { label: "Baby Nutrition", href: "/advice/baby-nutrition" },
+          { label: "Baby Nutrition", href: "/category/nutrition/baby-nutrition" },
           { label: "Toddler & Child", href: "/advice/toddler-child" },
           { label: "Allergies", href: "/advice/allergies" },
         ],

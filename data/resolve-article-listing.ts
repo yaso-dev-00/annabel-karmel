@@ -5,6 +5,7 @@ const indexBySlug = new Map(articleIndex.map((article) => [article.slug, article
 /** Listing href → local route when the live site slug differs. */
 const hrefAliases: Record<string, string> = {
   "babys-hydration": "babys-hydration-2",
+  "fabulous-finger-food": "fabulous-finger-food-2",
 };
 
 /**
@@ -18,6 +19,9 @@ export const builtArticleSlugs = new Set([
   "annabels-top-15-recipes",
   "baby-finger-foods",
   "baby-led-weaning",
+  "baby-led-weaning-pros-cons",
+  "annabels-top-tips-baby-led-weaning",
+  "10-things-only-weaning-parents-know-to-be-true",
   "babys-hydration-2",
   "best-first-foods-baby-led-weaning",
   "best-foods-to-help-your-baby-sleep",
@@ -29,7 +33,10 @@ export const builtArticleSlugs = new Set([
   "fabulous-finger-food-2",
   "foods-to-avoid-when-baby-led-weaning",
   "gagging-vs-choking",
+  "go-guide-handling-leftovers-safely",
   "go-guide-preparing-freezing-reheating-foods-baby-2",
+  "health-benefits-of-spinach",
+  "salmon-important-babys-diet",
   "introducing-lumps-bumps-new-flavours",
   "introduction-to-finger-foods",
   "iron-rich-foods",
@@ -37,6 +44,9 @@ export const builtArticleSlugs = new Set([
   "pasta-recipes-for-baby",
   "portion-size-babies-theres-no-easy-answer",
   "statistics-baby-led-weaning",
+  "top-10-baby-led-weaning-recipes",
+  "top-10-weaning-recipes",
+  "top-10-baby-recipes",
   "tips-ideas-getting-started-baby-led-weaning",
   "top-tips-thinning-baby-purees-2",
   "top-tips-washing-babies-hands",
@@ -45,6 +55,7 @@ export const builtArticleSlugs = new Set([
   "weaning-equipment-getting-kitchen-ready-weaning",
   "weaning-getting-started",
   "weaning-preterm-infants",
+  "weaning-premature-babies",
   "what-spices-can-you-give-to-your-baby",
   "what-to-do-when-your-baby-is-sick",
   "zero-salt-family-recipes",

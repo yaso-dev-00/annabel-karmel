@@ -1,0 +1,154 @@
+.title {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: #2f2830;
+}
+
+ 
+.intro {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #1a1819;
+}
+
+.intro + .intro {
+  margin-top: 28px;
+}
+
+.body {
+  margin: 28px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.footnote {
+  margin: 30px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.45;
+  color: #6f646d;
+}
+
+.sectionHeading {
+  margin: 48px 0 20px;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 2.8vw, 2.25rem);
+  line-height: 1.15;
+  font-weight: 600;
+  color: #3a3a3a;
+}
+
+.sectionHeading:first-of-type {
+  margin-top: 36px;
+}
+
+.imageWrap {
+  margin: 20px 0 8px;
+}
+
+.imageWrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+.list {
+  margin: 20px 0 0;
+  margin-left: 0;
+  padding-left: 2rem;
+  padding-right: 0;
+  list-style-type: disc;
+  list-style-position: outside;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.list li {
+  display: list-item;
+  margin-top: 12px;
+  padding-left: 0.35rem;
+}
+
+.list li::marker {
+  color: #6f646d;
+}
+
+.list li:first-child {
+  margin-top: 0;
+}
+
+.link {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: var(--hover-color);
+}
+
+.emphasisUnderline {
+  text-decoration: underline;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .title {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .intro,
+  .body,
+  .footnote,
+  .sectionHeading,
+  .relatedTitle,
+  .relatedText {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .list {
+    padding-left: 2.25rem;
+    padding-right: 10px;
+  }
+
+  .imageWrap {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}

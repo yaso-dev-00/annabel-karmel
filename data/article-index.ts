@@ -283,6 +283,24 @@ export const articleIndex: ArticleCard[] = [
       "There's no doubt that there are so many exciting things to think about when you begin your weaning journey with your little one.",
   },
   {
+    slug: "10-things-only-weaning-parents-know-to-be-true",
+    title: "10 things only weaning parents know to be true",
+    heroImage: "/articles/10-things-only-weaning-parents-know-to-be-true/hero.jpg",
+    heroAlt: "10 things only weaning parents know to be true by Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "You've just perfected milk feeds but now it's all change once again as you enter the world of weaning — here's what AK office parents wish they'd known.",
+  },
+  {
+    slug: "go-guide-handling-leftovers-safely",
+    title: "Go to Guide: Handling Leftovers Safely",
+    heroImage: "/articles/go-guide-handling-leftovers-safely/hero.jpg",
+    heroAlt: "Go to Guide: Handling Leftovers Safely by Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "Anyone on the weaning journey will appreciate all of the meal planning and prep work that goes into each and every meal — and none of us want to see a meal we've prepared go to waste.",
+  },
+  {
     slug: "foods-to-avoid-when-baby-led-weaning",
     title: "What foods should you avoid when baby led weaning?",
     heroImage: "/articles/foods-to-avoid-when-baby-led-weaning/hero.jpg",
@@ -328,6 +346,24 @@ export const articleIndex: ArticleCard[] = [
       "If you are about to embark on the weaning journey you probably heard about the different types of weaning techniques.",
   },
   {
+    slug: "baby-led-weaning-pros-cons",
+    title: "Baby led weaning pros and cons",
+    heroImage: "/articles/baby-led-weaning-pros-cons/hero.jpg",
+    heroAlt: "Baby led weaning recipes Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "Baby-led weaning has never been more popular, yet, as a new parent, you wonder if self-feeding over spoon-fed weaning is the best choice.",
+  },
+  {
+    slug: "annabels-top-tips-baby-led-weaning",
+    title: "Annabel's top tips for baby led weaning",
+    heroImage: "/articles/annabels-top-tips-baby-led-weaning/hero.jpg",
+    heroAlt: "Annabel's top tips for baby led weaning by Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "Weaning can be a daunting experience, but it is a great opportunity to bond with your baby. Annabel shares her top tips for baby-led weaning.",
+  },
+  {
     slug: "statistics-baby-led-weaning",
     title: "Statistics on baby-led weaning",
     heroImage: "/articles/statistics-baby-led-weaning/infographic.png",
@@ -344,6 +380,15 @@ export const articleIndex: ArticleCard[] = [
     category: "Baby Nutrition",
     intro:
       "Expert advice on weaning premature babies, including timing, responsive feeding, and prioritising iron-rich foods.",
+  },
+  {
+    slug: "weaning-premature-babies",
+    title: "Weaning premature babies",
+    heroImage: "/articles/weaning-premature-babies/hero.jpg",
+    heroAlt: "Weaning premature babies by Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "There is a lot of weaning guidance available for babies born on or around their due date (from week 37 of pregnancy onwards), however, not a lot for those whose baby decides to make an early appearance which is actually around 10% of all babies!",
   },
   {
     slug: "weaning-equipment-cooking",
@@ -398,6 +443,51 @@ export const articleIndex: ArticleCard[] = [
     category: "Baby Nutrition",
     intro:
       "Learn how gagging differs from choking when weaning, what to do in each situation, choking risks, and NHS first-aid steps.",
+  },
+  {
+    slug: "health-benefits-of-spinach",
+    title: "The health benefits of spinach",
+    heroImage: "/articles/health-benefits-of-spinach/hero.jpg",
+    heroAlt: "Spinach recipes – the health benefits of spinach by Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "Why spinach is packed with vitamins, iron and calcium for little ones, with four recipe ideas from puree to wraps.",
+  },
+  {
+    slug: "salmon-important-babys-diet",
+    title: "Why is salmon so important in your baby's diet?",
+    heroImage: "/articles/salmon-important-babys-diet/hero.jpg",
+    heroAlt: "Salmon recipes by Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "Oily fish such as salmon is the best source of Omega 3 essential fatty acids for your growing baby, with four recipe ideas.",
+  },
+  {
+    slug: "top-10-baby-recipes",
+    title: "Our top 10 most popular baby recipes",
+    heroImage: "/articles/top-10-baby-recipes/hero.png",
+    heroAlt: "Top ten most popular baby recipes by Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "A countdown of the top 10 most popular baby recipes on Annabel Karmel, from lovely lentils to My First Chicken Curry.",
+  },
+  {
+    slug: "top-10-weaning-recipes",
+    title: "Top 10 weaning recipes for baby",
+    heroImage: "/articles/top-10-weaning-recipes/hero.png",
+    heroAlt: "Top 10 weaning recipes for baby",
+    category: "Baby Nutrition",
+    intro:
+      "A practical starter list of Annabel's popular weaning recipes, from first purees and lentils to bolognese and mild curry.",
+  },
+  {
+    slug: "top-10-baby-led-weaning-recipes",
+    title: "Top 10 baby-led weaning recipes",
+    heroImage: "/articles/top-10-baby-led-weaning-recipes/hero.jpg",
+    heroAlt: "Top 10 baby-led weaning recipes by Annabel Karmel",
+    category: "Baby Nutrition",
+    intro:
+      "Popular baby-led weaning recipes with finger-food ideas to help babies explore textures, flavours and shared family meals.",
   },
   {
     slug: "critical-nutrients-baby-importance-iron",

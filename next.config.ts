@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         destination: "/babys-hydration-2",
         permanent: true,
       },
+      {
+        source: "/top-tips-thinning-baby-purees",
+        destination: "/top-tips-thinning-baby-purees-2",
+        permanent: true,
+      },
     ];
   },
 };

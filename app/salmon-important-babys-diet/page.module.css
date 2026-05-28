@@ -1,0 +1,155 @@
+.introLead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.35;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.introLead + .introLead {
+  margin-top: 30px;
+}
+
+.factBlock {
+  margin: 28px 0 0;
+  text-align: center; 
+}
+
+.factIcon {
+  display: block;
+  width: 105px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.factText {
+  margin: 12px auto 0;
+  max-width: 42rem;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.recipesMainTitle {
+  margin: 48px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #3a3a3a;
+}
+
+.recipeTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.recipeTitleLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.recipeTitleLink:hover {
+  color: var(--hover-color);
+  text-decoration: underline;
+}
+
+.caption {
+  margin: 16px 0 0;
+  padding-bottom: 12px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.45;
+  font-weight: 900;
+  color: #3a3a3a;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.recipeFigure {
+  margin: 20px 0 0;
+}
+
+.recipeFigure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.divider {
+  margin: 36px 0 0;
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.closingNote {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  color: #6b6570;
+}
+
+.inlineLink {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.inlineLink:hover {
+  color: var(--hover-color);
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .introLead,
+  .factText,
+  .recipesMainTitle,
+  .recipeTitle,
+  .caption,
+  .closingNote,
+  .relatedTitle,
+  .relatedText {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .introLead,
+  .factText {
+    font-size: 26px;
+  }
+
+  .recipesMainTitle,
+  .recipeTitle {
+    font-size: 32px;
+  }
+
+   
+
+  .relatedText {
+    font-size: 17px;
+  }
+}

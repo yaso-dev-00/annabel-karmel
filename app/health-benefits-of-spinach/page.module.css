@@ -1,0 +1,140 @@
+/* Repeated typography / recipe blocks (layout mostly Tailwind on page.tsx) */
+
+.introLead {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  font-weight: 700;
+  color: #3f3841;
+}
+
+.intro {
+  margin: 24px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.recipesMainTitle {
+  margin: 40px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.15;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.waysSubtitle {
+  margin: 40px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #3a3a3a;
+}
+
+.recipeTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.recipeTitleLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.recipeTitleLink:hover {
+  color: var(--hover-color);
+  text-decoration: underline;
+}
+
+.caption {
+  margin: 16px 0 0;
+  padding-bottom: 12px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.45;
+  font-weight: 900 !important;
+  color: #3a3a3a;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.recipeFigure {
+  margin: 20px 0 0;
+}
+
+.recipeFigure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.divider {
+  margin: 36px 0 0;
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.inlineLink {
+  color: #000;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.inlineLink:hover {
+  color: var(--hover-color);
+}
+
+.relatedTitle {
+  margin: 56px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .introLead,
+  .intro,
+  .recipesMainTitle,
+  .waysSubtitle,
+  .recipeTitle,
+  .caption,
+  .relatedTitle,
+  .relatedText {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .relatedText {
+    font-size: 17px;
+  }
+
+  .recipesMainTitle {
+    font-size: 36px;
+  }
+
+  .waysSubtitle {
+    font-size: 28px;
+  }
+ 
+
+  
+}

@@ -450,7 +450,7 @@ const pageThreeArticles: ListingArticle[] = [
   },
   {
     title: "Top tips for thinning baby purees",
-    href: "/top-tips-thinning-baby-purees",
+    href: "/top-tips-thinning-baby-purees-2",
     heroImage: `${AK_UPLOADS}/2020/09/shutterstock_138858143-1024x1024-optimized.png`,
     heroAlt: "top tips for thinning baby purees by annabel karmel",
     category: "Nutrition",

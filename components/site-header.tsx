@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { logoUrl, megaMenus } from "@/data/site-content";
+import { isMegaMenuActive, isNavLinkActive } from "@/lib/nav-active";
 
 export function SiteHeader() {
+  const pathname = usePathname();
   const [openDesktopMenu, setOpenDesktopMenu] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileOpenGroups, setMobileOpenGroups] = useState<string[]>([]);
@@ -66,7 +69,9 @@ export function SiteHeader() {
   );
 
   const renderDesktopMenus = (menus: typeof megaMenus) =>
-    menus.map((menu) => (
+    menus.map((menu) => {
+      const menuActive = isMegaMenuActive(pathname, menu);
+      return (
       <div
         className="menu-item"
         key={menu.label}
@@ -75,9 +80,11 @@ export function SiteHeader() {
       >
         <button
           type="button"
+          className={menuActive ? "is-active" : undefined}
           onClick={() => setOpenDesktopMenu((current) => (current === menu.label ? null : menu.label))}
           aria-expanded={openDesktopMenu === menu.label}
           aria-controls={`${navId}-${menu.label}`}
+          aria-current={menuActive ? "true" : undefined}
         >
           <span>{menu.label}</span>
           <span className="menu-caret" aria-hidden>
@@ -89,17 +96,27 @@ export function SiteHeader() {
             <section key={group.title}>
               <h3>{group.title}</h3>
               <ul>
-                {group.links.map((link) => (
+                {group.links.map((link) => {
+                  const linkActive = isNavLinkActive(pathname, link.href);
+                  return (
                   <li key={link.label}>
-                    <Link href={link.href}>{link.label}</Link>
+                    <Link
+                      href={link.href}
+                      className={linkActive ? "is-active" : undefined}
+                      aria-current={linkActive ? "page" : undefined}
+                    >
+                      {link.label}
+                    </Link>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </section>
           ))}
         </div>
       </div>
-    ));
+    );
+    });
 
   return (
     <header className="site-header" ref={headerRef}>
@@ -182,6 +199,7 @@ export function SiteHeader() {
             </div>
             {megaMenus.map((menu) => {
               const isOpen = mobileOpenGroups.includes(menu.label);
+              const menuActive = isMegaMenuActive(pathname, menu);
               return (
                 <div key={menu.label} className="border-b border-[#b9afb3]">
                   <button
@@ -189,7 +207,10 @@ export function SiteHeader() {
                     onClick={() => toggleMobileGroup(menu.label)}
                     aria-expanded={isOpen}
                     aria-controls={`mobile-group-${menu.label}`}
-                    className="flex w-full items-center justify-between bg-transparent px-[0.15rem] py-[0.82rem] text-left [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[16px] font-bold text-[#373136]"
+                    aria-current={menuActive ? "true" : undefined}
+                    className={`flex w-full items-center justify-between bg-transparent px-[0.15rem] py-[0.82rem] text-left [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[16px] font-bold ${
+                      menuActive ? "text-[#8f2f58]" : "text-[#373136]"
+                    }`}
                   >
                     <span>{menu.label}</span>
                     <span className={`text-[15px] text-[#6a6368] ${isOpen ? "rotate-180" : "translate-y-px"}`} aria-hidden>
@@ -230,17 +251,25 @@ export function SiteHeader() {
                               id={`${navId}-mobile-sub-${menu.label}-${group.title}`}
                             >
                               <ul className="m-0 list-none overflow-hidden p-0 pb-[0.35rem]">
-                                {group.links.map((link) => (
+                                {group.links.map((link) => {
+                                  const linkActive = isNavLinkActive(pathname, link.href);
+                                  return (
                                   <li key={link.label} className="border-t border-[#d4cdd0]">
                                     <Link
                                       href={link.href}
                                       onClick={() => setIsMobileMenuOpen(false)}
-                                      className="block px-[0.15rem] py-2 [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[14px] text-[#3f3841]"
+                                      aria-current={linkActive ? "page" : undefined}
+                                      className={`block px-[0.15rem] py-2 [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[14px] ${
+                                        linkActive
+                                          ? "bg-[#f6e9ef] font-semibold text-[#8f2f58]"
+                                          : "text-[#3f3841]"
+                                      }`}
                                     >
                                       {link.label}
                                     </Link>
                                   </li>
-                                ))}
+                                  );
+                                })}
                               </ul>
                             </div>
                           </div>

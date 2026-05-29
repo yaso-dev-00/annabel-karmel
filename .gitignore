@@ -47,3 +47,6 @@ public/CursorUserSetup-*.exe
 # scratch / scraped working files
 /tmp/
 /tmp-*.html
+
+# scraped full recipe pages (not used at runtime; re-run scripts/fetch-recipe-details.mjs locally)
+/data/recipe-details/

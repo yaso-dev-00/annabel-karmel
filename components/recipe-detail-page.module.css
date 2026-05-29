@@ -1,0 +1,46 @@
+/* Taxonomy + breadcrumb links — global `a { text-decoration: none }` overrides Tailwind underline */
+.metaLink {
+  color: #3a3a3a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.metaLink:hover {
+  color: var(--hover-color);
+}
+
+.breadcrumbLink {
+  color: #636262;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.breadcrumbLink:hover {
+  color: var(--hover-color);
+}
+
+/* Numbered method steps — pseudo-element counter not practical in utilities alone */
+.methodList {
+  counter-reset: step;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.methodList li {
+  position: relative;
+  padding-left: 2.25rem;
+  counter-increment: step;
+}
+
+.methodList li + li {
+  margin-top: 1.125rem;
+}
+
+.methodList li::before {
+  content: counter(step) ".";
+  position: absolute;
+  left: 0;
+  font-weight: 600;
+  color: #3a3a3a;
+}

@@ -2,6 +2,14 @@
 import backgroundImage from "@/public/home page/background image.webp";
 import { InstagramShareSection } from "@/components/instagram-share-section";
 import { AnimatePresence, motion, useAnimationFrame, useMotionValue, useMotionValueEvent } from "framer-motion";
+import { recipeFinderSlugs } from "@/data/recipe-taxonomies";
+import {
+  recipeFinderAgeOptions,
+  recipeFinderFreeFromOptions,
+  recipeFinderMealTimeOptions,
+} from "@/data/recipe-finder-options";
+import { buildRecipeListingUrl } from "@/lib/recipe-search-url";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   appFeatureCards,
@@ -31,6 +39,7 @@ const awardBadgeImgClasses = [
 ];
 
 export function HomePageContent() {
+  const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState(1);
   const [openFinderMenu, setOpenFinderMenu] = useState<string | null>(null);
@@ -393,9 +402,9 @@ export function HomePageContent() {
   }, []);
 
   const finderOptions = {
-    age: ["Select age", "First Foods", "6 Months +", "9 Months +", "12 Months +", "18 Months +", "Family"],
-    mealTime: ["Select time", "Weaning", "Breakfast", "Snacks", "Main Meals", "Desserts"],
-    freeFrom: ["Select type", "Plant-based", "Vegetarian", "Dairy-free", "Egg-free", "Gluten-free"],
+    age: ["Select age", ...recipeFinderAgeOptions.map((option) => option.label)],
+    mealTime: ["Select time", ...recipeFinderMealTimeOptions.map((option) => option.label)],
+    freeFrom: ["Select type", ...recipeFinderFreeFromOptions.map((option) => option.label)],
   };
 
   const toggleSelection = (key: "age" | "mealTime" | "freeFrom", option: string) => {
@@ -413,6 +422,27 @@ export function HomePageContent() {
 
   const displaySelection = (key: "age" | "mealTime" | "freeFrom", fallback: string) =>
     finderSelections[key].length > 0 ? finderSelections[key].join(", ") : fallback;
+
+  const handleFinderSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const ageLabel = finderSelections.age[0];
+    const mealLabel = finderSelections.mealTime[0];
+    const freeLabel = finderSelections.freeFrom[0];
+
+    router.push(
+      buildRecipeListingUrl({
+        age: ageLabel
+          ? recipeFinderSlugs.age[ageLabel as keyof typeof recipeFinderSlugs.age]
+          : undefined,
+        mealTime: mealLabel
+          ? recipeFinderSlugs.mealTime[mealLabel as keyof typeof recipeFinderSlugs.mealTime]
+          : undefined,
+        freeFrom: freeLabel
+          ? recipeFinderSlugs.freeFrom[freeLabel as keyof typeof recipeFinderSlugs.freeFrom]
+          : undefined,
+      }),
+    );
+  };
 
   const renderCollabArticle = (collab: CollabCard, reactKey: string, articleClassName: string) => (
     <article key={reactKey} className={articleClassName}>
@@ -536,7 +566,7 @@ export function HomePageContent() {
       </section>
 
       <section className="recipe-finder container py-4!">
-        <form className="finder-row" ref={finderRef}>
+        <form className="finder-row" ref={finderRef} onSubmit={handleFinderSubmit}>
           <label>
             <span className="finder-title  font-[900]!">Recipe</span>
             <input type="search"  placeholder="Search recipes" />

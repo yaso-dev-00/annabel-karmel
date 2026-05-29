@@ -1,0 +1,288 @@
+[
+  {
+    "slug": "choc-orange-marble-cake",
+    "title": "Choc Orange Marble Cake",
+    "href": "/recipes/choc-orange-marble-cake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/09/MARBLE-CAKE-1-1-scaled-e1741012470291-768x768-optimized.jpg"
+  },
+  {
+    "slug": "fruit-fries-with-lemon-dip",
+    "title": "Fruit Fries with Lemon Dip",
+    "href": "/recipes/fruit-fries-with-lemon-dip",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/06/IMG_2376-min-768x1152-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "little-bear-cupcakes",
+    "title": "Little Bear Cupcakes",
+    "href": "/recipes/little-bear-cupcakes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Teddy-Bear-Cupcakes-Copy-1-optimized.jpg"
+  },
+  {
+    "slug": "annabels-favourite-oat-raisin-cookies",
+    "title": "Annabel's Favourite Oat & Raisin Cookies",
+    "href": "/recipes/annabels-favourite-oat-raisin-cookies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/Oat-and-Raisin-Cookies-e1697029136335-768x768-optimized.jpg"
+  },
+  {
+    "slug": "blueberry-banana-bunny-muffins",
+    "title": "Blueberry & Banana Bunny Muffins",
+    "href": "/recipes/blueberry-banana-bunny-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/03/Blueberry-and-banana-bunny-muffins_V2-768x960-optimized.jpg"
+  },
+  {
+    "slug": "puff-pastry-apple-and-almond-tart",
+    "title": "Puff Pastry Apple & Almond Tarts",
+    "href": "/recipes/puff-pastry-apple-and-almond-tart",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2022/09/apple-pie-768x960-optimized.jpg"
+  },
+  {
+    "slug": "banana-carrot-loaf",
+    "title": "Banana & Carrot Bread",
+    "href": "/recipes/banana-carrot-loaf",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/03/YoghurtBanana_207-768x1152-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "no-bake-chocolate-fridge-cake",
+    "title": "Chocolate Fridge Cake",
+    "href": "/recipes/no-bake-chocolate-fridge-cake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/KC-Chocolate-Fridge-Cake-768x999-optimized.jpg"
+  },
+  {
+    "slug": "eggless-chocolate-chip-cookies",
+    "title": "Chocolate Chip Cookies",
+    "href": "/recipes/eggless-chocolate-chip-cookies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/02/20210206-AK08145-scaled-3-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "cranberry-pecan-cookies",
+    "title": "Cranberry & Pecan Cookies",
+    "href": "/recipes/cranberry-pecan-cookies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/20210206-AK08208-scaled-3-768x960-optimized.jpg"
+  },
+  {
+    "slug": "mint-chocolate-chip-ice-lollies",
+    "title": "Mint Chocolate Chip Ice Lollies",
+    "href": "/recipes/mint-chocolate-chip-ice-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2020/06/Mint-Chocolate-Chip-Ice-Lollies-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "ginger-heart-biscuits",
+    "title": "Ginger Heart Biscuits",
+    "href": "/recipes/ginger-heart-biscuits",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/heart-biscuits-optimized.jpeg"
+  },
+  {
+    "slug": "berry-and-white-choc-tart-2",
+    "title": "Berry & White Choc Tart",
+    "href": "/recipes/berry-and-white-choc-tart-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/berry-white-choc-tart-3-optimized.jpg"
+  },
+  {
+    "slug": "watermelon-mango-banana-lollies",
+    "title": "Watermelon, Mango & Banana Ice Lollies",
+    "href": "/recipes/watermelon-mango-banana-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2019/06/Watermelon-Mango-and-Banana-Lollies-2-1-768x512-optimized.jpg"
+  },
+  {
+    "slug": "banana-strawberry-ice-cream",
+    "title": "Banana & Strawberry Ice Cream",
+    "href": "/recipes/banana-strawberry-ice-cream",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2019/06/Banana-Strawberry-Ice-Cream-768x768-optimized.jpg"
+  },
+  {
+    "slug": "birthday-train-cake",
+    "title": "Birthday Train Cake",
+    "href": "/recipes/birthday-train-cake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/20190614_annabel2842-768x512-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "raspberry-ripple-mini-cheesecakes",
+    "title": "Raspberry Ripple Mini Cheesecakes",
+    "href": "/recipes/raspberry-ripple-mini-cheesecakes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/ch-optimized.jpg"
+  },
+  {
+    "slug": "the-best-buttermilk-pancakes",
+    "title": "The Best Buttermilk Pancakes",
+    "href": "/recipes/the-best-buttermilk-pancakes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2019/06/Buttermilk-Blueberry-Pancakes-768x768-optimized.jpg"
+  },
+  {
+    "slug": "princess-wands",
+    "title": "Princess Wands",
+    "href": "/recipes/princess-wands",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Fruitwands-768x764-optimized.jpg"
+  },
+  {
+    "slug": "fruit-granola-pots",
+    "title": "Fruit & Granola Pots",
+    "href": "/recipes/fruit-granola-pots",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Fruit-and-Granola-Princess-Pots-768x1025-optimized.jpg"
+  },
+  {
+    "slug": "oat-raisin-cookies-with-sunflower-seeds",
+    "title": "Oat & Raisin Cookies with Sunflower Seeds",
+    "href": "/recipes/oat-raisin-cookies-with-sunflower-seeds",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/INSTAGRAM-Oats-sunflower-seed-cookies-optimized.png"
+  },
+  {
+    "slug": "coconut-apricot-carrot-muffins",
+    "title": "Coconut, Apricot & Carrot Muffins",
+    "href": "/recipes/coconut-apricot-carrot-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Apricot-and-Coconut-Muffins-2-1-768x576-optimized.jpeg",
+    "appExclusive": true
+  },
+  {
+    "slug": "my-favourite-chocolate-muffins",
+    "title": "My Favourite Chocolate Muffins",
+    "href": "/recipes/my-favourite-chocolate-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/choc-muffins-optimized.png"
+  },
+  {
+    "slug": "gluten-free-muffins",
+    "title": "Gluten Free Muffins",
+    "href": "/recipes/gluten-free-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/APP-gluten-free-muffins-optimized.jpg"
+  },
+  {
+    "slug": "egg-dairy-free-chocolate-fudge-cake",
+    "title": "Vegan Chocolate Fudge Cake",
+    "href": "/recipes/egg-dairy-free-chocolate-fudge-cake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Egg_And_Dairy_Free_Chocolate_Fudge_Cake-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "peach-apple-blueberry-raspberry-crumble",
+    "title": "Peach, Apple, Blueberry & Raspberry Crumble",
+    "href": "/recipes/peach-apple-blueberry-raspberry-crumble",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/CRUMBLE-optimized.png"
+  },
+  {
+    "slug": "gluten-free-lemon-polenta-cake",
+    "title": "Gluten Free Lemon Polenta Cake",
+    "href": "/recipes/gluten-free-lemon-polenta-cake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/GlutenFreeCake-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "power-packed-oat-bars",
+    "title": "Power Oat Bars",
+    "href": "/recipes/power-packed-oat-bars",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Power-Packed-Oat-Bars-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "strawberry-sorbet",
+    "title": "Strawberry Sorbet Ice Lollies",
+    "href": "/recipes/strawberry-sorbet",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Strawberry-Sorbet-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "lemon-cheesecake",
+    "title": "Lemon Cheesecake",
+    "href": "/recipes/lemon-cheesecake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Lemon-Cheesecake-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "blackberry-and-apple-crumble",
+    "title": "Blackberry & Apple Crumble",
+    "href": "/recipes/blackberry-and-apple-crumble",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Blackberry-and-Apple-Crumble-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "carrot-cupcakes",
+    "title": "Carrot Cupcakes",
+    "href": "/recipes/carrot-cupcakes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Carrot-cupcakes-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "lychee-frozen-yoghurt",
+    "title": "Lychee Frozen Yoghurt",
+    "href": "/recipes/lychee-frozen-yoghurt",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Frozen-lychee-yoghurt-3-768x576-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "strawberry-watermelon-ice-lollies",
+    "title": "Strawberry & Watermelon Ice Lollies",
+    "href": "/recipes/strawberry-watermelon-ice-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Watermelon-Ice-Lollies-3-768x576-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "banana-muffins",
+    "title": "Banana Muffins",
+    "href": "/recipes/banana-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/BananaMuffins-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "flapjacks",
+    "title": "Flapjacks",
+    "href": "/recipes/flapjacks",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Annabels-Oat-Bars-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "crepe-recipe",
+    "title": "Crepe Recipe",
+    "href": "/recipes/crepe-recipe",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/CrepeRecipe-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "banana-ice-cream",
+    "title": "Banana Ice Cream",
+    "href": "/recipes/banana-ice-cream",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Banana-Ice-Cream-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "traffic-light-ice-lollies",
+    "title": "Traffic Light Ice Lollies",
+    "href": "/recipes/traffic-light-ice-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Traffic-Light-Lollies-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "apricot-white-chocolate-cereal-bars",
+    "title": "Apricot & White Chocolate Cereal Bars",
+    "href": "/recipes/apricot-white-chocolate-cereal-bars",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/ApricotCerealBars-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "easy-cupcakes",
+    "title": "Easy Cupcakes",
+    "href": "/recipes/easy-cupcakes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Easy-Cupcakes-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "apple-almond-cake",
+    "title": "Apple & Almond Cake",
+    "href": "/recipes/apple-almond-cake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Apple-and-Almond-Cake-1-3-768x576-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "peach-raspberry-apple-crumble",
+    "title": "Peach, Raspberry & Apple Crumble",
+    "href": "/recipes/peach-raspberry-apple-crumble",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Peach-Raspberry-and-Apple-Crumble-3-optimized.jpg"
+  },
+  {
+    "slug": "raspberry-blackberry-crumble",
+    "title": "Raspberry & Blackberry Crumble",
+    "href": "/recipes/raspberry-blackberry-crumble",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Raspberry_Blackberry_Crumble-3-768x768-optimized.jpg"
+  },
+  {
+    "slug": "mini-lemon-cheesecakes",
+    "title": "Mini Lemon Cheesecakes",
+    "href": "/recipes/mini-lemon-cheesecakes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Mini_Lemon_Cheesecakes-3-768x768-optimized.jpg"
+  },
+  {
+    "slug": "chocolate-orange-brownies",
+    "title": "Chocolate Orange Brownies",
+    "href": "/recipes/chocolate-orange-brownies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/chocolate-orange-brownies-3625-111143_work-3-768x736-optimized.jpg"
+  }
+]

@@ -1,0 +1,818 @@
+[
+  {
+    "slug": "nuggets-with-sweet-potato-wedges-veggies",
+    "title": "Nuggets with Sweet Potato Wedges & Veggies",
+    "href": "/recipes/nuggets-with-sweet-potato-wedges-veggies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/Meat-Free-Nuggets-with-Sweet-Potato-Wedges-Veggies-768x768-optimized.jpg"
+  },
+  {
+    "slug": "nuggets-party-platter",
+    "title": "Nuggets Party Platter",
+    "href": "/recipes/nuggets-party-platter",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/Meat-free-Nuggets-Party-platter-768x768-optimized.jpg"
+  },
+  {
+    "slug": "nugget-katsu-curry",
+    "title": "Nugget Katsu Curry",
+    "href": "/recipes/nugget-katsu-curry",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/Meat-Free-Nuggets-with-Rice-Curry-Sauce-Veggies-768x768-optimized.jpg"
+  },
+  {
+    "slug": "mini-burgers-grazing-platter",
+    "title": "Mini Burgers Grazing Platter",
+    "href": "/recipes/mini-burgers-grazing-platter",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/Meat-Free-Party-Platter-768x768-optimized.jpg"
+  },
+  {
+    "slug": "salmon-spinach-fritters-2",
+    "title": "Salmon & Spinach Fritters",
+    "href": "/recipes/salmon-spinach-fritters-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/02/Salmon-and-Spinach-Fritters-p.185-768x1006-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "104277",
+    "title": "Easy Teriyaki Salmon",
+    "href": "/recipes/104277",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/09/SALMON-1-1-768x960-optimized.jpg"
+  },
+  {
+    "slug": "mamma-mia-veggie-bolognese",
+    "title": "Mamma Mia Veggie Bolognese",
+    "href": "/recipes/mamma-mia-veggie-bolognese",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/garofalo-Mamma-Mia-Veggie-Bolognese-768x960-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "tomato-rice-with-chicken-peas",
+    "title": "Tomato Rice with Chicken & Peas",
+    "href": "/recipes/tomato-rice-with-chicken-peas",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Tomato-Rice-with-Chicken-Peas-768x960-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "5-veg-tomato-pasta",
+    "title": "5 Veg Tomato Pasta",
+    "href": "/recipes/5-veg-tomato-pasta",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Garofalo-5-Veg-Tomato-Pasta-768x960-1-optimized.jpg"
+  },
+  {
+    "slug": "peanut-butter-cranberry-energy-balls",
+    "title": "Peanut Butter & Cranberry Energy Balls",
+    "href": "/recipes/peanut-butter-cranberry-energy-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Symprove_Energy-balls_SQ-768x768-1-optimized.jpg"
+  },
+  {
+    "slug": "miso-salmon-quinoa-bowl",
+    "title": "Miso Salmon & Quinoa Bowl",
+    "href": "/recipes/miso-salmon-quinoa-bowl",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Symprove_Miso-salmon_5x4-1-768x960-1-optimized.jpg"
+  },
+  {
+    "slug": "thai-turkey-balls-in-coconut-sauce",
+    "title": "Thai Turkey Balls in Coconut Sauce",
+    "href": "/recipes/thai-turkey-balls-in-coconut-sauce",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Symprove_Thai-chic-balls_SQ-768x768-1-optimized.jpg"
+  },
+  {
+    "slug": "frozen-yoghurt-bark",
+    "title": "Frozen Yoghurt Bark",
+    "href": "/recipes/frozen-yoghurt-bark",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/02/Untitled-1-copy-min-768x960-1-optimized.jpg"
+  },
+  {
+    "slug": "frittata-muffins-2",
+    "title": "Frittata Muffins",
+    "href": "/recipes/frittata-muffins-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/02/Frittata-Muffins-768x1152-1-optimized.jpg"
+  },
+  {
+    "slug": "roast-chicken-veg-traybake",
+    "title": "Roast Chicken & Veg Traybake",
+    "href": "/recipes/roast-chicken-veg-traybake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/02/Roast-Chic-traybake_V3_SQ-768x768-optimized.jpg"
+  },
+  {
+    "slug": "sweetcorn-veggie-curry",
+    "title": "Sweetcorn & Veggie Curry",
+    "href": "/recipes/sweetcorn-veggie-curry",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/Veggie-Curry-Green-Giant-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "superfood-veggie-croquettes-2",
+    "title": "Superfood Veggie Croquettes",
+    "href": "/recipes/superfood-veggie-croquettes-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/croquettes-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "hidden-veg-chicken-bolognese",
+    "title": "Hidden Veg Chicken Bolognese",
+    "href": "/recipes/hidden-veg-chicken-bolognese",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Hiddenveg-chic-bolognese_5x4-min-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "hidden-veggie-tomato-sauce",
+    "title": "Hidden Veggie Tomato Sauce",
+    "href": "/recipes/hidden-veggie-tomato-sauce",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/Hidden-veg-sauce_V2-768x1055-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "crispy-chicken-sweetcorn-croquettes",
+    "title": "Crispy Chicken & Sweetcorn Croquettes",
+    "href": "/recipes/crispy-chicken-sweetcorn-croquettes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/08/GG_Sweetcorn-and-chic-croquettes_V2_5x4-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "sweet-potato-apple-cinnamon-muffins",
+    "title": "Sweet Potato, Apple & Cinnamon Muffins",
+    "href": "/recipes/sweet-potato-apple-cinnamon-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/08/Sweet-Potato-Muffins-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "vegan-bunny-burger",
+    "title": "Vegan Bunny Burger",
+    "href": "/recipes/vegan-bunny-burger",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/05/Vegan-burger_SQ-768x768-optimized.jpg"
+  },
+  {
+    "slug": "pulled-chicken-burger",
+    "title": "Pulled Chicken Burger",
+    "href": "/recipes/pulled-chicken-burger",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/05/Pulled-chic-burger_SQ-768x768-optimized.jpg"
+  },
+  {
+    "slug": "tomato-avocado-bruschetta",
+    "title": "Tomato & Avocado Bruschetta",
+    "href": "/recipes/tomato-avocado-bruschetta",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/20230321-AK8131-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "roasted-piccolo-tomato-sauce",
+    "title": "Roasted Piccolo Tomato Sauce",
+    "href": "/recipes/roasted-piccolo-tomato-sauce",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/20230321-AK8114-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "vroom-vroom-sandwiches",
+    "title": "Vroom Vroom Sandwiches",
+    "href": "/recipes/vroom-vroom-sandwiches",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/02/Open-rye-bread-sandwiches_SQ-1-768x768-optimized.jpg"
+  },
+  {
+    "slug": "hidden-veg-chicken-sausages",
+    "title": "Hidden Veg Chicken Sausages",
+    "href": "/recipes/hidden-veg-chicken-sausages",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Chic-and-veg-sausages_SQ-scaled-e1701170841848-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "roasted-vegetable-soup",
+    "title": "Roasted Vegetable Soup",
+    "href": "/recipes/roasted-vegetable-soup",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/Roasted-Vegetable-Soup-2-min-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-plum-wrap",
+    "title": "Chicken & Plum Wrap",
+    "href": "/recipes/chicken-plum-wrap",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Chicken-Wraps-with-Plum-Sauce-and-Cucumber-768x769-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "hidden-vegetable-tomato-sauce",
+    "title": "Hidden Vegetable Tomato Sauce",
+    "href": "/recipes/hidden-vegetable-tomato-sauce",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/20220419-AK00073-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "plant-based-veggie-croquettes",
+    "title": "Plant-Based Veggie Croquettes",
+    "href": "/recipes/plant-based-veggie-croquettes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Plant-based-veggie-croquettes-scaled-3-768x768-optimized.jpg"
+  },
+  {
+    "slug": "vegan-tikka-masala",
+    "title": "Vegan Tofu & Butternut Squash Tikka Masala",
+    "href": "/recipes/vegan-tikka-masala",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/20220107-AK9505-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "sweet-potato-spinach",
+    "title": "Sweet Potato & Spinach Puree",
+    "href": "/recipes/sweet-potato-spinach",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Sweet-potato-spinach-min-768x768-optimized.jpg"
+  },
+  {
+    "slug": "butternut-squash-parsnip",
+    "title": "Butternut Squash & Parsnip Puree",
+    "href": "/recipes/butternut-squash-parsnip",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/Butternut-Squash-and-Parsnip-min-768x768-optimized.jpg"
+  },
+  {
+    "slug": "apple-puree-2",
+    "title": "First Apple Puree",
+    "href": "/recipes/apple-puree-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/02/Apple-Puree-min-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "thai-vegetable-curry",
+    "title": "Thai Vegetable Curry",
+    "href": "/recipes/thai-vegetable-curry",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/20220830-AK6140-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "turkey-vegetable-rice-salad",
+    "title": "Turkey & Vegetable Rice Salad",
+    "href": "/recipes/turkey-vegetable-rice-salad",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/20220816-AK5554-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "purple-porridge",
+    "title": "Purple Porridge",
+    "href": "/recipes/purple-porridge",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/Purple-Porridge-768x768-optimized.jpg"
+  },
+  {
+    "slug": "96091",
+    "title": "Salmon Balls",
+    "href": "/recipes/96091",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/20180112_annabel_salmonballs-768x512-optimized.jpg"
+  },
+  {
+    "slug": "chicken-and-apple-balls",
+    "title": "Chicken & Apple Balls",
+    "href": "/recipes/chicken-and-apple-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/Chicken-and-apple-balls-768x1002-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-tomato-coconut-curry",
+    "title": "Chicken, Tomato & Coconut curry",
+    "href": "/recipes/chicken-tomato-coconut-curry",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2022/04/20220419-AK00130-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-apple-carrot-balls",
+    "title": "Chicken, Apple & Carrot Balls",
+    "href": "/recipes/chicken-apple-carrot-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/chicken-balls-768x768-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "egg-and-dairy-free-meatballs",
+    "title": "Egg & Dairy-free Meatballs",
+    "href": "/recipes/egg-and-dairy-free-meatballs",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/thumbnail_image005-768x961-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "tofu-veggie-bites",
+    "title": "Tofu & Veggie Bites",
+    "href": "/recipes/tofu-veggie-bites",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2022/01/20220105-AK01441_1-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "egg-free-chicken-veggie-bites",
+    "title": "Egg Free Chicken & Veggie Bites",
+    "href": "/recipes/egg-free-chicken-veggie-bites",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2022/01/20220105-AK01414-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "potato-broccoli-and-pea-puree",
+    "title": "Potato, Broccoli & Pea Puree",
+    "href": "/recipes/potato-broccoli-and-pea-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/Broccoli-Pea-and-Potato-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "mildly-spiced-chicken-with-apricots",
+    "title": "Mildly Spiced Chicken Puree with Apricots",
+    "href": "/recipes/mildly-spiced-chicken-with-apricots",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2022/03/20220301-AK07919-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "vroom-vroom-veggie-packed-bolognese",
+    "title": "Vroom Vroom Veggie-packed Bolognese",
+    "href": "/recipes/vroom-vroom-veggie-packed-bolognese",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/KC-Spaghetti-Bolognese-1-768x980-optimized.jpg"
+  },
+  {
+    "slug": "popcorn-chicken-sweet-potato-fries",
+    "title": "Popcorn Chicken & Sweet Potato Fries",
+    "href": "/recipes/popcorn-chicken-sweet-potato-fries",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/09/KC-Popcorn-Chicken-768x980-optimized.jpg"
+  },
+  {
+    "slug": "roasted-vegetable-finger-foods",
+    "title": "Roasted Vegetable Finger Foods",
+    "href": "/recipes/roasted-vegetable-finger-foods",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/20210420-AK03483-768x960-optimized.jpg"
+  },
+  {
+    "slug": "fruit-veg-ice-lollies",
+    "title": "Fruit & Veg Ice Lollies",
+    "href": "/recipes/fruit-veg-ice-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/ice-lollies-768x768-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "green-smoothie",
+    "title": "Green Smoothie",
+    "href": "/recipes/green-smoothie",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/20210525-AK08020-768x960-optimized.jpg"
+  },
+  {
+    "slug": "cranberry-pecan-cookies",
+    "title": "Cranberry & Pecan Cookies",
+    "href": "/recipes/cranberry-pecan-cookies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/20210206-AK08208-scaled-3-768x960-optimized.jpg"
+  },
+  {
+    "slug": "tasty-meatless-bolognese",
+    "title": "Tasty Meatless Bolognese",
+    "href": "/recipes/tasty-meatless-bolognese",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/20201004-AK00297-768x960-optimized.jpg"
+  },
+  {
+    "slug": "chicken-sweetcorn-wraps-with-spinach",
+    "title": "Chicken & Sweetcorn Wraps with Spinach",
+    "href": "/recipes/chicken-sweetcorn-wraps-with-spinach",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2020/08/20200704-AK03012-768x768-optimized.jpg"
+  },
+  {
+    "slug": "no-sugar-chocolate-orange-energy-balls",
+    "title": "No-Sugar Chocolate Orange Energy Balls",
+    "href": "/recipes/no-sugar-chocolate-orange-energy-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/No-Sugar-Chocolate-Orange-Energy-Balls-768x1152-optimized.jpg"
+  },
+  {
+    "slug": "almond-milk-porridge-with-berries",
+    "title": "Almond Milk Porridge with Berries",
+    "href": "/recipes/almond-milk-porridge-with-berries",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/almond-milk-porridge-768x716-optimized.jpg"
+  },
+  {
+    "slug": "super-salmon-puree",
+    "title": "Super Salmon Puree",
+    "href": "/recipes/super-salmon-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2020/08/20200704-AK03608-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "one-pan-egg-veg",
+    "title": "One-pan Egg & Veg",
+    "href": "/recipes/one-pan-egg-veg",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/One-pan-egg-veg-768x768-optimized.png"
+  },
+  {
+    "slug": "sweet-potato-spinach-nests",
+    "title": "Sweet Potato & Spinach Nests",
+    "href": "/recipes/sweet-potato-spinach-nests",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/SWEET-POTATO-SPINACH-NESTS-768x768-optimized.png"
+  },
+  {
+    "slug": "chicken-balls-with-tomato-carrot-sauce",
+    "title": "Chicken Balls with Tomato & Carrot Sauce",
+    "href": "/recipes/chicken-balls-with-tomato-carrot-sauce",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/chicken-balls-768x755-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "watermelon-mango-banana-lollies",
+    "title": "Watermelon, Mango & Banana Ice Lollies",
+    "href": "/recipes/watermelon-mango-banana-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2019/06/Watermelon-Mango-and-Banana-Lollies-2-1-768x512-optimized.jpg"
+  },
+  {
+    "slug": "banana-strawberry-ice-cream",
+    "title": "Banana & Strawberry Ice Cream",
+    "href": "/recipes/banana-strawberry-ice-cream",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2019/06/Banana-Strawberry-Ice-Cream-768x768-optimized.jpg"
+  },
+  {
+    "slug": "funny-face-noodle-stir-fry",
+    "title": "Funny Face Noodle Stir Fry",
+    "href": "/recipes/funny-face-noodle-stir-fry",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/FUNNY-FACE-NOODLE-STIR-FRY-1-1-optimized.jpg"
+  },
+  {
+    "slug": "roasted-cherry-tomato-soup",
+    "title": "Roasted Cherry Tomato Soup",
+    "href": "/recipes/roasted-cherry-tomato-soup",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/5_Hidden-Vegetable-Tomato-Soup-1-optimized.jpg"
+  },
+  {
+    "slug": "crispy-cod-with-sweet-potato-chips",
+    "title": "Crispy Cod with Sweet Potato Chips",
+    "href": "/recipes/crispy-cod-with-sweet-potato-chips",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/20180118_annabel_fishandchips-768x1152-optimized.jpg"
+  },
+  {
+    "slug": "summer-veggie-frittata",
+    "title": "Summer Veggie Frittata",
+    "href": "/recipes/summer-veggie-frittata",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Frittata-with-Potato-Spinach-Sweet-Pepper-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "fruity-chicken-with-apricots-sweet-potato",
+    "title": "Fruity Chicken with Apricots & Sweet Potato Puree",
+    "href": "/recipes/fruity-chicken-with-apricots-sweet-potato",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Fruity-Chicken-with-Apricots-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "perfect-roast-beef",
+    "title": "Perfect Roast Beef",
+    "href": "/recipes/perfect-roast-beef",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/AK-1809201806990-768x768-optimized.jpg"
+  },
+  {
+    "slug": "princess-wands",
+    "title": "Princess Wands",
+    "href": "/recipes/princess-wands",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Fruitwands-768x764-optimized.jpg"
+  },
+  {
+    "slug": "pulled-chicken-baps",
+    "title": "Pulled Chicken Baps",
+    "href": "/recipes/pulled-chicken-baps",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/CHICKEN-BAP-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "potato-carrot-and-sweetcorn-balls",
+    "title": "Potato, Carrot and Sweetcorn Balls",
+    "href": "/recipes/potato-carrot-and-sweetcorn-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Potato-carrot-and-sweetcorn-balls-768x576-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "vegetable-pad-thai",
+    "title": "Vegetable Pad Thai",
+    "href": "/recipes/vegetable-pad-thai",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Vegetable-Pad-Thai-3854-45238work-768x768-optimized.jpg"
+  },
+  {
+    "slug": "giant-couscous-salad",
+    "title": "Giant Couscous Salad",
+    "href": "/recipes/giant-couscous-salad",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/06/Giant-Couscous-Salad-768x960-optimized.jpg"
+  },
+  {
+    "slug": "salmon-cod-burgers",
+    "title": "Salmon & Cod Burgers",
+    "href": "/recipes/salmon-cod-burgers",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/HF_FishBurgers_HardLight_Work-768x913-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "banana-puree",
+    "title": "Banana Puree",
+    "href": "/recipes/banana-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Banana-Puree-scaled-3-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "annabels-sizzling-sesame-beef-stir-fry",
+    "title": "Annabel’s Sizzling Sesame Beef Stir-Fry",
+    "href": "/recipes/annabels-sizzling-sesame-beef-stir-fry",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/1187-AnnabelsSizzlingSesameBeefStirFry_018989-768x575-optimized.jpg"
+  },
+  {
+    "slug": "annabels-glazed-salmon-chinese-rice",
+    "title": "Sticky Salmon & Rice",
+    "href": "/recipes/annabels-glazed-salmon-chinese-rice",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/salmon-768x633-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "annabels-perfect-pad-thai",
+    "title": "Annabel's Perfect Pad Thai",
+    "href": "/recipes/annabels-perfect-pad-thai",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/1064-AnnabelsPerfectPadThai_018709-768x575-optimized.jpg"
+  },
+  {
+    "slug": "annabels-super-sweet-n-sour-chicken",
+    "title": "Annabel's Super Sweet ‘N' Sour Chicken",
+    "href": "/recipes/annabels-super-sweet-n-sour-chicken",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/1048-AnnabelsSweetNSourChicken_018694-768x575-optimized.jpg"
+  },
+  {
+    "slug": "teriyaki-chicken-balls",
+    "title": "Teriyaki Chicken Balls",
+    "href": "/recipes/teriyaki-chicken-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Teriyaki-Chicken-Balls-7-e1547812312859-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "apple-and-pear-puree",
+    "title": "Apple & Pear Puree",
+    "href": "/recipes/apple-and-pear-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/apple-and-pear-puree-3493-088805-4-768x872-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "cheats-spring-rolls",
+    "title": "Cheat’s Spring Rolls",
+    "href": "/recipes/cheats-spring-rolls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/spring-rolls-BLW-optimized.png"
+  },
+  {
+    "slug": "coconut-apricot-carrot-muffins",
+    "title": "Coconut, Apricot & Carrot Muffins",
+    "href": "/recipes/coconut-apricot-carrot-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Apricot-and-Coconut-Muffins-2-1-768x576-optimized.jpeg",
+    "appExclusive": true
+  },
+  {
+    "slug": "mini-burgers",
+    "title": "Mini Burgers",
+    "href": "/recipes/mini-burgers",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/burger-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "egg-dairy-free-chocolate-fudge-cake",
+    "title": "Vegan Chocolate Fudge Cake",
+    "href": "/recipes/egg-dairy-free-chocolate-fudge-cake",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Egg_And_Dairy_Free_Chocolate_Fudge_Cake-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "cod-salmon-quinoa-balls",
+    "title": "Cod & Salmon Quinoa Balls",
+    "href": "/recipes/cod-salmon-quinoa-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/salmon-quinoa-balls-optimized.jpg"
+  },
+  {
+    "slug": "mini-energy-balls",
+    "title": "Mini Energy Balls",
+    "href": "/recipes/mini-energy-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/BLW-energy-balls-optimized.png"
+  },
+  {
+    "slug": "mediterranean-oven-baked-chicken-drumsticks",
+    "title": "Mediterranean Oven-Baked Chicken Drumsticks",
+    "href": "/recipes/mediterranean-oven-baked-chicken-drumsticks",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Mediterranean-Oven-Baked-Chicken-Drumsticks-optimized.png"
+  },
+  {
+    "slug": "leg-of-lamb-with-spring-veggies",
+    "title": "Leg of Lamb with Spring Veggies",
+    "href": "/recipes/leg-of-lamb-with-spring-veggies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/roast-lamb-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-balls-with-spaghetti-tomato-sauce",
+    "title": "Chicken Balls with Spaghetti & Tomato Sauce",
+    "href": "/recipes/chicken-balls-with-spaghetti-tomato-sauce",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/pasta-with-balls-optimized.png"
+  },
+  {
+    "slug": "honeyed-lamb-cutlets",
+    "title": "Honeyed Lamb Cutlets",
+    "href": "/recipes/honeyed-lamb-cutlets",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/lamb-chops-optimized.png"
+  },
+  {
+    "slug": "salmon-teriyaki",
+    "title": "Salmon Teriyaki",
+    "href": "/recipes/salmon-teriyaki",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/salmon-optimized.png"
+  },
+  {
+    "slug": "roast-chicken-herb-stuffing",
+    "title": "Roast Chicken & Herb Stuffing",
+    "href": "/recipes/roast-chicken-herb-stuffing",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/chicken-optimized.png"
+  },
+  {
+    "slug": "avocado-puree",
+    "title": "Avocado Puree",
+    "href": "/recipes/avocado-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/Avocado-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "tomato-veggie-spaghetti",
+    "title": "Tomato & Veggie Spaghetti",
+    "href": "/recipes/tomato-veggie-spaghetti",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/tomato-veggie-spaghetti-optimized.png"
+  },
+  {
+    "slug": "chicken-on-the-griddle",
+    "title": "Chicken on the Griddle",
+    "href": "/recipes/chicken-on-the-griddle",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Chicken-on-the-griddle-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "healthier-hamburgers",
+    "title": "Healthier Hamburgers",
+    "href": "/recipes/healthier-hamburgers",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Healthier-Hamburgers-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "mummys-pot-noodle",
+    "title": "Mummy's Pot Noodle",
+    "href": "/recipes/mummys-pot-noodle",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Mummys-Pot-Noodle-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "lovely-lentils",
+    "title": "Lovely Lentils",
+    "href": "/recipes/lovely-lentils",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/07/Lovely-Lentils-min-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "papaya-puree",
+    "title": "Papaya Puree",
+    "href": "/recipes/papaya-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Papaya-Puree-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "babys-first-bolognese-sauce-2",
+    "title": "Baby's First Bolognese Sauce",
+    "href": "/recipes/babys-first-bolognese-sauce-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Bolognese2-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "salmon-skewers",
+    "title": "Salmon Skewers",
+    "href": "/recipes/salmon-skewers",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/SalmonSkewers-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "power-packed-oat-bars",
+    "title": "Power Oat Bars",
+    "href": "/recipes/power-packed-oat-bars",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Power-Packed-Oat-Bars-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "annabels-granola",
+    "title": "Annabel's Granola",
+    "href": "/recipes/annabels-granola",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Annabels-Granola-3-min-768x576-optimized.jpg"
+  },
+  {
+    "slug": "beef-casserole-for-baby",
+    "title": "Beef Casserole for Baby",
+    "href": "/recipes/beef-casserole-for-baby",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/beefcasserole-3-768x576-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "first-veg-puree",
+    "title": "First Veg Puree",
+    "href": "/recipes/first-veg-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/first-vegetable-puree-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "chicken-with-summer-vegetables",
+    "title": "Chicken with Summer Vegetables",
+    "href": "/recipes/chicken-with-summer-vegetables",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/chicken-with-summer-vegetables-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "chicken-soup-recipe",
+    "title": "Chicken Soup Recipe",
+    "href": "/recipes/chicken-soup-recipe",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/ChickenSoup-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "strawberry-watermelon-ice-lollies",
+    "title": "Strawberry & Watermelon Ice Lollies",
+    "href": "/recipes/strawberry-watermelon-ice-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Watermelon-Ice-Lollies-3-768x576-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "banana-muffins",
+    "title": "Banana Muffins",
+    "href": "/recipes/banana-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/BananaMuffins-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "moroccan-lamb-with-couscous",
+    "title": "Moroccan Lamb with Couscous",
+    "href": "/recipes/moroccan-lamb-with-couscous",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Moroccan-lamb-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "traffic-light-ice-lollies",
+    "title": "Traffic Light Ice Lollies",
+    "href": "/recipes/traffic-light-ice-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Traffic-Light-Lollies-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "chilli-con-carne",
+    "title": "Chilli Con Carne",
+    "href": "/recipes/chilli-con-carne",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Chilli-Con-Carne-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "pumpkin-puree",
+    "title": "Pumpkin Puree",
+    "href": "/recipes/pumpkin-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Pumpkin_puree-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "banana-peach-strawberry-puree",
+    "title": "Banana, Peach & Strawberry Puree",
+    "href": "/recipes/banana-peach-strawberry-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Banana-Peach-and-Strawberry-Puree-3-768x576-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "thai-style-chicken-stir-fry",
+    "title": "Thai-Style Chicken Stir Fry",
+    "href": "/recipes/thai-style-chicken-stir-fry",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Thai-Style-Chicken-Stir-Fry-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "mulligatawny-chicken-curry",
+    "title": "Mulligatawny Chicken Curry",
+    "href": "/recipes/mulligatawny-chicken-curry",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Mulligatawny-Chicken-Curry-3-768x768-optimized.jpg"
+  },
+  {
+    "slug": "oriental-chicken-balls",
+    "title": "Oriental Chicken Balls",
+    "href": "/recipes/oriental-chicken-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Oriental-Chicken-Balls-3-768x768-optimized.jpg"
+  },
+  {
+    "slug": "potato-chicken-rosti",
+    "title": "Potato & Chicken Rosti",
+    "href": "/recipes/potato-chicken-rosti",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Potato-Chicken-Rosti-3-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "perfect-paella",
+    "title": "Perfect Paella",
+    "href": "/recipes/perfect-paella",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/paella-1020-x-1020-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "peach-apple-strawberry-puree",
+    "title": "Peach, Apple & Strawberry Puree",
+    "href": "/recipes/peach-apple-strawberry-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Peach_Apple_Strawberry_Puree-3-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "pear-puree",
+    "title": "Pear Puree",
+    "href": "/recipes/pear-puree",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Pear-puree-2-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "apple-carrot-muffins-with-maple-syrup",
+    "title": "Apple & Carrot Muffins with Maple Syrup",
+    "href": "/recipes/apple-carrot-muffins-with-maple-syrup",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/apple-carrot-muffins-3-optimized.jpg"
+  },
+  {
+    "slug": "parsnip-spinach-sweet-potato",
+    "title": "Parsnip, Spinach & Sweet Potato Puree",
+    "href": "/recipes/parsnip-spinach-sweet-potato",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/parsnip-spinach-sweetpotato-3-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "butternut-squash-pea-broccoli-and-kale",
+    "title": "Butternut Squash, Pea, Broccoli and Kale Puree",
+    "href": "/recipes/butternut-squash-pea-broccoli-and-kale",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Butternutsquash_kale_broc_pea-3-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-in-a-bbq-sauce",
+    "title": "Chicken in a BBQ Sauce",
+    "href": "/recipes/chicken-in-a-bbq-sauce",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/HF_ChickenBBQSauce2WorkLres-4-768x1024-optimized.jpg"
+  }
+]

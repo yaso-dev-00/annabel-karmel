@@ -258,8 +258,17 @@ a {
 }
 
 .menu-item > button:hover,
-.menu-item > button[aria-expanded="true"] {
+.menu-item > button[aria-expanded="true"],
+.menu-item > button.is-active {
   background: #f2f2f2;
+}
+
+.menu-item > button.is-active {
+  color: #8f2f58;
+}
+
+.menu-item > button.is-active .menu-caret {
+  color: #8f2f58;
 }
 
 .mega-panel {
@@ -333,9 +342,14 @@ a {
     background-color var(--transition-fast);
 }
 
-.mega-panel a:hover {
+.mega-panel a:hover,
+.mega-panel a.is-active {
   color: #8f2f58;
   background: #f6e9ef;
+}
+
+.mega-panel a.is-active {
+  font-weight: 600;
 }
 
 .mobile-toggle {

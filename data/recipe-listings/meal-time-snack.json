@@ -1,0 +1,535 @@
+[
+  {
+    "slug": "nuggets-party-platter",
+    "title": "Nuggets Party Platter",
+    "href": "/recipes/nuggets-party-platter",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/Meat-free-Nuggets-Party-platter-768x768-optimized.jpg"
+  },
+  {
+    "slug": "mini-burgers-grazing-platter",
+    "title": "Mini Burgers Grazing Platter",
+    "href": "/recipes/mini-burgers-grazing-platter",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/Meat-Free-Party-Platter-768x768-optimized.jpg"
+  },
+  {
+    "slug": "chicken-pea-tots",
+    "title": "Chicken & Pea Tots",
+    "href": "/recipes/chicken-pea-tots",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/05/CHICKEN-PEA-TOTS-6-768x960-optimized.jpg"
+  },
+  {
+    "slug": "easy-peasy-fritters",
+    "title": "Easy Peasy Fritters",
+    "href": "/recipes/easy-peasy-fritters",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/EASY-PEASY-FRITTERS--768x960-optimized.jpg"
+  },
+  {
+    "slug": "spinach-sweethearts",
+    "title": "Spinach Sweethearts",
+    "href": "/recipes/spinach-sweethearts",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/08/Hulk-hearts-768x960-optimized.jpg"
+  },
+  {
+    "slug": "sweet-potato-peanut-butter-teething-rings",
+    "title": "Sweet Potato & Peanut Butter Teething Rings",
+    "href": "/recipes/sweet-potato-peanut-butter-teething-rings",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/02/Sweet-Potato-Peanut-Butter-Teething-Rings-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "salmon-spinach-fritters-2",
+    "title": "Salmon & Spinach Fritters",
+    "href": "/recipes/salmon-spinach-fritters-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/02/Salmon-and-Spinach-Fritters-p.185-768x1006-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "sweet-potato-chicken-croquettes-2",
+    "title": "Sweet Potato & Chicken Croquettes",
+    "href": "/recipes/sweet-potato-chicken-croquettes-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/02/Sweet-Potato-and-Chicken-Croquettes-p.126-768x1008-1-optimized.jpg"
+  },
+  {
+    "slug": "mac-n-cheese-veggie-muffins",
+    "title": "Mac ‘n' Cheese Veggie Muffins",
+    "href": "/recipes/mac-n-cheese-veggie-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/02/Mac-‘n-Cheese-Veggie-Muffin-p.99-768x1118-1-optimized.jpg"
+  },
+  {
+    "slug": "easy-5-veg-croquettes",
+    "title": "Easy 5-Veg Croquettes",
+    "href": "/recipes/easy-5-veg-croquettes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/09/CROQUETTES-2-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "veggie-frittata-fingers",
+    "title": "Veggie Frittata Fingers",
+    "href": "/recipes/veggie-frittata-fingers",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/10/AKBABY3-scaled-e1729072983537-768x768-optimized.jpg"
+  },
+  {
+    "slug": "chicken-veggie-stars-2",
+    "title": "Chicken & Veggie Stars",
+    "href": "/recipes/chicken-veggie-stars-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/10/AKBABY1-scaled-e1729073097778-768x768-optimized.jpg"
+  },
+  {
+    "slug": "fruit-fries-with-lemon-dip",
+    "title": "Fruit Fries with Lemon Dip",
+    "href": "/recipes/fruit-fries-with-lemon-dip",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/06/IMG_2376-min-768x1152-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "tomato-mini-muffins",
+    "title": "Tomato Mini Muffins",
+    "href": "/recipes/tomato-mini-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Tomato-Mini-Muffins-768x960-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "veggie-and-tomato-stars",
+    "title": "Veggie & Tomato Stars",
+    "href": "/recipes/veggie-and-tomato-stars",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Veggie-and-Tomato-Stars-768x960-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "mini-cherry-tomato-veggie-frittatas",
+    "title": "Mini Cherry Tomato & Veggie Frittatas",
+    "href": "/recipes/mini-cherry-tomato-veggie-frittatas",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Mini-Cherry-Tomato-Veggie-Frittatas-768x960-1-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "peanut-butter-cranberry-energy-balls",
+    "title": "Peanut Butter & Cranberry Energy Balls",
+    "href": "/recipes/peanut-butter-cranberry-energy-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Symprove_Energy-balls_SQ-768x768-1-optimized.jpg"
+  },
+  {
+    "slug": "frozen-yoghurt-bark",
+    "title": "Frozen Yoghurt Bark",
+    "href": "/recipes/frozen-yoghurt-bark",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/02/Untitled-1-copy-min-768x960-1-optimized.jpg"
+  },
+  {
+    "slug": "frittata-muffins-2",
+    "title": "Frittata Muffins",
+    "href": "/recipes/frittata-muffins-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/02/Frittata-Muffins-768x1152-1-optimized.jpg"
+  },
+  {
+    "slug": "superfood-veggie-croquettes-2",
+    "title": "Superfood Veggie Croquettes",
+    "href": "/recipes/superfood-veggie-croquettes-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/croquettes-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "little-bear-cupcakes",
+    "title": "Little Bear Cupcakes",
+    "href": "/recipes/little-bear-cupcakes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Teddy-Bear-Cupcakes-Copy-1-optimized.jpg"
+  },
+  {
+    "slug": "cheesy-sweetcorn-loaf",
+    "title": "Cheesy Sweetcorn Loaf",
+    "href": "/recipes/cheesy-sweetcorn-loaf",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/20231201-AK7278-2-768x960-optimized.jpg"
+  },
+  {
+    "slug": "sausage-potato-frittata-muffins",
+    "title": "Sausage & Potato Frittata Muffins",
+    "href": "/recipes/sausage-potato-frittata-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Sausage-potato-muffins-768x1098-optimized.jpg"
+  },
+  {
+    "slug": "annabels-favourite-oat-raisin-cookies",
+    "title": "Annabel's Favourite Oat & Raisin Cookies",
+    "href": "/recipes/annabels-favourite-oat-raisin-cookies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/Oat-and-Raisin-Cookies-e1697029136335-768x768-optimized.jpg"
+  },
+  {
+    "slug": "starry-eyed-sweetcorn-squash-stars",
+    "title": "Starry-eyed Sweetcorn & Squash Stars",
+    "href": "/recipes/starry-eyed-sweetcorn-squash-stars",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/08/GG_Cheesy-sweetcorn-and-carrot-stars_SQ-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "crispy-chicken-sweetcorn-croquettes",
+    "title": "Crispy Chicken & Sweetcorn Croquettes",
+    "href": "/recipes/crispy-chicken-sweetcorn-croquettes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/08/GG_Sweetcorn-and-chic-croquettes_V2_5x4-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "sweet-potato-apple-cinnamon-muffins",
+    "title": "Sweet Potato, Apple & Cinnamon Muffins",
+    "href": "/recipes/sweet-potato-apple-cinnamon-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/08/Sweet-Potato-Muffins-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-4-veg-croquettes-2",
+    "title": "Chicken & 4 Veg Croquettes",
+    "href": "/recipes/chicken-4-veg-croquettes-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/04/Chic-and-4-veg-croquettes_SQ-768x768-optimized.jpg"
+  },
+  {
+    "slug": "cherry-tomato-mozzarella-crouton-salad-boats",
+    "title": "Cherry Tomato, Mozzarella & Crouton Salad Boats",
+    "href": "/recipes/cherry-tomato-mozzarella-crouton-salad-boats",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/02/20230321-AK8141-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "mini-coronation-quiches",
+    "title": "Mini Coronation Quiches",
+    "href": "/recipes/mini-coronation-quiches",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/05/20230502-AK1028-768x960-optimized.jpg"
+  },
+  {
+    "slug": "pigs-in-blankets",
+    "title": "Pigs in Blankets",
+    "href": "/recipes/pigs-in-blankets",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/04/Jus-Rol-Pigs-in-blankets_V2_5x4-768x960-optimized.jpg"
+  },
+  {
+    "slug": "apple-cinnamon-twists",
+    "title": "Apple & Cinnamon Twists",
+    "href": "/recipes/apple-cinnamon-twists",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/04/Apple-Cinnamon-Puff-pastry-twists-min-1-768x960-optimized.jpg"
+  },
+  {
+    "slug": "puff-pastry-cheese-stars",
+    "title": "Puff Pastry Cheese Stars",
+    "href": "/recipes/puff-pastry-cheese-stars",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/04/Jus-Rol-puff-pastry-stars_V2_5x4-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-sausage-rolls",
+    "title": "Chicken Sausage Rolls",
+    "href": "/recipes/chicken-sausage-rolls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/04/Jus-Rol-Chicken-sausages_V1-Copy-768x960-optimized.jpg"
+  },
+  {
+    "slug": "carrot-courgette-baked-veggie-fritters",
+    "title": "Carrot & Courgette Baked Veggie Fritters",
+    "href": "/recipes/carrot-courgette-baked-veggie-fritters",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/20230314-AK8084-768x768-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "mezze-platter",
+    "title": "Mezze Platter",
+    "href": "/recipes/mezze-platter",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/Mezze-platter-768x1132-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-broccoli-tortilla-cups-2",
+    "title": "Chicken & Broccoli Tortilla Cups",
+    "href": "/recipes/chicken-broccoli-tortilla-cups-2",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/03/Chicken-Broccoli-Tortilla-Cups-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-plum-wrap",
+    "title": "Chicken & Plum Wrap",
+    "href": "/recipes/chicken-plum-wrap",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/05/Chicken-Wraps-with-Plum-Sauce-and-Cucumber-768x769-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "plant-based-veggie-croquettes",
+    "title": "Plant-Based Veggie Croquettes",
+    "href": "/recipes/plant-based-veggie-croquettes",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Plant-based-veggie-croquettes-scaled-3-768x768-optimized.jpg"
+  },
+  {
+    "slug": "baked-veggie-frittata-wedges",
+    "title": "Baked Veggie Frittata Wedges",
+    "href": "/recipes/baked-veggie-frittata-wedges",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/Baked_Vegetable_Frittata-min1-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "banana-carrot-loaf",
+    "title": "Banana & Carrot Bread",
+    "href": "/recipes/banana-carrot-loaf",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/03/YoghurtBanana_207-768x1152-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "veggie-packed-frittata-muffins",
+    "title": "Veggie Packed Frittata Muffins 4-ways",
+    "href": "/recipes/veggie-packed-frittata-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/20220802-AK5182-768x960-optimized.jpg"
+  },
+  {
+    "slug": "salmon-broccoli-mini-muffins",
+    "title": "Salmon & Broccoli Mini Muffins",
+    "href": "/recipes/salmon-broccoli-mini-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/20220816-AK5618-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "animal-sandwiches",
+    "title": "Animal Sandwiches",
+    "href": "/recipes/animal-sandwiches",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/Animal-sandwiches-768x1035-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "96091",
+    "title": "Salmon Balls",
+    "href": "/recipes/96091",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/20180112_annabel_salmonballs-768x512-optimized.jpg"
+  },
+  {
+    "slug": "chicken-and-apple-balls",
+    "title": "Chicken & Apple Balls",
+    "href": "/recipes/chicken-and-apple-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/Chicken-and-apple-balls-768x1002-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "sweet-potato-frittata-fingers",
+    "title": "Sweet Potato Frittata Fingers",
+    "href": "/recipes/sweet-potato-frittata-fingers",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/11/Sweet-Potato-Frittata-Slices-768x1024-optimized.jpg"
+  },
+  {
+    "slug": "chicken-apple-carrot-balls",
+    "title": "Chicken, Apple & Carrot Balls",
+    "href": "/recipes/chicken-apple-carrot-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2023/12/chicken-balls-768x768-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "egg-and-dairy-free-meatballs",
+    "title": "Egg & Dairy-free Meatballs",
+    "href": "/recipes/egg-and-dairy-free-meatballs",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/04/thumbnail_image005-768x961-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-tomato-corn-fritters",
+    "title": "Chicken, Tomato & Corn Fritters",
+    "href": "/recipes/chicken-tomato-corn-fritters",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/01/20220419-AK00110-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "tofu-veggie-bites",
+    "title": "Tofu & Veggie Bites",
+    "href": "/recipes/tofu-veggie-bites",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2022/01/20220105-AK01441_1-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "salmon-veggie-bites",
+    "title": "Salmon & Veggie Bites",
+    "href": "/recipes/salmon-veggie-bites",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2022/01/20220105-AK01430-768x960-optimized.jpg"
+  },
+  {
+    "slug": "egg-free-chicken-veggie-bites",
+    "title": "Egg Free Chicken & Veggie Bites",
+    "href": "/recipes/egg-free-chicken-veggie-bites",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2022/01/20220105-AK01414-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "banana-carrot-raisin-loaf",
+    "title": "Banana, Carrot and Raisin Loaf",
+    "href": "/recipes/banana-carrot-raisin-loaf",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/08/banana-loaf-768x768-optimized.png"
+  },
+  {
+    "slug": "margarita-pizza-slices",
+    "title": "Margarita Pizza Slices",
+    "href": "/recipes/margarita-pizza-slices",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Margharita-slices-768x768-optimized.jpg"
+  },
+  {
+    "slug": "beef-meatballs-with-carrot-and-apple",
+    "title": "Beef Meatballs with Carrot & Apple",
+    "href": "/recipes/beef-meatballs-with-carrot-and-apple",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/beef-meatballs-768x768-optimized.png"
+  },
+  {
+    "slug": "fruit-veg-ice-lollies",
+    "title": "Fruit & Veg Ice Lollies",
+    "href": "/recipes/fruit-veg-ice-lollies",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/ice-lollies-768x768-optimized.png",
+    "appExclusive": true
+  },
+  {
+    "slug": "green-smoothie",
+    "title": "Green Smoothie",
+    "href": "/recipes/green-smoothie",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/20210525-AK08020-768x960-optimized.jpg"
+  },
+  {
+    "slug": "mini-piccolo-cherry-tomato-cheese-muffins",
+    "title": "Mini Cherry Tomato & Cheese Muffins",
+    "href": "/recipes/mini-piccolo-cherry-tomato-cheese-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/20210408-AK01894-scaled-3-768x960-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "no-sugar-chocolate-orange-energy-balls",
+    "title": "No-Sugar Chocolate Orange Energy Balls",
+    "href": "/recipes/no-sugar-chocolate-orange-energy-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/No-Sugar-Chocolate-Orange-Energy-Balls-768x1152-optimized.jpg"
+  },
+  {
+    "slug": "mini-yorkshire-puddings",
+    "title": "Mini Yorkshire Puddings",
+    "href": "/recipes/mini-yorkshire-puddings",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/mini-yorkshire-puddings-768x768-optimized.png"
+  },
+  {
+    "slug": "stately-sandwich-fingers",
+    "title": "Stately Sandwich Fingers",
+    "href": "/recipes/stately-sandwich-fingers",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Stately-Sandwich-Fingers-768x1025-optimized.jpg"
+  },
+  {
+    "slug": "princess-wands",
+    "title": "Princess Wands",
+    "href": "/recipes/princess-wands",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Fruitwands-768x764-optimized.jpg"
+  },
+  {
+    "slug": "trio-of-toasted-finger-snacks",
+    "title": "Trio of Toasted Finger Snacks",
+    "href": "/recipes/trio-of-toasted-finger-snacks",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Annabel-Karmel-0606201809640_Uncropped-768x513-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "carrot-cheese-and-tomato-muffins",
+    "title": "Carrot, Cheese & Tomato Muffins",
+    "href": "/recipes/carrot-cheese-and-tomato-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Carrot-Cheese-Tomato-Muffins-e1599563752793-768x769-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "potato-carrot-and-sweetcorn-balls",
+    "title": "Potato, Carrot and Sweetcorn Balls",
+    "href": "/recipes/potato-carrot-and-sweetcorn-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Potato-carrot-and-sweetcorn-balls-768x576-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "tomato-snail-wraps",
+    "title": "Tomato Snail Wraps",
+    "href": "/recipes/tomato-snail-wraps",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/HF_SnailPinwheels_NoPack_Work-768x540-optimized.jpg"
+  },
+  {
+    "slug": "oat-raisin-cookies-with-sunflower-seeds",
+    "title": "Oat & Raisin Cookies with Sunflower Seeds",
+    "href": "/recipes/oat-raisin-cookies-with-sunflower-seeds",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/INSTAGRAM-Oats-sunflower-seed-cookies-optimized.png"
+  },
+  {
+    "slug": "coconut-apricot-carrot-muffins",
+    "title": "Coconut, Apricot & Carrot Muffins",
+    "href": "/recipes/coconut-apricot-carrot-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Apricot-and-Coconut-Muffins-2-1-768x576-optimized.jpeg",
+    "appExclusive": true
+  },
+  {
+    "slug": "mini-energy-balls",
+    "title": "Mini Energy Balls",
+    "href": "/recipes/mini-energy-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/BLW-energy-balls-optimized.png"
+  },
+  {
+    "slug": "tasty-beef-croquettes-with-five-vegetables",
+    "title": "Tasty Beef Croquettes with Five Vegetables",
+    "href": "/recipes/tasty-beef-croquettes-with-five-vegetables",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/BEEF-CROQUETTES-optimized.png"
+  },
+  {
+    "slug": "salmon-skewers",
+    "title": "Salmon Skewers",
+    "href": "/recipes/salmon-skewers",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/SalmonSkewers-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "power-packed-oat-bars",
+    "title": "Power Oat Bars",
+    "href": "/recipes/power-packed-oat-bars",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Power-Packed-Oat-Bars-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "tortilla-pizza-margherita",
+    "title": "Tortilla Pizza Margherita",
+    "href": "/recipes/tortilla-pizza-margherita",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Tortilla-Pizza-Margherita-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "chicken-fajitas",
+    "title": "Chicken Fajitas",
+    "href": "/recipes/chicken-fajitas",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Chicken-Fajitas-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "tuna-muffin-melts",
+    "title": "Tuna Muffin Melts",
+    "href": "/recipes/tuna-muffin-melts",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Tuna-Muffin-Melts-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "apricot-white-chocolate-cereal-bars",
+    "title": "Apricot & White Chocolate Cereal Bars",
+    "href": "/recipes/apricot-white-chocolate-cereal-bars",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/ApricotCerealBars-3-768x576-optimized.jpg"
+  },
+  {
+    "slug": "oriental-chicken-balls",
+    "title": "Oriental Chicken Balls",
+    "href": "/recipes/oriental-chicken-balls",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Oriental-Chicken-Balls-3-768x768-optimized.jpg"
+  },
+  {
+    "slug": "apple-carrot-muffins-with-maple-syrup",
+    "title": "Apple & Carrot Muffins with Maple Syrup",
+    "href": "/recipes/apple-carrot-muffins-with-maple-syrup",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/apple-carrot-muffins-3-optimized.jpg"
+  },
+  {
+    "slug": "mini-cheese-tomato-tartlets",
+    "title": "Mini Cheese & Tomato Tartlets",
+    "href": "/recipes/mini-cheese-tomato-tartlets",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/mini-cheese-and-tomato-tartlets-3-optimized.jpg"
+  },
+  {
+    "slug": "my-favourite-frittata",
+    "title": "My Favourite Frittata",
+    "href": "/recipes/my-favourite-frittata",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/Cherry-Tomato-Frittata-768x1024-optimized.jpg"
+  },
+  {
+    "slug": "cheese-cherry-tomato-muffins",
+    "title": "Cheese & Cherry Tomato Muffins",
+    "href": "/recipes/cheese-cherry-tomato-muffins",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/07/Cheese-Cherry-Tomato-Muffins-768x626-optimized.jpg",
+    "appExclusive": true
+  },
+  {
+    "slug": "chicken-balls-with-pesto-in-a-tomato-sauce",
+    "title": "Chicken Balls with Pesto in a Tomato Sauce",
+    "href": "/recipes/chicken-balls-with-pesto-in-a-tomato-sauce",
+    "image": "https://www.annabelkarmel.com/wp-content/uploads/2021/06/HF_ChickenBallsTomSauce3WorkLres-4-768x1024-optimized.jpg",
+    "appExclusive": true
+  }
+]

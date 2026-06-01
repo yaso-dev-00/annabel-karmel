@@ -1,0 +1,67 @@
+.body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.bulletList {
+  margin: 40px 0 0 100px;
+  padding: 0 0 0 1.25rem;
+  list-style: disc;
+}
+
+.bulletItem {
+  margin: 0 0 20px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.recipesHeading {
+  margin: 70px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.13;
+  font-weight: 600;
+  color: #3a3a3a;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .body,
+  .bulletItem,
+  .recipesHeading,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+  .bulletList {
+    margin-left: 40px;
+    padding-left: 10px;
+  }
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}

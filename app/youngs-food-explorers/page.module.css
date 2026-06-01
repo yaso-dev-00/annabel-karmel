@@ -1,0 +1,177 @@
+.heroTitle {
+  margin: 0 0 0;
+  font-family: var(--font-body);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #3a3a3a;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.heroImageWrap {
+  margin: 40px 0 0;
+}
+
+.heroImageWrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.bodyBold {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.recipeGridTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.35;
+  color: #3a3a3a;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.midBannerWrap {
+  margin: 50px 0 0;
+}
+
+.midBannerWrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.nutritionTitle {
+  margin: 0 0 14px;
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #3a3a3a;
+}
+
+.nutritionBody {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.tipCard {
+  border: 1px solid #e8e0e6;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tipTitle {
+  margin: 0 0 12px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1a1a1a;
+}
+
+.tipBody {
+  margin: 0 0 18px;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.5;
+  color: #3f3841;
+  flex: 1;
+}
+
+.tipReadMore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 20px;
+  background: #6f7885;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  border-radius: 2px;
+  align-self: flex-start;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .heroTitle {
+    font-size: 26px;
+    padding: 0 10px;
+  }
+
+  .body,
+  .bodyBold,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+
+  .nutritionTitle {
+    font-size: 20px;
+  }
+
+  .nutritionBody {
+    font-size: 17px;
+  }
+
+  .recipeGridTitle {
+    font-size: 14px;
+  }
+
+  .tipTitle {
+    font-size: 17px;
+  }
+
+  .tipBody {
+    font-size: 15px;
+  }
+}

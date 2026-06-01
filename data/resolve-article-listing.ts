@@ -6,6 +6,7 @@ const indexBySlug = new Map(articleIndex.map((article) => [article.slug, article
 const hrefAliases: Record<string, string> = {
   "babys-hydration": "babys-hydration-2",
   "fabulous-finger-food": "fabulous-finger-food-2",
+  "toddler-snack-time": "toddler-snack-time3",
 };
 
 /**
@@ -59,6 +60,28 @@ export const builtArticleSlugs = new Set([
   "what-spices-can-you-give-to-your-baby",
   "what-to-do-when-your-baby-is-sick",
   "zero-salt-family-recipes",
+  "10-healthy-nutritious-lunchbox-ideas",
+  "beat-rising-food-prices-with-annabels-money-saving-tips-for-family-cooking",
+  "budget-friendly-recipes-for-a-healthy-balanced-diet",
+  "haunted-toast-toppers",
+  "healthy-fast-food-swaps-for-less-naughty-and-more-nutritious-mealtimes",
+  "how-can-your-childs-asd-impact-on-their-diet-autism-and-eating",
+  "perfect-pasta-dishes-for-baby-toddler-family",
+  "toddler-snack-time3",
+  "everything-you-need-to-know-about-strep-a",
+  "vitamins-and-calcium-intake",
+  "foods-boost-childs-brainpower",
+  "top-freezer-tips",
+  "lunchboxes-2",
+  "annabel-tackles-the-topic-of-portion-sizes",
+  "pancake-recipes",
+  "top-10-tips-coping-fussy-eater",
+  "healthy-snacks-for-toddlers-and-kids",
+  "get-kids-eating-vegetables",
+  "top-10-meals-to-make-for-picky-eaters",
+  "youngs-food-explorers",
+  "top-10-family-recipes",
+  "top-10-easy-dinner-recipes",
 ]);
 
 export function slugFromHref(href: string): string {

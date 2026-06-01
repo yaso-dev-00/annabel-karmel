@@ -7,7 +7,8 @@ import styles from "@/app/eggs-questions-answered/page.module.css";
 export type FoodCategoryItem = {
   title: string;
   image?: { src: string; alt: string };
-  paragraphs: string[];
+  paragraphs?: string[];
+  listItems?: string[];
 };
 
 type FoodCategoryAccordionProps = {
@@ -62,7 +63,16 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                         />
                       </div>
                     ) : null}
-                    {item.paragraphs.map((paragraph) => (
+                    {item.listItems ? (
+                      <ul className={styles.accordionList}>
+                        {item.listItems.map((listItem) => (
+                          <li key={listItem} className={styles.accordionListItem}>
+                            {listItem}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    {(item.paragraphs ?? []).map((paragraph) => (
                       <p key={paragraph} className={styles.accordionBodyText}>
                         {paragraph}
                       </p>

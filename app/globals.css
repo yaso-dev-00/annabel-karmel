@@ -19,6 +19,11 @@
   --hover-color: #e98c9a;
 }
 
+::selection {
+  background-color: #e98c9a;
+  color: #fff;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

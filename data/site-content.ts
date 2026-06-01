@@ -144,7 +144,7 @@ export const megaMenus: MegaMenu[] = [
           { label: "Articles", href: "/category/articles" },
           { label: "Our Experts", href: "/meet-our-experts" },
           { label: "Baby Nutrition", href: "/category/nutrition/baby-nutrition" },
-          { label: "Toddler & Child", href: "/advice/toddler-child" },
+          { label: "Toddler & Child", href: "/category/nutrition/nutrition-toddler-child" },
           { label: "Allergies", href: "/advice/allergies" },
         ],
       },

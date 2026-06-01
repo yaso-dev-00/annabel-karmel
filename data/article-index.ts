@@ -173,7 +173,7 @@ export const articleIndex: ArticleCard[] = [
     slug: "toddler-snack-time3",
     title: "Toddler snack time",
     heroImage: "/articles/toddler-snack-time3/hero.jpg",
-    heroAlt: "Toddler snack ideas",
+    heroAlt: "Peanut butter banana rice cake owls — toddler snack time",
     category: "Toddler & Child",
     intro:
       "Healthy toddler snack guidance, including practical tips for routine snack times and balanced options to avoid grazing.",
@@ -731,6 +731,132 @@ export const articleIndex: ArticleCard[] = [
     category: "Baby Nutrition",
     intro:
       "Fridge organisation, meal planning basics, and ten practical kitchen essentials to support safe, confident weaning at home.",
+  },
+  {
+    slug: "pancake-recipes",
+    title: "10 Perfect Pancake Recipes",
+    heroImage: "/articles/pancake-recipes/mini-pancakes.jpg",
+    heroAlt: "Mini pancakes with banana and oats",
+    category: "Toddler & Child",
+    intro:
+      "Sweet and savoury pancake inspiration for families, from banana oat pancakes to berry and bunny-themed pancake ideas.",
+  },
+  {
+    slug: "everything-you-need-to-know-about-strep-a",
+    title: "Everything you need to know about Strep A",
+    heroImage: "/articles/everything-you-need-to-know-about-strep-a/hero.jpg",
+    heroAlt: "Everything you need to know about Strep A",
+    category: "Toddler & Child",
+    intro:
+      "Parents are understandably worried about Group A strep considering the recent devastating cases in the UK. Whilst the bacterial infection ...",
+  },
+  {
+    slug: "foods-boost-childs-brainpower",
+    title: "Foods to boost your child's brainpower",
+    heroImage: "/articles/foods-boost-childs-brainpower/hero.jpg",
+    heroAlt: "Foods to boost your child's brainpower",
+    category: "Toddler & Child",
+    intro:
+      "We're all about fuelling children with the best nourishment for busy days of play, learning and development. Food plays an ...",
+  },
+  {
+    slug: "top-freezer-tips",
+    title: "Top freezer tips",
+    heroImage: "/articles/top-freezer-tips/hero.png",
+    heroAlt: "Food storage and freezing tips",
+    category: "Toddler & Child",
+    intro:
+      "Wouldn't it be great if we could freeze time? Imagine all those extra jobs and chores we could get done? The great thing about the trusty freezer is that it acts like a pause button...",
+  },
+  {
+    slug: "lunchboxes-2",
+    title: "Lunchboxes",
+    heroImage: "/articles/lunchboxes-2/hero.jpg",
+    heroAlt: "Lunchboxes",
+    category: "Toddler & Child",
+    intro:
+      "Given that school children consume one third of their daily food intake at school (once they are too old for the governments free school meals initiative), the humble lunch box is worthy of consideration...",
+  },
+  {
+    slug: "annabel-tackles-the-topic-of-portion-sizes",
+    title: "Annabel tackles the topic of portion sizes",
+    heroImage: "/articles/top-10-tips-coping-fussy-eater/hero.jpg",
+    heroAlt: "Portion size guidance for parents",
+    category: "Toddler & Child",
+    intro:
+      "Annabel's practical advice for navigating portion size worries, fussy phases, and relaxed mealtimes that build healthy habits.",
+  },
+  {
+    slug: "top-10-tips-coping-fussy-eater",
+    title: "Top 10 tips for coping with a fussy eater",
+    heroImage: "/articles/top-10-tips-coping-fussy-eater/hero.jpg",
+    heroAlt: "Top 10 tips for coping with a fussy eater",
+    category: "Toddler & Child",
+    intro:
+      "When you've got a fussy eater to contend with, it's easy to get locked in a battle of wills, and it's so easy to feel frustrated and powerless when your toddler simply refuses to eat certain foods...",
+  },
+  {
+    slug: "vitamins-and-calcium-intake",
+    title: "The perfect pair: why hitting your child's Vitamin D and Calcium intake is so important.",
+    heroImage: "/articles/vitamins-and-calcium-intake/hero.png",
+    heroAlt: "Vitamin D and calcium intake for children",
+    category: "Nutrition",
+    intro:
+      "Getting your child to eat anything you put in front of them is a serious feat. Not to mention the ...",
+  },
+  {
+    slug: "top-10-easy-dinner-recipes",
+    title: "10 Easy Midweek Meal Recipes",
+    heroImage: "/articles/top-10-easy-dinner-recipes/20220208-AK06108-768x960-optimized.jpg",
+    heroAlt: "10 easy midweek meal recipes",
+    category: "Toddler & Child",
+    intro:
+      "In this article, we list our top 10 Easy Midweek Meal Recipes...from homemade oven-baked chicken nuggets to meat-free Bolognese.",
+  },
+  {
+    slug: "top-10-family-recipes",
+    title: "Top 10 Most Popular Family Recipes",
+    heroImage: "/articles/top-10-family-recipes/curry-768x586-optimized.jpg",
+    heroAlt: "Top 10 most popular family recipes",
+    category: "Toddler & Child",
+    intro:
+      "Families all over the world rely on Annabel Karmel's recipes. Here are the top 10 most popular family recipes on our website.",
+  },
+  {
+    slug: "youngs-food-explorers",
+    title: "Getting kids to eat fish",
+    heroImage: "/articles/youngs-food-explorers/DAIRY-FREE-SALMON-FISHCAKES-scaled-optimized.jpg",
+    heroAlt: "Getting kids to eat fish with Young's Seafood",
+    category: "Toddler & Child",
+    intro:
+      "Tips, tricks and fun recipes in partnership with Young's Seafood to get the whole family exploring fish dinners.",
+  },
+  {
+    slug: "top-10-meals-to-make-for-picky-eaters",
+    title: "Top 10 meals to make for picky eaters",
+    heroImage: "/articles/top-10-meals-to-make-for-picky-eaters/pasta-bake.jpg",
+    heroAlt: "Top 10 meals to make for picky eaters",
+    category: "Toddler & Child",
+    intro:
+      "Annabel's top 10 meals for picky eaters — hidden veggie dishes, homemade fish fingers, mini burgers and more.",
+  },
+  {
+    slug: "get-kids-eating-vegetables",
+    title: "10 Recipes Guaranteed To Get Kids Eating Vegetables",
+    heroImage: "/articles/get-kids-eating-vegetables/veggie-croquettes.jpg",
+    heroAlt: "Recipes to get kids eating vegetables",
+    category: "Toddler & Child",
+    intro:
+      "Annabel's tasty yet effective mealtime picks to get kids to love their veg — from hidden veg bolognese to veggie croquettes.",
+  },
+  {
+    slug: "healthy-snacks-for-toddlers-and-kids",
+    title: "10 Easy and Healthy Snack Ideas for Toddlers and Kids",
+    heroImage: "/articles/healthy-snacks-for-toddlers-and-kids/banana-loaf.png",
+    heroAlt: "Healthy snacks for toddlers and kids",
+    category: "Toddler & Child",
+    intro:
+      "Top super-fuelled kids snack ideas to help feed their adventures and keep them topped up until teatime!",
   },
   {
     slug: "healthy-fast-food-swaps-for-less-naughty-and-more-nutritious-mealtimes",

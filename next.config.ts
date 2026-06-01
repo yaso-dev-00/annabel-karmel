@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/advice/toddler-child",
+        destination: "/category/nutrition/nutrition-toddler-child",
+        permanent: true,
+      },
+      {
         source: "/babys-hydration",
         destination: "/babys-hydration-2",
         permanent: true,

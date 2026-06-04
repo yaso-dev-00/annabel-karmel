@@ -10,7 +10,7 @@ export type MidweekRecipeCard = {
 };
 
 export const midweekRecipesIntro =
-  "Hungry kids? Need something easy to cook in the week? Here are 10 of the most popular recipes our families love to cook when busy. They’re speedy, super tasty, and easy to make"
+  "Hungry kids? Need something easy to cook in the week? Here are 10 of the most popular recipes our families love to cook when busy. They’re speedy, super tasty, and easy to make."
 
 
 export const midweekRecipes: MidweekRecipeCard[] = [

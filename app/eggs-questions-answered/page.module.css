@@ -103,6 +103,17 @@
   color: #3f3841;
 }
 
+.accordionInlineLink {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.accordionInlineLink:hover {
+  color: var(--hover-color);
+}
+
 .accordionList {
   margin: 30px 0 0;
   padding-left: 28px;

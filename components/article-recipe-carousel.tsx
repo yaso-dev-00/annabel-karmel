@@ -407,7 +407,7 @@ export function ArticleRecipeCarousel({
           aria-label="Previous recipes"
           onClick={goPrev}
           disabled={!canCycle}
-          className={`${styles.navButton} left-1 grid h-8 w-8 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:left-3 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11`}
+          className={`${styles.navButton} cursor-pointer left-1 grid h-8 w-8 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:left-3 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11`}
         >
           <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
             <path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -418,7 +418,7 @@ export function ArticleRecipeCarousel({
           aria-label="Next recipes"
           onClick={goNext}
           disabled={!canCycle}
-          className={`${styles.navButton} right-1 grid h-8 w-8 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:right-3 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11`}
+          className={`${styles.navButton} cursor-pointer right-1 grid h-8 w-8 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:right-3 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11`}
         >
           <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
             <path d="M9.5 5.5L16 12l-6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />

@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/advice/allergies",
+        destination: "/category/nutrition/nutrition-allergies",
+        permanent: true,
+      },
+      {
         source: "/babys-hydration",
         destination: "/babys-hydration-2",
         permanent: true,
@@ -40,6 +45,51 @@ const nextConfig: NextConfig = {
       { source: "/recipes/free-from/egg-free", destination: "/allergen/egg-free-recipes", permanent: true },
       { source: "/recipes/free-from/gluten-free", destination: "/allergen/gluten-free-recipes", permanent: true },
       { source: "/recipes/free-from/nut-free", destination: "/allergen/nut-free-recipes", permanent: true },
+      {
+        source: "/food-allergies-natashas-law-put-a-label-on-it",
+        destination: "/food-allergies-put-a-label-on-it",
+        permanent: true,
+      },
+      {
+        source: "/managing-childs-food-allergy",
+        destination: "/managing-my-childs-food-allergy",
+        permanent: true,
+      },
+      {
+        source: "/weaning-baby-allergies",
+        destination: "/weaning-and-baby-allergies",
+        permanent: true,
+      },
+      {
+        source: "/travelling-children-food-allergies",
+        destination: "/travelling-with-children-with-food-allergies",
+        permanent: true,
+      },
+      {
+        source: "/breastfeeding-food-allergies",
+        destination: "/breastfeeding-and-food-allergies",
+        permanent: true,
+      },
+      {
+        source: "/eczema-linked-food-allergies",
+        destination: "/is-eczema-linked-to-food-allergies",
+        permanent: true,
+      },
+      {
+        source: "/common-food-allergens-uk",
+        destination: "/the-most-common-food-allergens-in-the-uk",
+        permanent: true,
+      },
+      {
+        source: "/common-food-allergies-babies",
+        destination: "/most-common-food-allergies-in-babies",
+        permanent: true,
+      },
+      {
+        source: "/managing-babys-lactose-intolerance",
+        destination: "/managing-your-babys-lactose-intolerance",
+        permanent: true,
+      },
     ];
   },
 };

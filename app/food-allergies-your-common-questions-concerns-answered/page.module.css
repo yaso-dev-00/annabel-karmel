@@ -1,0 +1,219 @@
+.articleShell {
+  font-family: var(--font-body);
+  color: #3f3841;
+}
+
+.intro,
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.intro {
+  margin-top: 0;
+}
+
+.accordionWrap {
+  margin-top: 24px;
+  border: 1px solid #c8c8c8;
+}
+
+.item {
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.summary {
+  width: 100%;
+  border: 0;
+  padding: 15px 12px;
+  background: #ffdce9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.summaryOpen {
+  border-bottom: 1px solid #c8c8c8;
+}
+
+.summaryMarker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  font-size: 25px;
+  line-height: 1;
+  color: #111;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.summary:hover {
+  color: var(--hover-color);
+}
+
+.panel {
+  background: #fff;
+  padding: 10px 40px 25px;
+}
+
+.panelImage {
+  width: 100%;
+  height: auto;
+  margin-bottom: 12px;
+}
+
+.panelText {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.panelText + .panelText {
+  margin-top: 40px;
+}
+
+.sectionTitle {
+  margin-top: 34px;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 44px;
+  line-height: 1.08;
+  color: #202027;
+}
+
+.linkButton {
+  display: inline-block;
+  margin-top: 40px;
+  background: #6f7987;
+  color: #fff !important;
+  padding: 8px 14px;
+  border-radius: 2px;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.doctorHeading {
+  margin-top: 20px;
+  text-align: center;
+  font-family: var(--font-playfair), Georgia, serif;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.25;
+  color: #3a3a3a;
+}
+
+.doctorBody {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.trackerSection .body:first-of-type {
+  margin-top: 20px;
+}
+
+.doctorSection .doctorBody:first-of-type {
+  margin-top: 30px;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.link:hover {
+  color: var(--hover-color);
+}
+
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+.heroImage {
+  margin-top: 40px;
+  width: 100%;
+}
+
+.trackerSection {
+  margin-top: 56px;
+}
+
+.doctorSection {
+  margin-top: 58px;
+}
+
+.doctorImage {
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: 277px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .intro,
+  .body,
+  .panelText,
+  .sectionTitle,
+  .doctorHeading,
+  .doctorBody,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+  .intro,
+  .body,
+  .panelText,
+  .doctorBody {
+    font-size: 17px;
+    line-height: 1.42;
+  }
+
+  .summary {
+    font-size: 16px;
+  }
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}
+

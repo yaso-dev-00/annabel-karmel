@@ -152,6 +152,24 @@ export const articleIndex: ArticleCard[] = [
       "Creative ways to teach maths, science, and language through family cooking, plus kid-friendly recipes to try together.",
   },
   {
+    slug: "are-allergies-genetic",
+    title: "Are allergies genetic?",
+    heroImage: "/articles/are-allergies-genetic/hero.jpg",
+    heroAlt: "Are allergies genetic?",
+    category: "Allergies",
+    intro:
+      "Professor Adam Fox explains whether allergies are hereditary — atopy, food allergies, and when babies outgrow them.",
+  },
+  {
+    slug: "cows-milk-protein-allergy",
+    title: "A Dairy-free Diet for Cow's Milk Protein Allergy",
+    heroImage: "/articles/cows-milk-protein-allergy/hero.jpg",
+    heroAlt: "Cow's milk protein allergy",
+    category: "Allergies",
+    intro:
+      "Why your baby may need a dairy-free diet for cow's milk protein allergy — symptoms, diagnosis, and professional guidance.",
+  },
+  {
     slug: "dairy-free-diet-cows-milk-protein-allergy",
     title: "A Dairy-free Diet for Cow's Milk Protein Allergy",
     heroImage: "/articles/dairy-free-diet-cows-milk-protein-allergy/why-dairy-free.jpg",
@@ -195,6 +213,141 @@ export const articleIndex: ArticleCard[] = [
     category: "Allergies",
     intro:
       "Professor Adam Fox explains food allergy causes, diagnosis, symptoms, nutrient risks, and practical guidance for parents.",
+  },
+  {
+    slug: "food-allergies-put-a-label-on-it",
+    title: "Food Allergies – Natasha's Law put a label on it",
+    heroImage: "/articles/food-allergies-put-a-label-on-it/listing-hero.png",
+    heroAlt: "Food Allergies – Natasha's Law put a label on it",
+    category: "Allergies",
+    intro:
+      "In today's climate we tend to avoid putting a label on things, but when it comes to the food industry nutritional labels are not only necessary but can be lifesaving.",
+  },
+  {
+    slug: "food-allergies-your-common-questions-concerns-answered",
+    title: "Food Allergies – your common questions & concerns answered",
+    heroImage: "/articles/food-allergies-your-common-questions-concerns-answered/hero.jpg",
+    heroAlt: "Food Allergies – your common questions & concerns answered",
+    category: "Allergies",
+    intro:
+      "Childhood food allergies are on the increase — Dr Jose Costa answers commonly asked questions around food allergies.",
+  },
+  {
+    slug: "spotting-food-allergy-symptoms",
+    title: "Spotting food allergy symptoms",
+    heroImage: "/articles/spotting-food-allergy-symptoms/hero.jpg",
+    heroAlt: "Spotting food allergy symptoms",
+    category: "Allergies",
+    intro:
+      "It can be difficult spotting food allergy symptoms and different parts of the body can be affected by a variety of allergens.",
+  },
+  {
+    slug: "managing-my-childs-food-allergy",
+    title: "Managing my child's food allergy",
+    heroImage: "/articles/managing-my-childs-food-allergy/hero.jpg",
+    heroAlt: "Managing my child's food allergy",
+    category: "Allergies",
+    intro:
+      "From the weekly food shop to those all-important kids' parties, managing your child's food allergy can be stressful for both you and your child.",
+  },
+  {
+    slug: "weaning-and-baby-allergies",
+    title: "Weaning and baby allergies",
+    heroImage: "/articles/weaning-and-baby-allergies/hero.jpg",
+    heroAlt: "Weaning and baby allergies",
+    category: "Allergies",
+    intro:
+      "Entering into the wonderful world of weaning can be daunting when you're also worried about your baby's food allergies.",
+  },
+  {
+    slug: "cows-milk-allergy",
+    title: "Cow's milk allergy",
+    heroImage: "/articles/cows-milk-allergy/hero.jpg",
+    heroAlt: "Cow's milk allergy",
+    category: "Allergies",
+    intro:
+      "Infants and children usually experience Cow's milk allergy (CMA) symptoms in their first few months as cow's milk and dairy contain essential nutrients.",
+  },
+  {
+    slug: "food-allergy-vs-food-intolerance",
+    title: "Food allergy vs. food intolerance",
+    heroImage: "/articles/food-allergy-vs-food-intolerance/hero.jpg",
+    heroAlt: "Food allergy vs. food intolerance",
+    category: "Allergies",
+    intro:
+      "Many different names are used to describe adverse reactions to foods — here's how to tell allergy and intolerance apart.",
+  },
+  {
+    slug: "travelling-with-children-with-food-allergies",
+    title: "Travelling with Children with Food Allergies",
+    heroImage: "/articles/travelling-with-children-with-food-allergies/hero.jpg",
+    heroAlt: "Travelling with Children with Food Allergies",
+    category: "Allergies",
+    intro:
+      "Travelling abroad can be stressful for a family if a child has an allergy — forward planning helps reduce the stress.",
+  },
+  {
+    slug: "breastfeeding-and-food-allergies",
+    title: "Breastfeeding and food allergies",
+    heroImage: "/articles/breastfeeding-and-food-allergies/hero.jpg",
+    heroAlt: "Breastfeeding and food allergies",
+    category: "Allergies",
+    intro:
+      "Can breastfeeding your baby help stop allergies in their tracks? Professor Adam Fox on the benefits of breastfeeding.",
+  },
+  {
+    slug: "is-eczema-linked-to-food-allergies",
+    title: "Is eczema linked to food allergies?",
+    heroImage: "/articles/is-eczema-linked-to-food-allergies/hero.jpg",
+    heroAlt: "Is eczema linked to food allergies?",
+    category: "Allergies",
+    intro:
+      "Many parents want to know is eczema linked to food allergies? Eczema causes inflammation and intense irritation.",
+  },
+  {
+    slug: "allergies-finding-support",
+    title: "Allergies: finding support",
+    heroImage: "/articles/allergies-finding-support/hero.jpg",
+    heroAlt: "Allergies: finding support",
+    category: "Allergies",
+    intro:
+      "Finding support for your child or for yourself can be challenging — Allergy UK and your GP can help.",
+  },
+  {
+    slug: "the-most-common-food-allergens-in-the-uk",
+    title: "The most common food allergens in the UK",
+    heroImage: "/articles/the-most-common-food-allergens-in-the-uk/hero.jpg",
+    heroAlt: "The most common food allergens in the UK",
+    category: "Allergies",
+    intro:
+      "There are 14 major allergens which must be clearly mentioned on food labels — your guide to what to watch out for.",
+  },
+  {
+    slug: "egg-allergy",
+    title: "Egg allergy",
+    heroImage: "/articles/egg-allergy/hero.jpg",
+    heroAlt: "Egg allergy",
+    category: "Allergies",
+    intro:
+      "Most children will outgrow an allergy to eggs — guidance on baked egg, vaccinations, and when to see your GP.",
+  },
+  {
+    slug: "most-common-food-allergies-in-babies",
+    title: "Most common food allergies in babies",
+    heroImage: "/articles/most-common-food-allergies-in-babies/hero.jpg",
+    heroAlt: "Most common food allergies in babies",
+    category: "Allergies",
+    intro:
+      "Professor Adam Fox explores the most common food allergies in babies — egg, nut, wheat, cow's milk, and honey.",
+  },
+  {
+    slug: "managing-your-babys-lactose-intolerance",
+    title: "Managing your baby's lactose intolerance",
+    heroImage: "/articles/managing-your-babys-lactose-intolerance/hero.jpg",
+    heroAlt: "Managing your baby's lactose intolerance",
+    category: "Allergies",
+    intro:
+      "Lactose intolerance in babies — symptoms, breastfeeding, lactose-free formula, weaning, and when babies grow out of it.",
   },
   {
     slug: "birthday-spread-fit-prince",

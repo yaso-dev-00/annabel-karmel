@@ -6,6 +6,14 @@ const indexBySlug = new Map(articleIndex.map((article) => [article.slug, article
 const hrefAliases: Record<string, string> = {
   "babys-hydration": "babys-hydration-2",
   "fabulous-finger-food": "fabulous-finger-food-2",
+  "food-allergies-natashas-law-put-a-label-on-it": "food-allergies-put-a-label-on-it",
+  "managing-childs-food-allergy": "managing-my-childs-food-allergy",
+  "weaning-baby-allergies": "weaning-and-baby-allergies",
+  "travelling-children-food-allergies": "travelling-with-children-with-food-allergies",
+  "breastfeeding-food-allergies": "breastfeeding-and-food-allergies",
+  "eczema-linked-food-allergies": "is-eczema-linked-to-food-allergies",
+  "common-food-allergens-uk": "the-most-common-food-allergens-in-the-uk",
+  "common-food-allergies-babies": "most-common-food-allergies-in-babies",
   "toddler-snack-time": "toddler-snack-time3",
 };
 
@@ -82,6 +90,24 @@ export const builtArticleSlugs = new Set([
   "youngs-food-explorers",
   "top-10-family-recipes",
   "top-10-easy-dinner-recipes",
+  "food-allergies-put-a-label-on-it",
+  "food-allergies-your-common-questions-concerns-answered",
+  "spotting-food-allergy-symptoms",
+  "managing-my-childs-food-allergy",
+  "weaning-and-baby-allergies",
+  "cows-milk-allergy",
+  "food-allergy-vs-food-intolerance",
+  "travelling-with-children-with-food-allergies",
+  "breastfeeding-and-food-allergies",
+  "is-eczema-linked-to-food-allergies",
+  "allergies-finding-support",
+  "the-most-common-food-allergens-in-the-uk",
+  "egg-allergy",
+  "most-common-food-allergies-in-babies",
+  "allergies-with-professor-adam-fox",
+  "managing-your-babys-lactose-intolerance",
+  "cows-milk-protein-allergy",
+  "are-allergies-genetic",
 ]);
 
 export function slugFromHref(href: string): string {
@@ -125,10 +151,11 @@ export function enrichListingArticle<T extends ListingArticleFields>(article: T)
   return {
     ...article,
     href,
-    title: indexed.title,
     heroImage: indexed.heroImage,
     heroAlt: indexed.heroAlt,
-    excerpt: indexed.intro,
-    category: indexed.category,
+    // Keep archive card copy (title, excerpt, category) from the listing source.
+    title: article.title,
+    excerpt: article.excerpt,
+    category: article.category,
   };
 }

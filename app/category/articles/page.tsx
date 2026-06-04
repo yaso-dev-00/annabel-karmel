@@ -242,7 +242,7 @@ const fifthPageArticles: ListingArticle[] = [
     title: "A Dairy-free Diet for Cow’s Milk Protein Allergy",
     heroImage: "https://www.annabelkarmel.com/wp-content/uploads/2019/04/cows-milk-optimized.jpg",
     heroAlt: "Cow's milk protein allergy",
-    href: "/dairy-free-diet-cows-milk-protein-allergy",
+    href: "/cows-milk-protein-allergy",
   },
   {
     title: "A birthday spread fit for a prince",

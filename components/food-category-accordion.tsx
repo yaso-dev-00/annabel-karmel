@@ -1,24 +1,32 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import styles from "@/app/eggs-questions-answered/page.module.css";
 
-export type FoodCategoryItem = {
-  title: string;
-  image?: { src: string; alt: string };
+export type FoodCategorySubsection = {
+  heading: string;
   paragraphs?: string[];
   listItems?: string[];
 };
 
+export type FoodCategoryItem = {
+  title: string;
+  image?: { src: string; alt: string };
+  paragraphs?: (string | ReactNode)[];
+  listItems?: string[];
+  subsections?: FoodCategorySubsection[];
+};
+
 type FoodCategoryAccordionProps = {
   items: FoodCategoryItem[];
-  defaultOpenTitle?: string;
+  /** Omit to open first item; pass `null` to start with all panels closed. */
+  defaultOpenTitle?: string | null;
 };
 
 export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryAccordionProps) {
-  const [openTitle, setOpenTitle] = useState<string | null>(
-    () => defaultOpenTitle ?? items[0]?.title ?? null,
+  const [openTitle, setOpenTitle] = useState<string | null>(() =>
+    defaultOpenTitle !== undefined ? defaultOpenTitle : (items[0]?.title ?? null),
   );
 
   const toggle = (title: string) => {
@@ -63,6 +71,14 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                         />
                       </div>
                     ) : null}
+                    {(item.paragraphs ?? []).map((paragraph, index) => (
+                      <p
+                        key={typeof paragraph === "string" ? paragraph : `${item.title}-p-${index}`}
+                        className={styles.accordionBodyText}
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
                     {item.listItems ? (
                       <ul className={styles.accordionList}>
                         {item.listItems.map((listItem) => (
@@ -72,10 +88,26 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                         ))}
                       </ul>
                     ) : null}
-                    {(item.paragraphs ?? []).map((paragraph) => (
-                      <p key={paragraph} className={styles.accordionBodyText}>
-                        {paragraph}
-                      </p>
+                    {item.subsections?.map((section) => (
+                      <div key={section.heading}>
+                        <p className={`${styles.accordionBodyText} ${styles.accordionSubheading}`}>
+                          <strong>{section.heading}</strong>
+                        </p>
+                        {(section.paragraphs ?? []).map((paragraph) => (
+                          <p key={paragraph} className={styles.accordionBodyText}>
+                            {paragraph}
+                          </p>
+                        ))}
+                        {section.listItems ? (
+                          <ul className={styles.accordionList}>
+                            {section.listItems.map((listItem) => (
+                              <li key={listItem} className={styles.accordionListItem}>
+                                {listItem}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+                      </div>
                     ))}
                   </div>
                 </motion.div>

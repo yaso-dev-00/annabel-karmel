@@ -4,6 +4,7 @@ import { RelatedArticlesCarousel } from "@/components/related-articles-carousel"
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getRelatedArticles } from "@/data/related-articles";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 const relatedArticles = getRelatedArticles("/dairy-free-diet-cows-milk-protein-allergy");
@@ -202,9 +203,9 @@ export default function DairyFreeDietCowsMilkProteinAllergyPage() {
             It&apos;s worth noting that lactose intolerance is not an allergy to dairy foods and is a completely
             different condition to those babies who have a cow&apos;s milk protein allergy. With lactose intolerance,
             your baby doesn&apos;t need to avoid all dairy products. See my{" "}
-            <a href="https://www.annabelkarmel.com/managing-babys-lactose-intolerance/" target="_blank" rel="noopener" className={styles.link}>
-              'Managing Your Baby&apos;s Lactose Intolerance'
-            </a>{" "}
+            <Link href="/managing-your-babys-lactose-intolerance" className={styles.link}>
+              &lsquo;Managing Your Baby&apos;s Lactose Intolerance&rsquo;
+            </Link>{" "}
             post for further information.
           </p>
 

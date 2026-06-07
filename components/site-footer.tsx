@@ -51,7 +51,7 @@ export function SiteFooter() {
         </section>
 
         <section className="footer-newsletter md:mt-[0px]!">
-          <h2 className="text-[24px]! font-[400]! mb-[20px]!">Sign up for our newsletter</h2>
+          <h2 className="text-[24px]! font-[400]! mb-[20px]! text-[#e94e7a]!">Sign up for our newsletter</h2>
           <form>
             <label htmlFor="email-newsletter" className="sr-only">
               Email address

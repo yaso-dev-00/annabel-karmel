@@ -1,5 +1,6 @@
 import type { RelatedArticleItem } from "@/components/related-articles-carousel";
 import { articleIndex } from "@/data/article-index";
+import { adviceArticleSlugs } from "@/data/resolve-article-listing";
 
 const thumbnailOverrides: Record<string, string> = {
   "best-foods-to-help-your-baby-sleep":
@@ -10,7 +11,7 @@ const thumbnailOverrides: Record<string, string> = {
 };
 
 export const allRelatedArticles: RelatedArticleItem[] = articleIndex.map((article) => ({
-  href: `/${article.slug}`,
+  href: adviceArticleSlugs.has(article.slug) ? `/advice/${article.slug}` : `/${article.slug}`,
   title: article.title,
   image: thumbnailOverrides[article.slug] ?? article.heroImage,
 }));

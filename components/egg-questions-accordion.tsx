@@ -9,6 +9,8 @@ export type EggQuestionItem = {
   paragraphs?: string[];
   /** Bold heading + body pairs (e.g. foods to avoid subsections). */
   subsections?: { heading: string; body: string }[];
+  listItems?: string[];
+  closingParagraphs?: string[];
 };
 
 type EggQuestionsAccordionProps = {
@@ -63,11 +65,29 @@ export function EggQuestionsAccordion({ items, numbered = false }: EggQuestionsA
                             <p className={styles.accordionBodyText}>{section.body}</p>
                           </div>
                         ))
-                      : item.paragraphs?.map((paragraph) => (
-                          <p key={paragraph} className={styles.accordionBodyText}>
-                            {paragraph}
-                          </p>
-                        ))}
+                      : (
+                          <>
+                            {item.paragraphs?.map((paragraph) => (
+                              <p key={paragraph} className={styles.accordionBodyText}>
+                                {paragraph}
+                              </p>
+                            ))}
+                            {item.listItems ? (
+                              <ul className={styles.accordionList}>
+                                {item.listItems.map((listItem) => (
+                                  <li key={listItem} className={styles.accordionListItem}>
+                                    {listItem}
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : null}
+                            {item.closingParagraphs?.map((paragraph) => (
+                              <p key={paragraph} className={styles.accordionBodyText}>
+                                {paragraph}
+                              </p>
+                            ))}
+                          </>
+                        )}
                   </div>
                 </motion.div>
               ) : null}

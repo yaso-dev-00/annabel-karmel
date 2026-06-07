@@ -2,13 +2,43 @@ import { InstagramShareSection } from "@/components/instagram-share-section";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { expertDetails } from "@/data/site-content";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 
 type ExpertDetailPageProps = {
   params: Promise<{
     slug: string;
   }>;
 };
+
+function isInternalHref(href: string): boolean {
+  return href.startsWith("/");
+}
+
+function ExpertTopicLink({
+  href,
+  className,
+  children,
+}: {
+  href: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  if (isInternalHref(href)) {
+    return (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className={className}>
+      {children}
+    </a>
+  );
+}
 
 export function generateStaticParams() {
   return expertDetails.map((expert) => ({ slug: expert.slug }));
@@ -59,40 +89,37 @@ export default async function ExpertDetailPage({ params }: ExpertDetailPageProps
 
         <section className="mx-auto w-full max-w-[1120px] px-4 pb-16 pt-8 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-12 md:gap-19">
-            {expert.articleTopics.map((topic) => (
-              <article
-                key={topic.title}
-                className="grid grid-cols-1 items-center justify-items-center gap-6 text-center md:grid-cols-[300px_1fr] md:justify-items-stretch md:gap-18 md:text-left"
-              >
-                <a
-                  href={topic.href ?? expert.sourceUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mx-auto block w-full max-w-[300px] md:mx-0"
+            {expert.articleTopics.map((topic) => {
+              const topicHref = topic.href ?? expert.sourceUrl;
+
+              return (
+                <article
+                  key={topic.title}
+                  className="grid grid-cols-1 items-center justify-items-center gap-6 text-center md:grid-cols-[300px_1fr] md:justify-items-stretch md:gap-18 md:text-left"
                 >
-                  <img
-                    src={topic.image ?? expert.image}
-                    alt={topic.title}
-                    className="h-[220px] w-full object-cover md:h-[210px]"
-                  />
-                </a>
-                <div>
-                  <h3 className="[font-family:var(--font-playfair)] text-[20px] leading-[1.2] font-[400] text-[#2f2d35] md:text-[26px]">
-                    <a href={topic.href ?? expert.sourceUrl} target="_blank" rel="noreferrer" className="hover:text-[#8f2f58]">
-                      {topic.title}
-                    </a>
-                  </h3>
-                  <a
-                    href={topic.href ?? expert.sourceUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-6 inline-flex items-center rounded-[4px] bg-[#6f7987] px-5 py-2 [font-family:var(--font-montserrat)] text-[14px] font-medium text-white transition-colors hover:bg-[#626c79]"
-                  >
-                    <span className="text-[14px] text-white md:text-[16px]">Read More</span>
-                  </a>
-                </div>
-              </article>
-            ))}
+                  <ExpertTopicLink href={topicHref} className="mx-auto block w-full max-w-[300px] md:mx-0">
+                    <img
+                      src={topic.image ?? expert.image}
+                      alt={topic.title}
+                      className="h-[220px] w-full object-cover md:h-[210px]"
+                    />
+                  </ExpertTopicLink>
+                  <div>
+                    <h3 className="[font-family:var(--font-playfair)] text-[20px] leading-[1.2] font-[400] text-[#2f2d35] md:text-[26px]">
+                      <ExpertTopicLink href={topicHref} className="hover:text-[#8f2f58]">
+                        {topic.title}
+                      </ExpertTopicLink>
+                    </h3>
+                    <ExpertTopicLink
+                      href={topicHref}
+                      className="mt-6 inline-flex items-center rounded-[4px] bg-[#6f7987] px-5 py-2 [font-family:var(--font-montserrat)] text-[14px] font-medium text-white transition-colors hover:bg-[#626c79]"
+                    >
+                      <span className="text-[14px] text-white md:text-[16px]">Read More</span>
+                    </ExpertTopicLink>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
 

@@ -206,6 +206,60 @@ export const articleIndex: ArticleCard[] = [
       "A trimester-by-trimester guide to balanced pregnancy nutrition, including calcium, folate, hydration, and prep-ahead tips.",
   },
   {
+    slug: "infertility-and-iodine-deficiency-everything-you-need-to-know",
+    title: "Infertility and Iodine Deficiency: Everything You Need to Know",
+    heroImage: "/articles/infertility-and-iodine-deficiency-everything-you-need-to-know/hero.jpg",
+    heroAlt: "Infertility and iodine deficiency guidance",
+    category: "Pregnancy",
+    intro:
+      "How iodine supports conception, the halogen family, and practical steps to address iodine deficiency for fertility.",
+  },
+  {
+    slug: "the-best-foods-for-boosting-fertility",
+    title: "The Best Foods for Boosting Fertility",
+    heroImage: "/articles/the-best-foods-for-boosting-fertility/hero.jpg",
+    heroAlt: "Foods for boosting fertility",
+    category: "Pregnancy",
+    intro:
+      "Avocados, berries, whole fat dairy, bananas, citrus fruits, and quinoa to support fertility when trying to conceive.",
+  },
+  {
+    slug: "top-ten-tips-fourth-trimester",
+    title: "Top ten tips for the fourth trimester",
+    heroImage: "/articles/top-ten-tips-fourth-trimester/hero.jpg",
+    heroAlt: "Top ten tips for the fourth trimester",
+    category: "Pregnancy",
+    intro:
+      "Becky and Alexis share their top self-care tips for new mums during the fourth trimester.",
+  },
+  {
+    slug: "pregnancy-month-month",
+    title: "Your pregnancy month-by-month",
+    heroImage: "/articles/pregnancy-month-month/hero.jpg",
+    heroAlt: "Your pregnancy month-by-month",
+    category: "Pregnancy",
+    intro:
+      "A trimester-by-trimester guide to your baby's development and the changes you and your body will encounter throughout pregnancy.",
+  },
+  {
+    slug: "nesting",
+    title: "Nesting in pregnancy: why and how to",
+    heroImage: "/articles/nesting/hero.jpg",
+    heroAlt: "Nesting in pregnancy",
+    category: "Pregnancy",
+    intro:
+      "Why nesting happens in late pregnancy and how to clean, prepare your hospital bag, and get ready safely for baby's arrival.",
+  },
+  {
+    slug: "what-to-buy",
+    title: "What to buy",
+    heroImage: "/articles/what-to-buy/hero.jpg",
+    heroAlt: "What to buy for your baby",
+    category: "Pregnancy",
+    intro:
+      "Baby essentials to get you started — car seat, cot, pushchair, bouncer, feeding equipment, and baby clothes.",
+  },
+  {
     slug: "allergies-with-professor-adam-fox",
     title: "Food Allergies with Professor Adam Fox",
     heroImage: "/articles/allergies-with-professor-adam-fox/hero.jpg",

@@ -151,8 +151,8 @@ export const megaMenus: MegaMenu[] = [
       {
         title: "Hot Topics",
         links: [
-          { label: "Pregnancy, birth & postnatal", href: "/advice/pregnancy-birth-postnatal" },
-          { label: "Health and Development", href: "/advice/health-development" },
+          { label: "Pregnancy, birth & postnatal", href: "/advice-category/pregnancy-tips" },
+          { label: "Health and Development", href: "/advice-category/child-health-and-development" },
           { label: "Sleep", href: "/advice/sleep" },
           { label: "Breastfeeding", href: "/advice/breastfeeding" },
           { label: "Bottle Feeding", href: "/advice/bottle-feeding" },
@@ -710,10 +710,26 @@ export const expertDetails: ExpertDetail[] = [
       "Excerpt from The Little Book of Self Care for New Mums by Beccy Hands & Alexis Stickland (Vermillion, GBP12.99).",
     ],
     articleTopics: [
-      { title: "Top ten tips for the fourth trimester" },
-      { title: "Your pregnancy month-by-month" },
-      { title: "Nesting in pregnancy: why and how to" },
-      { title: "What to buy" },
+      {
+        title: "Top ten tips for the fourth trimester",
+        href: "/advice/top-ten-tips-fourth-trimester",
+        image: "/advice-category/pregnancy-tips/fourth-trimester.jpg",
+      },
+      {
+        title: "Your pregnancy month-by-month",
+        href: "/advice/pregnancy-month-month",
+        image: "/advice-category/pregnancy-tips/pregnancy-month-by-month.jpg",
+      },
+      {
+        title: "Nesting in pregnancy: why and how to",
+        href: "/advice/nesting",
+        image: "/advice-category/pregnancy-tips/nesting.jpg",
+      },
+      {
+        title: "What to buy",
+        href: "/advice/what-to-buy",
+        image: "/advice-category/pregnancy-tips/what-to-buy.jpg",
+      },
     ],
   },
   {
@@ -799,6 +815,12 @@ export const expertDetails: ExpertDetail[] = [
       label: "Toddlers Teens And Between",
       href: "https://www.toddlersteensandbetween.com/",
     },
-    articleTopics: [{ title: "Toddler Top Tips to Healthy Food Habits" }],
+    articleTopics: [
+      {
+        title: "Toddler Top Tips to Healthy Food Habits",
+        href: "/advice/toddler-top-tips-to-healthy-food-habits",
+        image: "/advice-category/child-health-and-development/toddler-top-tips.jpg",
+      },
+    ],
   },
 ];

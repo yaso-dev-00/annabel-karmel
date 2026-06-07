@@ -15,6 +15,7 @@ const hrefAliases: Record<string, string> = {
   "common-food-allergens-uk": "the-most-common-food-allergens-in-the-uk",
   "common-food-allergies-babies": "most-common-food-allergies-in-babies",
   "toddler-snack-time": "toddler-snack-time3",
+  "toddler-snacking": "toddler-snack-time3",
 };
 
 /**
@@ -108,15 +109,36 @@ export const builtArticleSlugs = new Set([
   "managing-your-babys-lactose-intolerance",
   "cows-milk-protein-allergy",
   "are-allergies-genetic",
+  "infertility-and-iodine-deficiency-everything-you-need-to-know",
+  "the-best-foods-for-boosting-fertility",
+  "top-ten-tips-fourth-trimester",
+  "pregnancy-month-month",
+  "nesting",
+  "what-to-buy",
+]);
+
+/** Articles that live under `/advice/<slug>` on the live site. */
+export const adviceArticleSlugs = new Set([
+  "infertility-and-iodine-deficiency-everything-you-need-to-know",
+  "the-best-foods-for-boosting-fertility",
+  "top-ten-tips-fourth-trimester",
+  "pregnancy-month-month",
+  "nesting",
+  "what-to-buy",
+  "toddler-top-tips-to-healthy-food-habits",
 ]);
 
 export function slugFromHref(href: string): string {
-  return href.replace(/^\//, "").replace(/\/$/, "");
+  const path = href.replace(/^\//, "").replace(/\/$/, "");
+  return path.startsWith("advice/") ? path.slice("advice/".length) : path;
 }
 
 export function resolveListingHref(href: string): string {
   const slug = slugFromHref(href);
   const resolvedSlug = hrefAliases[slug] ?? slug;
+  if (adviceArticleSlugs.has(resolvedSlug)) {
+    return `/advice/${resolvedSlug}`;
+  }
   if (builtArticleSlugs.has(resolvedSlug)) {
     return `/${resolvedSlug}`;
   }

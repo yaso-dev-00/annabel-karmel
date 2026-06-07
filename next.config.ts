@@ -90,6 +90,38 @@ const nextConfig: NextConfig = {
         destination: "/managing-your-babys-lactose-intolerance",
         permanent: true,
       },
+      {
+        source: "/advice/pregnancy-birth-postnatal",
+        destination: "/advice-category/pregnancy-tips",
+        permanent: true,
+      },
+      {
+        source: "/advice/health-development",
+        destination: "/advice-category/child-health-and-development",
+        permanent: true,
+      },
+      {
+        source: "/infertility-and-iodine-deficiency-everything-you-need-to-know",
+        destination: "/advice/infertility-and-iodine-deficiency-everything-you-need-to-know",
+        permanent: true,
+      },
+      {
+        source: "/the-best-foods-for-boosting-fertility",
+        destination: "/advice/the-best-foods-for-boosting-fertility",
+        permanent: true,
+      },
+      {
+        source: "/top-ten-tips-fourth-trimester",
+        destination: "/advice/top-ten-tips-fourth-trimester",
+        permanent: true,
+      },
+      {
+        source: "/pregnancy-month-month",
+        destination: "/advice/pregnancy-month-month",
+        permanent: true,
+      },
+      { source: "/nesting", destination: "/advice/nesting", permanent: true },
+      { source: "/what-to-buy", destination: "/advice/what-to-buy", permanent: true },
     ];
   },
 };

@@ -96,7 +96,7 @@
 }
 
 .accordionBodyText {
-  margin-top: 30px;
+  margin-top: 40px;
   font-family: var(--font-body);
   font-size: 22px;
   line-height: 1.42;
@@ -174,7 +174,9 @@
   .accordionBodyText {
     font-size: 20px;
   } */
-
+.accordionListItem{
+  font-size: 20px;
+}
   .relatedText {
     font-size: 17px;
     margin-top: 25px;

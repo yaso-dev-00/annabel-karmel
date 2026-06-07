@@ -1,6 +1,7 @@
 export type NavLink = {
   label: string;
   href: string;
+  children?: NavLink[];
 };
 
 export type NavGroup = {
@@ -11,6 +12,7 @@ export type NavGroup = {
 export type MegaMenu = {
   label: string;
   href: string;
+  layout?: "mega" | "dropdown";
   groups: NavGroup[];
 };
 
@@ -163,15 +165,22 @@ export const megaMenus: MegaMenu[] = [
   {
     label: "Competitions",
     href: "/competitions",
+    layout: "dropdown",
     groups: [
       {
-        title: "Community",
+        title: "",
         links: [
           { label: "Competitions", href: "/competitions" },
-          { label: "Our Partners", href: "/partners" },
-          { label: "Pampers", href: "/competitions/pampers-2026" },
-          { label: "Craft & Crumb", href: "/competitions/craft-crumb" },
-          { label: "Pots for Tots", href: "/competitions/pots-for-tots" },
+          {
+            label: "Our Partners",
+            href: "/partners",
+            children: [
+              { label: "Pampers x Snacking", href: "/pampers-snacking" },
+              { label: "Pampers x Superfoods", href: "/pampers-2026" },
+              { label: "Birds Eye", href: "/birds-eye" },
+              { label: "Craft & Crumb", href: "/craft-crumb" },
+            ],
+          },
         ],
       },
     ],
@@ -179,14 +188,14 @@ export const megaMenus: MegaMenu[] = [
   {
     label: "Our Products",
     href: "/our-products",
+    layout: "dropdown",
     groups: [
       {
-        title: "Ranges",
+        title: "",
         links: [
-          { label: "Little Meals", href: "/our-products/little-meals" },
-          { label: "Tableware", href: "/our-products/tableware" },
           { label: "Chilled Meals", href: "/our-products/chilled-meals" },
           { label: "Frozen Meals", href: "/our-products/frozen-meals" },
+          { label: "Plant Powered Bites", href: "/our-products/plant-powered-bites" },
           { label: "Baking Kits", href: "/our-products/baking-kits" },
           { label: "Cookbooks", href: "/our-products/cookbooks" },
         ],
@@ -196,13 +205,13 @@ export const megaMenus: MegaMenu[] = [
   {
     label: "Recipe App",
     href: "/recipe-app",
+    layout: "dropdown",
     groups: [
       {
-        title: "App",
+        title: "",
         links: [
           { label: "Discover the App", href: "/recipe-app" },
           { label: "App for Business", href: "/recipe-app/business" },
-          { label: "7-day free trial", href: "/recipe-app/free-trial" },
         ],
       },
     ],

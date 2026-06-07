@@ -93,7 +93,7 @@ export function RecipeListingGrid({ items }: RecipeListingGridProps) {
               </button>
             </div>
           </div>
-          <h2 className="mt-[30px] text-center font-[family-name:var(--font-body)] text-xl font-semibold leading-[1.32] text-[#3a3a3a]">
+          <h2 className="mt-[30px] text-center font-[family-name:var(--font-body)]! tracking-[1.54px] text-xl font-semibold leading-[1.32] text-[#3a3a3a]">
             <Link
               href={recipe.href}
               className="text-inherit no-underline hover:text-[var(--hover-color)]"

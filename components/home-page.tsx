@@ -11,7 +11,7 @@ import {
 } from "@/data/recipe-finder-options";
 import { buildRecipeListingUrl } from "@/lib/recipe-search-url";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   appFeatureCards,
   appSectionContent,
@@ -31,6 +31,37 @@ const heroThemeByIndex = [
   { panelColor: "#F4F2E8", buttonColor: "#8f887a" },
   { panelColor: "#DBEEF2", buttonColor: "#6f9fb2" },
 ];
+
+const HERO_SWIPE_THRESHOLD = 40;
+
+const heroImageVariants = {
+  enter: { opacity: 0, scale: 1.06 },
+  center: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 1.02 },
+};
+
+const heroCopyContainer = {
+  enter: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  center: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  exit: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
+};
+
+const heroCopyItem = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? 24 : -24,
+  }),
+  center: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? -16 : 16,
+    transition: { duration: 0.28, ease: "easeIn" as const },
+  }),
+};
 
 /** Left/right: circular badges ~110px at lg. Center: vertical rectangle ~1.4× that height. */
 const awardBadgeImgClasses = [
@@ -66,6 +97,10 @@ export function HomePageContent() {
   const awardX = useMotionValue(0);
   const [partnerAutoScrollEnabled, setPartnerAutoScrollEnabled] = useState(true);
   const [awardMarqueeAutoScrollEnabled, setAwardMarqueeAutoScrollEnabled] = useState(true);
+  const [heroAutoScrollEnabled, setHeroAutoScrollEnabled] = useState(true);
+  const heroPointerStartX = useRef<number | null>(null);
+  const heroPointerStartY = useRef<number | null>(null);
+  const heroActivePointerId = useRef<number | null>(null);
 
   const recipeCarousel = useSnapCarousel({
     itemCount: latestRecipes.length,
@@ -93,6 +128,64 @@ export function HomePageContent() {
   const moveSlide = (step: number) => {
     setDirection(step);
     setActiveSlide((prev) => (prev + step + heroSlides.length) % heroSlides.length);
+  };
+
+  const goToSlide = (index: number) => {
+    if (index === activeSlide) {
+      return;
+    }
+    setDirection(index > activeSlide ? 1 : -1);
+    setActiveSlide(index);
+    setHeroAutoScrollEnabled(false);
+    window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
+  };
+
+  const pauseHeroAutoScroll = () => {
+    setHeroAutoScrollEnabled(false);
+    window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
+  };
+
+  const handleHeroPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    if (target.closest(".hero-nav-buttons, .hero-dots, .hero-copy-content a")) {
+      return;
+    }
+
+    heroPointerStartX.current = event.clientX;
+    heroPointerStartY.current = event.clientY;
+    heroActivePointerId.current = event.pointerId;
+    setHeroAutoScrollEnabled(false);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleHeroPointerEnd = (event: ReactPointerEvent<HTMLElement>) => {
+    if (heroActivePointerId.current !== event.pointerId) {
+      return;
+    }
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    const startX = heroPointerStartX.current;
+    const startY = heroPointerStartY.current;
+    heroActivePointerId.current = null;
+    heroPointerStartX.current = null;
+    heroPointerStartY.current = null;
+
+    if (startX === null || startY === null) {
+      window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
+      return;
+    }
+
+    const deltaX = event.clientX - startX;
+    const deltaY = event.clientY - startY;
+
+    if (Math.abs(deltaX) > HERO_SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY)) {
+      moveSlide(deltaX > 0 ? -1 : 1);
+    }
+
+    window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
   };
 
   const handleRecipeNavigation = (step: number) => {
@@ -128,9 +221,13 @@ export function HomePageContent() {
   };
 
   useEffect(() => {
+    if (!heroAutoScrollEnabled) {
+      return;
+    }
+
     const timer = setInterval(() => moveSlide(1), 5500);
     return () => clearInterval(timer);
-  }, []);
+  }, [heroAutoScrollEnabled]);
 
   useEffect(() => {
     const updatePanelLockOnResize = () => {
@@ -423,37 +520,14 @@ export function HomePageContent() {
   );
 
   return (
-    <main className="max-md:pb-16">
-      <section className="hero-showcase container mt-10!">
-        <article className="hero-slider-shell">
-          <div className="hero-copy-panel" style={{ backgroundColor: theme.panelColor }}>
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={`copy-${activeSlide}`}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.38, ease: "easeOut" }}
-                className="hero-copy-content max-[900px]:text-center max-[900px]:items-center"
-              >
-                <h1>{current.title}</h1>
-                <p>{current.subtitle}</p>
-                <a
-                  href={current.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ backgroundColor: theme.buttonColor }}
-                  className={`inline-flex items-center gap-2 rounded-[15px] px-6! py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] whitespace-nowrap transition-colors ${styles.ctaButton}`}
-                >
-                  <span className={`${styles.ctaLabel} inline-block w-auto h-auto text-[20px] font-medium leading-none`}>{current.cta}</span>
-                  <span className="inline-flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-[15px] bg-white" aria-hidden>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                  </span>
-                </a>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
+    <main className="max-md:pb-16  ">
+      <section className="hero-showcase container">
+        <article
+          className="hero-slider-shell"
+          onPointerDown={handleHeroPointerDown}
+          onPointerUp={handleHeroPointerEnd}
+          onPointerCancel={handleHeroPointerEnd}
+        >
           <div className="hero-image-panel">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.img
@@ -461,25 +535,101 @@ export function HomePageContent() {
                 src={current.image}
                 alt={current.title}
                 className="hero-slide-image"
-                initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
-                transition={{ duration: 0.45, ease: "easeOut" }}
+                custom={direction}
+                variants={heroImageVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.6, ease: "easeOut" }}
               />
             </AnimatePresence>
+          </div>
 
-            <div className="hero-nav-buttons">
-              <button type="button" onClick={() => moveSlide(-1)} aria-label="Previous slide" className="prev">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M14.5 5L8 11.5L14.5 18" />
-                </svg>
-              </button>
-              <button type="button" onClick={() => moveSlide(1)} aria-label="Next slide" className="next">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M9.5 5L16 11.5L9.5 18" />
-                </svg>
-              </button>
-            </div>
+          <div className="hero-mobile-scrim" aria-hidden />
+
+          <div className="hero-copy-panel">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={`copy-${activeSlide}`}
+                className="hero-copy-content"
+                custom={direction}
+                variants={heroCopyContainer}
+                initial="enter"
+                animate="center"
+                exit="exit"
+              >
+                <motion.h1 variants={heroCopyItem} custom={direction}>
+                  {current.title}
+                </motion.h1>
+                <motion.p variants={heroCopyItem} custom={direction}>
+                  {current.subtitle}
+                </motion.p>
+                <motion.a
+                  variants={heroCopyItem}
+                  custom={direction}
+                  href={current.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ backgroundColor: theme.buttonColor }}
+                  className={`inline-flex items-center gap-2 rounded-[15px] px-5! py-4 text-base font-semibold text-white shadow-[0_6px_16px_rgba(0,0,0,0.28)] whitespace-nowrap transition-colors md:px-6! md:py-5 ${styles.ctaButton}`}
+                >
+                  <span className={`${styles.ctaLabel} inline-block w-auto h-auto text-[18px] font-medium leading-none md:text-[20px]`}>
+                    {current.cta}
+                  </span>
+                  <span className="inline-flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[12px] bg-white md:h-[40px] md:w-[40px] md:rounded-[15px]" aria-hidden>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 42 41" fill="none" className="md:h-[42px] md:w-[42px]">
+                      <rect x="0.5" width="41" height="41" rx="16" fill="white" />
+                      <path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </motion.a>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="hero-dots" aria-label="Hero slides">
+            {heroSlides.map((slide, slideIndex) => (
+              <button
+                key={slide.title}
+                type="button"
+                aria-label={`Go to slide ${slideIndex + 1}`}
+                aria-current={slideIndex === activeSlide ? "true" : undefined}
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={() => goToSlide(slideIndex)}
+              />
+            ))}
+          </div>
+
+          <div className="hero-nav-buttons">
+            <button
+              type="button"
+              onPointerDown={(event) => {
+                event.stopPropagation();
+                moveSlide(-1);
+                pauseHeroAutoScroll();
+              }}
+              aria-label="Previous slide"
+              className="prev"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14.5 5L8 11.5L14.5 18" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onPointerDown={(event) => {
+                event.stopPropagation();
+                moveSlide(1);
+                pauseHeroAutoScroll();
+              }}
+              aria-label="Next slide"
+              className="next"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9.5 5L16 11.5L9.5 18" />
+              </svg>
+            </button>
           </div>
         </article>
       </section>

@@ -126,23 +126,37 @@ export const adviceArticleSlugs = new Set([
   "nesting",
   "what-to-buy",
   "toddler-top-tips-to-healthy-food-habits",
+  "gagging-vs-choking",
 ]);
+
+/** Articles served at both `/slug` and `/advice/slug` — path follows the listing source. */
+export const dualPathArticleSlugs = new Set(["gagging-vs-choking"]);
 
 export function slugFromHref(href: string): string {
   const path = href.replace(/^\//, "").replace(/\/$/, "");
   return path.startsWith("advice/") ? path.slice("advice/".length) : path;
 }
 
-export function resolveListingHref(href: string): string {
-  const slug = slugFromHref(href);
+export function resolveArticleHref(slug: string, preferAdvicePath: boolean): string {
   const resolvedSlug = hrefAliases[slug] ?? slug;
+  if (dualPathArticleSlugs.has(resolvedSlug)) {
+    return preferAdvicePath ? `/advice/${resolvedSlug}` : `/${resolvedSlug}`;
+  }
   if (adviceArticleSlugs.has(resolvedSlug)) {
     return `/advice/${resolvedSlug}`;
   }
   if (builtArticleSlugs.has(resolvedSlug)) {
     return `/${resolvedSlug}`;
   }
-  return href;
+  return `/${resolvedSlug}`;
+}
+
+export function resolveListingHref(href: string): string {
+  const normalized = href.replace(/^\//, "").replace(/\/$/, "");
+  const preferAdvicePath = normalized.startsWith("advice/");
+  const slug = slugFromHref(href);
+  const resolvedSlug = hrefAliases[slug] ?? slug;
+  return resolveArticleHref(resolvedSlug, preferAdvicePath);
 }
 
 export function isBuiltArticleHref(href: string): boolean {

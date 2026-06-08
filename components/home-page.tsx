@@ -535,6 +535,11 @@ export function HomePageContent() {
                 src={current.image}
                 alt={current.title}
                 className="hero-slide-image"
+                width={2048}
+                height={2560}
+                decoding="async"
+                fetchPriority={activeSlide === 0 ? "high" : "auto"}
+                draggable={false}
                 custom={direction}
                 variants={heroImageVariants}
                 initial="enter"
@@ -579,8 +584,8 @@ export function HomePageContent() {
                   <span className="inline-flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[12px] bg-white md:h-[40px] md:w-[40px] md:rounded-[15px]" aria-hidden>
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 42 41" fill="none" className="md:h-[42px] md:w-[42px]">
                       <rect x="0.5" width="41" height="41" rx="16" fill="white" />
-                      <path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M13.5 20.5H27.5" stroke={theme.buttonColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke={theme.buttonColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
                 </motion.a>
@@ -709,10 +714,10 @@ export function HomePageContent() {
             </div>
             ) : null}
           </div>
-       <div className="w-full px-2 pt-[6px] min-[1080px]:p-0">
+       <div className="w-full flex justify-end items-center px-2 pt-[6px] min-[1080px]:p-0">
        <button
             type="submit"
-            className="inline-flex relative cursor-pointer min-[1080px]:float-right right-[0px] min-[1080px]:right-[20px] items-center justify-center gap-2 rounded-[15px] bg-[#b34769] px-5 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors max-[1100px]:col-span-1 max-[1100px]:mt-2 max-[1100px]:w-full"
+            className="inline-flex relative cursor-pointer min-[1080px]:float-right right-[0px] min-[1080px]:right-[20px] items-center justify-center gap-2 rounded-[15px] bg-[#b34769] hover:bg-[#ea6397] px-5 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors max-[1100px]:col-span-1 max-[1100px]:mt-2 max-[1100px]:w-full"
             aria-label="Search recipes"
           >
           <img decoding="async" src="https://www.annabelkarmel.com/wp-content/uploads/2025/03/Search-optimized.png" alt="Search" className="h-[40px] w-[40px]"/>

@@ -2,15 +2,22 @@ import type { RelatedArticleItem } from "@/components/related-articles-carousel"
 
 export const articleSlug = "toddler-top-tips-to-healthy-food-habits";
 export const articlePath = `/articles/${articleSlug}`;
+export const ttabLogoSrc = `${articlePath}/ttab-logo.png`;
 
 export const toddlersTeensUrl = "https://www.toddlersteensandbetween.com/";
 export const toddlersTeensCourseUrl = "https://www.toddlersteensandbetween.com/";
 export const gemmaExpertHref =
   "/meet-our-experts/gemma-arnold-sophia-ziff-mental-health-behaviour-and-wellbeing-specialists";
 
+export type ToddlerFoodTipLink = {
+  label: string;
+  href: string;
+};
+
 export type ToddlerFoodTip = {
   title: string;
-  body: string;
+  body?: string;
+  bodyParts?: (string | ToddlerFoodTipLink)[];
 };
 
 export const toddlerTopTipsIntro = [
@@ -40,7 +47,19 @@ export const toddlerTopTips: ToddlerFoodTip[] = [
   },
   {
     title: "Let them eat with their eyes",
-    body: "Without going to unnecessary lengths, try to make your child's food not only taste good but look good too. Make mini portions in ramekins, chicken skewers or thread bite sized pieces of fruit onto a straw. Salad lollipops are a great way to try lots of different foods and textures in one go.",
+    bodyParts: [
+      "Without going to unnecessary lengths, try to make your child's food not only taste good but look good too. Make ",
+      {
+        label: "mini portions in ramekins",
+        href: "https://www.annabelkarmel.com/recipes/mini-fish-pies-3/",
+      },
+      ", ",
+      {
+        label: "chicken skewers",
+        href: "https://www.annabelkarmel.com/recipes/chicken-satay/",
+      },
+      " or thread bite sized pieces of fruit onto a straw. Salad lollipops are a great way to try lots of different foods and textures in one go.",
+    ],
   },
   {
     title: "Lead by example",

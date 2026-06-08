@@ -1,6 +1,6 @@
 import type { RelatedArticleItem } from "@/components/related-articles-carousel";
 import { articleIndex } from "@/data/article-index";
-import { adviceArticleSlugs } from "@/data/resolve-article-listing";
+import { resolveArticleHref, slugFromHref } from "@/data/resolve-article-listing";
 
 const thumbnailOverrides: Record<string, string> = {
   "best-foods-to-help-your-baby-sleep":
@@ -10,12 +10,16 @@ const thumbnailOverrides: Record<string, string> = {
   "get-your-free-top-50-first-foods-list": "/articles/get-your-free-top-50-first-foods-list/related-first-foods.jpg",
 };
 
-export const allRelatedArticles: RelatedArticleItem[] = articleIndex.map((article) => ({
-  href: adviceArticleSlugs.has(article.slug) ? `/advice/${article.slug}` : `/${article.slug}`,
-  title: article.title,
-  image: thumbnailOverrides[article.slug] ?? article.heroImage,
-}));
-
 export function getRelatedArticles(currentHref: string, limit = 10): RelatedArticleItem[] {
-  return allRelatedArticles.filter((item) => item.href !== currentHref).slice(0, limit);
+  const preferAdvicePath = currentHref.startsWith("/advice/");
+  const currentSlug = slugFromHref(currentHref);
+
+  return articleIndex
+    .map((article) => ({
+      href: resolveArticleHref(article.slug, preferAdvicePath),
+      title: article.title,
+      image: thumbnailOverrides[article.slug] ?? article.heroImage,
+    }))
+    .filter((item) => slugFromHref(item.href) !== currentSlug)
+    .slice(0, limit);
 }

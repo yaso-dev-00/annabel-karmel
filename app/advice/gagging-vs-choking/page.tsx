@@ -7,6 +7,6 @@ export const metadata: Metadata = {
     "Learn the difference between gagging and choking when weaning, what to do in each situation, choking risks, and NHS first-aid guidance.",
 };
 
-export default function GaggingVsChokingPage() {
-  return <GaggingVsChokingArticle currentHref="/gagging-vs-choking" />;
+export default function GaggingVsChokingAdvicePage() {
+  return <GaggingVsChokingArticle currentHref="/advice/gagging-vs-choking" />;
 }

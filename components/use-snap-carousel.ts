@@ -47,6 +47,7 @@ export function useSnapCarousel({
   const targetIndexRef = useRef(0);
   const stepRef = useRef(0);
   const alignOffsetRef = useRef(0);
+  const minXRef = useRef(0);
   const maxIndexRef = useRef(0);
   const isDragging = useRef(false);
   const blockClickRef = useRef(false);
@@ -86,14 +87,14 @@ export function useSnapCarousel({
   const [step, setStep] = useState(0);
   const [alignOffset, setAlignOffset] = useState(0);
   const [visibleCards, setVisibleCards] = useState(initialVisibleCards);
+  const [maxIndex, setMaxIndex] = useState(0);
 
-  const maxIndex = Math.max(0, itemCount - visibleCards);
   stepRef.current = step;
   alignOffsetRef.current = alignOffset;
-  maxIndexRef.current = maxIndex;
 
   const getTargetX = useCallback((slideIndex: number) => {
-    return alignOffsetRef.current - slideIndex * stepRef.current;
+    const naive = alignOffsetRef.current - slideIndex * stepRef.current;
+    return Math.max(minXRef.current, Math.min(alignOffsetRef.current, naive));
   }, []);
 
   const cancelAnimation = useCallback(() => {
@@ -199,13 +200,25 @@ export function useSnapCarousel({
       centerSingleSlide && cardsVisible === 1
         ? Math.max(0, (viewportWidth - cardWidth) / 2)
         : 0;
+    const lastCard = cards[cards.length - 1];
+    const trackWidth = lastCard
+      ? lastCard.offsetLeft + lastCard.offsetWidth
+      : itemCount * cardWidth + Math.max(0, itemCount - 1) * gap;
+    const minX = offset + viewportWidth - trackWidth;
+    const computedMaxIndex =
+      cardStep > 0 && minX < offset
+        ? Math.max(0, Math.ceil((offset - minX) / cardStep))
+        : 0;
 
     alignOffsetRef.current = offset;
     stepRef.current = cardStep;
+    minXRef.current = minX;
+    maxIndexRef.current = computedMaxIndex;
     setAlignOffset(offset);
     setStep(cardStep);
     setVisibleCards(cardsVisible);
-  }, [cardSelector, centerSingleSlide]);
+    setMaxIndex(computedMaxIndex);
+  }, [cardSelector, centerSingleSlide, itemCount]);
 
   const scheduleMeasure = useCallback(() => {
     if (measureRafRef.current !== null) {

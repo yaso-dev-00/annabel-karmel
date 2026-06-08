@@ -19,8 +19,33 @@ export function SiteHeader() {
   const [mobileOpenSubGroups, setMobileOpenSubGroups] = useState<string[]>([]);
   const navId = useId();
   const headerRef = useRef<HTMLElement | null>(null);
+  const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const desktopCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const nestedCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [panelLeft, setPanelLeft] = useState(0);
+
+  const updatePanelAnchor = useCallback((menuLabel: string | null) => {
+    if (!menuLabel) {
+      return;
+    }
+
+    const trigger = triggerRefs.current[menuLabel];
+    if (!trigger) {
+      return;
+    }
+
+    const rect = trigger.getBoundingClientRect();
+    const margin = 16;
+    const panel = headerRef.current?.querySelector<HTMLElement>(".nav-overlay-panel");
+    const panelWidth = panel?.getBoundingClientRect().width ?? 0;
+    let left = rect.left;
+
+    if (panelWidth > 0 && left + panelWidth > window.innerWidth - margin) {
+      left = Math.max(margin, window.innerWidth - margin - panelWidth);
+    }
+
+    setPanelLeft(left);
+  }, []);
 
   const clearDesktopCloseTimer = useCallback(() => {
     if (desktopCloseTimerRef.current) {
@@ -43,6 +68,10 @@ export function SiteHeader() {
   const openDesktopNav = useCallback(
     (menuLabel: string) => {
       clearDesktopCloseTimer();
+      const trigger = triggerRefs.current[menuLabel];
+      if (trigger) {
+        setPanelLeft(trigger.getBoundingClientRect().left);
+      }
       setOpenDesktopMenu((current) => {
         if (current !== menuLabel) {
           setActiveNestedKey(null);
@@ -113,6 +142,40 @@ export function SiteHeader() {
     };
   }, [clearDesktopCloseTimer]);
 
+  useEffect(() => {
+    if (!openDesktopMenu) {
+      return;
+    }
+
+    const scheduleAnchor = () => {
+      window.requestAnimationFrame(() => {
+        updatePanelAnchor(openDesktopMenu);
+      });
+    };
+
+    scheduleAnchor();
+
+    const panel = headerRef.current?.querySelector<HTMLElement>(".nav-overlay-panel");
+    const resizeObserver =
+      panel && typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => {
+            updatePanelAnchor(openDesktopMenu);
+          })
+        : null;
+
+    if (panel) {
+      resizeObserver?.observe(panel);
+    }
+
+    const handleResize = () => updatePanelAnchor(openDesktopMenu);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [openDesktopMenu, activeNestedKey, updatePanelAnchor]);
+
   const toggleMobileGroup = (label: string) => {
     setMobileOpenGroups((groups) =>
       groups.includes(label) ? groups.filter((item) => item !== label) : [...groups, label],
@@ -153,6 +216,9 @@ export function SiteHeader() {
         <div className="menu-item" key={menu.label} onMouseEnter={() => openDesktopNav(menu.label)}>
           <button
             type="button"
+            ref={(element) => {
+              triggerRefs.current[menu.label] = element;
+            }}
             className={`nav-trigger ${menuActive ? "is-active" : ""} ${isOpen ? "is-open" : ""}`}
             onClick={() => handleTriggerClick(menu.label)}
             onFocus={() => openDesktopNav(menu.label)}
@@ -200,27 +266,44 @@ export function SiteHeader() {
             <span />
           </button>
 
-          <nav className="desktop-nav desktop-nav-right" aria-label="Primary navigation right">
-            {renderDesktopTriggers(rightMenus)}
-          </nav>
+          <div className="main-nav-right">
+            <nav className="desktop-nav desktop-nav-right" aria-label="Primary navigation right">
+              {renderDesktopTriggers(rightMenus)}
+            </nav>
 
-          <div className="header-actions">
-            <a href="/search" aria-label="Search" className="header-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="11" cy="11" r="6.5" />
-                <path d="M16 16L21 21" />
-              </svg>
-            </a>
-            <div className="account-menu">
-              <a href="/login" aria-label="Account" className="header-icon user">
+            <div className="header-actions">
+              <a href="/search" aria-label="Search" className="header-icon">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="12" cy="8" r="3.3" />
-                  <path d="M5.2 18.5C6.7 15.8 9 14.5 12 14.5C15 14.5 17.3 15.8 18.8 18.5" />
+                  <circle cx="11" cy="11" r="6.5" />
+                  <path d="M16 16L21 21" />
                 </svg>
               </a>
-              <div className="account-dropdown">
-                <Link href="/login">Login</Link>
-                <Link href="/register">Create an account</Link>
+              <div className="account-menu" onMouseEnter={closeDesktopNav}>
+                <a
+                  href="/login"
+                  aria-label="Account"
+                  className="header-icon user"
+                  onFocus={closeDesktopNav}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.3" />
+                    <path d="M5.2 18.5C6.7 15.8 9 14.5 12 14.5C15 14.5 17.3 15.8 18.8 18.5" />
+                  </svg>
+                </a>
+                <div className="account-dropdown">
+                  <ul className="nav-overlay-dropdown-primary">
+                    <li>
+                      <Link href="/login" className="nav-overlay-link">
+                        Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/register" className="nav-overlay-link">
+                        Create an account
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -230,6 +313,7 @@ export function SiteHeader() {
           activeMenuLabel={openDesktopMenu}
           activeNestedKey={activeNestedKey}
           navId={navId}
+          panelLeft={panelLeft}
           onNestedChange={handleNestedChange}
           onClose={closeDesktopNav}
           onOverlayEnter={clearDesktopCloseTimer}

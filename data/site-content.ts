@@ -223,25 +223,28 @@ export const logoUrl =
 
 export const heroSlides: HeroSlide[] = [
   {
-    title: "Less prep time, more play time.",
+    title: "Fish Finger Pie",
+    subtitle: "Your new failsafe family favourite has arrived!",
+    cta: "Discover",
+    href: "/recipes/fish-finger-pie",
+    image:
+      "https://www.annabelkarmel.com/wp-content/uploads/2026/06/Birds-Eye-Fish-Finger-Hero-scaled.jpg",
+  },
+  {
+    title: "Plant-powered for kids!",
+    subtitle: "The tastiest take on kids' all time favourites, now available at Asda.",
+    cta: "Discover",
+    href: "https://www.asda.com/groceries/search/annabel%20karmel%20meat%20free",
+    image:
+      "https://www.annabelkarmel.com/wp-content/uploads/2026/05/PLant-Based-Launch-Hero-scaled.jpg",
+  },
+  {
+    title: "Kids' tikka, quikka",
     subtitle: "Delicious dinners at the speed of life.",
     cta: "Discover",
-    href: "/our-products/chilled-meals",
-    image: "/hero-slides/slide-1.png",
-  },
-  {
-    title: "Snack attack!",
-    subtitle: "Hangry tot? We've got you covered!",
-    cta: "Discover",
-    href: "/meal-time/snack",
-    image: "/hero-slides/slide-2.png",
-  },
-  {
-    title: "Mealtime ideas for all ages",
-    subtitle: "Start your 7-day free trial today!",
-    cta: "Discover",
-    href: "/recipe-app/free-trial",
-    image: "/hero-slides/slide-3.png",
+    href: "https://www.tesco.com/shop/en-GB/search?query=annabel%20karmel",
+    image:
+      "https://www.annabelkarmel.com/wp-content/uploads/2026/06/Chicken-Tikka_1080x1350_Plate_NoText.jpg",
   },
 ];
 

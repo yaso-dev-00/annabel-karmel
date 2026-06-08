@@ -40,6 +40,8 @@
 
 .tipTitle {
   font-weight: 700;
+  font-size: 20px;
+ 
 }
 
 .tipBody {
@@ -64,6 +66,19 @@
   color: var(--hover-color);
 }
 
+.ttabLogoLink {
+  display: block;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.ttabLogo {
+  display: inline-block;
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+}
+
 .relatedTitle {
   margin: 0;
   font-family: var(--font-display);
@@ -85,6 +100,7 @@
   .bodyText,
   .tipsList,
   .closing,
+  .ttabLogoLink,
   .relatedTitle,
   .relatedText {
     padding: 0 10px;

@@ -12,6 +12,7 @@ type SiteNavOverlayProps = {
   activeMenuLabel: string | null;
   activeNestedKey: string | null;
   navId: string;
+  panelLeft: number;
   onNestedChange: (key: string | null) => void;
   onClose: () => void;
   onOverlayEnter: () => void;
@@ -170,6 +171,7 @@ export function SiteNavOverlay({
   activeMenuLabel,
   activeNestedKey,
   navId,
+  panelLeft,
   onNestedChange,
   onClose,
   onOverlayEnter,
@@ -198,6 +200,7 @@ export function SiteNavOverlay({
             role="region"
             aria-label={`${activeMenu.label} menu`}
             className="nav-overlay-panel"
+            style={{ left: panelLeft }}
             initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
             animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
             exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
@@ -205,7 +208,7 @@ export function SiteNavOverlay({
             onMouseEnter={onOverlayEnter}
             onMouseLeave={onOverlayLeave}
           >
-            <div className="container nav-overlay-inner">
+            <div className="nav-overlay-inner">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeMenu.label}

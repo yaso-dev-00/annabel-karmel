@@ -115,7 +115,6 @@ export function HomePageContent() {
     cardSelector: ".cookbook-card",
     controlsSelector: ".cookbook-carousel-controls, button",
     initialVisibleCards: 1,
-    centerSingleSlide: true,
   });
 
   const current = useMemo(() => heroSlides[activeSlide], [activeSlide]);
@@ -1087,7 +1086,7 @@ export function HomePageContent() {
                       src={book.image}
                       alt={book.title}
                       draggable={false}
-                      onLoad={bookIndex === 0 ? cookbookCarousel.measure : undefined}
+                      onLoad={cookbookCarousel.measure}
                       className="h-[400px] w-auto max-w-[84%] bg-[#ecdde0] object-contain object-center transition-transform duration-300 group-hover:scale-[1.02]"
                     />
                   </a>

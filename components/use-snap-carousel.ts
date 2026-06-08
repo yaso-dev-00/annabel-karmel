@@ -21,6 +21,38 @@ export const CAROUSEL_SMOOTH = {
   ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
 };
 
+type SnapMetrics = {
+  edgeCenterSnap: boolean;
+  viewportWidth: number;
+  cardCenters: number[];
+  minX: number;
+  offset: number;
+  step: number;
+  maxIndex: number;
+};
+
+function resolveTargetX(slideIndex: number, metrics: SnapMetrics): number {
+  const { edgeCenterSnap, viewportWidth, cardCenters, minX, offset, step, maxIndex } = metrics;
+
+  if (edgeCenterSnap) {
+    if (slideIndex <= 0) {
+      return 0;
+    }
+    if (slideIndex >= maxIndex) {
+      return minX;
+    }
+    const cardCenter = cardCenters[slideIndex];
+    if (cardCenter === undefined) {
+      return 0;
+    }
+    const centered = viewportWidth / 2 - cardCenter;
+    return Math.max(minX, Math.min(0, centered));
+  }
+
+  const naive = offset - slideIndex * step;
+  return Math.max(minX, Math.min(offset, naive));
+}
+
 type SnapCarouselOptions = {
   itemCount: number;
   cardSelector: string;
@@ -49,6 +81,9 @@ export function useSnapCarousel({
   const alignOffsetRef = useRef(0);
   const minXRef = useRef(0);
   const maxIndexRef = useRef(0);
+  const viewportWidthRef = useRef(0);
+  const cardCentersRef = useRef<number[]>([]);
+  const edgeCenterSnapRef = useRef(false);
   const isDragging = useRef(false);
   const blockClickRef = useRef(false);
   const pointerStartX = useRef<number | null>(null);
@@ -57,6 +92,7 @@ export function useSnapCarousel({
   const activePointerId = useRef<number | null>(null);
   const prevStepRef = useRef(0);
   const prevAlignOffsetRef = useRef(0);
+  const prevEdgeCenterSnapRef = useRef(false);
   const measureRafRef = useRef<number | null>(null);
   const pointerMovedRef = useRef(false);
   const lastTapAtRef = useRef(0);
@@ -92,10 +128,41 @@ export function useSnapCarousel({
   stepRef.current = step;
   alignOffsetRef.current = alignOffset;
 
-  const getTargetX = useCallback((slideIndex: number) => {
-    const naive = alignOffsetRef.current - slideIndex * stepRef.current;
-    return Math.max(minXRef.current, Math.min(alignOffsetRef.current, naive));
+  const getSnapMetrics = useCallback((): SnapMetrics => {
+    return {
+      edgeCenterSnap: edgeCenterSnapRef.current,
+      viewportWidth: viewportWidthRef.current,
+      cardCenters: cardCentersRef.current,
+      minX: minXRef.current,
+      offset: alignOffsetRef.current,
+      step: stepRef.current,
+      maxIndex: maxIndexRef.current,
+    };
   }, []);
+
+  const getTargetX = useCallback(
+    (slideIndex: number) => resolveTargetX(slideIndex, getSnapMetrics()),
+    [getSnapMetrics],
+  );
+
+  const findNearestIndex = useCallback(
+    (projectedX: number) => {
+      const limit = maxIndexRef.current;
+      let nearestIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      for (let slideIndex = 0; slideIndex <= limit; slideIndex += 1) {
+        const distance = Math.abs(projectedX - getTargetX(slideIndex));
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = slideIndex;
+        }
+      }
+
+      return nearestIndex;
+    },
+    [getTargetX],
+  );
 
   const cancelAnimation = useCallback(() => {
     animationGenerationRef.current += 1;
@@ -117,7 +184,7 @@ export function useSnapCarousel({
       targetIndexRef.current = clamped;
       setIndex(clamped);
 
-      if (currentStep <= 0) {
+      if (currentStep <= 0 && !edgeCenterSnapRef.current) {
         return;
       }
 
@@ -132,7 +199,7 @@ export function useSnapCarousel({
           ? {
               duration: Math.max(
                 0.75,
-                (Math.abs(targetX - x.get()) / currentStep) * transition.duration,
+                (Math.abs(targetX - x.get()) / Math.max(currentStep, 1)) * transition.duration,
               ),
               ease: transition.ease,
             }
@@ -167,13 +234,13 @@ export function useSnapCarousel({
       return;
     }
 
-    const firstCard = track.querySelector<HTMLElement>(cardSelector);
+    const cards = track.querySelectorAll<HTMLElement>(cardSelector);
+    const firstCard = cards[0];
     if (!firstCard || firstCard.offsetWidth <= 0) {
       return;
     }
 
     const styles = window.getComputedStyle(track);
-    const cards = track.querySelectorAll<HTMLElement>(cardSelector);
     let gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
 
     if (gap <= 0 && cards.length > 1) {
@@ -183,6 +250,7 @@ export function useSnapCarousel({
     if (gap < 0) {
       gap = 0;
     }
+
     const cardWidth = firstCard.offsetWidth;
     const cardStep = cardWidth + gap;
     const carouselStyles = window.getComputedStyle(carousel);
@@ -196,19 +264,39 @@ export function useSnapCarousel({
     }
 
     const cardsVisible = Math.max(1, Math.floor((viewportWidth + gap) / cardStep));
-    const offset =
-      centerSingleSlide && cardsVisible === 1
-        ? Math.max(0, (viewportWidth - cardWidth) / 2)
-        : 0;
+    const useEdgeCenterSnap = centerSingleSlide && cardsVisible <= 1;
+
+    viewportWidthRef.current = viewportWidth;
+    edgeCenterSnapRef.current = useEdgeCenterSnap;
+    carousel.classList.toggle("is-center-snap", useEdgeCenterSnap);
+    track.style.removeProperty("--carousel-center-pad");
+
+    const cardCenters = Array.from(cards).map(
+      (card) => card.offsetLeft + card.offsetWidth / 2,
+    );
+    cardCentersRef.current = cardCenters;
+
+    let offset = 0;
+    let minX = 0;
+    let computedMaxIndex = 0;
+
     const lastCard = cards[cards.length - 1];
     const trackWidth = lastCard
       ? lastCard.offsetLeft + lastCard.offsetWidth
       : itemCount * cardWidth + Math.max(0, itemCount - 1) * gap;
-    const minX = offset + viewportWidth - trackWidth;
-    const computedMaxIndex =
-      cardStep > 0 && minX < offset
-        ? Math.max(0, Math.ceil((offset - minX) / cardStep))
-        : 0;
+    const endAlignedMinX = viewportWidth - trackWidth;
+
+    if (useEdgeCenterSnap) {
+      computedMaxIndex = Math.max(0, cards.length - 1);
+      offset = 0;
+      minX = endAlignedMinX;
+    } else {
+      minX = endAlignedMinX;
+      computedMaxIndex =
+        cardStep > 0 && minX < 0
+          ? Math.max(0, Math.ceil(-minX / cardStep))
+          : 0;
+    }
 
     alignOffsetRef.current = offset;
     stepRef.current = cardStep;
@@ -218,7 +306,29 @@ export function useSnapCarousel({
     setStep(cardStep);
     setVisibleCards(cardsVisible);
     setMaxIndex(computedMaxIndex);
-  }, [cardSelector, centerSingleSlide, itemCount]);
+
+    if (indexRef.current > computedMaxIndex) {
+      indexRef.current = computedMaxIndex;
+      targetIndexRef.current = computedMaxIndex;
+      setIndex(computedMaxIndex);
+    }
+
+    if (!isDragging.current && !animationRef.current) {
+      const syncX = resolveTargetX(targetIndexRef.current, {
+        edgeCenterSnap: useEdgeCenterSnap,
+        viewportWidth,
+        cardCenters,
+        minX,
+        offset,
+        step: cardStep,
+        maxIndex: computedMaxIndex,
+      });
+
+      if (Math.abs(x.get() - syncX) > 0.5) {
+        x.set(syncX);
+      }
+    }
+  }, [cardSelector, centerSingleSlide, itemCount, x]);
 
   const scheduleMeasure = useCallback(() => {
     if (measureRafRef.current !== null) {
@@ -266,16 +376,19 @@ export function useSnapCarousel({
   }, [maxIndex, animateToIndex]);
 
   useEffect(() => {
-    if (step <= 0) {
+    if (step <= 0 && !edgeCenterSnapRef.current) {
       return;
     }
 
-    const wasUnmeasured = prevStepRef.current <= 0;
+    const wasUnmeasured = prevStepRef.current <= 0 && !prevEdgeCenterSnapRef.current;
     const layoutChanged =
-      prevStepRef.current !== step || prevAlignOffsetRef.current !== alignOffset;
+      prevStepRef.current !== step ||
+      prevAlignOffsetRef.current !== alignOffset ||
+      prevEdgeCenterSnapRef.current !== edgeCenterSnapRef.current;
 
     prevStepRef.current = step;
     prevAlignOffsetRef.current = alignOffset;
+    prevEdgeCenterSnapRef.current = edgeCenterSnapRef.current;
 
     if (!wasUnmeasured && !layoutChanged) {
       return;
@@ -337,7 +450,7 @@ export function useSnapCarousel({
     (event: ReactPointerEvent<HTMLDivElement>) => {
       if (
         maxIndexRef.current <= 0 ||
-        stepRef.current <= 0 ||
+        (stepRef.current <= 0 && !edgeCenterSnapRef.current) ||
         (event.target as HTMLElement).closest(controlsSelector)
       ) {
         return;
@@ -368,7 +481,7 @@ export function useSnapCarousel({
         activePointerId.current !== event.pointerId ||
         pointerStartX.current === null ||
         pointerStartY.current === null ||
-        stepRef.current <= 0
+        (stepRef.current <= 0 && !edgeCenterSnapRef.current)
       ) {
         return;
       }
@@ -404,9 +517,9 @@ export function useSnapCarousel({
         event.preventDefault();
       }
 
-      const minX = getTargetX(maxIndexRef.current);
-      const maxX = getTargetX(0);
-      x.set(Math.max(minX, Math.min(maxX, pointerStartOffset.current + deltaX)));
+      const minBound = getTargetX(maxIndexRef.current);
+      const maxBound = getTargetX(0);
+      x.set(Math.max(minBound, Math.min(maxBound, pointerStartOffset.current + deltaX)));
     },
     [getTargetX, isHorizontalDragIntent, x],
   );
@@ -463,7 +576,7 @@ export function useSnapCarousel({
         }
       }
 
-      if (!wasDragging || stepRef.current <= 0) {
+      if (!wasDragging || (stepRef.current <= 0 && !edgeCenterSnapRef.current)) {
         isDragging.current = false;
         return;
       }
@@ -471,8 +584,7 @@ export function useSnapCarousel({
       const offsetX = x.get();
       const momentumOffset = wasTouch ? releaseVelocity * 0.18 : 0;
       const projectedX = offsetX + momentumOffset;
-      let nextIndex = Math.round((alignOffsetRef.current - projectedX) / stepRef.current);
-      nextIndex = Math.max(0, Math.min(maxIndexRef.current, nextIndex));
+      const nextIndex = findNearestIndex(projectedX);
       animateToIndex(nextIndex, CAROUSEL_SPRING, wasTouch ? releaseVelocity : 0);
 
       blockClickRef.current = true;
@@ -481,7 +593,7 @@ export function useSnapCarousel({
         blockClickRef.current = false;
       }, 300);
     },
-    [animateToIndex, onInteraction, setCarouselInteracting, x],
+    [animateToIndex, findNearestIndex, onInteraction, setCarouselInteracting, x],
   );
 
   const handlePointerEnd = useCallback(

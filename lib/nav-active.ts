@@ -49,12 +49,20 @@ export function isNavLinkActive(pathname: string, href: string): boolean {
   return false;
 }
 
+function isNavTreeActive(
+  pathname: string,
+  links: { href: string; children?: { href: string }[] }[],
+): boolean {
+  return links.some((link) => {
+    if (isNavLinkActive(pathname, link.href)) return true;
+    return link.children?.some((child) => isNavLinkActive(pathname, child.href)) ?? false;
+  });
+}
+
 export function isMegaMenuActive(
   pathname: string,
-  menu: { href: string; groups: { links: { href: string }[] }[] },
+  menu: { href: string; groups: { links: { href: string; children?: { href: string }[] }[] }[] },
 ): boolean {
   if (isNavLinkActive(pathname, menu.href)) return true;
-  return menu.groups.some((group) =>
-    group.links.some((link) => isNavLinkActive(pathname, link.href)),
-  );
+  return menu.groups.some((group) => isNavTreeActive(pathname, group.links));
 }

@@ -1,6 +1,7 @@
  "use client";
 import backgroundImage from "@/public/home page/background image.webp";
 import { InstagramShareSection } from "@/components/instagram-share-section";
+import { useSnapCarousel, CAROUSEL_SMOOTH } from "@/components/use-snap-carousel";
 import { AnimatePresence, motion, useAnimationFrame, useMotionValue, useMotionValueEvent } from "framer-motion";
 import { recipeFinderSlugs } from "@/data/recipe-taxonomies";
 import {
@@ -10,7 +11,7 @@ import {
 } from "@/data/recipe-finder-options";
 import { buildRecipeListingUrl } from "@/lib/recipe-search-url";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
   appFeatureCards,
   appSectionContent,
@@ -31,11 +32,42 @@ const heroThemeByIndex = [
   { panelColor: "#DBEEF2", buttonColor: "#6f9fb2" },
 ];
 
+const HERO_SWIPE_THRESHOLD = 40;
+
+const heroImageVariants = {
+  enter: { opacity: 0, scale: 1.06 },
+  center: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 1.02 },
+};
+
+const heroCopyContainer = {
+  enter: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  center: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  exit: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
+};
+
+const heroCopyItem = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? 24 : -24,
+  }),
+  center: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? -16 : 16,
+    transition: { duration: 0.28, ease: "easeIn" as const },
+  }),
+};
+
 /** Left/right: circular badges ~110px at lg. Center: vertical rectangle ~1.4× that height. */
 const awardBadgeImgClasses = [
-  "h-[120px] max-w-[150px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
-  "h-[180px] max-w-[150px] shrink-0 max-w-[150px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[150px] lg:h-auto lg:max-w-[150px]",
-  "h-[120px] max-w-[150px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
+  "h-[120px] max-w-[115px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
+  "h-[180px] max-w-[115px] shrink-0 max-w-[150px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[150px] lg:h-auto lg:max-w-[150px]",
+  "h-[120px] max-w-[115px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
 ];
 
 export function HomePageContent() {
@@ -43,26 +75,17 @@ export function HomePageContent() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState(1);
   const [openFinderMenu, setOpenFinderMenu] = useState<string | null>(null);
-  const [recipeIndex, setRecipeIndex] = useState(0);
-  const [recipeResetting, setRecipeResetting] = useState(false);
   const [recipeAutoScrollEnabled, setRecipeAutoScrollEnabled] = useState(true);
   const [appCardIndex, setAppCardIndex] = useState(0);
   const [appCardDirection, setAppCardDirection] = useState(1);
   const [appPanelLockedHeight, setAppPanelLockedHeight] = useState<number | null>(null);
-  const [recipeStep, setRecipeStep] = useState(0);
-  const [visibleRecipeCards, setVisibleRecipeCards] = useState(5);
-  const [cookbookIndex, setCookbookIndex] = useState(0);
-  const [cookbookStep, setCookbookStep] = useState(0);
-  const [visibleCookbookCards, setVisibleCookbookCards] = useState(4);
   const [finderSelections, setFinderSelections] = useState<Record<string, string[]>>({
     age: [],
     mealTime: [],
     freeFrom: [],
   });
   const finderRef = useRef<HTMLFormElement | null>(null);
-  const recipeTrackRef = useRef<HTMLDivElement | null>(null);
   const appPanelRef = useRef<HTMLDivElement | null>(null);
-  const cookbookTrackRef = useRef<HTMLDivElement | null>(null);
   const collabTrackRef = useRef<HTMLDivElement | null>(null);
   const collabLoopWidthRef = useRef(0);
   const collabX = useMotionValue(0);
@@ -74,8 +97,26 @@ export function HomePageContent() {
   const awardX = useMotionValue(0);
   const [partnerAutoScrollEnabled, setPartnerAutoScrollEnabled] = useState(true);
   const [awardMarqueeAutoScrollEnabled, setAwardMarqueeAutoScrollEnabled] = useState(true);
-  const maxRecipeIndex = Math.max(0, latestRecipes.length - visibleRecipeCards);
-  const maxCookbookIndex = Math.max(0, bestsellingCookbooks.length - visibleCookbookCards);
+  const [heroAutoScrollEnabled, setHeroAutoScrollEnabled] = useState(true);
+  const heroPointerStartX = useRef<number | null>(null);
+  const heroPointerStartY = useRef<number | null>(null);
+  const heroActivePointerId = useRef<number | null>(null);
+
+  const recipeCarousel = useSnapCarousel({
+    itemCount: latestRecipes.length,
+    cardSelector: ".latest-recipe-card",
+    controlsSelector: ".latest-carousel-controls, button",
+    initialVisibleCards: 1,
+    onInteraction: () => setRecipeAutoScrollEnabled(false),
+  });
+
+  const cookbookCarousel = useSnapCarousel({
+    itemCount: bestsellingCookbooks.length,
+    cardSelector: ".cookbook-card",
+    controlsSelector: ".cookbook-carousel-controls, button",
+    initialVisibleCards: 1,
+    centerSingleSlide: true,
+  });
 
   const current = useMemo(() => heroSlides[activeSlide], [activeSlide]);
   const theme = heroThemeByIndex[activeSlide % heroThemeByIndex.length];
@@ -89,14 +130,66 @@ export function HomePageContent() {
     setActiveSlide((prev) => (prev + step + heroSlides.length) % heroSlides.length);
   };
 
-  const moveRecipes = (step: number) => {
-    setRecipeResetting(false);
-    setRecipeIndex((prev) => {
-      const next = prev + step;
-      if (next < 0) return 0;
-      if (next > maxRecipeIndex) return maxRecipeIndex;
-      return next;
-    });
+  const goToSlide = (index: number) => {
+    if (index === activeSlide) {
+      return;
+    }
+    setDirection(index > activeSlide ? 1 : -1);
+    setActiveSlide(index);
+    setHeroAutoScrollEnabled(false);
+    window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
+  };
+
+  const pauseHeroAutoScroll = () => {
+    setHeroAutoScrollEnabled(false);
+    window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
+  };
+
+  const handleHeroPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement;
+    if (target.closest(".hero-nav-buttons, .hero-dots, .hero-copy-content a")) {
+      return;
+    }
+
+    heroPointerStartX.current = event.clientX;
+    heroPointerStartY.current = event.clientY;
+    heroActivePointerId.current = event.pointerId;
+    setHeroAutoScrollEnabled(false);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleHeroPointerEnd = (event: ReactPointerEvent<HTMLElement>) => {
+    if (heroActivePointerId.current !== event.pointerId) {
+      return;
+    }
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    const startX = heroPointerStartX.current;
+    const startY = heroPointerStartY.current;
+    heroActivePointerId.current = null;
+    heroPointerStartX.current = null;
+    heroPointerStartY.current = null;
+
+    if (startX === null || startY === null) {
+      window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
+      return;
+    }
+
+    const deltaX = event.clientX - startX;
+    const deltaY = event.clientY - startY;
+
+    if (Math.abs(deltaX) > HERO_SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY)) {
+      moveSlide(deltaX > 0 ? -1 : 1);
+    }
+
+    window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
+  };
+
+  const handleRecipeNavigation = (step: number) => {
+    recipeCarousel.handleNavigation(step);
   };
 
   const moveAppCard = (step: number) => {
@@ -104,22 +197,8 @@ export function HomePageContent() {
     setAppCardIndex((prev) => (prev + step + appFeatureCards.length) % appFeatureCards.length);
   };
 
-  const handleRecipeNavigation = (step: number) => {
-    setRecipeAutoScrollEnabled(false);
-    moveRecipes(step);
-  };
-
-  const moveCookbooks = (step: number) => {
-    setCookbookIndex((prev) => {
-      const next = prev + step;
-      if (next < 0) return 0;
-      if (next > maxCookbookIndex) return maxCookbookIndex;
-      return next;
-    });
-  };
-
   const handleCookbookNavigation = (step: number) => {
-    moveCookbooks(step);
+    cookbookCarousel.handleNavigation(step);
   };
 
   const syncAppPanelHeight = () => {
@@ -142,9 +221,13 @@ export function HomePageContent() {
   };
 
   useEffect(() => {
+    if (!heroAutoScrollEnabled) {
+      return;
+    }
+
     const timer = setInterval(() => moveSlide(1), 5500);
     return () => clearInterval(timer);
-  }, []);
+  }, [heroAutoScrollEnabled]);
 
   useEffect(() => {
     const updatePanelLockOnResize = () => {
@@ -164,58 +247,6 @@ export function HomePageContent() {
     }, 4200);
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    const updateRecipeStep = () => {
-      const track = recipeTrackRef.current;
-      if (!track) {
-        return;
-      }
-      const firstCard = track.querySelector<HTMLElement>(".latest-recipe-card");
-      if (!firstCard) {
-        return;
-      }
-      const styles = window.getComputedStyle(track);
-      const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
-      const cardStep = firstCard.offsetWidth + gap;
-      const viewportWidth = track.parentElement?.clientWidth ?? track.clientWidth;
-      const cardsVisible = Math.max(1, Math.floor((viewportWidth + gap) / cardStep));
-      setRecipeStep(cardStep);
-      setVisibleRecipeCards(cardsVisible);
-    };
-
-    updateRecipeStep();
-    window.addEventListener("resize", updateRecipeStep);
-    return () => window.removeEventListener("resize", updateRecipeStep);
-  }, []);
-
-  useEffect(() => {
-    setRecipeIndex((prev) => Math.min(prev, maxRecipeIndex));
-  }, [maxRecipeIndex]);
-
-  useEffect(() => {
-    const updateCookbookStep = () => {
-      const track = cookbookTrackRef.current;
-      if (!track) return;
-      const firstCard = track.querySelector<HTMLElement>(".cookbook-card");
-      if (!firstCard) return;
-      const styles = window.getComputedStyle(track);
-      const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
-      const cardStep = firstCard.offsetWidth + gap;
-      const viewportWidth = track.parentElement?.clientWidth ?? track.clientWidth;
-      const cardsVisible = Math.max(1, Math.floor((viewportWidth + gap) / cardStep));
-      setCookbookStep(cardStep);
-      setVisibleCookbookCards(cardsVisible);
-    };
-
-    updateCookbookStep();
-    window.addEventListener("resize", updateCookbookStep);
-    return () => window.removeEventListener("resize", updateCookbookStep);
-  }, []);
-
-  useEffect(() => {
-    setCookbookIndex((prev) => Math.min(prev, maxCookbookIndex));
-  }, [maxCookbookIndex]);
 
   useEffect(() => {
     const updateCollabMetrics = () => {
@@ -360,32 +391,20 @@ export function HomePageContent() {
   });
 
   useEffect(() => {
-    if (maxRecipeIndex <= 0 || !recipeAutoScrollEnabled) {
+    if (recipeCarousel.maxIndex <= 0 || !recipeAutoScrollEnabled) {
       return;
     }
 
     const timer = setInterval(() => {
-      setRecipeIndex((prev) => {
-        if (prev >= maxRecipeIndex) {
-          setRecipeResetting(true);
-          return 0;
-        }
-        return prev + 1;
-      });
+      const next =
+        recipeCarousel.indexRef.current >= recipeCarousel.maxIndex
+          ? 0
+          : recipeCarousel.indexRef.current + 1;
+      recipeCarousel.animateToIndex(next, CAROUSEL_SMOOTH);
     }, 7000);
 
     return () => clearInterval(timer);
-  }, [maxRecipeIndex, recipeAutoScrollEnabled]);
-
-  useEffect(() => {
-    if (!recipeResetting) {
-      return;
-    }
-    const resetStateTimer = window.setTimeout(() => {
-      setRecipeResetting(false);
-    }, 2000);
-    return () => window.clearTimeout(resetStateTimer);
-  }, [recipeResetting]);
+  }, [recipeCarousel.maxIndex, recipeCarousel.animateToIndex, recipeAutoScrollEnabled]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -401,16 +420,13 @@ export function HomePageContent() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const finderOptions = {
-    age: ["Select age", ...recipeFinderAgeOptions.map((option) => option.label)],
-    mealTime: ["Select time", ...recipeFinderMealTimeOptions.map((option) => option.label)],
-    freeFrom: ["Select type", ...recipeFinderFreeFromOptions.map((option) => option.label)],
+  const finderPanels = {
+    age: { heading: "Select age", options: recipeFinderAgeOptions.map((option) => option.label) },
+    mealTime: { heading: "Select time", options: recipeFinderMealTimeOptions.map((option) => option.label) },
+    freeFrom: { heading: "Select type", options: recipeFinderFreeFromOptions.map((option) => option.label) },
   };
 
   const toggleSelection = (key: "age" | "mealTime" | "freeFrom", option: string) => {
-    if (option.startsWith("Select ")) {
-      return;
-    }
     setFinderSelections((prev) => {
       const exists = prev[key].includes(option);
       return {
@@ -504,37 +520,14 @@ export function HomePageContent() {
   );
 
   return (
-    <main className="max-md:pb-16">
-      <section className="hero-showcase container mt-10!">
-        <article className="hero-slider-shell">
-          <div className="hero-copy-panel" style={{ backgroundColor: theme.panelColor }}>
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={`copy-${activeSlide}`}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.38, ease: "easeOut" }}
-                className="hero-copy-content max-[900px]:text-center max-[900px]:items-center"
-              >
-                <h1>{current.title}</h1>
-                <p>{current.subtitle}</p>
-                <a
-                  href={current.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ backgroundColor: theme.buttonColor }}
-                  className={`inline-flex items-center gap-2 rounded-[15px] px-6! py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] whitespace-nowrap transition-colors ${styles.ctaButton}`}
-                >
-                  <span className={`${styles.ctaLabel} inline-block w-auto h-auto text-[20px] font-medium leading-none`}>{current.cta}</span>
-                  <span className="inline-flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-[15px] bg-white" aria-hidden>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                  </span>
-                </a>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
+    <main className="max-md:pb-16  ">
+      <section className="hero-showcase container">
+        <article
+          className="hero-slider-shell"
+          onPointerDown={handleHeroPointerDown}
+          onPointerUp={handleHeroPointerEnd}
+          onPointerCancel={handleHeroPointerEnd}
+        >
           <div className="hero-image-panel">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.img
@@ -542,25 +535,101 @@ export function HomePageContent() {
                 src={current.image}
                 alt={current.title}
                 className="hero-slide-image"
-                initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
-                transition={{ duration: 0.45, ease: "easeOut" }}
+                custom={direction}
+                variants={heroImageVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.6, ease: "easeOut" }}
               />
             </AnimatePresence>
+          </div>
 
-            <div className="hero-nav-buttons">
-              <button type="button" onClick={() => moveSlide(-1)} aria-label="Previous slide" className="prev">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M14.5 5L8 11.5L14.5 18" />
-                </svg>
-              </button>
-              <button type="button" onClick={() => moveSlide(1)} aria-label="Next slide" className="next">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M9.5 5L16 11.5L9.5 18" />
-                </svg>
-              </button>
-            </div>
+          <div className="hero-mobile-scrim" aria-hidden />
+
+          <div className="hero-copy-panel">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={`copy-${activeSlide}`}
+                className="hero-copy-content"
+                custom={direction}
+                variants={heroCopyContainer}
+                initial="enter"
+                animate="center"
+                exit="exit"
+              >
+                <motion.h1 variants={heroCopyItem} custom={direction}>
+                  {current.title}
+                </motion.h1>
+                <motion.p variants={heroCopyItem} custom={direction}>
+                  {current.subtitle}
+                </motion.p>
+                <motion.a
+                  variants={heroCopyItem}
+                  custom={direction}
+                  href={current.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ backgroundColor: theme.buttonColor }}
+                  className={`inline-flex items-center gap-2 rounded-[15px] px-5! py-4 text-base font-semibold text-white shadow-[0_6px_16px_rgba(0,0,0,0.28)] whitespace-nowrap transition-colors md:px-6! md:py-5 ${styles.ctaButton}`}
+                >
+                  <span className={`${styles.ctaLabel} inline-block w-auto h-auto text-[18px] font-medium leading-none md:text-[20px]`}>
+                    {current.cta}
+                  </span>
+                  <span className="inline-flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[12px] bg-white md:h-[40px] md:w-[40px] md:rounded-[15px]" aria-hidden>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 42 41" fill="none" className="md:h-[42px] md:w-[42px]">
+                      <rect x="0.5" width="41" height="41" rx="16" fill="white" />
+                      <path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </motion.a>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="hero-dots" aria-label="Hero slides">
+            {heroSlides.map((slide, slideIndex) => (
+              <button
+                key={slide.title}
+                type="button"
+                aria-label={`Go to slide ${slideIndex + 1}`}
+                aria-current={slideIndex === activeSlide ? "true" : undefined}
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={() => goToSlide(slideIndex)}
+              />
+            ))}
+          </div>
+
+          <div className="hero-nav-buttons">
+            <button
+              type="button"
+              onPointerDown={(event) => {
+                event.stopPropagation();
+                moveSlide(-1);
+                pauseHeroAutoScroll();
+              }}
+              aria-label="Previous slide"
+              className="prev"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14.5 5L8 11.5L14.5 18" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onPointerDown={(event) => {
+                event.stopPropagation();
+                moveSlide(1);
+                pauseHeroAutoScroll();
+              }}
+              aria-label="Next slide"
+              className="next"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9.5 5L16 11.5L9.5 18" />
+              </svg>
+            </button>
           </div>
         </article>
       </section>
@@ -569,15 +638,17 @@ export function HomePageContent() {
         <form className="finder-row" ref={finderRef} onSubmit={handleFinderSubmit}>
           <label>
             <span className="finder-title  font-[900]!">Recipe</span>
-            <input type="search"  placeholder="Search recipes" />
+            <input type="search" className="text-[18px]! text-[#afaeae]" placeholder="Search recipes" />
           </label>
-          <div className={`finder-dropdown ${openFinderMenu === "age" ? "open" : ""}`}>
+            <div className={`finder-dropdown ${openFinderMenu === "age" ? "open" : ""}`}>
             <button type="button" onClick={() => setOpenFinderMenu((current) => (current === "age" ? null : "age"))}>
               <span className="finder-title font-[900]!">Age</span>
-              <span className="finder-value text-[20px]!">{displaySelection("age", "Select age")}</span>
+              <span className="finder-value text-[18px]!">{displaySelection("age", "Select age")}</span>
             </button>
+            {openFinderMenu === "age" ? (
             <div className="finder-dropdown-panel">
-              {finderOptions.age.map((option) => (
+              <p className="finder-dropdown-heading">{finderPanels.age.heading}</p>
+              {finderPanels.age.options.map((option) => (
                 <label key={option} className="text-[20px]!">
                   <span className="text-[20px]!">{option}</span>
                   <input
@@ -588,6 +659,7 @@ export function HomePageContent() {
                 </label>
               ))}
             </div>
+            ) : null}
           </div>
           <div className={`finder-dropdown ${openFinderMenu === "mealTime" ? "open" : ""}`}>
             <button
@@ -595,10 +667,12 @@ export function HomePageContent() {
               onClick={() => setOpenFinderMenu((current) => (current === "mealTime" ? null : "mealTime"))}
             >
               <span className="finder-title font-[900]!">Meal Time</span>
-              <span className="finder-value text-[20px]!">{displaySelection("mealTime", "Select time")}</span>
+              <span className="finder-value text-[18px]!">{displaySelection("mealTime", "Select time")}</span>
             </button>
+            {openFinderMenu === "mealTime" ? (
             <div className="finder-dropdown-panel">
-              {finderOptions.mealTime.map((option) => (
+              <p className="finder-dropdown-heading">{finderPanels.mealTime.heading}</p>
+              {finderPanels.mealTime.options.map((option) => (
                 <label key={option} className="text-[20px]!">
                   <span className="text-[20px]!">{option}</span>
                   <input
@@ -609,6 +683,7 @@ export function HomePageContent() {
                 </label>
               ))}
             </div>
+            ) : null}
           </div>
           <div className={`finder-dropdown ${openFinderMenu === "freeFrom" ? "open" : ""}`}>
             <button
@@ -616,10 +691,12 @@ export function HomePageContent() {
               onClick={() => setOpenFinderMenu((current) => (current === "freeFrom" ? null : "freeFrom"))}
             >
               <span className="finder-title font-[900]!">Free From</span>
-              <span className="finder-value text-[20px]!">{displaySelection("freeFrom", "Select type")}</span>
+              <span className="finder-value text-[18px]!">{displaySelection("freeFrom", "Select type")}</span>
             </button>
+            {openFinderMenu === "freeFrom" ? (
             <div className="finder-dropdown-panel">
-              {finderOptions.freeFrom.map((option) => (
+              <p className="finder-dropdown-heading">{finderPanels.freeFrom.heading}</p>
+              {finderPanels.freeFrom.options.map((option) => (
                 <label key={option} className="text-[20px]!">
                   <span className="text-[20px]!">{option}</span>
                   <input
@@ -630,11 +707,12 @@ export function HomePageContent() {
                 </label>
               ))}
             </div>
+            ) : null}
           </div>
        <div className="w-full px-2 pt-[6px] min-[1080px]:p-0">
        <button
             type="submit"
-            className="inline-flex relative  right-[0px] min-[1080px]:right-[20px] items-center justify-center gap-2 rounded-[15px] bg-[#b34769] px-5 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors max-[1100px]:col-span-1 max-[1100px]:mt-2 max-[1100px]:w-full"
+            className="inline-flex relative cursor-pointer min-[1080px]:float-right right-[0px] min-[1080px]:right-[20px] items-center justify-center gap-2 rounded-[15px] bg-[#b34769] px-5 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors max-[1100px]:col-span-1 max-[1100px]:mt-2 max-[1100px]:w-full"
             aria-label="Search recipes"
           >
           <img decoding="async" src="https://www.annabelkarmel.com/wp-content/uploads/2025/03/Search-optimized.png" alt="Search" className="h-[40px] w-[40px]"/>
@@ -650,19 +728,41 @@ export function HomePageContent() {
             <h4 className="latest-recipes-title text-[56px]! font-[500]!">Latest recipes</h4>
             <p className="latest-recipes-subtitle mt-[25px]!">Recipes for every age, stage and occasion</p>
           </div>
-          <div className="latest-recipes-carousel mt-[25px]!">
+          <div
+            ref={recipeCarousel.carouselRef}
+            className="latest-recipes-carousel mt-[25px]! cursor-grab select-none active:cursor-grabbing"
+            onPointerDownCapture={recipeCarousel.handlePointerDown}
+            onPointerMoveCapture={recipeCarousel.handlePointerMove}
+            onPointerUpCapture={recipeCarousel.handlePointerEnd}
+            onPointerCancelCapture={recipeCarousel.handlePointerEnd}
+          >
             <motion.div
-              ref={recipeTrackRef}
+              ref={recipeCarousel.trackRef}
               className="latest-recipes-track"
-              animate={{ x: -(recipeIndex * recipeStep) }}
-              transition={recipeResetting ? { duration: 4 } : { duration: 7, ease: [0.22, 1, 0.36, 1] }}
+              style={{ x: recipeCarousel.x }}
             >
-              {latestRecipes.map((recipe) => (
-                <article key={recipe.title} className="latest-recipe-card">
-                  <a href={recipe.href} target="_blank" rel="noreferrer">
-                    <img src={recipe.image} alt={recipe.title} className="recipe-image" />
+              {latestRecipes.map((recipe, recipeIndex) => (
+                <article
+                  key={recipe.title}
+                  className="latest-recipe-card"
+                  onClickCapture={recipeCarousel.handleCardClickCapture}
+                >
+                  <a
+                    href={recipe.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    draggable={false}
+                    onDragStart={(event) => event.preventDefault()}
+                  >
+                    <img
+                      src={recipe.image}
+                      alt={recipe.title}
+                      className="recipe-image"
+                      draggable={false}
+                      onLoad={recipeIndex === 0 ? recipeCarousel.measure : undefined}
+                    />
                   </a>
-                  <h3 className="text-[22px]! font-[550]! mt-[10px]! text-center font-family-montserrat">{recipe.title}</h3>
+                  <h3 className="text-[22px]! font-[550]! mt-[10px]! text-center text-ellipsis overflow-hidden line-clamp-2  font-family-montserrat">{recipe.title}</h3>
                   <p className="latest-recipe-duration mt-[20px]!">
                     <span className="latest-recipe-duration-icon" aria-hidden>
                       <img src="/icons/timer-icon.svg" alt="" width={24} height={25} />
@@ -673,24 +773,34 @@ export function HomePageContent() {
               ))}
             </motion.div>
             <div className="latest-carousel-controls">
-              {recipeIndex > 0 ? (
-                <button className="relative top-[50px] md:top-[20px] cursor-pointer" type="button" onClick={() => handleRecipeNavigation(-1)} aria-label="Previous recipes">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M14.5 5L8 11.5L14.5 18" />
-                  </svg>
-                </button>
-              ) : (
-                <span />
-              )}
-              {recipeIndex < maxRecipeIndex ? (
-                <button className="relative top-[50px] md:top-[20px] cursor-pointer" type="button" onClick={() => handleRecipeNavigation(1)} aria-label="Next recipes">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M9.5 5L16 11.5L9.5 18" />
-                  </svg>
-                </button>
-              ) : (
-                <span />
-              )}
+              <button
+                className="relative top-[50px] md:top-[20px] cursor-pointer disabled:invisible disabled:pointer-events-none"
+                type="button"
+                disabled={recipeCarousel.index <= 0}
+                onPointerDown={(event) => {
+                  event.stopPropagation();
+                  handleRecipeNavigation(-1);
+                }}
+                aria-label="Previous recipes"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M14.5 5L8 11.5L14.5 18" />
+                </svg>
+              </button>
+              <button
+                className="relative top-[50px] md:top-[20px] cursor-pointer disabled:invisible disabled:pointer-events-none"
+                type="button"
+                disabled={recipeCarousel.index >= recipeCarousel.maxIndex}
+                onPointerDown={(event) => {
+                  event.stopPropagation();
+                  handleRecipeNavigation(1);
+                }}
+                aria-label="Next recipes"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9.5 5L16 11.5L9.5 18" />
+                </svg>
+              </button>
             </div>
           </div>
           <div className="latest-recipes-cta">
@@ -719,7 +829,7 @@ export function HomePageContent() {
         />
         <div className="relative z-1 mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start gap-10 px-4 md:px-6 lg:grid-cols-[0.92fr_1fr]">
           <article className="mx-auto flex w-full max-w-[410px] flex-col items-center gap-4 pt-2 text-center [font-family:var(--font-montserrat)] lg:mx-0 lg:max-w-none lg:items-start lg:gap-5 lg:pt-6 lg:text-left">
-            <div className="flex w-full items-center justify-center  lg:items-center gap-3 md:gap-5 lg:justify-start">
+            <div className="flex w-full items-center justify-center lg:items-center gap-3 md:gap-5 lg:justify-start">
               {appSectionContent.awards.map((award, index) => (
                 <img
                   key={`${award}-${index}`}
@@ -817,13 +927,13 @@ export function HomePageContent() {
               alt="Pancake Traybake"
               className="w-full rounded-[14px] object-cover"
             />
-            <div className="absolute bottom-3 left-3 rounded-[15px] bg-white/95 px-3.5 py-4 shadow-[0_10px_22px_rgba(0,0,0,0.12)]">
+            <div className="absolute bottom-5 left-5 rounded-[15px] bg-white/95 px-3.5 py-4 shadow-[0_10px_22px_rgba(0,0,0,0.12)]">
               <p className="[font-family:var(--font-montserrat)] text-[15px] font-semibold text-[#1f1d23]">Pancake Traybake</p>
               <p className="mt-[10px] text-[9px] text-[#6f6973]">
                 <span className="latest-recipe-duration-icon latest-recipe-duration-icon-lg" aria-hidden>
                   <img src="/icons/timer-icon.svg" alt="" width={28} height={29} />
                 </span>
-                <sup className="text-[15px]">25 Mins</sup>
+                <sup className="text-[15px] text-[#3d3d3d]">25 Mins</sup>
               </p>
             </div>
           </div>
@@ -941,24 +1051,38 @@ export function HomePageContent() {
             recipe books are a household staple.
           </p>
 
-          <div className="cookbook-carousel-viewport relative mt-18 overflow-hidden px-6 md:px-8 lg:px-12">
+          <div
+            ref={cookbookCarousel.carouselRef}
+            className="cookbook-carousel-viewport relative mt-18 overflow-hidden cursor-grab select-none active:cursor-grabbing"
+            onPointerDownCapture={cookbookCarousel.handlePointerDown}
+            onPointerMoveCapture={cookbookCarousel.handlePointerMove}
+            onPointerUpCapture={cookbookCarousel.handlePointerEnd}
+            onPointerCancelCapture={cookbookCarousel.handlePointerEnd}
+          >
             <motion.div
-              ref={cookbookTrackRef}
-              className="flex gap-8 will-change-transform"
-              animate={{ x: -(cookbookIndex * cookbookStep) }}
-              transition={{ duration: 5, ease: [0.22, 1, 0.36, 1] }}
+              ref={cookbookCarousel.trackRef}
+              className="cookbook-carousel-track flex gap-8 max-[700px]:gap-5 will-change-transform"
+              style={{ x: cookbookCarousel.x }}
             >
-              {bestsellingCookbooks.map((book) => (
-                <article key={book.title} className="cookbook-card shrink-0 basis-[340px]">
+              {bestsellingCookbooks.map((book, bookIndex) => (
+                <article
+                  key={book.title}
+                  className="cookbook-card"
+                  onClickCapture={cookbookCarousel.handleCardClickCapture}
+                >
                   <a
                     href={book.href}
                     target="_blank"
                     rel="noreferrer"
+                    draggable={false}
+                    onDragStart={(event) => event.preventDefault()}
                     className="group flex min-h-[300px] cursor-pointer items-center justify-center rounded-[30px] bg-[#ecdde0] px-6 py-2"
                   >
                     <img
                       src={book.image}
                       alt={book.title}
+                      draggable={false}
+                      onLoad={bookIndex === 0 ? cookbookCarousel.measure : undefined}
                       className="h-[400px] w-auto max-w-[84%] bg-[#ecdde0] object-contain object-center transition-transform duration-300 group-hover:scale-[1.02]"
                     />
                   </a>
@@ -969,35 +1093,35 @@ export function HomePageContent() {
               ))}
             </motion.div>
 
-            <div className="pointer-events-none absolute inset-x-0 top-[41%] flex -translate-y-1/2 justify-between px-1 md:px-2">
-              {cookbookIndex > 0 ? (
-                <button
-                  type="button"
-                  onClick={() => handleCookbookNavigation(-1)}
-                  aria-label="Previous cookbooks"
-                  className="pointer-events-auto inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full bg-[#b34769] text-white shadow-[0_8px_18px_rgba(0,0,0,0.12)]"
-                >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2.5]">
-                    <path d="M14.5 5L8 11.5L14.5 18" />
-                  </svg>
-                </button>
-              ) : (
-                <span />
-              )}
-              {cookbookIndex < maxCookbookIndex ? (
-                <button
-                  type="button"
-                  onClick={() => handleCookbookNavigation(1)}
-                  aria-label="Next cookbooks"
-                  className="pointer-events-auto inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full bg-[#b34769] text-white shadow-[0_8px_18px_rgba(0,0,0,0.12)]"
-                >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2.5]">
-                    <path d="M9.5 5L16 11.5L9.5 18" />
-                  </svg>
-                </button>
-              ) : (
-                <span />
-              )}
+            <div className="cookbook-carousel-controls pointer-events-none absolute inset-x-0 top-[41%] flex -translate-y-1/2 justify-between">
+              <button
+                type="button"
+                disabled={cookbookCarousel.index <= 0}
+                onPointerDown={(event) => {
+                  event.stopPropagation();
+                  handleCookbookNavigation(-1);
+                }}
+                aria-label="Previous cookbooks"
+                className="pointer-events-auto inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full bg-[#b34769] text-white shadow-[0_8px_18px_rgba(0,0,0,0.12)] disabled:invisible disabled:pointer-events-none"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2.5]">
+                  <path d="M14.5 5L8 11.5L14.5 18" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                disabled={cookbookCarousel.index >= cookbookCarousel.maxIndex}
+                onPointerDown={(event) => {
+                  event.stopPropagation();
+                  handleCookbookNavigation(1);
+                }}
+                aria-label="Next cookbooks"
+                className="pointer-events-auto inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full bg-[#b34769] text-white shadow-[0_8px_18px_rgba(0,0,0,0.12)] disabled:invisible disabled:pointer-events-none"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[2.5]">
+                  <path d="M9.5 5L16 11.5L9.5 18" />
+                </svg>
+              </button>
             </div>
           </div>
 

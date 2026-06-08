@@ -1156,7 +1156,8 @@ a {
   position: relative;
   width: 100%;
   padding-inline: var(--latest-recipe-edge-inset);
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: contain;
 }
 
 .latest-recipes-carousel.is-carousel-interacting,
@@ -1174,7 +1175,6 @@ a {
   display: flex;
   gap: var(--latest-recipe-gap);
   will-change: transform;
-  touch-action: pan-y;
 }
 
 .latest-recipe-card {
@@ -1191,7 +1191,6 @@ a {
 .latest-recipe-card a {
   -webkit-user-drag: none;
   user-select: none;
-  touch-action: pan-y;
   -webkit-touch-callout: none;
 }
 
@@ -1311,7 +1310,8 @@ a {
   margin-right: calc(50% - 50vw);
   margin-right: calc(50% - 50dvw);
   padding-inline: var(--cookbook-edge-inset);
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
+  overscroll-behavior-x: contain;
   overflow: hidden;
   position: relative;
   min-height: 0;
@@ -1323,13 +1323,12 @@ a {
 }
 
 .cookbook-carousel-track {
-  touch-action: pan-y;
+  will-change: transform;
 }
 
 .cookbook-card a {
   -webkit-user-drag: none;
   user-select: none;
-  touch-action: pan-y;
   -webkit-touch-callout: none;
 }
 

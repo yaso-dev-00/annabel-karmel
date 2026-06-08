@@ -59,8 +59,27 @@ export function useSnapCarousel({
   const measureRafRef = useRef<number | null>(null);
   const pointerMovedRef = useRef(false);
   const lastTapAtRef = useRef(0);
+  const touchHorizontalIntent = useRef(false);
+  const activePointerType = useRef<string | null>(null);
+  const velocityXRef = useRef(0);
+  const lastPointerSample = useRef({ x: 0, t: 0 });
+
+  const isHorizontalDragIntent = useCallback(
+    (deltaX: number, deltaY: number, pointerType: string) => {
+      if (pointerType === "touch") {
+        return (
+          Math.abs(deltaX) > TOUCH_DRAG_THRESHOLD &&
+          Math.abs(deltaX) >= Math.abs(deltaY) * 0.4
+        );
+      }
+
+      return Math.abs(deltaX) >= DRAG_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY);
+    },
+    [],
+  );
 
   const DRAG_THRESHOLD = 8;
+  const TOUCH_DRAG_THRESHOLD = 2;
   const DOUBLE_TAP_MS = 350;
 
   const [index, setIndex] = useState(0);
@@ -87,6 +106,7 @@ export function useSnapCarousel({
     (
       nextIndex: number,
       transition: typeof CAROUSEL_SPRING | typeof CAROUSEL_SMOOTH = CAROUSEL_SPRING,
+      velocity = 0,
     ) => {
       const currentStep = stepRef.current;
       const currentMax = maxIndexRef.current;
@@ -121,8 +141,13 @@ export function useSnapCarousel({
       animationGenerationRef.current = generation;
       animationRef.current?.stop();
 
+      const motionTransition =
+        "type" in resolvedTransition
+          ? { ...resolvedTransition, velocity }
+          : resolvedTransition;
+
       animationRef.current = animate(x, targetX, {
-        ...resolvedTransition,
+        ...motionTransition,
         onComplete: () => {
           if (generation !== animationGenerationRef.current) {
             return;
@@ -267,7 +292,10 @@ export function useSnapCarousel({
     }
 
     const blockTouchScrollWhileDragging = (event: TouchEvent) => {
-      if (isDragging.current) {
+      if (
+        activePointerId.current !== null &&
+        (isDragging.current || touchHorizontalIntent.current)
+      ) {
         event.preventDefault();
       }
     };
@@ -307,6 +335,10 @@ export function useSnapCarousel({
       isDragging.current = false;
       blockClickRef.current = false;
       pointerMovedRef.current = false;
+      touchHorizontalIntent.current = false;
+      activePointerType.current = event.pointerType;
+      velocityXRef.current = 0;
+      lastPointerSample.current = { x: event.clientX, t: performance.now() };
       pointerStartX.current = event.clientX;
       pointerStartY.current = event.clientY;
       pointerStartOffset.current = x.get();
@@ -330,20 +362,30 @@ export function useSnapCarousel({
 
       const deltaX = event.clientX - pointerStartX.current;
       const deltaY = event.clientY - pointerStartY.current;
+      const moveThreshold =
+        event.pointerType === "touch" ? TOUCH_DRAG_THRESHOLD : DRAG_THRESHOLD;
 
-      if (
-        Math.abs(deltaX) >= DRAG_THRESHOLD ||
-        Math.abs(deltaY) >= DRAG_THRESHOLD
-      ) {
+      if (Math.abs(deltaX) >= moveThreshold || Math.abs(deltaY) >= moveThreshold) {
         pointerMovedRef.current = true;
       }
 
       if (!isDragging.current) {
-        if (Math.abs(deltaX) < DRAG_THRESHOLD || Math.abs(deltaX) <= Math.abs(deltaY)) {
+        if (!isHorizontalDragIntent(deltaX, deltaY, event.pointerType)) {
           return;
         }
         isDragging.current = true;
+        if (event.pointerType === "touch") {
+          touchHorizontalIntent.current = true;
+        }
       }
+
+      const now = performance.now();
+      const lastSample = lastPointerSample.current;
+      const elapsed = now - lastSample.t;
+      if (elapsed > 0 && elapsed < 80) {
+        velocityXRef.current = ((event.clientX - lastSample.x) / elapsed) * 1000;
+      }
+      lastPointerSample.current = { x: event.clientX, t: now };
 
       if (event.pointerType === "touch") {
         event.preventDefault();
@@ -353,7 +395,7 @@ export function useSnapCarousel({
       const maxX = getTargetX(0);
       x.set(Math.max(minX, Math.min(maxX, pointerStartOffset.current + deltaX)));
     },
-    [getTargetX, x],
+    [getTargetX, isHorizontalDragIntent, x],
   );
 
   const finishPointerDrag = useCallback(
@@ -362,9 +404,16 @@ export function useSnapCarousel({
       const wasDragging = isDragging.current;
       const moved = pointerMovedRef.current || wasDragging;
 
+      const releaseVelocity = velocityXRef.current;
+      const wasTouch = activePointerType.current === "touch";
+
       activePointerId.current = null;
+      activePointerType.current = null;
       pointerStartX.current = null;
       pointerStartY.current = null;
+      touchHorizontalIntent.current = false;
+      velocityXRef.current = 0;
+      lastPointerSample.current = { x: 0, t: 0 };
       setCarouselInteracting(false);
 
       if (moved) {
@@ -407,9 +456,11 @@ export function useSnapCarousel({
       }
 
       const offsetX = x.get();
-      let nextIndex = Math.round((alignOffsetRef.current - offsetX) / stepRef.current);
+      const momentumOffset = wasTouch ? releaseVelocity * 0.18 : 0;
+      const projectedX = offsetX + momentumOffset;
+      let nextIndex = Math.round((alignOffsetRef.current - projectedX) / stepRef.current);
       nextIndex = Math.max(0, Math.min(maxIndexRef.current, nextIndex));
-      animateToIndex(nextIndex, CAROUSEL_SPRING);
+      animateToIndex(nextIndex, CAROUSEL_SPRING, wasTouch ? releaseVelocity : 0);
 
       blockClickRef.current = true;
       window.setTimeout(() => {

@@ -598,6 +598,15 @@ export const articleIndex: ArticleCard[] = [
       "There is a lot of weaning guidance available for babies born on or around their due date (from week 37 of pregnancy onwards), however, not a lot for those whose baby decides to make an early appearance which is actually around 10% of all babies!",
   },
   {
+    slug: "looking-after-childrens-teeth",
+    title: "10 things you need to know about looking after your children's teeth",
+    heroImage: "/articles/looking-after-childrens-teeth/hero.jpg",
+    heroAlt: "10 things you need to know about looking after your children's teeth",
+    category: "Child Development",
+    intro:
+      "As a mum, I appreciate the daily struggles and dilemmas that parents and carers have around doing what is best for their children, and I even find a lot of the information available confusing and conflicting-what can be good for your general health can actually be harmful to teeth.",
+  },
+  {
     slug: "weaning-equipment-cooking",
     title: "Weaning equipment & cooking",
     heroImage: "/articles/weaning-equipment-cooking/hero.jpg",

@@ -66,6 +66,7 @@ export const builtArticleSlugs = new Set([
   "weaning-getting-started",
   "weaning-preterm-infants",
   "weaning-premature-babies",
+  "looking-after-childrens-teeth",
   "what-spices-can-you-give-to-your-baby",
   "what-to-do-when-your-baby-is-sick",
   "zero-salt-family-recipes",
@@ -127,6 +128,8 @@ export const adviceArticleSlugs = new Set([
   "what-to-buy",
   "toddler-top-tips-to-healthy-food-habits",
   "gagging-vs-choking",
+  "weaning-premature-babies",
+  "looking-after-childrens-teeth",
 ]);
 
 /** Articles served at both `/slug` and `/advice/slug` — path follows the listing source. */

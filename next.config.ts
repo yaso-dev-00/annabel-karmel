@@ -122,6 +122,21 @@ const nextConfig: NextConfig = {
       },
       { source: "/nesting", destination: "/advice/nesting", permanent: true },
       { source: "/what-to-buy", destination: "/advice/what-to-buy", permanent: true },
+      {
+        source: "/weaning-premature-babies",
+        destination: "/advice/weaning-premature-babies",
+        permanent: true,
+      },
+      {
+        source: "/looking-after-childrens-teeth",
+        destination: "/advice/looking-after-childrens-teeth",
+        permanent: true,
+      },
+      {
+        source: "/cooking-with-kids",
+        destination: "/advice/cooking-with-kids",
+        permanent: true,
+      },
     ];
   },
 };

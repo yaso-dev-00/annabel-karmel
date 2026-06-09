@@ -1,0 +1,162 @@
+.intro {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.sectionTitle {
+  margin: 40px 0 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.12;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.footnote {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  font-weight: 700;
+  color: #3f3841;
+}
+
+.caption {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.nhsNote {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  font-weight: 700;
+  font-style: italic;
+  color: #3f3841;
+}
+
+.contentImage {
+  display: block;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  margin: 20px auto 0;
+}
+
+.imageLink {
+  display: block;
+  max-width: 900px;
+  margin: 40px auto 0;
+}
+
+.imageLink .contentImage {
+  margin-top: 0;
+}
+
+.authorBlock {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.authorPhoto {
+  display: block;
+  width: 340px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.authorTitle {
+  margin: 24px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 900;
+  color: #3a3a3a !important;
+}
+
+.authorBody {
+  margin: 24px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+  text-align: center;
+}
+
+.authorFollow {
+  margin: 24px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+  text-align: center;
+}
+
+.inlineLink {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.inlineLink:hover {
+  color: var(--hover-color);
+}
+
+.nhsNote .inlineLink {
+  color: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .intro,
+  .sectionTitle,
+  .body,
+  .footnote,
+  .caption,
+  .nhsNote,
+  .authorBody,
+  .authorFollow,
+  .authorTitle,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+  .relatedText {
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}

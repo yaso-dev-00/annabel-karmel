@@ -67,11 +67,11 @@ const heroCopyItem = {
 };
 */
 
-/** Left/right: circular badges ~110px at lg. Center: vertical rectangle ~1.4× that height. */
+/** Left/right: circular badges. Center: taller vertical rectangle. */
 const awardBadgeImgClasses = [
-  "h-[120px] max-w-[93px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
-  "h-[150px] max-w-[93px] shrink-0 max-w-[150px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[150px] lg:h-auto lg:max-w-[150px]",
-  "h-[120px] max-w-[93px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
+  "h-[120px] w-[93px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-[120px] md:w-[120px] lg:h-[148px] lg:w-[148px]",
+  "h-[150px] w-[93px] shrink-0 object-contain sm:h-[132px] sm:w-[94px] md:h-[160px] md:w-[145px] lg:h-[210px] lg:w-[178px]",
+  "h-[120px] w-[93px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-[120px] md:w-[120px] lg:h-[148px] lg:w-[148px]",
 ];
 
 export function HomePageContent() {
@@ -1198,7 +1198,7 @@ export function HomePageContent() {
         />
         <div className="app-recipe-section-shell relative z-1 grid w-full grid-cols-1 items-start gap-10 lg:grid-cols-[0.92fr_1fr]">
           <article className="flex w-full flex-col items-center gap-4 pt-2 text-center [font-family:var(--font-montserrat)] lg:mx-0 lg:max-w-none lg:items-start lg:gap-5 lg:pt-6 lg:text-left">
-            <div className="flex w-full items-center justify-center lg:items-center gap-3 md:gap-5 lg:justify-start">
+            <div className="flex w-full items-end justify-center gap-3 md:gap-5 lg:gap-6">
               {appSectionContent.awards.map((award, index) => (
                 <img
                   key={`${award}-${index}`}
@@ -1291,19 +1291,21 @@ export function HomePageContent() {
         </div>
         <div className="app-recipe-section-shell app-recipe-section-shell-bottom relative z-[1] mt-5 grid w-full items-center gap-10 md:mt-12 lg:mt-[70px] lg:grid-cols-[1fr_0.88fr] lg:gap-14">
           <div className="relative order-2 w-full pb-4 md:pb-8 lg:order-1 lg:pb-0 lg:justify-self-start">
-            <img
-              src="/home page/Pancake-Traybake-776x1024-optimized.webp"
-              alt="Pancake Traybake"
-              className="w-full rounded-[14px] object-cover"
-            />
-            <div className="absolute bottom-5 left-5 rounded-[15px] bg-white/95 px-3.5 py-4 shadow-[0_10px_22px_rgba(0,0,0,0.12)]">
-              <p className="[font-family:var(--font-montserrat)] text-[15px] font-semibold text-[#1f1d23]">Pancake Traybake</p>
-              <p className="mt-[10px] text-[9px] text-[#6f6973]">
-                <span className="latest-recipe-duration-icon latest-recipe-duration-icon-lg" aria-hidden>
-                  <img src="/icons/timer-icon.svg" alt="" width={28} height={29} />
-                </span>
-                <sup className="text-[15px] text-[#3d3d3d]">25 Mins</sup>
-              </p>
+            <div className="relative w-full">
+              <img
+                src="/home page/Pancake-Traybake-776x1024-optimized.webp"
+                alt="Pancake Traybake"
+                className="w-full rounded-[14px] object-cover"
+              />
+              <div className="absolute bottom-[30px] left-5 rounded-[15px] bg-white/95 px-3.5 py-4 shadow-[0_10px_22px_rgba(0,0,0,0.12)]">
+                <p className="[font-family:var(--font-montserrat)] text-[15px] font-semibold text-[#1f1d23]">Pancake Traybake</p>
+                <p className="mt-[10px] text-[9px] text-[#6f6973]">
+                  <span className="latest-recipe-duration-icon latest-recipe-duration-icon-lg" aria-hidden>
+                    <img src="/icons/timer-icon.svg" alt="" width={28} height={29} />
+                  </span>
+                  <sup className="text-[15px] text-[#3d3d3d]">25 Mins</sup>
+                </p>
+              </div>
             </div>
           </div>
           <div className="order-1 flex w-full flex-col mt-[50px] gap-y-[10px] text-center lg:order-2 lg:mt-2 lg:mx-auto lg:max-w-[440px] justify-center items-center lg:justify-self-center lg:text-left">

@@ -70,6 +70,12 @@
   color: #3f3841;
 }
 
+.accordionBody > .accordionBodyText:first-child,
+.accordionBody > *:first-child + .accordionBodyText,
+.accordionBody > div:first-child > .accordionBodyText:first-child {
+  margin-top: 20px;
+}
+
 .link {
   color: #3f3841;
  

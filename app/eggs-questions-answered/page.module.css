@@ -103,6 +103,20 @@
   color: #3f3841;
 }
 
+.accordionBody > .accordionBodyText:first-child,
+.accordionBody > div:first-child + .accordionBodyText,
+.accordionBody > div:first-child > .accordionBodyText:first-child {
+  margin-top: 20px;
+}
+
+.accordionSubheading + .accordionBodyText:not(.accordionSubheading) {
+  margin-top: 20px;
+}
+
+.accordionSubheading + .accordionList {
+  margin-top: 20px;
+}
+
 .accordionInlineLink {
   color: inherit;
   font-weight: 700;
@@ -115,21 +129,41 @@
 }
 
 .accordionList {
-  margin: 30px 0 0;
-  padding-left: 28px;
+  margin: 20px 0 0 41px;
+  padding: 0;
   list-style: disc;
+}
+
+.accordionBodyText + .accordionList
+ { 
+  margin-top: 20px;
 }
 
 .accordionListItem {
   margin-top: 8px;
   font-family: var(--font-body);
-  font-size: 22px;
-  line-height: 1.42;
+  font-size: 20px;
+  line-height: 1.4;
   color: #3f3841;
+}
+
+.accordionListItem:first-child {
+  margin-top: 0;
 }
 
 .accordionSubheading {
   margin-bottom: 0;
+}
+
+.accordionSubheadingDisplay {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 900 !important;
+}
+
+.accordionSubheadingDisplay strong {
+  font-weight: 900;
 }
 
 .relatedTitle {
@@ -174,9 +208,6 @@
   .accordionBodyText {
     font-size: 20px;
   } */
-.accordionListItem{
-  font-size: 20px;
-}
   .relatedText {
     font-size: 17px;
     margin-top: 25px;

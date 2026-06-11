@@ -1,10 +1,15 @@
+import { SiteAdPlacement } from "@/components/site-ad-placement";
+import { footerLogoUrl } from "@/data/site-content";
+
 export function SiteFooter() {
   return (
-    <footer className="site-footer md:mb-[140px]!  pt-5! md:pt-10!">
+    <>
+      <SiteAdPlacement placement="footer" />
+      <footer className="site-footer md:mb-[140px]!  pt-5! md:pt-10!">
       <div className="site-footer-shell md:mt-[0px]! md:pt-[100px]!">
         <section className="footer-top">
           <a className="footer-logo" href="/" aria-label="Annabel Karmel home">
-            <img src="/hero-slides/logo.webp" alt="Annabel Karmel" />
+            <img src={footerLogoUrl} alt="Annabel Karmel" />
           </a>
 
           <div className="footer-link-columns" aria-label="Footer links">
@@ -34,7 +39,7 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <article className="footer-app-cta flex flex-col gap-y-2 text-[#922f57]!">
+          <article className="footer-app-cta flex flex-col gap-y-2 text-[#D79CAC]!">
             <h3>Download Annabel&apos;s award-winning recipe app</h3>
             <p className="text-base !text-[#636262]">
               Discover nutritious recipes and expert meal planning tools for the whole family.
@@ -51,7 +56,7 @@ export function SiteFooter() {
         </section>
 
         <section className="footer-newsletter md:mt-[0px]!">
-          <h2 className="text-[24px]! font-[400]! mb-[20px]! text-[#e94e7a]!">Sign up for our newsletter</h2>
+          <h2 className="text-[24px]! font-[400]! mb-[20px]! text-[#B34769]!">Sign up for our newsletter</h2>
           <form>
             <label htmlFor="email-newsletter" className="sr-only">
               Email address
@@ -99,5 +104,6 @@ export function SiteFooter() {
         </section>
       </div>
     </footer>
+    </>
   );
 }

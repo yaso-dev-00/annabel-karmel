@@ -67,6 +67,10 @@
   margin-top: 30px;
 }
 
+.accordionBody > .body:first-child {
+  margin-top: 20px;
+}
+
 .link {
   color: #3f3841;
   font-weight: 700;

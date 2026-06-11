@@ -6,6 +6,8 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { logoUrl, megaMenus } from "@/data/site-content";
 import { isMegaMenuActive, isNavLinkActive } from "@/lib/nav-active";
 import { SiteNavOverlay } from "@/components/site-nav-overlay";
+import { SiteAdPlacement } from "@/components/site-ad-placement";
+import { SiteNewsletterBar } from "@/components/site-newsletter-bar";
 
 const DESKTOP_CLOSE_DELAY = 150;
 const NESTED_CLOSE_DELAY = 120;
@@ -236,10 +238,12 @@ export function SiteHeader() {
     });
 
   return (
+    <>
     <header
       className={`site-header ${openDesktopMenu ? "is-nav-open" : ""}`}
       ref={headerRef}
     >
+      <SiteNewsletterBar />
       <div className="main-nav-wrapper">
         <div
           className="container main-nav"
@@ -513,5 +517,7 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
+    <SiteAdPlacement placement="header" />
+    </>
   );
 }

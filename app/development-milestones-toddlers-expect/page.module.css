@@ -92,6 +92,15 @@
   color: #2f2f2f;
 }
 
+.accordionBody > .accordionText:first-child,
+.accordionBody > *:first-child + .accordionText {
+  margin-top: 20px;
+}
+
+.accordionBody > .accordionList:first-child {
+  margin-top: 20px;
+}
+
 .link {
   color: #3f3841;
   

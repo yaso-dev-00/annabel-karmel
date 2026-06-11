@@ -216,6 +216,11 @@
   color: #3f3841;
 }
 
+.accordionBody > .accordionText:first-child,
+.accordionBody > *:first-child + .accordionText {
+  margin-top: 20px;
+}
+
 @media (max-width: 900px) {
   .sectionTitle,
   .subSectionTitle,

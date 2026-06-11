@@ -23,6 +23,10 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Annabel Karmel",
   description: "Nutritious recipes, expert advice, and family meal inspiration.",
+  icons: {
+    icon: "/brand/annabel-karmel-logo.png",
+    apple: "/brand/annabel-karmel-logo.png",
+  },
 };
 
 export default function RootLayout({

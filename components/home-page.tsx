@@ -1,6 +1,7 @@
  "use client";
 import backgroundImage from "@/public/home page/background image.webp";
 import { InstagramShareSection } from "@/components/instagram-share-section";
+import { SearchIcon } from "@/components/search-icon";
 import { useSnapCarousel, CAROUSEL_SMOOTH } from "@/components/use-snap-carousel";
 import { AnimatePresence, motion, useAnimationFrame, useMotionValue, useMotionValueEvent } from "framer-motion";
 import { recipeFinderSlugs } from "@/data/recipe-taxonomies";
@@ -21,6 +22,7 @@ import {
   expertRangeCards,
   heroSlides,
   latestRecipes,
+  logoUrl,
   partnerLogos,
   type CollabCard,
 } from "@/data/site-content";
@@ -34,6 +36,7 @@ const heroThemeByIndex = [
 
 const HERO_SWIPE_THRESHOLD = 40;
 
+/*
 const heroImageVariants = {
   enter: { opacity: 0, scale: 1.06 },
   center: { opacity: 1, scale: 1 },
@@ -62,12 +65,13 @@ const heroCopyItem = {
     transition: { duration: 0.28, ease: "easeIn" as const },
   }),
 };
+*/
 
 /** Left/right: circular badges ~110px at lg. Center: vertical rectangle ~1.4× that height. */
 const awardBadgeImgClasses = [
-  "h-[120px] max-w-[115px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
-  "h-[180px] max-w-[115px] shrink-0 max-w-[150px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[150px] lg:h-auto lg:max-w-[150px]",
-  "h-[120px] max-w-[115px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
+  "h-[120px] max-w-[93px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
+  "h-[150px] max-w-[93px] shrink-0 max-w-[150px] object-contain sm:h-[132px] sm:max-w-[94px] md:h-[142px] md:max-w-[150px] lg:h-auto lg:max-w-[150px]",
+  "h-[120px] max-w-[93px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-auto md:w-[150px] lg:h-auto lg:w-[150px]",
 ];
 
 export function HomePageContent() {
@@ -84,7 +88,16 @@ export function HomePageContent() {
     mealTime: [],
     freeFrom: [],
   });
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [mobileQuery, setMobileQuery] = useState("");
+  const [mobileFinderSelections, setMobileFinderSelections] = useState<Record<string, string[]>>({
+    age: [],
+    mealTime: [],
+    freeFrom: [],
+  });
+  const [openMobileFinderMenu, setOpenMobileFinderMenu] = useState<string | null>(null);
   const finderRef = useRef<HTMLFormElement | null>(null);
+  const mobileModalRef = useRef<HTMLFormElement | null>(null);
   const appPanelRef = useRef<HTMLDivElement | null>(null);
   const collabTrackRef = useRef<HTMLDivElement | null>(null);
   const collabLoopWidthRef = useRef(0);
@@ -129,16 +142,6 @@ export function HomePageContent() {
     setActiveSlide((prev) => (prev + step + heroSlides.length) % heroSlides.length);
   };
 
-  const goToSlide = (index: number) => {
-    if (index === activeSlide) {
-      return;
-    }
-    setDirection(index > activeSlide ? 1 : -1);
-    setActiveSlide(index);
-    setHeroAutoScrollEnabled(false);
-    window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
-  };
-
   const pauseHeroAutoScroll = () => {
     setHeroAutoScrollEnabled(false);
     window.setTimeout(() => setHeroAutoScrollEnabled(true), 8000);
@@ -146,7 +149,7 @@ export function HomePageContent() {
 
   const handleHeroPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
     const target = event.target as HTMLElement;
-    if (target.closest(".hero-nav-buttons, .hero-dots, .hero-copy-content a")) {
+    if (target.closest(".hero-nav-buttons, .hero-copy-content a")) {
       return;
     }
 
@@ -419,6 +422,34 @@ export function HomePageContent() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (!mobileFilterOpen) {
+      return;
+    }
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileFilterOpen]);
+
+  useEffect(() => {
+    if (!mobileFilterOpen || !openMobileFinderMenu) {
+      return;
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.closest(".finder-modal-dropdown")) {
+        return;
+      }
+      setOpenMobileFinderMenu(null);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mobileFilterOpen, openMobileFinderMenu]);
+
   const finderPanels = {
     age: { heading: "Select age", options: recipeFinderAgeOptions.map((option) => option.label) },
     mealTime: { heading: "Select time", options: recipeFinderMealTimeOptions.map((option) => option.label) },
@@ -455,6 +486,48 @@ export function HomePageContent() {
         freeFrom: freeLabel
           ? recipeFinderSlugs.freeFrom[freeLabel as keyof typeof recipeFinderSlugs.freeFrom]
           : undefined,
+      }),
+    );
+  };
+
+  const toggleMobileSelection = (key: "age" | "mealTime" | "freeFrom", option: string) => {
+    setMobileFinderSelections((prev) => {
+      const exists = prev[key].includes(option);
+      return {
+        ...prev,
+        [key]: exists ? prev[key].filter((item) => item !== option) : [...prev[key], option],
+      };
+    });
+  };
+
+  const displayMobileSelection = (key: "age" | "mealTime" | "freeFrom", fallback: string) =>
+    mobileFinderSelections[key].length > 0 ? mobileFinderSelections[key].join(", ") : fallback;
+
+  const handleMobileSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    router.push(buildRecipeListingUrl({ q: mobileQuery }));
+  };
+
+  const handleMobileFilterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setMobileFilterOpen(false);
+    setOpenMobileFinderMenu(null);
+    const ageLabel = mobileFinderSelections.age[0];
+    const mealLabel = mobileFinderSelections.mealTime[0];
+    const freeLabel = mobileFinderSelections.freeFrom[0];
+
+    router.push(
+      buildRecipeListingUrl({
+        age: ageLabel
+          ? recipeFinderSlugs.age[ageLabel as keyof typeof recipeFinderSlugs.age]
+          : undefined,
+        mealTime: mealLabel
+          ? recipeFinderSlugs.mealTime[mealLabel as keyof typeof recipeFinderSlugs.mealTime]
+          : undefined,
+        freeFrom: freeLabel
+          ? recipeFinderSlugs.freeFrom[freeLabel as keyof typeof recipeFinderSlugs.freeFrom]
+          : undefined,
+        q: mobileQuery,
       }),
     );
   };
@@ -520,6 +593,101 @@ export function HomePageContent() {
 
   return (
     <main className="max-md:pb-16  ">
+      <section className="hero-showcase container">
+        <article
+          className="hero-slider-shell"
+          onPointerDown={handleHeroPointerDown}
+          onPointerUp={handleHeroPointerEnd}
+          onPointerCancel={handleHeroPointerEnd}
+        >
+          <div className="hero-copy-panel" style={{ backgroundColor: theme.panelColor }}>
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={`copy-${activeSlide}`}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.38, ease: "easeOut" }}
+                className="hero-copy-content max-[1200px]:text-center max-[1200px]:items-center"
+              >
+                <h1>{current.title}</h1>
+                <p>{current.subtitle}</p>
+                <a
+                  href={current.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ backgroundColor: theme.buttonColor }}
+                  className={`inline-flex items-center gap-2 rounded-[15px] px-6! py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] whitespace-nowrap transition-colors ${styles.ctaButton}`}
+                >
+                  <span className={`${styles.ctaLabel} inline-block w-auto h-auto text-[20px] font-medium leading-none`}>
+                    {current.cta}
+                  </span>
+                  <span className="inline-flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-[15px] bg-white" aria-hidden>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none">
+                      <rect x="0.5" width="41" height="41" rx="16" fill="white" />
+                      <path d="M13.5 20.5H27.5" stroke={theme.buttonColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke={theme.buttonColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </a>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="hero-image-panel">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.img
+                key={`image-${activeSlide}`}
+                src={current.image}
+                alt={current.title}
+                className="hero-slide-image"
+                width={2048}
+                height={2560}
+                decoding="async"
+                fetchPriority={activeSlide === 0 ? "high" : "auto"}
+                draggable={false}
+                initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+              />
+            </AnimatePresence>
+
+            <div className="hero-nav-buttons">
+              <button
+                type="button"
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={() => {
+                  moveSlide(-1);
+                  pauseHeroAutoScroll();
+                }}
+                aria-label="Previous slide"
+                className="prev"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M14.5 5L8 11.5L14.5 18" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={() => {
+                  moveSlide(1);
+                  pauseHeroAutoScroll();
+                }}
+                aria-label="Next slide"
+                className="next"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9.5 5L16 11.5L9.5 18" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      {/*
       <section className="hero-showcase container">
         <article
           className="hero-slider-shell"
@@ -637,6 +805,7 @@ export function HomePageContent() {
           </div>
         </article>
       </section>
+      */}
 
       <section className="recipe-finder container py-4!">
         <form className="finder-row" ref={finderRef} onSubmit={handleFinderSubmit}>
@@ -713,17 +882,213 @@ export function HomePageContent() {
             </div>
             ) : null}
           </div>
-       <div className="w-full flex justify-end items-center px-2 pt-[6px] min-[1080px]:p-0">
-       <button
-            type="submit"
-            className="inline-flex relative cursor-pointer min-[1080px]:float-right right-[0px] min-[1080px]:right-[20px] items-center justify-center gap-2 rounded-[15px] bg-[#b34769] hover:bg-[#ea6397] px-5 py-5 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors max-[1100px]:col-span-1 max-[1100px]:mt-2 max-[1100px]:w-full"
-            aria-label="Search recipes"
-          >
-          <img decoding="async" src="https://www.annabelkarmel.com/wp-content/uploads/2025/03/Search-optimized.png" alt="Search" className="h-[40px] w-[40px]"/>
-          
+          <button type="submit" className="finder-submit" aria-label="Search recipes">
+            <SearchIcon className="h-10 w-10 text-white" />
           </button>
-       </div>
         </form>
+
+        <form className="finder-mobile-bar" onSubmit={handleMobileSearchSubmit}>
+          <input
+            type="search"
+            placeholder="Search for recipe"
+            value={mobileQuery}
+            onChange={(event) => setMobileQuery(event.target.value)}
+          />
+          <button type="submit" className="finder-mobile-search" aria-label="Search recipes">
+            <SearchIcon className="finder-mobile-action-icon text-white" />
+          </button>
+          <button
+            type="button"
+            className="finder-mobile-filter"
+            aria-label="Open search filters"
+            onClick={() => {
+              setOpenMobileFinderMenu(null);
+              setMobileFilterOpen(true);
+            }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden className="finder-mobile-action-icon">
+              <path
+                d="M4 5H20L14.5 12.2V18L9.5 20.5V12.2L4 5Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </form>
+
+        {mobileFilterOpen ? (
+          <div className="finder-modal-root" role="dialog" aria-modal="true" aria-label="Search filters">
+            <div className="finder-modal-scrim" onClick={() => {
+              setOpenMobileFinderMenu(null);
+              setMobileFilterOpen(false);
+            }} />
+            <form className="finder-modal-panel" ref={mobileModalRef} onSubmit={handleMobileFilterSubmit}>
+              <div className="finder-modal-header">
+                <img src={logoUrl} alt="Annabel Karmel" className="finder-modal-logo" />
+                <button
+                  type="button"
+                  className="finder-modal-close"
+                  aria-label="Close search filters"
+                  onClick={() => {
+                    setOpenMobileFinderMenu(null);
+                    setMobileFilterOpen(false);
+                  }}
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden>
+                    <path d="M6 6L18 18" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
+                    <path d="M18 6L6 18" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="finder-modal-field">
+                <span className="finder-modal-label">Recipe</span>
+                <span className="finder-modal-input-wrap">
+                  <img src="/icons/search-input-icon.png" alt="" aria-hidden width={18} height={18} />
+                  <input
+                    type="search"
+                    placeholder="Search by recipe name"
+                    value={mobileQuery}
+                    onChange={(event) => setMobileQuery(event.target.value)}
+                  />
+                </span>
+              </div>
+
+              <div className="finder-modal-field">
+                <span className="finder-modal-label">By Age</span>
+                <div className={`finder-modal-dropdown ${openMobileFinderMenu === "age" ? "open" : ""}`}>
+                  <button
+                    type="button"
+                    className="finder-modal-dropdown-trigger"
+                    onClick={() => setOpenMobileFinderMenu((current) => (current === "age" ? null : "age"))}
+                  >
+                    <span
+                      className={`finder-modal-dropdown-value ${mobileFinderSelections.age.length === 0 ? "is-placeholder" : ""}`}
+                    >
+                      {displayMobileSelection("age", "Select age")}
+                    </span>
+                    <svg viewBox="0 0 14 9" width="14" height="9" fill="none" aria-hidden>
+                      <path
+                        d="M1 1.5L7 7.5L13 1.5"
+                        stroke="#9b969a"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                  {openMobileFinderMenu === "age" ? (
+                    <div className="finder-modal-dropdown-panel">
+                      <p className="finder-dropdown-heading">{finderPanels.age.heading}</p>
+                      {finderPanels.age.options.map((option) => (
+                        <label key={option}>
+                          <span>{option}</span>
+                          <input
+                            type="checkbox"
+                            checked={mobileFinderSelections.age.includes(option)}
+                            onChange={() => toggleMobileSelection("age", option)}
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="finder-modal-field">
+                <span className="finder-modal-label">By Meal Time</span>
+                <div className={`finder-modal-dropdown ${openMobileFinderMenu === "mealTime" ? "open" : ""}`}>
+                  <button
+                    type="button"
+                    className="finder-modal-dropdown-trigger"
+                    onClick={() =>
+                      setOpenMobileFinderMenu((current) => (current === "mealTime" ? null : "mealTime"))
+                    }
+                  >
+                    <span
+                      className={`finder-modal-dropdown-value ${mobileFinderSelections.mealTime.length === 0 ? "is-placeholder" : ""}`}
+                    >
+                      {displayMobileSelection("mealTime", "Select time")}
+                    </span>
+                    <svg viewBox="0 0 14 9" width="14" height="9" fill="none" aria-hidden>
+                      <path
+                        d="M1 1.5L7 7.5L13 1.5"
+                        stroke="#9b969a"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                  {openMobileFinderMenu === "mealTime" ? (
+                    <div className="finder-modal-dropdown-panel">
+                      <p className="finder-dropdown-heading">{finderPanels.mealTime.heading}</p>
+                      {finderPanels.mealTime.options.map((option) => (
+                        <label key={option}>
+                          <span>{option}</span>
+                          <input
+                            type="checkbox"
+                            checked={mobileFinderSelections.mealTime.includes(option)}
+                            onChange={() => toggleMobileSelection("mealTime", option)}
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="finder-modal-field">
+                <span className="finder-modal-label">By Meal Type</span>
+                <div className={`finder-modal-dropdown ${openMobileFinderMenu === "freeFrom" ? "open" : ""}`}>
+                  <button
+                    type="button"
+                    className="finder-modal-dropdown-trigger"
+                    onClick={() =>
+                      setOpenMobileFinderMenu((current) => (current === "freeFrom" ? null : "freeFrom"))
+                    }
+                  >
+                    <span
+                      className={`finder-modal-dropdown-value ${mobileFinderSelections.freeFrom.length === 0 ? "is-placeholder" : ""}`}
+                    >
+                      {displayMobileSelection("freeFrom", "Select type")}
+                    </span>
+                    <svg viewBox="0 0 14 9" width="14" height="9" fill="none" aria-hidden>
+                      <path
+                        d="M1 1.5L7 7.5L13 1.5"
+                        stroke="#9b969a"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                  {openMobileFinderMenu === "freeFrom" ? (
+                    <div className="finder-modal-dropdown-panel">
+                      <p className="finder-dropdown-heading">{finderPanels.freeFrom.heading}</p>
+                      {finderPanels.freeFrom.options.map((option) => (
+                        <label key={option}>
+                          <span>{option}</span>
+                          <input
+                            type="checkbox"
+                            checked={mobileFinderSelections.freeFrom.includes(option)}
+                            onChange={() => toggleMobileSelection("freeFrom", option)}
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+
+              <button type="submit" className="finder-modal-submit">
+                Search for recipe
+              </button>
+            </form>
+          </div>
+        ) : null}
       </section>
 
       <section className="latest-recipes">
@@ -766,7 +1131,7 @@ export function HomePageContent() {
                       onLoad={recipeIndex === 0 ? recipeCarousel.measure : undefined}
                     />
                   </a>
-                  <h3 className="text-[22px]! font-[550]! mt-[10px]! text-center text-ellipsis overflow-hidden line-clamp-2  font-family-montserrat">{recipe.title}</h3>
+                  <h3 className="text-[22px]! font-[550]! mt-[10px]! text-left text-ellipsis overflow-hidden line-clamp-2  font-family-montserrat">{recipe.title}</h3>
                   <p className="latest-recipe-duration mt-[20px]!">
                     <span className="latest-recipe-duration-icon" aria-hidden>
                       <img src="/icons/timer-icon.svg" alt="" width={24} height={25} />
@@ -778,7 +1143,7 @@ export function HomePageContent() {
             </motion.div>
             <div className="latest-carousel-controls">
               <button
-                className="relative top-[50px] md:top-[20px] cursor-pointer disabled:invisible disabled:pointer-events-none"
+                className="cursor-pointer disabled:invisible disabled:pointer-events-none"
                 type="button"
                 disabled={recipeCarousel.index <= 0}
                 onPointerDown={(event) => {
@@ -792,7 +1157,7 @@ export function HomePageContent() {
                 </svg>
               </button>
               <button
-                className="relative top-[50px] md:top-[20px] cursor-pointer disabled:invisible disabled:pointer-events-none"
+                className="cursor-pointer disabled:invisible disabled:pointer-events-none"
                 type="button"
                 disabled={recipeCarousel.index >= recipeCarousel.maxIndex}
                 onPointerDown={(event) => {
@@ -823,16 +1188,16 @@ export function HomePageContent() {
       </section>
 
       <section
-        className="relative min-h-[760px] overflow-hidden py-22! md:min-h-[820px] md:py-[150px]! lg:min-h-[860px] lg:py-28"
+        className="app-recipe-section relative min-h-[760px] overflow-hidden py-16! md:min-h-0 md:py-20! lg:min-h-[860px] lg:py-28"
       >
         <img
           src={backgroundImage.src}
           alt=""
           aria-hidden
-          className="pointer-events-none absolute top-0 left-0 h-full w-full object-cover object-center"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
         />
-        <div className="relative z-1 mx-auto grid w-full max-w-[1200px] grid-cols-1 items-start gap-10 px-4 md:px-6 lg:grid-cols-[0.92fr_1fr]">
-          <article className="mx-auto flex w-full max-w-[410px] flex-col items-center gap-4 pt-2 text-center [font-family:var(--font-montserrat)] lg:mx-0 lg:max-w-none lg:items-start lg:gap-5 lg:pt-6 lg:text-left">
+        <div className="app-recipe-section-shell relative z-1 grid w-full grid-cols-1 items-start gap-10 lg:grid-cols-[0.92fr_1fr]">
+          <article className="flex w-full flex-col items-center gap-4 pt-2 text-center [font-family:var(--font-montserrat)] lg:mx-0 lg:max-w-none lg:items-start lg:gap-5 lg:pt-6 lg:text-left">
             <div className="flex w-full items-center justify-center lg:items-center gap-3 md:gap-5 lg:justify-start">
               {appSectionContent.awards.map((award, index) => (
                 <img
@@ -844,17 +1209,17 @@ export function HomePageContent() {
                 />
               ))}
             </div>
-            <h2 className={`text-center text-[38px] font-[600] max-[900px]:max-w-[350px] mt-3 leading-[50px] tracking-[-0.02em] text-[#15131a] md:text-[48px] lg:text-left md:font-[600]! ${styles.displayMedium}`}>
+            <h2 className={`text-center text-[38px] font-[600] mt-3 leading-[50px] tracking-[-0.02em] text-[#15131a] md:text-[48px] lg:text-left md:font-[600]! ${styles.displayMedium}`}>
               <span>Annabel&apos;s </span>
               <span>#1 recipe app</span>
             </h2>
-            <ul className="w-full space-y-4 mt-3 text-[14px] font-semibold leading-[1.45] text-[#1f1d23] md:text-[15px] lg:text-left">
+            <ul className="mx-auto mt-3 flex w-fit max-w-full flex-col space-y-4 text-left text-[14px] font-semibold leading-[1.45] text-[#1f1d23] md:text-[15px] lg:mx-0 lg:w-full">
               {appSectionContent.bullets.map((bullet) => (
-                <li key={bullet} className="flex items-start  gap-2.5 lg:justify-start">
+                <li key={bullet} className="flex items-start justify-start gap-2.5 text-left">
                   <span className="mt-0.5 flex shrink-0 text-[#3a3a3a]" aria-hidden>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M30 9L13.5 25.5L6 18" stroke="#494747" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                   </span>
-                  <span className="text-[22px]! font-[600]! text-left text-[#3a3a3a]">{bullet}</span>
+                  <span className="text-left text-[22px]! font-[600]! text-[#3a3a3a]">{bullet}</span>
                 </li>
               ))}
             </ul>
@@ -873,7 +1238,7 @@ export function HomePageContent() {
            </div>
           </article>
 
-          <article className="relative mx-auto w-full max-w-[380px] pt-1 md:max-w-[570px] lg:justify-self-end lg:pt-0">
+          <article className="relative w-full pt-1 lg:justify-self-end lg:pt-0">
             <div
               ref={appPanelRef}
               style={appPanelLockedHeight ? { height: `${appPanelLockedHeight}px` } : undefined}
@@ -924,8 +1289,8 @@ export function HomePageContent() {
             </div>
           </article>
         </div>
-        <div className="relative z-[1] mx-auto mt-5 grid w-full max-w-[1200px] items-center gap-10 px-4 md:mt-[70px] md:px-6 lg:grid-cols-[1fr_0.88fr] lg:gap-14">
-          <div className="relative order-2  w-full max-w-[380px] md:max-w-full lg:order-1 lg:justify-self-start">
+        <div className="app-recipe-section-shell app-recipe-section-shell-bottom relative z-[1] mt-5 grid w-full items-center gap-10 md:mt-12 lg:mt-[70px] lg:grid-cols-[1fr_0.88fr] lg:gap-14">
+          <div className="relative order-2 w-full pb-4 md:pb-8 lg:order-1 lg:pb-0 lg:justify-self-start">
             <img
               src="/home page/Pancake-Traybake-776x1024-optimized.webp"
               alt="Pancake Traybake"
@@ -941,9 +1306,9 @@ export function HomePageContent() {
               </p>
             </div>
           </div>
-          <div className="order-1 mx-auto flex w-full max-w-[400px] flex-col mt-[50px]  gap-y-[10px] text-center lg:order-2 lg:mt-2 lg:max-w-[440px] justify-center items-center lg:justify-self-center lg:text-left">
+          <div className="order-1 flex w-full flex-col mt-[50px] gap-y-[10px] text-center lg:order-2 lg:mt-2 lg:mx-auto lg:max-w-[440px] justify-center items-center lg:justify-self-center lg:text-left">
             <p className={`${styles.labelCaps} text-[18px] font-[600] text-[#8d4a67]`}>EXCLUSIVE</p>
-            <h2 className={`mt-2 text-center max-[900px]:max-w-[300px] text-[38px] leading-[50.4px] font-[500] text-[#1f1b24] md:text-[48px] font-[600]! ${styles.displayMedium}`}>
+            <h2 className={`mt-2 text-center text-[38px] leading-[50.4px] font-[500] text-[#1f1b24] md:text-[48px] font-[600]! ${styles.displayMedium}`}>
               App recipe of the week
             </h2>
             <p className={`mt-4 text-center text-[22px] leading-[1.45] text-[#4f4a54] md:text-[22px] ${styles.bodyFont}`}>
@@ -1090,7 +1455,7 @@ export function HomePageContent() {
                       className="h-[400px] w-auto max-w-[84%] bg-[#ecdde0] object-contain object-center transition-transform duration-300 group-hover:scale-[1.02]"
                     />
                   </a>
-                  <h3 className={`mt-5 px-2 text-center text-[20px] font-bold leading-[1.32] text-[#25222a] ${styles.bodyFont}`}>
+                  <h3 className={`mt-5 px-2 text-left text-[20px] font-bold leading-[1.32] text-[#25222a] ${styles.bodyFont}`}>
                     {book.title}
                   </h3>
                 </article>

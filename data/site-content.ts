@@ -218,8 +218,9 @@ export const megaMenus: MegaMenu[] = [
   },
 ];
 
-export const logoUrl =
-  "https://www.annabelkarmel.com/wp-content/uploads/2023/09/AK_Logo-120x80-optimized.png";
+export const logoUrl = "/brand/annabel-karmel-logo.png";
+
+export const footerLogoUrl = "/hero-slides/logo.webp";
 
 export const heroSlides: HeroSlide[] = [
   {

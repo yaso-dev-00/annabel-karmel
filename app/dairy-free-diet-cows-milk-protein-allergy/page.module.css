@@ -130,6 +130,15 @@
   color: #3f3841;
 }
 
+.faqBody > .faqText:first-child,
+.faqBody > *:first-child + .faqText {
+  margin-top: 20px;
+}
+
+.faqSubheading + .faqText {
+  margin-top: 20px;
+}
+
 .faqText + .faqText {
   margin-top: 16px;
 }

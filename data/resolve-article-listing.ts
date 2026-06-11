@@ -14,8 +14,6 @@ const hrefAliases: Record<string, string> = {
   "eczema-linked-food-allergies": "is-eczema-linked-to-food-allergies",
   "common-food-allergens-uk": "the-most-common-food-allergens-in-the-uk",
   "common-food-allergies-babies": "most-common-food-allergies-in-babies",
-  "toddler-snack-time": "toddler-snack-time3",
-  "toddler-snacking": "toddler-snack-time3",
 };
 
 /**
@@ -130,6 +128,15 @@ export const adviceArticleSlugs = new Set([
   "gagging-vs-choking",
   "weaning-premature-babies",
   "looking-after-childrens-teeth",
+  "toddler-snacking",
+  "cooking-with-kids",
+  "cooking-with-toddlers",
+  "potty-training",
+  "learn-through-play",
+  "common-concerns",
+  "schools",
+  "family-health",
+  "teething",
 ]);
 
 /** Articles served at both `/slug` and `/advice/slug` — path follows the listing source. */

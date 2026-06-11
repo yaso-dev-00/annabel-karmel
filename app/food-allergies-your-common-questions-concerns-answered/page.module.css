@@ -86,6 +86,11 @@
   color: #3f3841;
 }
 
+.panel > .panelText:first-child,
+.panelImage + .panelText {
+  margin-top: 20px;
+}
+
 .panelText + .panelText {
   margin-top: 40px;
 }

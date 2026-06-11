@@ -137,6 +137,46 @@ const nextConfig: NextConfig = {
         destination: "/advice/cooking-with-kids",
         permanent: true,
       },
+      {
+        source: "/toddler-snacking",
+        destination: "/advice/toddler-snacking",
+        permanent: true,
+      },
+      {
+        source: "/cooking-with-toddlers",
+        destination: "/advice/cooking-with-toddlers",
+        permanent: true,
+      },
+      {
+        source: "/potty-training",
+        destination: "/advice/potty-training",
+        permanent: true,
+      },
+      {
+        source: "/learn-through-play",
+        destination: "/advice/learn-through-play",
+        permanent: true,
+      },
+      {
+        source: "/common-concerns",
+        destination: "/advice/common-concerns",
+        permanent: true,
+      },
+      {
+        source: "/schools",
+        destination: "/advice/schools",
+        permanent: true,
+      },
+      {
+        source: "/family-health",
+        destination: "/advice/family-health",
+        permanent: true,
+      },
+      {
+        source: "/teething",
+        destination: "/advice/teething",
+        permanent: true,
+      },
     ];
   },
 };

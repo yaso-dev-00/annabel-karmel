@@ -193,7 +193,7 @@ export const megaMenus: MegaMenu[] = [
       {
         title: "",
         links: [
-          { label: "Chilled Meals", href: "/our-products/chilled-meals" },
+          { label: "Chilled Meals", href: "/product-category/chilled-meals" },
           { label: "Frozen Meals", href: "/our-products/frozen-meals" },
           { label: "Plant Powered Bites", href: "/our-products/plant-powered-bites" },
           { label: "Baking Kits", href: "/our-products/baking-kits" },
@@ -381,7 +381,7 @@ export const expertRangeCards: ExpertRangeCard[] = [
   {
     title: "Fridge meals",
     image: "/home page/anabelle expert/Chilled_Meals-img-optimized.webp",
-    href: "/our-products/chilled-meals",
+    href: "/product-category/chilled-meals",
   },
   {
     title: "Freezer meals",

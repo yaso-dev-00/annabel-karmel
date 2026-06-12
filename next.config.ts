@@ -177,6 +177,11 @@ const nextConfig: NextConfig = {
         destination: "/advice/teething",
         permanent: true,
       },
+      {
+        source: "/our-products/chilled-meals",
+        destination: "/product-category/chilled-meals",
+        permanent: true,
+      },
     ];
   },
 };

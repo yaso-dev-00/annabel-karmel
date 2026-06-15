@@ -187,6 +187,11 @@ const nextConfig: NextConfig = {
         destination: "/product-category/frozen-meals",
         permanent: true,
       },
+      {
+        source: "/our-products/plant-powered-bites",
+        destination: "/product-category/plant-powered-bites",
+        permanent: true,
+      },
     ];
   },
 };

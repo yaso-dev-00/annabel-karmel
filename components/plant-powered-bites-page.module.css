@@ -1,0 +1,320 @@
+.page {
+  overflow: hidden;
+}
+
+.fullBleed {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+.inner {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1200px;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .inner {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .inner {
+    padding-inline: 2rem;
+  }
+}
+
+.pequena {
+  font-family: var(--font-pequena), sans-serif;
+  font-weight: 400;
+}
+
+.sectionHeadingDark {
+  margin: 0;
+  color: #FFFFFF;
+  font-family: var(--font-pequena), sans-serif;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.03;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .sectionHeadingDark {
+    font-size: 52px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sectionHeadingDark {
+    font-size: 64px;
+  }
+}
+
+.introSection {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 767px) {
+  .introSection {
+    padding: 40px 10px 100px;
+  }
+}
+
+.promiseSection {
+  position: relative;
+  z-index: 1;
+  background-image: url("/product-category/plant-powered-bites/promise-bg.png");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  margin-top: -30px;
+  padding: 100px 0;
+  min-height: calc(100vw * 828 / 2160);
+}
+
+
+@media (max-width: 767px) {
+  .promiseSection {
+    margin-top: -30px;
+    min-height: 0;
+    padding: 56px 0 72px;
+  }
+}
+ 
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .promiseSection {
+    margin-top: -20px;
+    min-height: 0;
+  }
+}
+
+.promiseArtwork {
+  display: block;
+  width: min(100%, 980px);
+  height: auto;
+  margin: 1.5rem auto 0;
+}
+
+@media (min-width: 768px) {
+  .promiseArtwork {
+    margin-top: 2rem;
+  }
+}
+
+.retailersSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("/product-category/plant-powered-bites/retailers-bg.png");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  min-height: max(calc(100vw * 564 / 2160), 12rem);
+  padding: 60px 0 80px;
+}
+
+.retailersHeading {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-pequena), sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.03;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .retailersHeading {
+    font-size: 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .retailersHeading {
+    font-size: 64px;
+  }
+}
+
+.retailerLogo {
+  display: block;
+  height: auto;
+  width: min(100%, 220px);
+}
+
+@media (min-width: 768px) {
+  .retailerLogo {
+    width: min(100%, 320px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .retailerLogo {
+    width: min(100%, 420px);
+  }
+}
+
+.frozenCtaSection {
+  position: relative;
+  overflow-x: clip;
+  margin-top: 0;
+  padding: 56px 0 72px;
+  background-image: url("/product-category/plant-powered-bites/frozen-cta-bg-mobile.png");
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: cover;
+}
+
+.frozenCtaSection .shapeBottom {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .frozenCtaSection {
+    margin-top: -2.5rem;
+    padding: 80px 0 90px;
+    background-image: url("/product-category/plant-powered-bites/frozen-cta-bg.png");
+    background-position: top center;
+    background-size: cover;
+  }
+
+  .frozenCtaSection .shapeBottom {
+    display: block;
+  }
+}
+
+.frozenCtaLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .frozenCtaLayout {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.frozenCtaPhotoLeft,
+.frozenCtaPhotoRight {
+  display: none;
+  flex: 0 1 240px;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .frozenCtaPhotoLeft,
+  .frozenCtaPhotoRight {
+    display: flex;
+    flex: 0 1 min(36%, 300px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .frozenCtaPhotoLeft,
+  .frozenCtaPhotoRight {
+    flex: 0 1 min(38%, 360px);
+  }
+}
+
+.frozenCtaPhotoLeft img {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  transform: rotate(0deg);
+}
+
+.frozenCtaPhotoRight img {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  transform: rotate(0deg);
+}
+
+@media (min-width: 1024px) {
+  .frozenCtaPhotoLeft img,
+  .frozenCtaPhotoRight img {
+    max-width: 440px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .frozenCtaPhotoLeft img,
+  .frozenCtaPhotoRight img {
+    max-width: 500px;
+  }
+}
+
+.frozenCtaCenter {
+  flex: 1 1 300px;
+  max-width: 480px;
+  text-align: center;
+  align-self: center;
+}
+
+@media (min-width: 1024px) {
+  .frozenCtaCenter {
+    max-width: 520px;
+  }
+}
+
+.frozenCtaMobileImage {
+  display: block;
+  width: 100%;
+  max-width: min(100%, 640px);
+  height: auto;
+  margin-inline: auto;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .frozenCtaMobileImage {
+    display: none;
+  }
+}
+
+.shapeBottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  pointer-events: none;
+  transform: rotate(180deg);
+}
+
+.shapeBottom svg {
+  position: relative;
+  left: 50%;
+  z-index: -1;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 30px;
+  transform: translateX(-50%);
+}
+
+.shapeFill {
+  fill: #fff;
+}
+
+@media (max-width: 767px) {
+  .shapeBottom svg {
+    height: 15px;
+  }
+}

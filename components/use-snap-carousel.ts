@@ -60,7 +60,36 @@ type SnapCarouselOptions = {
   initialVisibleCards?: number;
   centerSingleSlide?: boolean;
   onInteraction?: () => void;
+  /** Pixels before a mouse drag starts. Default 8. */
+  dragThreshold?: number;
+  /** Pixels before a touch drag starts. Default 2. */
+  touchDragThreshold?: number;
+  /** 0 = hard edge clamp; 0.35–0.45 = rubber-band overscroll. Default 0. */
+  rubberBandFactor?: number;
+  /** Touch release momentum multiplier. Default 0.18. */
+  touchMomentumFactor?: number;
 };
+
+function clampDragOffset(
+  value: number,
+  min: number,
+  max: number,
+  rubberBandFactor: number,
+): number {
+  if (rubberBandFactor <= 0) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  if (value < min) {
+    return min - (min - value) * rubberBandFactor;
+  }
+
+  if (value > max) {
+    return max + (value - max) * rubberBandFactor;
+  }
+
+  return value;
+}
 
 export function useSnapCarousel({
   itemCount,
@@ -69,6 +98,10 @@ export function useSnapCarousel({
   initialVisibleCards = 1,
   centerSingleSlide = false,
   onInteraction,
+  dragThreshold = 8,
+  touchDragThreshold = 2,
+  rubberBandFactor = 0,
+  touchMomentumFactor = 0.18,
 }: SnapCarouselOptions) {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -105,18 +138,19 @@ export function useSnapCarousel({
     (deltaX: number, deltaY: number, pointerType: string) => {
       if (pointerType === "touch") {
         return (
-          Math.abs(deltaX) > TOUCH_DRAG_THRESHOLD &&
-          Math.abs(deltaX) >= Math.abs(deltaY) * 0.4
+          Math.abs(deltaX) > touchDragThreshold &&
+          Math.abs(deltaX) >= Math.abs(deltaY) * 0.35
         );
       }
 
-      return Math.abs(deltaX) >= DRAG_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY);
+      return (
+        Math.abs(deltaX) >= dragThreshold &&
+        Math.abs(deltaX) >= Math.abs(deltaY) * 0.5
+      );
     },
-    [],
+    [dragThreshold, touchDragThreshold],
   );
 
-  const DRAG_THRESHOLD = 8;
-  const TOUCH_DRAG_THRESHOLD = 2;
   const DOUBLE_TAP_MS = 350;
 
   const [index, setIndex] = useState(0);
@@ -281,8 +315,9 @@ export function useSnapCarousel({
     let computedMaxIndex = 0;
 
     const lastCard = cards[cards.length - 1];
+    const trackPaddingRight = Number.parseFloat(styles.paddingRight) || 0;
     const trackWidth = lastCard
-      ? lastCard.offsetLeft + lastCard.offsetWidth
+      ? lastCard.offsetLeft + lastCard.offsetWidth + trackPaddingRight
       : itemCount * cardWidth + Math.max(0, itemCount - 1) * gap;
     const endAlignedMinX = viewportWidth - trackWidth;
 
@@ -489,7 +524,7 @@ export function useSnapCarousel({
       const deltaX = event.clientX - pointerStartX.current;
       const deltaY = event.clientY - pointerStartY.current;
       const moveThreshold =
-        event.pointerType === "touch" ? TOUCH_DRAG_THRESHOLD : DRAG_THRESHOLD;
+        event.pointerType === "touch" ? touchDragThreshold : dragThreshold;
 
       if (Math.abs(deltaX) >= moveThreshold || Math.abs(deltaY) >= moveThreshold) {
         pointerMovedRef.current = true;
@@ -513,15 +548,26 @@ export function useSnapCarousel({
       }
       lastPointerSample.current = { x: event.clientX, t: now };
 
-      if (event.pointerType === "touch") {
-        event.preventDefault();
-      }
+      event.preventDefault();
 
       const minBound = getTargetX(maxIndexRef.current);
       const maxBound = getTargetX(0);
-      x.set(Math.max(minBound, Math.min(maxBound, pointerStartOffset.current + deltaX)));
+      const nextX = clampDragOffset(
+        pointerStartOffset.current + deltaX,
+        minBound,
+        maxBound,
+        rubberBandFactor,
+      );
+      x.set(nextX);
     },
-    [getTargetX, isHorizontalDragIntent, x],
+    [
+      dragThreshold,
+      getTargetX,
+      isHorizontalDragIntent,
+      rubberBandFactor,
+      touchDragThreshold,
+      x,
+    ],
   );
 
   const finishPointerDrag = useCallback(
@@ -582,7 +628,9 @@ export function useSnapCarousel({
       }
 
       const offsetX = x.get();
-      const momentumOffset = wasTouch ? releaseVelocity * 0.18 : 0;
+      const momentumOffset = wasTouch
+        ? releaseVelocity * touchMomentumFactor
+        : releaseVelocity * 0.1;
       const projectedX = offsetX + momentumOffset;
       const nextIndex = findNearestIndex(projectedX);
       animateToIndex(nextIndex, CAROUSEL_SPRING, wasTouch ? releaseVelocity : 0);
@@ -593,7 +641,14 @@ export function useSnapCarousel({
         blockClickRef.current = false;
       }, 300);
     },
-    [animateToIndex, findNearestIndex, onInteraction, setCarouselInteracting, x],
+    [
+      animateToIndex,
+      findNearestIndex,
+      onInteraction,
+      setCarouselInteracting,
+      touchMomentumFactor,
+      x,
+    ],
   );
 
   const handlePointerEnd = useCallback(

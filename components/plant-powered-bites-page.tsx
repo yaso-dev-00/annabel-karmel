@@ -34,14 +34,17 @@ function WaveShapeBottom() {
 export function PlantPoweredBitesPageContent() {
   return (
     <main className={styles.page}>
-      <section className={`${styles.fullBleed} leading-0`} aria-label="Plant-powered bites hero">
-        <picture className="block leading-0">
+      <section className={`${styles.fullBleed} ${styles.heroSection}`} aria-label="Plant-powered bites hero">
+        <picture className={styles.heroPicture}>
           <source media="(min-width: 768px)" srcSet={plantPoweredBitesAssets.heroDesktop} />
           <img
             src={plantPoweredBitesAssets.heroMobile}
             alt="Annabel Karmel plant-powered bites"
-            className="block h-auto w-full align-bottom"
+            className={styles.heroImage}
+            width={440}
+            height={571}
             fetchPriority="high"
+            decoding="async"
           />
         </picture>
       </section>

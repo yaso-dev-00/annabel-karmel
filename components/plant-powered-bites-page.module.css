@@ -2,6 +2,29 @@
   overflow: hidden;
 }
 
+.heroSection {
+  line-height: 0;
+  overflow: hidden;
+  aspect-ratio: 440 / 571;
+}
+
+@media (min-width: 768px) {
+  .heroSection {
+    aspect-ratio: 2197 / 1054;
+  }
+}
+
+.heroPicture {
+  display: block;
+  line-height: 0;
+}
+
+.heroImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .fullBleed {
   position: relative;
   width: 100%;

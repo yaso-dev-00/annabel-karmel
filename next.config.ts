@@ -182,6 +182,11 @@ const nextConfig: NextConfig = {
         destination: "/product-category/chilled-meals",
         permanent: true,
       },
+      {
+        source: "/our-products/frozen-meals",
+        destination: "/product-category/frozen-meals",
+        permanent: true,
+      },
     ];
   },
 };

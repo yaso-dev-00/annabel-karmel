@@ -1,0 +1,120 @@
+@font-face {
+  font-family: "Mundial";
+  src: url("/tableware/fonts/mundial-regular.otf") format("opentype");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.thumb {
+  position: relative;
+  min-height: 190px;
+}
+
+@media (min-width: 768px) {
+  .thumb {
+    min-height: 395px;
+  }
+}
+
+.thumbImage {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 24px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: opacity 0.3s ease-in-out;
+}
+
+@media (min-width: 768px) {
+  .thumbImage {
+    max-height: 395px;
+    min-height: 395px;
+  }
+}
+
+.defaultImage {
+  position: relative;
+  z-index: 1;
+}
+
+.hoverImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 2;
+}
+
+.thumb:hover .defaultImage {
+  opacity: 0;
+}
+
+.thumb:hover .hoverImage {
+  opacity: 1;
+}
+
+.titleLink {
+  text-decoration: none;
+}
+
+.title {
+  margin: 20px 0;
+  color: #302d2d;
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 22px;
+  }
+}
+
+.swatches {
+  display: flex;
+  gap: 3px;
+  margin-top: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+@media (max-width: 767px) {
+  .swatches {
+    justify-content: flex-start;
+  }
+}
+
+.swatch {
+  position: relative;
+  display: inline-block;
+  width: 17.77px;
+  height: 17.68px;
+  padding: 0;
+  border: 3px solid transparent;
+  border-radius: 4px 30px 4px 30px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .swatch {
+    width: 28.11px;
+    height: 28px;
+  }
+}
+
+.swatchActive {
+  border-style: solid;
+}

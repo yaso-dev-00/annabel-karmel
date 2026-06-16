@@ -21,6 +21,18 @@ export const CAROUSEL_SMOOTH = {
   ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
 };
 
+/** Fixed-duration slide transition (e.g. hero arrows / autoplay). */
+export const CAROUSEL_SLIDE = {
+  duration: 0.5,
+  ease: [0.42, 0, 0.58, 1] as [number, number, number, number],
+  fixed: true as const,
+};
+
+type CarouselTransition =
+  | typeof CAROUSEL_SPRING
+  | typeof CAROUSEL_SMOOTH
+  | typeof CAROUSEL_SLIDE;
+
 type SnapMetrics = {
   edgeCenterSnap: boolean;
   viewportWidth: number;
@@ -207,7 +219,7 @@ export function useSnapCarousel({
   const animateToIndex = useCallback(
     (
       nextIndex: number,
-      transition: typeof CAROUSEL_SPRING | typeof CAROUSEL_SMOOTH = CAROUSEL_SPRING,
+      transition: CarouselTransition = CAROUSEL_SPRING,
       velocity = 0,
     ) => {
       const currentStep = stepRef.current;
@@ -230,13 +242,15 @@ export function useSnapCarousel({
 
       const resolvedTransition =
         "duration" in transition
-          ? {
-              duration: Math.max(
-                0.75,
-                (Math.abs(targetX - x.get()) / Math.max(currentStep, 1)) * transition.duration,
-              ),
-              ease: transition.ease,
-            }
+          ? "fixed" in transition && transition.fixed
+            ? { duration: transition.duration, ease: transition.ease }
+            : {
+                duration: Math.max(
+                  0.75,
+                  (Math.abs(targetX - x.get()) / Math.max(currentStep, 1)) * transition.duration,
+                ),
+                ease: transition.ease,
+              }
           : transition;
 
       const generation = animationGenerationRef.current + 1;

@@ -1,0 +1,301 @@
+@font-face {
+  font-family: "Mundial";
+  src: url("/tableware/fonts/mundial-regular.otf") format("opentype");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+.page {
+  text-align: center;
+  background: #fff;
+  color: #494747;
+}
+
+.introSection {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 60px 20px 40px;
+}
+
+.introInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.growLogo {
+  width: 100%;
+  max-width: 245px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.introText {
+  margin: 0;
+  max-width:100% ;
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #494747;
+  text-align: center;
+}
+
+.productsSection {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 20px 0 50px;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .productsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    row-gap: 40px;
+    margin: 40px 0 80px;
+  }
+}
+
+.featuresSection {
+  max-width: 1240px;
+  margin: 60px auto 0;
+  padding: 0 20px;
+}
+
+.featuresCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  background-color: #f8f0ec;
+  padding: 30px 10px 100px;
+  text-align: center;
+}
+
+.featuresArtLeft,
+.featuresArtRight {
+  position: absolute;
+  z-index: 0;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.featuresArtDesktop {
+  display: none;
+}
+
+.featuresArtMobile {
+  display: block;
+}
+
+.featuresArtLeft.featuresArtMobile {
+  left: 0;
+  bottom: 0;
+  width: 58%;
+  max-width: 220px;
+}
+
+.featuresArtRight.featuresArtMobile {
+  right: -85px;
+  bottom: -40px;
+  width: 72%;
+  max-width: 230px;
+}
+
+@media (min-width: 768px) {
+  .featuresCard {
+    padding: 60px;
+  }
+
+  .featuresArtDesktop {
+    display: block;
+  }
+
+  .featuresArtMobile {
+    display: none;
+  }
+
+  .featuresArtLeft.featuresArtDesktop {
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    max-width: none;
+  }
+
+  .featuresArtRight.featuresArtDesktop {
+    top: 25px;
+    right: -40px;
+    bottom: auto;
+    width: 300px;
+    max-width: none;
+  }
+}
+
+.featuresHeading {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 30px;
+  font-family: Mundial, var(--font-montserrat), sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 35px;
+  color: #ca9591;
+}
+
+@media (min-width: 768px) {
+  .featuresHeading {
+    font-size: 48px;
+    line-height: 40px;
+  }
+}
+
+.featuresColumns {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 830px;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-bottom: 50px;
+}
+
+@media (min-width: 768px) {
+  .featuresColumns {
+    flex-direction: row;
+    gap: 20px;
+    max-width: 800px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+  }
+}
+
+.featuresList {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .featuresList {
+    padding: 0;
+  }
+}
+
+.featuresItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 16px;
+  line-height: 28px;
+  color: #494747;
+}
+
+@media (min-width: 768px) {
+  .featuresItem {
+    font-size: 17px;
+  }
+}
+
+.featuresIcon {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.lifestyleSection {
+  max-width: 1240px;
+  margin: 60px auto 40px;
+  padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+  .lifestyleSection {
+    margin: 80px auto;
+  }
+}
+
+.lifestyleImage {
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
+}
+
+.storySection {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 0 10px 60px;
+}
+
+@media (min-width: 768px) {
+  .storySection {
+    padding: 0 20px 80px;
+  }
+}
+
+.storyInner {
+  text-align: center;
+}
+
+.storyHeading {
+  margin: 0 0 30px;
+  font-family: Mundial, var(--font-montserrat), sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #ca9591;
+}
+
+@media (min-width: 768px) {
+  .storyHeading {
+    font-size: 48px;
+    line-height: 56px;
+  }
+}
+
+.storyBody {
+  margin-bottom: 30px;
+}
+
+.storyParagraph,
+.storyParagraphLeft,
+.distributor {
+  margin: 0 0 30px;
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #494747;
+  text-align: center;
+}
+
+.storyParagraphLeft {
+  text-align: center;
+}
+
+.distributor {
+  margin-bottom: 0;
+}
+
+.distributor a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.distributor a:hover {
+  color: var(--hover-color);
+}

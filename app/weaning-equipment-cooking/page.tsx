@@ -78,7 +78,7 @@ export default function WeaningEquipmentCookingPage() {
             Batches can be made up and frozen in ice-cube trays for convenience. Invest in some with lids or cover with
             clingfilm to prevent contamination. Or check out my specially created{" "}
             <a
-              href="https://www.annabelkarmel.com/product-category/tableware/"
+              href="/tableware"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.underlineLink}

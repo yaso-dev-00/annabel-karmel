@@ -192,6 +192,11 @@ const nextConfig: NextConfig = {
         destination: "/product-category/plant-powered-bites",
         permanent: true,
       },
+      {
+        source: "/our-products/baking-kits",
+        destination: "/craft-crumb",
+        permanent: true,
+      },
     ];
   },
 };

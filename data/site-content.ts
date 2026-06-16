@@ -197,7 +197,7 @@ export const megaMenus: MegaMenu[] = [
           { label: "Chilled Meals", href: "/product-category/chilled-meals" },
           { label: "Frozen Meals", href: "/product-category/frozen-meals" },
           { label: "Plant Powered Bites", href: "/product-category/plant-powered-bites" },
-          { label: "Baking Kits", href: "/our-products/baking-kits" },
+          { label: "Baking Kits", href: "/craft-crumb" },
           { label: "Cookbooks", href: "/our-products/cookbooks" },
         ],
       },
@@ -458,7 +458,7 @@ export const collabCards: CollabCard[] = [
   {
     title: "Craft & Crumb",
     subtitle: "Bake, create and have fun!",
-    href: "/competitions/craft-crumb",
+    href: "/craft-crumb",
     logoImage: "/home page/anabelle collabs/background image.webp",
     cardImage: "/home page/anabelle collabs/cards/Craft-Crumb-scaled-optimized.webp",
   },

@@ -1,0 +1,98 @@
+.fullBleed {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.fullBleedImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.inner {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1200px;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .inner {
+    padding-inline: 1.5rem;
+  }
+}
+
+.productHeading {
+  margin: 0 0 1.2rem;
+  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #3d3d3d;
+}
+
+@media (min-width: 768px) {
+  .productHeading {
+    font-size: 40px;
+  }
+}
+
+.productBody {
+  margin: 0;
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #3d3d3d;
+}
+
+@media (min-width: 768px) {
+  .productBody {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+}
+
+.productImage {
+  display: block;
+  width: 100%;
+  max-width: 486px;
+  height: auto;
+  margin-inline: auto;
+}
+
+.discoverButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  padding: 13px;
+  border: 0;
+  background-color: #000;
+  color: #fff;
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.discoverButton:hover,
+.discoverButton:focus-visible {
+  color: #ef9cba;
+}
+
+.srOnlyIntro {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -198,7 +198,7 @@ export const megaMenus: MegaMenu[] = [
           { label: "Frozen Meals", href: "/product-category/frozen-meals" },
           { label: "Plant Powered Bites", href: "/product-category/plant-powered-bites" },
           { label: "Baking Kits", href: "/craft-crumb" },
-          { label: "Cookbooks", href: "/our-products/cookbooks" },
+          { label: "Cookbooks", href: "/app-book-category/our-books" },
         ],
       },
     ],

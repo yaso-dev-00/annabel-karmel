@@ -1498,7 +1498,7 @@ export function HomePageContent() {
 
           <div className="mt-9 flex justify-center">
             <a
-              href="/our-products/cookbooks"
+              href="/app-book-category/our-books"
               target="_blank"
               rel="noreferrer"
               className={`inline-flex items-center gap-2.5 rounded-[10px] px-6 py-3 text-[15px] font-semibold text-white transition-colors ${styles.ctaButton} ${styles.ctaPink}`}

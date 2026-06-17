@@ -198,13 +198,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/app-book-category/our-books",
-        destination: "/our-products/cookbooks",
+        source: "/our-products/cookbooks",
+        destination: "/app-book-category/our-books",
         permanent: true,
       },
       {
-        source: "/app-book-category/our-books/:path*",
-        destination: "/our-products/cookbooks",
+        source: "/our-products/cookbooks/:path*",
+        destination: "/app-book-category/our-books",
         permanent: true,
       },
     ];

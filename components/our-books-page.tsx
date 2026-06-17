@@ -150,8 +150,9 @@ export function OurBooksPageContent() {
       {ourBooksProducts.map((product) => (
         <BookSection key={product.slug} product={product} />
       ))}
-
+     <div className="mt-[40px]">
       <InstagramShareSection />
+      </div>
     </main>
   );
 }

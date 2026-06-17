@@ -197,6 +197,16 @@ const nextConfig: NextConfig = {
         destination: "/craft-crumb",
         permanent: true,
       },
+      {
+        source: "/app-book-category/our-books",
+        destination: "/our-products/cookbooks",
+        permanent: true,
+      },
+      {
+        source: "/app-book-category/our-books/:path*",
+        destination: "/our-products/cookbooks",
+        permanent: true,
+      },
     ];
   },
 };

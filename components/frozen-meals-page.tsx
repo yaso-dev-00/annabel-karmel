@@ -196,14 +196,14 @@ export function FrozenMealsPageContent() {
           <h2 id="frozen-meals-retailers-heading" className={styles.retailersHeading}>
             {frozenMealsRetailers.heading}
           </h2>
-          <div className="mt-6 flex flex-row items-center justify-items-center gap-x-6 gap-y-8 md:mt-8 md:grid-cols-4 md:gap-10">
+          <div className="mt-6 flex flex-row items-center justify-center pl-0 md:pl-[80px] gap-x-6 gap-y-8 md:mt-8 md:grid-cols-4 md:gap-10">
             {frozenMealsRetailers.logos.map((logo,index) => (
               <a
                 key={logo.alt}
                 href={logo.href}
                 target="_blank"
                 rel="noreferrer"
-                className={`inline-flex items-center justify-center ${index === frozenMealsRetailers.logos.length - 1 ? "justify-start" : ""}`}
+                className={`inline-flex items-center justify-center ${index === 0 ? "justify-end" : ""} ${index === frozenMealsRetailers.logos.length - 1 ? "justify-start" : ""}`}
               >
                 <img src={logo.src} alt={logo.alt} className={styles.retailerLogo} />
               </a>

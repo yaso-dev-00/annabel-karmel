@@ -92,10 +92,11 @@ export type ExpertDetail = {
   articleTopics: ExpertTopic[];
 };
 
-export const topUtilityLinks: NavLink[] = [
-  { label: "Login", href: "/login" },
-  { label: "Create an account", href: "/register" },
-];
+
+// export const topUtilityLinks: NavLink[] = [
+//   { label: "Login", href: "/login" },
+//   { label: "Create an account", href: "/register" },
+// ];
 
 export const megaMenus: MegaMenu[] = [
   {
@@ -193,6 +194,7 @@ export const megaMenus: MegaMenu[] = [
       {
         title: "",
         links: [
+          { label: "Little Meals", href: "/product-category/australia-frozen" },
           { label: "Tableware", href: "/tableware" },
           { label: "Chilled Meals", href: "/product-category/chilled-meals" },
           { label: "Frozen Meals", href: "/product-category/frozen-meals" },

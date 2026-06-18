@@ -83,11 +83,6 @@ export const frozenMealsRetailers = {
       href: "https://groceries.asda.com/search/annabel%20karmel",
     },
     {
-      src: `${assetBase}/logo-morrisons.png`,
-      alt: "Morrisons",
-      href: "https://groceries.morrisons.com/categories/frozen/ready-meals/baby-toddler-meals/d68e9364-dd06-4227-85cb-48a58d8eabbf?brands=Annabel%20Karmel&sortBy=favorite",
-    },
-    {
       src: `${assetBase}/logo-ocado.png`,
       alt: "Ocado",
       href: "https://www.ocado.com/search?entry=annabel%20karmel&filters=annabel-karmel-15198",

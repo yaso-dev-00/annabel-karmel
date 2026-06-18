@@ -1,0 +1,635 @@
+.page {
+  background-color: white;
+  color: #000;
+  overflow-x: clip;
+}
+
+.woodBand {
+  background-color: #f7f7f7;
+  background-image: var(--wood-bg);
+  background-repeat: repeat;
+  background-size: auto;
+}
+
+.pageContainer {
+  margin-inline: auto;
+  width: 100%;
+  
+  box-sizing: border-box;
+}
+
+.pageContainerPadded {
+  composes: pageContainer;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .pageContainerPadded {
+    padding-inline: 1.5rem;
+  }
+}
+
+.heading {
+  margin: 15px 0;
+  font-family: var(--font-playfair), sans-serif;
+  font-size: 38px;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: 0.29px;
+  color: #000;
+  text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .heading {
+    font-size: 46px;
+  }
+}
+
+@media (min-width: 1300px) {
+  .heading {
+    font-size: 61px;
+  }
+}
+
+.pageTitle {
+  composes: heading;
+  margin: 0;
+  padding: 3rem 1rem 2.5rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .pageTitle {
+    padding: 3.5rem 1.5rem 3rem;
+  }
+}
+
+.bodyCopy {
+  margin: 0 0 20px;
+  font-family: var(--font-montserrat), "mont-light", Montserrat, sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 30px;
+  color: #000;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .bodyCopy {
+    font-size: 24px;
+    line-height: 36px;
+  }
+}
+
+.rangeSubtitle {
+  composes: bodyCopy;
+  margin: 30px 0 0;
+  text-align: center;
+}
+
+.splitGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+}
+
+@media (min-width: 900px) {
+  .splitGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.splitTile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 300px;
+  padding: 4rem 10px;
+  box-sizing: border-box;
+  gap:15px;
+}
+
+@media (min-width: 768px) {
+  .splitTile {
+    padding: 2.5rem 2rem;
+    min-height: 350px;
+    gap:20px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .splitTile {
+    padding: 3rem 2.5rem;
+    min-height: 450px;
+  }
+}
+
+@media (min-width: 1300px) {
+  .splitTile {
+    max-height: 800px;
+  }
+}
+
+.tileMint {
+  background-color: #c6e4e1;
+  align-items: center;
+}
+
+.tilePink {
+  background-color: #fef3f4;
+  padding: 0;
+  justify-content: stretch;
+}
+
+.tileRose {
+  background-color: #fbc9d0;
+}
+
+.tileYellow {
+  background-color: #ffdd93;
+}
+
+.tilePromise {
+  background-color: #f7f7f7;
+  background-image: var(--promise-bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.tilePromise .heading {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .tilePromise .heading {
+    text-align: left;
+  }
+}
+
+.tileAnnabel {
+  background-color: #fccad1;
+  background-image: var(--annabel-bg);
+  background-repeat: no-repeat;
+  background-position:top 20% center;
+  background-size: cover;
+  padding: 0;
+  min-height: 500px;
+}
+
+ 
+
+@media (min-width: 1000px) {
+  .tileAnnabel {
+    min-height: 550px;
+  }
+}
+
+.tileBuyPhoto {
+  background-color: #fccad1;
+  background-image: var(--buy-bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 0;
+  min-height: 280px;
+}
+
+@media (min-width: 768px) {
+  .tileBuyPhoto {
+    min-height: 500px;
+  }
+}
+
+.tileBuyCopy {
+  background-color: #c6e4e1;
+  text-align: center;
+}
+
+.signature {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  margin-top: 1rem;
+}
+
+.goodnessTile {
+  composes: splitTile tileRose;
+  justify-content: flex-start;
+}
+
+.goodnessArt {
+  display: block;
+  width: 100%;
+  max-width: min(100%, 250px);
+  height: auto;
+  margin: 0px auto 0;
+}
+
+@media (min-width: 768px) {
+  .goodnessArt {
+    margin: 30px auto 0;
+  }
+}
+.promiseList {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+@media (min-width: 768px) {
+  .promiseList {
+    gap: 10px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .promiseList {
+    gap: 20px;
+  }
+}
+
+.promiseItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 3px 5px;
+  font-family: var(--font-cutesy), sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.15;
+  color: #3d3d3d;
+}
+
+.promiseItem span {
+  padding-left: 5px;
+}
+
+@media (min-width: 768px) {
+  .promiseItem {
+    font-size: 32px;
+    line-height: 28px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .promiseItem {
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
+
+.checkIcon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 9px;
+  fill: #3d3d3d;
+}
+
+
+ 
+
+.carouselViewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .carouselViewport {
+    min-height: 360px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .carouselViewport {
+    min-height: 400px;
+  }
+}
+
+.carouselViewport.is-carousel-interacting {
+  cursor: grabbing;
+}
+
+.carouselTrack {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+.carouselSlide {
+  display: flex;
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+}
+
+.carouselImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  object-fit: cover;
+  object-position:top;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  
+}
+
+@media (min-width: 768px) {
+  .carouselImage {
+    min-height: 360px;
+    object-position: 20% center;
+  }
+}
+
+@media (min-width: 1000px) {
+  .carouselImage {
+    min-height: 400px;
+  }
+}
+
+.carouselArrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: none;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  color: #1a1a1a;
+  cursor: pointer;
+  transform: translateY(-50%);
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(6px);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background-color 0.22s ease;
+}
+
+@media (min-width: 768px) {
+  .carouselArrow {
+    display: grid;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.carouselArrow:hover,
+.carouselArrow:focus-visible {
+  transform: translateY(-50%) scale(1.06);
+  background: #fff;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.14),
+    0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.carouselArrow:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+.carouselArrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.carouselArrowPrev {
+  left: 1rem;
+}
+
+.carouselArrowNext {
+  right: 1rem;
+}
+
+@media (min-width: 1000px) {
+  .carouselArrowPrev {
+    left: 1.25rem;
+  }
+
+  .carouselArrowNext {
+    right: 1.25rem;
+  }
+}
+
+.carouselArrowIcon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+
+@media (min-width: 1000px) {
+  .carouselArrowIcon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .carouselArrow {
+    display: none !important;
+  }
+}
+
+.slideCounter {
+  position: absolute;
+  left: 50%;
+  bottom: 0.75rem;
+  z-index: 3;
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0.35rem 0.85rem;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .slideCounter {
+    bottom: 1rem;
+    font-size: 14px;
+  }
+}
+
+.slideCounterCurrent {
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 768px) {
+  .slideCounterCurrent {
+    font-size: 16px;
+  }
+}
+
+.slideCounterDivider {
+  opacity: 0.45;
+}
+
+.slideCounterTotal {
+  font-weight: 500;
+}
+
+.productGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 -10px;
+  padding: 1.5rem 0 2rem;
+}
+
+@media (min-width: 768px) {
+  .productGrid {
+    margin: 0 -20px;
+    padding: 3rem 0 2.5rem;
+  }
+}
+
+.productCard {
+  width: calc(50% - 20px);
+  margin: 10px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .productCard {
+    width: calc(33.333% - 40px);
+    margin: 20px;
+  }
+}
+
+.productSwap {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+}
+
+.productSwap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.productSwapFront {
+  z-index: 2;
+  transition: opacity 0.5s linear;
+}
+
+.productSwap:hover .productSwapFront,
+.productSwap:focus-within .productSwapFront {
+  opacity: 0;
+}
+
+.productTitle {
+  margin: 0;
+  padding: 5px 10px 0;
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0;
+  color: #000;
+}
+
+@media (min-width: 768px) {
+  .productTitle {
+    padding: 20px 15px 0;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: 0.29px;
+  }
+}
+
+.retailerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem 1rem;
+  padding: 50px 0 50px;
+}
+
+@media (min-width: 768px) {
+  .retailerRow {
+    gap: 1.25rem 2rem;
+    padding: 2.5rem 0 2rem;
+  }
+}
+
+.retailerLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 200px;
+  margin: 0 10px;
+  
+}
+
+.retailerLogo {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100px;
+}
+
+.retailerLogoIga {
+  composes: retailerLogo;
+  max-height: 100px;
+}
+
+@media (min-width: 768px) {
+  .retailerLogoIga {
+    max-height: 150px;
+  }
+  .retailerLogo {
+    max-height: 150px;
+  }
+}
+
+.rangeSection {
+  padding: 2rem 0 0;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .rangeSection {
+    padding: 2.5rem 0 0;
+  }
+}

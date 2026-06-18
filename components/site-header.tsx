@@ -282,6 +282,7 @@ export function SiteHeader() {
                   <path d="M16 16L21 21" />
                 </svg>
               </a>
+              {/* Profile / login — disabled until auth is implemented
               <div className="account-menu" onMouseEnter={closeDesktopNav}>
                 <a
                   href="/login"
@@ -309,6 +310,7 @@ export function SiteHeader() {
                   </ul>
                 </div>
               </div>
+              */}
             </div>
           </div>
         </div>
@@ -346,6 +348,7 @@ export function SiteHeader() {
                 &times;
               </button>
             </div>
+            {/* Mobile login — disabled until auth is implemented
             <div className="border-y border-[#b9afb3]">
               <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                 <span className="block px-[0.15rem] py-[0.7rem] [font-family:var(--font-montserrat),Arial,Helvetica,sans-serif] text-[16px] font-semibold text-[#373136]">
@@ -353,6 +356,7 @@ export function SiteHeader() {
                 </span>
               </Link>
             </div>
+            */}
             {megaMenus.map((menu) => {
               const isOpen = mobileOpenGroups.includes(menu.label);
               const menuActive = isMegaMenuActive(pathname, menu);

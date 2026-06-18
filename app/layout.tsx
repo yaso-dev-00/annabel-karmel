@@ -18,6 +18,15 @@ const pequena = localFont({
   display: "swap",
 });
 
+const cutesy = localFont({
+  src: [
+    { path: "./fonts/cutesy.woff2" },
+    { path: "./fonts/cutesy.woff" },
+  ],
+  variable: "--font-cutesy",
+  display: "swap",
+});
+
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
@@ -51,7 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistMono.variable} ${montserrat.variable} ${playfair.variable} ${pequena.variable} h-full antialiased`}
+      className={`${geistMono.variable} ${montserrat.variable} ${playfair.variable} ${pequena.variable} ${cutesy.variable} h-full antialiased`}
     >
       <body className="min-h-full">{children}</body>
     </html>

@@ -57,12 +57,20 @@ export type CollabCard = {
   cardImage: string;
 };
 
+export type AppSectionBullet = {
+  lead: string;
+  text: string;
+};
+
 export type AppSectionContent = {
-  awards: string[];
-  title: string;
-  bullets: string[];
+  heading: string;
+  bullets: AppSectionBullet[];
   ctaLabel: string;
   ctaHref: string;
+  appStoreHref: string;
+  playStoreHref: string;
+  awards: { src: string; alt: string }[];
+  phonesImage: string;
 };
 
 export type InstagramPostCard = {
@@ -200,6 +208,7 @@ export const megaMenus: MegaMenu[] = [
           { label: "Frozen Meals", href: "/product-category/frozen-meals" },
           { label: "Plant Powered Bites", href: "/product-category/plant-powered-bites" },
           { label: "Baking Kits", href: "/craft-crumb" },
+          { label: "Supermarket Offers", href: "/offers-page" },
           { label: "Cookbooks", href: "/app-book-category/our-books" },
         ],
       },
@@ -358,16 +367,54 @@ export const appFeatureCards: VisualCard[] = [
   },
 ];
 
+// Previous homepage recipe app copy (carousel section) — kept for reference
+// export const oldAppSectionContent = {
+//   awards: [
+//     "/home page/made-for-mums.webp",
+//     "/home page/made-for-mums-optimized.webp",
+//     "/home page/Frame-5-optimized.webp",
+//   ],
+//   title: "Annabel’s #1 recipe app",
+//   bullets: ["1500+ baby, toddler & family recipes", "New ideas weekly", "Essential tips and advice"],
+//   ctaLabel: "Discover more",
+//   ctaHref: "/recipe-app",
+// };
+
 export const appSectionContent: AppSectionContent = {
-  awards: [
-    "/home page/made-for-mums.webp",
-    "/home page/made-for-mums-optimized.webp",
-    "/home page/Frame-5-optimized.webp",
+  heading: "Your essential recipe app for baby & family",
+  bullets: [
+    {
+      lead: "1,500+ recipes",
+      text: " for baby, toddler, and the whole family",
+    },
+    {
+      lead: "Explore 100+ first foods",
+      text: " and learn how to safely serve them",
+    },
+    {
+      lead: "Track your baby’s food journey",
+      text: " and celebrate milestones",
+    },
+    {
+      lead: "Expert advice",
+      text: " to support you at every age and stage",
+    },
   ],
-  title: "Annabel’s #1 recipe app",
-  bullets: ["1500+ baby, toddler & family recipes", "New ideas weekly", "Essential tips and advice"],
-  ctaLabel: "Discover more",
+  ctaLabel: "Start your 7-day FREE trial",
   ctaHref: "/recipe-app",
+  appStoreHref: "/recipe-app/download/ios",
+  playStoreHref: "/recipe-app/download/android",
+  awards: [
+    { src: "/home page/recipe-app/lbp-app-2026.png", alt: "LovedByParents Winner 2026" },
+    { src: "/home page/recipe-app/mfm-app-2025.png", alt: "Made for Mums Gold 2025" },
+    { src: "/home page/recipe-app/tmm-app-2026.png", alt: "The Mum Marketplace Gold 2026" },
+    {
+      src: "/home page/recipe-app/lbp-tried-tested-app-2026.png",
+      alt: "LovedByParents Tried & Tested 2026",
+    },
+    { src: "/home page/recipe-app/ftm-app-2026.png", alt: "First Time Mums Top 5 2026" },
+  ],
+  phonesImage: "/home page/recipe-app/home-app-image.png",
 };
 
 export const awardLogos = [

@@ -1,5 +1,4 @@
  "use client";
-import backgroundImage from "@/public/home page/background image.webp";
 import { InstagramShareSection } from "@/components/instagram-share-section";
 import { SearchIcon } from "@/components/search-icon";
 import { useSnapCarousel, CAROUSEL_SMOOTH } from "@/components/use-snap-carousel";
@@ -14,7 +13,6 @@ import { buildRecipeListingUrl } from "@/lib/recipe-search-url";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
-  appFeatureCards,
   appSectionContent,
   awardLogos,
   bestsellingCookbooks,
@@ -35,6 +33,22 @@ const heroThemeByIndex = [
 ];
 
 const HERO_SWIPE_THRESHOLD = 40;
+
+function RecipeAppBulletIcon() {
+  return (
+    <span className={styles.recipeAppBulletIcon} aria-hidden>
+      <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M1 5.5L5 9.5L13 1"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
+  );
+}
 
 /*
 const heroImageVariants = {
@@ -67,22 +81,12 @@ const heroCopyItem = {
 };
 */
 
-/** Left/right: circular badges. Center: taller vertical rectangle. */
-const awardBadgeImgClasses = [
-  "h-[120px] w-[93px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-[120px] md:w-[120px] lg:h-[148px] lg:w-[148px]",
-  "h-[150px] w-[93px] shrink-0 object-contain sm:h-[132px] sm:w-[94px] md:h-[160px] md:w-[145px] lg:h-[210px] lg:w-[178px]",
-  "h-[120px] w-[93px] shrink-0 object-contain sm:h-[96px] sm:w-[96px] md:h-[120px] md:w-[120px] lg:h-[148px] lg:w-[148px]",
-];
-
 export function HomePageContent() {
   const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState(1);
   const [openFinderMenu, setOpenFinderMenu] = useState<string | null>(null);
   const [recipeAutoScrollEnabled, setRecipeAutoScrollEnabled] = useState(true);
-  const [appCardIndex, setAppCardIndex] = useState(0);
-  const [appCardDirection, setAppCardDirection] = useState(1);
-  const [appPanelLockedHeight, setAppPanelLockedHeight] = useState<number | null>(null);
   const [finderSelections, setFinderSelections] = useState<Record<string, string[]>>({
     age: [],
     mealTime: [],
@@ -98,7 +102,6 @@ export function HomePageContent() {
   const [openMobileFinderMenu, setOpenMobileFinderMenu] = useState<string | null>(null);
   const finderRef = useRef<HTMLFormElement | null>(null);
   const mobileModalRef = useRef<HTMLFormElement | null>(null);
-  const appPanelRef = useRef<HTMLDivElement | null>(null);
   const collabTrackRef = useRef<HTMLDivElement | null>(null);
   const collabLoopWidthRef = useRef(0);
   const collabX = useMotionValue(0);
@@ -132,7 +135,6 @@ export function HomePageContent() {
 
   const current = useMemo(() => heroSlides[activeSlide], [activeSlide]);
   const theme = heroThemeByIndex[activeSlide % heroThemeByIndex.length];
-  const currentAppCard = appFeatureCards[appCardIndex];
   const repeatedCollabCards = useMemo(() => [...collabCards, ...collabCards, ...collabCards], []);
   const repeatedPartnerLogos = useMemo(() => [...partnerLogos, ...partnerLogos, ...partnerLogos], []);
   const repeatedAwardLogos = useMemo(() => [...awardLogos, ...awardLogos, ...awardLogos], []);
@@ -194,32 +196,8 @@ export function HomePageContent() {
     recipeCarousel.handleNavigation(step);
   };
 
-  const moveAppCard = (step: number) => {
-    setAppCardDirection(step);
-    setAppCardIndex((prev) => (prev + step + appFeatureCards.length) % appFeatureCards.length);
-  };
-
   const handleCookbookNavigation = (step: number) => {
     cookbookCarousel.handleNavigation(step);
-  };
-
-  const syncAppPanelHeight = () => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    // Glitch is only visible on smaller screens; keep desktop fully fluid.
-    if (window.innerWidth >= 1080) {
-      setAppPanelLockedHeight(null);
-      return;
-    }
-    const panel = appPanelRef.current;
-    if (!panel) {
-      return;
-    }
-    const measuredHeight = panel.offsetHeight;
-    if (measuredHeight > 0) {
-      setAppPanelLockedHeight(measuredHeight);
-    }
   };
 
   useEffect(() => {
@@ -230,25 +208,6 @@ export function HomePageContent() {
     const timer = setInterval(() => moveSlide(1), 5500);
     return () => clearInterval(timer);
   }, [heroAutoScrollEnabled]);
-
-  useEffect(() => {
-    const updatePanelLockOnResize = () => {
-      setAppPanelLockedHeight(null);
-      window.requestAnimationFrame(syncAppPanelHeight);
-    };
-    window.addEventListener("resize", updatePanelLockOnResize);
-    return () => window.removeEventListener("resize", updatePanelLockOnResize);
-  }, []);
-
-  useEffect(() => {
-    if (appFeatureCards.length < 2) {
-      return;
-    }
-    const timer = setInterval(() => {
-      moveAppCard(1);
-    }, 4200);
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const updateCollabMetrics = () => {
@@ -592,7 +551,7 @@ export function HomePageContent() {
   );
 
   return (
-    <main className="max-md:pb-16  ">
+    <main className="max-md:pb-16 overflow-x-clip">
       <section className="hero-showcase container">
         <article
           className="hero-slider-shell"
@@ -1187,26 +1146,77 @@ export function HomePageContent() {
         </div>
       </section>
 
-      <section
-        className="app-recipe-section relative min-h-[760px] overflow-hidden py-16! md:min-h-0 md:py-20! lg:min-h-[860px] lg:py-28"
-      >
-        <img
-          src={backgroundImage.src}
-          alt=""
-          aria-hidden
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
-        />
+      {/* ——— New Figma recipe app promo (active) ——— */}
+      <section className={styles.recipeAppPromo} aria-labelledby="home-recipe-app-heading">
+        <div className={styles.recipeAppInner}>
+          <div className={styles.recipeAppGrid}>
+            <div className={styles.recipeAppCopy}>
+              <h2 id="home-recipe-app-heading" className={styles.recipeAppHeading}>
+                {appSectionContent.heading}
+              </h2>
+              <ul className={styles.recipeAppBullets}>
+                {appSectionContent.bullets.map((bullet) => (
+                  <li key={bullet.lead} className={styles.recipeAppBullet}>
+                    <RecipeAppBulletIcon />
+                    <p className={styles.recipeAppBulletText}>
+                      <span className={styles.recipeAppBulletLead}>{bullet.lead}</span>
+                      {bullet.text}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              <a href={appSectionContent.ctaHref} className={styles.recipeAppTrialButton}>
+                {appSectionContent.ctaLabel}
+              </a>
+              <div className={styles.recipeAppStoreBadges}>
+                <a
+                  href={appSectionContent.appStoreHref}
+                  className={styles.recipeAppStoreBadge}
+                  aria-label="Download on the App Store"
+                >
+                  <img src="/home page/recipe-app/app-store-button.svg" alt="" />
+                </a>
+                <a
+                  href={appSectionContent.playStoreHref}
+                  className={styles.recipeAppStoreBadge}
+                  aria-label="Get it on Google Play"
+                >
+                  <img src="/home page/recipe-app/google-play-button.svg" alt="" />
+                </a>
+              </div>
+            </div>
+
+            <div className={styles.recipeAppVisual}>
+              <div className={styles.recipeAppAwards} aria-label="App awards">
+                {appSectionContent.awards.map((award) => (
+                  <img
+                    key={award.src}
+                    src={award.src}
+                    alt={award.alt}
+                    className={styles.recipeAppAwardBadge}
+                  />
+                ))}
+              </div>
+              <img
+                src={appSectionContent.phonesImage}
+                alt="Annabel Karmel recipe app on iPhone"
+                className={styles.recipeAppPhones}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/*
+        ——— Previous recipe app section (#1 recipe app + carousel) — kept for reference ———
+
+      <section className="app-recipe-section relative min-h-[760px] overflow-hidden py-16! md:min-h-0 md:py-20! lg:min-h-[860px] lg:py-28">
+        <img src={backgroundImage.src} alt="" aria-hidden className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center" />
         <div className="app-recipe-section-shell relative z-1 grid w-full grid-cols-1 items-start gap-10 lg:grid-cols-[0.92fr_1fr]">
           <article className="flex w-full flex-col items-center gap-4 pt-2 text-center [font-family:var(--font-montserrat)] lg:mx-0 lg:max-w-none lg:items-start lg:gap-5 lg:pt-6 lg:text-left">
             <div className="flex w-full items-end justify-center gap-3 md:gap-5 lg:gap-6">
-              {appSectionContent.awards.map((award, index) => (
-                <img
-                  key={`${award}-${index}`}
-                  src={award}
-                  alt=""
-                  aria-hidden
-                  className={awardBadgeImgClasses[index] ?? awardBadgeImgClasses[0]}
-                />
+              {oldAppSectionContent.awards.map((award, index) => (
+                <img key={`${award}-${index}`} src={award} alt="" aria-hidden className={awardBadgeImgClasses[index] ?? awardBadgeImgClasses[0]} />
               ))}
             </div>
             <h2 className={`text-center text-[38px] font-[600] mt-3 leading-[50px] tracking-[-0.02em] text-[#15131a] md:text-[48px] lg:text-left md:font-[600]! ${styles.displayMedium}`}>
@@ -1214,82 +1224,57 @@ export function HomePageContent() {
               <span>#1 recipe app</span>
             </h2>
             <ul className="mx-auto mt-3 flex w-fit max-w-full flex-col space-y-4 text-left text-[14px] font-semibold leading-[1.45] text-[#1f1d23] md:text-[15px] lg:mx-0 lg:w-full">
-              {appSectionContent.bullets.map((bullet) => (
+              {oldAppSectionContent.bullets.map((bullet) => (
                 <li key={bullet} className="flex items-start justify-start gap-2.5 text-left">
                   <span className="mt-0.5 flex shrink-0 text-[#3a3a3a]" aria-hidden>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M30 9L13.5 25.5L6 18" stroke="#494747" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M30 9L13.5 25.5L6 18" stroke="#494747" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </span>
                   <span className="text-left text-[22px]! font-[600]! text-[#3a3a3a]">{bullet}</span>
                 </li>
               ))}
             </ul>
-           <div className="w-full flex items-center justify-center">
-           <a
-              href={appSectionContent.ctaHref}
-              target="_blank"
-              rel="noreferrer"
-              className={`mt-1 inline-flex items-center gap-2.5 self-center rounded-[10px] px-6! py-[15px]! font-[500]! text-[13px] font-semibold text-white transition-colors lg:self-start ${styles.ctaButton} ${styles.ctaPink}`}
-            >
-              <span className={`${styles.ctaLabel} text-[18px] md:text-[17px]`}>{appSectionContent.ctaLabel}</span>
-              <span className={`inline-grid h-[41px] w-[41px] shrink-0 place-items-center rounded-[15px] bg-white text-[15px] ${styles.ctaPinkIcon}`} aria-hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-              </span>
-            </a>
-           </div>
+            <div className="w-full flex items-center justify-center">
+              <a href={oldAppSectionContent.ctaHref} target="_blank" rel="noreferrer" className={`mt-1 inline-flex items-center gap-2.5 self-center rounded-[10px] px-6! py-[15px]! font-[500]! text-[13px] font-semibold text-white transition-colors lg:self-start ${styles.ctaButton} ${styles.ctaPink}`}>
+                <span className={`${styles.ctaLabel} text-[18px] md:text-[17px]`}>{oldAppSectionContent.ctaLabel}</span>
+                <span className={`inline-grid h-[41px] w-[41px] shrink-0 place-items-center rounded-[15px] bg-white text-[15px] ${styles.ctaPinkIcon}`} aria-hidden>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white" /><path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </span>
+              </a>
+            </div>
           </article>
-
           <article className="relative w-full pt-1 lg:justify-self-end lg:pt-0">
-            <div
-              ref={appPanelRef}
-              style={appPanelLockedHeight ? { height: `${appPanelLockedHeight}px` } : undefined}
-              className="relative flex min-h-[400px] w-full items-center justify-center overflow-hidden rounded-[14px] bg-[#efe8ea]  md:min-h-[400px] lg:min-h-[600px]"
-            >
+            <div ref={appPanelRef} style={appPanelLockedHeight ? { height: `${appPanelLockedHeight}px` } : undefined} className="relative flex min-h-[400px] w-full items-center justify-center overflow-hidden rounded-[14px] bg-[#efe8ea] md:min-h-[400px] lg:min-h-[600px]">
               <AnimatePresence mode="wait" custom={appCardDirection}>
-                <motion.img
-                  key={`app-card-${appCardIndex}`}
-                  src={currentAppCard.image}
-                  alt={currentAppCard.title}
-                  initial={{ opacity: 0, x: appCardDirection > 0 ? 20 : -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: appCardDirection > 0 ? -20 : 20 }}
-                  transition={{ duration: 0.45, ease: "easeOut" }}
-                  onLoad={syncAppPanelHeight}
-                  className="absolute inset-0 h-full w-full object-cover object-center"
-                />
+                <motion.img key={`app-card-${appCardIndex}`} src={currentAppCard.image} alt={currentAppCard.title} initial={{ opacity: 0, x: appCardDirection > 0 ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: appCardDirection > 0 ? -20 : 20 }} transition={{ duration: 0.45, ease: "easeOut" }} onLoad={syncAppPanelHeight} className="absolute inset-0 h-full w-full object-cover object-center" />
               </AnimatePresence>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-white/10 to-transparent" />
               <div className="absolute bottom-5 left-5 right-40 md:bottom-15 md:left-10 md:right-40 text-white">
-                <h3 className="[font-family:var(--font-body)]! font-[700]! text-[17px] md:text-[35px] leading-[1.02]">
-                  {currentAppCard.title}
-                </h3>
-                <p className="mt-2 max-w-[590px]  text-[13px] md:text-[17px] font-normal leading-[1.24]">{currentAppCard.subtitle}</p>
+                <h3 className="[font-family:var(--font-body)]! font-[700]! text-[17px] md:text-[35px] leading-[1.02]">{currentAppCard.title}</h3>
+                <p className="mt-2 max-w-[590px] text-[13px] md:text-[17px] font-normal leading-[1.24]">{currentAppCard.subtitle}</p>
               </div>
               <div className="absolute bottom-8 right-8 z-10 flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => moveAppCard(-1)}
-                  aria-label="Previous app feature"
-                  className="inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-white/65 bg-transparent text-white shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:border-white hover:bg-white/10"
-                >
-                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.8]">
-                    <path d="M14.5 5L8 11.5L14.5 18" />
-                  </svg>
+                <button type="button" onClick={() => moveAppCard(-1)} aria-label="Previous app feature" className="inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-white/65 bg-transparent text-white shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:border-white hover:bg-white/10">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.8]"><path d="M14.5 5L8 11.5L14.5 18" /></svg>
                 </button>
-                <button
-                  type="button"
-                  onClick={() => moveAppCard(1)}
-                  aria-label="Next app feature"
-                  className="inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-white bg-white text-[#c7c2c6] shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:bg-[#f7f6f7] hover:text-[#b4afb3]"
-                >
-                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.8]">
-                    <path d="M9.5 5L16 11.5L9.5 18" />
-                  </svg>
+                <button type="button" onClick={() => moveAppCard(1)} aria-label="Next app feature" className="inline-grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-white bg-white text-[#c7c2c6] shadow-[0_2px_8px_rgba(0,0,0,0.2)] transition-colors hover:bg-[#f7f6f7] hover:text-[#b4afb3]">
+                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2.8]"><path d="M9.5 5L16 11.5L9.5 18" /></svg>
                 </button>
               </div>
             </div>
           </article>
         </div>
-        <div className="app-recipe-section-shell app-recipe-section-shell-bottom relative z-[1] mt-5 grid w-full items-center gap-10 md:mt-12 lg:mt-[70px] lg:grid-cols-[1fr_0.88fr] lg:gap-14">
+      </section>
+      */}
+
+      {/* App recipe of the week — disabled
+      <section className="app-recipe-section relative overflow-hidden py-16! md:py-20! lg:py-28">
+        <img
+          src={backgroundImage.src}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+        />
+        <div className="app-recipe-section-shell app-recipe-section-shell-bottom relative z-[1] grid w-full items-center gap-10 lg:grid-cols-[1fr_0.88fr] lg:gap-14">
           <div className="relative order-2 w-full pb-4 md:pb-8 lg:order-1 lg:pb-0 lg:justify-self-start">
             <div className="relative w-full">
               <img
@@ -1330,6 +1315,7 @@ export function HomePageContent() {
           </div>
         </div>
       </section>
+      */}
 
       
       <section className="relative overflow-hidden bg-white pt-10 pb-12 md:pt-20 md:pb-24 lg:pt-24 lg:pb-20">

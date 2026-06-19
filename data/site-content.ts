@@ -255,7 +255,7 @@ export const heroSlides: HeroSlide[] = [
     title: "Kids' tikka, quikka",
     subtitle: "Delicious dinners at the speed of life.",
     cta: "Discover",
-    href: "https://www.tesco.com/shop/en-GB/search?query=annabel%20karmel",
+    href: "/products/mild-chicken-tikka/",
     image:
       "https://www.annabelkarmel.com/wp-content/uploads/2026/06/Chicken-Tikka_1080x1350_Plate_NoText.jpg",
   },

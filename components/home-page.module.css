@@ -46,6 +46,31 @@
   color: #73a3b0;
 }
 
+.heroShowcase {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 95%;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .heroShowcase {
+    max-width: 95%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroShowcase {
+    max-width: 92%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .heroShowcase {
+    max-width: 85%;
+  }
+}
+
 .recipeAppPromo {
   box-sizing: border-box;
   width: 100%;
@@ -316,12 +341,12 @@
     left: auto;
     z-index: 2;
     justify-content: flex-start;
-    gap: 0.375rem 16px;
+    gap: 0.375rem 9px;
     order: unset;
     width: auto;
     max-width: 100%;
     padding-right: 0.25rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     overflow-x: visible;
     padding-bottom: 0;
   }
@@ -335,11 +360,29 @@
 
 @media (min-width: 768px) {
   .recipeAppAwardBadge {
-    height: 7.5rem;
+    height: 68px;
+
+    
+  }
+}
+
+@media (min-width: 800px) {
+  .recipeAppAwardBadge {
+    height: 73px;
+  }
+}
+@media (min-width: 900px) {
+  .recipeAppAwardBadge {
+    height: 85px;
   }
 }
 
 @media (min-width: 1024px) {
+  .recipeAppAwardBadge {
+    height: 91px;
+  }
+}
+@media (min-width: 1400px) {
   .recipeAppAwardBadge {
     height: 7.25rem;
   }

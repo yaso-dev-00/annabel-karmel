@@ -552,7 +552,7 @@ export function HomePageContent() {
 
   return (
     <main className="max-md:pb-16 overflow-x-clip">
-      <section className="hero-showcase container">
+      <section className={`hero-showcase ${styles.heroShowcase}`}>
         <article
           className="hero-slider-shell"
           onPointerDown={handleHeroPointerDown}
@@ -647,7 +647,7 @@ export function HomePageContent() {
       </section>
 
       {/*
-      <section className="hero-showcase container">
+      <section className={`hero-showcase ${styles.heroShowcase}`}>
         <article
           className="hero-slider-shell"
           onPointerDown={handleHeroPointerDown}

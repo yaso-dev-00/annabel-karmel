@@ -381,7 +381,7 @@ export const appFeatureCards: VisualCard[] = [
 // };
 
 export const appSectionContent: AppSectionContent = {
-  heading: "Your essential recipe app for baby & family",
+  heading: "Your go-to recipe app for every age & stage",
   bullets: [
     {
       lead: "1,500+ recipes",

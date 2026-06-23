@@ -1,10 +1,12 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { siteAdBanners, type SiteAdPlacementId } from "@/data/promo-banners";
 
-const AD_AUTO_INTERVAL_MS = 5500;
+/** Hero carousel uses 5500ms — keep ads on a different cadence and phase offset. */
+const AD_AUTO_INTERVAL_MS = 6000;
+const AD_AUTO_START_DELAY_MS = 2800;
 const AD_SWIPE_THRESHOLD = 40;
 
 type SiteAdPlacementProps = {
@@ -19,13 +21,12 @@ export function SiteAdPlacement({ placement }: SiteAdPlacementProps) {
   const pointerStartY = useRef<number | null>(null);
   const activePointerId = useRef<number | null>(null);
   const didSwipeRef = useRef(false);
-
   const current = siteAdBanners[activeIndex];
 
-  const moveAd = (step: number) => {
+  const moveAd = useCallback((step: number) => {
     setDirection(step);
     setActiveIndex((prev) => (prev + step + siteAdBanners.length) % siteAdBanners.length);
-  };
+  }, []);
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLElement>) => {
     didSwipeRef.current = false;
@@ -72,9 +73,18 @@ export function SiteAdPlacement({ placement }: SiteAdPlacementProps) {
       return;
     }
 
-    const timer = window.setInterval(() => moveAd(1), AD_AUTO_INTERVAL_MS);
-    return () => window.clearInterval(timer);
-  }, [autoScrollEnabled]);
+    let intervalId: number | undefined;
+    const timeoutId = window.setTimeout(() => {
+      intervalId = window.setInterval(() => moveAd(1), AD_AUTO_INTERVAL_MS);
+    }, AD_AUTO_START_DELAY_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      if (intervalId !== undefined) {
+        window.clearInterval(intervalId);
+      }
+    };
+  }, [autoScrollEnabled, moveAd]);
 
   return (
     <section

@@ -1,0 +1,43 @@
+{
+  "slug": "chicken-tomato-mascarpone-pasta",
+  "color": "#65D9D6",
+  "heroDesktop": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/chicken-pasta-hero-optimized.jpg",
+  "heroMobile": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/chicken-pasta-mob-optimized.jpg",
+  "title": "chicken pasta with\ntomato & mascarpone",
+  "intro": "Chunky pasta, tender chicken & a veggie-packed tomato and mascarpone sauce – always a dinner winner.",
+  "description": "Calling all little pasta lovers! Forks at the ready to dig into Annabel’s tasty chifferi pasta and tender chicken in a tasty tomato and mascarpone sauce. Blended with their favourite veggies, this dinner winner is perfectly balanced for pint-sized pasta connoisseurs.",
+  "carousel": [
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Chicken-Pasta-1-1-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Chicken-Pasta-2-optimized.png"
+  ],
+  "badges": [
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-3-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-2-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-4-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-2_9-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-2_5-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-3_4-optimized.png"
+  ],
+  "retailerBg": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/chicken-pasta-bg-2-optimized.png",
+  "retailerLogos": [],
+  "whyBg": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/chicken-pasta-bg-3-optimized.jpg",
+  "related": [],
+  "accordion": [
+    {
+      "title": "Ingredients",
+      "paragraphs": []
+    },
+    {
+      "title": "Nutrition",
+      "paragraphs": []
+    },
+    {
+      "title": "Prepare",
+      "paragraphs": []
+    },
+    {
+      "title": "Storage",
+      "paragraphs": []
+    }
+  ]
+}

@@ -22,11 +22,19 @@ export type ChilledProductRelatedProduct = {
   href: string;
 };
 
+export type MealProductRetailerLogo = {
+  src: string;
+  alt: string;
+  href: string;
+};
+
 export type ChilledProductTheme = {
   detailColor: string;
   accordionBg: string;
   discoverButtonBg: string;
   discoverButtonColor: string;
+  detailTextColor?: string;
+  heroTextColor?: string;
 };
 
 export type ChilledProductPageData = {
@@ -40,7 +48,7 @@ export type ChilledProductPageData = {
     detailBgMobile: string;
     retailerBg: string;
     whyNotTryBg: string;
-    tescoLogo: string;
+    tescoLogo?: string;
     arrowLeft: string;
     arrowRight: string;
   };
@@ -54,8 +62,10 @@ export type ChilledProductPageData = {
   accordion: ChilledProductAccordionItem[];
   retailer: {
     heading: string;
-    logoHref: string;
+    logoHref?: string;
   };
   related: ChilledProductRelatedProduct[];
   theme: ChilledProductTheme;
 };
+
+export type MealProductPageData = ChilledProductPageData;

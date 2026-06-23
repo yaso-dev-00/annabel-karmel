@@ -20,6 +20,9 @@
   --nav-overlay-scrim: rgba(38, 25, 25, 0.32);
   --nav-brand: #8f2f58;
   --nav-brand-soft: #f6e9ef;
+  --nav-progress: #b34769;
+  --nav-progress-dark: #8f3654;
+  --nav-progress-light: #d66b8a;
   --nav-overlay-radius: 20px;
   --nav-overlay-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --site-header-height: 78px;
@@ -164,6 +167,68 @@ html[data-newsletter-bar="visible"] {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.site-nav-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10000;
+  height: 3px;
+  overflow: hidden;
+  pointer-events: none;
+  background: rgb(179 71 105 / 0.16);
+}
+
+.site-nav-progress-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    var(--nav-progress-dark) 0%,
+    var(--nav-progress) 48%,
+    var(--nav-progress-light) 100%
+  );
+  box-shadow: 0 0 8px rgb(179 71 105 / 0.4);
+  will-change: transform;
+}
+
+.site-nav-progress--loading .site-nav-progress-bar {
+  animation: site-nav-progress-load 12s cubic-bezier(0.08, 0.55, 0.12, 1) forwards;
+}
+
+.site-nav-progress--completing .site-nav-progress-bar {
+  animation: none;
+  transform: scaleX(1);
+  transition: transform 220ms ease;
+}
+
+@keyframes site-nav-progress-load {
+  0% {
+    transform: scaleX(0);
+  }
+
+  15% {
+    transform: scaleX(0.28);
+  }
+
+  100% {
+    transform: scaleX(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav-progress--loading .site-nav-progress-bar {
+    animation: none;
+    transform: scaleX(0.75);
+    transition: transform 350ms ease;
+  }
+
+  .site-nav-progress--completing .site-nav-progress-bar {
+    transition-duration: 150ms;
+  }
 }
 
 .site-ad-placement-header {

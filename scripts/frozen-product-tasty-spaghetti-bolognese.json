@@ -1,0 +1,58 @@
+{
+  "slug": "tasty-spaghetti-bolognese",
+  "color": "#FF8674",
+  "heroDesktop": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/spaghetti-bolognese-header-optimized.jpg",
+  "heroMobile": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/spaghetti-bolognese-mob-optimized.jpg",
+  "title": "spaghetti bolognese\nwith hidden veggies",
+  "intro": "Made with 100% British & Irish beef and packed with hidden veg – it’s a slurp-worthy spag bol kids will love. Made without dairy.",
+  "description": "Say hello to Annabel's take on this childhood classic – short spaghetti and a yummy beef Bolognese sauce with FOUR hidden veggies. A speedy, slurpy favourite inspired by her trusted cookbook collection.",
+  "carousel": [
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Spaghetti-Bolognese-1-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Spaghetti-Bolognese-2-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Spaghetti-Bolognese-3-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Spaghetti-Bolognese-4-optimized.png"
+  ],
+  "badges": [
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-3-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-2-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-4-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-2_9-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-2_5-optimized.png",
+    "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Artboard-3_4-optimized.png"
+  ],
+  "retailerBg": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/or-bg-optimized.png",
+  "retailerLogos": [],
+  "whyBg": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/spaghetti-bg-3-scaled-optimized.jpg",
+  "related": [
+    {
+      "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Bolognese-MacCheese-optimized.png",
+      "href": "/products/mighty-bolognese-mac-and-cheese/"
+    },
+    {
+      "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Chicken-pasta-1-optimized.png",
+      "href": "/products/chicken-tomato-mascarpone-pasta/"
+    },
+    {
+      "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/06/Chicken-tikka-optimized.png",
+      "href": "/products/chicken-tikka-masala/"
+    }
+  ],
+  "accordion": [
+    {
+      "title": "Ingredients",
+      "paragraphs": []
+    },
+    {
+      "title": "Nutrition",
+      "paragraphs": []
+    },
+    {
+      "title": "Prepare",
+      "paragraphs": []
+    },
+    {
+      "title": "Storage",
+      "paragraphs": []
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Montserrat, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
+import { SiteNavProgress } from "@/components/site-nav-progress";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -24,6 +25,15 @@ const cutesy = localFont({
     { path: "./fonts/cutesy.woff" },
   ],
   variable: "--font-cutesy",
+  display: "swap",
+});
+
+const tastyJoke = localFont({
+  src: [
+    { path: "./fonts/tasty-joke.woff2" },
+    { path: "./fonts/tasty-joke.woff" },
+  ],
+  variable: "--font-tasty-joke",
   display: "swap",
 });
 
@@ -60,9 +70,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistMono.variable} ${montserrat.variable} ${playfair.variable} ${pequena.variable} ${cutesy.variable} h-full antialiased`}
+      className={`${geistMono.variable} ${montserrat.variable} ${playfair.variable} ${pequena.variable} ${cutesy.variable} ${tastyJoke.variable} h-full antialiased`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <SiteNavProgress />
+        {children}
+      </body>
     </html>
   );
 }

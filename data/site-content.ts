@@ -223,7 +223,7 @@ export const megaMenus: MegaMenu[] = [
         title: "",
         links: [
           { label: "Discover the App", href: "/recipe-app" },
-          { label: "App for Business", href: "/recipe-app/business" },
+          { label: "App for Business", href: "/empower-your-employees" },
         ],
       },
     ],

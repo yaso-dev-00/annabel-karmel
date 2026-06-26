@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, useMotionValue } from "framer-motion";
+import { animate, useMotionValue, useMotionValueEvent } from "framer-motion";
 import {
   useCallback,
   useEffect,
@@ -28,10 +28,17 @@ export const CAROUSEL_SLIDE = {
   fixed: true as const,
 };
 
+export const CAROUSEL_DRAG_RELEASE = {
+  type: "spring" as const,
+  stiffness: 320,
+  damping: 36,
+};
+
 type CarouselTransition =
   | typeof CAROUSEL_SPRING
   | typeof CAROUSEL_SMOOTH
-  | typeof CAROUSEL_SLIDE;
+  | typeof CAROUSEL_SLIDE
+  | typeof CAROUSEL_DRAG_RELEASE;
 
 type SnapMetrics = {
   edgeCenterSnap: boolean;
@@ -61,8 +68,37 @@ function resolveTargetX(slideIndex: number, metrics: SnapMetrics): number {
     return Math.max(minX, Math.min(0, centered));
   }
 
+  if (slideIndex >= maxIndex) {
+    return minX;
+  }
+
   const naive = offset - slideIndex * step;
   return Math.max(minX, Math.min(offset, naive));
+}
+
+function collapseRedundantMaxIndex(
+  candidateMaxIndex: number,
+  metrics: Omit<SnapMetrics, "maxIndex">,
+): number {
+  if (candidateMaxIndex <= 0) {
+    return 0;
+  }
+
+  const endMetrics: SnapMetrics = { ...metrics, maxIndex: candidateMaxIndex };
+  const endX = resolveTargetX(candidateMaxIndex, endMetrics);
+  const epsilon = Math.max(2, metrics.step * 0.04);
+
+  for (let i = 0; i < candidateMaxIndex; i += 1) {
+    if (Math.abs(resolveTargetX(i, endMetrics) - endX) <= epsilon) {
+      return i;
+    }
+  }
+
+  return candidateMaxIndex;
+}
+
+function getBoundaryEpsilon(step: number): number {
+  return Math.max(2, step * 0.04);
 }
 
 type SnapCarouselOptions = {
@@ -80,6 +116,8 @@ type SnapCarouselOptions = {
   rubberBandFactor?: number;
   /** Touch release momentum multiplier. Default 0.18. */
   touchMomentumFactor?: number;
+  /** Spring used when a drag ends. Default CAROUSEL_SPRING. */
+  dragReleaseTransition?: typeof CAROUSEL_SPRING | typeof CAROUSEL_DRAG_RELEASE;
 };
 
 function clampDragOffset(
@@ -114,6 +152,7 @@ export function useSnapCarousel({
   touchDragThreshold = 2,
   rubberBandFactor = 0,
   touchMomentumFactor = 0.18,
+  dragReleaseTransition = CAROUSEL_SPRING,
 }: SnapCarouselOptions) {
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -170,6 +209,8 @@ export function useSnapCarousel({
   const [alignOffset, setAlignOffset] = useState(0);
   const [visibleCards, setVisibleCards] = useState(initialVisibleCards);
   const [maxIndex, setMaxIndex] = useState(0);
+  const [positionAtStart, setPositionAtStart] = useState(true);
+  const [positionAtEnd, setPositionAtEnd] = useState(false);
 
   stepRef.current = step;
   alignOffsetRef.current = alignOffset;
@@ -190,6 +231,27 @@ export function useSnapCarousel({
     (slideIndex: number) => resolveTargetX(slideIndex, getSnapMetrics()),
     [getSnapMetrics],
   );
+
+  const syncPositionBounds = useCallback(() => {
+    if (stepRef.current <= 0 && !edgeCenterSnapRef.current) {
+      setPositionAtStart(true);
+      setPositionAtEnd(maxIndexRef.current <= 0);
+      return;
+    }
+
+    const epsilon = getBoundaryEpsilon(stepRef.current);
+    const minBound = getTargetX(maxIndexRef.current);
+    const maxBound = getTargetX(0);
+    const currentX = x.get();
+    setPositionAtStart(currentX >= maxBound - epsilon);
+    setPositionAtEnd(currentX <= minBound + epsilon);
+  }, [getTargetX, x]);
+
+  useMotionValueEvent(x, "change", syncPositionBounds);
+
+  useEffect(() => {
+    syncPositionBounds();
+  }, [index, maxIndex, syncPositionBounds]);
 
   const findNearestIndex = useCallback(
     (projectedX: number) => {
@@ -341,16 +403,37 @@ export function useSnapCarousel({
       minX = endAlignedMinX;
     } else {
       minX = endAlignedMinX;
-      computedMaxIndex =
-        cardStep > 0 && minX < 0
-          ? Math.max(0, Math.ceil(-minX / cardStep))
-          : 0;
+      const visibilityMaxIndex = Math.max(0, cards.length - cardsVisible);
+      const stepMaxIndex =
+        cardStep > 0 && minX < 0 ? Math.max(0, Math.ceil(-minX / cardStep)) : 0;
+      computedMaxIndex = Math.min(
+        cards.length - 1,
+        Math.max(visibilityMaxIndex, stepMaxIndex),
+      );
     }
+
+    const snapMetricsBase: Omit<SnapMetrics, "maxIndex"> = {
+      edgeCenterSnap: useEdgeCenterSnap,
+      viewportWidth,
+      cardCenters,
+      minX,
+      offset,
+      step: cardStep,
+    };
+    computedMaxIndex = collapseRedundantMaxIndex(computedMaxIndex, snapMetricsBase);
 
     alignOffsetRef.current = offset;
     stepRef.current = cardStep;
     minXRef.current = minX;
     maxIndexRef.current = computedMaxIndex;
+    viewportWidthRef.current = viewportWidth;
+    cardCentersRef.current = cardCenters;
+    edgeCenterSnapRef.current = useEdgeCenterSnap;
+
+    if (isDragging.current) {
+      return;
+    }
+
     setAlignOffset(offset);
     setStep(cardStep);
     setVisibleCards(cardsVisible);
@@ -467,17 +550,37 @@ export function useSnapCarousel({
     }
 
     const blockTouchScrollWhileDragging = (event: TouchEvent) => {
-      if (
-        activePointerId.current !== null &&
-        (isDragging.current || touchHorizontalIntent.current)
-      ) {
+      if (activePointerId.current === null) {
+        return;
+      }
+
+      if (isDragging.current || touchHorizontalIntent.current) {
         event.preventDefault();
+        return;
+      }
+
+      const touch = event.touches[0];
+      if (
+        touch &&
+        pointerStartX.current !== null &&
+        pointerStartY.current !== null
+      ) {
+        const deltaX = touch.clientX - pointerStartX.current;
+        const deltaY = touch.clientY - pointerStartY.current;
+
+        if (
+          Math.abs(deltaX) > touchDragThreshold &&
+          Math.abs(deltaX) >= Math.abs(deltaY) * 0.35
+        ) {
+          touchHorizontalIntent.current = true;
+          event.preventDefault();
+        }
       }
     };
 
     carousel.addEventListener("touchmove", blockTouchScrollWhileDragging, { passive: false });
     return () => carousel.removeEventListener("touchmove", blockTouchScrollWhileDragging);
-  }, []);
+  }, [touchDragThreshold]);
 
   const setCarouselInteracting = useCallback((active: boolean) => {
     carouselRef.current?.classList.toggle("is-carousel-interacting", active);
@@ -545,12 +648,28 @@ export function useSnapCarousel({
       }
 
       if (!isDragging.current) {
-        if (!isHorizontalDragIntent(deltaX, deltaY, event.pointerType)) {
+        if (isHorizontalDragIntent(deltaX, deltaY, event.pointerType)) {
+          isDragging.current = true;
+          if (event.pointerType === "touch") {
+            touchHorizontalIntent.current = true;
+          }
+        } else if (
+          event.pointerType === "touch" &&
+          Math.abs(deltaY) > touchDragThreshold * 2 &&
+          Math.abs(deltaY) > Math.abs(deltaX) * 1.25
+        ) {
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }
+          activePointerId.current = null;
+          activePointerType.current = null;
+          pointerStartX.current = null;
+          pointerStartY.current = null;
+          touchHorizontalIntent.current = false;
+          setCarouselInteracting(false);
           return;
-        }
-        isDragging.current = true;
-        if (event.pointerType === "touch") {
-          touchHorizontalIntent.current = true;
+        } else {
+          return;
         }
       }
 
@@ -579,6 +698,7 @@ export function useSnapCarousel({
       getTargetX,
       isHorizontalDragIntent,
       rubberBandFactor,
+      setCarouselInteracting,
       touchDragThreshold,
       x,
     ],
@@ -646,8 +766,19 @@ export function useSnapCarousel({
         ? releaseVelocity * touchMomentumFactor
         : releaseVelocity * 0.1;
       const projectedX = offsetX + momentumOffset;
-      const nextIndex = findNearestIndex(projectedX);
-      animateToIndex(nextIndex, CAROUSEL_SPRING, wasTouch ? releaseVelocity : 0);
+      const limit = maxIndexRef.current;
+      const minBound = getTargetX(limit);
+      const maxBound = getTargetX(0);
+      let nextIndex = findNearestIndex(projectedX);
+      const epsilon = getBoundaryEpsilon(stepRef.current);
+
+      if (projectedX <= minBound + epsilon) {
+        nextIndex = limit;
+      } else if (projectedX >= maxBound - epsilon) {
+        nextIndex = 0;
+      }
+
+      animateToIndex(nextIndex, dragReleaseTransition, wasTouch ? releaseVelocity : 0);
 
       blockClickRef.current = true;
       window.setTimeout(() => {
@@ -657,7 +788,9 @@ export function useSnapCarousel({
     },
     [
       animateToIndex,
+      dragReleaseTransition,
       findNearestIndex,
+      getTargetX,
       onInteraction,
       setCarouselInteracting,
       touchMomentumFactor,
@@ -695,6 +828,8 @@ export function useSnapCarousel({
     indexRef,
     maxIndex,
     step,
+    isAtStart: index <= 0 || positionAtStart,
+    isAtEnd: maxIndex <= 0 || index >= maxIndex || positionAtEnd,
     measure,
     handleNavigation,
     handlePointerDown,

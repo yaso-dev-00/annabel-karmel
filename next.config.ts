@@ -207,6 +207,11 @@ const nextConfig: NextConfig = {
         destination: "/app-book-category/our-books",
         permanent: true,
       },
+      {
+        source: "/the-ultimate-baby-toddler-recipe-app",
+        destination: "/recipe-app",
+        permanent: true,
+      },
     ];
   },
 };

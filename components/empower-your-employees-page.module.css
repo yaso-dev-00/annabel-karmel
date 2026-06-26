@@ -1664,7 +1664,7 @@
   }
 
   .stepBody {
-    gap: 0;
+    gap: 5px;
   }
 
   .stepNumber {

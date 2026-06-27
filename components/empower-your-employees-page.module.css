@@ -663,7 +663,7 @@
 
 @media (min-width: 1440px) {
   .vectorSection {
-    padding: 100px var(--em-shell-pad) 0;
+    padding: 100px  0;
   }
 }
 

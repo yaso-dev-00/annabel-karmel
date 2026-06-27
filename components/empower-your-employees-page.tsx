@@ -249,7 +249,7 @@ export function EmpowerYourEmployeesPageContent() {
           </p>
           <div className={styles.sectionCta}>
           <EmpowerButton
-            href="https://www.annabelkarmel.com/annabel-karmels-app-for-childcare/"
+            href="/annabel-karmels-app-for-childcare/"
             label="Learn more"
             variant="pink"
           />

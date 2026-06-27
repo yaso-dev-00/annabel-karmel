@@ -1,0 +1,102 @@
+.ctaButton {
+  --em-teal: #6e9ca5;
+  --em-pink: #b34769;
+  --em-btn-padding: 10px 10px 10px 24px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: auto;
+  max-width: 100%;
+  min-width: 200px;
+  padding: var(--em-btn-padding);
+  border: none;
+  border-radius: 16px;
+  background: var(--em-teal);
+  color: #fff;
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 23.8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.ctaButton span {
+  flex: 1 1 auto;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.ctaButton svg {
+  flex-shrink: 0;
+}
+
+.ctaButton:hover {
+  color: #fff;
+}
+
+.ctaButton:hover svg path {
+  stroke: var(--em-pink);
+}
+
+.ctaButtonPink {
+  background: var(--em-pink);
+  margin-top: 0;
+  font-size: 18px;
+}
+
+@media (min-width: 1024px) {
+  .ctaButtonPink {
+    margin-top: 30px;
+    font-size: 20px;
+  }
+}
+
+.ctaButtonPink:hover {
+  background: #9a3d5a;
+}
+
+.ctaButtonBlock {
+  min-width: 220px;
+}
+
+.waveShapeTop,
+.waveShapeBottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  direction: ltr;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.waveShapeTop {
+  top: -1px;
+}
+
+.waveShapeBottom {
+  bottom: -1px;
+  transform: rotate(180deg);
+}
+
+.waveShapeTop svg,
+.waveShapeBottom svg {
+  display: block;
+  position: relative;
+  left: 50%;
+  width: calc(100% + 1.3px);
+  height: 60px;
+  transform: translateX(-50%);
+}
+
+.waveFill {
+  fill: #fff;
+}
+
+.waveFillPinkSoft {
+  fill: #fbf1f0;
+}

@@ -1,8 +1,8 @@
 const assetBase = "/product-category/plant-powered-bites";
 
 export const plantPoweredBitesAssets = {
-  heroDesktop: `${assetBase}/hero-desktop.svg`,
-  heroMobile: `${assetBase}/hero-mobile.svg`,
+  heroDesktop: `${assetBase}/hero-desktop.png`,
+  heroMobile: `${assetBase}/hero-mobile.png`,
   introBg: `${assetBase}/intro-bg.png`,
   introBgMobile: `${assetBase}/intro-bg-mobile.png`,
   signature: "/product-category/chilled-meals/signature.svg",

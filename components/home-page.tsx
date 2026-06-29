@@ -540,8 +540,8 @@ export function HomePageContent() {
               aria-hidden
             >
              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                                                    <path d="M5 12.9619H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                    <path d="M12 5.96191L19 12.9619L12 19.9619" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                    <path d="M5 12.9619H19" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path>
+                                                    <path d="M12 5.96191L19 12.9619L12 19.9619" stroke="white" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path>
                                                 </svg>
             </span>
           </a>
@@ -1139,7 +1139,7 @@ export function HomePageContent() {
               rel="noreferrer"
             >
               <span className={`${styles.ctaLabel} tracking-[0.2px] text-[20px]! font-[500]!`}>See all recipes</span>
-                           <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                           <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path></svg>
               
             </a>
           </div>
@@ -1309,7 +1309,7 @@ export function HomePageContent() {
             >
               <span className={`${styles.ctaLabel} text-[17px] font-[500]! md:text-[20px]`}>Get the recipe</span>
               <span className={`inline-grid h-[40px] w-[40px] place-items-center rounded-[15px] bg-white text-[15px] ${styles.ctaPinkIcon}`} aria-hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path></svg>
               </span>
             </a>
           </div>
@@ -1388,7 +1388,7 @@ export function HomePageContent() {
                   >
                     <span className="text-white text-[17px] font-[500]!">Explore</span>
                     <span className="inline-flex h-[40px] w-[40px] items-center justify-center rounded-[15px] bg-white text-[#8a8776]" aria-hidden>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none"><rect width="41" height="41" rx="16" fill="white"></rect><path d="M13 20.5H27" stroke="#8D8575" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 13.5L27 20.5L20 27.5" stroke="#8D8575" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none"><rect width="41" height="41" rx="16" fill="white"></rect><path d="M13 20.5H27" stroke="#8D8575" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path><path d="M20 13.5L27 20.5L20 27.5" stroke="#8D8575" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path></svg>
                     </span>
                   </a>
                 </div>
@@ -1491,7 +1491,7 @@ export function HomePageContent() {
             >
               <span className={`${styles.ctaLabel} font-[500] text-[20px] md:text-[20px]`}>Discover all cookbooks</span>
               <span className={`inline-flex h-[40px] w-[40px] items-center justify-center rounded-[15px] bg-white ${styles.ctaPinkIcon}`} aria-hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path></svg>
               </span>
             </a>
           </div>
@@ -1552,7 +1552,7 @@ export function HomePageContent() {
           >
               <span className={`${styles.ctaLabel} font-[500] text-[22px] md:text-[20px]`}>Get in touch</span>
               <span className={`inline-flex h-10 w-10 items-center justify-center rounded-[16px] bg-white ${styles.ctaTealIcon}`} aria-hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none"><rect width="41" height="41" rx="16" fill="white"></rect><path d="M13 20.5H27" stroke="#6E9CA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 13.5L27 20.5L20 27.5" stroke="#6E9CA5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none"><rect width="41" height="41" rx="16" fill="white"></rect><path d="M13 20.5H27" stroke="#6E9CA5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path><path d="M20 13.5L27 20.5L20 27.5" stroke="#6E9CA5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path></svg>
             </span>
           </a>
 

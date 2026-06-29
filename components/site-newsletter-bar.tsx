@@ -34,7 +34,11 @@ function NewsletterMailIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function SiteNewsletterBar() {
+type SiteNewsletterBarProps = {
+  onOpenModal?: () => void;
+};
+
+export function SiteNewsletterBar({ onOpenModal }: SiteNewsletterBarProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -61,11 +65,21 @@ export function SiteNewsletterBar() {
   return (
     <div className="site-newsletter-bar bg-[#E9C6CE] border-b border-[#e2cfd3]">
       <div className="container relative flex min-h-[var(--site-newsletter-bar-height)] items-center justify-center px-4 py-[0.55rem] pr-11 max-md:px-9 max-md:pr-10">
-        <p className="site-promo-text hidden text-center md:block">{newsletterBarContent.desktopText}</p>
-        <p className="site-promo-text mb-0 flex items-center justify-center gap-1.5 text-sm md:hidden">
+        <button
+          type="button"
+          className="site-promo-text site-newsletter-bar-trigger hidden text-center md:block"
+          onClick={onOpenModal}
+        >
+          {newsletterBarContent.desktopText}
+        </button>
+        <button
+          type="button"
+          className="site-promo-text site-newsletter-bar-trigger mb-0 flex items-center justify-center gap-1.5 text-sm md:hidden"
+          onClick={onOpenModal}
+        >
           <span>{newsletterBarContent.mobileText}</span>
           <NewsletterMailIcon className="h-[15px] w-[19px] shrink-0 text-[#3a3a3a]" />
-        </p>
+        </button>
         <button
           type="button"
           className="absolute right-3 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center border-0 bg-transparent p-0 cursor-pointer"

@@ -7,7 +7,7 @@ export const mildChickenTikkaPageData: ChilledProductPageData = {
   heroAlt: "Mild chicken tikka with fluffy rice",
   headingId: "mild-chicken-tikka-heading",
   assets: {
-    heroDesktop: `${assetBase}/hero-desktop.jpg`,
+    heroDesktop: `${assetBase}/hero-desktop.svg`,
     heroMobile: `${assetBase}/hero-mobile.jpg`,
     detailBg: `${assetBase}/chicken-tikka-bg.png`,
     detailBgMobile: `${assetBase}/chicken-tikka-bg-mobile.png`,
@@ -21,6 +21,10 @@ export const mildChickenTikkaPageData: ChilledProductPageData = {
     title: "mild chicken tikka with fluffy rice",
     intro:
       "Curry night with a tot-twist! Tender chicken pieces in a mild creamy tomato and coconut sauce. It's made without dairy too!",
+    desktopWidth: 2000,
+    desktopHeight: 1169,
+    mobileWidth: 880,
+    mobileHeight: 770,
   },
   carousel: [
     {

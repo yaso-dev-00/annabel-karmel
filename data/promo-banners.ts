@@ -16,6 +16,17 @@ export const newsletterBarContent = {
   closeIconUrl: "https://www.annabelkarmel.com/wp-content/uploads/2025/03/Close-optimized.png",
 };
 
+export const newsletterPopupContent = {
+  title: "Join Annabel's newsletter",
+  subtitle: "Be the first to hear about new competitions, recipes, offers and more!",
+  emailPlaceholder: "Enter your email address",
+  submitLabel: "Sign Up",
+  legalText:
+    "By signing up, you agree to receive email marketing from Annabel Karmel. Unsubscribe at any time.",
+  successMessage: "Thank you for signing up!",
+  errorMessage: "Something went wrong. Please try again later.",
+};
+
 /** Global leaderboard ads from annabelkarmel.com header/footer placements (June 2026). */
 export const siteAdBanners: SiteAdBanner[] = [
   {

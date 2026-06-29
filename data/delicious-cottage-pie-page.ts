@@ -21,6 +21,10 @@ export const deliciousCottagePiePageData: ChilledProductPageData = {
     title: "delicious cottage pie\nwith veggies",
     intro:
       "A cosy cottage pie with cheesy mash and hidden veg gravy – the perfect fuel for little tummies.",
+    desktopWidth: 2000,
+    desktopHeight: 1171,
+    mobileWidth: 657,
+    mobileHeight: 574,
   },
   carousel: [
     {

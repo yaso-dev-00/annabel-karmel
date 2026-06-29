@@ -30,6 +30,10 @@ export const chickenTomatoMascarponePastaPageData: FrozenProductPageData = {
     title: "chicken pasta with\ntomato & mascarpone",
     intro:
       "Chunky pasta, tender chicken & a veggie-packed tomato and mascarpone sauce – always a dinner winner.",
+    desktopWidth: 2160,
+    desktopHeight: 1268,
+    mobileWidth: 880,
+    mobileHeight: 1376,
   },
   carousel: [
     { src: `${assetBase}/carousel-1.png`, alt: "Chicken pasta lifestyle" },

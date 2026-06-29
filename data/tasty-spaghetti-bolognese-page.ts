@@ -30,6 +30,10 @@ export const tastySpaghettiBolognesePageData: FrozenProductPageData = {
     title: "spaghetti bolognese\nwith hidden veggies",
     intro:
       "Made with 100% British & Irish beef and packed with hidden veg – it's a slurp-worthy spag bol kids will love. Made without dairy.",
+    desktopWidth: 2160,
+    desktopHeight: 1260,
+    mobileWidth: 880,
+    mobileHeight: 1368,
   },
   carousel: [
     { src: `${assetBase}/carousel-1.png`, alt: "Spaghetti bolognese lifestyle" },

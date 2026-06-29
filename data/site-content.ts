@@ -232,7 +232,7 @@ export const megaMenus: MegaMenu[] = [
 
 export const logoUrl = "/brand/annabel-karmel-logo.png";
 
-export const footerLogoUrl = "/hero-slides/logo.webp";
+export const footerLogoUrl = "/hero-slides/logo.png";
 
 export const heroSlides: HeroSlide[] = [
   {

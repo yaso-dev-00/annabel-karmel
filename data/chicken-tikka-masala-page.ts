@@ -30,6 +30,10 @@ export const chickenTikkaMasalaPageData: FrozenProductPageData = {
     title: "chicken tikka\nwith fluffy rice",
     intro:
       "Tender chicken in a creamy coconut sauce with butternut squash, tomato and a hint of mango chutney. Made without dairy.",
+    desktopWidth: 2160,
+    desktopHeight: 1268,
+    mobileWidth: 880,
+    mobileHeight: 1376,
   },
   carousel: [
     { src: `${assetBase}/carousel-1.png`, alt: "Chicken tikka lifestyle" },

@@ -21,6 +21,10 @@ export const yummyLittleLasagnePageData: ChilledProductPageData = {
     title: "yummy little lasagne\nwith mini pasta squares",
     intro:
       "Mini pasta squares layered with beef, hidden veg ragu and creamy cheese sauce – a quick, clever twist on lasagne just for kids!",
+    desktopWidth: 2000,
+    desktopHeight: 1174,
+    mobileWidth: 660,
+    mobileHeight: 578,
   },
   carousel: [
     {

@@ -1,8 +1,8 @@
 const assetBase = "/product-category/chilled-meals";
 
 export const chilledMealsAssets = {
-  heroDesktop: `${assetBase}/hero-desktop.jpg`,
-  heroMobile: `${assetBase}/hero-mobile.jpg`,
+  heroDesktop: `${assetBase}/hero-desktop.svg`,
+  heroMobile: `${assetBase}/hero-mobile.svg`,
   introBg: `${assetBase}/intro-bg.png`,
   introBgMobile: `${assetBase}/intro-bg-mobile.png`,
   signature: `${assetBase}/signature.svg`,
@@ -11,8 +11,8 @@ export const chilledMealsAssets = {
   tescoBg: `${assetBase}/tesco-bg.png`,
   tescoLogo: `${assetBase}/tesco-logo.png`,
   frozenAisleBg: `${assetBase}/frozen-aisle-bg.png`,
-  frozenChild1: `${assetBase}/frozen-child-1.svg`,
-  frozenChild2: `${assetBase}/frozen-child-2.svg`,
+  frozenChild1: `${assetBase}/frozen-aisle-child-toddler.svg`,
+  frozenChild2: `${assetBase}/frozen-aisle-child-spaghetti.svg`,
 } as const;
 
 export const chilledMealsIntro = {
@@ -52,7 +52,7 @@ export const chilledMealsProducts: ChilledMealsProduct[] = [
     title: "tasty chicken pasta",
     description:
       "Calling little pasta lovers! Tuck into Annabel's chicken pasta in a fresh tomato, veggie and mascarpone sauce.",
-    image: `${assetBase}/product-pasta.png`,
+    image: `${assetBase}/pasta.png`,
     href: "/products/tasty-chicken-pasta-in-a-tomato-veggie-sauce/",
     accentColor: "#f5b88a",
   },
@@ -60,7 +60,7 @@ export const chilledMealsProducts: ChilledMealsProduct[] = [
     title: "delicious cottage pie",
     description:
       "A cosy cottage pie with cheesy mash and hidden veg gravy – the perfect fuel for little tummies.",
-    image: `${assetBase}/product-cottage-pie.svg`,
+    image: `${assetBase}/cottage.png`,
     href: "/products/delicious-cottage-pie/",
     accentColor: "#f04e8d",
   },
@@ -68,7 +68,7 @@ export const chilledMealsProducts: ChilledMealsProduct[] = [
     title: "yummy little lasagne",
     description:
       "Mini pasta squares layered with beef, hidden veg ragu and creamy cheese sauce – a clever twist on lasagne just for kids!",
-    image: `${assetBase}/product-lasagne.svg`,
+    image: `${assetBase}/lasagne.png`,
     href: "/products/yummy-little-lasagne-new/",
     accentColor: "#b8a8e8",
   },

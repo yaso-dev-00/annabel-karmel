@@ -29,6 +29,13 @@ export type MealProductRetailerLogo = {
   href: string;
 };
 
+export type ProductHeroDimensions = {
+  desktopWidth: number;
+  desktopHeight: number;
+  mobileWidth: number;
+  mobileHeight: number;
+};
+
 export type ChilledProductTheme = {
   detailColor: string;
   accordionBg: string;
@@ -56,7 +63,7 @@ export type ChilledProductPageData = {
   hero: {
     title: string;
     intro: string;
-  };
+  } & ProductHeroDimensions;
   carousel: ChilledProductCarouselSlide[];
   badges: ChilledProductBadge[];
   description: string;

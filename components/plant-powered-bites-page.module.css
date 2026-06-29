@@ -137,18 +137,34 @@
   }
 }
 
-.promiseArtwork {
+.promiseArtwork,
+.promiseArtworkMobile {
   display: block;
   width: min(100%, 980px);
   height: auto;
   margin: 1.5rem auto 0;
 }
 
+.promiseArtwork {
+  display: none;
+}
+
+.promiseArtworkMobile {
+  width: min(100%, 406px);
+}
+
 @media (min-width: 768px) {
   .promiseArtwork {
+    display: block;
     margin-top: 2rem;
   }
+
+  .promiseArtworkMobile {
+    display: none;
+  }
 }
+
+
 
 .retailersSection {
   position: relative;

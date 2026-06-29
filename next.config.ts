@@ -212,6 +212,16 @@ const nextConfig: NextConfig = {
         destination: "/recipe-app",
         permanent: true,
       },
+      {
+        source: "/product-category/food-au",
+        destination: "/product-category/australia-frozen",
+        permanent: true,
+      },
+      {
+        source: "/product-category/food-au/:path*",
+        destination: "/product-category/australia-frozen",
+        permanent: true,
+      },
     ];
   },
 };

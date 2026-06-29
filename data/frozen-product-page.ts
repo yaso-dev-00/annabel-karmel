@@ -5,6 +5,7 @@ import type {
   ChilledProductRelatedProduct,
   ChilledProductTheme,
   MealProductRetailerLogo,
+  ProductHeroDimensions,
 } from "./chilled-product-page";
 
 export type {
@@ -35,7 +36,7 @@ export type FrozenProductPageData = {
   hero: {
     title: string;
     intro: string;
-  };
+  } & ProductHeroDimensions;
   carousel: ChilledProductCarouselSlide[];
   badges: ChilledProductBadge[];
   description: string;

@@ -171,7 +171,7 @@ function LifestyleCarousel() {
 function ProductCard({ product }: { product: AustraliaFrozenProduct }) {
   return (
     <article className={styles.productCard}>
-      <a href={product.href} target="_blank" rel="noreferrer" className="block">
+      <a href={product.href} className="block">
         <figure className={styles.productSwap}>
           <img src={product.packImage} alt="" aria-hidden="true" />
           <img

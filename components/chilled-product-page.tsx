@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { InstagramShareSection } from "@/components/instagram-share-section";
+import { ProductHeroImage } from "@/components/product-hero-image";
 import {
   SectionBackgroundImage,
   SingleSectionBackgroundImage,
@@ -334,15 +335,16 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
   return (
     <main className={styles.page}>
       <section className={`${styles.fullBleed} leading-0`} aria-label={data.heroAlt}>
-        <picture className="block leading-0">
-          <source media="(min-width: 768px)" srcSet={data.assets.heroDesktop} />
-          <img
-            src={data.assets.heroMobile}
-            alt={data.heroAlt}
-            className="block h-auto w-full align-bottom"
-            fetchPriority="high"
-          />
-        </picture>
+        <ProductHeroImage
+          desktopSrc={data.assets.heroDesktop}
+          mobileSrc={data.assets.heroMobile}
+          alt={data.heroAlt}
+          desktopWidth={data.hero.desktopWidth}
+          desktopHeight={data.hero.desktopHeight}
+          mobileWidth={data.hero.mobileWidth}
+          mobileHeight={data.hero.mobileHeight}
+          className="block leading-0"
+        />
       </section>
 
       <section

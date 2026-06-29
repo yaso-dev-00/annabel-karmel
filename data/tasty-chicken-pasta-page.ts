@@ -21,6 +21,10 @@ export const tastyChickenPastaPageData: ChilledProductPageData = {
     title: "tasty chicken pasta\nin a tomato & veggie sauce",
     intro:
       "Calling little pasta lovers! Tuck into Annabel's chicken pasta in a fresh tomato, veggie and creamy mascarpone sauce.",
+    desktopWidth: 2000,
+    desktopHeight: 1171,
+    mobileWidth: 880,
+    mobileHeight: 762,
   },
   carousel: [
     {

@@ -2,15 +2,33 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { logoUrl, megaMenus } from "@/data/site-content";
 import { isMegaMenuActive, isNavLinkActive } from "@/lib/nav-active";
 import { SiteNavOverlay } from "@/components/site-nav-overlay";
 import { SiteAdPlacement } from "@/components/site-ad-placement";
-import { SiteNewsletterBar } from "@/components/site-newsletter-bar";
+import { SiteNewsletter } from "@/components/site-newsletter";
 
 const DESKTOP_CLOSE_DELAY = 150;
 const NESTED_CLOSE_DELAY = 120;
+
+function HamburgerIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M4 12H20" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 6H20" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 18H20" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -74,14 +92,12 @@ export function SiteHeader() {
       if (trigger) {
         setPanelLeft(trigger.getBoundingClientRect().left);
       }
-      setOpenDesktopMenu((current) => {
-        if (current !== menuLabel) {
-          setActiveNestedKey(null);
-        }
-        return menuLabel;
-      });
+      if (openDesktopMenu !== menuLabel) {
+        setActiveNestedKey(null);
+      }
+      setOpenDesktopMenu(menuLabel);
     },
-    [clearDesktopCloseTimer],
+    [clearDesktopCloseTimer, openDesktopMenu],
   );
 
   const handleNestedChange = useCallback((key: string | null) => {
@@ -144,18 +160,17 @@ export function SiteHeader() {
     };
   }, [clearDesktopCloseTimer]);
 
+  useLayoutEffect(() => {
+    if (!openDesktopMenu) {
+      return;
+    }
+    updatePanelAnchor(openDesktopMenu);
+  }, [openDesktopMenu, updatePanelAnchor]);
+
   useEffect(() => {
     if (!openDesktopMenu) {
       return;
     }
-
-    const scheduleAnchor = () => {
-      window.requestAnimationFrame(() => {
-        updatePanelAnchor(openDesktopMenu);
-      });
-    };
-
-    scheduleAnchor();
 
     const panel = headerRef.current?.querySelector<HTMLElement>(".nav-overlay-panel");
     const resizeObserver =
@@ -243,7 +258,7 @@ export function SiteHeader() {
       className={`site-header ${openDesktopMenu ? "is-nav-open" : ""}`}
       ref={headerRef}
     >
-      <SiteNewsletterBar />
+      <SiteNewsletter />
       <div className="main-nav-wrapper">
         <div
           className="container main-nav"
@@ -264,10 +279,9 @@ export function SiteHeader() {
             onClick={() => setIsMobileMenuOpen((state) => !state)}
             aria-expanded={isMobileMenuOpen}
             aria-controls={`${navId}-mobile`}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            <span />
-            <span />
-            <span />
+            <HamburgerIcon className="mobile-toggle-icon" />
           </button>
 
           <div className="main-nav-right">
@@ -275,14 +289,14 @@ export function SiteHeader() {
               {renderDesktopTriggers(rightMenus)}
             </nav>
 
-            <div className="header-actions">
+            {/* <div className="header-actions">
               <a href="/search" aria-label="Search" className="header-icon">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <circle cx="11" cy="11" r="6.5" />
                   <path d="M16 16L21 21" />
                 </svg>
               </a>
-              {/* Profile / login — disabled until auth is implemented
+               Profile / login — disabled until auth is implemented
               <div className="account-menu" onMouseEnter={closeDesktopNav}>
                 <a
                   href="/login"
@@ -310,8 +324,8 @@ export function SiteHeader() {
                   </ul>
                 </div>
               </div>
-              */}
-            </div>
+        
+            </div> */}
           </div>
         </div>
 

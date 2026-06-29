@@ -179,7 +179,6 @@ export function SiteNavOverlay({
 }: SiteNavOverlayProps) {
   const reducedMotion = useReducedMotion();
   const activeMenu = megaMenus.find((menu) => menu.label === activeMenuLabel) ?? null;
-  const isDropdown = activeMenu?.layout === "dropdown";
 
   return (
     <AnimatePresence>
@@ -195,43 +194,42 @@ export function SiteNavOverlay({
             transition={{ duration: reducedMotion ? 0.12 : 0.28, ease: NAV_EASE }}
             onClick={onClose}
           />
-          <motion.div
-            id={`${navId}-overlay-${activeMenu.label}`}
+          <div
             role="region"
             aria-label={`${activeMenu.label} menu`}
             className="nav-overlay-panel"
             style={{ left: panelLeft }}
-            initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
-            animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-            exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
-            transition={{ duration: reducedMotion ? 0.12 : 0.32, ease: NAV_EASE }}
             onMouseEnter={onOverlayEnter}
             onMouseLeave={onOverlayLeave}
           >
             <div className="nav-overlay-inner">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeMenu.label}
-                  initial={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                  transition={{ duration: reducedMotion ? 0.1 : 0.24, ease: NAV_EASE }}
-                >
-                  {isDropdown ? (
-                    <DropdownMenuContent
-                      menu={activeMenu}
-                      activeNestedKey={activeNestedKey}
-                      onNestedChange={onNestedChange}
-                      onClose={onClose}
-                      reducedMotion={Boolean(reducedMotion)}
-                    />
-                  ) : (
-                    <MegaMenuContent menu={activeMenu} onClose={onClose} />
-                  )}
-                </motion.div>
-              </AnimatePresence>
+              {megaMenus.map((menu) => {
+                const isActive = menu.label === activeMenu.label;
+                const menuIsDropdown = menu.layout === "dropdown";
+
+                return (
+                  <div
+                    key={menu.label}
+                    className="nav-overlay-menu-layer"
+                    hidden={!isActive}
+                    id={`${navId}-overlay-${menu.label}`}
+                  >
+                    {menuIsDropdown ? (
+                      <DropdownMenuContent
+                        menu={menu}
+                        activeNestedKey={isActive ? activeNestedKey : null}
+                        onNestedChange={onNestedChange}
+                        onClose={onClose}
+                        reducedMotion={Boolean(reducedMotion)}
+                      />
+                    ) : (
+                      <MegaMenuContent menu={menu} onClose={onClose} />
+                    )}
+                  </div>
+                );
+              })}
             </div>
-          </motion.div>
+          </div>
         </div>
       ) : null}
     </AnimatePresence>

@@ -1,6 +1,5 @@
 import { InstagramShareSection } from "@/components/instagram-share-section";
 import { PregnancyAdviceListing } from "@/components/pregnancy-advice-listing";
-import { PregnancyCategoryNav } from "@/components/pregnancy-category-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { yourPregnancyArticles, yourPregnancyIntro } from "@/data/pregnancy-advice-listings";
@@ -23,7 +22,6 @@ export default function YourPregnancyCategoryPage() {
           <p className="mt-[40px] [font-family:var(--font-montserrat)] text-[22px] leading-[1.55] text-[#3d3d3d]">
             {yourPregnancyIntro}
           </p>
-          <PregnancyCategoryNav activeSlug="your-pregnancy" />
         </section>
 
         <section className="mx-auto w-full max-w-[1120px] px-4 pb-16 sm:px-6 lg:px-8">

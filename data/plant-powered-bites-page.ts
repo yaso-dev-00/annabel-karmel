@@ -1,13 +1,14 @@
 const assetBase = "/product-category/plant-powered-bites";
 
 export const plantPoweredBitesAssets = {
-  heroDesktop: `${assetBase}/hero-desktop.jpg`,
-  heroMobile: `${assetBase}/plant%20based%20header%20mobile.svg`,
+  heroDesktop: `${assetBase}/hero-desktop.svg`,
+  heroMobile: `${assetBase}/hero-mobile.svg`,
   introBg: `${assetBase}/intro-bg.png`,
   introBgMobile: `${assetBase}/intro-bg-mobile.png`,
   signature: "/product-category/chilled-meals/signature.svg",
   promiseBg: `${assetBase}/promise-bg.png`,
-  promiseArtwork: `${assetBase}/Artwork.svg`,
+  promiseArtwork: `${assetBase}/promise-artwork.svg`,
+  promiseArtworkMobile: `${assetBase}/artwork-mobile.png`,
   logoAsda: `${assetBase}/logo-asda.png`,
   retailersBg: `${assetBase}/retailers-bg.png`,
   frozenCtaBg: `${assetBase}/frozen-cta-bg.png`,

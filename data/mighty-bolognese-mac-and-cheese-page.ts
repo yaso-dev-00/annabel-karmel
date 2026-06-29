@@ -30,6 +30,10 @@ export const mightyBologneseMacAndCheesePageData: FrozenProductPageData = {
     title: "bolognese mac & cheese\nwith veggies",
     intro:
       "Creamy mac meets yummy Bolognese in this hearty, veggie-filled dish. It's the tastiest teatime mash-up!",
+    desktopWidth: 2160,
+    desktopHeight: 1268,
+    mobileWidth: 880,
+    mobileHeight: 1384,
   },
   carousel: [
     { src: `${assetBase}/carousel-1.png`, alt: "Bolognese mac and cheese lifestyle" },

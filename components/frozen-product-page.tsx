@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { InstagramShareSection } from "@/components/instagram-share-section";
+import { ProductHeroImage } from "@/components/product-hero-image";
 import {
   SectionBackgroundImage,
   SingleSectionBackgroundImage,
@@ -379,15 +380,16 @@ export function FrozenProductPageContent({ data }: { data: FrozenProductPageData
           title={data.hero.title}
           className={styles.heroOverlayHeading}
         />
-        <picture className={styles.heroOverlayPicture}>
-          <source media="(min-width: 768px)" srcSet={data.assets.heroDesktop} />
-          <img
-            src={data.assets.heroMobile}
-            alt=""
-            className={styles.heroOverlayImage}
-            fetchPriority="high"
-          />
-        </picture>
+        <ProductHeroImage
+          desktopSrc={data.assets.heroDesktop}
+          mobileSrc={data.assets.heroMobile}
+          alt=""
+          desktopWidth={data.hero.desktopWidth}
+          desktopHeight={data.hero.desktopHeight}
+          mobileWidth={data.hero.mobileWidth}
+          mobileHeight={data.hero.mobileHeight}
+          className={styles.heroOverlayPicture}
+        />
         <p className={styles.heroOverlayIntro}>{data.hero.intro}</p>
       </section>
 

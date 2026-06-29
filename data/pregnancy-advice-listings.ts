@@ -16,19 +16,6 @@ export type PregnancyListingArticle = {
   imageAlt: string;
 };
 
-export const pregnancyCategoryNav = [
-  {
-    label: "Pregnancy and Postnatal Tips and Health Advice",
-    href: "/advice-category/pregnancy-tips",
-    slug: "pregnancy-tips" as const,
-  },
-  {
-    label: "Your Pregnancy",
-    href: "/advice-category/your-pregnancy",
-    slug: "your-pregnancy" as const,
-  },
-];
-
 export const pregnancyTipsIntro =
   "There is so much pregnancy advice available online and from families and friends that sometimes it's hard to know what advice to follow. What should you be eating to help conceive? What nutrients do you need during pregnancy? How will your body change? We've got all the key topics around pregnancy covered.";
 

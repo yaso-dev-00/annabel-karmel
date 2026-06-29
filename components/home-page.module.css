@@ -53,23 +53,7 @@
   margin-inline: auto;
 }
 
-@media (min-width: 768px) {
-  .heroShowcase {
-    max-width: 95%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .heroShowcase {
-    max-width: 92%;
-  }
-}
-
-@media (min-width: 1200px) {
-  .heroShowcase {
-    max-width: 85%;
-  }
-}
+ 
 
 .recipeAppPromo {
   box-sizing: border-box;

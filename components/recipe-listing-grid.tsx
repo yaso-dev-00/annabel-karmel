@@ -12,7 +12,7 @@ const heartIconClass = "h-6 w-6 text-[#e58a9b]";
 function RecipeLockIcon() {
   return (
     <span
-      className="block h-6 w-6 bg-[url(/icons/app-exclusive-lock.png)] bg-contain bg-center bg-no-repeat"
+      className="block h-8 w-8 bg-[url(/icons/app-exclusive-lock.png)] bg-contain bg-center bg-no-repeat"
       aria-hidden
     />
   );
@@ -55,7 +55,7 @@ export function RecipeListingGrid({ items }: RecipeListingGridProps) {
   }, []);
 
   return (
-    <ul className="m-0 grid list-none grid-cols-1 gap-10 p-0 min-[901px]:grid-cols-2 min-[901px]:gap-x-7 min-[901px]:gap-y-[50px] min-[1101px]:grid-cols-3">
+    <ul className="m-0 grid list-none grid-cols-1 gap-10 p-0 min-[768px]:grid-cols-2 min-[901px]:gap-x-7 min-[901px]:gap-y-[50px] min-[1101px]:grid-cols-3">
       {items.map((recipe) => (
         <li key={recipe.slug} className="m-0">
           <div className="relative isolate overflow-hidden bg-[#f4eef0]">
@@ -78,7 +78,7 @@ export function RecipeListingGrid({ items }: RecipeListingGridProps) {
                   <RecipeLockIcon />
                 </span>
               ) : null}
-              <button
+              {/* <button
                 type="button"
                 className={`${iconButtonClass} cursor-pointer`}
                 aria-label={savedTitles.has(recipe.title) ? "Recipe saved" : "Click to save recipe"}
@@ -90,7 +90,7 @@ export function RecipeListingGrid({ items }: RecipeListingGridProps) {
                 }}
               >
                 <RecipeHeartIcon saved={savedTitles.has(recipe.title)} />
-              </button>
+              </button> */}
             </div>
           </div>
           <h2 className="mt-[30px] text-center font-[family-name:var(--font-body)]! tracking-[1.54px] text-xl font-semibold leading-[1.32] text-[#3a3a3a]">

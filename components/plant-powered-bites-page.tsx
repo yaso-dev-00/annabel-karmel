@@ -87,11 +87,20 @@ export function PlantPoweredBitesPageContent() {
           <Image
             src={plantPoweredBitesAssets.promiseArtwork}
             alt={plantPoweredBitesPromise.artworkAlt}
-            width={980}
-            height={236}
+            width={1008}
+            height={235}
             unoptimized
             className={styles.promiseArtwork}
-            sizes="(min-width: 1024px) 980px, 100vw"
+            sizes="(min-width: 768px) 980px, 0px"
+          />
+          <Image
+            src={plantPoweredBitesAssets.promiseArtworkMobile}
+            alt={plantPoweredBitesPromise.artworkAlt}
+            width={406}
+            height={226}
+            unoptimized
+            className={styles.promiseArtworkMobile}
+            sizes="(max-width: 767px) 100vw, 0px"
           />
         </div>
       </section>

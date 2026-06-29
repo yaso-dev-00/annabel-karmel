@@ -1,5 +1,7 @@
-import type { CSSProperties, ReactNode } from "react";
+import Image from "next/image";
+import type { ReactNode } from "react";
 
+import { SectionBackgroundImage } from "@/components/section-background-image";
 import shared from "./product-category-shared.module.css";
 
 export type ProductCategoryIntroSectionProps = {
@@ -28,20 +30,21 @@ export function ProductCategoryIntroSection({
   footer,
   className = "",
 }: ProductCategoryIntroSectionProps) {
-  const mobileBg = introBgMobile ?? introBg;
+  const isSignatureSvg = signatureSrc.endsWith(".svg");
 
   return (
     <section
       className={`${shared.fullBleed} ${shared.introSection} ${theme === "light" ? shared.introSectionLight : shared.introSectionDark} ${className}`}
-      style={
-        {
-          "--intro-bg-desktop": `url("${introBg}")`,
-          "--intro-bg-mobile": `url("${mobileBg}")`,
-        } as CSSProperties
-      }
       aria-labelledby={id}
     >
-      <div className={`${shared.inner} pt-10 md:pt-0`}>
+      <SectionBackgroundImage
+        desktopSrc={introBg}
+        mobileSrc={introBgMobile ?? introBg}
+        priority
+        unoptimized={true}
+      
+      />
+      <div className={`${shared.sectionContent} ${shared.inner} pt-10 md:pt-0`}>
         <h1 id={id} className={`${shared.introHeading} text-[32px] sm:text-[40px]`}>
           {heading}
         </h1>
@@ -51,9 +54,12 @@ export function ProductCategoryIntroSection({
           {body}
         </p>
         <div className="relative mt-8 md:mt-10">
-          <img
+          <Image
             src={signatureSrc}
             alt={signatureAlt}
+            width={277}
+            height={80}
+            unoptimized={isSignatureSvg}
             className="mx-auto mb-6 block h-auto w-[min(240px,65%)] md:mb-9 md:w-[min(277px,70%)]"
           />
           {footer}

@@ -76,7 +76,7 @@ function CarouselNavIcon({ direction }: { direction: "prev" | "next" }) {
 
 export function WaysToServeCarousel({
   items,
-  heading = "WAYS TO SERVE",
+  heading = "3 WAYS TO SERVE",
   headingId = "ways-to-serve-heading",
 }: WaysToServeCarouselProps) {
   const [navOffset, setNavOffset] = useState(0);
@@ -118,20 +118,24 @@ export function WaysToServeCarousel({
       </div>
 
       <div className={styles.carouselWrap}>
-        <div className={styles.carouselRow}>
-          <button
-            type="button"
-            aria-label="Previous recipes"
-            className={styles.navButton}
-            style={{ marginTop: navOffset }}
-            disabled={!canCycle || carousel.index <= 0}
-            onPointerDown={(event) => {
-              event.stopPropagation();
-              carousel.handleNavigation(-1);
-            }}
-          >
-            <CarouselNavIcon direction="prev" />
-          </button>
+        <div
+          className={`${styles.carouselRow}${canCycle ? "" : ` ${styles.carouselRowNoNav}`}`}
+        >
+          {canCycle ? (
+            <button
+              type="button"
+              aria-label="Previous recipes"
+              className={styles.navButton}
+              style={{ marginTop: navOffset }}
+              disabled={carousel.index <= 0}
+              onPointerDown={(event) => {
+                event.stopPropagation();
+                carousel.handleNavigation(-1);
+              }}
+            >
+              <CarouselNavIcon direction="prev" />
+            </button>
+          ) : null}
 
           <div
             ref={carousel.carouselRef}
@@ -175,12 +179,13 @@ export function WaysToServeCarousel({
               </motion.div>
             </div>
 
+          {canCycle ? (
             <button
               type="button"
               aria-label="Next recipes"
               className={styles.navButton}
               style={{ marginTop: navOffset }}
-              disabled={!canCycle || carousel.index >= carousel.maxIndex}
+              disabled={carousel.index >= carousel.maxIndex}
               onPointerDown={(event) => {
                 event.stopPropagation();
                 carousel.handleNavigation(1);
@@ -188,8 +193,9 @@ export function WaysToServeCarousel({
             >
               <CarouselNavIcon direction="next" />
             </button>
-          </div>
+          ) : null}
         </div>
+      </div>
     </section>
   );
 }

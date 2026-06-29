@@ -110,7 +110,7 @@ export const mildChickenTikkaPageData: ChilledProductPageData = {
   ],
   theme: {
     detailColor: "#8585D5",
-    accordionBg: "#7376c8",
+    accordionBg: "#6868CD",
     discoverButtonBg: "#1a2078",
     discoverButtonColor: "#8585D5",
   },

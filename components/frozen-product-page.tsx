@@ -5,6 +5,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { InstagramShareSection } from "@/components/instagram-share-section";
+import {
+  SectionBackgroundImage,
+  SingleSectionBackgroundImage,
+} from "@/components/section-background-image";
 import { CAROUSEL_SLIDE, useSnapCarousel } from "@/components/use-snap-carousel";
 import type {
   FrozenProductAccordionItem,
@@ -306,32 +310,31 @@ function heroThemeStyle(data: FrozenProductPageData): CSSProperties {
   } as CSSProperties;
 }
 
+const RETAILER_FALLBACK_COLOR = "#00843d";
+
 function detailThemeStyle(data: FrozenProductPageData): CSSProperties {
   return {
     "--detail-color": data.theme.detailColor,
     "--detail-text-color": data.theme.detailTextColor ?? "#fff",
-    "--detail-bg-mobile": data.assets.detailBgMobile
-      ? `url(${data.assets.detailBgMobile})`
-      : "none",
-    "--detail-bg": data.assets.detailBg ? `url(${data.assets.detailBg})` : "none",
     "--cloud-left": data.assets.cloudLeft ? `url(${data.assets.cloudLeft})` : "none",
     "--cloud-right": data.assets.cloudRight ? `url(${data.assets.cloudRight})` : "none",
     "--accordion-bg": data.theme.accordionBg,
+    "--section-fallback": data.theme.detailColor,
   } as CSSProperties;
 }
 
-function retailerThemeStyle(data: FrozenProductPageData): CSSProperties {
+function retailerThemeStyle(): CSSProperties {
   return {
-    "--retailer-bg": `url(${data.assets.retailerBg})`,
+    backgroundColor: RETAILER_FALLBACK_COLOR,
   } as CSSProperties;
 }
 
 function whyNotTryThemeStyle(data: FrozenProductPageData): CSSProperties {
   return {
     "--detail-text-color": data.theme.detailTextColor ?? "#fff",
-    "--why-not-try-bg": `url(${data.assets.whyNotTryBg})`,
     "--discover-btn-bg": data.theme.discoverButtonBg,
     "--discover-btn-color": data.theme.discoverButtonColor,
+    "--section-fallback": data.theme.detailColor,
   } as CSSProperties;
 }
 
@@ -392,7 +395,18 @@ export function FrozenProductPageContent({ data }: { data: FrozenProductPageData
         className={`${styles.fullBleed} ${styles.detailSection}`}
         style={detailThemeStyle(data)}
       >
-        <div className={`${styles.inner} ${styles.detailInner}`}>
+        {data.assets.detailBg ? (
+          <SectionBackgroundImage
+            desktopSrc={data.assets.detailBg}
+            mobileSrc={data.assets.detailBgMobile || data.assets.detailBg}
+            priority
+            desktopFit="cover"
+            mobileLayout="fullWidth"
+            desktopPosition="top center"
+            mobilePosition="top center"
+          />
+        ) : null}
+        <div className={`${styles.sectionContent} ${styles.inner} ${styles.detailInner}`}>
           <div className={styles.detailGrid}>
             <div
               className={`${styles.detailColumnCarousel}${detailClouds ? ` ${styles.carouselColumnClouds}` : ""}`}
@@ -423,10 +437,16 @@ export function FrozenProductPageContent({ data }: { data: FrozenProductPageData
 
       <section
         className={`${styles.fullBleed} ${styles.retailerSection}`}
-        style={retailerThemeStyle(data)}
+        // style={retailerThemeStyle()}
         aria-labelledby={`${data.slug}-retailer-heading`}
       >
-        <div className={styles.inner}>
+        <SingleSectionBackgroundImage
+          src={data.assets.retailerBg}
+          fit="cover"
+          position="right bottom"
+          unoptimized
+        />
+        <div className={`${styles.sectionContent} ${styles.inner}`}>
           <div className={styles.retailerRow}>
             <h2 id={`${data.slug}-retailer-heading`} className={styles.sectionHeading}>
               {data.retailer.heading}
@@ -454,7 +474,13 @@ export function FrozenProductPageContent({ data }: { data: FrozenProductPageData
         style={whyNotTryThemeStyle(data)}
         aria-labelledby={`${data.slug}-why-not-try-heading`}
       >
-        <div className={styles.inner}>
+        <SingleSectionBackgroundImage
+          src={data.assets.whyNotTryBg}
+          fit="cover"
+          position="top center"
+         
+        />
+        <div className={`${styles.sectionContent} ${styles.inner}`}>
           <h2 id={`${data.slug}-why-not-try-heading`} className={styles.sectionHeading}>
             Why not try
           </h2>

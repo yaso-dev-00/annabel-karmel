@@ -4,6 +4,7 @@ export type ChilledProductAccordionItem = {
   table?: {
     headers: string[];
     rows: string[][];
+    footnote?: string;
   };
 };
 

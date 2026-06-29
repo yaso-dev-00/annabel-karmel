@@ -188,15 +188,17 @@
   }
 }
 
+.sectionContent {
+  position: relative;
+  z-index: 1;
+}
+
 .detailSection {
   position: relative;
   margin-top: -10px;
-  background-color: var(--detail-color, transparent);
-  background-image: var(--detail-bg-mobile);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: 100% auto;
+  background-color: var(--section-fallback, var(--detail-color, transparent));
   padding: 2.75rem 0 3.5rem;
+  overflow: hidden;
 }
 
 .carouselColumnClouds {
@@ -261,9 +263,6 @@
   .detailSection {
     margin-top: -20px;
     padding: 3.5rem 0 4rem;
-    background-image: var(--detail-bg);
-    background-position: top center;
-    background-size: cover;
   }
 }
 
@@ -702,31 +701,22 @@
 }
 
 .retailerSection {
-  
-  background-image: var(--retailer-bg);
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: cover;
-  padding: 4rem 0;
+  position: relative;
+  padding: 65px 0 75px;
   margin-top: -10px;
   z-index: 1;
   min-height: 200px;
   display: flex;
   align-items: center;
-  justify-content: center;  
-
+  justify-content: center;
+  overflow: hidden;
 }
 
 @media (min-width: 1024px) {
   .retailerSection {
-    background-position:top;
     min-height: 340px;
-    padding: 4.5rem 0;
-  
+    padding:75px 0 85px;
   }
-}
-.retailerSection{
-   background-position:top;
 }
 
 .retailerRow {
@@ -804,11 +794,8 @@
 .whyNotTrySection {
   position: relative;
   padding: 4rem 0 4.5rem;
-  overflow-x: clip;
-  background-image: var(--why-not-try-bg);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
+  overflow: hidden;
+  
   margin-top: -10px;
 }
 

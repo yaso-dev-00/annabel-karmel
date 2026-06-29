@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { InstagramShareSection } from "@/components/instagram-share-section";
@@ -6,6 +7,9 @@ import {
   ProductCategoryDiscoverButton,
   ProductCategoryProductCard,
 } from "@/components/product-category-product-card";
+import {
+  SectionBackgroundImage,
+} from "@/components/section-background-image";
 import { WaysToServeCarousel } from "@/components/ways-to-serve-carousel";
 import {
   plantPoweredBitesAssets,
@@ -35,18 +39,29 @@ export function PlantPoweredBitesPageContent() {
   return (
     <main className={styles.page}>
       <section className={`${styles.fullBleed} ${styles.heroSection}`} aria-label="Plant-powered bites hero">
-        <picture className={styles.heroPicture}>
-          <source media="(min-width: 768px)" srcSet={plantPoweredBitesAssets.heroDesktop} />
-          <img
+        <div className={`${styles.heroImageWrap} ${styles.heroImageDesktop}`}>
+          <Image
+            src={plantPoweredBitesAssets.heroDesktop}
+            alt="Annabel Karmel plant-powered bites"
+            width={2197}
+            height={1054}
+            priority
+            className={styles.heroImage}
+            sizes="(min-width: 768px) 100vw, 0px"
+          />
+        </div>
+        <div className={`${styles.heroImageWrap} ${styles.heroImageMobile}`}>
+          <Image
             src={plantPoweredBitesAssets.heroMobile}
             alt="Annabel Karmel plant-powered bites"
-            className={styles.heroImage}
             width={440}
             height={571}
-            fetchPriority="high"
-            decoding="async"
+            priority
+            unoptimized
+            className={styles.heroImage}
+            sizes="(max-width: 767px) 100vw, 0px"
           />
-        </picture>
+        </div>
       </section>
 
       <ProductCategoryIntroSection
@@ -64,14 +79,19 @@ export function PlantPoweredBitesPageContent() {
         className={`${styles.fullBleed} ${styles.promiseSection} flex flex-col items-center justify-center `}
         aria-labelledby="plant-powered-bites-promise-heading"
       >
-        <div className={`${styles.inner} flex flex-col gap-y-6 md:gap-y-10`}>
+        <SectionBackgroundImage desktopSrc={plantPoweredBitesAssets.promiseBg} />
+        <div className={`${styles.sectionContent} ${styles.inner} flex flex-col gap-y-6 md:gap-y-10`}>
           <h2 id="plant-powered-bites-promise-heading" className={`${styles.sectionHeadingDark} uppercase`}>
             {plantPoweredBitesPromise.heading}
           </h2>
-          <img
+          <Image
             src={plantPoweredBitesAssets.promiseArtwork}
             alt={plantPoweredBitesPromise.artworkAlt}
+            width={980}
+            height={236}
+            unoptimized
             className={styles.promiseArtwork}
+            sizes="(min-width: 1024px) 980px, 100vw"
           />
         </div>
       </section>
@@ -99,8 +119,9 @@ export function PlantPoweredBitesPageContent() {
         className={`${styles.fullBleed} ${styles.retailersSection}`}
         aria-labelledby="plant-powered-bites-retailer-heading"
       >
+        <SectionBackgroundImage desktopSrc={plantPoweredBitesAssets.retailersBg} />
         <WaveShapeBottom />
-        <div className={`${styles.inner} max-w-[1210px]!`}>
+        <div className={`${styles.sectionContent} ${styles.inner} max-w-[1210px]!`}>
           <h2 id="plant-powered-bites-retailer-heading" className={`${styles.retailersHeading} uppercase`}>
             {plantPoweredBitesRetailer.heading}
           </h2>
@@ -111,10 +132,13 @@ export function PlantPoweredBitesPageContent() {
               rel="noreferrer"
               className="inline-flex items-center justify-center"
             >
-              <img
+              <Image
                 src={plantPoweredBitesAssets.logoAsda}
                 alt="ASDA"
+                width={1360}
+                height={404}
                 className={styles.retailerLogo}
+                sizes="(min-width: 1024px) 420px, (min-width: 768px) 320px, 220px"
               />
             </a>
           </div>
@@ -127,23 +151,34 @@ export function PlantPoweredBitesPageContent() {
         className={`${styles.fullBleed} ${styles.frozenCtaSection}`}
         aria-labelledby="plant-powered-bites-frozen-heading"
       >
+        <SectionBackgroundImage
+          desktopSrc={plantPoweredBitesAssets.frozenCtaBg}
+          mobileSrc={plantPoweredBitesAssets.frozenCtaBgMobile}
+        />
         <WaveShapeBottom />
-        <div className={`${styles.inner} max-w-[1350px]!`}>
+        <div className={`${styles.sectionContent} ${styles.inner} max-w-[1350px]!`}>
           <div className={styles.frozenCtaLayout}>
             <div className={styles.frozenCtaPhotoLeft}>
               <Link href={plantPoweredBitesFrozenCta.href}>
-                <img
+                <Image
                   src={plantPoweredBitesAssets.frozenCtaLeft}
                   alt="Annabel Karmel frozen chicken tikka meal"
+                  width={543}
+                  height={615}
+                  className={styles.frozenCtaSideImage}
+                  sizes="(min-width: 1280px) 500px, (min-width: 1024px) 440px, 300px"
                 />
               </Link>
             </div>
 
             <div className={styles.frozenCtaCenter}>
-              <img
+              <Image
                 src={plantPoweredBitesAssets.frozenCtaMobile}
                 alt="Annabel Karmel frozen meals range"
+                width={1265}
+                height={938}
                 className={styles.frozenCtaMobileImage}
+                sizes="100vw"
               />
               <h2
                 id="plant-powered-bites-frozen-heading"
@@ -158,9 +193,13 @@ export function PlantPoweredBitesPageContent() {
 
             <div className={styles.frozenCtaPhotoRight}>
               <Link href={plantPoweredBitesFrozenCta.href}>
-                <img
+                <Image
                   src={plantPoweredBitesAssets.frozenCtaRight}
                   alt="Child enjoying Annabel Karmel spaghetti bolognese"
+                  width={617}
+                  height={681}
+                  className={styles.frozenCtaSideImage}
+                  sizes="(min-width: 1280px) 500px, (min-width: 1024px) 440px, 300px"
                 />
               </Link>
             </div>

@@ -5,6 +5,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { InstagramShareSection } from "@/components/instagram-share-section";
+import {
+  SectionBackgroundImage,
+  SingleSectionBackgroundImage,
+} from "@/components/section-background-image";
 import { CAROUSEL_SLIDE, useSnapCarousel } from "@/components/use-snap-carousel";
 import type {
   ChilledProductAccordionItem,
@@ -297,13 +301,12 @@ function WaveShapeBottom() {
   );
 }
 
+const RETAILER_FALLBACK_COLOR = "#00843d";
+
 function productThemeStyle(data: ChilledProductPageData): CSSProperties {
   return {
-    "--detail-bg-mobile": `url(${data.assets.detailBgMobile})`,
-    "--detail-bg": `url(${data.assets.detailBg})`,
+    "--section-fallback": data.theme.detailColor,
     "--accordion-bg": data.theme.accordionBg,
-    "--retailer-bg": `url(${data.assets.retailerBg})`,
-    "--why-not-try-bg": `url(${data.assets.whyNotTryBg})`,
     "--discover-btn-bg": data.theme.discoverButtonBg,
     "--discover-btn-color": data.theme.discoverButtonColor,
   } as CSSProperties;
@@ -347,7 +350,16 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
         style={productThemeStyle(data)}
         aria-labelledby={data.headingId}
       >
-        <div className={`${styles.inner} ${styles.detailInner}`}>
+        <SectionBackgroundImage
+          desktopSrc={data.assets.detailBg}
+          mobileSrc={data.assets.detailBgMobile}
+          priority
+          desktopFit="cover"
+          mobileLayout="fullWidth"
+          desktopPosition="top center"
+          mobilePosition="top center"
+        />
+        <div className={`${styles.sectionContent} ${styles.inner} ${styles.detailInner}`}>
           <header className={styles.detailHeader}>
             <ProductHeading id={data.headingId} title={data.hero.title} />
             <p className={styles.detailIntro}>{data.hero.intro}</p>
@@ -381,10 +393,15 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
 
       <section
         className={`${styles.fullBleed} ${styles.retailerSection}`}
-        style={productThemeStyle(data)}
+        // style={{ backgroundColor: RETAILER_FALLBACK_COLOR }}
         aria-labelledby={`${data.slug}-retailer-heading`}
       >
-        <div className={styles.inner}>
+        <SingleSectionBackgroundImage
+          src={data.assets.retailerBg}
+          fit="cover"
+          position="right bottom"
+        />
+        <div className={`${styles.sectionContent} ${styles.inner}`}>
           <div className={styles.retailerRow}>
             <h2 id={`${data.slug}-retailer-heading`} className={styles.sectionHeading}>
               {data.retailer.heading}
@@ -406,7 +423,13 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
         style={productThemeStyle(data)}
         aria-labelledby={`${data.slug}-why-not-try-heading`}
       >
-        <div className={styles.inner}>
+        <SingleSectionBackgroundImage
+          src={data.assets.whyNotTryBg}
+          fit="cover"
+          position="top center"
+        
+        />
+        <div className={`${styles.sectionContent} ${styles.inner}`}>
           <h2 id={`${data.slug}-why-not-try-heading`} className={styles.sectionHeading}>
             Why not try
           </h2>

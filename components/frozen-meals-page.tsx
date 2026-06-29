@@ -1,6 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { InstagramShareSection } from "@/components/instagram-share-section";
+import {
+  SectionBackgroundImage,
+  SingleSectionBackgroundImage,
+} from "@/components/section-background-image";
 import {
   frozenMealsAssets,
   frozenMealsChilledCta,
@@ -10,6 +15,12 @@ import {
   frozenMealsRetailers,
 } from "@/data/frozen-meals-page";
 import styles from "./frozen-meals-page.module.css";
+
+const RETAILER_LOGO_SIZES: Record<string, { width: number; height: number }> = {
+  "logo-tesco.png": { width: 299, height: 83 },
+  "logo-asda.png": { width: 218, height: 66 },
+  "logo-ocado.png": { width: 373, height: 107 },
+};
 
 function WaveShapeBottom() {
   return (
@@ -63,23 +74,34 @@ function ProductCard({
   return (
     <div className={styles.productCard}>
       <Link href={href} className="block">
-        <img src={image} alt={title.replace(/\n/g, " ")} className="block h-auto w-full" />
+        <Image
+          src={image}
+          alt={title.replace(/\n/g, " ")}
+          width={825}
+          height={1007}
+          className="block h-auto w-full"
+          sizes="(min-width: 1024px) 550px, (min-width: 640px) 620px, 100vw"
+        />
       </Link>
       <div className={styles.productCardOverlay}>
         <h3 className={styles.productCardTitle}>{title}</h3>
         <p className={styles.productCardDescription}>{description}</p>
       </div>
       <div className={styles.productCardButton}>
-        <DiscoverButton href={href} color="#00A19D"  hoverColor="#E93A88"/>
+        <DiscoverButton href={href} color="#00A19D" hoverColor="#E93A88" />
       </div>
     </div>
   );
 }
 
+function retailerLogoSize(src: string) {
+  const filename = src.split("/").pop() ?? "";
+  return RETAILER_LOGO_SIZES[filename] ?? { width: 220, height: 80 };
+}
+
 export function FrozenMealsPageContent() {
   return (
     <main className={styles.page}>
-      {/* Hero — looping MP4 on all breakpoints; invisible images set height (live site pattern) */}
       <section className={`${styles.fullBleed} ${styles.heroSection}`} aria-label="Frozen meals hero">
         <video
           autoPlay
@@ -92,30 +114,46 @@ export function FrozenMealsPageContent() {
         >
           <source src={frozenMealsAssets.heroVideo} type="video/mp4" />
         </video>
-        <img
-          src={frozenMealsAssets.heroDesktop}
-          alt=""
-          aria-hidden="true"
-          className={styles.heroDesktopSizer}
-        />
-        <img
+        <div className={styles.heroDesktopSizer}>
+          <Image
+            src={frozenMealsAssets.heroDesktop}
+            alt=""
+            aria-hidden
+            width={2000}
+            height={1060}
+            priority
+            className={styles.heroSizerImage}
+            sizes="100vw"
+          />
+        </div>
+        <Image
           src={frozenMealsAssets.heroDesktop}
           alt="Annabel Karmel frozen meals"
+          width={2000}
+          height={1060}
           className={styles.heroReducedMotionFallbackDesktop}
+          sizes="100vw"
         />
-        <img
+        <Image
           src={frozenMealsAssets.heroMobile}
           alt="Annabel Karmel frozen meals"
+          width={440}
+          height={680}
           className={styles.heroReducedMotionFallbackMobile}
+          sizes="100vw"
         />
       </section>
 
-      {/* Introduction */}
       <section
-        className={`${styles.fullBleed} ${styles.introSection} `}
+        className={`${styles.fullBleed} ${styles.introSection}`}
         aria-labelledby="frozen-meals-intro-heading"
       >
-        <div className={`${styles.inner} pt-[60px] md:pt-0`}>
+        <SectionBackgroundImage
+          desktopSrc={frozenMealsAssets.introBg}
+          mobileSrc={frozenMealsAssets.introBgMobile}
+          priority
+        />
+        <div className={`${styles.sectionContent} ${styles.inner} pt-[60px] md:pt-0`}>
           <h1 id="frozen-meals-intro-heading" className={styles.sectionHeadingDark}>
             {frozenMealsIntro.heading}
           </h1>
@@ -125,43 +163,52 @@ export function FrozenMealsPageContent() {
             {frozenMealsIntro.body}
           </p>
           <div className="relative mt-10">
-            <img
+            <Image
               src={frozenMealsAssets.signature}
               alt="Annabel Karmel"
+              width={277}
+              height={80}
+              unoptimized
               className="mx-auto mb-9 block h-auto w-[min(277px,70%)]"
             />
-            <img
+            <Image
               src={frozenMealsAssets.awardLogos}
               alt="Award-winning frozen meals range"
+              width={898}
+              height={443}
               className="mx-auto block h-auto w-[min(410px,100%)]"
+              sizes="(min-width: 768px) 410px, 90vw"
             />
           </div>
         </div>
       </section>
 
-      {/* Expert Promise */}
       <section
         className={`${styles.fullBleed} ${styles.promiseSection} flex flex-col justify-center items-center`}
         aria-labelledby="frozen-meals-promise-heading"
       >
-        <div className={`${styles.inner} `}>
+        <SectionBackgroundImage desktopSrc={frozenMealsAssets.promiseBg} />
+        <div className={`${styles.sectionContent} ${styles.inner}`}>
           <h2 id="frozen-meals-promise-heading" className={styles.sectionHeadingDark}>
             {frozenMealsPromise.heading}
           </h2>
           <ul className="mt-6 grid list-none grid-cols-2 justify-items-center gap-x-5 gap-y-4 p-0 md:grid-cols-3 md:gap-x-6 md:gap-y-5 lg:grid-cols-6 lg:gap-6">
-            {frozenMealsPromise.icons.map((icon, index) => (
-              <li
-                key={icon.src}
-               
-              >
-                <img src={icon.src} alt={icon.alt} className="h-auto w-full max-w-[180px] md:max-w-[216px]" />
+            {frozenMealsPromise.icons.map((icon) => (
+              <li key={icon.src}>
+                <Image
+                  src={icon.src}
+                  alt={icon.alt}
+                  width={700}
+                  height={701}
+                  className="h-auto w-full max-w-[180px] md:max-w-[216px]"
+                  sizes="(min-width: 768px) 216px, 180px"
+                />
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* Products */}
       <section
         className={`${styles.fullBleed} relative bg-white py-[35px] text-white md:pt-20 md:pb-[100px]`}
         aria-label="Frozen meal products"
@@ -187,38 +234,54 @@ export function FrozenMealsPageContent() {
         </div>
       </section>
 
-      {/* Discover in the freezer aisle */}
       <section
         className={`${styles.fullBleed} ${styles.retailersSection}`}
         aria-labelledby="frozen-meals-retailers-heading"
       >
-        <div className={styles.inner}>
+        <SectionBackgroundImage desktopSrc={frozenMealsAssets.retailersBg} />
+        <div className={`${styles.sectionContent} ${styles.inner}`}>
           <h2 id="frozen-meals-retailers-heading" className={styles.retailersHeading}>
             {frozenMealsRetailers.heading}
           </h2>
           <div className="mt-6 flex flex-row items-center justify-center pl-0 md:pl-[80px] gap-x-6 gap-y-8 md:mt-8 md:grid-cols-4 md:gap-10">
-            {frozenMealsRetailers.logos.map((logo,index) => (
-              <a
-                key={logo.alt}
-                href={logo.href}
-                target="_blank"
-                rel="noreferrer"
-                className={`inline-flex items-center justify-center ${index === 0 ? "justify-end" : ""} ${index === frozenMealsRetailers.logos.length - 1 ? "justify-start" : ""}`}
-              >
-                <img src={logo.src} alt={logo.alt} className={styles.retailerLogo} />
-              </a>
-            ))}
+            {frozenMealsRetailers.logos.map((logo, index) => {
+              const { width, height } = retailerLogoSize(logo.src);
+
+              return (
+                <a
+                  key={logo.alt}
+                  href={logo.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`inline-flex items-center justify-center ${index === 0 ? "justify-end" : ""} ${index === frozenMealsRetailers.logos.length - 1 ? "justify-start" : ""}`}
+                >
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={width}
+                    height={height}
+                    className={styles.retailerLogo}
+                    sizes="(min-width: 1024px) 220px, (min-width: 768px) 180px, 100px"
+                  />
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Chilled aisle CTA */}
       <section
-        className={`${styles.fullBleed} ${styles.chilledSection} relative -mt-10 bg-[url('/product-category/frozen-meals/chilled-aisle-bg.png')] bg-position-[40%] bg-cover md:bg-position-top lg:bg-top bg-no-repeat py-[80px] pb-[100px]! lg:py-[90px]`}
+        className={`${styles.fullBleed} ${styles.chilledSection} relative -mt-10 py-[80px] pb-[100px]! lg:py-[90px]`}
         aria-labelledby="frozen-meals-chilled-heading"
       >
+        <SingleSectionBackgroundImage
+          src={frozenMealsAssets.chilledAisleBg}
+          fit="cover"
+          position="top center"
+          unoptimized
+        />
         <WaveShapeBottom />
-        <div className={styles.inner}>
+        <div className={`${styles.sectionContent} ${styles.inner}`}>
           <div className="flex flex-col-reverse items-center justify-center gap-6 md:gap-8 lg:flex-row lg:gap-15">
             <div className="flex w-full flex-1 flex-col items-center justify-center text-center lg:relative lg:bottom-[34px] lg:items-center lg:self-end lg:text-left">
               <h2
@@ -228,7 +291,7 @@ export function FrozenMealsPageContent() {
                 {frozenMealsChilledCta.heading}
               </h2>
               <div className="mt-4 flex w-full justify-center md:mt-6">
-                <DiscoverButton href={frozenMealsChilledCta.href} color="#E93A88"  hoverColor="#00A19D"/>
+                <DiscoverButton href={frozenMealsChilledCta.href} color="#E93A88" hoverColor="#00A19D" />
               </div>
             </div>
             <div className="flex w-full flex-1 justify-center lg:self-end">
@@ -236,10 +299,13 @@ export function FrozenMealsPageContent() {
                 href={frozenMealsChilledCta.href}
                 className="relative mx-auto flex w-full max-w-[85vw] shrink-0 items-center justify-center  md:w-[550px] lg:w-[min(100%,560px)]"
               >
-                <img
+                <Image
                   src={frozenMealsAssets.chilledAislePhoto}
                   alt="Children enjoying Annabel Karmel chilled meals"
+                  width={1024}
+                  height={711}
                   className="block h-auto w-full"
+                  sizes="(min-width: 1024px) 560px, (min-width: 768px) 550px, 85vw"
                 />
               </Link>
             </div>

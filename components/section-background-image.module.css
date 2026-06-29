@@ -1,0 +1,42 @@
+.wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.image {
+  user-select: none;
+}
+
+.desktopOnly {
+  display: none;
+}
+
+.mobileOnly {
+  display: block;
+}
+
+.mobileFullWidth {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.mobileFullWidthImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .desktopOnly {
+    display: block;
+  }
+
+  .mobileOnly {
+    display: none;
+  }
+}

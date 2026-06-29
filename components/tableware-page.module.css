@@ -276,7 +276,7 @@
 .distributor {
   margin: 0 0 30px;
   font-family: var(--font-montserrat), Montserrat, sans-serif;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 30px;
   color: #494747;
@@ -285,6 +285,14 @@
 
 .storyParagraphLeft {
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .storyParagraph,
+  .storyParagraphLeft,
+  .distributor {
+    font-size: 22px;
+  }
 }
 
 .distributor {

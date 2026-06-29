@@ -9,6 +9,7 @@ export const plantPoweredBitesAssets = {
   promiseBg: `${assetBase}/promise-bg.png`,
   promiseArtwork: `${assetBase}/Artwork.svg`,
   logoAsda: `${assetBase}/logo-asda.png`,
+  retailersBg: `${assetBase}/retailers-bg.png`,
   frozenCtaBg: `${assetBase}/frozen-cta-bg.png`,
   frozenCtaBgMobile: `${assetBase}/frozen-cta-bg-mobile.png`,
   frozenCtaLeft: `${assetBase}/frozen-cta-left.png`,

@@ -28,6 +28,12 @@
 .heroDesktopSizer {
   display: block;
   width: 100%;
+  line-height: 0;
+}
+
+.heroSizerImage {
+  display: block;
+  width: 100%;
   height: auto;
   opacity: 0;
   pointer-events: none;
@@ -49,6 +55,7 @@
   display: none;
   width: 100%;
   height: auto;
+  max-width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -95,6 +102,11 @@
   width: 100%;
   max-width: 1200px;
   padding-inline: 1rem;
+}
+
+.sectionContent {
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 640px) {
@@ -156,10 +168,7 @@
 
 .introSection {
   position: relative;
-  background-image: url("/product-category/frozen-meals/intro-bg.png");
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
+  /* background-color: #f5f0e8; */
   margin-top: -20px;
   padding: 115px 0 100px;
   min-height: calc(100vw * 985 / 2160);
@@ -174,8 +183,6 @@
 
 @media (max-width: 767px) {
   .introSection {
-    background-image: url("/product-category/frozen-meals/intro-bg-mobile.png");
-    background-size: cover;
     min-height: 0;
     margin-top: -20px;
     padding: 40px 10px 70px;
@@ -184,10 +191,7 @@
 
 .promiseSection {
   position: relative;
-  background-image: url("/product-category/frozen-meals/promise-bg.png");
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
+ 
   margin-top: -40px;
   padding: 100px 0 60px;
   min-height: calc(100vw * 728 / 2160);
@@ -202,6 +206,7 @@
 }
 
 .chilledSection {
+  position: relative;
   overflow-x: clip;
 }
 
@@ -334,15 +339,13 @@
 }
 
 .retailersSection {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("/product-category/frozen-meals/retailers-bg.png");
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
+  
   min-height: max(calc(100vw * 564 / 2160), 12rem);
-  padding: 40px 0 75px;
+  padding: 40px 0 80px;
 }
 
 .retailersHeading {

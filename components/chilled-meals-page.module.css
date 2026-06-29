@@ -42,6 +42,14 @@
 
 }
 
+.sectionContent {
+
+  position: relative;
+
+  z-index: 1;
+
+}
+
 
 
 @media (min-width: 640px) {
@@ -110,16 +118,9 @@
 
   color: #8486d2;
 
-  background-image: url("/product-category/chilled-meals/intro-bg.png");
-
-  background-repeat: no-repeat;
-
-  background-position: top center;
-
-  background-size:cover;
+  /* background-color: #8486d2; */
 
   margin-top: -20px;
-  
 
   padding: 115px 0 100px;
 
@@ -145,10 +146,6 @@
 
   .introSection {
 
-    background-image: url("/product-category/chilled-meals/intro-bg-mobile.png");
-
-    background-size: cover;
-
     min-height: 0;
 
     margin-top: -20px;
@@ -169,13 +166,7 @@
 
   color: #eb3d8a;
 
-  background-image: url("/product-category/chilled-meals/promise-bg.png");
-
-  background-repeat: no-repeat;
-
-  background-position: top center;
-
-  background-size: cover;
+ 
 
   margin-top: -30px;
 
@@ -206,6 +197,8 @@
 /* Frozen aisle — clip decorative overflow from wave + rotated photos */
 
 .frozenSection {
+
+  position: relative;
 
   overflow-x: clip;
 
@@ -467,13 +460,9 @@
 
 .tescoSection {
 
-  background-image: url("/product-category/chilled-meals/tesco-bg.png");
+  position: relative;
 
-  background-repeat: no-repeat;
-
-  background-position: top center;
-
-  background-size: cover;
+  
 
   padding: 40px 0 80px;
 

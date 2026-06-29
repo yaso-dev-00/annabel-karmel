@@ -41,19 +41,14 @@
   margin-top: -30px;
   padding: 115px 0 100px;
   min-height: calc(100vw * 850 / 2160);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-  background-image: var(--intro-bg-desktop);
+  
 }
 
 @media (max-width: 767px) {
   .introSection {
-    background-image: var(--intro-bg-mobile, var(--intro-bg-desktop));
     min-height: 0;
     margin-top: -20px;
     padding: 40px 10px 70px;
-    background-position: top right;
   }
 }
 
@@ -72,6 +67,11 @@
   font-weight: 400;
   line-height: 1.03;
   text-align: center;
+}
+
+.sectionContent {
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 768px) {

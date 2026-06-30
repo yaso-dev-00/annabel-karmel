@@ -1,5 +1,5 @@
 import { SiteAdPlacement } from "@/components/site-ad-placement";
-import { footerLogoUrl } from "@/data/site-content";
+import { footerLogoUrl, recipeAppPath } from "@/data/site-content";
 
 export function SiteFooter() {
   return (
@@ -23,7 +23,7 @@ export function SiteFooter() {
             </ul>
             <ul className="">
               <li>
-                <a href="/recipe-app">
+                <a href={recipeAppPath}>
                   Annabel&apos;s Baby &amp; Toddler App
                 </a>
               </li>
@@ -45,10 +45,10 @@ export function SiteFooter() {
               Discover nutritious recipes and expert meal planning tools for the whole family.
             </p>
             <div className="footer-store-links">
-              <a href="/recipe-app/download/ios" aria-label="Download on the App Store" className="footer-store-badge">
+              <a href={`${recipeAppPath}/download/ios`} aria-label="Download on the App Store" className="footer-store-badge">
                 <img src="/Download-Apple-Store.svg" alt="Download on the App Store" />
               </a>
-              <a href="/recipe-app/download/android" aria-label="Get it on Google Play" className="footer-store-badge">
+              <a href={`${recipeAppPath}/download/android`} aria-label="Get it on Google Play" className="footer-store-badge">
                 <img src="/Download-Google-Play.svg" alt="Get it on Google Play" />
               </a>
             </div>

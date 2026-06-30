@@ -4,6 +4,9 @@ export type NavLink = {
   children?: NavLink[];
 };
 
+/** Canonical route — matches annabelkarmel.com/the-ultimate-baby-toddler-recipe-app */
+export const recipeAppPath = "/the-ultimate-baby-toddler-recipe-app";
+
 export type NavGroup = {
   title: string;
   links: NavLink[];
@@ -216,13 +219,13 @@ export const megaMenus: MegaMenu[] = [
   },
   {
     label: "Recipe App",
-    href: "/recipe-app",
+    href: recipeAppPath,
     layout: "dropdown",
     groups: [
       {
         title: "",
         links: [
-          { label: "Discover the App", href: "/recipe-app" },
+          { label: "Discover the App", href: recipeAppPath },
           { label: "App for Business", href: "/empower-your-employees" },
         ],
       },
@@ -401,9 +404,9 @@ export const appSectionContent: AppSectionContent = {
     },
   ],
   ctaLabel: "Start your 7-day FREE trial",
-  ctaHref: "/recipe-app",
-  appStoreHref: "/recipe-app/download/ios",
-  playStoreHref: "/recipe-app/download/android",
+  ctaHref: recipeAppPath,
+  appStoreHref: `${recipeAppPath}/download/ios`,
+  playStoreHref: `${recipeAppPath}/download/android`,
   awards: [
     { src: "/home page/recipe-app/lbp-app-2026.png", alt: "LovedByParents Winner 2026" },
     { src: "/home page/recipe-app/mfm-app-2025.png", alt: "Made for Mums Gold 2025" },
@@ -611,7 +614,7 @@ export const footerLinkColumns: NavGroup[] = [
       { label: "Contact Us", href: "https://www.annabelkarmel.com/contact/" },
       {
         label: "Annabel's Baby & Toddler App",
-        href: "https://www.annabelkarmel.com/the-ultimate-baby-toddler-recipe-app/",
+        href: recipeAppPath,
       },
     ],
   },

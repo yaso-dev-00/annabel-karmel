@@ -8,6 +8,10 @@ export type TablewareProductSwatch = {
   active: boolean;
 };
 
+export function tablewareProductHref(slug: string): string {
+  return `/tableware/${slug}/`;
+}
+
 export type TablewareProduct = {
   slug: string;
   title: string;
@@ -87,7 +91,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "suction-bowl-spoon-set",
     title: "Suction bowl & spoon set",
-    href: "https://www.annabelkarmel.com/tableware/suction-bowl-spoon-set/",
+    href: "/tableware/suction-bowl-spoon-set/",
     defaultImage: "/tableware/products/ANNA5970_AnnabelKarmel-2-optimized.jpg",
     hoverImage: "/tableware/products/Suction-Bowl-Spoon-Set-Blushberry-4-optimized.jpg",
     swatches: [
@@ -95,21 +99,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-1-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-035-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/suction-bowl-spoon-set-soft-sage/",
+        href: "/tableware/suction-bowl-spoon-set-soft-sage/",
         active: false,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-3-1-optimized.jpg",
         hover: "/tableware/products/Suction-Bowl-Spoon-Set-Warm-Stone-4-1-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/suction-bowl-spoon-set-warm-stone/",
+        href: "/tableware/suction-bowl-spoon-set-warm-stone/",
         active: false,
       },
       {
         color: "blushberry",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-2-optimized.jpg",
         hover: "/tableware/products/Suction-Bowl-Spoon-Set-Blushberry-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/suction-bowl-spoon-set/",
+        href: "/tableware/suction-bowl-spoon-set/",
         active: true,
       },
     ],
@@ -117,7 +121,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "plate-soft-sage",
     title: "Plate",
-    href: "https://www.annabelkarmel.com/tableware/plate-soft-sage/",
+    href: "/tableware/plate-soft-sage/",
     defaultImage: "/tableware/products/Plate-sage-green-2-optimized.png",
     hoverImage: "/tableware/products/27_28thNov25-067-optimized.jpg",
     swatches: [
@@ -125,21 +129,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/Plate-sage-green-2-optimized.png",
         hover: "/tableware/products/27_28thNov25-067-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/plate-soft-sage/",
+        href: "/tableware/plate-soft-sage/",
         active: true,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/Plate-sage-green-4-optimized.png",
         hover: "/tableware/products/27_28thNov25-062-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/plate-warm-stone/",
+        href: "/tableware/plate-warm-stone/",
         active: false,
       },
       {
         color: "blushberry",
         image: "/tableware/products/Plate-sage-green-3-optimized.png",
         hover: "/tableware/products/27_28thNov25-051-min-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/plate/",
+        href: "/tableware/plate/",
         active: false,
       },
     ],
@@ -147,7 +151,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "compartment-plate-warm-stone",
     title: "Compartment plate",
-    href: "https://www.annabelkarmel.com/tableware/compartment-plate-warm-stone/",
+    href: "/tableware/compartment-plate-warm-stone/",
     defaultImage: "/tableware/products/ANNA5970_AnnabelKarmel-9-optimized.jpg",
     hoverImage: "/tableware/products/27_28thNov25-113-optimized.jpg",
     swatches: [
@@ -155,21 +159,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-7-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-098-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/compartment-plate-soft-sage/",
+        href: "/tableware/compartment-plate-soft-sage/",
         active: false,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-9-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-113-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/compartment-plate-warm-stone/",
+        href: "/tableware/compartment-plate-warm-stone/",
         active: true,
       },
       {
         color: "blushberry",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-8-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-092-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/compartment-plate/",
+        href: "/tableware/compartment-plate/",
         active: false,
       },
     ],
@@ -177,7 +181,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "multi-way-cup-warm-stone",
     title: "Multi-way cup",
-    href: "https://www.annabelkarmel.com/tableware/multi-way-cup-warm-stone/",
+    href: "/tableware/multi-way-cup-warm-stone/",
     defaultImage: "/tableware/products/Multi-Way-Cup-Warm-Stone-1-optimized.jpg",
     hoverImage: "/tableware/products/Multi-Way-Cup-Warm-Stone-4-1-optimized.jpg",
     swatches: [
@@ -185,21 +189,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/Multi-Way-Cup-Soft-Sage-1-optimized.jpg",
         hover: "/tableware/products/Multi-Way-Cup-Soft-Sage-4-1-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/multi-way-cup-soft-sage/",
+        href: "/tableware/multi-way-cup-soft-sage/",
         active: false,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/Multi-Way-Cup-Warm-Stone-1-optimized.jpg",
         hover: "/tableware/products/Multi-Way-Cup-Warm-Stone-4-1-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/multi-way-cup-warm-stone/",
+        href: "/tableware/multi-way-cup-warm-stone/",
         active: true,
       },
       {
         color: "blushberry",
         image: "/tableware/products/Multi-Way-Cup-Blushberry-1-optimized.jpg",
         hover: "/tableware/products/Multi-way-Cup-Blushberry-4-1-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/multi-way-cup/",
+        href: "/tableware/multi-way-cup/",
         active: false,
       },
     ],
@@ -207,7 +211,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "catch-all-bib-set-soft-sage-warm-stone",
     title: "Catch-all bib set",
-    href: "https://www.annabelkarmel.com/tableware/catch-all-bib-set-soft-sage-warm-stone/",
+    href: "/tableware/catch-all-bib-set-soft-sage-warm-stone/",
     defaultImage: "/tableware/products/Catch-all-Bib-Set-Soft-Sage-Warm-Stone-1-1-optimized.jpg",
     hoverImage: "/tableware/products/Catch-all-Bib-Set-Soft-Sage-Warm-Stone-4-1-optimized.jpg",
     swatches: [
@@ -215,14 +219,14 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/Catch-all-Bib-Set-Soft-Sage-Warm-Stone-1-1-optimized.jpg",
         hover: "/tableware/products/Catch-all-Bib-Set-Soft-Sage-Warm-Stone-4-1-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/catch-all-bib-set-soft-sage-warm-stone/",
+        href: "/tableware/catch-all-bib-set-soft-sage-warm-stone/",
         active: true,
       },
       {
         color: "blushberry",
         image: "/tableware/products/Catch-all-Bib-Set-Blushberry-Warm-Stone-1-1-optimized.jpg",
         hover: "/tableware/products/Catch-all-Bib-Set-Blushberry-Warm-Stone-21-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/catch-all-bib-set/",
+        href: "/tableware/catch-all-bib-set/",
         active: false,
       },
     ],
@@ -230,7 +234,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "placemat",
     title: "Placemat",
-    href: "https://www.annabelkarmel.com/tableware/placemat/",
+    href: "/tableware/placemat/",
     defaultImage: "/tableware/products/Placemat-Blushberry-1-optimized.jpg",
     hoverImage: "/tableware/products/27_28thNov25-113-optimized.jpg",
     swatches: [
@@ -238,21 +242,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/Placemat-Soft-Sage-1-optimized.jpg",
         hover: "/tableware/products/Placemat-Soft-Sage-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/soft-sage/",
+        href: "/tableware/soft-sage/",
         active: false,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/Placemat-Warm-Stone-1-optimized.jpg",
         hover: "/tableware/products/Placemat-Warm-Stone-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/placemat-warm-stone/",
+        href: "/tableware/placemat-warm-stone/",
         active: false,
       },
       {
         color: "blushberry",
         image: "/tableware/products/Placemat-Blushberry-1-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-113-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/placemat/",
+        href: "/tableware/placemat/",
         active: true,
       },
     ],
@@ -260,7 +264,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "cutlery-set",
     title: "Cutlery set",
-    href: "https://www.annabelkarmel.com/tableware/cutlery-set/",
+    href: "/tableware/cutlery-set/",
     defaultImage: "/tableware/products/Cutlery-Set-Blushberry-1-optimized.jpg",
     hoverImage: "/tableware/products/Cutlery-Set-Blushberry-4-optimized.jpg",
     swatches: [
@@ -268,21 +272,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/Cutlery-Set-Soft-Sage-1-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-067-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/cutlery-set-soft-sage/",
+        href: "/tableware/cutlery-set-soft-sage/",
         active: false,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/Cutlery-Set-Warm-Stone-1-optimized.jpg",
         hover: "/tableware/products/Cutlery-Set-Warm-Stone-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/cutlery-set-warm-stone/",
+        href: "/tableware/cutlery-set-warm-stone/",
         active: false,
       },
       {
         color: "blushberry",
         image: "/tableware/products/Cutlery-Set-Blushberry-1-optimized.jpg",
         hover: "/tableware/products/Cutlery-Set-Blushberry-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/cutlery-set/",
+        href: "/tableware/cutlery-set/",
         active: true,
       },
     ],
@@ -290,7 +294,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "easy-grip-baby-spoons",
     title: "Easy grip baby spoons",
-    href: "https://www.annabelkarmel.com/tableware/easy-grip-baby-spoons/",
+    href: "/tableware/easy-grip-baby-spoons/",
     defaultImage: "/tableware/products/Easy-Grip-Baby-Spoons-Blushberry-Warm-Stone-1-optimized.jpg",
     hoverImage: "/tableware/products/Easy-Grip-Baby-Spoons-Blushberry-Warm-Stone-4-optimized.jpg",
     swatches: [
@@ -298,14 +302,14 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/Easy-Grip-Baby-Spoons-Soft-Sage-Warm-Stone-1-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-035-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/easy-grip-baby-spoons-soft-sage/",
+        href: "/tableware/easy-grip-baby-spoons-soft-sage/",
         active: false,
       },
       {
         color: "blushberry",
         image: "/tableware/products/Easy-Grip-Baby-Spoons-Blushberry-Warm-Stone-1-optimized.jpg",
         hover: "/tableware/products/Easy-Grip-Baby-Spoons-Blushberry-Warm-Stone-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/easy-grip-baby-spoons/",
+        href: "/tableware/easy-grip-baby-spoons/",
         active: true,
       },
     ],
@@ -313,7 +317,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "food-freezer-tray-soft-sage",
     title: "Food freezer tray",
-    href: "https://www.annabelkarmel.com/tableware/food-freezer-tray-soft-sage/",
+    href: "/tableware/food-freezer-tray-soft-sage/",
     defaultImage: "/tableware/products/ANNA5970_AnnabelKarmel-10-optimized.jpg",
     hoverImage: "/tableware/products/Freezer-Tray-Soft-Sage-2-optimized.jpg",
     swatches: [
@@ -321,21 +325,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-10-optimized.jpg",
         hover: "/tableware/products/Freezer-Tray-Soft-Sage-2-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/food-freezer-tray-soft-sage/",
+        href: "/tableware/food-freezer-tray-soft-sage/",
         active: true,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-12-optimized.jpg",
         hover: "/tableware/products/Freezer-Tray-Warm-Stone-2-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/food-freezer-tray-warm-stone/",
+        href: "/tableware/food-freezer-tray-warm-stone/",
         active: false,
       },
       {
         color: "blushberry",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-11-optimized.jpg",
         hover: "/tableware/products/Freezer-Tray-Blushberry-2-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/food-freezer-tray/",
+        href: "/tableware/food-freezer-tray/",
         active: false,
       },
     ],
@@ -343,7 +347,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "popsicle-mould",
     title: "Popsicle mould",
-    href: "https://www.annabelkarmel.com/tableware/popsicle-mould/",
+    href: "/tableware/popsicle-mould/",
     defaultImage: "/tableware/products/ANNA5970_AnnabelKarmel-14-optimized.jpg",
     hoverImage: "/tableware/products/Popsicle-Mould-Blushberry-4-optimized.jpg",
     swatches: [
@@ -351,21 +355,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-13-optimized.jpg",
         hover: "/tableware/products/Popsicle-Mould-Soft-Sage-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/popsicle-mould-soft-sage/",
+        href: "/tableware/popsicle-mould-soft-sage/",
         active: false,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-15-optimized.jpg",
         hover: "/tableware/products/Popsicle-Mould-Warm-Stone-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/popsicle-mould-warm-stone/",
+        href: "/tableware/popsicle-mould-warm-stone/",
         active: false,
       },
       {
         color: "blushberry",
         image: "/tableware/products/ANNA5970_AnnabelKarmel-14-optimized.jpg",
         hover: "/tableware/products/Popsicle-Mould-Blushberry-4-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/popsicle-mould/",
+        href: "/tableware/popsicle-mould/",
         active: true,
       },
     ],
@@ -373,7 +377,7 @@ export const tablewareProducts: TablewareProduct[] = [
   {
     slug: "mealtime-gift-set-soft-sage",
     title: "Mealtime gift set",
-    href: "https://www.annabelkarmel.com/tableware/mealtime-gift-set-soft-sage/",
+    href: "/tableware/mealtime-gift-set-soft-sage/",
     defaultImage: "/tableware/products/Mealtime-Gift-set-Soft-Sage-1-optimized.jpg",
     hoverImage: "/tableware/products/27_28thNov25-175-optimized.jpg",
     swatches: [
@@ -381,21 +385,21 @@ export const tablewareProducts: TablewareProduct[] = [
         color: "soft-sage",
         image: "/tableware/products/Mealtime-Gift-set-Soft-Sage-1-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-175-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/mealtime-gift-set-soft-sage/",
+        href: "/tableware/mealtime-gift-set-soft-sage/",
         active: true,
       },
       {
         color: "warm-stone",
         image: "/tableware/products/Mealtime-Gift-Set-Warm-Stone-1-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-170-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/mealtime-gift-set-warm-stone/",
+        href: "/tableware/mealtime-gift-set-warm-stone/",
         active: false,
       },
       {
         color: "blushberry",
         image: "/tableware/products/Mealtime-Gift-Set-Blushberry-1-optimized.jpg",
         hover: "/tableware/products/27_28thNov25-161-1-optimized.jpg",
-        href: "https://www.annabelkarmel.com/tableware/mealtime-gift-set/",
+        href: "/tableware/mealtime-gift-set/",
         active: false,
       },
     ],

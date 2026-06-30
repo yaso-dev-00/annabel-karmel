@@ -22,6 +22,7 @@ import {
   latestRecipes,
   logoUrl,
   partnerLogos,
+  recipeAppPath,
   type CollabCard,
 } from "@/data/site-content";
 import styles from "./home-page.module.css";
@@ -1302,9 +1303,7 @@ export function HomePageContent() {
               Get this tasty recipe fresh from Annabel&apos;s kitchen direct to your inbox.
             </p>
             <a
-              href="/recipe-app"
-              target="_blank"
-              rel="noreferrer"
+              href={recipeAppPath}
               className={`mt-6 inline-flex items-center gap-2 rounded-[15px] px-4 py-4 text-[13px] font-semibold text-white transition-colors ${styles.ctaButton} ${styles.ctaPink}`}
             >
               <span className={`${styles.ctaLabel} text-[17px] font-[500]! md:text-[20px]`}>Get the recipe</span>

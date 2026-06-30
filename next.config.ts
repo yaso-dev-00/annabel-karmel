@@ -1,6 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      // Cached 308s from the old /recipe-app/* redirect may still request assets here.
+      {
+        source: "/the-ultimate-baby-toddler-recipe-app/:path+",
+        destination: "/recipe-app/:path+",
+      },
+    ];
+  },
   async redirects() {
     return [
       {
@@ -208,8 +217,8 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/the-ultimate-baby-toddler-recipe-app",
-        destination: "/recipe-app",
+        source: "/recipe-app",
+        destination: "/the-ultimate-baby-toddler-recipe-app",
         permanent: true,
       },
       {

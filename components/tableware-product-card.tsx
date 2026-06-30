@@ -9,6 +9,7 @@ import styles from "./tableware-product-card.module.css";
 
 type TablewareProductCardProps = {
   product: TablewareProduct;
+  variant?: "default" | "completeSet";
 };
 
 const swatchBorder: Record<TablewareSwatchColor, string> = {
@@ -17,7 +18,7 @@ const swatchBorder: Record<TablewareSwatchColor, string> = {
   blushberry: "#BC7F7A",
 };
 
-export function TablewareProductCard({ product }: TablewareProductCardProps) {
+export function TablewareProductCard({ product, variant = "default" }: TablewareProductCardProps) {
   const initialSwatch = product.swatches.find((s) => s.active) ?? product.swatches[0];
   const [activeSwatch, setActiveSwatch] = useState(initialSwatch);
   const [linkHref, setLinkHref] = useState(product.href);
@@ -40,7 +41,7 @@ export function TablewareProductCard({ product }: TablewareProductCardProps) {
   }, []);
 
   return (
-    <article className={styles.card}>
+    <article className={`${styles.card}${variant === "completeSet" ? ` ${styles.cardCompleteSet}` : ""}`}>
       <div className={styles.thumb}>
         <Link href={linkHref}>
           <img src={defaultImage} alt="" className={`${styles.thumbImage} ${styles.defaultImage}`} decoding="async" />

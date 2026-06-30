@@ -68,16 +68,16 @@
 
 .featuresSection {
   max-width: 1240px;
-  margin: 60px auto 0;
-  padding: 0 20px;
+  margin: 40px auto 0;
+  padding: 0 15px;
 }
 
 .featuresCard {
   position: relative;
   overflow: hidden;
-  border-radius: 24px;
+  border-radius: 20px;
   background-color: #f8f0ec;
-  padding: 30px 10px 100px;
+  padding: 28px 10px 90px;
   text-align: center;
 }
 
@@ -112,9 +112,63 @@
   max-width: 230px;
 }
 
+.featuresHeading {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 24px;
+  font-family: Mundial, var(--font-montserrat), sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #ca9591;
+}
+
+.featuresColumns {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 830px;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-bottom: 50px;
+}
+
+.featuresList {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.featuresItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-family: var(--font-montserrat), Montserrat, sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+  color: #494747;
+}
+
+.featuresIcon {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* Features — tablet 768px */
 @media (min-width: 768px) {
+  .featuresSection {
+    margin-top: 60px;
+    padding: 0 20px;
+  }
+
   .featuresCard {
-    padding: 60px;
+    border-radius: 24px;
+    padding: 48px 40px 100px;
   }
 
   .featuresArtDesktop {
@@ -139,82 +193,47 @@
     width: 300px;
     max-width: none;
   }
-}
 
-.featuresHeading {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 30px;
-  font-family: Mundial, var(--font-montserrat), sans-serif;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 35px;
-  color: #ca9591;
-}
-
-@media (min-width: 768px) {
   .featuresHeading {
-    font-size: 48px;
-    line-height: 40px;
+    margin-bottom: 28px;
+    font-size: 40px;
+    line-height: 1.1;
   }
-}
 
-.featuresColumns {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  max-width: 830px;
-  margin: 0 auto;
-  padding-left: 10px;
-  padding-bottom: 50px;
-}
-
-@media (min-width: 768px) {
   .featuresColumns {
     flex-direction: row;
     gap: 20px;
     max-width: 800px;
-    padding-left: 0px;
-    padding-bottom: 0px;
+    padding-left: 0;
+    padding-bottom: 0;
   }
-}
 
-.featuresList {
-  flex: 1;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-align: left;
-}
-
-@media (min-width: 768px) {
-  .featuresList {
-    padding: 0;
-  }
-}
-
-.featuresItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 10px;
-  font-family: var(--font-montserrat), Montserrat, sans-serif;
-  font-size: 16px;
-  line-height: 28px;
-  color: #494747;
-}
-
-@media (min-width: 768px) {
   .featuresItem {
     font-size: 17px;
+    line-height: 28px;
   }
 }
 
-.featuresIcon {
-  flex-shrink: 0;
-  margin-top: 4px;
+/* Features — desktop 1024px */
+@media (min-width: 1024px) {
+  .featuresSection {
+    margin-top: 80px;
+  }
+
+  .featuresCard {
+    padding: 60px;
+  }
+
+  .featuresHeading {
+    margin-bottom: 30px;
+    font-size: 48px;
+    line-height: 1.2;
+  }
+
+  .featuresItem {
+    font-size: 18px;
+    line-height: 30px;
+  }
 }
 
 .lifestyleSection {

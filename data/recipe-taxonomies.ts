@@ -50,7 +50,6 @@ export const byAge: RecipeTaxonomy[] = [
 ];
 
 export const mealTimes: RecipeTaxonomy[] = [
-  taxonomy("meal-time", "all-meal-times", "All Meal Times", "meal-time"),
   taxonomy("meal-time", "breakfast", "Breakfast", "meal-time"),
   taxonomy("meal-time", "snack", "Snacks", "meal-time"),
   taxonomy("meal-time", "main-meals", "Main Meals", "meal-time"),

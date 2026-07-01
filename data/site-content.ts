@@ -128,7 +128,6 @@ export const megaMenus: MegaMenu[] = [
       {
         title: "Meal Times",
         links: [
-          { label: "All Meal Times", href: "/meal-time/all-meal-times" },
           { label: "Breakfast", href: "/meal-time/breakfast" },
           { label: "Snacks", href: "/meal-time/snack" },
           { label: "Main Meals", href: "/meal-time/main-meals" },

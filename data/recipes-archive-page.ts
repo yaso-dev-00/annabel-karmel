@@ -58,12 +58,6 @@ export const browseByMealTimeSection = {
   heading: "Browse by Meal Time",
   tiles: [
     {
-      title: "All Meal Times",
-      href: "/meal-time/all-meal-times",
-      image: `${assetBase}/all-meal-times.jpg`,
-      imageAlt: "All Meal Times",
-    },
-    {
       title: "Breakfast",
       href: "/meal-time/breakfast",
       image: `${assetBase}/breakfast.jpg`,

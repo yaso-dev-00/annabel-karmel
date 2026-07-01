@@ -1,0 +1,409 @@
+.page {
+  background: #fff;
+}
+
+.heroSection {
+  padding: 32px 0 0;
+}
+
+.heroShell {
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: 0 16px;
+}
+
+.heroHeading {
+  margin: 0 0 24px;
+  font-family: var(--font-playfair);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.12;
+  color: #3a3a3a;
+  text-align: center;
+}
+
+.heroImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 24px;
+}
+
+.introBody {
+  margin: 0 0 16px;
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  line-height: 1.55;
+  color: #3d3d3d;
+  text-align: center;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.splitSection {
+  width: 100%;
+}
+
+.splitTeal {
+  
+  max-width: 80%;
+  margin: auto;
+}
+
+.splitApp {
+   
+  max-width: 80%;
+  margin: auto;
+}
+
+@media(max-width: 1200px) {
+  .splitTeal {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+  .splitApp {
+    max-width: 100%;
+    padding: 0 15px;
+    
+  }
+}
+
+.splitInner {
+  display: grid;
+  gap: 0;
+  margin: 0 auto;
+  max-width: 1120px;
+}
+
+.splitCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 20px;
+  text-align: center;
+  background: #dbeef2;
+}
+
+.splitMedia {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  min-height: 0;
+}
+
+.splitAppMedia {
+  background: #fbf1f0;
+}
+
+.splitAppCopy {
+  background: #fff;
+}
+
+.splitReverseMobile .splitMedia {
+  order: -1;
+}
+
+.splitTeal .splitMedia {
+  background: #dbeef2;
+}
+
+.sectionHeading {
+  margin: 0 0 20px;
+  font-family: var(--font-playfair);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: #3a3a3a;
+  text-align: center;
+}
+
+.sectionBody {
+  margin: 0 0 16px;
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  line-height: 1.55;
+  color: #3d3d3d;
+  text-align: center;
+}
+
+.sectionBody :global(a) {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.awards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 8px 0 20px;
+}
+
+.awardLogo {
+  width: auto;
+  height: 100px;
+  object-fit: contain;
+}
+@media(max-width: 768px) {
+  .awardLogo {
+    height: 90px;
+  }
+}
+
+.featureImageWrap {
+  position: relative;
+  width: 100%;
+  min-height: 320px;
+  flex: 1;
+}
+
+.featureImageLink {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  line-height: 0;
+}
+
+.featureImage,
+.featureImageCover {
+  object-fit: cover;
+  object-position: top;
+}
+
+.featureImage {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  max-width: none;
+}
+
+.ctaTeal,
+.ctaGrey {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width:max-content;
+  min-height: 48px;
+  padding: 14px 24px;
+  border-radius: 0;
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: opacity 0.2s ease;
+  border-radius: 5px;
+}
+
+.ctaTeal {
+  background: #9FD2D8;
+  color: #3a3a3a;
+}
+
+.ctaTealSentence {
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+  
+}
+
+.ctaGrey {
+  background: #6f7987;
+  color: #fff;
+}
+
+.ctaTeal:hover,
+.ctaGrey:hover {
+  opacity: 0.9;
+}
+
+.ctaStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.centeredSection {
+  padding: 48px 16px;
+}
+
+.centeredInner {
+  margin: 0 auto;
+  max-width: 760px;
+  text-align: center;
+}
+
+.partnershipsSection {
+  background: #fff1f3;
+  padding: 40px 16px 48px;
+}
+
+.partnershipsInner {
+  margin: 0 auto;
+  max-width: 1120px;
+  text-align: center;
+}
+
+.partnershipMobileImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 24px;
+}
+
+.partnershipGrid {
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 24px;
+}
+
+.partnershipImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.partnerLogosSection {
+  padding: 24px 16px 64px;
+}
+
+.partnerLogosShell {
+  margin: 0 auto;
+  max-width: 1120px;
+}
+
+.partnerLogosImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.splitCopy .ctaTeal,
+.splitCopy .ctaGrey,
+.centeredInner .ctaGrey,
+.partnershipsInner .ctaGrey {
+  margin-top: 8px;
+}
+
+@media (min-width: 768px) {
+  .heroSection {
+    padding-top: 48px;
+  }
+
+  .heroHeading {
+    font-size: 48px;
+    margin-bottom: 32px;
+  }
+
+  .introBody {
+    font-size: 20px;
+  }
+
+  .splitInner {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+
+  .splitReverseMobile .splitMedia {
+    order: 0;
+  }
+
+  .splitCopy {
+    padding: 48px 40px;
+  }
+
+  .splitMedia {
+    align-self: stretch;
+  }
+
+  .splitMedia .featureImageWrap,
+  .splitMedia .featureImageLink {
+    min-height: 100%;
+    height: 100%;
+  }
+
+  .splitMedia .featureImage {
+    min-height: 100%;
+  }
+
+  .splitTeal .splitCopy {
+    align-items: center;
+  }
+
+  .splitAppCopy .sectionHeading,
+  .splitAppCopy .sectionBody,
+  .splitAppCopy .awards {
+    text-align: center;
+  }
+
+  .splitTeal .sectionHeading,
+  .splitTeal .sectionBody {
+    text-align: center;
+  }
+
+  .splitTeal .awards {
+    justify-content: flex-start;
+  }
+
+  .splitTeal .ctaTeal,
+  .splitTeal .ctaStack {
+    align-items: flex-start;
+  }
+
+  .sectionHeading {
+    font-size: 40px;
+  }
+
+  .sectionBody {
+    font-size: 20px;
+  }
+
+  .partnershipMobileImage {
+    display: none;
+  }
+
+  .partnershipGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .featureImage {
+    width: 100%;
+    max-width: none;
+  }
+
+  .partnershipsSection {
+    padding: 56px 24px 64px;
+  }
+
+  .centeredSection {
+    padding: 64px 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroShell,
+  .splitInner,
+  .partnershipsInner,
+  .partnerLogosShell {
+    max-width: 1240px;
+  }
+
+  .splitCopy {
+    padding: 56px 48px;
+  }
+}

@@ -1,0 +1,296 @@
+.page {
+  background: #fff;
+}
+
+.shell {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 40px 16px 72px;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-family: var(--font-playfair);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.12;
+  color: #3a3a3a;
+  text-align: center;
+}
+
+.intro {
+  margin: 0 0 16px;
+  font-family: var(--font-montserrat);
+  font-size: 19px;
+  line-height: 1.55;
+  color: #514a52;
+  text-align: center;
+}
+
+.formCard {
+  margin-top: 32px;
+  padding: 40px 24px 48px;
+  background: #fef3f4;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.row {
+  display: grid;
+  gap: 28px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.selectWrap {
+  position: relative;
+}
+
+.selectWrap::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #00665e;
+  transform: scaleX(0);
+  transform-origin: center center;
+  transition: transform 0.28s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.selectWrap:hover::before,
+.selectWrap:focus-within::before,
+.selectWrapOpen::before {
+  transform: scaleX(1);
+}
+
+.selectWrapOpen::after {
+  transform: translateY(-35%) rotate(-135deg);
+}
+
+.selectWrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #00665e;
+  border-bottom: 2px solid #00665e;
+  transform: translateY(-65%) rotate(45deg);
+  transition: transform 0.2s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.selectWrapError::before {
+  background: #d63638;
+}
+
+.input,
+.selectTrigger {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #8aa4ab;
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 28px 10px 0;
+  font-family: var(--font-montserrat);
+  font-size: 16px;
+  color: #3f3841;
+}
+
+.selectTrigger {
+  display: block;
+  text-align: left;
+  cursor: pointer;
+  color: #00665e;
+  border-bottom-color: #8aa4ab;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.selectWrap:hover .selectTrigger,
+.selectWrap:focus-within .selectTrigger,
+.selectWrapOpen .selectTrigger {
+  border-bottom-color: transparent;
+}
+
+.selectPlaceholder {
+  color: #00665e;
+}
+
+.selectDropdown {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #c5d5d8;
+  box-shadow: 0 6px 16px rgba(0, 40, 50, 0.08);
+}
+
+.selectOption {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: #fff;
+  color: #00665e;
+  text-align: left;
+  padding: 11px 14px;
+  font-family: var(--font-montserrat);
+  font-size: 16px;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.selectOption:hover,
+.selectOptionActive {
+  background: #8e005b;
+  color: #fff;
+}
+
+.selectTrigger:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.inputError,
+.selectError {
+  border-bottom-color: #d63638 !important;
+  box-shadow: none;
+}
+
+.selectWrapError:hover .selectTrigger,
+.selectWrapError.selectWrapOpen .selectTrigger {
+  border-bottom-color: transparent;
+}
+
+.input::placeholder {
+  color: #3f3841;
+  opacity: 1;
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: #3a3a3a;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #3a3a3a;
+}
+
+.selectWrapError:hover .selectTrigger,
+.selectWrapError:focus-within .selectTrigger,
+.selectWrapError.selectWrapOpen .selectTrigger {
+  border-bottom-color: transparent;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 160px;
+  resize: vertical;
+  border: 1px solid #3a3a3a;
+  border-radius: 0;
+  background: #fff;
+  padding: 14px 16px;
+  font-family: var(--font-montserrat);
+  font-size: 16px;
+  line-height: 1.5;
+  color: #3f3841;
+}
+
+.textarea::placeholder {
+  color: #7a7279;
+}
+
+.error {
+  margin: 0;
+  font-family: var(--font-montserrat);
+  font-size: 13px;
+  line-height: 1.4;
+  color: #d63638;
+}
+
+.submitButton {
+  align-self: flex-start;
+  min-width: 120px;
+  min-height: 48px;
+  padding: 12px 28px;
+  border: 0;
+  border-radius: 3px;
+  background: #e394a1;
+  font-family: var(--font-montserrat);
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background: #d88694;
+}
+
+.successMessage {
+  margin: 0;
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  line-height: 1.55;
+  color: #3f3841;
+  text-align: center;
+}
+
+.emailNote {
+  margin: 24px 0 0;
+  font-family: var(--font-montserrat);
+  font-size: 16px;
+  line-height: 1.5;
+  color: #514a52;
+  text-align: center;
+}
+
+.emailLink {
+  color: #8f2f58;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.emailLink:hover {
+  color: #b34769;
+}
+
+@media (min-width: 768px) {
+  .shell {
+    padding-top: 56px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .formCard {
+    padding: 48px 56px 56px;
+  }
+
+  .row {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 40px;
+  }
+}

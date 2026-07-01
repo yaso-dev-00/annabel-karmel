@@ -610,8 +610,8 @@ export const footerLinkColumns: NavGroup[] = [
   {
     title: "Annabel Karmel",
     links: [
-      { label: "About Annabel Karmel", href: "https://www.annabelkarmel.com/about-annabel-karmel/" },
-      { label: "Contact Us", href: "https://www.annabelkarmel.com/contact/" },
+      { label: "About Annabel Karmel", href: "/about-annabel-karmel" },
+      { label: "Contact Us", href: "/contact" },
       {
         label: "Annabel's Baby & Toddler App",
         href: recipeAppPath,
@@ -621,9 +621,9 @@ export const footerLinkColumns: NavGroup[] = [
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", href: "https://www.annabelkarmel.com/privacy-policy/" },
-      { label: "Terms & Conditions", href: "https://www.annabelkarmel.com/terms-conditions/" },
-      { label: "Cookie Policy", href: "https://www.annabelkarmel.com/cookie-policy/" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms & Conditions", href: "/terms-conditions" },
+      { label: "Cookie Policy", href: "/cookie-policy" },
     ],
   },
   {

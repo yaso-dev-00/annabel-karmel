@@ -825,7 +825,9 @@
 
   .careGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+    
+    }
+  
 
   .careIconWrap {
     width: 72px;
@@ -1021,9 +1023,10 @@
   }
 
   .careGrid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px 12px;
   }
+ 
 
   .careLabel {
     font-size: 18px;
@@ -1081,6 +1084,13 @@
   .container {
     padding-inline: 24px;
   }
+  .careGrid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  /* .careItem {
+    flex: 1 1 calc((100% - 48px) / 5);
+  } */
 
   .completeSetCarouselWrap {
     padding-inline: 24px;

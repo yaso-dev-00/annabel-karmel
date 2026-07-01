@@ -21,6 +21,8 @@ export type ChilledProductCarouselSlide = {
 export type ChilledProductRelatedProduct = {
   image: string;
   href: string;
+  width?: number;
+  height?: number;
 };
 
 export type MealProductRetailerLogo = {

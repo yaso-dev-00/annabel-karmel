@@ -102,14 +102,20 @@ export const mildChickenTikkaPageData: ChilledProductPageData = {
     {
       image: `${assetBase}/related-pasta.png`,
       href: "/products/tasty-chicken-pasta-in-a-tomato-veggie-sauce/",
+      width: 1080,
+      height: 1080,
     },
     {
       image: `${assetBase}/related-lasagne.png`,
       href: "/products/yummy-little-lasagne-new/",
+      width: 1080,
+      height: 1080,
     },
     {
       image: `${assetBase}/related-cottage-pie.png`,
       href: "/products/delicious-cottage-pie/",
+      width: 1080,
+      height: 1080,
     },
   ],
   theme: {

@@ -85,14 +85,20 @@ export const mightyBologneseMacAndCheesePageData: FrozenProductPageData = {
     {
       image: frozenRelatedImages.chickenTikka,
       href: "/products/chicken-tikka-masala/",
+      width: 700,
+      height: 753,
     },
     {
       image: frozenRelatedImages.chickenPasta,
       href: "/products/chicken-tomato-mascarpone-pasta/",
+      width: 700,
+      height: 753,
     },
     {
       image: frozenRelatedImages.spaghetti,
       href: "/products/tasty-spaghetti-bolognese/",
+      width: 532,
+      height: 602,
     },
   ],
   theme: {

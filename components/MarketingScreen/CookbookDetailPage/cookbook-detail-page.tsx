@@ -52,6 +52,7 @@ export function CookbookDetailPageContent({ cookbook }: CookbookDetailPageConten
   } as CSSProperties;
 
   return (
+    <>
     <main className={styles.page} style={pageStyle}>
       <div className={styles.inner}>
         <h1 className={styles.pageTitle}>{cookbook.title}</h1>
@@ -85,9 +86,11 @@ export function CookbookDetailPageContent({ cookbook }: CookbookDetailPageConten
         </div>
       </div>
 
-      <div className={styles.shareWrap}>
-        <InstagramShareSection />
-      </div>
+    
     </main>
+      <div className={styles.shareWrap}>
+      <InstagramShareSection />
+    </div>
+    </>
   );
 }

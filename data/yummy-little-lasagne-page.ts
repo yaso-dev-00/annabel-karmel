@@ -102,14 +102,20 @@ export const yummyLittleLasagnePageData: ChilledProductPageData = {
     {
       image: `${assetBase}/related-cottage-pie.png`,
       href: "/products/delicious-cottage-pie/",
+      width: 1080,
+      height: 1080,
     },
     {
       image: `${assetBase}/related-pasta.png`,
       href: "/products/tasty-chicken-pasta-in-a-tomato-veggie-sauce/",
+      width: 1080,
+      height: 1080,
     },
     {
       image: `${assetBase}/related-tikka.png`,
       href: "/products/mild-chicken-tikka/",
+      width: 1080,
+      height: 1080,
     },
   ],
   theme: {

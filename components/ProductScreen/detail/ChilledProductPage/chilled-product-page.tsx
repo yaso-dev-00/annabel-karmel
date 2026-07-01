@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
@@ -429,6 +430,7 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
           src={data.assets.whyNotTryBg}
           fit="cover"
           position="top center"
+          unoptimized={true}
         
         />
         <div className={`${styles.sectionContent} ${styles.inner}`}>
@@ -436,16 +438,32 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
             Why not try
           </h2>
           <div className={styles.relatedGrid}>
-            {data.related.map((product) => (
+            {data.related.map((product) => {
+              const imageWidth = product.width ?? 700;
+              const imageHeight = product.height ?? 753;
+
+              return (
               <article key={product.href} className={styles.relatedCard}>
-                <Link href={product.href} className="block">
-                  <img src={product.image} alt="" className={styles.relatedImage} loading="lazy" />
+                <Link
+                  href={product.href}
+                  className={styles.relatedImageLink}
+                  style={{ aspectRatio: `${imageWidth} / ${imageHeight}` }}
+                >
+                  <Image
+                    src={product.image}
+                    alt=""
+                    width={imageWidth}
+                    height={imageHeight}
+                    className={styles.relatedImage}
+                    sizes="(min-width: 768px) 360px, 100vw"
+                  />
                 </Link>
                 <Link href={product.href} className={styles.discoverButton}>
                   discover
                 </Link>
               </article>
-            ))}
+              );
+            })}
           </div>
         </div>
         <WaveShapeBottom />

@@ -96,6 +96,7 @@ export function OurBooksPageContent() {
   } as CSSProperties;
 
   return (
+    <>
     <main className={styles.page} style={pageStyle}>
       <div className={styles.inner}>
         <h1 className={styles.pageTitle}>{ourBooksHero.title}</h1>
@@ -146,9 +147,10 @@ export function OurBooksPageContent() {
       {ourBooksProducts.map((product) => (
         <BookSection key={product.slug} product={product} />
       ))}
-     <div className="mt-[40px]">
-      <InstagramShareSection />
-      </div>
     </main>
+    <div className="mt-[50px]">
+    <InstagramShareSection />
+    </div>
+    </>
   );
 }

@@ -91,6 +91,10 @@ export function WaysToServeCarousel({
   });
 
   useEffect(() => {
+    carousel.measure();
+  }, [carousel.measure, items.length]);
+
+  useEffect(() => {
     const updateNavOffset = () => {
       const track = carousel.trackRef.current;
       if (!track) return;
@@ -157,12 +161,7 @@ export function WaysToServeCarousel({
                     className={`ways-to-serve-card ${styles.waysToServeCard}`}
                     onClickCapture={carousel.handleCardClickCapture}
                   >
-                    <Link
-                      href={recipe.href}
-                      className={`${styles.cardImageLink} ways-to-serve-card-image`}
-                      draggable={false}
-                      onDragStart={(event) => event.preventDefault()}
-                    >
+                    <div className={`${styles.cardImageLink} ways-to-serve-card-image`}>
                       <img
                         src={recipe.image}
                         alt={recipe.title}
@@ -170,7 +169,7 @@ export function WaysToServeCarousel({
                         draggable={false}
                         onLoad={recipeIndex === 0 ? carousel.measure : undefined}
                       />
-                    </Link>
+                    </div>
                     <h3 className={styles.cardTitle}>
                       <Link href={recipe.href}>{recipe.title}</Link>
                     </h3>

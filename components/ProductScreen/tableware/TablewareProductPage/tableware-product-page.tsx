@@ -590,7 +590,9 @@ export function TablewareProductPageContent({ data }: { data: TablewareProductPa
         </section>
       ) : null}
 
-      <InstagramShareSection />
+     <div className="mt-[50px]">
+     <InstagramShareSection />
+     </div>
     </main>
   );
 }

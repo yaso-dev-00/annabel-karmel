@@ -466,6 +466,7 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
           src={data.assets.whyNotTryBg}
           fit="cover"
           position="top center"
+          unoptimized={true}
          
         />
         <div className={`${styles.sectionContent} ${styles.inner}`}>

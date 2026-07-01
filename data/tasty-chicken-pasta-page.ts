@@ -106,14 +106,20 @@ export const tastyChickenPastaPageData: ChilledProductPageData = {
     {
       image: `${assetBase}/related-lasagne.png`,
       href: "/products/yummy-little-lasagne-new/",
+      width: 1080,
+      height: 1080,
     },
     {
       image: `${assetBase}/related-cottage-pie.png`,
       href: "/products/delicious-cottage-pie/",
+      width: 1080,
+      height: 1080,
     },
     {
       image: `${assetBase}/related-tikka.png`,
       href: "/products/mild-chicken-tikka/",
+      width: 1080,
+      height: 1080,
     },
   ],
   theme: {

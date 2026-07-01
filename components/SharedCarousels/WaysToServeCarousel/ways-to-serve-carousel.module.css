@@ -50,6 +50,7 @@
   overscroll-behavior-x: contain;
   user-select: none;
   cursor: grab;
+  -webkit-overflow-scrolling: touch;
 }
 
 .carouselViewport:active {
@@ -86,7 +87,6 @@
 .waysToServeCard {
   flex: 0 0 calc((100% - var(--ways-serve-gap)) / 1.35);
   flex-shrink: 0;
-  touch-action: pan-x;
 }
 
 @media (min-width: 768px) {

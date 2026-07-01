@@ -88,14 +88,20 @@ export const tastySpaghettiBolognesePageData: FrozenProductPageData = {
     {
       image: frozenRelatedImages.bologneseMacCheese,
       href: "/products/mighty-bolognese-mac-and-cheese/",
+      width: 700,
+      height: 753,
     },
     {
       image: frozenRelatedImages.chickenPasta,
       href: "/products/chicken-tomato-mascarpone-pasta/",
+      width: 700,
+      height: 753,
     },
     {
       image: frozenRelatedImages.chickenTikka,
       href: "/products/chicken-tikka-masala/",
+      width: 700,
+      height: 753,
     },
   ],
   theme: {

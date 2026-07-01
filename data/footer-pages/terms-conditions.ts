@@ -28,12 +28,9 @@ export const termsConditionsPage = {
 <p>The General Terms and Conditions (incorporating the Proper Use Conditions set out in the Privacy Statement and Proper Use Conditions section) and your use of the Website are governed by English law and you submit to the non-exclusive jurisdiction of the English court.</p>
 <h4>Notices</h4>
 <p>All notices shall be given by e-mail to admin@annabelkarmel.com or to you at either the e-mail or postal address you provide during the registration process. Notice will be deemed received 24 hours after an e-mail is sent or 3 days after the date of posting. We welcome feedback to improve the website and its’ usefulness to all users. If you have any suggestions for improvement, please contact us at contact@annabelkarmel.com</p>
-<h1> </h1>
 <h1>App terms of service</h1>
-<p> </p>
 <p>This document (the "Agreement") is a legally binding agreement between you and Annabel Karmel Group Holdings LTD., trading under the name Ananbel Karmel, a company registered in England and Wales under number 09187690 that governs your use of the online and mobile services associated with Annabel Karmel, including but not limited to, www.annabelkarmel.com and all associated subdomains (the "Website"), and  all associated apps.</p>
 <h1>Grant of right of use</h1>
-<p> </p>
 <p>The System is only available to either individuals who have Purchased a subscription through the iOS App Store and/or have signed up for a free trial or who have had the Service commissioned for them by a third party partner (e.g. their employer or college) ("Paid for Services"). Unless otherwise specified, we grant you a limited, non-exclusive, non-transferable, revocable right to make personal non-commercial use only of that content and those features of the System and the Annabel Karmel App in respect of which you or the third party have paid all applicable rental fees and charges, provided that you comply fully with the provisions of this Agreement. For those on the free trial, this right is restricted to the time-period of their free trial.</p>
 <h2>Prices and payment</h2>
 <p>Annabel Karmel account holders may access the System in two ways:</p>

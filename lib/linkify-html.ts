@@ -56,6 +56,14 @@ export function linkifyHtml(html: string): string {
   return output;
 }
 
+export function stripEmptyHeadings(html: string): string {
+  return html.replace(/<h([1-6])(\s[^>]*)?>\s*<\/h\1>/gi, "");
+}
+
+export function stripEmptyParagraphs(html: string): string {
+  return html.replace(/<p(\s[^>]*)?>[\s\u00a0]*<\/p>/gi, "");
+}
+
 export function wrapLegalTables(html: string): string {
   return html
     .replace(/<table(\s[^>]*)?>/gi, '<div class="legalTableScroll"><table$1>')
@@ -63,5 +71,5 @@ export function wrapLegalTables(html: string): string {
 }
 
 export function prepareLegalHtml(html: string): string {
-  return wrapLegalTables(linkifyHtml(html));
+  return wrapLegalTables(stripEmptyParagraphs(stripEmptyHeadings(linkifyHtml(html))));
 }

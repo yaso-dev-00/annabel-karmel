@@ -30,7 +30,7 @@
 }
 
 .introBody {
-  margin: 0 0 16px;
+  margin: 0 0 25px;
   font-family: var(--font-montserrat);
   font-size: 18px;
   line-height: 1.55;
@@ -38,10 +38,17 @@
   text-align: center;
 }
 
+@media(max-width: 768px) {
+  .introBody {
+    margin-bottom: 20px;
+  }
+}
+
 .sections {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-top: 5px;
 }
 
 .splitSection {

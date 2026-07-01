@@ -50,6 +50,7 @@ export const byAge: RecipeTaxonomy[] = [
 ];
 
 export const mealTimes: RecipeTaxonomy[] = [
+  taxonomy("meal-time", "all-meal-times", "All Meal Times", "meal-time"),
   taxonomy("meal-time", "breakfast", "Breakfast", "meal-time"),
   taxonomy("meal-time", "snack", "Snacks", "meal-time"),
   taxonomy("meal-time", "main-meals", "Main Meals", "meal-time"),
@@ -65,6 +66,14 @@ export const freeFrom: RecipeTaxonomy[] = [
   taxonomy("allergen", "gluten-free-recipes", "Gluten Free", "allergen"),
   taxonomy("allergen", "nut-free-recipes", "Nut Free", "allergen"),
 ];
+
+export const recipesArchiveTaxonomy: RecipeTaxonomy = {
+  kind: "recipe-category",
+  slug: "recipes-archive",
+  label: "Recipes",
+  path: "/recipes",
+  sourceUrl: "https://www.annabelkarmel.com/recipes/",
+};
 
 export const allRecipeTaxonomies: RecipeTaxonomy[] = [...byAge, ...mealTimes, ...freeFrom];
 

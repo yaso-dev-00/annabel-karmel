@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { TastySpaghettiBolognesePageContent } from "@/components/tasty-spaghetti-bolognese-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { TastySpaghettiBolognesePageContent } from "@/components/ProductScreen/detail/wrappers/TastySpaghettiBolognesePage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Tasty Spaghetti Bolognese Frozen Meal | Annabel Karmel",

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { AboutAnnabelKarmelPageContent } from "@/components/about-annabel-karmel-page";
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { AboutAnnabelKarmelPageContent } from "@/components/FooterPagesScreen/AboutAnnabelKarmelPage";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "About Annabel Karmel | Annabel Karmel",

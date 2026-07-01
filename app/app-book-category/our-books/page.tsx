@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { OurBooksPageContent } from "@/components/our-books-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { OurBooksPageContent } from "@/components/MarketingScreen/OurBooksPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Books Archives | Annabel Karmel",

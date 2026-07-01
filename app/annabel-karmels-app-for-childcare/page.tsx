@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { ChildcareAppPageContent } from "@/components/childcare-app-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { ChildcareAppPageContent } from "@/components/MarketingScreen/ChildcareAppPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Annabel Karmel’s App for Childcare | Annabel Karmel",

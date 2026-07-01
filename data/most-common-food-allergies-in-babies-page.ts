@@ -1,6 +1,6 @@
 import accordionStyles from "@/app/eggs-questions-answered/page.module.css";
-import type { FoodCategoryItem } from "@/components/food-category-accordion";
-import type { ArticleRecipeCarouselItem } from "@/components/article-recipe-carousel";
+import type { FoodCategoryItem } from "@/components/ArticleScreen/FoodCategoryAccordion";
+import type { ArticleRecipeCarouselItem } from "@/components/SharedCarousels/ArticleRecipeCarousel";
 import Link from "next/link";
 import { createElement, Fragment, type ReactNode } from "react";
 

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { TablewarePageContent } from "@/components/tableware-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { TablewarePageContent } from "@/components/ProductScreen/tableware/TablewarePage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Grow Tableware | Annabel Karmel",

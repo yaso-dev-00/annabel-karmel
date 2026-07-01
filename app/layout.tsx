@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Montserrat, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
-import { SiteNavProgress } from "@/components/site-nav-progress";
+import { SiteNavProgress } from "@/components/SiteLayout/SiteNavProgress";
 import "./globals.css";
 
 const geistMono = Geist_Mono({

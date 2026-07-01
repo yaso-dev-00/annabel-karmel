@@ -1,6 +1,6 @@
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import { expertDetails } from "@/data/site-content";
 import Link from "next/link";
 import { notFound } from "next/navigation";

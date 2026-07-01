@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { AustraliaFrozenPageContent } from "@/components/australia-frozen-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { AustraliaFrozenPageContent } from "@/components/ProductScreen/categories/AustraliaFrozenPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Australia - Frozen Archives | Annabel Karmel",

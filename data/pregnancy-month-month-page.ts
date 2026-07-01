@@ -1,5 +1,5 @@
-import type { EggQuestionItem } from "@/components/egg-questions-accordion";
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { EggQuestionItem } from "@/components/ArticleScreen/EggQuestionsAccordion";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 
 export const articleSlug = "pregnancy-month-month";
 export const articlePath = `/articles/${articleSlug}`;

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { MildChickenTikkaPageContent } from "@/components/mild-chicken-tikka-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { MildChickenTikkaPageContent } from "@/components/ProductScreen/detail/wrappers/MildChickenTikkaPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Mild Chicken Tikka | Annabel Karmel",

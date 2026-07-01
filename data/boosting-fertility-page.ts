@@ -1,4 +1,4 @@
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 import { ribbonBoxLinks } from "@/data/infertility-iodine-page";
 
 export const articleSlug = "the-best-foods-for-boosting-fertility";

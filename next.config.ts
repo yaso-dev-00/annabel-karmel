@@ -213,7 +213,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/our-products/cookbooks/:path*",
-        destination: "/app-book-category/our-books",
+        destination: "/apps-books/:path*",
         permanent: true,
       },
       {

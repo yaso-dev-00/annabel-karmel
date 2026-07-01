@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { PlantPoweredBitesProductPageContent } from "@/components/plant-powered-bites-product-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { PlantPoweredBitesProductPageContent } from "@/components/ProductScreen/detail/PlantPoweredBitesProductPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import { burgersPageData } from "@/data/burgers-page";
 
 export const metadata: Metadata = {

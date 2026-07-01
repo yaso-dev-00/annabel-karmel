@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { TablewareProductPageContent } from "@/components/tableware-product-page";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { TablewareProductPageContent } from "@/components/ProductScreen/tableware/TablewareProductPage";
 import {
   getAllTablewareProductSlugs,
   getTablewareProductPageData,

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { AustraliaFrozenProductPageContent } from "@/components/australia-frozen-product-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { AustraliaFrozenProductPageContent } from "@/components/ProductScreen/detail/AustraliaFrozenProductPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import { getAustraliaFrozenProductData } from "@/data/australia-frozen-products";
 
 const data = getAustraliaFrozenProductData("comforting-beef-cottage-pie")!;

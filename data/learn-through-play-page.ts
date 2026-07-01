@@ -1,4 +1,4 @@
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 import { createElement, Fragment, type ReactNode } from "react";
 
 export const articleSlug = "learn-through-play";

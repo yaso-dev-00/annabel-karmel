@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { EmpowerYourEmployeesPageContent } from "@/components/empower-your-employees-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { EmpowerYourEmployeesPageContent } from "@/components/MarketingScreen/EmpowerYourEmployeesPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Empower your employees | Annabel Karmel",

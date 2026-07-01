@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { PlantPoweredBitesPageContent } from "@/components/plant-powered-bites-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { PlantPoweredBitesPageContent } from "@/components/ProductScreen/categories/PlantPoweredBitesPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Plant-Powered Bites for Kids | Annabel Karmel",

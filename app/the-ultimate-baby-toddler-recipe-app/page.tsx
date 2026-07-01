@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { RecipeAppPageContent } from "@/components/recipe-app-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { RecipeAppPageContent } from "@/components/MarketingScreen/RecipeAppPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "The No.1 Baby & Toddler Recipe App | Annabel Karmel",

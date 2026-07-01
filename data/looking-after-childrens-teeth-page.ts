@@ -1,4 +1,4 @@
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 
 export const articleSlug = "looking-after-childrens-teeth";
 export const articlePath = `/articles/${articleSlug}`;

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { OffersPageContent } from "@/components/offers-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { OffersPageContent } from "@/components/MarketingScreen/OffersPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Offers Page | Annabel Karmel",

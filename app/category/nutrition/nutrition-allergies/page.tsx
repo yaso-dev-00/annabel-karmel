@@ -1,7 +1,7 @@
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { ListingPaginationScroll } from "@/components/listing-pagination-scroll";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { ListingPaginationScroll } from "@/components/ArticleScreen/ListingPaginationScroll";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import { Suspense } from "react";
 import {
   nutritionAllergiesPageOne,

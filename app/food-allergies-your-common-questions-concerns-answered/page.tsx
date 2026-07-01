@@ -1,9 +1,9 @@
-import { FallbackImage } from "@/components/fallback-image";
-import { FoodAllergiesFaqAccordion, type FoodAllergiesFaqItem } from "@/components/food-allergies-faq-accordion";
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { RelatedArticlesCarousel } from "@/components/related-articles-carousel";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { FallbackImage } from "@/components/UiPrimitives/FallbackImage";
+import { FoodAllergiesFaqAccordion, type FoodAllergiesFaqItem } from "@/components/ArticleScreen/FoodAllergiesFaqAccordion";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import { getRelatedArticles } from "@/data/related-articles";
 import styles from "./page.module.css";
 

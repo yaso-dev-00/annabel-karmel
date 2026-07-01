@@ -1743,7 +1743,8 @@ html[data-newsletter-bar="visible"] {
   text-align: left;
 }
 
-.cookbook-card h3 {
+.cookbook-card h3,
+.cookbook-card a[href] {
   text-align: left;
 }
 

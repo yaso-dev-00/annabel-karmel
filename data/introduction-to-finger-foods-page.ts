@@ -1,5 +1,5 @@
-import type { ArticleRecipeCarouselItem } from "@/components/article-recipe-carousel";
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { ArticleRecipeCarouselItem } from "@/components/SharedCarousels/ArticleRecipeCarousel";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 
 const relatedBase = "/articles/introduction-to-finger-foods/related";
 

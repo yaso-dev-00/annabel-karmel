@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { FrozenMealsPageContent } from "@/components/frozen-meals-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { FrozenMealsPageContent } from "@/components/ProductScreen/categories/FrozenMealsPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Frozen Meals for Toddlers & Kids | Annabel Karmel",

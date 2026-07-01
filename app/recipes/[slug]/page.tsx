@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { RecipeDetailPage } from "@/components/recipe-detail-page";
+import { RecipeDetailPage } from "@/components/RecipeScreen/RecipeDetailPage";
 import { recipeDetailDemoContent } from "@/data/recipe-detail-demo";
 import { getRecipePage } from "@/lib/recipe-detail";
 

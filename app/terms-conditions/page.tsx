@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { LegalPageContent } from "@/components/legal-page-content";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { LegalPageContent } from "@/components/LegalScreen/LegalPageContent";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import { termsConditionsPage } from "@/data/footer-pages/terms-conditions";
 
 export const metadata: Metadata = {

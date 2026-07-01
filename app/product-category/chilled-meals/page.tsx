@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { ChilledMealsPageContent } from "@/components/chilled-meals-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { ChilledMealsPageContent } from "@/components/ProductScreen/categories/ChilledMealsPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Chilled Meals for Toddlers & Children | Annabel Karmel",

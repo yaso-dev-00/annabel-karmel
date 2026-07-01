@@ -1,4 +1,4 @@
-import type { WaysToServeItem } from "@/components/ways-to-serve-carousel";
+import type { WaysToServeItem } from "@/components/SharedCarousels/WaysToServeCarousel";
 import type {
   ChilledProductAccordionItem,
   ChilledProductCarouselSlide,

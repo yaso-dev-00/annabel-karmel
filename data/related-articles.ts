@@ -1,4 +1,4 @@
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 import { articleIndex } from "@/data/article-index";
 import { resolveArticleHref, slugFromHref } from "@/data/resolve-article-listing";
 

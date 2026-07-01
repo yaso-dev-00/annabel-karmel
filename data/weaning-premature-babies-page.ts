@@ -1,5 +1,5 @@
-import type { FoodCategoryItem } from "@/components/food-category-accordion";
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { FoodCategoryItem } from "@/components/ArticleScreen/FoodCategoryAccordion";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 
 export const articleSlug = "weaning-premature-babies";
 export const articlePath = `/articles/${articleSlug}`;

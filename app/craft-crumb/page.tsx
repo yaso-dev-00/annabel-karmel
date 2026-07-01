@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { CraftCrumbPageContent } from "@/components/craft-crumb-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { CraftCrumbPageContent } from "@/components/MarketingScreen/CraftCrumbPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Craft & Crumb | Annabel Karmel",

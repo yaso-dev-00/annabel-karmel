@@ -1,6 +1,6 @@
-import { HomePageContent } from "@/components/home-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { HomePageContent } from "@/components/HomeScreen/HomePage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export default function Home() {
   return (

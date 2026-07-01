@@ -1,4 +1,4 @@
-import type { ArticleRecipeCarouselItem } from "@/components/article-recipe-carousel";
+import type { ArticleRecipeCarouselItem } from "@/components/SharedCarousels/ArticleRecipeCarousel";
 
 const LUNCHBOX_IMG = "/articles/10-healthy-nutritious-lunchbox-ideas";
 

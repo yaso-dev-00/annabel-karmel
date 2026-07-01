@@ -1,7 +1,7 @@
-import { AdviceCategoryListing } from "@/components/advice-category-listing";
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { AdviceCategoryListing } from "@/components/ArticleScreen/AdviceCategoryListing";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import {
   childHealthDevelopmentArticles,
   childHealthDevelopmentIntro,

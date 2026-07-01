@@ -1,4 +1,4 @@
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 
 export const articleSlug = "infertility-and-iodine-deficiency-everything-you-need-to-know";
 export const articlePath = `/articles/${articleSlug}`;

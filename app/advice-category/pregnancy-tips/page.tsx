@@ -1,7 +1,7 @@
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { AdviceCategoryListing } from "@/components/advice-category-listing";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { AdviceCategoryListing } from "@/components/ArticleScreen/AdviceCategoryListing";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import { pregnancyTipsArticles, pregnancyTipsIntro } from "@/data/pregnancy-advice-listings";
 import type { Metadata } from "next";
 

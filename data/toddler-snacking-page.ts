@@ -1,5 +1,5 @@
-import type { ArticleRecipeCarouselItem } from "@/components/article-recipe-carousel";
-import type { RelatedArticleItem } from "@/components/related-articles-carousel";
+import type { ArticleRecipeCarouselItem } from "@/components/SharedCarousels/ArticleRecipeCarousel";
+import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
 
 export const articleSlug = "toddler-snacking";
 export const articlePath = `/articles/${articleSlug}`;

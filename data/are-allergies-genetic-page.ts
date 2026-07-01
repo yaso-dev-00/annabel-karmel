@@ -1,4 +1,4 @@
-import type { ArticleRecipeCarouselItem } from "@/components/article-recipe-carousel";
+import type { ArticleRecipeCarouselItem } from "@/components/SharedCarousels/ArticleRecipeCarousel";
 
 const IMG = "/articles/are-allergies-genetic";
 

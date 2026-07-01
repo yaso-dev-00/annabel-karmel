@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
-import { ContactPageContent } from "@/components/contact-page";
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { ContactPageContent } from "@/components/FooterPagesScreen/ContactPage";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Contact Us | Annabel Karmel",

@@ -1,4 +1,4 @@
-import type { AdviceCategoryListingArticle } from "@/components/advice-category-listing";
+import type { AdviceCategoryListingArticle } from "@/components/ArticleScreen/AdviceCategoryListing";
 import { resolveListingHref } from "@/data/resolve-article-listing";
 
 const listingImageBase = "/advice-category/child-health-and-development";

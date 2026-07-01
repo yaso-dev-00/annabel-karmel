@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { ChickenTikkaMasalaPageContent } from "@/components/chicken-tikka-masala-page";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { ChickenTikkaMasalaPageContent } from "@/components/ProductScreen/detail/wrappers/ChickenTikkaMasalaPage";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Chicken Tikka Masala | Frozen Ready Meal for Children | Annabel Karmel",

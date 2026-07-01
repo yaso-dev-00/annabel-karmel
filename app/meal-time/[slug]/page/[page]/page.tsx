@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { RecipeCategoryPage } from "@/components/recipe-category-page";
+import { RecipeCategoryPage } from "@/components/RecipeScreen/RecipeCategoryPage";
 
 import { getTaxonomy } from "@/data/recipe-taxonomies";
 

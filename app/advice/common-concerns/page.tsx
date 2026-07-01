@@ -1,8 +1,8 @@
-import { FoodCategoryAccordion } from "@/components/food-category-accordion";
-import { InstagramShareSection } from "@/components/instagram-share-section";
-import { RelatedArticlesCarousel } from "@/components/related-articles-carousel";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
+import { FoodCategoryAccordion } from "@/components/ArticleScreen/FoodCategoryAccordion";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
+import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import {
   commonConcernsAccordionItems,
   commonConcernsIntro,

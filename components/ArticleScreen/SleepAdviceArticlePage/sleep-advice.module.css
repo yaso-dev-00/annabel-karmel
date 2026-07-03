@@ -1,0 +1,245 @@
+.pageTitle {
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.12;
+  font-weight: 900;
+  color: #1f2630;
+  text-align: center;
+}
+
+.sectionTitle {
+  margin: 40px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.12;
+  font-weight: 900;
+  color: #1f2630;
+}
+
+.body {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.sectionTitle + .body,
+.sectionTitle + .list,
+.sectionTitle + .orderedList,
+.sectionTitle + .table,
+.body + .contentImage,
+.body + .list,
+.body + .orderedList,
+.sectionTitle + .contentImage {
+  margin-top: 20px;
+}
+
+.list {
+  margin: 40px 0 0;
+  padding: 0 0 0 100px;
+  list-style: disc;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.listLabel {
+  font-weight: 700;
+}
+
+.list li + li {
+  margin-top: 12px;
+}
+
+/* Tailwind preflight removes default ol markers */
+.orderedList {
+  margin: 40px 0 0;
+  padding: 0 0 0 100px;
+  list-style: decimal;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.sectionTitle + .orderedList {
+  margin-top: 20px;
+}
+
+.contentImage + .orderedList {
+  margin-top: 20px;
+}
+
+.orderedList li + li {
+  margin-top: 12px;
+}
+
+.table {
+  width: 100%;
+  margin: 40px 0 0;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  color: #3f3841;
+}
+
+.table th,
+.table td {
+  border: 1px solid #d8d2d6;
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table th {
+  background: #f7f4f5;
+  font-weight: 700;
+}
+
+.contentImage {
+  display: block;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  margin: 20px auto 0;
+}
+
+.highlightedBlock {
+  margin: 20px 0 0;
+  padding: 36px 48px;
+  background-color: #fdf2f4;
+}
+
+.highlightedItem + .highlightedItem {
+  margin-top: 40px;
+}
+
+.highlightedItemTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.12;
+  font-weight: 900;
+  color: #1f2630;
+}
+
+.highlightedBody {
+  margin: 20px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.highlightedBody + .highlightedBody {
+  margin-top: 40px;
+}
+
+.attributionBlock {
+  margin: 60px 0 0;
+  padding: 36px 48px;
+  background-color: #fdf2f4;
+}
+
+.attributionBlock::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.attributionImage {
+  float: right;
+  width: 240px;
+  height: auto;
+  margin: 0 0 20px 40px;
+  object-fit: cover;
+}
+
+.attribution {
+  margin: 0 0 28px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.attribution:last-child {
+  margin-bottom: 0;
+}
+
+.attributionLink {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.attributionLink:hover {
+  color: var(--hover-color);
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .pageTitle,
+  .sectionTitle,
+  .body,
+  .list,
+  .orderedList,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+  .list,
+  .orderedList {
+    padding-left: 2.5rem;
+  }
+
+  .pageTitle {
+    font-size: 30px;
+  }
+
+  .attributionBlock {
+    padding: 24px 20px;
+  }
+
+  .highlightedBlock {
+    padding: 24px 20px;
+  }
+
+  .attributionImage {
+    width: 165px;
+    margin: 0 0 12px 16px;
+  }
+
+  .table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .relatedText {
+    margin-top: 25px;
+    font-size: 17px;
+  }
+}

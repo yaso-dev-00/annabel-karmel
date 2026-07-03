@@ -110,6 +110,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/advice/sleep",
+        destination: "/advice-category/baby-sleep-advice",
+        permanent: true,
+      },
+      {
         source: "/infertility-and-iodine-deficiency-everything-you-need-to-know",
         destination: "/advice/infertility-and-iodine-deficiency-everything-you-need-to-know",
         permanent: true,

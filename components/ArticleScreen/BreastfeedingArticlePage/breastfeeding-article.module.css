@@ -1,0 +1,146 @@
+.body,
+.bodyBold {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.bodyBold {
+  font-weight: 700;
+}
+
+.bodyBoldItalic {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.42;
+  font-weight: 700;
+  font-style: italic;
+  color: #3f3841;
+}
+
+/* First block should hug the top of the article. */
+.body:first-child,
+.bodyBold:first-child,
+.bodyBoldItalic:first-child {
+  margin-top: 0;
+}
+
+.sectionTitle {
+  margin: 40px 0 0;
+  font-family: var(--font-body);
+  font-size: 26px;
+  line-height: 1.12;
+  font-weight: 900;
+  color: #3d3d3d;
+}
+
+.subTitle {
+  margin: 30px 0 0;
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #3d3d3d;
+}
+
+.list,
+.orderedList {
+  margin: 30px 0 0;
+  padding: 0 0 0 100px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.42;
+  color: #3f3841;
+}
+
+.list {
+  list-style: disc;
+}
+
+.orderedList {
+  list-style: decimal;
+}
+
+.list li + li,
+.orderedList li + li {
+  margin-top: 12px;
+}
+
+.accordion {
+  margin: 40px 0 0;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 40px 0 0;
+  border-radius: 4px;
+}
+
+.divider {
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  height: auto;
+  margin: 40px auto 0;
+  border: 0;
+}
+
+.inlineBold {
+  font-weight: 700;
+}
+
+.inlineLink {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.inlineLink:hover {
+  color: var(--hover-color);
+}
+
+.relatedTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3a3a3a;
+}
+
+.relatedText {
+  margin: 20px 0 10px;
+  font-family: var(--font-body);
+  font-size: 22px;
+  line-height: 1.3;
+  color: #4e434b;
+}
+
+@media (max-width: 900px) {
+  .body,
+  .bodyBold,
+  .bodyBoldItalic,
+  .sectionTitle,
+  .subTitle,
+  .accordion,
+  .relatedTitle,
+  .relatedText {
+    padding: 0 10px;
+  }
+
+  .list,
+  .orderedList {
+    padding-left: 2.5rem;
+  }
+
+  .relatedText {
+    margin-top: 25px;
+    font-size: 17px;
+  }
+}

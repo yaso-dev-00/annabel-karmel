@@ -260,6 +260,51 @@ export const articleIndex: ArticleCard[] = [
       "Baby essentials to get you started — car seat, cot, pushchair, bouncer, feeding equipment, and baby clothes.",
   },
   {
+    slug: "busting-common-baby-sleep-myths",
+    title: "Busting common baby sleep myths",
+    heroImage: "/articles/busting-common-baby-sleep-myths/hero.jpg",
+    heroAlt: "Busting common baby sleep myths",
+    category: "Sleep",
+    intro:
+      "Paediatric sleep consultant Kerry Secker separates fact from fiction with 8 common baby sleep myths.",
+  },
+  {
+    slug: "supporting-baby-wake-night",
+    title: "Supporting your baby if they wake at night",
+    heroImage: "/articles/supporting-baby-wake-night/hero.jpg",
+    heroAlt: "Supporting your baby if they wake at night",
+    category: "Sleep",
+    intro:
+      "How to meet your baby's needs at night with Kerry Secker's rolling-up response technique.",
+  },
+  {
+    slug: "baby-nap-times",
+    title: "Resettling at nap times",
+    heroImage: "/articles/baby-nap-times/hero.jpg",
+    heroAlt: "Resettling at nap times",
+    category: "Sleep",
+    intro:
+      "Practical nap-time advice on short naps, resettling, and when to let it go.",
+  },
+  {
+    slug: "baby-bedtime",
+    title: "Baby sleep: the biology behind bedtime",
+    heroImage: "/articles/baby-bedtime/hero.jpg",
+    heroAlt: "Baby sleep: the biology behind bedtime",
+    category: "Sleep",
+    intro:
+      "Understand melatonin, cortisol, and sleep stages to help balance your baby's hormones.",
+  },
+  {
+    slug: "baby-sleep-routine",
+    title: "The bedtime routine and preparing for sleep separation",
+    heroImage: "/articles/baby-sleep-routine/hero.jpg",
+    heroAlt: "The bedtime routine and preparing for sleep separation",
+    category: "Sleep",
+    intro:
+      "A gentle guide to building a bedtime routine that prepares your baby for sleep separation.",
+  },
+  {
     slug: "allergies-with-professor-adam-fox",
     title: "Food Allergies with Professor Adam Fox",
     heroImage: "/articles/allergies-with-professor-adam-fox/hero.jpg",

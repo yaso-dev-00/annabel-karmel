@@ -49,9 +49,10 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
   }, []);
 
   const pages = useMemo(() => {
-    const maxStart = Math.max(0, items.length - perView);
+    // Non-overlapping pages, advancing a full view at a time (like the live site),
+    // so each dot maps to a distinct block of up to `perView` articles.
     const windows: RelatedArticleItem[][] = [];
-    for (let start = 0; start <= maxStart; start += 1) {
+    for (let start = 0; start < items.length; start += perView) {
       windows.push(items.slice(start, start + perView));
     }
     return windows;

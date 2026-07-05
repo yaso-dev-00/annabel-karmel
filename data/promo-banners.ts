@@ -33,7 +33,7 @@ export const siteAdBanners: SiteAdBanner[] = [
     id: "finger-food-plant-powered-2026",
     title: "Finger Food Launch May 2026",
     image: "https://www.annabelkarmel.com/wp-content/uploads/2026/05/Ad-banner-4-1.png",
-    href: "https://www.annabelkarmel.com/product-category/plant-powered-bites/",
+    href: "/product-category/plant-powered-bites",
     ariaLabel: "Plant-powered for kids — now available at Asda",
     width: 728,
     height: 200,

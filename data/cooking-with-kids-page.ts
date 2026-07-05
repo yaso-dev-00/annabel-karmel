@@ -103,7 +103,7 @@ export const bookPromo = {
   image: `${articlePath}/book.jpg`,
   imageAlt: "Real Food Kids Will Love cookbook by Annabel Karmel",
   bookTitle: "Real Food Kids Will Love cookbook",
-  bookHref: "https://www.annabelkarmel.com/our-products/cookbooks/",
+  bookHref: "/app-book-category/our-books",
   paragraphs: [
     "Annabel's brand new Real Food Kids Will Love cookbook is packed full of advice, top tips and over 100 simple and delicious recipes which the whole family can enjoy together – from 15 minute meals to healthy fast food favourites, cooking with the kids, lunchbox snacks and more.",
     "Many recipes include handy swap-outs to cater for those with food allergies, intolerances or particularly fussy eaters! There is also a range of meat-free and vegan meal options too, meaning mealtimes can be made healthy and fun for the whole family whatever your family's foodie preferences.",

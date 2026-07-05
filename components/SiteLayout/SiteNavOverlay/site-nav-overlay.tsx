@@ -28,11 +28,15 @@ function OverlayLink({
   label,
   className,
   onNavigate,
+  onMouseEnter,
+  onFocus,
 }: {
   href: string;
   label: string;
   className?: string;
   onNavigate?: () => void;
+  onMouseEnter?: () => void;
+  onFocus?: () => void;
 }) {
   const pathname = usePathname();
   const active = isNavLinkActive(pathname, href);
@@ -43,6 +47,8 @@ function OverlayLink({
       className={`nav-overlay-link ${active ? "is-active" : ""} ${className ?? ""}`}
       aria-current={active ? "page" : undefined}
       onClick={onNavigate}
+      onMouseEnter={onMouseEnter}
+      onFocus={onFocus}
     >
       {label}
     </Link>
@@ -119,9 +125,17 @@ function DropdownMenuContent({
       );
     }
 
+    const closeNested = () => onNestedChange(null);
+
     return (
       <li key={link.label}>
-        <OverlayLink href={link.href} label={link.label} onNavigate={onClose} />
+        <OverlayLink
+          href={link.href}
+          label={link.label}
+          onNavigate={onClose}
+          onMouseEnter={closeNested}
+          onFocus={closeNested}
+        />
       </li>
     );
   };

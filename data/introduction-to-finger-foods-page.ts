@@ -85,7 +85,7 @@ export const introductionToFingerFoodsRelatedArticles: RelatedArticleItem[] = [
   },
   {
     title: "6 incredibly simple recipes with Green Giant sweetcorn",
-    href: "https://www.annabelkarmel.com/6-incredibly-simple-recipes-with-green-giant-sweetcorn/",
+    href: "/6-incredibly-simple-recipes-with-green-giant-sweetcorn",
     image: `${relatedBase}/green-giant-sweetcorn.jpg`,
   },
   {

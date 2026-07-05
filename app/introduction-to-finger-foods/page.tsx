@@ -90,11 +90,7 @@ export default function IntroductionToFingerFoodsPage() {
 
             <a
 
-              href="https://www.annabelkarmel.com/baby-led-weaning/"
-
-              target="_blank"
-
-              rel="noopener noreferrer"
+              href="/baby-led-weaning"
 
               className={styles.link}
 

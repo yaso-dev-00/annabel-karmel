@@ -112,9 +112,7 @@ export default function LeftoversRecipesPage() {
               <strong>
                 <a
                 className={styles.partnerLinkText}
-                  href="https://www.annabelkarmel.com/top-10-tip-to-reduce-food-waste/"
-                  target="_blank"
-                  rel="noreferrer"
+                  href="/top-10-tip-to-reduce-food-waste"
                 >
                   click here.
                 </a>

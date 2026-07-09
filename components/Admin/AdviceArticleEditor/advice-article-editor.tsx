@@ -67,8 +67,9 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
       }
       setDirty(false);
       setMessage(publish ? "Published!" : "Saved.");
-    } catch {
-      setMessage("Save failed. Please try again.");
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      setMessage(detail);
     } finally {
       setSaving(false);
     }
@@ -93,9 +94,10 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
               : "Status saved.",
         );
         router.refresh();
-      } catch {
+      } catch (error) {
         setDirty(true);
-        setMessage("Failed to save status. Try Save draft.");
+        const detail = error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+        setMessage(detail);
       } finally {
         setSaving(false);
       }

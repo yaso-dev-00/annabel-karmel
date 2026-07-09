@@ -2,16 +2,25 @@ import type { AdviceArticle } from "@/lib/content-blocks/types";
 
 const BASE = "/api/admin/advice-articles";
 
+async function readApiError(res: Response, fallback: string): Promise<string> {
+  try {
+    const data = (await res.json()) as { error?: string };
+    return data.error ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export async function fetchAdviceArticles(): Promise<AdviceArticle[]> {
   const res = await fetch(BASE, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch advice articles");
+  if (!res.ok) throw new Error(await readApiError(res, "Failed to fetch advice articles"));
   const data = (await res.json()) as { articles: AdviceArticle[] };
   return data.articles;
 }
 
 export async function fetchAdviceArticle(id: string): Promise<AdviceArticle> {
   const res = await fetch(`${BASE}/${id}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Article not found");
+  if (!res.ok) throw new Error(await readApiError(res, "Article not found"));
   return (await res.json()) as AdviceArticle;
 }
 
@@ -23,7 +32,7 @@ export async function createAdviceArticleApi(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
-  if (!res.ok) throw new Error("Failed to create article");
+  if (!res.ok) throw new Error(await readApiError(res, "Failed to create article"));
   return (await res.json()) as AdviceArticle;
 }
 
@@ -36,11 +45,11 @@ export async function updateAdviceArticleApi(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
-  if (!res.ok) throw new Error("Failed to update article");
+  if (!res.ok) throw new Error(await readApiError(res, "Failed to update article"));
   return (await res.json()) as AdviceArticle;
 }
 
 export async function deleteAdviceArticleApi(id: string): Promise<void> {
   const res = await fetch(`${BASE}/${id}`, { method: "DELETE" });
-  if (!res.ok) throw new Error("Failed to delete article");
+  if (!res.ok) throw new Error(await readApiError(res, "Failed to delete article"));
 }

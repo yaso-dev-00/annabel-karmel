@@ -36,20 +36,21 @@ async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string>
   return new Response(stream).text();
 }
 
-async function cmsBlobExists(): Promise<boolean> {
+async function readBlobViaHead(): Promise<string | null> {
   try {
-    await head(BLOB_PATHNAME, getBlobAuthOptions());
-    return true;
-  } catch (error) {
-    if (error instanceof BlobNotFoundError) return false;
-    return false;
+    const meta = await head(BLOB_PATHNAME, getBlobAuthOptions());
+    const res = await fetch(meta.downloadUrl ?? meta.url, { cache: "no-store" });
+    if (!res.ok) return null;
+    return res.text();
+  } catch {
+    return null;
   }
 }
 
 async function readBlobRaw(): Promise<string | null> {
   if (!useBlobCmsStore()) return null;
 
-  const accessModes = ["private", "public"] as const;
+  const accessModes = ["public", "private"] as const;
   for (const access of accessModes) {
     try {
       const result = await get(BLOB_PATHNAME, {
@@ -65,7 +66,7 @@ async function readBlobRaw(): Promise<string | null> {
     }
   }
 
-  return null;
+  return readBlobViaHead();
 }
 
 async function writeBlobRaw(raw: string): Promise<void> {
@@ -75,13 +76,38 @@ async function writeBlobRaw(raw: string): Promise<void> {
     );
   }
 
-  await put(BLOB_PATHNAME, raw, {
-    access: "private",
+  const putOptions = {
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
     ...getBlobAuthOptions(),
-  });
+  };
+
+  try {
+    await put(BLOB_PATHNAME, raw, { ...putOptions, access: "public" });
+    return;
+  } catch (publicError) {
+    try {
+      await put(BLOB_PATHNAME, raw, { ...putOptions, access: "private" });
+      return;
+    } catch (privateError) {
+      const publicMessage =
+        publicError instanceof Error ? publicError.message : "Public blob write failed";
+      const privateMessage =
+        privateError instanceof Error ? privateError.message : "Private blob write failed";
+      throw new Error(`CMS save failed: ${publicMessage} / ${privateMessage}`);
+    }
+  }
+}
+
+async function cmsBlobExists(): Promise<boolean> {
+  try {
+    await head(BLOB_PATHNAME, getBlobAuthOptions());
+    return true;
+  } catch (error) {
+    if (error instanceof BlobNotFoundError) return false;
+    return false;
+  }
 }
 
 export async function readCmsStoreRaw(): Promise<string> {
@@ -89,10 +115,13 @@ export async function readCmsStoreRaw(): Promise<string> {
     const blobRaw = await readBlobRaw();
     if (blobRaw) return blobRaw;
 
+    const headRaw = await readBlobViaHead();
+    if (headRaw) return headRaw;
+
     if (await cmsBlobExists()) {
-      const retryRaw = await readBlobRaw();
-      if (retryRaw) return retryRaw;
-      throw new Error("Failed to read CMS store from Blob");
+      throw new Error(
+        "Failed to read CMS store from Blob. Add BLOB_READ_WRITE_TOKEN from your Blob store to the project environment variables, then redeploy.",
+      );
     }
 
     return readSeedRaw();

@@ -37,11 +37,13 @@ async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string>
   return new Response(stream).text();
 }
 
-/** Always use SDK get + useCache:false — never fetch the public CDN URL. */
-async function getBlobText(access: "public" | "private"): Promise<string | null> {
+async function readBlobRaw(): Promise<string | null> {
+  if (!useBlobCmsStore()) return null;
+
   try {
+    // Public store only — never use access: "private".
     const result = await get(BLOB_PATHNAME, {
-      access,
+      access: "public",
       useCache: false,
       ...getBlobAuthOptions(),
     });
@@ -49,14 +51,10 @@ async function getBlobText(access: "public" | "private"): Promise<string | null>
       return streamToText(result.stream);
     }
   } catch {
-    // Missing blob or access mismatch.
+    // Blob may not exist yet.
   }
-  return null;
-}
 
-async function readBlobRaw(): Promise<string | null> {
-  if (!useBlobCmsStore()) return null;
-  return (await getBlobText("public")) ?? (await getBlobText("private"));
+  return null;
 }
 
 async function writeBlobRaw(raw: string): Promise<void> {
@@ -66,7 +64,6 @@ async function writeBlobRaw(raw: string): Promise<void> {
     );
   }
 
-  // Store is Public — write public blobs. Fresh reads use get(..., useCache: false).
   await put(BLOB_PATHNAME, raw, {
     access: "public",
     contentType: "application/json",

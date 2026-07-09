@@ -1,0 +1,47 @@
+/* Design system CSS variables — imported in admin + public article shells. */
+:root {
+  --ds-primary: #b24a66;
+  --ds-success: #7dc242;
+  --ds-warning: #ffc222;
+  --ds-error: #ff1000;
+
+  --ds-raspberry-100: #fdf1f3;
+  --ds-raspberry-200: #f1c6cd;
+  --ds-raspberry-300: #d897a4;
+  --ds-raspberry-400: #c26f81;
+  --ds-raspberry-500: #b24a66;
+  --ds-raspberry-600: #a03d56;
+  --ds-raspberry-700: #8e3046;
+  --ds-raspberry-800: #7c2336;
+  --ds-raspberry-900: #6a1626;
+  --ds-raspberry-1000: #580916;
+
+  --ds-grey-100: #f9f9f9;
+  --ds-grey-200: #e6e6e6;
+  --ds-grey-300: #cccccc;
+  --ds-grey-400: #b3b3b3;
+  --ds-grey-500: #999999;
+  --ds-grey-600: #808080;
+  --ds-grey-700: #666666;
+  --ds-grey-800: #4d4d4d;
+  --ds-grey-900: #333333;
+  --ds-grey-1000: #1a1a1a;
+
+  --ds-radius-sharp: 0px;
+  --ds-radius-xs: 4px;
+  --ds-radius-s: 16px;
+  --ds-radius-m: 24px;
+  --ds-radius-l: 36px;
+  --ds-radius-round: 999px;
+
+  --ds-shadow-100: 0 1px 3px rgba(26, 26, 26, 0.08), 0 1px 2px rgba(26, 26, 26, 0.06);
+  --ds-shadow-200: 0 4px 14px rgba(26, 26, 26, 0.1), 0 2px 6px rgba(26, 26, 26, 0.06);
+  --ds-shadow-300: 0 12px 32px rgba(26, 26, 26, 0.14), 0 4px 12px rgba(26, 26, 26, 0.08);
+
+  --ds-font-primary: var(--font-montserrat), Montserrat, sans-serif;
+  --ds-font-secondary: var(--font-playfair), "Playfair Display", Georgia, serif;
+
+  --ds-grid-mobile-max: 767px;
+  --ds-grid-tablet-max: 1023px;
+  --ds-grid-desktop-min: 1024px;
+}

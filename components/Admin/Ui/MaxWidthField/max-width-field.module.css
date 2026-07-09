@@ -1,0 +1,20 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.customInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #efd8d8;
+  border-radius: 8px;
+  font-size: 13px;
+  background: #fff;
+}
+
+.customHint {
+  margin: 0;
+  font-size: 11px;
+  color: #6d5757;
+}

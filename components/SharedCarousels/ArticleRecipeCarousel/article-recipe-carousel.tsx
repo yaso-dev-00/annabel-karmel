@@ -2,27 +2,12 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { resolveImageSrc } from "@/lib/content-blocks/image-src";
+import { ArticleRecipeCarouselPreview } from "./article-recipe-carousel-preview";
 import styles from "./article-recipe-carousel.module.css";
 
 function RecipeLockIcon() {
   return <span className={styles.lockGlyph} aria-hidden />;
-}
-
-function RecipeHeartIcon({ saved }: { saved: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden
-      className={`${styles.heartIcon} ${saved ? styles.heartIconSaved : ""}`}
-    >
-      <path
-        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-        fill={saved ? "currentColor" : "none"}
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-    </svg>
-  );
 }
 
 export type ArticleRecipeCarouselItem = {
@@ -43,6 +28,8 @@ type ArticleRecipeCarouselProps = {
    * half a card peeking on each side (4 card-width units across the viewport).
    */
   compact?: boolean;
+  /** CMS preview: measure layout from the carousel viewport, not the browser window. */
+  embedded?: boolean;
 };
 
 const SLIDE_TRANSITION = { duration: 0.32, ease: [0.4, 0, 0.2, 1] as const };
@@ -51,7 +38,6 @@ type PeekMode = "none" | "center" | "start";
 
 type CarouselLayout = {
   perView: number;
-  /** Visible card-width units in the viewport (e.g. 1.5 = one full + half of next). */
   slots: number;
   peek: boolean;
   peekMode: PeekMode;
@@ -104,6 +90,27 @@ function buildLoopTrack(items: ArticleRecipeCarouselItem[], perView: number) {
   return track;
 }
 
+function readLayoutWidth(viewport: HTMLDivElement | null) {
+  if (viewport && viewport.clientWidth > 0) {
+    return viewport.clientWidth;
+  }
+  if (typeof window !== "undefined") {
+    return window.innerWidth;
+  }
+  return 1280;
+}
+
+function eventTargetElement(target: EventTarget | null): Element | null {
+  if (!target) return null;
+  if (target instanceof Element) return target;
+  if (target instanceof Node) return target.parentElement;
+  return null;
+}
+
+function isLinkTarget(target: EventTarget | null): boolean {
+  return Boolean(eventTargetElement(target)?.closest("a[href]"));
+}
+
 export function ArticleRecipeCarousel({
   items,
   className = "mt-[60px]",
@@ -111,13 +118,45 @@ export function ArticleRecipeCarousel({
   loop = true,
   autoplayMs = 0,
   compact = false,
+  embedded = false,
 }: ArticleRecipeCarouselProps) {
+  if (embedded) {
+    return (
+      <ArticleRecipeCarouselPreview
+        items={items}
+        className={className}
+        perDesktopView={perDesktopView}
+        loop={loop}
+        compact={compact}
+      />
+    );
+  }
+
+  return (
+    <ArticleRecipeCarouselLive
+      items={items}
+      className={className}
+      perDesktopView={perDesktopView}
+      loop={loop}
+      autoplayMs={autoplayMs}
+      compact={compact}
+    />
+  );
+}
+
+function ArticleRecipeCarouselLive({
+  items,
+  className = "mt-[60px]",
+  perDesktopView = 5,
+  loop = true,
+  autoplayMs = 0,
+  compact = false,
+}: Omit<ArticleRecipeCarouselProps, "embedded">) {
   const prefersReducedMotion = useReducedMotion();
+  const viewportRef = useRef<HTMLDivElement | null>(null);
 
   const [layout, setLayout] = useState<CarouselLayout>(() =>
-    typeof window === "undefined"
-      ? { perView: perDesktopView, slots: perDesktopView, peek: false, peekMode: "none" }
-      : getCarouselLayout(window.innerWidth, compact, perDesktopView),
+    getCarouselLayout(readLayoutWidth(null), compact, perDesktopView),
   );
   const { perView, peek: peekLayout } = layout;
   const [step, setStep] = useState(0);
@@ -125,23 +164,10 @@ export function ArticleRecipeCarousel({
   const [position, setPosition] = useState(0);
   const [activeDot, setActiveDot] = useState(0);
   const [instant, setInstant] = useState(false);
-  const [savedTitles, setSavedTitles] = useState<Set<string>>(() => new Set());
 
   const trackRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
-  const viewportRef = useRef<HTMLDivElement | null>(null);
 
-  const toggleSaved = useCallback((title: string) => {
-    setSavedTitles((prev) => {
-      const next = new Set(prev);
-      if (next.has(title)) {
-        next.delete(title);
-      } else {
-        next.add(title);
-      }
-      return next;
-    });
-  }, []);
   const pausedRef = useRef(false);
   const pointerStartX = useRef<number | null>(null);
   const pointerCurrentX = useRef<number | null>(null);
@@ -172,14 +198,36 @@ export function ArticleRecipeCarousel({
 
   const gap = compact ? 10 : 14;
 
+  const syncLayoutFromViewport = useCallback(() => {
+    const width = readLayoutWidth(viewportRef.current);
+    setLayout(getCarouselLayout(width, compact, perDesktopView));
+  }, [compact, perDesktopView]);
+
   const measureStep = useCallback(() => {
     const viewport = viewportRef.current;
     const stage = stageRef.current;
+    const track = trackRef.current;
     if (!viewport || viewport.clientWidth <= 0) return;
 
-    const cardWidth = getCardWidth(viewport.clientWidth, layout, gap);
+    const viewportWidth = viewport.clientWidth;
+    const activeLayout = getCarouselLayout(viewportWidth, compact, perDesktopView);
+
+    const firstCard = track?.querySelector<HTMLElement>(".article-recipe-card");
+    const cardWidth =
+      firstCard && firstCard.offsetWidth > 0
+        ? firstCard.offsetWidth
+        : getCardWidth(viewportWidth, activeLayout, gap);
+
     if (cardWidth <= 0) return;
 
+    setLayout((current) =>
+      current.perView === activeLayout.perView &&
+      current.slots === activeLayout.slots &&
+      current.peek === activeLayout.peek &&
+      current.peekMode === activeLayout.peekMode
+        ? current
+        : activeLayout,
+    );
     setCardWidthPx(cardWidth);
     setStep(cardWidth + gap);
 
@@ -188,7 +236,7 @@ export function ArticleRecipeCarousel({
       stage.style.setProperty("--nav-center-y", `${(cardWidth * 3) / 8}px`);
       stage.dataset.navReady = "";
     }
-  }, [gap, layout]);
+  }, [compact, gap, perDesktopView]);
 
   useLayoutEffect(() => {
     const start = useLoop ? loopStart : 0;
@@ -202,13 +250,11 @@ export function ArticleRecipeCarousel({
   }, [position, updateDot]);
 
   useEffect(() => {
-    const onResize = () => {
-      setLayout(getCarouselLayout(window.innerWidth, compact, perDesktopView));
-    };
-    onResize();
+    syncLayoutFromViewport();
+    const onResize = () => syncLayoutFromViewport();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [compact, perDesktopView]);
+  }, [syncLayoutFromViewport]);
 
   useEffect(() => {
     measureStep();
@@ -220,7 +266,7 @@ export function ArticleRecipeCarousel({
     const ro = new ResizeObserver(measureStep);
     ro.observe(viewport);
     return () => ro.disconnect();
-  }, [measureStep, trackItems.length, layout]);
+  }, [measureStep, trackItems.length]);
 
   useEffect(() => {
     if (!instant) return;
@@ -263,6 +309,7 @@ export function ArticleRecipeCarousel({
   };
 
   const onPointerDown: React.PointerEventHandler<HTMLDivElement> = (event) => {
+    if (isLinkTarget(event.target)) return;
     pausedRef.current = true;
     activePointerId.current = event.pointerId;
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -291,12 +338,19 @@ export function ArticleRecipeCarousel({
     pointerStartX.current = null;
     pointerCurrentX.current = null;
     activePointerId.current = null;
+    const dragged = isDragging.current;
+    isDragging.current = false;
     window.setTimeout(() => {
+      if (!dragged) return;
       pausedRef.current = false;
     }, 400);
+    if (!dragged) {
+      pausedRef.current = false;
+    }
   };
 
   const onCardClickCapture: React.MouseEventHandler<HTMLElement> = (event) => {
+    if (isLinkTarget(event.target)) return;
     if (isDragging.current) {
       event.preventDefault();
       event.stopPropagation();
@@ -307,9 +361,9 @@ export function ArticleRecipeCarousel({
   const x = step > 0 ? -position * step + peekOffset : 0;
   const cardStyle = cardWidthPx ? { width: cardWidthPx } : { width: "85vw", maxWidth: 320 };
 
-  const wrapperClass = compact
-    ? `relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] px-[8px] md:px-[14px] ${className}`
-    : `relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] px-[8px] md:px-[14px] ${className}`;
+  const bleedClass =
+    "relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] px-[8px] md:px-[14px]";
+  const wrapperClass = `${bleedClass} ${className}`;
 
   return (
     <motion.div className={wrapperClass} initial={false}>
@@ -338,67 +392,68 @@ export function ArticleRecipeCarousel({
             transition={instant || prefersReducedMotion ? { duration: 0 } : SLIDE_TRANSITION}
             onAnimationComplete={normalizeLoop}
           >
-            {trackItems.map((recipe, i) => (
-              <motion.section
-              key={`${recipe.title}-${i}`}
-              className={`article-recipe-card shrink-0 overflow-visible rounded-[12px] bg-white shadow-[0_6px_18px_rgba(58,58,58,0.08)] ${compact ? "pb-[6px]" : "pb-[10px]"}`}
-              style={cardStyle}
-              onClickCapture={onCardClickCapture}
-              whileHover={prefersReducedMotion ? undefined : { y: -2 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className={styles.imageWrap}>
-                <a href={recipe.href} target="_blank" rel="noopener" className={styles.imageLink}>
-                  <img
-                    src={recipe.image}
-                    alt={recipe.title}
-                    loading={i < perView + 2 ? "eager" : "lazy"}
-                    decoding="async"
-                    className="block aspect-4/3 w-full object-cover"
-                    draggable={false}
-                  />
-                </a>
-                <div className={styles.iconRow}>
-                  <span
-                    className={styles.iconButton}
-                    aria-label={recipe.appExclusive ? "App exclusive recipe" : "Recipe"}
-                    title={recipe.appExclusive ? "App exclusive" : undefined}
-                  >
-                    <RecipeLockIcon />
-                  </span>
-                  <button
-                    type="button"
-                    className={styles.iconButton}
-                    aria-label={savedTitles.has(recipe.title) ? "Recipe saved" : "Click to save recipe"}
-                    title={savedTitles.has(recipe.title) ? "Recipe saved" : "Click to save"}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      event.stopPropagation();
-                      toggleSaved(recipe.title);
-                    }}
-                  >
-                    <RecipeHeartIcon saved={savedTitles.has(recipe.title)} />
-                  </button>
-                </div>
-              </div>
-              <motion.div
-                className={`px-[8px] text-center ${compact ? "min-h-[44px] pt-[10px]" : "min-h-[52px] pt-[15px] px-[10px]"}`}
-              >
-                <h3
-                  className={`m-0 mt-[10px] font-semibold text-[#3a3a3a] ${
-                    compact
-                      ? "text-[15px] leading-[1.25] min-[700px]:text-[17px] min-[900px]:text-[20px]"
-                      : "text-[16px] leading-[1.3] min-[700px]:text-[18px] min-[900px]:text-[20px]"
-                  }`}
-                  style={{ fontFamily: "var(--font-body)" }}
+            {trackItems.map((recipe, i) => {
+              const imageSrc = resolveImageSrc(recipe.image);
+              return (
+                <motion.section
+                  key={`${recipe.title}-${i}`}
+                  className={`article-recipe-card shrink-0 overflow-visible rounded-[12px] bg-white shadow-[0_6px_18px_rgba(58,58,58,0.08)] ${compact ? "pb-[6px]" : "pb-[10px]"}`}
+                  style={cardStyle}
+                  onClickCapture={onCardClickCapture}
+                  whileHover={prefersReducedMotion ? undefined : { y: -2 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <a href={recipe.href} target="_blank" rel="noopener" className="text-inherit no-underline hover:text-(--hover-color)">
-                    {recipe.title}
-                  </a>
-                </h3>
-              </motion.div>
-              </motion.section>
-            ))}
+                  <div className={styles.imageWrap}>
+                    <a href={recipe.href} target="_blank" rel="noopener" className={styles.imageLink}>
+                      {imageSrc ? (
+                        <img
+                          src={imageSrc}
+                          alt={recipe.title}
+                          loading={i < perView + 2 ? "eager" : "lazy"}
+                          decoding="async"
+                          className="block aspect-4/3 w-full object-cover"
+                          draggable={false}
+                        />
+                      ) : (
+                        <div className="block aspect-4/3 w-full bg-[#f6e9ef]" aria-hidden />
+                      )}
+                    </a>
+                    <div className={styles.iconRow}>
+                      {recipe.appExclusive ? (
+                        <span
+                          className={styles.iconButton}
+                          aria-label="App exclusive recipe"
+                          title="App exclusive"
+                        >
+                          <RecipeLockIcon />
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                  <motion.div
+                    className={`px-[8px] text-center ${compact ? "min-h-[44px] pt-[10px]" : "min-h-[52px] pt-[15px] px-[10px]"}`}
+                  >
+                    <h3
+                      className={`m-0 mt-[10px] font-semibold text-[#3a3a3a] ${
+                        compact
+                          ? "text-[15px] leading-[1.25] min-[700px]:text-[17px] min-[900px]:text-[20px]"
+                          : "text-[16px] leading-[1.3] min-[700px]:text-[18px] min-[900px]:text-[20px]"
+                      }`}
+                      style={{ fontFamily: "var(--font-body)" }}
+                    >
+                      <a
+                        href={recipe.href}
+                        target="_blank"
+                        rel="noopener"
+                        className="text-inherit no-underline hover:text-(--hover-color)"
+                      >
+                        {recipe.title}
+                      </a>
+                    </h3>
+                  </motion.div>
+                </motion.section>
+              );
+            })}
           </motion.div>
         </motion.div>
 

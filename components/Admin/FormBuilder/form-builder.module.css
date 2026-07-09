@@ -1,0 +1,457 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--admin-border);
+  background: var(--admin-brand-soft);
+  flex-wrap: wrap;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--admin-muted);
+  cursor: pointer;
+}
+
+.tabActive {
+  background: #fff;
+  border-color: var(--admin-border);
+  color: var(--admin-text);
+}
+
+/* Single-column workspace — avoids overlap in narrow block editor */
+.workspace {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.paletteBar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--admin-border);
+  background: #fafafa;
+}
+
+.paletteTitle,
+.propertiesTitle {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--admin-muted);
+}
+
+.paletteChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.paletteChip {
+  padding: 6px 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.paletteChip:hover {
+  border-color: var(--ds-primary);
+  color: var(--ds-primary);
+  background: #fffaf7;
+}
+
+.builderBody {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.canvas {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: auto;
+  max-height: min(520px, 55vh);
+  min-width: 0;
+}
+
+.formMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 4px;
+}
+
+.sectionCard {
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fffaf7;
+}
+
+.sectionRows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sectionHeaderActions,
+.rowToolbarActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sectionSummaryBadge,
+.rowSummaryBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--admin-muted);
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.canvasUtilityRow {
+  display: flex;
+  gap: 8px;
+}
+
+.canvasUtilityBtn {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #efd8d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #6d5757;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.canvasUtilityBtn:hover {
+  background: #f6e9ef;
+  border-color: #b34769;
+  color: #b34769;
+}
+
+.sectionTitleInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--admin-text);
+  padding: 4px 0;
+}
+
+.iconBtn {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--admin-muted);
+  cursor: pointer;
+}
+
+.iconBtn:hover {
+  border-color: #e9c6ce;
+  color: #b34769;
+  background: #fff5f8;
+}
+
+.rowCard {
+  border: 1px dashed var(--admin-border);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+}
+
+.rowToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #f0e8eb;
+}
+
+.rowToolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rowLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--admin-muted);
+}
+
+.rowColumnsBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ds-primary);
+  background: #fff5f8;
+  border: 1px solid #f0d4dc;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+/* Always stack fields vertically in the builder for easier editing */
+.rowGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rowActions {
+  margin-top: 2px;
+}
+
+.fieldCard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.fieldCardSelected {
+  border-color: var(--ds-primary);
+  box-shadow: 0 0 0 1px var(--ds-primary);
+}
+
+.dragHandle {
+  border: none;
+  background: none;
+  cursor: grab;
+  color: var(--admin-muted);
+  font-size: 14px;
+  padding: 4px 2px;
+}
+
+.fieldCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldTypeBadge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ds-primary);
+}
+
+.inlineInput,
+.inlineInputMuted {
+  width: 100%;
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  padding: 7px 9px;
+  font-size: 13px;
+  background: #fff;
+}
+
+.inlineInputMuted {
+  color: var(--admin-muted);
+}
+
+.removeBtn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--admin-muted);
+  cursor: pointer;
+}
+
+.removeBtn:hover {
+  border-color: var(--ds-primary);
+  color: var(--ds-primary);
+}
+
+.properties {
+  border-top: 1px solid var(--admin-border);
+  padding: 14px 16px;
+  background: #fafafa;
+  overflow: auto;
+  max-height: min(420px, 45vh);
+  min-width: 0;
+}
+
+.propertiesEmpty,
+.propertiesBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formSettingsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 520px) {
+  .formSettingsGrid {
+    grid-template-columns: 1fr 120px;
+    align-items: end;
+  }
+}
+
+.propertiesHint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--admin-muted);
+  padding-top: 4px;
+  border-top: 1px dashed var(--admin-border);
+}
+
+.propLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--admin-muted);
+}
+
+.propGroupTitle {
+  margin: 4px 0 0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--admin-muted);
+}
+
+.optionsEditor,
+.validationEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.optionRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px;
+  align-items: center;
+}
+
+.addOptionBtn {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border: 1px dashed var(--admin-border);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--admin-muted);
+  cursor: pointer;
+}
+
+.addOptionBtn:hover {
+  border-color: var(--ds-primary);
+  color: var(--ds-primary);
+}
+
+.previewPane {
+  padding: 16px;
+  background: #fffaf7;
+  overflow: auto;
+  max-height: min(600px, 65vh);
+}
+
+.jsonPane {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jsonError {
+  margin: 0;
+  font-size: 12px;
+  color: #b20000;
+}
+
+.jsonActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}

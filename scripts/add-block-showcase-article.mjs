@@ -1,0 +1,660 @@
+import { readFileSync, writeFileSync } from "fs";
+import path from "path";
+
+const RECIPE_IMG =
+  "https://www.annabelkarmel.com/wp-content/uploads/2026/04/CRUNCHY-FISH-FINGERS-2-768x960-optimized.jpg";
+
+const showcaseArticle = {
+  id: "00000000-0000-4000-8000-000000000002",
+  slug: "cms-block-showcase",
+  title: "CMS Block Showcase",
+  category_slug: "child-health-and-development",
+  listing_image: "/advice-category/child-health-and-development/toddler-top-tips.jpg",
+  listing_image_alt: "CMS block showcase article",
+  seo_title: "CMS Block Showcase | Annabel Karmel",
+  seo_description:
+    "Reference article demonstrating every CMS content block type with sample data for editors and developers.",
+  content_max_width: "wide",
+  content_blocks: [
+    {
+      id: "showcase-banner",
+      type: "announcement_banner",
+      order: 0,
+      data: {
+        message: "This page demonstrates every CMS block type.",
+        link_label: "View the original sample article",
+        link_url: "/advice/sample-advice-article",
+        background_color: "#fff2ea",
+      },
+    },
+    {
+      id: "showcase-hero",
+      type: "hero",
+      order: 1,
+      data: {
+        headline: "CMS Block Showcase",
+        subheadline: "A living style guide for every advice article block",
+        image_url: "/advice-category/child-health-and-development/toddler-top-tips.jpg",
+        image_alt: "Family cooking together",
+        background_color: "#f6e9ef",
+        cta_label: "Explore blocks",
+        cta_url: "#showcase-content",
+        image_width: "320px",
+        image_height: "360px",
+      },
+      settings: { max_width: "full" },
+    },
+    {
+      id: "showcase-lead",
+      type: "rich_text",
+      order: 2,
+      data: {
+        variant: "lead",
+        html: "<p><strong>Use this article to preview typography, spacing, and interactions</strong> across all supported block types in the CMS.</p>",
+      },
+    },
+    {
+      id: "showcase-body",
+      type: "rich_text",
+      order: 3,
+      data: {
+        variant: "body",
+        html: "<p>Each section below maps to a block in the editor palette. Edit this article in the admin to test forms, preview mode, and published output.</p>",
+      },
+    },
+    {
+      id: "showcase-pullquote",
+      type: "rich_text",
+      order: 4,
+      data: {
+        variant: "pull_quote",
+        html: "<p>Good food habits start with simple, repeatable family routines.</p>",
+      },
+      settings: { spacing: "loose" },
+    },
+    {
+      id: "showcase-heading-content",
+      type: "heading",
+      order: 5,
+      data: { level: "h2", text: "Content blocks" },
+    },
+    {
+      id: "showcase-list-plain",
+      type: "list",
+      order: 6,
+      data: {
+        ordered: false,
+        style: "plain",
+        items: [
+          "Hero with headline, image, and optional CTA",
+          "Rich text body, lead, and pull quote variants",
+          "Headings, lists, and dividers",
+        ],
+      },
+    },
+    {
+      id: "showcase-list-labeled",
+      type: "list",
+      order: 7,
+      data: {
+        ordered: true,
+        style: "labeled",
+        items: [
+          { label: "Tip", text: "Use lead text for opening paragraphs." },
+          { label: "Note", text: "Pull quotes work well for expert statements." },
+          { label: "Step", text: "Numbered lists suit short how-to guides." },
+        ],
+      },
+    },
+    {
+      id: "showcase-divider-hr",
+      type: "divider",
+      order: 8,
+      data: { style: "hr" },
+    },
+    {
+      id: "showcase-callout-tip",
+      type: "callout",
+      order: 9,
+      data: {
+        variant: "tip",
+        title: "Top tip",
+        body: "<p>Batch-cook base sauces at the weekend to save time on busy weeknights.</p>",
+      },
+    },
+    {
+      id: "showcase-callout-highlight",
+      type: "callout",
+      order: 10,
+      data: {
+        variant: "highlight",
+        title: "Highlight",
+        body: "<p>Iron-rich finger foods can support toddlers learning to self-feed.</p>",
+      },
+    },
+    {
+      id: "showcase-callout-warning",
+      type: "callout",
+      order: 11,
+      data: {
+        variant: "warning",
+        title: "Safety note",
+        body: "<p>Always supervise young children when introducing new textures and cut foods to an appropriate size.</p>",
+      },
+    },
+    {
+      id: "showcase-heading-media",
+      type: "heading",
+      order: 12,
+      data: { level: "h2", text: "Media blocks" },
+    },
+    {
+      id: "showcase-image",
+      type: "image",
+      order: 13,
+      data: {
+        src: "/advice-category/child-health-and-development/cooking-with-toddlers.jpg",
+        alt: "Cooking with toddlers",
+        caption: "Standalone image block with caption",
+        full_width: false,
+      },
+    },
+    {
+      id: "showcase-image-text-left",
+      type: "image_text",
+      order: 14,
+      data: {
+        image_src: "/advice-category/breastfeeding-advice/pumping.jpg",
+        image_alt: "Pumping routine",
+        image_position: "left",
+        heading: "Image + text (left)",
+        body: "<p>Side-by-side image and copy for explanatory sections. Works on desktop and stacks on narrow screens.</p>",
+        image_first: true,
+      },
+    },
+    {
+      id: "showcase-image-text-right",
+      type: "image_text",
+      order: 15,
+      data: {
+        image_src: "/advice-category/baby-sleep-advice/baby-bedtime.jpg",
+        image_alt: "Bedtime routine",
+        image_position: "right",
+        heading: "Image + text (right)",
+        body: "<p>Flip the image to the right column for visual variety between sections.</p>",
+        image_first: false,
+      },
+    },
+    {
+      id: "showcase-image-stack-vertical",
+      type: "image_stack",
+      order: 16,
+      data: {
+        layout: "vertical",
+        images: [
+          {
+            src: "/advice-category/child-health-and-development/teething.jpg",
+            alt: "Teething",
+            caption: "Vertical stack image 1",
+          },
+          {
+            src: "/advice-category/child-health-and-development/potty-training.jpg",
+            alt: "Potty training",
+            caption: "Vertical stack image 2",
+          },
+        ],
+      },
+    },
+    {
+      id: "showcase-image-stack-grid",
+      type: "image_stack",
+      order: 17,
+      data: {
+        layout: "grid",
+        images: [
+          { src: "/advice-category/pregnancy-tips/nesting.jpg", alt: "Nesting" },
+          { src: "/advice-category/pregnancy-tips/what-to-buy.jpg", alt: "What to buy" },
+          { src: "/advice-category/bottle-feeding-tips/formula-milk.jpg", alt: "Formula milk" },
+        ],
+      },
+    },
+    {
+      id: "showcase-video",
+      type: "video",
+      order: 18,
+      data: {
+        provider: "youtube",
+        url: "https://www.youtube.com/watch?v=ysz5S6PUM-U",
+        caption: "Embedded YouTube video block",
+      },
+    },
+    {
+      id: "showcase-heading-structured",
+      type: "heading",
+      order: 19,
+      data: { level: "h2", text: "Structured blocks" },
+    },
+    {
+      id: "showcase-accordion",
+      type: "accordion",
+      order: 20,
+      data: {
+        default_open: "first",
+        numbered_titles: true,
+        panels: [
+          {
+            id: "showcase-panel-1",
+            title: "What is an accordion block?",
+            paragraphs: "<p>Accordion panels expand to reveal detailed copy, lists, and subsections.</p>",
+            list_items: ["Great for FAQs", "Supports nested subsections", "Numbered titles optional"],
+          },
+          {
+            id: "showcase-panel-2",
+            title: "When should I use a table?",
+            paragraphs: "<p>Tables suit quick-reference information like timings, portions, or temperatures.</p>",
+            subsections: [
+              {
+                id: "showcase-sub-1",
+                heading: "Example use cases",
+                heading_variant: "step",
+                list_items: ["Storage times", "Portion guides", "Allergy summaries"],
+              },
+            ],
+          },
+        ],
+      },
+    },
+    {
+      id: "showcase-table",
+      type: "table",
+      order: 21,
+      data: {
+        caption: "Sample portion guide",
+        style: "striped",
+        rows: [
+          { label: "6–8 months", value: "1–2 tbsp per meal" },
+          { label: "9–12 months", value: "2–4 tbsp per meal" },
+          { label: "12+ months", value: "Child-led portions" },
+        ],
+      },
+    },
+    {
+      id: "showcase-heading-multi-table",
+      type: "heading",
+      order: 21.25,
+      data: { level: "h3", text: "Multi-column table" },
+    },
+    {
+      id: "showcase-multi-column-table",
+      type: "multi_column_table",
+      order: 21.5,
+      data: {
+        caption: "Weekly meal planner",
+        column_count: 4,
+        headers: ["Day", "Breakfast", "Lunch", "Dinner"],
+        rows: [
+          ["Monday", "Porridge & berries", "Veggie pasta", "Salmon & potatoes"],
+          ["Tuesday", "Banana toast", "Soup & bread", "Chicken casserole"],
+          ["Wednesday", "Yoghurt & fruit", "Risotto", "Veggie curry"],
+        ],
+        style: "default",
+      },
+    },
+    {
+      id: "showcase-heading-layout",
+      type: "heading",
+      order: 22,
+      data: { level: "h2", text: "Layout & CTA blocks" },
+    },
+    {
+      id: "showcase-two-column",
+      type: "two_column",
+      order: 23,
+      data: {
+        left_blocks: [
+          { type: "rich_text", html: "<p><strong>Left column</strong> supports nested rich text.</p>" },
+          {
+            type: "list",
+            ordered: false,
+            items: ["Mini list item A", "Mini list item B"],
+          },
+        ],
+        right_blocks: [
+          {
+            type: "image",
+            src: "/advice-category/child-health-and-development/family-health.jpg",
+            alt: "Family health",
+          },
+          { type: "cta_button", label: "Mini CTA", url: "/advice" },
+        ],
+      },
+    },
+    {
+      id: "showcase-cta-primary",
+      type: "cta_button",
+      order: 24,
+      data: { label: "Primary CTA button", url: "/advice", style: "primary" },
+    },
+    {
+      id: "showcase-cta-secondary",
+      type: "cta_button",
+      order: 25,
+      data: {
+        label: "Secondary CTA button",
+        url: "https://www.annabelkarmel.com",
+        style: "secondary",
+        open_in_new_tab: true,
+      },
+    },
+    {
+      id: "showcase-form-embed",
+      type: "form_embed",
+      order: 26,
+      data: {
+        mode: "builder",
+        schema: {
+          version: 1,
+          title: "Newsletter signup",
+          description: "Get recipes, tips and exclusive offers in your inbox.",
+          method: "post",
+          sections: [
+            {
+              id: "showcase-form-section-1",
+              title: "Stay in touch",
+              rows: [
+                {
+                  id: "showcase-form-row-1",
+                  columns: 2,
+                  fields: [
+                    {
+                      id: "showcase-form-name",
+                      type: "text",
+                      label: "First name",
+                      name: "first_name",
+                      placeholder: "Your name",
+                      columnSpan: 1,
+                      style: { width: "100%" },
+                      validation: [{ type: "required" }],
+                    },
+                    {
+                      id: "showcase-form-email",
+                      type: "email",
+                      label: "Email address",
+                      name: "email",
+                      placeholder: "you@example.com",
+                      columnSpan: 1,
+                      style: { width: "100%" },
+                      validation: [{ type: "required" }, { type: "email" }],
+                    },
+                  ],
+                },
+                {
+                  id: "showcase-form-row-2",
+                  columns: 1,
+                  fields: [
+                    {
+                      id: "showcase-form-consent",
+                      type: "checkbox",
+                      label: "Marketing consent",
+                      name: "consent",
+                      options: [
+                        {
+                          id: "showcase-form-consent-opt",
+                          label: "I agree to receive emails from Annabel Karmel",
+                          value: "yes",
+                        },
+                      ],
+                      validation: [{ type: "required" }],
+                    },
+                  ],
+                },
+                {
+                  id: "showcase-form-row-3",
+                  columns: 1,
+                  fields: [
+                    {
+                      id: "showcase-form-submit",
+                      type: "button",
+                      label: "Subscribe",
+                      buttonVariant: "primary",
+                      buttonAction: "submit",
+                      style: { width: "auto", padding: "12px 32px" },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          globalStyle: {
+            gap: "16px",
+            padding: "24px",
+            borderRadius: "12px",
+            backgroundColor: "#ffffff",
+            borderColor: "#efd8d8",
+          },
+        },
+      },
+    },
+    {
+      id: "showcase-heading-grids",
+      type: "heading",
+      order: 27,
+      data: { level: "h2", text: "Grid blocks" },
+    },
+    {
+      id: "showcase-product-grid",
+      type: "product_grid",
+      order: 28,
+      data: {
+        items: [
+          {
+            title: "Plant Powered Nuggets",
+            image: "/product-category/plant-powered-bites/product-nuggets.png",
+            url: "/product-category/plant-powered-bites",
+          },
+          {
+            title: "Plant Powered Burgers",
+            image: "/product-category/plant-powered-bites/product-burgers.png",
+            url: "/product-category/plant-powered-bites",
+          },
+          {
+            title: "Mini Sliders",
+            image: "/product-category/plant-powered-bites/recipe-mini-sliders.jpg",
+            url: "/product-category/plant-powered-bites",
+          },
+        ],
+      },
+    },
+    {
+      id: "showcase-recipe-grid",
+      type: "recipe_grid",
+      order: 29,
+      data: {
+        layout: "grid",
+        items: [
+          { title: "Crunchy Fish Fingers", image: RECIPE_IMG, url: "/recipes/crunchy-fish-fingers" },
+          { title: "Veggie Frittata", image: RECIPE_IMG, url: "/recipes/veggie-frittata" },
+          { title: "Mini Meatballs", image: RECIPE_IMG, url: "/recipes/mini-meatballs" },
+        ],
+      },
+    },
+    {
+      id: "showcase-recipe-carousel",
+      type: "recipe_grid",
+      order: 30,
+      data: {
+        layout: "carousel",
+        items: [
+          { title: "Carousel recipe A", image: RECIPE_IMG, url: "/recipes/carousel-a" },
+          { title: "Carousel recipe B", image: RECIPE_IMG, url: "/recipes/carousel-b" },
+          { title: "Carousel recipe C", image: RECIPE_IMG, url: "/recipes/carousel-c" },
+          { title: "Carousel recipe D", image: RECIPE_IMG, url: "/recipes/carousel-d" },
+        ],
+      },
+    },
+    {
+      id: "showcase-related-links",
+      type: "related_links",
+      order: 31,
+      data: {
+        intro: "<p>Related links block — useful for cross-linking advice articles:</p>",
+        links: [
+          { label: "Sample advice article", href: "/advice/sample-advice-article" },
+          { label: "Toddler snacking", href: "/advice/toddler-snacking" },
+          { label: "Top weaning tips", href: "/advice/top-weaning-tips" },
+        ],
+        link_style: "arrow",
+      },
+    },
+    {
+      id: "showcase-heading-attribution",
+      type: "heading",
+      order: 32,
+      data: { level: "h2", text: "Attribution & promo blocks" },
+    },
+    {
+      id: "showcase-expert-mmm",
+      type: "expert_attribution",
+      order: 33,
+      data: {
+        preset: "milk_making_mama",
+        prefix: "I hope these examples help you build richer advice articles.",
+      },
+    },
+    {
+      id: "showcase-expert-kerry",
+      type: "expert_attribution",
+      order: 34,
+      data: {
+        preset: "kerry_secker",
+        prefix: "Sleep routines often improve when mealtimes are predictable.",
+      },
+    },
+    {
+      id: "showcase-expert-motherbox",
+      type: "expert_attribution",
+      order: 35,
+      data: {
+        preset: "mother_box",
+        prefix: "Community support makes the early months feel less overwhelming.",
+      },
+    },
+    {
+      id: "showcase-expert-custom",
+      type: "expert_attribution",
+      order: 36,
+      data: {
+        preset: "custom",
+        prefix: "Custom expert sign-off block",
+        name: "Annabel Karmel",
+        bio_paragraphs: [
+          "Annabel Karmel MBE is the UK's leading children's cookery author and expert on family nutrition.",
+        ],
+        links: [{ label: "annabelkarmel.com", href: "https://www.annabelkarmel.com" }],
+      },
+    },
+    {
+      id: "showcase-partner-horizontal",
+      type: "partner_promo",
+      order: 37,
+      data: {
+        layout: "horizontal",
+        logo_src: "/product-category/plant-powered-bites/logo-asda.png",
+        logo_alt: "Asda",
+        logo_href: "https://www.asda.com",
+        title: "Partner promo (horizontal)",
+        body: "<p>Highlight a partner brand with logo, copy, and optional links.</p>",
+        links: [{ label: "Find in store", href: "/products/plant-powered-bites", style: "button" }],
+      },
+    },
+    {
+      id: "showcase-partner-stacked",
+      type: "partner_promo",
+      order: 38,
+      data: {
+        layout: "stacked",
+        logo_src: "/product-category/plant-powered-bites/promise-plant-based.png",
+        logo_alt: "Plant powered",
+        title: "Partner promo (stacked)",
+        body: "<p>Stacked layout places the logo above the copy on narrower viewports.</p>",
+      },
+    },
+    {
+      id: "showcase-book-promo",
+      type: "book_promo",
+      order: 39,
+      data: {
+        cover_src: "/articles/managing-my-childs-food-allergy/book-baby-led-weaning.png",
+        cover_alt: "Baby-Led Weaning book cover",
+        book_href: "https://www.annabelkarmel.com",
+        book_title: "Baby-Led Weaning",
+        body: "<p>Promote a cookbook with cover image, title, and descriptive copy.</p>",
+      },
+    },
+    {
+      id: "showcase-author-bio",
+      type: "author_bio",
+      order: 40,
+      data: {
+        photo_src: "/articles/baby-nap-times/kerry-secker.jpg",
+        photo_alt: "Kerry Secker",
+        name: "Kerry Secker",
+        bio_paragraphs: [
+          "Kerry is a sleep consultant supporting families with practical, evidence-based routines.",
+          "Author bio blocks pair a portrait with one or more biography paragraphs.",
+        ],
+      },
+    },
+    {
+      id: "showcase-divider-image",
+      type: "divider",
+      order: 41,
+      data: {
+        style: "image",
+        image_src: "/articles/foods-boost-childs-brainpower/icons/broccoli.png",
+      },
+    },
+    {
+      id: "showcase-heading-h3",
+      type: "heading",
+      order: 42,
+      data: { level: "h3", text: "End of showcase — all block types included" },
+    },
+  ],
+  related_articles: [
+    {
+      href: "/advice/sample-advice-article",
+      title: "Sample Advice Article",
+      image: "/advice-category/breastfeeding-advice/breastmilk-storage.jpg",
+    },
+    {
+      href: "/advice/toddler-snacking",
+      title: "Toddler Snacking",
+      image: "/advice-category/child-health-and-development/toddler-snacking.jpg",
+    },
+    {
+      href: "/advice/top-weaning-tips",
+      title: "Top Weaning Tips",
+      image: "/articles/top-weaning-tips/avocado-banana-puree.jpg",
+    },
+  ],
+  show_instagram_share: true,
+  published_at: "2026-07-07T09:00:00.000Z",
+  created_at: "2026-07-07T09:00:00.000Z",
+  updated_at: "2026-07-07T09:00:00.000Z",
+};
+
+const runtimePath = path.join(process.cwd(), "data", "cms", "advice-articles.json");
+const seedPath = path.join(process.cwd(), "data", "cms", "advice-articles.seed.json");
+
+for (const filePath of [runtimePath, seedPath]) {
+  const store = JSON.parse(readFileSync(filePath, "utf8"));
+  const existingIndex = store.articles.findIndex((a) => a.id === showcaseArticle.id);
+  if (existingIndex >= 0) {
+    store.articles[existingIndex] = showcaseArticle;
+  } else {
+    store.articles.unshift(showcaseArticle);
+  }
+  writeFileSync(filePath, `${JSON.stringify(store, null, 2)}\n`, "utf8");
+  console.log(`Updated ${path.basename(filePath)}`);
+}

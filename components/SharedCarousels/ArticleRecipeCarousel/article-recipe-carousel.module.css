@@ -35,6 +35,19 @@
 .carouselViewport {
   width: 100%;
   overflow: hidden;
+  touch-action: pan-x pinch-zoom;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+  user-select: none;
+}
+
+.carouselViewport:active {
+  cursor: grabbing;
+}
+
+.carouselViewport.is-swiping,
+.carouselViewportSwiping {
+  touch-action: none;
 }
 
 .imageWrap {
@@ -60,7 +73,7 @@
 }
 
 .iconButton {
-  --recipe-icon-size: 24px;
+  --recipe-icon-size: 32px;
 
   display: grid;
   place-items: center;
@@ -71,7 +84,7 @@
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 2px 8px rgba(58, 58, 58, 0.12);
-  cursor: pointer;
+  cursor: default;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -85,14 +98,4 @@
   width: var(--recipe-icon-size);
   height: var(--recipe-icon-size);
   background: url(/icons/app-exclusive-lock.png) center / contain no-repeat;
-}
-
-.heartIcon {
-  width: var(--recipe-icon-size);
-  height: var(--recipe-icon-size);
-  color: #e58a9b;
-}
-
-.heartIconSaved {
-  fill: #e58a9b;
 }

@@ -47,6 +47,14 @@ public/CursorUserSetup-*.exe
 # scratch / scraped working files
 /tmp/
 /tmp-*.html
+route-urls.txt
 
 # scraped full recipe pages (not used at runtime; re-run scripts/fetch-recipe-details.mjs locally)
 /data/recipe-details/
+
+# CMS runtime store (seed file is committed)
+/data/cms/advice-articles.json
+
+# CMS uploaded images (directory kept via .gitkeep)
+/public/cms-uploads/*
+!/public/cms-uploads/.gitkeep

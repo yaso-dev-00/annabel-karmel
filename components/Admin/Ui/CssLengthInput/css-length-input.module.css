@@ -1,0 +1,65 @@
+.lengthRow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+.lengthRowCompact {
+  max-width: 100%;
+}
+
+.lengthInput {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #efd8d8;
+  border-radius: 8px 0 0 8px;
+  font-size: 14px;
+  background: #fff;
+  color: #261919;
+}
+
+.lengthInput:focus {
+  outline: 2px solid #e9c6ce;
+  border-color: #b34769;
+  z-index: 1;
+}
+
+.lengthInputCompact {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 52px;
+  padding: 6px 4px;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 6px 0 0 6px;
+}
+
+.unitSelect {
+  flex-shrink: 0;
+  width: 54px;
+  padding: 10px 6px;
+  border: 1px solid #efd8d8;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  background: #fffaf7;
+  color: #6d5757;
+  cursor: pointer;
+}
+
+.unitSelect:focus {
+  outline: 2px solid #e9c6ce;
+  border-color: #b34769;
+  z-index: 1;
+}
+
+.unitSelectCompact {
+  width: 42px;
+  padding: 6px 2px;
+  font-size: 11px;
+  border-radius: 0 6px 6px 0;
+}

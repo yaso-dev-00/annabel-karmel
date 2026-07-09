@@ -1,0 +1,99 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid #e0c4cc;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(38, 25, 25, 0.04);
+}
+
+.row_mobile {
+  border-left: 3px solid #6b9fd4;
+}
+
+.row_tablet {
+  border-left: 3px solid #9b7fd4;
+}
+
+.row_desktop {
+  border-left: 3px solid #b34769;
+}
+
+.rowActive {
+  border-color: #c97892;
+  background: #fff9fb;
+  box-shadow: 0 0 0 1px rgba(179, 71, 105, 0.12);
+}
+
+.rowHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.deviceLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #3f3841;
+}
+
+.deviceHint {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6d5757;
+  white-space: nowrap;
+}
+
+.select,
+.custom {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.select {
+  padding: 10px 36px 10px 12px;
+  border: 1px solid #d4a8b5;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  background: #fff;
+  color: #261919;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%236d5757' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.select:focus {
+  outline: 2px solid #e9c6ce;
+  border-color: #b34769;
+}
+
+.custom {
+  padding: 9px 12px;
+  border: 1px solid #d4a8b5;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #fff;
+  color: #261919;
+}
+
+.custom:focus {
+  outline: 2px solid #e9c6ce;
+  border-color: #b34769;
+}

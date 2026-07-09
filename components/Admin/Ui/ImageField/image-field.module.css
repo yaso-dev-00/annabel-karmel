@@ -1,0 +1,146 @@
+.imageField {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: #f6e9ef;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.tab {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6d5757;
+  cursor: pointer;
+}
+
+.tabActive {
+  background: #fff;
+  color: #b34769;
+  box-shadow: 0 1px 3px rgba(52, 18, 18, 0.08);
+}
+
+.urlInput {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #efd8d8;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.dropZone {
+  border: 2px dashed #e9c6ce;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  background: #fffaf7;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.dropZone:hover,
+.dropZoneDragging {
+  border-color: #b34769;
+  background: #f6e9ef;
+}
+
+.dropZoneText {
+  margin: 0;
+  font-size: 14px;
+  color: #6d5757;
+}
+
+.dropZoneHint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #999;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.preview {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #efd8d8;
+  flex-shrink: 0;
+}
+
+.previewActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.previewUrl {
+  font-size: 12px;
+  color: #6d5757;
+  word-break: break-all;
+}
+
+.removeBtn {
+  align-self: flex-start;
+  padding: 4px 12px;
+  border: 1px solid #efd8d8;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 12px;
+  color: #b34769;
+  cursor: pointer;
+}
+
+.removeBtn:hover {
+  background: #f6e9ef;
+}
+
+.error {
+  font-size: 13px;
+  color: #c62828;
+}
+
+.uploading {
+  font-size: 13px;
+  color: #b34769;
+}
+
+.altField {
+  margin-top: 4px;
+}
+
+.altLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #261919;
+}
+
+.altInput {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #efd8d8;
+  border-radius: 10px;
+  font-size: 14px;
+}

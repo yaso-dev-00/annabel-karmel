@@ -40,6 +40,17 @@ type CarouselTransition =
   | typeof CAROUSEL_SLIDE
   | typeof CAROUSEL_DRAG_RELEASE;
 
+function eventTargetElement(target: EventTarget | null): Element | null {
+  if (!target) return null;
+  if (target instanceof Element) return target;
+  if (target instanceof Node) return target.parentElement;
+  return null;
+}
+
+function isLinkTarget(target: EventTarget | null): boolean {
+  return Boolean(eventTargetElement(target)?.closest("a[href]"));
+}
+
 type SnapMetrics = {
   edgeCenterSnap: boolean;
   viewportWidth: number;
@@ -604,7 +615,7 @@ export function useSnapCarousel({
         maxIndexRef.current <= 0 ||
         (stepRef.current <= 0 && !edgeCenterSnapRef.current) ||
         (event.target as HTMLElement).closest(controlsSelector) ||
-        (event.target as HTMLElement).closest("a[href]")
+        isLinkTarget(event.target)
       ) {
         return;
       }
@@ -815,7 +826,7 @@ export function useSnapCarousel({
   );
 
   const handleCardClickCapture = useCallback((event: ReactMouseEvent<HTMLElement>) => {
-    if ((event.target as HTMLElement).closest("a[href]")) {
+    if (isLinkTarget(event.target)) {
       return;
     }
 

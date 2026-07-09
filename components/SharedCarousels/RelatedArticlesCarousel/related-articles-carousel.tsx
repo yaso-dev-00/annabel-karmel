@@ -17,6 +17,17 @@ type RelatedArticlesCarouselProps = {
   items: RelatedArticleItem[];
 };
 
+function eventTargetElement(target: EventTarget | null): Element | null {
+  if (!target) return null;
+  if (target instanceof Element) return target;
+  if (target instanceof Node) return target.parentElement;
+  return null;
+}
+
+function isLinkTarget(target: EventTarget | null): boolean {
+  return Boolean(eventTargetElement(target)?.closest("a[href]"));
+}
+
 function perViewFromWidth(width: number) {
   if (width < 700) return 1;
   if (width < 1024) return 2;
@@ -94,6 +105,7 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
   };
 
   const onPointerDown: React.PointerEventHandler<HTMLDivElement> = (event) => {
+    if (isLinkTarget(event.target)) return;
     activePointerId.current = event.pointerId;
     event.currentTarget.setPointerCapture(event.pointerId);
     pointerStartX.current = event.clientX;
@@ -130,19 +142,13 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
     pointerStartX.current = null;
     pointerCurrentX.current = null;
     activePointerId.current = null;
-  };
-
-  const onCardClickCapture: React.MouseEventHandler<HTMLElement> = (event) => {
-    if (isDragging.current) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+    isDragging.current = false;
   };
 
   return (
     <div className={`${styles.carouselStage} mt-[30px]`} ref={stageRef}>
       <div
-        className="overflow-hidden touch-pan-y select-none cursor-grab active:cursor-grabbing"
+        className="overflow-hidden touch-pan-x select-none cursor-grab active:cursor-grabbing"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerEnd}
@@ -157,7 +163,7 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
             <div key={`page-${pageIndex}`} className="w-full shrink-0 grow-0 basis-full">
               <div className="grid grid-cols-1 gap-4 min-[700px]:grid-cols-2 min-[1024px]:grid-cols-5">
                 {chunk.map((article) => (
-                  <Link key={article.title} href={article.href} className="block" onClickCapture={onCardClickCapture}>
+                  <article key={article.title} className="block">
                     {article.image ? (
                       <img
                         src={article.image}
@@ -175,10 +181,18 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
                         <div className="absolute -bottom-6 left-[28%] h-[72%] w-[78%] rounded-t-[80px] bg-[#f1f3f5]" />
                       </div>
                     )}
-                    <h3 style={{ fontFamily: "var(--font-body)" }} className="mt-7 text-center   text-[20px] font-[600] leading-[1.22] tracking-[0.01em] text-[#3f3f3f]">
-                      {article.title}
+                    <h3
+                      style={{ fontFamily: "var(--font-body)" }}
+                      className="mt-7 text-center text-[20px] font-semibold leading-[1.22] tracking-[0.01em] text-[#3f3f3f]"
+                    >
+                      <Link
+                        href={article.href}
+                        className="text-inherit no-underline hover:text-[#b34769]"
+                      >
+                        {article.title}
+                      </Link>
                     </h3>
-                  </Link>
+                  </article>
                 ))}
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { get, put } from "@vercel/blob";
+import { get, head, put, BlobNotFoundError } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
 import seedStore from "@/data/cms/advice-articles.seed.json";
@@ -36,20 +36,36 @@ async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string>
   return new Response(stream).text();
 }
 
+async function cmsBlobExists(): Promise<boolean> {
+  try {
+    await head(BLOB_PATHNAME, getBlobAuthOptions());
+    return true;
+  } catch (error) {
+    if (error instanceof BlobNotFoundError) return false;
+    return false;
+  }
+}
+
 async function readBlobRaw(): Promise<string | null> {
   if (!useBlobCmsStore()) return null;
 
-  try {
-    const result = await get(BLOB_PATHNAME, {
-      access: "public",
-      useCache: false,
-      ...getBlobAuthOptions(),
-    });
-    if (!result || result.statusCode === 304 || !result.stream) return null;
-    return streamToText(result.stream);
-  } catch {
-    return null;
+  const accessModes = ["private", "public"] as const;
+  for (const access of accessModes) {
+    try {
+      const result = await get(BLOB_PATHNAME, {
+        access,
+        useCache: false,
+        ...getBlobAuthOptions(),
+      });
+      if (result?.statusCode === 200 && result.stream) {
+        return streamToText(result.stream);
+      }
+    } catch {
+      continue;
+    }
   }
+
+  return null;
 }
 
 async function writeBlobRaw(raw: string): Promise<void> {
@@ -60,7 +76,7 @@ async function writeBlobRaw(raw: string): Promise<void> {
   }
 
   await put(BLOB_PATHNAME, raw, {
-    access: "public",
+    access: "private",
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
@@ -69,8 +85,18 @@ async function writeBlobRaw(raw: string): Promise<void> {
 }
 
 export async function readCmsStoreRaw(): Promise<string> {
-  const blobRaw = await readBlobRaw();
-  if (blobRaw) return blobRaw;
+  if (useBlobCmsStore()) {
+    const blobRaw = await readBlobRaw();
+    if (blobRaw) return blobRaw;
+
+    if (await cmsBlobExists()) {
+      const retryRaw = await readBlobRaw();
+      if (retryRaw) return retryRaw;
+      throw new Error("Failed to read CMS store from Blob");
+    }
+
+    return readSeedRaw();
+  }
 
   if (!process.env.VERCEL) {
     try {

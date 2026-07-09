@@ -11,6 +11,7 @@ import type { AdviceArticle } from "@/lib/content-blocks/types";
 import { SAMPLE_ARTICLE_SLUG } from "@/lib/content-blocks/types";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 function ArticleStatusBadge({ article }: { article: AdviceArticle }) {
   const status = resolveAdviceArticleStatus(article);

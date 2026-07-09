@@ -5,6 +5,7 @@ import { SAMPLE_ARTICLE_ID } from "@/lib/content-blocks/types";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type PageProps = { params: Promise<{ id: string }> };
 
@@ -15,7 +16,7 @@ export default async function AdminAdviceEditPage({ params }: PageProps) {
 
   return (
     <AdminShell breadcrumb="Edit article">
-      <AdviceArticleEditor initialArticle={article} />
+      <AdviceArticleEditor key={article.updated_at} initialArticle={article} />
     </AdminShell>
   );
 }

@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 type PageProps = { params: Promise<{ slug: string }> };
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateStaticParams() {
   return [{ slug: SAMPLE_ARTICLE_SLUG }, ...Array.from(adviceArticleSlugs).map((slug) => ({ slug }))];

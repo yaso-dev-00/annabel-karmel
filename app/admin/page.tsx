@@ -5,6 +5,7 @@ import { resolveAdviceArticleStatus } from "@/lib/admin/advice-article-status";
 import { SAMPLE_ARTICLE_SLUG } from "@/lib/content-blocks/types";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminDashboardPage() {
   const articles = await getAllAdviceArticles();

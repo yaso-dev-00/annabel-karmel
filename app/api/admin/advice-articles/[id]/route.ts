@@ -17,12 +17,17 @@ export async function GET(_request: Request, context: RouteContext) {
 }
 
 export async function PUT(request: Request, context: RouteContext) {
-  const { id } = await context.params;
-  const body = (await request.json()) as Partial<Omit<AdviceArticle, "id" | "created_at">>;
-  const article = await updateAdviceArticle(id, body);
-  if (!article) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  revalidateAdviceArticlePages();
-  return NextResponse.json(article);
+  try {
+    const { id } = await context.params;
+    const body = (await request.json()) as Partial<Omit<AdviceArticle, "id" | "created_at">>;
+    const article = await updateAdviceArticle(id, body);
+    if (!article) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    revalidateAdviceArticlePages();
+    return NextResponse.json(article);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to update article";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }
 
 export async function DELETE(_request: Request, context: RouteContext) {

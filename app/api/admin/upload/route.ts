@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
 import path from "path";
+import { saveCmsUpload } from "@/lib/admin/cms-upload-io";
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "cms-uploads");
 const MAX_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
@@ -33,15 +32,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "File too large. Maximum size is 5 MB." }, { status: 400 });
     }
 
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
-
     const ext = EXT_BY_MIME[file.type] ?? (path.extname(file.name) || ".jpg");
     const filename = `${crypto.randomUUID()}${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());
-    await fs.writeFile(path.join(UPLOAD_DIR, filename), buffer);
+    const url = await saveCmsUpload(filename, buffer, file.type);
 
-    return NextResponse.json({ url: `/cms-uploads/${filename}` });
-  } catch {
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    return NextResponse.json({ url });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Upload failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

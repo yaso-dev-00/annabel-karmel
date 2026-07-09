@@ -1,64 +1,11 @@
-import { promises as fs } from "fs";
-import path from "path";
 import seedStore from "@/data/cms/advice-articles.seed.json";
 import type { AdviceArticle, AdviceArticlesStore } from "@/lib/content-blocks/types";
 import { isAdviceArticlePublic } from "@/lib/admin/advice-article-status";
+import { readCmsStoreRaw, writeCmsStoreRaw } from "@/lib/admin/cms-store-io";
 import { sanitizeAdviceArticle } from "@/lib/content-blocks/sanitize-settings";
 
-const CMS_DIR = path.join(process.cwd(), "data", "cms");
-const SEED_FILE = path.join(CMS_DIR, "advice-articles.seed.json");
-const BUNDLED_SEED_RAW = JSON.stringify(seedStore);
-
-function getRuntimeFile(): string {
-  if (process.env.VERCEL) {
-    return path.join("/tmp", "advice-articles.json");
-  }
-  return path.join(CMS_DIR, "advice-articles.json");
-}
-
-async function readSeedRaw(): Promise<string> {
-  try {
-    return await fs.readFile(SEED_FILE, "utf8");
-  } catch {
-    return BUNDLED_SEED_RAW;
-  }
-}
-
-async function readRawStore(): Promise<string> {
-  const runtimeFile = getRuntimeFile();
-  try {
-    return await fs.readFile(runtimeFile, "utf8");
-  } catch {
-    return readSeedRaw();
-  }
-}
-
-async function ensureRuntimeFile(): Promise<void> {
-  const runtimeFile = getRuntimeFile();
-  try {
-    await fs.access(runtimeFile);
-    return;
-  } catch {
-    // Runtime store missing — bootstrap from seed where the filesystem allows writes.
-  }
-
-  const seedRaw = await readSeedRaw();
-
-  if (process.env.VERCEL) {
-    await fs.writeFile(runtimeFile, seedRaw, "utf8");
-    return;
-  }
-
-  try {
-    await fs.mkdir(CMS_DIR, { recursive: true });
-    await fs.writeFile(runtimeFile, seedRaw, "utf8");
-  } catch {
-    // Local read-only environments can still read from the seed file.
-  }
-}
-
 async function readStore(): Promise<AdviceArticlesStore> {
-  const raw = await readRawStore();
+  const raw = await readCmsStoreRaw();
   let store: AdviceArticlesStore;
   try {
     store = JSON.parse(raw) as AdviceArticlesStore;
@@ -78,8 +25,7 @@ async function readStore(): Promise<AdviceArticlesStore> {
 }
 
 async function writeStore(store: AdviceArticlesStore): Promise<void> {
-  await ensureRuntimeFile();
-  await fs.writeFile(getRuntimeFile(), JSON.stringify(store, null, 2), "utf8");
+  await writeCmsStoreRaw(JSON.stringify(store, null, 2));
 }
 
 export async function getAllAdviceArticles(): Promise<AdviceArticle[]> {

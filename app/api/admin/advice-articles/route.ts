@@ -12,8 +12,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as Omit<AdviceArticle, "id" | "created_at" | "updated_at">;
-  const article = await createAdviceArticle(body);
-  revalidateAdviceArticlePages();
-  return NextResponse.json(article, { status: 201 });
+  try {
+    const body = (await request.json()) as Omit<AdviceArticle, "id" | "created_at" | "updated_at">;
+    const article = await createAdviceArticle(body);
+    revalidateAdviceArticlePages();
+    return NextResponse.json(article, { status: 201 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to create article";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

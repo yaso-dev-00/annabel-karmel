@@ -16,15 +16,10 @@ type RevalidateArticle = {
 };
 
 export function revalidateAdviceArticlePages(article?: RevalidateArticle): void {
-  // Next.js 16: second arg is the stale-while-revalidate cacheLife profile.
+  // Next.js 16 requires a cacheLife profile as the second argument.
   revalidateTag(ADVICE_ARTICLES_CACHE_TAG, "max");
-
-  if (article?.id) {
-    revalidateTag(adviceArticleIdTag(article.id), "max");
-  }
-  if (article?.slug) {
-    revalidateTag(adviceArticleSlugTag(article.slug), "max");
-  }
+  if (article?.id) revalidateTag(adviceArticleIdTag(article.id), "max");
+  if (article?.slug) revalidateTag(adviceArticleSlugTag(article.slug), "max");
 
   revalidatePath("/admin");
   revalidatePath("/admin/advice");

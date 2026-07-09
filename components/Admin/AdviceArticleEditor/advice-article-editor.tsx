@@ -122,8 +122,8 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
         <div className="editorPageHeader">
           <div>
             <h1 className="cardTitle">{article.title || "Untitled"}</h1>
-            <p className={`statusBar ${dirty ? "statusDirty" : ""}`}>
-              {dirty ? "Unsaved changes" : message ?? "All changes saved"}
+            <p className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}>
+              {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
             </p>
           </div>
           <div style={{ display: "flex", gap: 8 }}>

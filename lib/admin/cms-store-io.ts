@@ -37,7 +37,8 @@ async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string>
   return new Response(stream).text();
 }
 
-async function getBlobText(access: "private" | "public"): Promise<string | null> {
+/** Always use SDK get + useCache:false — never fetch the public CDN URL. */
+async function getBlobText(access: "public" | "private"): Promise<string | null> {
   try {
     const result = await get(BLOB_PATHNAME, {
       access,
@@ -53,17 +54,9 @@ async function getBlobText(access: "private" | "public"): Promise<string | null>
   return null;
 }
 
-/**
- * Prefer private blob + useCache:false (no CDN).
- * Fall back to public once to migrate older public stores, then next write becomes private.
- */
 async function readBlobRaw(): Promise<string | null> {
   if (!useBlobCmsStore()) return null;
-
-  const privateRaw = await getBlobText("private");
-  if (privateRaw) return privateRaw;
-
-  return getBlobText("public");
+  return (await getBlobText("public")) ?? (await getBlobText("private"));
 }
 
 async function writeBlobRaw(raw: string): Promise<void> {
@@ -73,8 +66,9 @@ async function writeBlobRaw(raw: string): Promise<void> {
     );
   }
 
+  // Store is Public — write public blobs. Fresh reads use get(..., useCache: false).
   await put(BLOB_PATHNAME, raw, {
-    access: "private",
+    access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,

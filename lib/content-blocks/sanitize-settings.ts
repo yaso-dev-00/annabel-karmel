@@ -20,6 +20,6 @@ export function sanitizeContentBlock(block: ContentBlock): ContentBlock {
 export function sanitizeAdviceArticle(article: AdviceArticle): AdviceArticle {
   return normalizeAdviceArticle({
     ...article,
-    content_blocks: sortBlocksByOrder(article.content_blocks.map(sanitizeContentBlock)),
+    content_blocks: sortBlocksByOrder((article.content_blocks ?? []).map(sanitizeContentBlock)),
   });
 }

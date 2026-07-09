@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    "/admin": ["./data/cms/**/*"],
+    "/admin/advice": ["./data/cms/**/*"],
+    "/admin/advice/new": ["./data/cms/**/*"],
+    "/admin/advice/[id]/edit": ["./data/cms/**/*"],
+    "/admin/advice/[id]/preview": ["./data/cms/**/*"],
+    "/api/admin/advice-articles": ["./data/cms/**/*"],
+    "/api/admin/advice-articles/[id]": ["./data/cms/**/*"],
+    "/advice/[slug]": ["./data/cms/**/*"],
+  },
   async rewrites() {
     return [
       // Cached 308s from the old /recipe-app/* redirect may still request assets here.

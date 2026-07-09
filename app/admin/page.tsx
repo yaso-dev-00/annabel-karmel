@@ -2,7 +2,9 @@ import Link from "next/link";
 import { AdminShell } from "@/components/Admin/AdminShell";
 import { getAllAdviceArticles } from "@/lib/admin/advice-articles-store";
 import { resolveAdviceArticleStatus } from "@/lib/admin/advice-article-status";
-import { SAMPLE_ARTICLE_ID, SAMPLE_ARTICLE_SLUG } from "@/lib/content-blocks/types";
+import { SAMPLE_ARTICLE_SLUG } from "@/lib/content-blocks/types";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
   const articles = await getAllAdviceArticles();

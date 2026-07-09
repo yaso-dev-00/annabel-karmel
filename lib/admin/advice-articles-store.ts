@@ -1,35 +1,85 @@
 import { promises as fs } from "fs";
 import path from "path";
+import seedStore from "@/data/cms/advice-articles.seed.json";
 import type { AdviceArticle, AdviceArticlesStore } from "@/lib/content-blocks/types";
 import { isAdviceArticlePublic } from "@/lib/admin/advice-article-status";
 import { sanitizeAdviceArticle } from "@/lib/content-blocks/sanitize-settings";
 
 const CMS_DIR = path.join(process.cwd(), "data", "cms");
-const RUNTIME_FILE = path.join(CMS_DIR, "advice-articles.json");
 const SEED_FILE = path.join(CMS_DIR, "advice-articles.seed.json");
+const BUNDLED_SEED_RAW = JSON.stringify(seedStore);
+
+function getRuntimeFile(): string {
+  if (process.env.VERCEL) {
+    return path.join("/tmp", "advice-articles.json");
+  }
+  return path.join(CMS_DIR, "advice-articles.json");
+}
+
+async function readSeedRaw(): Promise<string> {
+  try {
+    return await fs.readFile(SEED_FILE, "utf8");
+  } catch {
+    return BUNDLED_SEED_RAW;
+  }
+}
+
+async function readRawStore(): Promise<string> {
+  const runtimeFile = getRuntimeFile();
+  try {
+    return await fs.readFile(runtimeFile, "utf8");
+  } catch {
+    return readSeedRaw();
+  }
+}
 
 async function ensureRuntimeFile(): Promise<void> {
-  await fs.mkdir(CMS_DIR, { recursive: true });
+  const runtimeFile = getRuntimeFile();
   try {
-    await fs.access(RUNTIME_FILE);
+    await fs.access(runtimeFile);
+    return;
   } catch {
-    const seedRaw = await fs.readFile(SEED_FILE, "utf8");
-    await fs.writeFile(RUNTIME_FILE, seedRaw, "utf8");
+    // Runtime store missing — bootstrap from seed where the filesystem allows writes.
+  }
+
+  const seedRaw = await readSeedRaw();
+
+  if (process.env.VERCEL) {
+    await fs.writeFile(runtimeFile, seedRaw, "utf8");
+    return;
+  }
+
+  try {
+    await fs.mkdir(CMS_DIR, { recursive: true });
+    await fs.writeFile(runtimeFile, seedRaw, "utf8");
+  } catch {
+    // Local read-only environments can still read from the seed file.
   }
 }
 
 async function readStore(): Promise<AdviceArticlesStore> {
-  await ensureRuntimeFile();
-  const raw = await fs.readFile(RUNTIME_FILE, "utf8");
-  const store = JSON.parse(raw) as AdviceArticlesStore;
+  const raw = await readRawStore();
+  let store: AdviceArticlesStore;
+  try {
+    store = JSON.parse(raw) as AdviceArticlesStore;
+  } catch {
+    store = seedStore as AdviceArticlesStore;
+  }
+  const articles = Array.isArray(store.articles) ? store.articles : [];
   return {
-    articles: store.articles.map(sanitizeAdviceArticle),
+    articles: articles.flatMap((article) => {
+      try {
+        return [sanitizeAdviceArticle(article)];
+      } catch {
+        return [];
+      }
+    }),
   };
 }
 
 async function writeStore(store: AdviceArticlesStore): Promise<void> {
-  await fs.mkdir(CMS_DIR, { recursive: true });
-  await fs.writeFile(RUNTIME_FILE, JSON.stringify(store, null, 2), "utf8");
+  await ensureRuntimeFile();
+  await fs.writeFile(getRuntimeFile(), JSON.stringify(store, null, 2), "utf8");
 }
 
 export async function getAllAdviceArticles(): Promise<AdviceArticle[]> {

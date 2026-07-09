@@ -1,4 +1,4 @@
-import { get, head, put, BlobNotFoundError } from "@vercel/blob";
+import { get, head, list, put } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
 import seedStore from "@/data/cms/advice-articles.seed.json";
@@ -36,10 +36,9 @@ async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string>
   return new Response(stream).text();
 }
 
-async function readBlobViaHead(): Promise<string | null> {
+async function fetchBlobUrl(url: string): Promise<string | null> {
   try {
-    const meta = await head(BLOB_PATHNAME, getBlobAuthOptions());
-    const res = await fetch(meta.downloadUrl ?? meta.url, { cache: "no-store" });
+    const res = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) return null;
     return res.text();
   } catch {
@@ -47,9 +46,31 @@ async function readBlobViaHead(): Promise<string | null> {
   }
 }
 
-async function readBlobRaw(): Promise<string | null> {
-  if (!useBlobCmsStore()) return null;
+async function readBlobViaList(): Promise<string | null> {
+  try {
+    const { blobs } = await list({
+      prefix: BLOB_PATHNAME,
+      limit: 10,
+      ...getBlobAuthOptions(),
+    });
+    const blob = blobs.find((item) => item.pathname === BLOB_PATHNAME) ?? blobs[0];
+    if (!blob?.url) return null;
+    return fetchBlobUrl(blob.url);
+  } catch {
+    return null;
+  }
+}
 
+async function readBlobViaHead(): Promise<string | null> {
+  try {
+    const meta = await head(BLOB_PATHNAME, getBlobAuthOptions());
+    return fetchBlobUrl(meta.downloadUrl ?? meta.url);
+  } catch {
+    return null;
+  }
+}
+
+async function readBlobViaGet(): Promise<string | null> {
   const accessModes = ["public", "private"] as const;
   for (const access of accessModes) {
     try {
@@ -65,8 +86,17 @@ async function readBlobRaw(): Promise<string | null> {
       continue;
     }
   }
+  return null;
+}
 
-  return readBlobViaHead();
+async function readBlobRaw(): Promise<string | null> {
+  if (!useBlobCmsStore()) return null;
+
+  return (
+    (await readBlobViaList()) ??
+    (await readBlobViaHead()) ??
+    (await readBlobViaGet())
+  );
 }
 
 async function writeBlobRaw(raw: string): Promise<void> {
@@ -100,30 +130,10 @@ async function writeBlobRaw(raw: string): Promise<void> {
   }
 }
 
-async function cmsBlobExists(): Promise<boolean> {
-  try {
-    await head(BLOB_PATHNAME, getBlobAuthOptions());
-    return true;
-  } catch (error) {
-    if (error instanceof BlobNotFoundError) return false;
-    return false;
-  }
-}
-
 export async function readCmsStoreRaw(): Promise<string> {
   if (useBlobCmsStore()) {
     const blobRaw = await readBlobRaw();
     if (blobRaw) return blobRaw;
-
-    const headRaw = await readBlobViaHead();
-    if (headRaw) return headRaw;
-
-    if (await cmsBlobExists()) {
-      throw new Error(
-        "Failed to read CMS store from Blob. Add BLOB_READ_WRITE_TOKEN from your Blob store to the project environment variables, then redeploy.",
-      );
-    }
-
     return readSeedRaw();
   }
 

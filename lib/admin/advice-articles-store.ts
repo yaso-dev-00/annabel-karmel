@@ -5,7 +5,13 @@ import { readCmsStoreRaw, writeCmsStoreRaw } from "@/lib/admin/cms-store-io";
 import { sanitizeAdviceArticle } from "@/lib/content-blocks/sanitize-settings";
 
 async function readStore(): Promise<AdviceArticlesStore> {
-  const raw = await readCmsStoreRaw();
+  let raw: string;
+  try {
+    raw = await readCmsStoreRaw();
+  } catch {
+    raw = JSON.stringify(seedStore);
+  }
+
   let store: AdviceArticlesStore;
   try {
     store = JSON.parse(raw) as AdviceArticlesStore;

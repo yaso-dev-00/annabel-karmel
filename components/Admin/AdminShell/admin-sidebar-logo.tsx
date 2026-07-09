@@ -9,6 +9,7 @@ export function AdminSidebarLogo() {
         width={112}
         height={54}
         className="sidebarLogoImage"
+        style={{ height: "auto" }}
         priority
       />
     </div>

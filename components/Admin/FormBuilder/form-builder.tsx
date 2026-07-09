@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type HTMLAttributes } from "react";
 import {
   FORM_FIELD_TYPE_LABELS,
   FORM_FIELD_TYPES,
@@ -59,21 +59,23 @@ function collectRowIds(schema: CustomFormSchema): string[] {
   return schema.sections.flatMap((section) => section.rows.map((row) => row.id));
 }
 
+const staticDragHandleProps: HTMLAttributes<HTMLButtonElement> = {
+  "aria-hidden": true,
+  tabIndex: -1,
+};
+
 function DragHandle({
   label,
-  listeners,
-  attributes,
+  dragHandleProps,
 }: {
   label: string;
-  listeners: ReturnType<typeof useSortable>["listeners"];
-  attributes: ReturnType<typeof useSortable>["attributes"];
+  dragHandleProps?: HTMLAttributes<HTMLButtonElement>;
 }) {
   return (
     <button
       type="button"
       className={styles.dragHandle}
-      {...attributes}
-      {...listeners}
+      {...dragHandleProps}
       aria-label={label}
       onClick={(e) => e.stopPropagation()}
     >
@@ -82,37 +84,36 @@ function DragHandle({
   );
 }
 
-function SortableFieldCard({
-  field,
-  selected,
-  onSelect,
-  onRemove,
-  onInlineChange,
-}: {
+type FieldCardProps = {
   field: FormField;
   selected: boolean;
   onSelect: () => void;
   onRemove: () => void;
   onInlineChange: (patch: Partial<FormField>) => void;
+};
+
+function FieldCard({
+  field,
+  selected,
+  onSelect,
+  onRemove,
+  onInlineChange,
+  nodeRef,
+  style,
+  dragHandleProps = staticDragHandleProps,
+}: FieldCardProps & {
+  nodeRef?: (element: HTMLElement | null) => void;
+  style?: React.CSSProperties;
+  dragHandleProps?: HTMLAttributes<HTMLButtonElement>;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: field.id,
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.6 : 1,
-  };
-
   return (
     <div
-      ref={setNodeRef}
+      ref={nodeRef}
       style={style}
       className={`${styles.fieldCard} ${selected ? styles.fieldCardSelected : ""}`}
       onClick={onSelect}
     >
-      <DragHandle label="Drag field" listeners={listeners} attributes={attributes} />
+      <DragHandle label="Drag field" dragHandleProps={dragHandleProps} />
       <div className={styles.fieldCardBody}>
         <span className={styles.fieldTypeBadge}>{FORM_FIELD_TYPE_LABELS[field.type]}</span>
         {field.type === "button" ? (
@@ -208,7 +209,35 @@ function SortableFieldCard({
   );
 }
 
-type SortableRowCardProps = {
+function SortableFieldCard(props: FieldCardProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: props.field.id,
+  });
+
+  const dragHandleProps: HTMLAttributes<HTMLButtonElement> = {
+    ...attributes,
+    ...listeners,
+    onPointerDown: (event) => {
+      listeners?.onPointerDown?.(event);
+      event.stopPropagation();
+    },
+  };
+
+  return (
+    <FieldCard
+      {...props}
+      nodeRef={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.6 : 1,
+      }}
+      dragHandleProps={dragHandleProps}
+    />
+  );
+}
+
+type RowCardProps = {
   row: FormRow;
   sectionId: string;
   schema: CustomFormSchema;
@@ -222,9 +251,10 @@ type SortableRowCardProps = {
   onFieldDragEnd: (event: DragEndEvent, sectionId: string, rowId: string) => void;
   onPatchField: (fieldId: string, patch: Partial<FormField>) => void;
   onAddField: (sectionId: string, rowId: string, type: FormFieldType) => void;
+  dndReady: boolean;
 };
 
-function SortableRowCard({
+function RowCard({
   row,
   sectionId,
   schema,
@@ -238,22 +268,39 @@ function SortableRowCard({
   onFieldDragEnd,
   onPatchField,
   onAddField,
-}: SortableRowCardProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: row.id,
+  dndReady,
+  nodeRef,
+  style,
+  dragHandleProps = staticDragHandleProps,
+}: RowCardProps & {
+  nodeRef?: (element: HTMLElement | null) => void;
+  style?: React.CSSProperties;
+  dragHandleProps?: HTMLAttributes<HTMLButtonElement>;
+}) {
+  const fieldCards = row.fields.map((field) => {
+    const fieldProps = {
+      field,
+      selected: selectedFieldId === field.id,
+      onSelect: () => onSelectField(field.id),
+      onRemove: () => {
+        onChange(removeFormField(schema, field.id));
+        if (selectedFieldId === field.id) onClearSelectedField();
+      },
+      onInlineChange: (patch: Partial<FormField>) => onPatchField(field.id, patch),
+    };
+
+    return dndReady ? (
+      <SortableFieldCard key={field.id} {...fieldProps} />
+    ) : (
+      <FieldCard key={field.id} {...fieldProps} />
+    );
   });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.6 : 1,
-  };
-
   return (
-    <div ref={setNodeRef} style={style} className={styles.rowCard}>
+    <div ref={nodeRef} style={style} className={styles.rowCard}>
       <div className={styles.rowToolbar}>
         <div className={styles.rowToolbarLeft}>
-          <DragHandle label="Drag row" listeners={listeners} attributes={attributes} />
+          <DragHandle label="Drag row" dragHandleProps={dragHandleProps} />
           <label className={styles.rowLabel}>
             Columns
             <select
@@ -309,32 +356,22 @@ function SortableRowCard({
 
       {expanded ? (
         <>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={(event) => onFieldDragEnd(event, sectionId, row.id)}
-      >
-        <SortableContext
-          items={row.fields.map((field) => field.id)}
-          strategy={verticalListSortingStrategy}
+      {dndReady ? (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={(event) => onFieldDragEnd(event, sectionId, row.id)}
         >
-          <div className={styles.rowGrid}>
-            {row.fields.map((field) => (
-              <SortableFieldCard
-                key={field.id}
-                field={field}
-                selected={selectedFieldId === field.id}
-                onSelect={() => onSelectField(field.id)}
-                onRemove={() => {
-                  onChange(removeFormField(schema, field.id));
-                  if (selectedFieldId === field.id) onClearSelectedField();
-                }}
-                onInlineChange={(patch) => onPatchField(field.id, patch)}
-              />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+          <SortableContext
+            items={row.fields.map((field) => field.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className={styles.rowGrid}>{fieldCards}</div>
+          </SortableContext>
+        </DndContext>
+      ) : (
+        <div className={styles.rowGrid}>{fieldCards}</div>
+      )}
 
       <div className={styles.rowActions}>
         <select
@@ -361,7 +398,36 @@ function SortableRowCard({
   );
 }
 
-type SortableSectionCardProps = {
+function SortableRowCard(props: RowCardProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: props.row.id,
+  });
+
+  const dragHandleProps: HTMLAttributes<HTMLButtonElement> = {
+    ...attributes,
+    ...listeners,
+    onPointerDown: (event) => {
+      listeners?.onPointerDown?.(event);
+      event.stopPropagation();
+    },
+  };
+
+  return (
+    <RowCard
+      {...props}
+      dndReady
+      nodeRef={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.6 : 1,
+      }}
+      dragHandleProps={dragHandleProps}
+    />
+  );
+}
+
+type SectionCardProps = {
   section: FormSection;
   schema: CustomFormSchema;
   expanded: boolean;
@@ -378,9 +444,10 @@ type SortableSectionCardProps = {
   onFieldDragEnd: (event: DragEndEvent, sectionId: string, rowId: string) => void;
   onPatchField: (fieldId: string, patch: Partial<FormField>) => void;
   onAddField: (sectionId: string, rowId: string, type: FormFieldType) => void;
+  dndReady: boolean;
 };
 
-function SortableSectionCard({
+function SectionCard({
   section,
   schema,
   expanded,
@@ -397,21 +464,44 @@ function SortableSectionCard({
   onFieldDragEnd,
   onPatchField,
   onAddField,
-}: SortableSectionCardProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: section.id,
+  dndReady,
+  nodeRef,
+  style,
+  dragHandleProps = staticDragHandleProps,
+}: SectionCardProps & {
+  nodeRef?: (element: HTMLElement | null) => void;
+  style?: React.CSSProperties;
+  dragHandleProps?: HTMLAttributes<HTMLButtonElement>;
+}) {
+  const rowCards = section.rows.map((row) => {
+    const rowProps = {
+      row,
+      sectionId: section.id,
+      schema,
+      expanded: expandedRowIds.has(row.id),
+      selectedFieldId,
+      sensors,
+      onChange,
+      onToggleExpanded: () => onToggleRowExpanded(row.id),
+      onSelectField,
+      onClearSelectedField,
+      onFieldDragEnd,
+      onPatchField,
+      onAddField,
+      dndReady,
+    };
+
+    return dndReady ? (
+      <SortableRowCard key={row.id} {...rowProps} />
+    ) : (
+      <RowCard key={row.id} {...rowProps} />
+    );
   });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.6 : 1,
-  };
-
   return (
-    <div ref={setNodeRef} style={style} className={styles.sectionCard}>
+    <div ref={nodeRef} style={style} className={styles.sectionCard}>
       <div className={styles.sectionHeader}>
-        <DragHandle label="Drag section" listeners={listeners} attributes={attributes} />
+        <DragHandle label="Drag section" dragHandleProps={dragHandleProps} />
         <input
           className={styles.sectionTitleInput}
           value={section.title ?? ""}
@@ -459,37 +549,22 @@ function SortableSectionCard({
         rows={2}
       />
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={(event) => onRowDragEnd(event, section.id)}
-      >
-        <SortableContext
-          items={section.rows.map((row) => row.id)}
-          strategy={verticalListSortingStrategy}
+      {dndReady ? (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={(event) => onRowDragEnd(event, section.id)}
         >
-          <div className={styles.sectionRows}>
-            {section.rows.map((row) => (
-              <SortableRowCard
-                key={row.id}
-                row={row}
-                sectionId={section.id}
-                schema={schema}
-                expanded={expandedRowIds.has(row.id)}
-                selectedFieldId={selectedFieldId}
-                sensors={sensors}
-                onChange={onChange}
-                onToggleExpanded={() => onToggleRowExpanded(row.id)}
-                onSelectField={onSelectField}
-                onClearSelectedField={onClearSelectedField}
-                onFieldDragEnd={onFieldDragEnd}
-                onPatchField={onPatchField}
-                onAddField={onAddField}
-              />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+          <SortableContext
+            items={section.rows.map((row) => row.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className={styles.sectionRows}>{rowCards}</div>
+          </SortableContext>
+        </DndContext>
+      ) : (
+        <div className={styles.sectionRows}>{rowCards}</div>
+      )}
 
       <button
         type="button"
@@ -508,6 +583,35 @@ function SortableSectionCard({
   );
 }
 
+function SortableSectionCard(props: SectionCardProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: props.section.id,
+  });
+
+  const dragHandleProps: HTMLAttributes<HTMLButtonElement> = {
+    ...attributes,
+    ...listeners,
+    onPointerDown: (event) => {
+      listeners?.onPointerDown?.(event);
+      event.stopPropagation();
+    },
+  };
+
+  return (
+    <SectionCard
+      {...props}
+      dndReady
+      nodeRef={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.6 : 1,
+      }}
+      dragHandleProps={dragHandleProps}
+    />
+  );
+}
+
 export function FormBuilder({ schema, onChange }: FormBuilderProps) {
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"builder" | "preview" | "json">("builder");
@@ -519,6 +623,11 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
   const [expandedRowIds, setExpandedRowIds] = useState<Set<string>>(
     () => new Set(collectRowIds(schema)),
   );
+  const [dndReady, setDndReady] = useState(false);
+
+  useEffect(() => {
+    setDndReady(true);
+  }, []);
 
   const expandAll = useCallback(() => {
     setExpandedSectionIds(new Set(collectSectionIds(schema)));
@@ -710,38 +819,64 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
               </button>
             </div>
 
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleSectionDragEnd}
-            >
-              <SortableContext
-                items={schema.sections.map((section) => section.id)}
-                strategy={verticalListSortingStrategy}
+            {dndReady ? (
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleSectionDragEnd}
               >
-                {schema.sections.map((section) => (
-                  <SortableSectionCard
-                    key={section.id}
-                    section={section}
-                    schema={schema}
-                    expanded={expandedSectionIds.has(section.id)}
-                    expandedRowIds={expandedRowIds}
-                    selectedFieldId={selectedFieldId}
-                    sensors={sensors}
-                    onChange={onChange}
-                    onToggleExpanded={() => toggleSectionExpanded(section.id)}
-                    onToggleRowExpanded={toggleRowExpanded}
-                    onExpandRow={expandRow}
-                    onSelectField={setSelectedFieldId}
-                    onClearSelectedField={() => setSelectedFieldId(null)}
-                    onRowDragEnd={handleRowDragEnd}
-                    onFieldDragEnd={handleFieldDragEnd}
-                    onPatchField={patchField}
-                    onAddField={addField}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
+                <SortableContext
+                  items={schema.sections.map((section) => section.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {schema.sections.map((section) => (
+                    <SortableSectionCard
+                      key={section.id}
+                      section={section}
+                      schema={schema}
+                      expanded={expandedSectionIds.has(section.id)}
+                      expandedRowIds={expandedRowIds}
+                      selectedFieldId={selectedFieldId}
+                      sensors={sensors}
+                      onChange={onChange}
+                      onToggleExpanded={() => toggleSectionExpanded(section.id)}
+                      onToggleRowExpanded={toggleRowExpanded}
+                      onExpandRow={expandRow}
+                      onSelectField={setSelectedFieldId}
+                      onClearSelectedField={() => setSelectedFieldId(null)}
+                      onRowDragEnd={handleRowDragEnd}
+                      onFieldDragEnd={handleFieldDragEnd}
+                      onPatchField={patchField}
+                      onAddField={addField}
+                      dndReady
+                    />
+                  ))}
+                </SortableContext>
+              </DndContext>
+            ) : (
+              schema.sections.map((section) => (
+                <SectionCard
+                  key={section.id}
+                  section={section}
+                  schema={schema}
+                  expanded={expandedSectionIds.has(section.id)}
+                  expandedRowIds={expandedRowIds}
+                  selectedFieldId={selectedFieldId}
+                  sensors={sensors}
+                  onChange={onChange}
+                  onToggleExpanded={() => toggleSectionExpanded(section.id)}
+                  onToggleRowExpanded={toggleRowExpanded}
+                  onExpandRow={expandRow}
+                  onSelectField={setSelectedFieldId}
+                  onClearSelectedField={() => setSelectedFieldId(null)}
+                  onRowDragEnd={handleRowDragEnd}
+                  onFieldDragEnd={handleFieldDragEnd}
+                  onPatchField={patchField}
+                  onAddField={addField}
+                  dndReady={false}
+                />
+              ))
+            )}
           </main>
 
           <aside className={styles.properties}>

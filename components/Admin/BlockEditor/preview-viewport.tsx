@@ -236,6 +236,11 @@ export function PreviewViewport({
       </aside>
     ) : null;
 
+  const dockedStyleBar =
+    !isFullscreen && styleToolbarContent ? (
+      <div className={styles.previewStyleBar}>{styleToolbarContent}</div>
+    ) : null;
+
   const panel = (
     <div
       className={`${styles.previewPanel} ${isFullscreen ? styles.previewFullscreenPanel : ""} ${dockedClass ?? ""}`}
@@ -253,6 +258,7 @@ export function PreviewViewport({
         <>
           {previewHeader}
           {previewToolbar}
+          {dockedStyleBar}
           {previewScroll}
         </>
       )}

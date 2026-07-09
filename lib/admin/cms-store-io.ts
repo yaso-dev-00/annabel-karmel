@@ -1,9 +1,12 @@
-import { get, put } from "@vercel/blob";
+import { del, get, list, put } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
 import seedStore from "@/data/cms/advice-articles.seed.json";
 
-const BLOB_PATHNAME = "cms/advice-articles.json";
+const LEGACY_BLOB_PATHNAME = "cms/advice-articles.json";
+const VERSIONED_PREFIX = "cms/advice-articles/v";
+const MAX_VERSIONS = 12;
+
 const CMS_DIR = path.join(process.cwd(), "data", "cms");
 const LOCAL_RUNTIME_FILE = path.join(CMS_DIR, "advice-articles.json");
 const SEED_FILE = path.join(CMS_DIR, "advice-articles.seed.json");
@@ -37,12 +40,9 @@ async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string>
   return new Response(stream).text();
 }
 
-async function readBlobRaw(): Promise<string | null> {
-  if (!useBlobCmsStore()) return null;
-
+async function readBlobAtPathname(pathname: string): Promise<string | null> {
   try {
-    // Public store only — never use access: "private".
-    const result = await get(BLOB_PATHNAME, {
+    const result = await get(pathname, {
       access: "public",
       useCache: false,
       ...getBlobAuthOptions(),
@@ -51,10 +51,54 @@ async function readBlobRaw(): Promise<string | null> {
       return streamToText(result.stream);
     }
   } catch {
-    // Blob may not exist yet.
+    // Missing blob or access mismatch.
   }
-
   return null;
+}
+
+async function listAdviceStoreBlobs() {
+  const auth = getBlobAuthOptions();
+  const [versioned, legacy] = await Promise.all([
+    list({ prefix: VERSIONED_PREFIX, limit: MAX_VERSIONS + 4, ...auth }),
+    list({ prefix: LEGACY_BLOB_PATHNAME, limit: 1, ...auth }),
+  ]);
+  return [...versioned.blobs, ...legacy.blobs];
+}
+
+async function readLatestVersionedBlob(): Promise<string | null> {
+  const auth = getBlobAuthOptions();
+  const { blobs } = await list({ prefix: VERSIONED_PREFIX, limit: MAX_VERSIONS + 4, ...auth });
+  if (!blobs.length) return null;
+
+  const latest = blobs.reduce((current, candidate) =>
+    candidate.uploadedAt > current.uploadedAt ? candidate : current,
+  );
+
+  return readBlobAtPathname(latest.pathname);
+}
+
+async function readBlobRaw(): Promise<string | null> {
+  if (!useBlobCmsStore()) return null;
+
+  const versioned = await readLatestVersionedBlob();
+  if (versioned) return versioned;
+
+  return readBlobAtPathname(LEGACY_BLOB_PATHNAME);
+}
+
+async function pruneOldVersions(): Promise<void> {
+  const auth = getBlobAuthOptions();
+  const { blobs } = await list({ prefix: VERSIONED_PREFIX, limit: MAX_VERSIONS + 20, ...auth });
+  if (blobs.length <= MAX_VERSIONS) return;
+
+  const sorted = blobs.slice().sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
+  const stale = sorted.slice(MAX_VERSIONS);
+  if (!stale.length) return;
+
+  await del(
+    stale.map((blob) => blob.url),
+    auth,
+  );
 }
 
 async function writeBlobRaw(raw: string): Promise<void> {
@@ -64,19 +108,37 @@ async function writeBlobRaw(raw: string): Promise<void> {
     );
   }
 
-  await put(BLOB_PATHNAME, raw, {
+  const auth = getBlobAuthOptions();
+  const pathname = `${VERSIONED_PREFIX}${Date.now()}.json`;
+
+  // New pathname on every save avoids public Blob CDN stale overwrite lag.
+  await put(pathname, raw, {
     access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
-    allowOverwrite: true,
-    ...getBlobAuthOptions(),
+    ...auth,
   });
+
+  await pruneOldVersions();
+}
+
+async function blobStoreHasData(): Promise<boolean> {
+  if (!useBlobCmsStore()) return false;
+  const blobs = await listAdviceStoreBlobs();
+  return blobs.length > 0;
 }
 
 export async function readCmsStoreRaw(): Promise<string> {
   if (useBlobCmsStore()) {
-    const blobRaw = await readBlobRaw();
+    let blobRaw = await readBlobRaw();
     if (blobRaw) return blobRaw;
+
+    if (await blobStoreHasData()) {
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      blobRaw = await readBlobRaw();
+      if (blobRaw) return blobRaw;
+    }
+
     return readSeedRaw();
   }
 

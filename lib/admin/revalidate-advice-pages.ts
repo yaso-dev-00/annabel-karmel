@@ -16,10 +16,10 @@ type RevalidateArticle = {
 };
 
 export function revalidateAdviceArticlePages(article?: RevalidateArticle): void {
-  // Next.js 16 requires a cacheLife profile as the second argument.
-  revalidateTag(ADVICE_ARTICLES_CACHE_TAG, "max");
-  if (article?.id) revalidateTag(adviceArticleIdTag(article.id), "max");
-  if (article?.slug) revalidateTag(adviceArticleSlugTag(article.slug), "max");
+  // Use "seconds" so stale content expires quickly after publish.
+  revalidateTag(ADVICE_ARTICLES_CACHE_TAG, "seconds");
+  if (article?.id) revalidateTag(adviceArticleIdTag(article.id), "seconds");
+  if (article?.slug) revalidateTag(adviceArticleSlugTag(article.slug), "seconds");
 
   revalidatePath("/admin");
   revalidatePath("/admin/advice");

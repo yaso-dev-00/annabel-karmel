@@ -1,7 +1,6 @@
 import { AdminShell } from "@/components/Admin/AdminShell";
 import { AdviceArticleEditor } from "@/components/Admin/AdviceArticleEditor/advice-article-editor";
 import { getAdviceArticleById } from "@/lib/admin/advice-articles-store";
-import { SAMPLE_ARTICLE_ID } from "@/lib/content-blocks/types";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -16,11 +15,7 @@ export default async function AdminAdviceEditPage({ params }: PageProps) {
 
   return (
     <AdminShell breadcrumb="Edit article">
-      <AdviceArticleEditor key={article.updated_at} initialArticle={article} />
+      <AdviceArticleEditor initialArticle={article} />
     </AdminShell>
   );
-}
-
-export async function generateStaticParams() {
-  return [{ id: SAMPLE_ARTICLE_ID }];
 }

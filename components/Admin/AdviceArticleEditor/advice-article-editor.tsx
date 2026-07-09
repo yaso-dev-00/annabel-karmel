@@ -58,15 +58,15 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
       if (isNew || !article.id) {
         const created = await createAdviceArticleApi(payload);
         setArticle(created);
+        setDirty(false);
+        setMessage(publish ? "Published!" : "Saved.");
         router.replace(`/admin/advice/${created.id}/edit`);
-        router.refresh();
       } else {
         const updated = await updateAdviceArticleApi(article.id, payload);
         setArticle(updated);
-        router.refresh();
+        setDirty(false);
+        setMessage(publish ? "Published!" : "Saved.");
       }
-      setDirty(false);
-      setMessage(publish ? "Published!" : "Saved.");
     } catch (error) {
       const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
       setMessage(detail);
@@ -93,7 +93,6 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
               ? "Article published."
               : "Status saved.",
         );
-        router.refresh();
       } catch (error) {
         setDirty(true);
         const detail = error instanceof Error ? error.message : "Failed to save status. Try Save draft.";

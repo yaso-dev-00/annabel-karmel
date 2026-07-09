@@ -1,4 +1,4 @@
-import { get, head, list, put } from "@vercel/blob";
+import { get, put } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
 import seedStore from "@/data/cms/advice-articles.seed.json";
@@ -10,14 +10,15 @@ const SEED_FILE = path.join(CMS_DIR, "advice-articles.seed.json");
 const BUNDLED_SEED_RAW = JSON.stringify(seedStore);
 
 export function useBlobCmsStore(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
 
-function getBlobAuthOptions(): { token?: string; storeId?: string } {
-  const options: { token?: string; storeId?: string } = {};
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    options.token = process.env.BLOB_READ_WRITE_TOKEN;
+function getBlobAuthOptions(): { token: string; storeId?: string } {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) {
+    throw new Error("BLOB_READ_WRITE_TOKEN is required for CMS persistence on Vercel.");
   }
+  const options: { token: string; storeId?: string } = { token };
   if (process.env.BLOB_STORE_ID) {
     options.storeId = process.env.BLOB_STORE_ID;
   }
@@ -36,98 +37,49 @@ async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string>
   return new Response(stream).text();
 }
 
-async function fetchBlobUrl(url: string): Promise<string | null> {
+async function getBlobText(access: "private" | "public"): Promise<string | null> {
   try {
-    const res = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
-    if (!res.ok) return null;
-    return res.text();
-  } catch {
-    return null;
-  }
-}
-
-async function readBlobViaList(): Promise<string | null> {
-  try {
-    const { blobs } = await list({
-      prefix: BLOB_PATHNAME,
-      limit: 10,
+    const result = await get(BLOB_PATHNAME, {
+      access,
+      useCache: false,
       ...getBlobAuthOptions(),
     });
-    const blob = blobs.find((item) => item.pathname === BLOB_PATHNAME) ?? blobs[0];
-    if (!blob?.url) return null;
-    return fetchBlobUrl(blob.url);
-  } catch {
-    return null;
-  }
-}
-
-async function readBlobViaHead(): Promise<string | null> {
-  try {
-    const meta = await head(BLOB_PATHNAME, getBlobAuthOptions());
-    return fetchBlobUrl(meta.downloadUrl ?? meta.url);
-  } catch {
-    return null;
-  }
-}
-
-async function readBlobViaGet(): Promise<string | null> {
-  const accessModes = ["public", "private"] as const;
-  for (const access of accessModes) {
-    try {
-      const result = await get(BLOB_PATHNAME, {
-        access,
-        useCache: false,
-        ...getBlobAuthOptions(),
-      });
-      if (result?.statusCode === 200 && result.stream) {
-        return streamToText(result.stream);
-      }
-    } catch {
-      continue;
+    if (result?.statusCode === 200 && result.stream) {
+      return streamToText(result.stream);
     }
+  } catch {
+    // Missing blob or access mismatch.
   }
   return null;
 }
 
+/**
+ * Prefer private blob + useCache:false (no CDN).
+ * Fall back to public once to migrate older public stores, then next write becomes private.
+ */
 async function readBlobRaw(): Promise<string | null> {
   if (!useBlobCmsStore()) return null;
 
-  return (
-    (await readBlobViaList()) ??
-    (await readBlobViaHead()) ??
-    (await readBlobViaGet())
-  );
+  const privateRaw = await getBlobText("private");
+  if (privateRaw) return privateRaw;
+
+  return getBlobText("public");
 }
 
 async function writeBlobRaw(raw: string): Promise<void> {
   if (!useBlobCmsStore()) {
     throw new Error(
-      "CMS persistence on Vercel requires Vercel Blob. Connect a Blob store in your Vercel project settings.",
+      "CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.",
     );
   }
 
-  const putOptions = {
+  await put(BLOB_PATHNAME, raw, {
+    access: "private",
     contentType: "application/json",
     addRandomSuffix: false,
     allowOverwrite: true,
     ...getBlobAuthOptions(),
-  };
-
-  try {
-    await put(BLOB_PATHNAME, raw, { ...putOptions, access: "public" });
-    return;
-  } catch (publicError) {
-    try {
-      await put(BLOB_PATHNAME, raw, { ...putOptions, access: "private" });
-      return;
-    } catch (privateError) {
-      const publicMessage =
-        publicError instanceof Error ? publicError.message : "Public blob write failed";
-      const privateMessage =
-        privateError instanceof Error ? privateError.message : "Private blob write failed";
-      throw new Error(`CMS save failed: ${publicMessage} / ${privateMessage}`);
-    }
-  }
+  });
 }
 
 export async function readCmsStoreRaw(): Promise<string> {
@@ -156,7 +108,7 @@ export async function writeCmsStoreRaw(raw: string): Promise<void> {
 
   if (process.env.VERCEL) {
     throw new Error(
-      "CMS persistence on Vercel requires Vercel Blob. Connect a Blob store in your Vercel project settings.",
+      "CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.",
     );
   }
 

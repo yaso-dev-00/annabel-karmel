@@ -134,7 +134,7 @@ export function AdviceArticleList({ articles }: AdviceArticleListProps) {
                       {article.title}
                       {isSample ? <span className="badge badgeSample">Sample</span> : null}
                     </span>
-                    <span className="tableTitlePath">/articles/{article.slug}</span>
+                    <span className="tableTitlePath">/advice/{article.slug}</span>
                     {isDisabled ? (
                       <span className="tableRowDisabledNote">Hidden from site</span>
                     ) : null}

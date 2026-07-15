@@ -5,9 +5,28 @@
 .container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 24px 60px;
+  padding: 0 16px 40px;
   container-type: inline-size;
   container-name: cms-content;
+}
+
+.fullBleedSection {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fullBleedCarousel {
+  width: 100%;
+  padding: 0 8px 90px;
+}
+
+.legacyRelatedHeader {
+  max-width: 1200px;
+  margin: 90px auto 0;
+  padding: 0 16px;
+  text-align: center;
 }
 
 .relatedSection {
@@ -21,4 +40,10 @@
   font-size: 28px;
   font-weight: 700;
   color: #3d3d3d;
+}
+
+@media (min-width: 768px) {
+  .fullBleedCarousel {
+    padding-inline: 14px;
+  }
 }

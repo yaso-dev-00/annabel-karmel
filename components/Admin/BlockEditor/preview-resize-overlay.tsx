@@ -44,7 +44,21 @@ function getTargetElement(
   if (!targetSelector || targetSelector === ":scope") {
     return container;
   }
-  return container.querySelector<HTMLElement>(targetSelector);
+  const matches = container.querySelectorAll<HTMLElement>(targetSelector);
+  if (matches.length === 0) return null;
+  if (matches.length === 1) return matches[0];
+
+  // Prefer the visible image (desktop vs mobile swap).
+  for (const el of matches) {
+    const rect = el.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      const style = window.getComputedStyle(el);
+      if (style.display !== "none" && style.visibility !== "hidden") {
+        return el;
+      }
+    }
+  }
+  return matches[0];
 }
 
 export function PreviewResizeOverlay({

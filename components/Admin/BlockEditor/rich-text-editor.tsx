@@ -80,6 +80,8 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
     extensions: [
       StarterKit.configure({
         heading: false,
+        // TipTap v3 TrailingNode breaks bullet/ordered list toggles (empty item + cursor jump).
+        trailingNode: false,
         link: {
           openOnClick: false,
           autolink: false,
@@ -166,14 +168,14 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
           <ToolbarButton
             active={editor.isActive("bulletList")}
             title="Bullet list"
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            onClick={() => editor.chain().focus().unsetTextAlign().toggleBulletList().run()}
           >
             • List
           </ToolbarButton>
           <ToolbarButton
             active={editor.isActive("orderedList")}
             title="Numbered list"
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            onClick={() => editor.chain().focus().unsetTextAlign().toggleOrderedList().run()}
           >
             1. List
           </ToolbarButton>

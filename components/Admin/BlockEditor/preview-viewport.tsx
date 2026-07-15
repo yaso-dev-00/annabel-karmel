@@ -24,12 +24,16 @@ export const PREVIEW_VIEWPORTS: {
 ];
 
 const STORAGE_KEY = "admin-preview-viewport";
+const DEFAULT_VIEWPORT: PreviewViewportKey = "desktop";
 
-function loadViewport(): PreviewViewportKey {
-  if (typeof window === "undefined") return "desktop";
-  const stored = sessionStorage.getItem(STORAGE_KEY) as PreviewViewportKey | null;
-  if (stored && PREVIEW_VIEWPORTS.some((v) => v.key === stored)) return stored;
-  return "desktop";
+function readStoredViewport(): PreviewViewportKey {
+  try {
+    const stored = sessionStorage.getItem(STORAGE_KEY) as PreviewViewportKey | null;
+    if (stored && PREVIEW_VIEWPORTS.some((v) => v.key === stored)) return stored;
+  } catch {
+    // sessionStorage unavailable
+  }
+  return DEFAULT_VIEWPORT;
 }
 
 type PreviewStyleToolbarSlot = ReactNode | ((ctx: { isFullscreen: boolean }) => ReactNode);
@@ -53,13 +57,13 @@ export function PreviewViewport({
   blockMaxWidthLabel,
   selectedBlockId,
 }: PreviewViewportProps) {
-  const [viewport, setViewport] = useState<PreviewViewportKey>("desktop");
+  const [viewport, setViewport] = useState<PreviewViewportKey>(DEFAULT_VIEWPORT);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [styleSidebarOpen, setStyleSidebarOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setViewport(loadViewport());
+    setViewport(readStoredViewport());
     setMounted(true);
   }, []);
 

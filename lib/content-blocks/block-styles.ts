@@ -23,6 +23,8 @@ import { applyBlockPaddingStyle, hasCustomPadding } from "./padding";
 import { normalizeCssLength } from "./css-length";
 import { applyBlockBorderStyle, hasCustomBorder } from "./border";
 import { applyResponsiveFontSizeStyle } from "./responsive-font-size";
+import { applyBlockTypographyStyle } from "./block-typography";
+import { applyParagraphGapStyle } from "./block-prose";
 import { resolveFontFamily, resolveRadius, resolveShadow } from "@/lib/design-system/tokens";
 
 /** True when toolbar chrome should render on the inner visual box, not the wrapper. */
@@ -45,6 +47,7 @@ export const INTRINSIC_DEFAULT_BORDER_RADIUS = {
   hero: "18px",
   banner: "8px",
   cta_button: "999px",
+  form_embed: "12px",
 } as const;
 
 export type IntrinsicChildBoxOptions = {
@@ -99,6 +102,49 @@ export function getNestedMiniBlockStyle(style?: NestedMiniBlockStyle): CSSProper
   return Object.keys(css).length ? css : undefined;
 }
 
+export function getTwoColumnColumnStyle(
+  settings?: BlockSettings,
+  hasImage = false,
+): CSSProperties {
+  const style = getIntrinsicChildBoxStyle(settings, {
+    clipOverflow: Boolean(settings?.border_radius) || hasImage,
+  });
+
+  if (settings?.text_color) {
+    style.color = settings.text_color;
+    (style as Record<string, string>)["--block-text-color"] = settings.text_color;
+  }
+
+  const fontFamily = resolveFontFamily(settings?.font_family);
+  if (fontFamily) {
+    (style as Record<string, string>)["--block-font-body"] = fontFamily;
+    (style as Record<string, string>)["--block-font-display"] = fontFamily;
+  }
+
+  applyResponsiveFontSizeStyle(style, settings);
+  applyBlockTypographyStyle(style, settings);
+  applyParagraphGapStyle(style, settings);
+
+  if (settings?.max_width) {
+    style.maxWidth = resolveBlockMaxWidth(
+      settings.max_width,
+      undefined,
+      settings.max_width_custom,
+    );
+    style.width = "100%";
+  }
+
+  applyBlockMarginStyle(style, settings);
+
+  return style;
+}
+
+export function getTwoColumnBlockStyle(settings?: BlockSettings): CSSProperties {
+  return getIntrinsicChildBoxStyle(settings, {
+    clipOverflow: Boolean(settings?.border_radius),
+  });
+}
+
 /** Padding and min-height belong on the colored/visual inner element, not the outer wrapper. */
 export function usesIntrinsicLayoutChildBox(blockType?: BlockType): boolean {
   return (
@@ -115,7 +161,8 @@ export function usesIntrinsicLayoutChildBox(blockType?: BlockType): boolean {
     blockType === "recipe_grid" ||
     blockType === "related_links" ||
     blockType === "rich_text" ||
-    blockType === "table"
+    blockType === "table" ||
+    blockType === "two_column"
   );
 }
 
@@ -201,6 +248,13 @@ export function getCtaButtonStyle(settings?: BlockSettings): CSSProperties {
   return getIntrinsicChildBoxStyle(settings, {
     fullWidth: false,
     defaultBorderRadius: INTRINSIC_DEFAULT_BORDER_RADIUS.cta_button,
+    clipOverflow: false,
+  });
+}
+
+export function getFormEmbedStyle(settings?: BlockSettings): CSSProperties {
+  return getIntrinsicChildBoxStyle(settings, {
+    defaultBorderRadius: INTRINSIC_DEFAULT_BORDER_RADIUS.form_embed,
     clipOverflow: false,
   });
 }
@@ -304,9 +358,8 @@ export function getBlockWrapperStyle(
     style.textAlign = settings.text_align;
   }
 
-  if (settings?.font_weight) {
-    style.fontWeight = settings.font_weight;
-  }
+  applyBlockTypographyStyle(style, settings);
+  applyParagraphGapStyle(style, settings);
 
   if (!paddingOnChild && settings?.min_height?.trim()) {
     style.minHeight = normalizeCssLength(settings.min_height.trim());

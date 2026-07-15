@@ -77,6 +77,35 @@
   letter-spacing: 0.06em;
 }
 
+.targetRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px 16px 5px;
+}
+
+.targetBtn {
+  padding: 8px 10px;
+  border: 1px solid #efd8d8;
+  border-radius: 999px;
+  background: #fff;
+  color: #6d5757;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.targetBtn:hover {
+  border-color: #b34769;
+  color: #b34769;
+}
+
+.targetBtnActive {
+  background: #b34769;
+  border-color: #b34769;
+  color: #fff;
+}
+
 .chevron {
   font-size: 14px;
   color: #6d5757;

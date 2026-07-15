@@ -58,19 +58,25 @@
 .list,
 .orderedList {
   margin: 30px 0 0;
-  padding: 0 0 0 100px;
+  padding: 0 0 0 1.75rem;
   font-family: var(--block-font-body, var(--font-body));
   font-size: 20px;
   line-height: 1.42;
   color: var(--block-text-color, #3f3841);
+  list-style-position: outside;
 }
 
 .list {
-  list-style: disc;
+  list-style-type: disc;
 }
 
 .orderedList {
-  list-style: decimal;
+  list-style-type: decimal;
+}
+
+.list > li,
+.orderedList > li {
+  display: list-item;
 }
 
 .list li + li,
@@ -92,6 +98,64 @@
 
 .imageFull {
   max-width: 100%;
+}
+
+.imageFull.imageSized {
+  max-width: 100%;
+}
+
+/* Custom desktop/mobile sizes via CSS vars (single-image blocks). */
+.imageSized {
+  max-width: min(100%, var(--img-max-w, 700px));
+  aspect-ratio: var(--img-ar, auto);
+  object-fit: cover;
+}
+
+.imageSwap {
+  margin: 40px auto 0;
+  width: 100%;
+}
+
+.imageSwap .image {
+  margin-top: 0;
+}
+
+.imageSwap .imageDesktop {
+  display: block;
+}
+
+.imageSwap .imageMobile {
+  display: none;
+}
+
+@container cms-content (max-width: 767px) {
+  .imageSized {
+    max-width: min(100%, var(--img-mobile-max-w, var(--img-max-w, 700px)));
+    aspect-ratio: var(--img-mobile-ar, var(--img-ar, auto));
+  }
+
+  .imageSwap .imageDesktop {
+    display: none;
+  }
+
+  .imageSwap .imageMobile {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .imageSized {
+    max-width: min(100%, var(--img-mobile-max-w, var(--img-max-w, 700px)));
+    aspect-ratio: var(--img-mobile-ar, var(--img-ar, auto));
+  }
+
+  .imageSwap .imageDesktop {
+    display: none;
+  }
+
+  .imageSwap .imageMobile {
+    display: block;
+  }
 }
 
 .caption {
@@ -269,6 +333,37 @@
   max-width: 100%;
 }
 
+.partnershipTag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 16px;
+  margin: 8px 0 20px;
+}
+
+.partnershipTagLabel {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #3a3a3a;
+}
+
+.partnershipTagLogoLink {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.partnershipTagLogo {
+  display: block;
+  max-height: 48px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+}
+
 .partnerPromoLinks {
   display: flex;
   flex-wrap: wrap;
@@ -286,8 +381,89 @@
 
 .twoColumn {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: 32px;
+  align-items: start;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.twoColumn > div,
+.twoColumnCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.twoColumnColEditable {
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.twoColumnColSelected {
+  outline: 2px solid #b34769;
+  outline-offset: 4px;
+}
+
+.twoColumnCol > :where(.body, .blockProse, .list, .orderedList) {
+  margin: 0;
+}
+
+.twoColumnCol > * + * {
+  margin-top: 12px;
+}
+
+.twoColumnCol .blockProseParagraphGap > :first-child,
+.twoColumnCol .blockProse > :first-child {
+  margin-top: 0;
+}
+
+.twoColumnCol .blockProseParagraphGap > :last-child,
+.twoColumnCol .blockProse > :last-child {
+  margin-bottom: 0;
+}
+
+.twoColumnBlockCustomPadding .twoColumnCol > :where(.body, .blockProse, .list, .orderedList) {
+  margin: 0;
+}
+
+.twoColumnColMedia {
+  align-self: start;
+}
+
+.twoColumnColHasImage {
+  overflow: hidden;
+}
+
+.twoColumnColHasImage .image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  border-radius: 0;
+}
+
+.twoColumn .image {
+  display: block;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0;
+}
+
+/* Desktop-tuned two-column image sizes should soft-scale below desktop. */
+@container cms-content (max-width: 1023px) {
+  .twoColumn .image {
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+  }
 }
 
 .blockWrapper {
@@ -366,9 +542,109 @@
   font-size: inherit !important;
 }
 
+.blockWrapperFontWeight {
+  font-weight: var(--block-font-weight);
+}
+
+.blockWrapperLineHeight {
+  line-height: var(--block-line-height);
+}
+
+.blockWrapperFontWeight :where(
+  .body,
+  .bodyBold,
+  .lead,
+  .pullQuote,
+  .sectionTitle,
+  .pageTitle,
+  .subTitle,
+  .list,
+  .orderedList,
+  .blockProse,
+  .caption,
+  .heroHeadline,
+  .heroSubheadline,
+  .calloutTitle,
+  .relatedIntro,
+  .table,
+  .banner,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li,
+  span,
+  a,
+  strong,
+  em,
+  mark,
+  td,
+  th,
+  label
+) {
+  font-weight: inherit !important;
+}
+
+.blockWrapperFontWeight .blockProse :where(p, li, span, a, strong, em, mark, h1, h2, h3, h4, h5, h6) {
+  font-weight: inherit !important;
+}
+
+.blockWrapperLineHeight :where(
+  .body,
+  .bodyBold,
+  .lead,
+  .pullQuote,
+  .sectionTitle,
+  .pageTitle,
+  .subTitle,
+  .list,
+  .orderedList,
+  .blockProse,
+  .caption,
+  .heroHeadline,
+  .heroSubheadline,
+  .calloutTitle,
+  .relatedIntro,
+  .table,
+  .banner,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li,
+  span,
+  a,
+  strong,
+  em,
+  mark,
+  td,
+  th,
+  label
+) {
+  line-height: inherit !important;
+}
+
+.blockWrapperLineHeight .blockProse :where(p, li, span, a, strong, em, mark, h1, h2, h3, h4, h5, h6) {
+  line-height: inherit !important;
+}
+
 /* Custom wrapper padding/margin replaces default block margins on inner content. */
 .blockWrapperCustomPadding > * {
   margin: 0;
+}
+
+.blockWrapperCustomPadding .twoColumnCol > :where(.body, .blockProse, .list, .orderedList) {
+  margin: 0;
+}
+
+.blockWrapperCustomPadding .twoColumnCol .blockProse > :first-child {
+  margin-top: 0;
 }
 
 .blockWrapperCustomPadding .image {
@@ -457,7 +733,8 @@
 .blockProse ul,
 .blockProse ol {
   margin: 0.5em 0 0.75em;
-  padding-left: 1.5rem;
+  padding-left: 1.75rem;
+  list-style-position: outside;
 }
 
 .blockProse ul {
@@ -472,6 +749,10 @@
   display: list-item;
 }
 
+.blockProse li + li {
+  margin-top: 0.35em;
+}
+
 .blockProse li p {
   margin: 0;
 }
@@ -479,6 +760,36 @@
 .blockProse a {
   color: var(--brand);
   text-decoration: underline;
+}
+
+.blockProseParagraphGap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-prose-paragraph-gap);
+  width: 100%;
+}
+
+/* Zero margins on direct prose children so flex `gap` is the only spacing. */
+.blockProseParagraphGap > :where(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote) {
+  margin: 0 !important;
+}
+
+.twoColumnCol .blockProseParagraphGap {
+  min-width: 0;
+}
+
+/* Wrapper fallback only when prose itself is not already using flex gap. */
+.blockWrapperParagraphGap .blockProse:not(.blockProseParagraphGap) > :where(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote) {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.blockWrapperParagraphGap .blockProse:not(.blockProseParagraphGap) > * + * {
+  margin-top: var(--block-prose-paragraph-gap) !important;
+}
+
+.blockWrapperParagraphGap .body + .body {
+  margin-top: var(--block-prose-paragraph-gap);
 }
 
 .expertSignOff {
@@ -656,6 +967,47 @@
   padding-left: 48px;
 }
 
+.relatedLinksRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 22px 28px;
+  list-style: none;
+  margin: 18px 0 8px;
+  padding: 0;
+}
+
+.relatedLinksRow li {
+  margin: 0;
+  padding: 0;
+}
+
+.relatedSocialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #3a3a3a;
+  text-decoration: none;
+}
+
+.relatedSocialLink:hover {
+  color: #3a3a3a;
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.relatedSocialIcon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .relatedLinksCompact {
   margin-top: 16px;
 }
@@ -751,6 +1103,64 @@
   margin: 0;
 }
 
+.imageStackGrid {
+  display: grid;
+  gap: 24px;
+  margin: 40px 0 0;
+  /* Mobile default; tablet/desktop override via cms-content container queries. */
+  grid-template-columns: repeat(var(--cms-grid-cols-mobile, 1), minmax(0, 1fr));
+}
+
+.imageStackGrid figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.cmsResponsiveGrid {
+  grid-template-columns: repeat(var(--cms-grid-cols-mobile, 1), minmax(0, 1fr));
+}
+
+/* Shared aspect keeps desktop row heights even and scales with column width. */
+.imageStackGridMatchAspect .imageStackImg,
+.cmsResponsiveGridMatchAspect .gridCard img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: var(--cms-grid-image-aspect, 4 / 3);
+  object-fit: cover;
+}
+
+.cmsResponsiveGridNatural .gridCard img {
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: cover;
+}
+
+@container cms-content (min-width: 768px) {
+  .imageStackGrid,
+  .cmsResponsiveGrid {
+    grid-template-columns: repeat(var(--cms-grid-cols-tablet, 2), minmax(0, 1fr));
+  }
+}
+
+@container cms-content (min-width: 1024px) {
+  .imageStackGrid,
+  .cmsResponsiveGrid {
+    grid-template-columns: repeat(var(--cms-grid-cols-desktop, 3), minmax(0, 1fr));
+  }
+}
+
+/* Fixed px image heights from desktop resize must not lock tablet/mobile layout. */
+@container cms-content (max-width: 1023px) {
+  .imageStackGrid:not(.imageStackGridMatchAspect) .imageStackImg {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+  }
+}
+
 .imageStackImg {
   display: block;
   width: 100%;
@@ -758,6 +1168,10 @@
   height: auto;
   margin: 0 auto;
   border-radius: 12px;
+}
+
+.imageStackGrid .imageStackImg {
+  max-width: 100%;
 }
 
 .gridCard {
@@ -861,7 +1275,7 @@
     padding: 16px 20px;
   }
 
-  .grid {
+  .grid:not(.cmsResponsiveGrid) {
     grid-template-columns: minmax(0, 1fr);
   }
 }

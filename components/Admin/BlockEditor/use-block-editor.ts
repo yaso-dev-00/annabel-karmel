@@ -108,6 +108,39 @@ export function useBlockEditor(
     [blocks, onChange],
   );
 
+  const updateTwoColumnColumnSettings = useCallback(
+    (id: string, column: "left" | "right", settingsPatch: Partial<BlockSettings>) => {
+      const settingsKey = column === "left" ? "left_settings" : "right_settings";
+      onChange(
+        normalizeBlockOrder(
+          blocks.map((b) => {
+            if (b.id !== id || b.type !== "two_column") return b;
+            const merged: BlockSettings = { ...(b.data[settingsKey] ?? {}) };
+            for (const [key, val] of Object.entries(settingsPatch) as [
+              keyof BlockSettings,
+              BlockSettings[keyof BlockSettings] | undefined,
+            ][]) {
+              if (val === undefined) {
+                delete merged[key];
+              } else {
+                (merged as Record<string, unknown>)[key] = val;
+              }
+            }
+            const hasSettings = Object.keys(merged).length > 0;
+            return {
+              ...b,
+              data: {
+                ...b.data,
+                [settingsKey]: hasSettings ? merged : undefined,
+              },
+            };
+          }),
+        ),
+      );
+    },
+    [blocks, onChange],
+  );
+
   return {
     blocks,
     addBlock,
@@ -116,5 +149,6 @@ export function useBlockEditor(
     updateBlock,
     reorderBlocks,
     updateBlockSettings,
+    updateTwoColumnColumnSettings,
   };
 }

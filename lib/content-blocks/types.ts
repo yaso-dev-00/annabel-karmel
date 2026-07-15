@@ -23,8 +23,10 @@ export const BLOCK_TYPES = [
   "product_grid",
   "recipe_grid",
   "related_links",
+  "related_articles",
   "expert_attribution",
   "partner_promo",
+  "partnership_tag",
   "book_promo",
   "author_bio",
 ] as const;
@@ -88,6 +90,10 @@ export type BlockSettings = {
   border_color?: string;
   border_style?: "none" | "solid" | "dashed" | "dotted";
   text_align?: "left" | "center" | "right" | "justify";
+  /** Unitless multiplier (e.g. 1.42) or CSS length (e.g. 24px). */
+  line_height?: string;
+  /** Prose blocks: vertical space between consecutive paragraphs in `.blockProse` / `.body` copy. */
+  paragraph_gap?: string;
 };
 
 export type HeroBlockData = {
@@ -131,9 +137,18 @@ export type ImageBlockData = {
   alt: string;
   caption?: string;
   full_width?: boolean;
+  /** Desktop (≥1024px) size from preview resize. */
   width?: string;
   height?: string;
+  /** Mobile (≤767px) size — separate from desktop so resizes don’t cross breakpoints. */
+  mobile_width?: string;
+  mobile_height?: string;
   link_href?: string;
+  /** Toggle: use a separate image on mobile (≤767px). */
+  use_mobile_image?: boolean;
+  /** Mobile-specific image shown when use_mobile_image is on. */
+  mobile_src?: string;
+  /** @deprecated Prefer mobile_src — still read for older partner pages. */
   fallback_src?: string;
 };
 
@@ -157,8 +172,19 @@ export type ImageStackItem = {
   height?: string;
 };
 
+/** Column counts for image stack / recipe grid layouts (1–4). */
+export type ImageStackColumnCount = 1 | 2 | 3 | 4;
+
 export type ImageStackBlockData = {
   layout: "vertical" | "grid";
+  /** Desktop columns (≥1024px). Default 3 when layout is grid. */
+  columns_desktop?: ImageStackColumnCount;
+  /** Tablet columns (768–1023px). Default 2 when layout is grid. */
+  columns_tablet?: ImageStackColumnCount;
+  /** Mobile columns (≤767px). Default 1 when layout is grid. */
+  columns_mobile?: ImageStackColumnCount;
+  /** Shared cell aspect for grid — prefer over dragging image height. */
+  image_aspect?: "auto" | "4/3" | "1/1" | "3/2" | "3/4";
   images: ImageStackItem[];
 };
 
@@ -192,6 +218,9 @@ export type NestedMiniBlock =
 export type TwoColumnBlockData = {
   left_blocks: NestedMiniBlock[];
   right_blocks: NestedMiniBlock[];
+  /** Per-column layout/styles from the preview toolbar (padding, background, etc.). */
+  left_settings?: BlockSettings;
+  right_settings?: BlockSettings;
 };
 
 export type VideoBlockData = {
@@ -292,20 +321,46 @@ export type GridItem = {
 };
 
 export type ProductGridBlockData = {
+  /** Desktop columns (≥1024px). Default 3. */
+  columns_desktop?: ImageStackColumnCount;
+  /** Tablet columns (768–1023px). Default 2. */
+  columns_tablet?: ImageStackColumnCount;
+  /** Mobile columns (≤767px). Default 1. */
+  columns_mobile?: ImageStackColumnCount;
+  /** Shared card image aspect — prefer over fixed heights. */
+  image_aspect?: "auto" | "4/3" | "1/1" | "3/2" | "3/4";
   items: GridItem[];
 };
 
 export type RecipeGridBlockData = {
   layout: "grid" | "carousel";
+  /** Desktop columns (≥1024px). Default 3 when layout is grid. */
+  columns_desktop?: ImageStackColumnCount;
+  /** Tablet columns (768–1023px). Default 2 when layout is grid. */
+  columns_tablet?: ImageStackColumnCount;
+  /** Mobile columns (≤767px). Default 1 when layout is grid. */
+  columns_mobile?: ImageStackColumnCount;
+  /** Shared card image aspect for grid — prefer over fixed heights. */
+  image_aspect?: "auto" | "4/3" | "1/1" | "3/2" | "3/4";
   items: GridItem[];
 };
 
 export type RelatedLinksBlockData = {
   intro: string;
-  links: { label: string; href: string }[];
+  links: { label: string; href: string; icon_src?: string; icon_alt?: string }[];
+  /** Vertical list (default) or horizontal social-style row. */
+  layout?: "list" | "row";
   link_color?: string;
   link_style?: "underline" | "plain" | "arrow";
   list_spacing?: "compact" | "normal" | "loose";
+};
+
+export type RelatedArticlesBlockData = {
+  heading: string;
+  subtitle?: string;
+  category_slug: string;
+  /** Display order for the active category. Slugs from other categories are kept when switching categories. */
+  article_slugs: string[];
 };
 
 export type ExpertAttributionBlockData = {
@@ -325,6 +380,14 @@ export type PartnerPromoBlockData = {
   body?: string;
   links?: { label: string; href: string; style?: string }[];
   layout: "horizontal" | "stacked";
+};
+
+/** Partners-only: “In partnership with” label + logo row. */
+export type PartnershipTagBlockData = {
+  label: string;
+  logo_src: string;
+  logo_alt: string;
+  logo_href?: string;
 };
 
 export type BookPromoBlockData = {
@@ -368,8 +431,10 @@ export type BlockDataByType = {
   product_grid: ProductGridBlockData;
   recipe_grid: RecipeGridBlockData;
   related_links: RelatedLinksBlockData;
+  related_articles: RelatedArticlesBlockData;
   expert_attribution: ExpertAttributionBlockData;
   partner_promo: PartnerPromoBlockData;
+  partnership_tag: PartnershipTagBlockData;
   book_promo: BookPromoBlockData;
   author_bio: AuthorBioBlockData;
 };
@@ -416,3 +481,103 @@ export const SAMPLE_ARTICLE_ID = "00000000-0000-4000-8000-000000000001";
 export const SAMPLE_ARTICLE_SLUG = "sample-advice-article";
 export const SHOWCASE_ARTICLE_ID = "00000000-0000-4000-8000-000000000002";
 export const SHOWCASE_ARTICLE_SLUG = "cms-block-showcase";
+
+export type CompetitionStatus = AdviceArticleStatus;
+
+export type Competition = {
+  id: string;
+  slug: string;
+  title: string;
+  listing_image: string;
+  listing_image_alt: string;
+  seo_title: string;
+  seo_description: string;
+  content_blocks: ContentBlock[];
+  show_instagram_share: boolean;
+  content_max_width?: MaxWidthPreset;
+  content_max_width_custom?: string;
+  style_preset?: string;
+  status?: CompetitionStatus;
+  scheduled_at?: string | null;
+  published_at: string | null;
+  closes_at?: string | null;
+  updated_at: string;
+  created_at: string;
+};
+
+export type CompetitionsStore = {
+  competitions: Competition[];
+};
+
+export const SAMPLE_COMPETITION_ID = "00000000-0000-4000-8000-000000000201";
+export const SAMPLE_COMPETITION_SLUG = "win-a-christmas-bundle-worth-300";
+
+export type PartnerPageStatus = AdviceArticleStatus;
+
+/** Our Partners CMS entity — Competition-shaped (no category / related articles). */
+export type PartnerPage = {
+  id: string;
+  slug: string;
+  title: string;
+  listing_image: string;
+  listing_image_alt: string;
+  seo_title: string;
+  seo_description: string;
+  content_blocks: ContentBlock[];
+  show_instagram_share: boolean;
+  content_max_width?: MaxWidthPreset;
+  content_max_width_custom?: string;
+  style_preset?: string;
+  status?: PartnerPageStatus;
+  scheduled_at?: string | null;
+  published_at: string | null;
+  updated_at: string;
+  created_at: string;
+};
+
+export type PartnersStore = {
+  partners: PartnerPage[];
+};
+
+export const PARTNER_PAMPERS_SNACKING_ID = "00000000-0000-4000-8000-000000000401";
+export const PARTNER_PAMPERS_SNACKING_SLUG = "pampers-snacking";
+export const PARTNER_PAMPERS_SUPERFOODS_ID = "00000000-0000-4000-8000-000000000402";
+export const PARTNER_PAMPERS_SUPERFOODS_SLUG = "pampers-2026";
+export const PARTNER_BIRDS_EYE_ID = "00000000-0000-4000-8000-000000000403";
+export const PARTNER_BIRDS_EYE_SLUG = "birds-eye";
+export const PARTNER_CRAFT_CRUMB_ID = "00000000-0000-4000-8000-000000000404";
+export const PARTNER_CRAFT_CRUMB_SLUG = "craft-crumb";
+
+/** Website Articles CMS entity — same shape as AdviceArticle, different path/categories. */
+export type ArticleStatus = AdviceArticleStatus;
+
+export type Article = {
+  id: string;
+  slug: string;
+  title: string;
+  category_slug: string;
+  listing_image: string;
+  listing_image_alt: string;
+  seo_title: string;
+  seo_description: string;
+  content_blocks: ContentBlock[];
+  related_articles: RelatedArticleItem[];
+  show_instagram_share: boolean;
+  content_max_width?: MaxWidthPreset;
+  content_max_width_custom?: string;
+  style_preset?: string;
+  status?: ArticleStatus;
+  scheduled_at?: string | null;
+  published_at: string | null;
+  updated_at: string;
+  created_at: string;
+};
+
+export type ArticlesStore = {
+  articles: Article[];
+};
+
+export const SAMPLE_SITE_ARTICLE_ID = "00000000-0000-4000-8000-000000000301";
+export const SAMPLE_SITE_ARTICLE_SLUG = "sample-article";
+export const SHOWCASE_SITE_ARTICLE_ID = "00000000-0000-4000-8000-000000000302";
+export const SHOWCASE_SITE_ARTICLE_SLUG = "articles-block-showcase";

@@ -1,29 +1,54 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { ArticleRecipeCarousel } from "@/components/SharedCarousels/ArticleRecipeCarousel";
 import { PreviewBlockWrapper } from "@/components/Admin/BlockEditor/preview-block-wrapper";
-import { getImageInlineStyle, getImageStackItemStyle } from "@/lib/admin/block-image-resize";
+import { getImageInlineStyle, getImageStackItemStyle, getTwoColumnImageBleedStyle, getTwoColumnImageDisplayStyle } from "@/lib/admin/block-image-resize";
 import { CmsAccordionBlock, CmsExpertAttributionBlock } from "./blocks/cms-accordion-block";
 import { CmsCustomForm } from "./blocks/cms-custom-form";
+import { CmsRelatedArticlesBlock } from "./blocks/cms-related-articles-block";
 import { createDefaultFormSchema } from "@/lib/content-blocks/form-schema";
 import type { BlockSettings, ContentBlock, MaxWidthPreset } from "@/lib/content-blocks/types";
+import { shouldRenderBlock, type ContentRenderContext } from "@/lib/content-blocks/block-context";
 import {
   getAnnouncementBannerStyle,
   getBlockWrapperStyle,
   getCalloutStyle,
   getCtaButtonStyle,
   getExpertAttributionStyle,
+  getFormEmbedStyle,
   getHeroStyle,
   getIntrinsicChildBoxStyle,
   getNestedMiniBlockStyle,
   getPartnerPromoStyle,
   getRichTextStyle,
+  getTwoColumnBlockStyle,
+  getTwoColumnColumnStyle,
   hasBlockChrome,
 } from "@/lib/content-blocks/block-styles";
+import { hasCustomPadding } from "@/lib/content-blocks/padding";
+import { getProseParagraphGapStyle, hasParagraphGap, resolveColumnProseParagraphGap } from "@/lib/content-blocks/block-prose";
+import { getImageStackGridStyle } from "@/lib/content-blocks/image-stack-columns";
+import { getRecipeGridStyle, recipeGridUsesMatchAspect } from "@/lib/content-blocks/recipe-grid-columns";
+import { getProductGridStyle, productGridUsesMatchAspect } from "@/lib/content-blocks/product-grid-columns";
+import {
+  getImageBlockDesktopStyle,
+  getImageBlockMobileStyle,
+  getImageBlockSharedSizeVars,
+  imageBlockHasCustomSize,
+  isImageBlockMobileEnabled,
+  resolveImageBlockMobileSrc,
+} from "@/lib/content-blocks/image-block-mobile";
 import { hasCustomMargin } from "@/lib/content-blocks/margin";
 import { resolveImageSrc } from "@/lib/content-blocks/image-src";
 import { getRelatedLinkClass, getRelatedLinksListClass, resolveRelatedLinksStyle } from "@/lib/content-blocks/related-links-styles";
 import { getTableClassNames, resolveTableInlineStyle } from "@/lib/content-blocks/table-styles";
 import styles from "./content-blocks.module.css";
+
+function proseGapClass(settings?: BlockSettings): string {
+  return hasParagraphGap(settings) ? styles.blockProseParagraphGap : "";
+}
+
+type TwoColumnStyleTarget = "block" | "left" | "right";
 
 type ContentBlockRendererProps = {
   blocks: ContentBlock[];
@@ -31,9 +56,13 @@ type ContentBlockRendererProps = {
   contentMaxWidthCustom?: string;
   previewMode?: boolean;
   selectedBlockId?: string | null;
+  selectedTwoColumnTarget?: TwoColumnStyleTarget;
   onBlockSelect?: (id: string) => void;
+  onTwoColumnTargetSelect?: (id: string, target: TwoColumnStyleTarget) => void;
   onBlockSettingsChange?: (id: string, patch: Partial<BlockSettings>) => void;
   onBlockDataChange?: (id: string, data: ContentBlock["data"]) => void;
+  excludeArticleSlug?: string;
+  renderContext?: ContentRenderContext;
 };
 
 function spacingClass(settings?: ContentBlock["settings"]) {
@@ -57,7 +86,21 @@ function partnerPromoAlignClass(textAlign?: BlockSettings["text_align"]) {
   }
 }
 
-function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?: boolean }) {
+function RenderBlock({
+  block,
+  previewMode,
+  excludeArticleSlug,
+  renderContext = "competition",
+  selectedTwoColumnTarget = "block",
+  onTwoColumnTargetSelect,
+}: {
+  block: ContentBlock;
+  previewMode?: boolean;
+  excludeArticleSlug?: string;
+  renderContext?: ContentRenderContext;
+  selectedTwoColumnTarget?: TwoColumnStyleTarget;
+  onTwoColumnTargetSelect?: (target: TwoColumnStyleTarget) => void;
+}) {
   const wrapClass = spacingClass(block.settings);
   const imageStyle = getImageInlineStyle(block);
 
@@ -92,10 +135,14 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
       const d = block.data;
       const cls =
         d.variant === "lead" ? styles.lead : d.variant === "pull_quote" ? styles.pullQuote : styles.body;
+      const proseGapSettings = resolveColumnProseParagraphGap(block.settings);
       return (
         <div
-          className={`${cls} ${wrapClass} ${styles.blockProse}`}
-          style={getRichTextStyle(d.variant, block.settings)}
+          className={`${cls} ${wrapClass} ${styles.blockProse} ${proseGapClass(proseGapSettings)}`.trim()}
+          style={{
+            ...getRichTextStyle(d.variant, block.settings),
+            ...getProseParagraphGapStyle(proseGapSettings),
+          }}
           dangerouslySetInnerHTML={{ __html: d.html }}
         />
       );
@@ -111,9 +158,12 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
       const d = block.data;
       const Tag = d.ordered ? "ol" : "ul";
       const listCls = d.ordered ? styles.orderedList : styles.list;
+      const items = d.items
+        .map((item) => (typeof item === "string" ? item.trim() : item))
+        .filter((item) => (typeof item === "string" ? Boolean(item) : Boolean(item.label || item.text)));
       return (
         <Tag className={`${listCls} ${wrapClass}`}>
-          {d.items.map((item, i) => (
+          {items.map((item, i) => (
             <li key={i}>
               {typeof item === "string" ? (
                 item
@@ -140,20 +190,54 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
     case "image": {
       const d = block.data;
       const imageSrc = resolveImageSrc(d.src);
-      const img = imageSrc ? (
+      const mobileSrcRaw = isImageBlockMobileEnabled(d) ? resolveImageBlockMobileSrc(d) : undefined;
+      const mobileSrc = mobileSrcRaw ? resolveImageSrc(mobileSrcRaw) : undefined;
+      const useMobileSwap = Boolean(imageSrc && mobileSrc && mobileSrc !== imageSrc);
+      const sized = imageBlockHasCustomSize(d);
+      const imageClass = `${styles.image} ${d.full_width ? styles.imageFull : ""} ${sized ? styles.imageSized : ""}`.trim();
+
+      // Swap: each img has its own size. Single img: CSS vars so mobile ≠ desktop.
+      const desktopImg = imageSrc ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={imageSrc}
           alt={d.alt}
-          className={`${styles.image} ${d.full_width ? styles.imageFull : ""}`}
-          style={imageStyle}
-          data-cms-resize-image="true"
+          className={`${imageClass}${useMobileSwap ? ` ${styles.imageDesktop}` : ""}`}
+          style={
+            useMobileSwap
+              ? getImageBlockDesktopStyle(d)
+              : getImageBlockSharedSizeVars(d)
+          }
+          data-cms-resize-image="desktop"
           loading="lazy"
         />
       ) : null;
+
+      const mobileImg =
+        useMobileSwap && mobileSrc ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={mobileSrc}
+            alt={d.alt}
+            className={`${imageClass} ${styles.imageMobile}`}
+            style={getImageBlockMobileStyle(d)}
+            data-cms-resize-image="mobile"
+            loading="lazy"
+          />
+        ) : null;
+
+      const media = useMobileSwap ? (
+        <div className={styles.imageSwap}>
+          {desktopImg}
+          {mobileImg}
+        </div>
+      ) : (
+        desktopImg
+      );
+
       return (
         <figure className={wrapClass}>
-          {img ? (d.link_href ? <Link href={d.link_href}>{img}</Link> : img) : null}
+          {media ? (d.link_href ? <Link href={d.link_href}>{media}</Link> : media) : null}
           {d.caption ? <figcaption className={styles.caption}>{d.caption}</figcaption> : null}
         </figure>
       );
@@ -181,7 +265,11 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
       const textEl = (
         <div className={styles.imageTextCol}>
           {d.heading ? <h3 className={styles.subTitle}>{d.heading}</h3> : null}
-          <div className={`${styles.body} ${styles.blockProse}`} dangerouslySetInnerHTML={{ __html: d.body }} />
+          <div
+            className={`${styles.body} ${styles.blockProse} ${proseGapClass(block.settings)}`.trim()}
+            style={getProseParagraphGapStyle(block.settings)}
+            dangerouslySetInnerHTML={{ __html: d.body }}
+          />
         </div>
       );
       return (
@@ -207,9 +295,13 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
     }
     case "image_stack": {
       const d = block.data;
-      const layoutCls = d.layout === "vertical" ? styles.imageStackVertical : styles.grid;
+      const isGrid = d.layout === "grid";
+      const matchAspect = isGrid && d.image_aspect && d.image_aspect !== "auto";
+      const layoutCls = isGrid
+        ? `${styles.imageStackGrid}${matchAspect ? ` ${styles.imageStackGridMatchAspect}` : ""}`
+        : styles.imageStackVertical;
       return (
-        <div className={`${layoutCls} ${wrapClass}`}>
+        <div className={`${layoutCls} ${wrapClass}`} style={getImageStackGridStyle(d)}>
           {d.images.map((img, index) => {
             const imageSrc = resolveImageSrc(img.src);
             return (
@@ -220,7 +312,7 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
                     src={imageSrc}
                     alt={img.alt}
                     className={styles.imageStackImg}
-                    style={getImageStackItemStyle(img)}
+                    style={getImageStackItemStyle(img, { grid: isGrid, matchAspect: Boolean(matchAspect) })}
                     data-cms-resize-image="true"
                     data-cms-image-index={index}
                     loading="lazy"
@@ -241,6 +333,7 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
             backgroundColor: block.settings?.background_color?.trim() || "#ffffff",
             clipOverflow: false,
           })}
+          paragraphGapSettings={hasParagraphGap(block.settings) ? block.settings : undefined}
         />
       );
     case "table": {
@@ -304,7 +397,11 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
       return (
         <aside className={`${styles.callout} ${variantCls} ${wrapClass}`} style={getCalloutStyle(d, block.settings)}>
           {d.title ? <p className={styles.calloutTitle}>{d.title}</p> : null}
-          <div dangerouslySetInnerHTML={{ __html: d.body }} />
+          <div
+            className={`${styles.blockProse} ${proseGapClass(block.settings)}`.trim()}
+            style={getProseParagraphGapStyle(block.settings)}
+            dangerouslySetInnerHTML={{ __html: d.body }}
+          />
         </aside>
       );
     }
@@ -328,23 +425,37 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
       const linkClass = getRelatedLinkClass(d, styles);
       const linkStyle = resolveRelatedLinksStyle(d);
       const chrome = hasBlockChrome(block.settings);
+      const isRow = d.layout === "row";
       const content = (
         <>
-          <div className={styles.relatedIntro} dangerouslySetInnerHTML={{ __html: d.intro }} />
+          {d.intro ? (
+            <div
+              className={`${styles.relatedIntro} ${styles.blockProse} ${proseGapClass(block.settings)}`.trim()}
+              style={getProseParagraphGapStyle(block.settings)}
+              dangerouslySetInnerHTML={{ __html: d.intro }}
+            />
+          ) : null}
           <ul className={listClass}>
-            {d.links.map((link) => (
-              <li key={`${link.href}-${link.label}`}>
-                <Link href={link.href} className={linkClass}>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {d.links.map((link) => {
+              const iconSrc = resolveImageSrc(link.icon_src ?? "");
+              return (
+                <li key={`${link.href}-${link.label}`}>
+                  <Link href={link.href} className={linkClass} target={isRow ? "_blank" : undefined} rel={isRow ? "noreferrer" : undefined}>
+                    {iconSrc ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={iconSrc} alt={link.icon_alt || ""} className={styles.relatedSocialIcon} />
+                    ) : null}
+                    <span>{link.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </>
       );
 
       return (
-        <div className={wrapClass} style={linkStyle}>
+        <div className={wrapClass} style={isRow ? undefined : linkStyle}>
           {chrome ? (
             <div
               className={styles.relatedLinksChrome}
@@ -356,6 +467,16 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
             content
           )}
         </div>
+      );
+    }
+    case "related_articles": {
+      return (
+        <CmsRelatedArticlesBlock
+          data={block.data}
+          previewMode={previewMode}
+          excludeSlug={excludeArticleSlug}
+          catalog={renderContext === "article" ? "article" : "advice"}
+        />
       );
     }
     case "expert_attribution": {
@@ -387,7 +508,17 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
     case "product_grid": {
       const d = block.data;
       return (
-        <div className={styles.grid} style={getIntrinsicChildBoxStyle(block.settings)}>
+        <div
+          className={`${styles.grid} ${styles.cmsResponsiveGrid}${
+            productGridUsesMatchAspect(d)
+              ? ` ${styles.cmsResponsiveGridMatchAspect}`
+              : ` ${styles.cmsResponsiveGridNatural}`
+          }`}
+          style={{
+            ...getIntrinsicChildBoxStyle(block.settings),
+            ...getProductGridStyle(d),
+          }}
+        >
           {d.items.map((item, index) => {
             const imageSrc = resolveImageSrc(item.image);
             return (
@@ -423,7 +554,17 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
         );
       }
       return (
-        <div className={styles.grid} style={getIntrinsicChildBoxStyle(block.settings)}>
+        <div
+          className={`${styles.grid} ${styles.cmsResponsiveGrid}${
+            recipeGridUsesMatchAspect(d)
+              ? ` ${styles.cmsResponsiveGridMatchAspect}`
+              : ` ${styles.cmsResponsiveGridNatural}`
+          }`}
+          style={{
+            ...getIntrinsicChildBoxStyle(block.settings),
+            ...getRecipeGridStyle(d),
+          }}
+        >
           {d.items.map((item, index) => {
             const imageSrc = resolveImageSrc(item.image);
             return (
@@ -462,15 +603,18 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
     case "form_embed": {
       const d = block.data;
       const mode = d.mode ?? (d.schema ? "builder" : "embed");
+      const formChromeStyle = getFormEmbedStyle(block.settings);
       if (mode === "builder") {
         return (
-          <div style={getIntrinsicChildBoxStyle(block.settings, { clipOverflow: false })}>
-            <CmsCustomForm schema={d.schema ?? createDefaultFormSchema()} previewMode={previewMode} />
-          </div>
+          <CmsCustomForm
+            schema={d.schema ?? createDefaultFormSchema()}
+            previewMode={previewMode}
+            chromeStyle={formChromeStyle}
+          />
         );
       }
       return (
-        <div style={getIntrinsicChildBoxStyle(block.settings, { clipOverflow: false })}>
+        <div style={formChromeStyle}>
           {d.title ? <h3 className={styles.subTitle}>{d.title}</h3> : null}
           {d.embed_code ? <div dangerouslySetInnerHTML={{ __html: d.embed_code }} /> : null}
         </div>
@@ -491,7 +635,13 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
           {logo ? (d.logo_href ? <Link href={d.logo_href}>{logo}</Link> : logo) : null}
           <div className={styles.imageTextCol}>
             {d.title ? <p className={styles.calloutTitle}>{d.title}</p> : null}
-            {d.body ? <div className={styles.blockProse} dangerouslySetInnerHTML={{ __html: d.body }} /> : null}
+            {d.body ? (
+              <div
+                className={`${styles.blockProse} ${proseGapClass(block.settings)}`.trim()}
+                style={getProseParagraphGapStyle(block.settings)}
+                dangerouslySetInnerHTML={{ __html: d.body }}
+              />
+            ) : null}
             {d.links?.length ? (
               <div className={styles.partnerPromoLinks}>
                 {d.links.map((link) => (
@@ -503,6 +653,20 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
             ) : null}
           </div>
         </aside>
+      );
+    }
+    case "partnership_tag": {
+      const d = block.data;
+      const logoSrc = resolveImageSrc(d.logo_src);
+      const logo = logoSrc ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={logoSrc} alt={d.logo_alt} className={styles.partnershipTagLogo} />
+      ) : null;
+      return (
+        <div className={`${styles.partnershipTag} ${wrapClass}`}>
+          <p className={styles.partnershipTagLabel}>{d.label || "In partnership with"}</p>
+          {logo ? (d.logo_href ? <Link href={d.logo_href} className={styles.partnershipTagLogoLink}>{logo}</Link> : logo) : null}
+        </div>
       );
     }
     case "book_promo": {
@@ -523,7 +687,11 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
           ) : null}
           <div className={styles.imageTextCol}>
             <h3 className={styles.subTitle}>{d.book_title}</h3>
-            <div className={`${styles.body} ${styles.blockProse}`} dangerouslySetInnerHTML={{ __html: d.body }} />
+            <div
+              className={`${styles.body} ${styles.blockProse} ${proseGapClass(block.settings)}`.trim()}
+              style={getProseParagraphGapStyle(block.settings)}
+              dangerouslySetInnerHTML={{ __html: d.body }}
+            />
           </div>
         </aside>
       );
@@ -542,7 +710,10 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
               data-cms-resize-image="true"
             />
           ) : null}
-          <div className={styles.imageTextCol}>
+          <div
+            className={`${styles.imageTextCol} ${proseGapClass(block.settings)}`.trim()}
+            style={getProseParagraphGapStyle(block.settings)}
+          >
             <h3 className={styles.subTitle}>{d.name}</h3>
             {d.bio_paragraphs.map((p) => (
               <p key={p} className={styles.body}>
@@ -556,16 +727,89 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
     case "two_column": {
       const d = block.data;
       let imageFlatIndex = 0;
-      const renderColumn = (minis: typeof d.left_blocks) =>
+      const renderColumn = (minis: typeof d.left_blocks, columnSettings?: BlockSettings) =>
         minis.map((mini, i) => {
           const imageIndex =
             mini.type === "image" && mini.src?.trim() ? imageFlatIndex++ : undefined;
-          return <MiniBlock key={mini.id ?? i} block={mini} imageIndex={imageIndex} />;
+          const proseGapSettings = resolveColumnProseParagraphGap(columnSettings, block.settings);
+          return (
+            <MiniBlock
+              key={mini.id ?? i}
+              block={mini}
+              imageIndex={imageIndex}
+              inTwoColumn
+              proseGapSettings={proseGapSettings}
+            />
+          );
         });
+      const renderColumnShell = (
+        column: "left" | "right",
+        minis: typeof d.left_blocks,
+        columnSettings?: BlockSettings,
+      ) => {
+        const columnSelected = previewMode && selectedTwoColumnTarget === column;
+        const columnCustomPadding = hasCustomPadding(columnSettings);
+        const isImageOnlyColumn =
+          minis.length === 1 && minis[0]?.type === "image" && Boolean(minis[0].src?.trim());
+        const hasImage = minis.some((mini) => mini.type === "image" && mini.src?.trim());
+        const columnStyle = {
+          ...getTwoColumnColumnStyle(columnSettings, hasImage),
+          ...getTwoColumnImageBleedStyle(block.settings, isImageOnlyColumn),
+        };
+        return (
+          <div
+            className={`${styles.twoColumnCol} ${hasImage ? styles.twoColumnColHasImage : ""} ${isImageOnlyColumn ? styles.twoColumnColMedia : ""} ${columnCustomPadding ? styles.twoColumnColCustomPadding : ""} ${previewMode ? styles.twoColumnColEditable : ""} ${columnSelected ? styles.twoColumnColSelected : ""}`}
+            style={columnStyle}
+            data-cms-column={column}
+            data-cms-interactive={previewMode ? "true" : undefined}
+            onClick={
+              previewMode && onTwoColumnTargetSelect
+                ? (e) => {
+                    e.stopPropagation();
+                    onTwoColumnTargetSelect(column);
+                  }
+                : undefined
+            }
+            onKeyDown={
+              previewMode && onTwoColumnTargetSelect
+                ? (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onTwoColumnTargetSelect(column);
+                    }
+                  }
+                : undefined
+            }
+            role={previewMode && onTwoColumnTargetSelect ? "button" : undefined}
+            tabIndex={previewMode && onTwoColumnTargetSelect ? 0 : undefined}
+            aria-label={
+              previewMode && onTwoColumnTargetSelect
+                ? `Select ${column} column styles`
+                : undefined
+            }
+          >
+            {renderColumn(minis, columnSettings)}
+          </div>
+        );
+      };
+      const blockCustomPadding = hasCustomPadding(block.settings);
       return (
-        <div className={`${styles.twoColumn} ${wrapClass}`}>
-          <div>{renderColumn(d.left_blocks)}</div>
-          <div>{renderColumn(d.right_blocks)}</div>
+        <div
+          className={`${styles.twoColumn} ${blockCustomPadding ? styles.twoColumnBlockCustomPadding : ""} ${wrapClass} ${previewMode ? styles.twoColumnEditable : ""}`}
+          style={getTwoColumnBlockStyle(block.settings)}
+          onClick={
+            previewMode && onTwoColumnTargetSelect
+              ? (e) => {
+                  if ((e.target as HTMLElement).closest("[data-cms-column]")) return;
+                  e.stopPropagation();
+                  onTwoColumnTargetSelect("block");
+                }
+              : undefined
+          }
+        >
+          {renderColumnShell("left", d.left_blocks, d.left_settings)}
+          {renderColumnShell("right", d.right_blocks, d.right_settings)}
         </div>
       );
     }
@@ -577,26 +821,34 @@ function RenderBlock({ block, previewMode }: { block: ContentBlock; previewMode?
 function MiniBlock({
   block,
   imageIndex,
+  inTwoColumn = false,
+  proseGapSettings,
 }: {
   block: import("@/lib/content-blocks/types").NestedMiniBlock;
   imageIndex?: number;
+  inTwoColumn?: boolean;
+  proseGapSettings?: import("@/lib/content-blocks/types").BlockSettings;
 }) {
   const layoutStyle = getNestedMiniBlockStyle(block.style);
 
   switch (block.type) {
-    case "rich_text":
+    case "rich_text": {
+      const proseGapClassName = proseGapClass(proseGapSettings);
+      const proseGapStyle = getProseParagraphGapStyle(proseGapSettings);
       return (
         <div
-          className={styles.body}
-          style={layoutStyle}
+          className={`${styles.body} ${styles.blockProse} ${proseGapClassName}`.trim()}
+          style={{ ...layoutStyle, ...proseGapStyle }}
           dangerouslySetInnerHTML={{ __html: block.html }}
         />
       );
+    }
     case "image": {
       const imageSrc = resolveImageSrc(block.src);
       if (!imageSrc) return null;
-      const sizeStyle =
-        block.width || block.height
+      const sizeStyle = inTwoColumn
+        ? getTwoColumnImageDisplayStyle(block)
+        : block.width || block.height
           ? {
               width: "100%",
               maxWidth: block.width ?? "100%",
@@ -656,18 +908,37 @@ function isRecipeCarouselBlock(block: ContentBlock): boolean {
   return block.type === "recipe_grid" && block.data.layout === "carousel";
 }
 
+function isFullWidthCarouselBlock(block: ContentBlock): boolean {
+  return isRecipeCarouselBlock(block) || block.type === "related_articles";
+}
+
+function getBlockWrapperStyleForRender(
+  block: ContentBlock,
+  contentMaxWidth?: MaxWidthPreset,
+  contentMaxWidthCustom?: string,
+): CSSProperties {
+  const style = getBlockWrapperStyle(
+    block.settings,
+    contentMaxWidth,
+    contentMaxWidthCustom,
+    block.type,
+  );
+  if (!isFullWidthCarouselBlock(block)) return style;
+  return {
+    ...style,
+    maxWidth: "none",
+    width: "100%",
+    marginLeft: 0,
+    marginRight: 0,
+  };
+}
+
 function getPreviewBlockWrapperStyle(
   block: ContentBlock,
   contentMaxWidth?: MaxWidthPreset,
   contentMaxWidthCustom?: string,
 ) {
-  const style = getBlockWrapperStyle(block.settings, contentMaxWidth, contentMaxWidthCustom, block.type);
-  if (!isRecipeCarouselBlock(block)) return style;
-  return {
-    ...style,
-    maxWidth: "none",
-    width: "100%",
-  };
+  return getBlockWrapperStyleForRender(block, contentMaxWidth, contentMaxWidthCustom);
 }
 
 export function ContentBlockRenderer({
@@ -676,14 +947,19 @@ export function ContentBlockRenderer({
   contentMaxWidthCustom,
   previewMode = false,
   selectedBlockId = null,
+  selectedTwoColumnTarget = "block",
   onBlockSelect,
+  onTwoColumnTargetSelect,
   onBlockSettingsChange,
   onBlockDataChange,
+  excludeArticleSlug,
+  renderContext = "competition",
 }: ContentBlockRendererProps) {
   const sorted = blocks
     .slice()
     .sort((a, b) => a.order - b.order)
-    .filter((block) => previewMode || !block.settings?.hidden);
+    .filter((block) => previewMode || !block.settings?.hidden)
+    .filter((block) => shouldRenderBlock(block.type, renderContext));
   return (
     <div>
       {sorted.map((block) => {
@@ -697,7 +973,7 @@ export function ContentBlockRenderer({
             style={
               previewMode
                 ? getPreviewBlockWrapperStyle(block, contentMaxWidth, contentMaxWidthCustom)
-                : getBlockWrapperStyle(block.settings, contentMaxWidth, contentMaxWidthCustom, block.type)
+                : getBlockWrapperStyleForRender(block, contentMaxWidth, contentMaxWidthCustom)
             }
             onSelect={onBlockSelect ? () => onBlockSelect(block.id) : undefined}
             onSettingsChange={
@@ -709,7 +985,20 @@ export function ContentBlockRenderer({
               onBlockDataChange ? (data) => onBlockDataChange(block.id, data) : undefined
             }
           >
-            <RenderBlock block={block} previewMode={previewMode} />
+            <RenderBlock
+              block={block}
+              previewMode={previewMode}
+              excludeArticleSlug={excludeArticleSlug}
+              renderContext={renderContext}
+              selectedTwoColumnTarget={
+                previewMode && selectedBlockId === block.id ? selectedTwoColumnTarget : "block"
+              }
+              onTwoColumnTargetSelect={
+                previewMode && onTwoColumnTargetSelect && block.type === "two_column"
+                  ? (target) => onTwoColumnTargetSelect(block.id, target)
+                  : undefined
+              }
+            />
           </PreviewBlockWrapper>
         );
       })}

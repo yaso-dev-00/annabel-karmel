@@ -33,7 +33,8 @@ export function usesIntrinsicBackgroundChildBox(blockType?: BlockType): boolean 
     blockType === "recipe_grid" ||
     blockType === "related_links" ||
     blockType === "rich_text" ||
-    blockType === "table"
+    blockType === "table" ||
+    blockType === "two_column"
   );
 }
 

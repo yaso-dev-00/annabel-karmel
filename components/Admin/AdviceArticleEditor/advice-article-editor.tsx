@@ -16,7 +16,6 @@ import {
   isAdviceArticlePublic,
   resolveAdviceArticleStatus,
 } from "@/lib/admin/advice-article-status";
-import { DesignSystemPanel } from "@/components/Admin/Ui/DesignSystemPanel";
 import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
 import { ImageField } from "@/components/Admin/Ui/ImageField";
 import { MaxWidthField } from "@/components/Admin/Ui/MaxWidthField";
@@ -25,13 +24,7 @@ import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
 import type { AdviceArticle, AdviceArticleStatus, MaxWidthPreset } from "@/lib/content-blocks/types";
 import { SAMPLE_ARTICLE_ID } from "@/lib/content-blocks/types";
 
-const CATEGORIES = [
-  { value: "breastfeeding-advice", label: "Breastfeeding" },
-  { value: "bottle-feeding-tips", label: "Bottle Feeding" },
-  { value: "baby-sleep-advice", label: "Sleep" },
-  { value: "pregnancy-tips", label: "Pregnancy" },
-  { value: "child-health-and-development", label: "Health & Development" },
-];
+import { ADVICE_CATEGORY_OPTIONS } from "@/lib/content-blocks/advice-categories";
 
 type AdviceArticleEditorProps = {
   initialArticle: AdviceArticle;
@@ -61,11 +54,13 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
         setDirty(false);
         setMessage(publish ? "Published!" : "Saved.");
         router.replace(`/admin/advice/${created.id}/edit`);
+        router.refresh();
       } else {
         const updated = await updateAdviceArticleApi(article.id, payload);
         setArticle(updated);
         setDirty(false);
         setMessage(publish ? "Published!" : "Saved.");
+        router.refresh();
       }
     } catch (error) {
       const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
@@ -93,6 +88,7 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
               ? "Article published."
               : "Status saved.",
         );
+        router.refresh();
       } catch (error) {
         setDirty(true);
         const detail = error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
@@ -117,6 +113,8 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
       onChange={(blocks) => update("content_blocks", blocks)}
       contentMaxWidth={article.content_max_width ?? "default"}
       contentMaxWidthCustom={article.content_max_width_custom}
+      excludeArticleSlug={article.slug || undefined}
+      editorContext="advice"
     >
       <div className="editorSections">
         <div className="editorPageHeader">
@@ -177,7 +175,7 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
                 <div className="field">
                   <label className="fieldLabel">Category</label>
                   <select className="fieldSelect" value={article.category_slug} onChange={(e) => update("category_slug", e.target.value)}>
-                    {CATEGORIES.map((c) => (
+                    {ADVICE_CATEGORY_OPTIONS.map((c) => (
                       <option key={c.value} value={c.value}>{c.label}</option>
                     ))}
                   </select>
@@ -254,8 +252,6 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
                 </div>
               </div>
             </div>
-
-            <DesignSystemPanel />
 
             <div className="card">
               <h2 className="cardSectionTitle">Content blocks</h2>

@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 import type { BlockDataByType, BlockType, ContentBlock, ImageStackBlockData, ImageStackItem, NestedMiniBlock, TwoColumnBlockData } from "./types";
 import { createDefaultFormSchema } from "./form-schema";
+import { IMAGE_STACK_DEFAULT_COLUMNS, withImageStackColumnDefaults } from "./image-stack-columns";
+import { RESPONSIVE_GRID_DEFAULT_COLUMNS } from "./responsive-grid-columns";
 
 export function createBlockId(): string {
   return uuidv4();
@@ -14,6 +16,7 @@ export function ensureNestedMiniBlockId(block: NestedMiniBlock): NestedMiniBlock
 
 export function normalizeTwoColumnData(data: TwoColumnBlockData): TwoColumnBlockData {
   return {
+    ...data,
     left_blocks: data.left_blocks.map((b) => ensureNestedMiniBlockId(b)),
     right_blocks: data.right_blocks.map((b) => ensureNestedMiniBlockId(b)),
   };
@@ -25,10 +28,10 @@ export function ensureImageStackItemId(item: ImageStackItem): ImageStackItem & {
 }
 
 export function normalizeImageStackData(data: ImageStackBlockData): ImageStackBlockData {
-  return {
+  return withImageStackColumnDefaults({
     ...data,
     images: data.images.map(ensureImageStackItemId),
-  };
+  });
 }
 
 export function createDefaultBlockData(type: BlockType): BlockDataByType[BlockType] {
@@ -61,7 +64,13 @@ export function createDefaultBlockData(type: BlockType): BlockDataByType[BlockTy
         image_first: true,
       };
     case "image_stack":
-      return { layout: "vertical", images: [{ id: createBlockId(), src: "", alt: "" }] };
+      return {
+        layout: "vertical",
+        columns_desktop: IMAGE_STACK_DEFAULT_COLUMNS.desktop,
+        columns_tablet: IMAGE_STACK_DEFAULT_COLUMNS.tablet,
+        columns_mobile: IMAGE_STACK_DEFAULT_COLUMNS.mobile,
+        images: [{ id: createBlockId(), src: "", alt: "" }],
+      };
     case "two_column":
       return { left_blocks: [], right_blocks: [] };
     case "video":
@@ -105,15 +114,41 @@ export function createDefaultBlockData(type: BlockType): BlockDataByType[BlockTy
     case "announcement_banner":
       return { message: "Announcement message" };
     case "product_grid":
-      return { items: [] };
+      return {
+        columns_desktop: RESPONSIVE_GRID_DEFAULT_COLUMNS.desktop,
+        columns_tablet: RESPONSIVE_GRID_DEFAULT_COLUMNS.tablet,
+        columns_mobile: RESPONSIVE_GRID_DEFAULT_COLUMNS.mobile,
+        image_aspect: "4/3",
+        items: [],
+      };
     case "recipe_grid":
-      return { layout: "grid", items: [] };
+      return {
+        layout: "grid",
+        columns_desktop: RESPONSIVE_GRID_DEFAULT_COLUMNS.desktop,
+        columns_tablet: RESPONSIVE_GRID_DEFAULT_COLUMNS.tablet,
+        columns_mobile: RESPONSIVE_GRID_DEFAULT_COLUMNS.mobile,
+        image_aspect: "4/3",
+        items: [],
+      };
     case "related_links":
       return { intro: "Related links", links: [{ label: "Link", href: "/" }] };
+    case "related_articles":
+      return {
+        heading: "Related Articles",
+        subtitle: "Some more articles you might enjoy...",
+        category_slug: "breastfeeding-advice",
+        article_slugs: [],
+      };
     case "expert_attribution":
       return { preset: "milk_making_mama" };
     case "partner_promo":
       return { logo_src: "", logo_alt: "", layout: "horizontal" };
+    case "partnership_tag":
+      return {
+        label: "In partnership with",
+        logo_src: "",
+        logo_alt: "Partner logo",
+      };
     case "book_promo":
       return { cover_src: "", cover_alt: "", book_href: "/", book_title: "Book title", body: "<p></p>" };
     case "author_bio":

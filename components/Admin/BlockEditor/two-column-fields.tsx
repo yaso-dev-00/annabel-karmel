@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  DndContext,
   KeyboardSensor,
   PointerSensor,
   closestCenter,
@@ -34,6 +33,7 @@ import type {
 import { RichTextEditor } from "./rich-text-editor";
 import styles from "./block-editor.module.css";
 import { ExpandCollapseAllButtons } from "./expand-collapse-all-buttons";
+import { StableDndContext } from "./stable-dnd-context";
 
 const MINI_BLOCK_LABELS: Record<NestedMiniBlock["type"], string> = {
   rich_text: "Rich text",
@@ -374,7 +374,7 @@ function ColumnEditor({
         ) : null}
       </div>
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={normalized.map((b) => b.id)} strategy={verticalListSortingStrategy}>
           {normalized.map((mini) => (
             <SortableMiniBlockCard
@@ -389,7 +389,7 @@ function ColumnEditor({
             />
           ))}
         </SortableContext>
-      </DndContext>
+      </StableDndContext>
 
       <div className={styles.columnAddRow}>
         {(Object.keys(MINI_BLOCK_LABELS) as NestedMiniBlock["type"][]).map((type) => (
@@ -423,9 +423,9 @@ export function TwoColumnFields({
   return (
     <>
       <p style={{ fontSize: 14, color: "#6d5757", marginBottom: 12 }}>
-        Drag nested blocks to reorder. Collapse cards to keep the form tidy. Each nested item has its
-        own text align and max width. Columns stack on mobile preview — switch to tablet or desktop
-        to see them side by side. Resize images by dragging handles in the preview.
+        Drag nested blocks to reorder. In the live preview, click the block, a column, or use the
+        style toolbar tabs (Block / Left / Right) to style each column separately — padding,
+        background, and typography can differ per side. Columns stack on mobile preview.
       </p>
       <ColumnEditor
         label="Left column"

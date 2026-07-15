@@ -94,7 +94,7 @@ export const boostingFertilityRelatedArticles: RelatedArticleItem[] = [
     image: "/articles/weaning-premature-babies/hero.jpg",
   },
   {
-    href: "/meet-our-experts/alexis-stickland-and-beccy-hands",
+    href: "/experts/alexis-stickland-and-beccy-hands",
     title: "Alexis Stickland and Beccy Hands, midwife and doula duo",
     image: "/meet-our-experts/alexis-beccy.jpg",
   },

@@ -1,0 +1,1027 @@
+{
+  "competitions": [
+    {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "slug": "win-a-christmas-bundle-worth-300",
+      "title": "WIN Christmas Bundle with Morphée and My 1st Years worth over £300! ",
+      "listing_image": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/little-morphie-square-optimized.jpg",
+      "listing_image_alt": "My Little Morphée Christmas competition prize",
+      "seo_title": "WIN Christmas Bundle with Morphée and My 1st Years worth over £300! | Annabel Karmel",
+      "seo_description": "We’ve teamed up with Morphée and My 1st Years for your chance to WIN the ultimate Christmas bundle for little ones – a personalised My Little Morphée worth £90 and a £250 Gift card from My 1st Years.",
+      "content_max_width": "custom",
+      "show_instagram_share": true,
+      "status": "published",
+      "scheduled_at": null,
+      "published_at": "2023-10-01T00:00:00.000Z",
+      "closes_at": "2023-12-03T10:00:00.000Z",
+      "created_at": "2023-10-01T00:00:00.000Z",
+      "updated_at": "2026-07-15T06:52:20.233Z",
+      "content_blocks": [
+        {
+          "id": "xmas-heading",
+          "type": "heading",
+          "order": 0,
+          "data": {
+            "level": "h2",
+            "text": "WIN Christmas Bundle with Morphée and My 1st Years worth over £300!"
+          },
+          "settings": {
+            "line_height": "1.5",
+            "text_align": "center"
+          }
+        },
+        {
+          "id": "xmas-hero-image",
+          "type": "image",
+          "order": 1,
+          "data": {
+            "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/Morphie-x-mfy-banner-1024x410-optimized.jpg",
+            "alt": "Morphée x My 1st Years Christmas competition banner",
+            "full_width": true
+          }
+        },
+        {
+          "id": "xmas-partner-logo",
+          "type": "image",
+          "order": 2,
+          "data": {
+            "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/LOGO-768x239-optimized.jpg",
+            "alt": "My 1st Years logo",
+            "full_width": false
+          },
+          "settings": {
+            "margin_top": "40px"
+          }
+        },
+        {
+          "id": "xmas-intro",
+          "type": "rich_text",
+          "order": 3,
+          "data": {
+            "variant": "body",
+            "html": "<p>‘Tis the season for an amazing competition and an enchanting journey into dreamland!</p><p>We’ve teamed up with <a href=\"https://www.annabelkarmel.com/\">Morphée</a> and <a href=\"https://www.annabelkarmel.com/\">My 1st Years</a> for your chance to WIN the ultimate Christmas bundle for little ones – a personalised My Little Morphée worth £90 and a £250 Gift card from My 1st Years.</p>"
+          },
+          "settings": {
+            "text_align": "center",
+            "max_width": "custom",
+            "max_width_custom": "1071px",
+            "paragraph_gap": "30px",
+            "margin_right": "",
+            "margin_bottom": "",
+            "margin_left": "",
+            "margin_top": "50px"
+          }
+        },
+        {
+          "id": "xmas-morphie-image-2",
+          "type": "image",
+          "order": 4,
+          "data": {
+            "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/Morphie-image-no.2-1024x546-optimized.jpg",
+            "alt": "My Little Morphée bedtime stories",
+            "full_width": true
+          }
+        },
+        {
+          "id": "xmas-morphie-heading",
+          "type": "heading",
+          "order": 5,
+          "data": {
+            "level": "h2",
+            "text": "What is My Little Morphée?"
+          },
+          "settings": {
+            "text_align": "center",
+            "margin_right": "",
+            "margin_bottom": "",
+            "margin_left": "",
+            "margin_top": "55px"
+          }
+        },
+        {
+          "id": "xmas-morphie-body",
+          "type": "rich_text",
+          "order": 6,
+          "data": {
+            "variant": "body",
+            "html": "<p>It’s not just a sleep aid; it’s a portal to dreamy adventures! My Little Morphée is the enchanting bedtime companion that everyone is talking about.</p><p>With 192 captivating tales, playful visualisations, gentle breathing exercises, and soothing guided meditations, My Little Morphée helps little listeners nod-off peacefully or enjoy moments of calm in the day.</p><p>From magical islands to mysterious forests, your little ones choose their dream destination and the animal friend who will guide them there. This magical box of tales will transport them to a world where ‘all is calm’ this Christmas.</p>"
+          },
+          "settings": {
+            "paragraph_gap": "30px",
+            "text_align": "center"
+          }
+        },
+        {
+          "id": "xmas-spree-image",
+          "type": "image",
+          "order": 7,
+          "data": {
+            "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/My-first-years-grid-1-1024x681-optimized.jpg",
+            "alt": "My 1st Years Christmas gifts",
+            "full_width": true
+          }
+        },
+        {
+          "id": "xmas-spree-heading",
+          "type": "heading",
+          "order": 8,
+          "data": {
+            "level": "h2",
+            "text": "£250 Christmas spending spree!"
+          },
+          "settings": {
+            "text_align": "center",
+            "padding": "20px"
+          }
+        },
+        {
+          "id": "xmas-spree-body",
+          "type": "rich_text",
+          "order": 9,
+          "data": {
+            "variant": "body",
+            "html": "<p>Our WINNER will receive a personalised My Little Morphée and a £250 My 1st Years Gift Card for the ultimate Christmas spending spree!</p><p>Choose from personalised stockings and Christmas Eve boxes, to beautiful wooden toys, wish list pressies and extra special gifts for baby’s first Christmas.</p><p>Make this holiday season truly magical with My Little Morphée.</p>"
+          },
+          "settings": {
+            "text_align": "center",
+            "paragraph_gap": "30px"
+          }
+        },
+        {
+          "id": "xmas-morphie-image",
+          "type": "image",
+          "order": 10,
+          "data": {
+            "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/10/Web-header-My-little-morphie-1024x546-optimized.jpg",
+            "alt": "My Little Morphée sleep aid",
+            "full_width": true
+          }
+        },
+        {
+          "id": "xmas-enter",
+          "type": "rich_text",
+          "order": 11,
+          "data": {
+            "variant": "body",
+            "html": "<p><strong>To enter, simply pop in your details below by 3rd December 2023 and we will pick one lucky winner at random.</strong></p>"
+          },
+          "settings": {
+            "text_align": "center",
+            "padding_top": "20px",
+            "padding_right": "",
+            "padding_bottom": "",
+            "padding_left": ""
+          }
+        },
+        {
+          "id": "xmas-form",
+          "type": "form_embed",
+          "order": 12,
+          "data": {
+            "mode": "builder",
+            "schema": {
+              "version": 1,
+              "title": "Enter the competition",
+              "description": "Complete the form below for your chance to win.",
+              "submitLabel": "Submit",
+              "method": "post",
+              "sections": [
+                {
+                  "id": "xmas-form-section",
+                  "title": "Your details",
+                  "rows": [
+                    {
+                      "id": "xmas-form-row-name",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "xmas-form-name",
+                          "type": "text",
+                          "name": "name",
+                          "label": "Name",
+                          "placeholder": "Your name",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Name is required"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "xmas-form-row-email",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "xmas-form-email",
+                          "type": "email",
+                          "name": "email",
+                          "label": "Email address",
+                          "placeholder": "you@example.com",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Email is required"
+                            },
+                            {
+                              "type": "email"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "xmas-form-row-consent",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "xmas-form-consent",
+                          "type": "checkbox",
+                          "name": "marketing_consent",
+                          "label": "Annabel Karmel marketing consent",
+                          "defaultValue": "yes",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "options": [
+                            {
+                              "id": "xmas-form-consent-opt",
+                              "label": "By ticking this box I agree to the Annabel Karmel Privacy Policy and to receive Annabel Karmel emails with our newest competitions, offers, recipes and news. You can unsubscribe at any time.",
+                              "value": "yes"
+                            }
+                          ],
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Consent is required"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "xmas-form-row-submit",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "xmas-form-submit",
+                          "type": "button",
+                          "name": "field_submit",
+                          "label": "Submit",
+                          "columnSpan": 1,
+                          "buttonVariant": "primary",
+                          "buttonAction": "submit",
+                          "style": {
+                            "width": "auto",
+                            "padding": "12px 28px"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "globalStyle": {
+                "gap": "16px",
+                "padding": "24px",
+                "borderRadius": "12px",
+                "backgroundColor": "#ffffff",
+                "borderColor": "#efd8d8"
+              }
+            }
+          },
+          "settings": {
+            "padding_top": "20px",
+            "border_radius": "m",
+            "border_width": "1px",
+            "font_size_desktop": "32px"
+          }
+        },
+        {
+          "id": "xmas-terms",
+          "type": "accordion",
+          "order": 13,
+          "data": {
+            "default_open": "none",
+            "numbered_titles": false,
+            "panels": [
+              {
+                "id": "xmas-terms-panel",
+                "title": "Terms & conditions",
+                "paragraphs": "<p>The Prize Draw is open to UK residents only aged 18 and over.</p><p>Employees, their families, agencies or associates of Annabel Karmel, Morphée, My 1st Years and any third parties involved in the preparation and/or performance of this Prize Draw are not eligible for entry.</p><p>The Prize Draw closes at 10am on 3rd December 2023.</p><p>One winner will receive a personalised My Little Morphée sleep aid and £250 Gift Card from My 1st Years.</p><p>The winner will be contacted by 5th December 2023.</p><p>The winner must confirm acceptance and supply their address within 5 days of receipt of the prize email. In the instance of the winner not responding within 5 days, they will be deselected and a new winner will be selected at random and contacted. The same time frame for acceptance applies.</p><p>The prize bundle cannot be exchanged for cash.</p><p>Any personal details provided as part of the Prize Draw will be processed in accordance with Karmel &amp; Co Limited’s privacy policy.</p><p>Annabel Karmel reserves the right at any time to cancel, modify or supersede the Prize Draw (including altering prizes) if, at its sole discretion, a Prize Draw cannot be conducted as specified.</p><p>Annabel Karmel reserves the right to substitute a prize of equal value in the event that circumstances beyond its control make this unavoidable.</p><p>This Prize Draw is operated by Karmel &amp; Co Limited, 18A Pindock Mews, London W9 2PY, (“Annabel Karmel”).</p>"
+              }
+            ]
+          },
+          "settings": {
+            "paragraph_gap": "10px"
+          }
+        }
+      ],
+      "content_max_width_custom": "1300px"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "slug": "win-a-250-festive-food-shop",
+      "title": "Win your Entire Festive Food Shop!",
+      "listing_image": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/shopping-giveaway-square-optimized.jpg",
+      "listing_image_alt": "Festive food shop competition prize",
+      "seo_title": "Win your Entire Festive Food Shop! | Annabel Karmel",
+      "seo_description": "TWO lucky winners will scoop a £250 Sainsbury’s or Tesco Gift Card for a festive food spree!",
+      "content_max_width": "custom",
+      "show_instagram_share": true,
+      "status": "published",
+      "scheduled_at": null,
+      "published_at": "2023-11-13T16:32:16.000Z",
+      "closes_at": "2023-12-15T23:59:00.000Z",
+      "created_at": "2023-11-13T16:32:16.000Z",
+      "updated_at": "2026-07-13T07:38:16.432Z",
+      "content_blocks": [
+        {
+          "id": "festive-heading",
+          "type": "heading",
+          "order": 0,
+          "data": {
+            "level": "h2",
+            "text": "Win your Entire Festive Food Shop!"
+          },
+          "settings": {
+            "max_width": "custom",
+            "max_width_custom": "859px",
+            "text_align": "center",
+            "background_color": "#F1C6CD",
+            "text_color": "#4D4D4D",
+            "min_height": "1px",
+            "padding": "20px"
+          }
+        },
+        {
+          "id": "festive-hero-image",
+          "type": "image",
+          "order": 1,
+          "data": {
+            "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/comp-header-supermarket-1024x410-optimized.jpg",
+            "alt": "Win your entire festive food shop competition banner",
+            "full_width": false,
+            "width": "1054px",
+            "height": "360px"
+          },
+          "settings": {
+            "max_width": "custom",
+            "max_width_custom": "1047px"
+          }
+        },
+        {
+          "id": "festive-intro",
+          "type": "rich_text",
+          "order": 2,
+          "data": {
+            "variant": "body",
+            "html": "<p>Eat, drink, and be merry with our amazing giveaway!</p><p>TWO lucky winners will scoop a £250 Sainsbury’s or Tesco Gift Card for a festive food spree!</p>"
+          },
+          "settings": {
+            "border_radius": "xs",
+            "box_shadow": "200",
+            "border_color": "#B3B3B3",
+            "border_style": "dashed",
+            "padding": "10px"
+          }
+        },
+        {
+          "id": "festive-feast-heading",
+          "type": "heading",
+          "order": 3,
+          "data": {
+            "level": "h2",
+            "text": "Feast Mode Activated!"
+          }
+        },
+        {
+          "id": "festive-feast-intro",
+          "type": "rich_text",
+          "order": 4,
+          "data": {
+            "variant": "body",
+            "html": "<p>Fancy winning your entire festive food shop on us? It’s easy to enter!</p>"
+          }
+        },
+        {
+          "id": "festive-howto-stack",
+          "type": "image_stack",
+          "order": 5,
+          "data": {
+            "layout": "grid",
+            "images": [
+              {
+                "id": "festive-step-1",
+                "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Artboard-1-100-1-optimized.jpg",
+                "alt": "Step 1 – how to enter the festive food shop competition"
+              },
+              {
+                "id": "festive-step-2",
+                "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Artboard-2-100-1-optimized.jpg",
+                "alt": "Step 2 – how to enter the festive food shop competition"
+              },
+              {
+                "id": "festive-step-3",
+                "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Artboard-3-100-1-optimized.jpg",
+                "alt": "Step 3 – how to enter the festive food shop competition"
+              }
+            ]
+          },
+          "settings": {
+            "padding": "5px"
+          }
+        },
+        {
+          "id": "festive-deadline",
+          "type": "callout",
+          "order": 6,
+          "data": {
+            "variant": "highlight",
+            "title": "Deadline",
+            "body": "<p><strong>You have until 15th December 2023 to enter!</strong></p>"
+          }
+        },
+        {
+          "id": "festive-thanks-heading",
+          "type": "heading",
+          "order": 7,
+          "data": {
+            "level": "h2",
+            "text": "A BIG Festive Thank You"
+          }
+        },
+        {
+          "id": "festive-product-image",
+          "type": "image",
+          "order": 8,
+          "data": {
+            "src": "https://www.annabelkarmel.com/wp-content/uploads/2023/08/11-optimized.png",
+            "alt": "Annabel’s expert chilled meal range",
+            "full_width": false,
+            "width": "891px",
+            "height": "700px"
+          }
+        },
+        {
+          "id": "festive-thanks-body",
+          "type": "rich_text",
+          "order": 9,
+          "data": {
+            "variant": "body",
+            "html": "<p>Whether you are new to Annabel’s expert range or a seasoned shopper, this competition is our way of saying THANK YOU for choosing Annabel’s expert range.</p><p>Packed with natural goodness and ready in under 3 minutes, Annabel’s cookbook-inspired meals are the perfect fridge-fillers to lighten the cooking load this season!</p>"
+          }
+        },
+        {
+          "id": "festive-benefits",
+          "type": "list",
+          "order": 10,
+          "data": {
+            "ordered": false,
+            "style": "plain",
+            "items": [
+              "Low in salt",
+              "Up to 2 of their 5-a-day",
+              "100% natural",
+              "No artificial colours or flavours",
+              "Ready in minutes",
+              "Ideal for toddlers & kids aged 1+"
+            ]
+          }
+        },
+        {
+          "id": "festive-range-cta",
+          "type": "rich_text",
+          "order": 11,
+          "data": {
+            "variant": "body",
+            "html": "<p>You’ll find Annabel’s expert range for toddlers and kids in the chilled aisles and online at <strong>Sainsbury’s</strong> and <strong>Tesco</strong>. Find out more about our award-winning range <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" class=\"rich-text-editor-module__K0UusW__richLink\" href=\"https://www.annabelkarmel.com/\">HERE</a>.</p><p>Seasons eatings!</p>"
+          }
+        },
+        {
+          "id": "4f8f7acf-41d4-4886-aba9-eef824f059b7",
+          "type": "rich_text",
+          "order": 12,
+          "data": {
+            "html": "<p><strong>To enter, simply purchase one or more of Annabel’s chilled range and complete the online form below. Competition closes 23.59 on Friday 15th December.</strong></p><p></p>",
+            "variant": "body"
+          }
+        },
+        {
+          "id": "festive-form",
+          "type": "form_embed",
+          "order": 13,
+          "data": {
+            "mode": "builder",
+            "schema": {
+              "version": 1,
+              "title": "Enter the competition",
+              "description": "Purchase Annabel’s chilled range and complete the form below. Upload a valid receipt showing meal(s) purchased.",
+              "submitLabel": "Submit",
+              "method": "post",
+              "sections": [
+                {
+                  "id": "festive-form-section",
+                  "title": "Your details",
+                  "rows": [
+                    {
+                      "id": "festive-form-row-name",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "festive-form-name",
+                          "type": "text",
+                          "name": "name",
+                          "label": "Name",
+                          "placeholder": "Your name",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Name is required"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "festive-form-row-email",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "festive-form-email",
+                          "type": "email",
+                          "name": "email",
+                          "label": "Email address",
+                          "placeholder": "you@example.com",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Email is required"
+                            },
+                            {
+                              "type": "email"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "festive-form-row-consent",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "festive-form-consent",
+                          "type": "checkbox",
+                          "name": "marketing_consent",
+                          "label": "Annabel Karmel marketing consent",
+                          "defaultValue": "yes",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "options": [
+                            {
+                              "id": "festive-form-consent-opt",
+                              "label": "By ticking this box I agree to the Annabel Karmel Privacy Policy and to receive Annabel Karmel emails with our newest competitions, offers, recipes and news. You can unsubscribe at any time.",
+                              "value": "yes"
+                            }
+                          ],
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Consent is required"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "festive-form-row-submit",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "festive-form-submit",
+                          "type": "button",
+                          "name": "field_submit",
+                          "label": "Submit",
+                          "columnSpan": 1,
+                          "buttonVariant": "primary",
+                          "buttonAction": "submit",
+                          "style": {
+                            "width": "auto",
+                            "padding": "12px 28px"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "globalStyle": {
+                "gap": "16px",
+                "padding": "24px",
+                "borderRadius": "12px",
+                "backgroundColor": "#ffffff",
+                "borderColor": "#efd8d8"
+              }
+            }
+          }
+        },
+        {
+          "id": "festive-terms",
+          "type": "accordion",
+          "order": 14,
+          "data": {
+            "default_open": "none",
+            "numbered_titles": false,
+            "panels": [
+              {
+                "id": "festive-terms-panel",
+                "title": "Terms & conditions",
+                "paragraphs": "<p>The Prize Draw is open to UK residents only aged 18 and over.</p><p>Employees, their families, agencies or associates of Annabel Karmel, and any third parties involved in the preparation and/or performance of this Prize Draw are not eligible for entry.</p><p>The Prize Draw closes at 23:59 on Friday 15th December 2023.</p><p>To qualify for entry into the Prize Promotion, entrants must upload a valid receipt showing meal(s) purchased and date. The date must be between November 16th – December 15th 2023.</p><p>Multiple entries can be made by either uploading one receipt with multiple meals visible, or multiple receipts.</p><p>Images of the meals will not be accepted as an entry. Proof of purchase, either via an online or store receipt is required for valid entry.</p><p>Two winners will receive a £250 Gift Card for Sainsbury’s or Tesco. The winners can request their retailer preference.</p><p>The winners will be contacted by Tuesday 19th December 2023.</p><p>The winners must confirm acceptance and supply their address within 5 days of receipt of the prize email. In the instance of a winner not responding within 5 days, they will be deselected and a new winner will be selected at random and contacted. The same time frame for acceptance applies.</p><p>The prize cannot be exchanged for cash.</p><p>Any personal details provided as part of the Prize Draw will be processed in accordance with Karmel &amp; Co Limited’s Privacy Policy.</p><p>Annabel Karmel reserves the right at any time to cancel, modify or supersede the Prize Draw (including altering prizes) if, at its sole discretion, a Prize Draw cannot be conducted as specified.</p><p>Annabel Karmel reserves the right to substitute a prize of equal value in the event that circumstances beyond its control make this unavoidable.</p><p>This Prize Draw is operated by Karmel &amp; Co Limited, 18A Pindock Mews, London W9 2PY, (“Annabel Karmel”).</p>"
+              }
+            ]
+          }
+        }
+      ],
+      "content_max_width_custom": "1300px"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000203",
+      "slug": "win-a-pair-of-exclusive-taylor-swift-the-eras-tour-tickets-at-wembley-stadium",
+      "title": "WIN a pair of exclusive Taylor Swift the Eras Tour tickets at Wembley Stadium",
+      "listing_image": "https://www.annabelkarmel.com/wp-content/uploads/2024/06/Taylor-swift-1-1024x1024-optimized.jpg",
+      "listing_image_alt": "Taylor Swift The Eras Tour tickets competition",
+      "seo_title": "WIN a pair of Exclusive Taylor Swift the Eras Tour Tickets at Wembley Stadium | Annabel Karmel",
+      "seo_description": "Annabel Karmel has partnered with Sensus Collective and MATILDE Jewellery to giveaway a pair of premium hospitality tickets to see Taylor Swift The Eras Tour at Wembley Stadium.",
+      "content_max_width": "custom",
+      "show_instagram_share": true,
+      "status": "published",
+      "scheduled_at": null,
+      "published_at": "2024-06-01T00:00:00.000Z",
+      "closes_at": "2024-07-29T23:59:00.000Z",
+      "created_at": "2024-06-01T00:00:00.000Z",
+      "updated_at": "2026-07-15T05:30:51.843Z",
+      "content_blocks": [
+        {
+          "id": "ts-heading",
+          "type": "heading",
+          "order": 0,
+          "data": {
+            "level": "h2",
+            "text": "WIN a pair of exclusive Taylor Swift the Eras Tour tickets at Wembley Stadium"
+          },
+          "settings": {
+            "text_align": "center"
+          }
+        },
+        {
+          "id": "ts-hero-image",
+          "type": "image",
+          "order": 1,
+          "data": {
+            "src": "https://www.annabelkarmel.com/wp-content/uploads/2024/06/Taylor-swift-1-1024x1024-optimized.jpg",
+            "alt": "Taylor Swift The Eras Tour at Wembley Stadium",
+            "full_width": true
+          },
+          "settings": {
+            "text_align": "center",
+            "max_width": "default"
+          }
+        },
+        {
+          "id": "ts-intro",
+          "type": "rich_text",
+          "order": 2,
+          "data": {
+            "variant": "body",
+            "html": "<p>It’s time to grab your bestie, book a babysitter, and get your Swiftie style on! We have two of the hottest seats in the house (or should we say stadium) this summer!</p><p>Annabel Karmel has partnered with luxury event curators Sensus Collective and MATILDE Jewellery to giveaway a pair of premium hospitality tickets to see <strong>Taylor Swift The Eras Tour</strong> at Wembley Stadium on <strong>Monday 19th August 2024</strong>.</p><p>And to mark your trip of an era, you’ll also WIN a pair of stunning friendship bracelets from Matilde Jewellery for you and your lucky guest!</p>"
+          },
+          "settings": {
+            "text_align": "center"
+          }
+        },
+        {
+          "id": "ts-prize-section",
+          "type": "two_column",
+          "order": 3,
+          "data": {
+            "left_blocks": [
+              {
+                "id": "ts-prize-image",
+                "type": "image",
+                "src": "https://www.annabelkarmel.com/wp-content/uploads/2024/06/ts2-optimized.jpg",
+                "alt": "WIN! Taylor Swift tickets for you & a friend",
+                "width": "528px",
+                "height": "556px"
+              }
+            ],
+            "right_blocks": [
+              {
+                "id": "ts-prize-heading",
+                "type": "rich_text",
+                "html": "<h2>What you’ll WIN!</h2><p>Enjoy the dazzling show from a private 8-seater box with full hospitality.</p>",
+                "style": {
+                  "text_align": "center"
+                }
+              },
+              {
+                "id": "ts-prize-list",
+                "type": "list",
+                "ordered": false,
+                "items": [
+                  "Complimentary prosecco, wine, and beer before and during the concert.",
+                  "5-star service with private host, chef and powder room.",
+                  "Enjoy a delicious pre-concert buffet menu and light bites served throughout the show.",
+                  "Access to the box balcony for the best views of the pop princess."
+                ]
+              },
+              {
+                "id": "ts-prize-note",
+                "type": "rich_text",
+                "html": "<p><em>*Our winner will receive the pair of digital tickets by email one week before the event.</em></p>"
+              }
+            ]
+          },
+          "settings": {
+            "background_color": "#f7e6ec",
+            "padding": "32px 24px",
+            "max_width": "full"
+          }
+        },
+        {
+          "id": "ts-partners",
+          "type": "two_column",
+          "order": 4,
+          "data": {
+            "left_blocks": [
+              {
+                "id": "ts-sensus-logo",
+                "type": "image",
+                "src": "https://www.annabelkarmel.com/wp-content/uploads/2024/06/Sunset-Orange-300x85-optimized.jpg",
+                "alt": "Sensus Collective logo",
+                "width": "565px",
+                "height": "157px"
+              },
+              {
+                "id": "ts-sensus-body",
+                "type": "rich_text",
+                "html": "<p><br>Founded by Scarlett Karmel and Matilde Mourinho, Sensus Collective is a curated community bringing together the best of fashion, lifestyle, and accessories. They create distinctive pop-up events in unique spaces, championing sustainability, diversity, and female empowerment. Join the list to stay updated on their upcoming pop-ups!</p>"
+              },
+              {
+                "id": "ts-sensus-cta",
+                "type": "cta_button",
+                "label": "Follow Sensus",
+                "url": "https://www.instagram.com/sensus_collective/",
+                "style": {
+                  "text_align": "center"
+                }
+              }
+            ],
+            "right_blocks": [
+              {
+                "id": "ts-matilde-logo",
+                "type": "image",
+                "src": "https://www.annabelkarmel.com/wp-content/uploads/2024/06/matilde-logo-1-300x80-optimized.png",
+                "alt": "MATILDE Jewellery logo",
+                "width": "307px",
+                "height": "80px"
+              },
+              {
+                "id": "ts-matilde-body",
+                "type": "rich_text",
+                "html": "<p><br>MATILDE’s mission is to bring modern, 21st Century values to the traditional jewellery industry. MATILDE’S stunning pieces are made using only the finest recycled 14ct gold and lab-grown diamonds. By creating a sustainable alternative, MATILDE offers customers the opportunity to wear beautiful jewellery with a matching sparkling history.</p>",
+                "style": {
+                  "text_align": "center"
+                }
+              },
+              {
+                "id": "ts-matilde-cta",
+                "type": "cta_button",
+                "label": "Explore the range",
+                "url": "https://matildejewellery.com/",
+                "style": {
+                  "text_align": "center"
+                }
+              }
+            ],
+            "right_settings": {
+              "text_align": "center"
+            },
+            "left_settings": {
+              "text_align": "center"
+            }
+          },
+          "settings": {
+            "background_color": "#ffffff",
+            "padding": "40px 24px",
+            "max_width": "full"
+          }
+        },
+        {
+          "id": "ts-how-to-enter",
+          "type": "rich_text",
+          "order": 5,
+          "data": {
+            "variant": "body",
+            "html": "<p><strong>HOW TO ENTER</strong></p><p>To enter this glittering giveaway, simply complete the entry form below.</p><p><strong>By entering, you agree to join the Sensus Collective and MATILDE Jewellery email newsletter databases for special offers and news. You can unsubscribe at any time.</strong></p><p><em>Competition closes at 11:59 on 29th July 2024</em></p>"
+          },
+          "settings": {
+            "text_align": "center",
+            "paragraph_gap": "20px"
+          }
+        },
+        {
+          "id": "ts-form",
+          "type": "form_embed",
+          "order": 6,
+          "data": {
+            "mode": "builder",
+            "schema": {
+              "version": 1,
+              "title": "Enter the competition",
+              "description": "Complete the form below for your chance to win.",
+              "submitLabel": "Submit",
+              "method": "post",
+              "sections": [
+                {
+                  "id": "ts-form-section",
+                  "title": "Your details",
+                  "rows": [
+                    {
+                      "id": "ts-form-row-name",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "ts-form-name",
+                          "type": "text",
+                          "name": "name",
+                          "label": "Name",
+                          "placeholder": "Your name",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Name is required"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "ts-form-row-email",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "ts-form-email",
+                          "type": "email",
+                          "name": "email",
+                          "label": "Email address",
+                          "placeholder": "you@example.com",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Email is required"
+                            },
+                            {
+                              "type": "email"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "ts-form-row-consent",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "ts-form-consent",
+                          "type": "checkbox",
+                          "name": "marketing_consent",
+                          "label": "Annabel Karmel marketing consent",
+                          "defaultValue": "yes",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "options": [
+                            {
+                              "id": "ts-form-consent-opt",
+                              "label": "By ticking this box I agree to the Annabel Karmel Privacy Policy and to receive Annabel Karmel emails with our newest competitions, offers, recipes and news. You can unsubscribe at any time.",
+                              "value": "yes"
+                            }
+                          ],
+                          "validation": [
+                            {
+                              "type": "required",
+                              "message": "Consent is required"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "ts-form-row-partner",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "ts-form-partner",
+                          "type": "checkbox",
+                          "name": "partner_consent",
+                          "label": "Partner marketing consent",
+                          "defaultValue": "yes",
+                          "columnSpan": 1,
+                          "style": {
+                            "width": "100%"
+                          },
+                          "options": [
+                            {
+                              "id": "ts-form-partner-opt",
+                              "label": "By entering, you agree to join the Sensus Collective and MATILDE Jewellery email newsletter databases for special offers and news. You can unsubscribe at any time.",
+                              "value": "yes"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "id": "ts-form-row-submit",
+                      "columns": 1,
+                      "fields": [
+                        {
+                          "id": "ts-form-submit",
+                          "type": "button",
+                          "name": "field_submit",
+                          "label": "Submit",
+                          "columnSpan": 1,
+                          "buttonVariant": "primary",
+                          "buttonAction": "submit",
+                          "style": {
+                            "width": "auto",
+                            "padding": "12px 28px"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "globalStyle": {
+                "gap": "16px",
+                "padding": "24px",
+                "borderRadius": "12px",
+                "backgroundColor": "#ffffff",
+                "borderColor": "#efd8d8"
+              }
+            }
+          }
+        },
+        {
+          "id": "ts-terms",
+          "type": "accordion",
+          "order": 7,
+          "data": {
+            "default_open": "first",
+            "numbered_titles": false,
+            "panels": [
+              {
+                "id": "ts-terms-panel",
+                "title": "Terms & Conditions",
+                "paragraphs": "<p><strong>Eligibility:</strong> The Prize Draw is open to UK residents only, aged 18 and over.</p><p><strong>Exclusions:</strong> Employees, their families, agencies or associates of the organizing company and any third parties involved in the preparation and/or performance of this Prize Draw are not eligible for entry.</p><p><strong>Closing Date:</strong> The Prize Draw closes at 11:59pm on 29th July 2024.</p><p><strong>Winner Notification:</strong> The winner will be contacted by 1st August 2024.</p><p><strong>Acceptance of Prize:</strong> The winner must confirm acceptance and supply their email address within 7 days of receipt of the prize notification email. If the winner does not respond within 7 days, they will be deselected, and a new winner will be chosen at random and contacted. The same time frame for acceptance applies.</p><p><strong>Prize Details:</strong> The prize is x2 Taylor Swift tickets for the concert at Wembley Stadium on Monday, 19th August 2024. Tickets will be shared with the winner by email a week before the concert.</p><p><strong>Non-exchangeable:</strong> The winners names will be included on the tickets. The prize cannot be exchanged for cash.</p><p><strong>Data Processing:</strong> Any personal details provided as part of the Prize Draw will be processed in accordance with the organising company’s privacy policy.</p><p><strong>Right to Modify:</strong> The organising company reserves the right at any time to cancel, modify, or supersede the Prize Draw (including altering prizes) if, at its sole discretion, a Prize Draw cannot be conducted as specified.</p><p><strong>Prize Substitution:</strong> The organising company reserves the right to substitute a prize of equal value in the event that circumstances beyond its control make this unavoidable.</p><p><strong>Non-transferable:</strong> The prize is non-transferable, non-negotiable, not for resale, and there is no cash alternative.</p><p><strong>Conditions of Entry:</strong> The organising company reserves the right, in its absolute discretion, to refuse entry and to alter or cancel the Prize Draw for any reason.</p><p><strong>Standard Terms:</strong> Standard terms and conditions apply.</p>"
+              }
+            ]
+          },
+          "settings": {
+            "paragraph_gap": "20px"
+          }
+        }
+      ],
+      "content_max_width_custom": "1300px"
+    }
+  ]
+}

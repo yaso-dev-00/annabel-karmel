@@ -35,7 +35,7 @@ export default function AreAllergiesGeneticPage() {
             <p className={styles.bodyText}>
               If your family has a history of allergies, it&apos;s understandable to be concerned that you might have
               passed on these same allergies to your baby. Consultant Paediatric Allergist{" "}
-              <Link href="/meet-our-experts/professor-adam-fox" className={styles.inlineLink}>
+              <Link href="/experts/professor-adam-fox" className={styles.inlineLink}>
                 Professor Adam Fox
               </Link>{" "}
               is here to explain whether allergies are in fact hereditary.

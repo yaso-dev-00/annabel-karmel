@@ -6,12 +6,19 @@ import { hasCustomPadding } from "@/lib/content-blocks/padding";
 import { hasCustomMargin } from "@/lib/content-blocks/margin";
 import { hasResponsiveFontSize } from "@/lib/content-blocks/responsive-font-size";
 import {
+  hasBlockFontWeight,
+  hasBlockLineHeight,
+} from "@/lib/content-blocks/block-typography";
+import { hasParagraphGap } from "@/lib/content-blocks/block-prose";
+import {
   blockHasImageSource,
   blockHasResizableImage,
   getImageStackImageIndices,
   getTwoColumnImageTargets,
   patchBlockImageDimensions,
 } from "@/lib/admin/block-image-resize";
+import { resolvePreviewImageBreakpoint } from "@/lib/content-blocks/image-block-mobile";
+import { usesIntrinsicLayoutChildBox } from "@/lib/content-blocks/block-styles";
 import {
   formatPx,
   IMAGE_HANDLES,
@@ -64,21 +71,25 @@ export function PreviewBlockWrapper({
 
   const handleImageResizeEnd = (dims: { width: number; height: number }, imageIndex = 0) => {
     if (!onDataChange) return;
-    onDataChange(patchBlockImageDimensions(block, dims.width, dims.height, imageIndex));
+    const breakpoint = resolvePreviewImageBreakpoint(wrapperRef.current);
+    onDataChange(
+      patchBlockImageDimensions(block, dims.width, dims.height, imageIndex, breakpoint),
+    );
   };
 
   const stackImageIndices = block.type === "image_stack" ? getImageStackImageIndices(block) : [];
   const twoColumnImageTargets =
     block.type === "two_column" ? getTwoColumnImageTargets(block) : [];
 
+  const isCarouselSectionBlock =
+    (block.type === "recipe_grid" && block.data.layout === "carousel") ||
+    block.type === "related_articles";
+
   const allowSectionResize =
     previewMode &&
     selected &&
     onSettingsChange &&
-    !(block.type === "recipe_grid" && block.data.layout === "carousel");
-
-  const isRecipeCarousel =
-    block.type === "recipe_grid" && block.data.layout === "carousel";
+    !isCarouselSectionBlock;
   const isHidden = Boolean(block.settings?.hidden);
   const customMargin = hasCustomMargin(block.settings);
   const spacingClass =
@@ -88,11 +99,14 @@ export function PreviewBlockWrapper({
         ? styles.blockWrapperSpacingLoose
         : "";
 
+  const customPadding =
+    hasCustomPadding(block.settings) && !usesIntrinsicLayoutChildBox(block.type);
+
   return (
     <div
       ref={wrapperRef}
       data-block-id={block.id}
-      className={`${styles.blockWrapper} ${customMargin ? styles.blockWrapperHasMargin : ""} ${spacingClass} ${hasResponsiveFontSize(block.settings) ? styles.blockWrapperResponsiveFontSize : ""} ${hasCustomPadding(block.settings) || customMargin ? styles.blockWrapperCustomPadding : ""} ${previewMode ? styles.blockWrapperEditable : ""} ${selected ? styles.blockWrapperSelected : ""} ${previewMode && isHidden ? styles.blockWrapperHidden : ""}`}
+      className={`${styles.blockWrapper} ${customMargin ? styles.blockWrapperHasMargin : ""} ${spacingClass} ${hasResponsiveFontSize(block.settings) ? styles.blockWrapperResponsiveFontSize : ""} ${hasBlockFontWeight(block.settings) ? styles.blockWrapperFontWeight : ""} ${hasBlockLineHeight(block.settings) ? styles.blockWrapperLineHeight : ""} ${hasParagraphGap(block.settings) && block.type !== "two_column" ? styles.blockWrapperParagraphGap : ""} ${customPadding || customMargin ? styles.blockWrapperCustomPadding : ""} ${previewMode ? styles.blockWrapperEditable : ""} ${selected ? styles.blockWrapperSelected : ""} ${previewMode && isHidden ? styles.blockWrapperHidden : ""}`}
       style={style}
       onClick={
         previewMode && onSelect
@@ -104,7 +118,7 @@ export function PreviewBlockWrapper({
           : undefined
       }
       onKeyDown={
-        previewMode && onSelect && !isRecipeCarousel
+        previewMode && onSelect
           ? (e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
@@ -113,9 +127,9 @@ export function PreviewBlockWrapper({
             }
           : undefined
       }
-      role={previewMode && !isRecipeCarousel ? "button" : undefined}
-      tabIndex={previewMode && !isRecipeCarousel ? 0 : undefined}
-      aria-label={previewMode && !isRecipeCarousel ? `Select ${block.type} block` : undefined}
+      role={previewMode && onSelect ? "button" : undefined}
+      tabIndex={previewMode && onSelect ? 0 : undefined}
+      aria-label={previewMode && onSelect ? `Select ${block.type} block` : undefined}
     >
       {previewMode && isHidden ? (
         <span className={styles.blockHiddenBadge} aria-hidden>
@@ -175,7 +189,7 @@ export function PreviewBlockWrapper({
           containerRef={wrapperRef}
           targetSelector="[data-cms-resize-image]"
           handles={IMAGE_HANDLES}
-          label="Image"
+          label={block.type === "image" ? "Image (this preview)" : "Image"}
           variant="image"
           minWidth={RESIZE_MIN_IMAGE_WIDTH}
           minHeight={RESIZE_MIN_IMAGE_HEIGHT}

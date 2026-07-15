@@ -3,7 +3,7 @@
 import { ImageField } from "@/components/Admin/Ui/ImageField";
 import { ColorField, ColorThemePanel } from "@/components/Admin/Ui/ColorField";
 import { createBlockId } from "@/lib/content-blocks/defaults";
-import type { BlockDataByType, BlockSettings, ContentBlock, HeroBlockData, RichTextBlockData, HeadingBlockData, ListBlockData, ImageBlockData, ImageTextBlockData, CalloutBlockData, TableBlockData, MultiColumnTableBlockData, AccordionBlockData, AccordionSubsection, TwoColumnBlockData, RelatedLinksBlockData, ExpertAttributionBlockData, CtaButtonBlockData, DividerBlockData, VideoBlockData, FormEmbedBlockData, AnnouncementBannerBlockData, ProductGridBlockData, RecipeGridBlockData, PartnerPromoBlockData, BookPromoBlockData, AuthorBioBlockData, ImageStackBlockData } from "@/lib/content-blocks/types";
+import type { BlockDataByType, BlockSettings, ContentBlock, HeroBlockData, RichTextBlockData, HeadingBlockData, ListBlockData, ImageBlockData, ImageTextBlockData, CalloutBlockData, TableBlockData, MultiColumnTableBlockData, AccordionBlockData, AccordionSubsection, TwoColumnBlockData, RelatedLinksBlockData, RelatedArticlesBlockData, ExpertAttributionBlockData, CtaButtonBlockData, DividerBlockData, VideoBlockData, FormEmbedBlockData, AnnouncementBannerBlockData, ProductGridBlockData, RecipeGridBlockData, PartnerPromoBlockData, PartnershipTagBlockData, BookPromoBlockData, AuthorBioBlockData, ImageStackBlockData } from "@/lib/content-blocks/types";
 import { resolveHeroBackgroundColor, HERO_DEFAULT_BACKGROUND } from "@/lib/content-blocks/block-background";
 import { DS_BACKGROUND_PRESETS } from "@/lib/design-system/color-presets";
 import {
@@ -17,6 +17,12 @@ import { createDefaultFormSchema } from "@/lib/content-blocks/form-schema";
 import { RichTextEditor } from "./rich-text-editor";
 import { TwoColumnFields } from "./two-column-fields";
 import { ImageStackFields } from "./image-stack-fields";
+import { RelatedArticlesFields } from "./related-articles-fields";
+import { ResponsiveGridColumnsField } from "./responsive-grid-columns-field";
+import { RESPONSIVE_GRID_DEFAULT_COLUMNS } from "@/lib/content-blocks/responsive-grid-columns";
+import { withProductGridColumnDefaults } from "@/lib/content-blocks/product-grid-columns";
+import { withRecipeGridColumnDefaults } from "@/lib/content-blocks/recipe-grid-columns";
+import type { ContentEditorContext } from "@/lib/content-blocks/block-context";
 import {
   DEFAULT_LINK_COLOR,
   RELATED_LINK_COLOR_PRESETS,
@@ -39,6 +45,8 @@ type BlockFormFieldsProps = {
   block: ContentBlock;
   onChange: (data: ContentBlock["data"]) => void;
   onSettingsChange?: (patch: Partial<BlockSettings>) => void;
+  relatedArticlesCatalog?: "advice" | "article";
+  editorContext?: ContentEditorContext;
 };
 
 function Field({
@@ -162,7 +170,13 @@ function CheckboxField({
   );
 }
 
-export function BlockFormFields({ block, onChange, onSettingsChange }: BlockFormFieldsProps) {
+export function BlockFormFields({
+  block,
+  onChange,
+  onSettingsChange,
+  relatedArticlesCatalog = "advice",
+  editorContext = "competition",
+}: BlockFormFieldsProps) {
   const patch = (data: ContentBlock["data"]) => onChange(data);
 
   switch (block.type) {
@@ -317,9 +331,11 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
     }
     case "image": {
       const d = block.data as ImageBlockData;
+      const mobileEnabled = d.use_mobile_image ?? Boolean(d.mobile_src?.trim() || d.fallback_src?.trim());
+      const mobileSrc = d.mobile_src ?? d.fallback_src ?? "";
       return (
         <>
-          <Field label="Image">
+          <Field label="Image (desktop)">
             <ImageField
               value={d.src}
               alt={d.alt}
@@ -327,6 +343,31 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
               onAltChange={(altVal) => patch({ ...d, alt: altVal })}
             />
           </Field>
+          <CheckboxField
+            label="Use different image on mobile"
+            checked={mobileEnabled}
+            onChange={(use_mobile_image) => patch({ ...d, use_mobile_image })}
+          />
+          {mobileEnabled ? (
+            <Field label="Image (mobile)">
+              <ImageField
+                value={mobileSrc}
+                showAlt={false}
+                onChange={(src) =>
+                  patch({
+                    ...d,
+                    use_mobile_image: true,
+                    mobile_src: src,
+                    fallback_src: undefined,
+                  })
+                }
+              />
+              <p style={{ margin: "8px 0 0", fontSize: 13, color: "#6d5757" }}>
+                Shown at ≤767px (and in the mobile preview). Leave empty to keep using the desktop
+                image.
+              </p>
+            </Field>
+          ) : null}
           <Field label="Caption">
             <input className="fieldInput" value={d.caption ?? ""} onChange={(e) => patch({ ...d, caption: e.target.value })} />
           </Field>
@@ -335,6 +376,10 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
             checked={d.full_width ?? false}
             onChange={(full_width) => patch({ ...d, full_width })}
           />
+          <p style={{ margin: "0 0 12px", fontSize: 13, color: "#6d5757" }}>
+            Resize in the preview: desktop/tablet preview sets desktop size; mobile preview sets
+            mobile size separately .
+          </p>
           <Field label="Link URL">
             <input className="fieldInput" value={d.link_href ?? ""} onChange={(e) => patch({ ...d, link_href: e.target.value })} />
           </Field>
@@ -836,59 +881,79 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
     }
     case "related_links": {
       const d = block.data as RelatedLinksBlockData;
+      const allowSocialRow = editorContext === "partners";
+      const isSocialRow = allowSocialRow && d.layout === "row";
       return (
         <>
+          {allowSocialRow ? (
+            <Field label="Layout">
+              <select
+                className="fieldSelect"
+                value={d.layout ?? "list"}
+                onChange={(e) =>
+                  patch({ ...d, layout: e.target.value as RelatedLinksBlockData["layout"] })
+                }
+              >
+                <option value="list">Vertical list</option>
+                <option value="row">Horizontal row (social)</option>
+              </select>
+            </Field>
+          ) : null}
           <Field label="Intro">
             <RichTextEditor value={d.intro} onChange={(intro) => patch({ ...d, intro })} />
           </Field>
-          <Field label="Link style">
-            <select
-              className="fieldSelect"
-              value={d.link_style ?? "underline"}
-              onChange={(e) =>
-                patch({ ...d, link_style: e.target.value as RelatedLinksBlockData["link_style"] })
-              }
-            >
-              {(Object.keys(RELATED_LINK_STYLE_LABELS) as NonNullable<RelatedLinksBlockData["link_style"]>[]).map(
-                (key) => (
-                  <option key={key} value={key}>
-                    {RELATED_LINK_STYLE_LABELS[key]}
-                  </option>
-                ),
-              )}
-            </select>
-          </Field>
-          <ColorField
-            label="Link color"
-            value={d.link_color}
-            defaultColor={DEFAULT_LINK_COLOR}
-            presets={RELATED_LINK_COLOR_PRESETS}
-            onChange={(link_color) => patch({ ...d, link_color })}
-          />
-          <Field label="List spacing">
-            <select
-              className="fieldSelect"
-              value={d.list_spacing ?? "normal"}
-              onChange={(e) =>
-                patch({
-                  ...d,
-                  list_spacing: e.target.value as RelatedLinksBlockData["list_spacing"],
-                })
-              }
-            >
-              {(Object.keys(RELATED_LIST_SPACING_LABELS) as NonNullable<RelatedLinksBlockData["list_spacing"]>[]).map(
-                (key) => (
-                  <option key={key} value={key}>
-                    {RELATED_LIST_SPACING_LABELS[key]}
-                  </option>
-                ),
-              )}
-            </select>
-          </Field>
+          {!isSocialRow ? (
+            <>
+              <Field label="Link style">
+                <select
+                  className="fieldSelect"
+                  value={d.link_style ?? "underline"}
+                  onChange={(e) =>
+                    patch({ ...d, link_style: e.target.value as RelatedLinksBlockData["link_style"] })
+                  }
+                >
+                  {(Object.keys(RELATED_LINK_STYLE_LABELS) as NonNullable<RelatedLinksBlockData["link_style"]>[]).map(
+                    (key) => (
+                      <option key={key} value={key}>
+                        {RELATED_LINK_STYLE_LABELS[key]}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </Field>
+              <ColorField
+                label="Link color"
+                value={d.link_color}
+                defaultColor={DEFAULT_LINK_COLOR}
+                presets={RELATED_LINK_COLOR_PRESETS}
+                onChange={(link_color) => patch({ ...d, link_color })}
+              />
+              <Field label="List spacing">
+                <select
+                  className="fieldSelect"
+                  value={d.list_spacing ?? "normal"}
+                  onChange={(e) =>
+                    patch({
+                      ...d,
+                      list_spacing: e.target.value as RelatedLinksBlockData["list_spacing"],
+                    })
+                  }
+                >
+                  {(Object.keys(RELATED_LIST_SPACING_LABELS) as NonNullable<RelatedLinksBlockData["list_spacing"]>[]).map(
+                    (key) => (
+                      <option key={key} value={key}>
+                        {RELATED_LIST_SPACING_LABELS[key]}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </Field>
+            </>
+          ) : null}
           <Field label="Links">
             <div className="nestedList">
               {d.links.map((link, i) => (
-                <div key={i} className="nestedRow">
+                <div key={i} className="card nestedCard">
                   <input
                     className="fieldInput"
                     placeholder="Label"
@@ -909,14 +974,35 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
                       patch({ ...d, links });
                     }}
                   />
-                  <button
-                    type="button"
-                    className="iconBtn"
-                    aria-label="Remove link"
-                    onClick={() => patch({ ...d, links: d.links.filter((_, idx) => idx !== i) })}
-                  >
-                    ✕
-                  </button>
+                  {isSocialRow ? (
+                    <ImageField
+                      value={link.icon_src ?? ""}
+                      alt={link.icon_alt ?? ""}
+                      onChange={(src, altVal) => {
+                        const links = [...d.links];
+                        links[i] = {
+                          ...link,
+                          icon_src: src,
+                          icon_alt: altVal ?? link.icon_alt ?? "",
+                        };
+                        patch({ ...d, links });
+                      }}
+                      onAltChange={(altVal) => {
+                        const links = [...d.links];
+                        links[i] = { ...link, icon_alt: altVal };
+                        patch({ ...d, links });
+                      }}
+                    />
+                  ) : null}
+                  <div className="nestedCardAction">
+                    <button
+                      type="button"
+                      className="btn btnGhost"
+                      onClick={() => patch({ ...d, links: d.links.filter((_, idx) => idx !== i) })}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
               ))}
               <button
@@ -929,6 +1015,16 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
             </div>
           </Field>
         </>
+      );
+    }
+    case "related_articles": {
+      const d = block.data as RelatedArticlesBlockData;
+      return (
+        <RelatedArticlesFields
+          data={d}
+          catalog={relatedArticlesCatalog}
+          onChange={(next) => patch(next)}
+        />
       );
     }
     case "expert_attribution": {
@@ -1174,9 +1270,14 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
       );
     }
     case "product_grid": {
-      const d = block.data as ProductGridBlockData;
+      const d = withProductGridColumnDefaults(block.data as ProductGridBlockData);
       return (
         <>
+          <ResponsiveGridColumnsField
+            value={d}
+            defaultImageAspect="4/3"
+            onChange={(patchCols) => patch({ ...d, ...patchCols })}
+          />
           {d.items.map((item, i) => (
             <div key={i} className="card nestedCard">
               <input className="fieldInput" placeholder="Title" value={item.title} onChange={(e) => { const items = [...d.items]; items[i] = { ...item, title: e.target.value }; patch({ ...d, items }); }} />
@@ -1208,11 +1309,37 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
       return (
         <>
           <Field label="Layout">
-            <select className="fieldSelect" value={d.layout} onChange={(e) => patch({ ...d, layout: e.target.value as RecipeGridBlockData["layout"] })}>
+            <select
+              className="fieldSelect"
+              value={d.layout}
+              onChange={(e) => {
+                const layout = e.target.value as RecipeGridBlockData["layout"];
+                if (layout === "grid") {
+                  patch(
+                    withRecipeGridColumnDefaults({
+                      ...d,
+                      layout,
+                      columns_desktop: d.columns_desktop ?? RESPONSIVE_GRID_DEFAULT_COLUMNS.desktop,
+                      columns_tablet: d.columns_tablet ?? RESPONSIVE_GRID_DEFAULT_COLUMNS.tablet,
+                      columns_mobile: d.columns_mobile ?? RESPONSIVE_GRID_DEFAULT_COLUMNS.mobile,
+                    }),
+                  );
+                  return;
+                }
+                patch({ ...d, layout });
+              }}
+            >
               <option value="grid">Grid</option>
               <option value="carousel">Carousel</option>
             </select>
           </Field>
+          {d.layout === "grid" ? (
+            <ResponsiveGridColumnsField
+              value={d}
+              defaultImageAspect="4/3"
+              onChange={(patchCols) => patch({ ...d, ...patchCols })}
+            />
+          ) : null}
           {d.items.map((item, i) => (
             <div key={i} className="card nestedCard">
               <input className="fieldInput" placeholder="Title" value={item.title} onChange={(e) => { const items = [...d.items]; items[i] = { ...item, title: e.target.value }; patch({ ...d, items }); }} />
@@ -1263,8 +1390,111 @@ export function BlockFormFields({ block, onChange, onSettingsChange }: BlockForm
               onAltChange={(altVal) => patch({ ...d, logo_alt: altVal })}
             />
           </Field>
-          <Field label="Title"><input className="fieldInput" value={d.title ?? ""} onChange={(e) => patch({ ...d, title: e.target.value })} /></Field>
-          <Field label="Body"><RichTextEditor value={d.body ?? ""} onChange={(body) => patch({ ...d, body })} /></Field>
+          <Field label="Logo link URL">
+            <input
+              className="fieldInput"
+              value={d.logo_href ?? ""}
+              onChange={(e) => patch({ ...d, logo_href: e.target.value || undefined })}
+              placeholder="https://"
+            />
+          </Field>
+          <Field label="Layout">
+            <select
+              className="fieldSelect"
+              value={d.layout}
+              onChange={(e) => patch({ ...d, layout: e.target.value as PartnerPromoBlockData["layout"] })}
+            >
+              <option value="stacked">Stacked</option>
+              <option value="horizontal">Horizontal</option>
+            </select>
+          </Field>
+          <Field label="Title">
+            <input className="fieldInput" value={d.title ?? ""} onChange={(e) => patch({ ...d, title: e.target.value })} />
+          </Field>
+          <Field label="Body">
+            <RichTextEditor value={d.body ?? ""} onChange={(body) => patch({ ...d, body })} />
+          </Field>
+          <Field label="Links">
+            {(d.links ?? []).map((link, i) => (
+              <div key={i} className="card nestedCard">
+                <input
+                  className="fieldInput"
+                  placeholder="Label"
+                  value={link.label}
+                  onChange={(e) => {
+                    const links = [...(d.links ?? [])];
+                    links[i] = { ...link, label: e.target.value };
+                    patch({ ...d, links });
+                  }}
+                />
+                <input
+                  className="fieldInput"
+                  placeholder="URL"
+                  value={link.href}
+                  onChange={(e) => {
+                    const links = [...(d.links ?? [])];
+                    links[i] = { ...link, href: e.target.value };
+                    patch({ ...d, links });
+                  }}
+                />
+                <div className="nestedCardAction">
+                  <button
+                    type="button"
+                    className="btn btnGhost"
+                    onClick={() => {
+                      const links = (d.links ?? []).filter((_, index) => index !== i);
+                      patch({ ...d, links });
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn btnGhost"
+              onClick={() =>
+                patch({
+                  ...d,
+                  links: [...(d.links ?? []), { label: "", href: "" }],
+                })
+              }
+            >
+              + Add link
+            </button>
+          </Field>
+        </>
+      );
+    }
+    case "partnership_tag": {
+      const d = block.data as PartnershipTagBlockData;
+      return (
+        <>
+          <Field label="Label">
+            <input
+              className="fieldInput"
+              value={d.label}
+              onChange={(e) => patch({ ...d, label: e.target.value })}
+              placeholder="In partnership with"
+            />
+          </Field>
+          <Field label="Partner logo">
+            <ImageField
+              value={d.logo_src}
+              alt={d.logo_alt}
+              onChange={(src, altVal) => patch({ ...d, logo_src: src, logo_alt: altVal ?? d.logo_alt })}
+              onAltChange={(altVal) => patch({ ...d, logo_alt: altVal })}
+            />
+          </Field>
+          <Field label="Logo link URL">
+            <input
+              className="fieldInput"
+              value={d.logo_href ?? ""}
+              onChange={(e) => patch({ ...d, logo_href: e.target.value || undefined })}
+              placeholder="https://"
+            />
+          </Field>
         </>
       );
     }

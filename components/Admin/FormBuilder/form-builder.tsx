@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  DndContext,
   KeyboardSensor,
   PointerSensor,
   closestCenter,
@@ -16,7 +15,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useCallback, useEffect, useMemo, useState, type HTMLAttributes } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type HTMLAttributes } from "react";
+import { StableDndContext } from "@/components/Admin/BlockEditor/stable-dnd-context";
 import {
   FORM_FIELD_TYPE_LABELS,
   FORM_FIELD_TYPES,
@@ -110,6 +110,7 @@ function FieldCard({
     <div
       ref={nodeRef}
       style={style}
+      data-form-field-id={field.id}
       className={`${styles.fieldCard} ${selected ? styles.fieldCardSelected : ""}`}
       onClick={onSelect}
     >
@@ -250,7 +251,7 @@ type RowCardProps = {
   onClearSelectedField: () => void;
   onFieldDragEnd: (event: DragEndEvent, sectionId: string, rowId: string) => void;
   onPatchField: (fieldId: string, patch: Partial<FormField>) => void;
-  onAddField: (sectionId: string, rowId: string, type: FormFieldType) => void;
+  onAddField: (sectionId: string, rowId: string, type: FormFieldType, index?: number) => void;
   dndReady: boolean;
 };
 
@@ -357,7 +358,7 @@ function RowCard({
       {expanded ? (
         <>
       {dndReady ? (
-        <DndContext
+        <StableDndContext
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={(event) => onFieldDragEnd(event, sectionId, row.id)}
@@ -368,7 +369,7 @@ function RowCard({
           >
             <div className={styles.rowGrid}>{fieldCards}</div>
           </SortableContext>
-        </DndContext>
+        </StableDndContext>
       ) : (
         <div className={styles.rowGrid}>{fieldCards}</div>
       )}
@@ -443,7 +444,7 @@ type SectionCardProps = {
   onRowDragEnd: (event: DragEndEvent, sectionId: string) => void;
   onFieldDragEnd: (event: DragEndEvent, sectionId: string, rowId: string) => void;
   onPatchField: (fieldId: string, patch: Partial<FormField>) => void;
-  onAddField: (sectionId: string, rowId: string, type: FormFieldType) => void;
+  onAddField: (sectionId: string, rowId: string, type: FormFieldType, index?: number) => void;
   dndReady: boolean;
 };
 
@@ -550,7 +551,7 @@ function SectionCard({
       />
 
       {dndReady ? (
-        <DndContext
+        <StableDndContext
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={(event) => onRowDragEnd(event, section.id)}
@@ -561,7 +562,7 @@ function SectionCard({
           >
             <div className={styles.sectionRows}>{rowCards}</div>
           </SortableContext>
-        </DndContext>
+        </StableDndContext>
       ) : (
         <div className={styles.sectionRows}>{rowCards}</div>
       )}
@@ -624,10 +625,28 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
     () => new Set(collectRowIds(schema)),
   );
   const [dndReady, setDndReady] = useState(false);
+  const pendingScrollFieldIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     setDndReady(true);
   }, []);
+
+  useEffect(() => {
+    const fieldId = pendingScrollFieldIdRef.current;
+    if (!fieldId || fieldId !== selectedFieldId) return;
+
+    const exists = schema.sections.some((section) =>
+      section.rows.some((row) => row.fields.some((field) => field.id === fieldId)),
+    );
+    if (!exists) return;
+
+    pendingScrollFieldIdRef.current = null;
+    const frame = requestAnimationFrame(() => {
+      const el = document.querySelector<HTMLElement>(`[data-form-field-id="${fieldId}"]`);
+      el?.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [schema, selectedFieldId, expandedSectionIds, expandedRowIds]);
 
   const expandAll = useCallback(() => {
     setExpandedSectionIds(new Set(collectSectionIds(schema)));
@@ -703,10 +722,55 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
     onChange(updateFormField(schema, fieldId, patch));
   };
 
-  const addField = (sectionId: string, rowId: string, type: FormFieldType) => {
+  const findFieldLocation = useCallback(
+    (fieldId: string): { sectionId: string; rowId: string; index: number } | null => {
+      for (const section of schema.sections) {
+        for (const row of section.rows) {
+          const index = row.fields.findIndex((field) => field.id === fieldId);
+          if (index >= 0) {
+            return { sectionId: section.id, rowId: row.id, index };
+          }
+        }
+      }
+      return null;
+    },
+    [schema],
+  );
+
+  const scrollFieldIntoView = useCallback((fieldId: string) => {
+    const scroll = () => {
+      const el = document.querySelector<HTMLElement>(`[data-form-field-id="${fieldId}"]`);
+      el?.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    };
+    // Wait for expand + React commit so the field card exists in the DOM.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(scroll);
+    });
+  }, []);
+
+  const addField = (sectionId: string, rowId: string, type: FormFieldType, index?: number) => {
     const field = createFormField(type);
-    onChange(addFieldToRow(schema, sectionId, rowId, field));
+    onChange(addFieldToRow(schema, sectionId, rowId, field, index));
+    expandSection(sectionId);
+    expandRow(rowId);
+    pendingScrollFieldIdRef.current = field.id;
     setSelectedFieldId(field.id);
+  };
+
+  const addFieldFromPalette = (type: FormFieldType) => {
+    if (selectedFieldId) {
+      const location = findFieldLocation(selectedFieldId);
+      if (location) {
+        addField(location.sectionId, location.rowId, type, location.index + 1);
+        return;
+      }
+    }
+
+    const section = schema.sections[schema.sections.length - 1];
+    const row = section?.rows[section.rows.length - 1];
+    if (section && row) {
+      addField(section.id, row.id, type);
+    }
   };
 
   const exportJson = () => {
@@ -780,11 +844,7 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
                   key={type}
                   type="button"
                   className={styles.paletteChip}
-                  onClick={() => {
-                    const section = schema.sections[schema.sections.length - 1];
-                    const row = section?.rows[section.rows.length - 1];
-                    if (section && row) addField(section.id, row.id, type);
-                  }}
+                  onClick={() => addFieldFromPalette(type)}
                 >
                   {FORM_FIELD_TYPE_LABELS[type]}
                 </button>
@@ -820,7 +880,7 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
             </div>
 
             {dndReady ? (
-              <DndContext
+              <StableDndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragEnd={handleSectionDragEnd}
@@ -852,7 +912,7 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
                     />
                   ))}
                 </SortableContext>
-              </DndContext>
+              </StableDndContext>
             ) : (
               schema.sections.map((section) => (
                 <SectionCard

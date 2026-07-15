@@ -7,7 +7,7 @@ export const ttabLogoSrc = `${articlePath}/ttab-logo.png`;
 export const toddlersTeensUrl = "https://www.toddlersteensandbetween.com/";
 export const toddlersTeensCourseUrl = "https://www.toddlersteensandbetween.com/";
 export const gemmaExpertHref =
-  "/meet-our-experts/gemma-arnold-sophia-ziff-mental-health-behaviour-and-wellbeing-specialists";
+  "/experts/gemma-arnold-sophia-ziff-mental-health-behaviour-and-wellbeing-specialists";
 
 export type ToddlerFoodTipLink = {
   label: string;

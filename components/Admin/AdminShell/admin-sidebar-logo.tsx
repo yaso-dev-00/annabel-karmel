@@ -6,8 +6,8 @@ export function AdminSidebarLogo() {
       <Image
         src="/brand/annabel-karmel-logo.png"
         alt="Annabel Karmel"
-        width={112}
-        height={54}
+        width={88}
+        height={43}
         className="sidebarLogoImage"
         style={{ height: "auto" }}
         priority

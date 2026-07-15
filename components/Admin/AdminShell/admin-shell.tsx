@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { AdminSidebarLogo } from "./admin-sidebar-logo";
 
 type NavItem = {
@@ -11,19 +12,23 @@ type NavItem = {
   disabled?: boolean;
 };
 
-const NAV_SECTIONS: { title: string; items: NavItem[] }[] = [
+const NAV_SECTIONS: { title?: string; items: NavItem[] }[] = [
+  {
+    items: [
+      { href: "/admin", label: "Dashboard", exact: true },
+      { href: "#", label: "Recipes", disabled: true },
+    ],
+  },
   {
     title: "Website content",
     items: [
-      { href: "/admin", label: "Dashboard", exact: true },
       { href: "#", label: "Homepage Editor", disabled: true },
-      { href: "#", label: "Recipes", disabled: true },
-      { href: "#", label: "Articles", disabled: true },
-      { href: "#", label: "Experts", disabled: true },
+      { href: "/admin/articles", label: "Articles" },
+      { href: "/admin/experts", label: "Experts" },
       { href: "/admin/advice", label: "Advice" },
       { href: "#", label: "Products", disabled: true },
-      { href: "#", label: "Competitions", disabled: true },
-      { href: "#", label: "Our Partners", disabled: true },
+      { href: "/admin/competitions", label: "Competitions" },
+      { href: "/admin/partners", label: "Our Partners" },
       { href: "#", label: "Content Pages", disabled: true },
     ],
   },
@@ -38,6 +43,14 @@ type AdminShellProps = {
 
 export function AdminShell({ title, breadcrumb, children, actions }: AdminShellProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Mutations go through client fetch → API routes; revalidatePath alone does not
+    // clear the App Router client cache. Refresh on each admin route so listing
+    // pages (and dashboard) always pull the latest RSC payload.
+    router.refresh();
+  }, [pathname, router]);
 
   return (
     <div className="adminRoot">
@@ -45,9 +58,12 @@ export function AdminShell({ title, breadcrumb, children, actions }: AdminShellP
         <aside className="sidebar">
           <AdminSidebarLogo />
           <nav className="sidebarNav" aria-label="Admin navigation">
-            {NAV_SECTIONS.map((section) => (
-              <div key={section.title} className="sidebarSection">
-                <p className="sidebarSectionTitle">{section.title}</p>
+            {NAV_SECTIONS.map((section, index) => (
+              <div
+                key={section.title ?? `section-${index}`}
+                className={`sidebarSection${section.title ? " sidebarSectionLabeled" : ""}`}
+              >
+                {section.title ? <p className="sidebarSectionTitle">{section.title}</p> : null}
                 <div className="sidebarSectionLinks">
                   {section.items.map((item) => {
                     const active = item.exact
@@ -58,6 +74,7 @@ export function AdminShell({ title, breadcrumb, children, actions }: AdminShellP
                       <Link
                         key={item.label}
                         href={item.disabled ? "#" : item.href}
+                        prefetch={false}
                         className={`navLink ${active ? "navLinkActive" : ""} ${item.disabled ? "navLinkDisabled" : ""}`}
                         aria-disabled={item.disabled}
                         aria-current={active ? "page" : undefined}

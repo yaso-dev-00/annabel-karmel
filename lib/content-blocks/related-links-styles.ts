@@ -42,6 +42,9 @@ export function getRelatedLinksListClass(
   data: RelatedLinksBlockData,
   styles: Record<string, string>,
 ): string {
+  if (data.layout === "row") {
+    return styles.relatedLinksRow;
+  }
   const classes = [styles.list, styles.relatedLinksList];
   const spacing = data.list_spacing ?? "normal";
   if (spacing === "compact") classes.push(styles.relatedLinksCompact);
@@ -53,6 +56,9 @@ export function getRelatedLinkClass(
   data: RelatedLinksBlockData,
   styles: Record<string, string>,
 ): string {
+  if (data.layout === "row") {
+    return styles.relatedSocialLink;
+  }
   const classes = [styles.relatedLink];
   const linkStyle = data.link_style ?? "underline";
   if (linkStyle === "plain") classes.push(styles.relatedLinkPlain);

@@ -1,8 +1,28 @@
 import type { CSSProperties } from "react";
-import type { ContentBlock } from "@/lib/content-blocks/types";
+import type { BlockSettings, ContentBlock } from "@/lib/content-blocks/types";
+import { normalizeCssLength } from "@/lib/content-blocks/css-length";
 
-function imageSizeStyle(maxWidth?: string, height?: string): CSSProperties | undefined {
+function imageSizeStyle(
+  maxWidth?: string,
+  height?: string,
+  options?: { responsiveAspect?: boolean },
+): CSSProperties | undefined {
   if (!maxWidth && !height) return undefined;
+
+  const widthPx = maxWidth ? parseFloat(maxWidth) : NaN;
+  const heightPx = height ? parseFloat(height) : NaN;
+
+  // Prefer aspect-ratio so desktop-tuned crops scale down on tablet/mobile.
+  if (options?.responsiveAspect && widthPx > 0 && heightPx > 0) {
+    return {
+      width: "100%",
+      maxWidth: "100%",
+      height: "auto",
+      aspectRatio: `${widthPx} / ${heightPx}`,
+      objectFit: "cover",
+    };
+  }
+
   return {
     width: "100%",
     maxWidth: maxWidth ?? "100%",
@@ -11,8 +31,36 @@ function imageSizeStyle(maxWidth?: string, height?: string): CSSProperties | und
   };
 }
 
-export function blockHasResizableImage(type: ContentBlock["type"]): boolean {
-  return (
+export function getTwoColumnImageDisplayStyle(
+  image?: { width?: string; height?: string },
+): CSSProperties {
+  if (image?.width || image?.height) {
+    return {
+      display: "block",
+      ...imageSizeStyle(image.width, image.height, { responsiveAspect: true }),
+    };
+  }
+  return {
+    display: "block",
+    width: "100%",
+    maxWidth: "100%",
+    height: "auto",
+  };
+}
+
+/** Bleed an image-only column past uniform block padding so photos reach the block edge. */
+export function getTwoColumnImageBleedStyle(
+  blockSettings?: BlockSettings,
+  isImageOnlyColumn = false,
+): CSSProperties | undefined {
+  if (!isImageOnlyColumn || !blockSettings?.padding?.trim()) return undefined;
+  const pad = blockSettings.padding.trim();
+  if (pad.split(/\s+/).length > 1) return undefined;
+  const normalized = normalizeCssLength(pad);
+  return { margin: `-${normalized}` };
+}
+
+export function blockHasResizableImage(type: ContentBlock["type"]): boolean {  return (
     type === "image" ||
     type === "image_text" ||
     type === "image_stack" ||
@@ -78,13 +126,20 @@ export function patchBlockImageDimensions(
   width: number,
   height: number,
   imageIndex = 0,
+  breakpoint: "mobile" | "tablet" | "desktop" = "desktop",
 ): ContentBlock["data"] {
   const w = `${Math.round(width)}px`;
   const h = `${Math.round(height)}px`;
 
   switch (block.type) {
-    case "image":
+    case "image": {
+      // Mobile preview resizes write mobile_* so desktop size stays intact.
+      if (breakpoint === "mobile") {
+        return { ...block.data, mobile_width: w, mobile_height: h, full_width: false };
+      }
+      // Tablet + desktop share desktop fields; tablet display scales via aspect-ratio.
       return { ...block.data, width: w, height: h, full_width: false };
+    }
     case "image_text":
       return { ...block.data, image_width: w, image_height: h };
     case "image_stack": {
@@ -117,14 +172,20 @@ export function patchBlockImageDimensions(
 
 export function getImageStackItemStyle(
   image: { width?: string; height?: string },
+  options?: { grid?: boolean; matchAspect?: boolean },
 ): CSSProperties | undefined {
-  return imageSizeStyle(image.width, image.height);
+  // Shared grid aspect handles sizing — skip per-image fixed dims.
+  if (options?.matchAspect) return undefined;
+  return imageSizeStyle(image.width, image.height, {
+    responsiveAspect: Boolean(options?.grid),
+  });
 }
 
 export function getImageInlineStyle(block: ContentBlock): CSSProperties | undefined {
   switch (block.type) {
     case "image":
-      return imageSizeStyle(block.data.width, block.data.height);
+      // Prefer breakpoint-aware helpers from image-block-mobile in the renderer.
+      return imageSizeStyle(block.data.width, block.data.height, { responsiveAspect: true });
     case "image_text":
       return imageSizeStyle(block.data.image_width, block.data.image_height);
     case "hero":

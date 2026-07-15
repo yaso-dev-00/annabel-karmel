@@ -588,14 +588,14 @@
                 "url": "/recipes/crunchy-fish-fingers"
               },
               {
-                "title": "Veggie Frittata",
+                "title": "Veggie Frittata Fingers",
                 "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/CRUNCHY-FISH-FINGERS-2-768x960-optimized.jpg",
-                "url": "/recipes/veggie-frittata"
+                "url": "/recipes/veggie-frittata-fingers"
               },
               {
-                "title": "Mini Meatballs",
+                "title": "Mini Meatballs With Apple",
                 "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/CRUNCHY-FISH-FINGERS-2-768x960-optimized.jpg",
-                "url": "/recipes/mini-meatballs"
+                "url": "/recipes/mini-meatballs-with-apple"
               }
             ]
           }
@@ -608,27 +608,27 @@
             "layout": "carousel",
             "items": [
               {
-                "title": "Carousel recipe A",
+                "title": "Sweet Potato & Veggie Frittata",
                 "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/CRUNCHY-FISH-FINGERS-2-768x960-optimized.jpg",
-                "url": "/recipes/carousel-a",
+                "url": "/recipes/sweet-potato-veggie-frittata",
                 "app_exclusive": true
               },
               {
-                "title": "Carousel recipe B",
+                "title": "Baked Veggie Frittata Wedges",
                 "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/CRUNCHY-FISH-FINGERS-2-768x960-optimized.jpg",
-                "url": "/recipes/carousel-b",
+                "url": "/recipes/baked-veggie-frittata-wedges",
                 "app_exclusive": true
               },
               {
-                "title": "Carousel recipe C",
+                "title": "Summer Veggie Frittata",
                 "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/CRUNCHY-FISH-FINGERS-2-768x960-optimized.jpg",
-                "url": "/recipes/carousel-c",
+                "url": "/recipes/summer-veggie-frittata",
                 "app_exclusive": true
               },
               {
-                "title": "Carousel recipe D",
+                "title": "Crunchy Fish Fingers",
                 "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/04/CRUNCHY-FISH-FINGERS-2-768x960-optimized.jpg",
-                "url": "/recipes/carousel-d",
+                "url": "/recipes/crunchy-fish-fingers",
                 "app_exclusive": true
               }
             ]
@@ -787,25 +787,24 @@
             "level": "h3",
             "text": "End of showcase — all block types included"
           }
-        }
-      ],
-      "related_articles": [
-        {
-          "href": "/advice/sample-advice-article",
-          "title": "Sample Advice Article",
-          "image": "/advice-category/breastfeeding-advice/breastmilk-storage.jpg"
         },
         {
-          "href": "/advice/toddler-snacking",
-          "title": "Toddler Snacking",
-          "image": "/advice-category/child-health-and-development/toddler-snacking.jpg"
-        },
-        {
-          "href": "/advice/top-weaning-tips",
-          "title": "Top Weaning Tips",
-          "image": "/articles/top-weaning-tips/avocado-banana-puree.jpg"
+          "id": "showcase-related-articles",
+          "type": "related_articles",
+          "order": 43,
+          "data": {
+            "heading": "Related Advice",
+            "subtitle": "Some more articles you might enjoy...",
+            "category_slug": "child-health-and-development",
+            "article_slugs": [
+              "toddler-snacking",
+              "cooking-with-kids",
+              "gagging-vs-choking"
+            ]
+          }
         }
       ],
+      "related_articles": [],
       "show_instagram_share": true,
       "published_at": "2026-07-07T09:00:00.000Z",
       "created_at": "2026-07-07T09:00:00.000Z",
@@ -981,25 +980,24 @@
             "preset": "milk_making_mama",
             "prefix": "Visit @milkmakingmama for more advice and support."
           }
-        }
-      ],
-      "related_articles": [
-        {
-          "href": "/advice/toddler-top-tips-to-healthy-food-habits",
-          "title": "Toddler Top Tips to Healthy Food Habits",
-          "image": "/articles/toddler-top-tips-to-healthy-food-habits/hero.jpg"
         },
         {
-          "href": "/advice/pumping",
-          "title": "Pumping Breast Milk",
-          "image": "/advice-category/breastfeeding-advice/pumping.jpg"
-        },
-        {
-          "href": "/advice/newborn-feeding-patterns",
-          "title": "Newborn Feeding Patterns",
-          "image": "/advice-category/breastfeeding-advice/newborn-feeding-patterns.jpg"
+          "id": "b011-related-articles",
+          "type": "related_articles",
+          "order": 10,
+          "data": {
+            "heading": "Related Advice",
+            "subtitle": "Some more articles you might enjoy...",
+            "category_slug": "breastfeeding-advice",
+            "article_slugs": [
+              "pumping",
+              "newborn-feeding-patterns",
+              "introduction-to-breastfeeding"
+            ]
+          }
         }
       ],
+      "related_articles": [],
       "show_instagram_share": true,
       "content_max_width": "default",
       "published_at": "2026-01-01T00:00:00.000Z",

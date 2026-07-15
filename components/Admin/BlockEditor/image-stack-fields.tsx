@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  DndContext,
   KeyboardSensor,
   PointerSensor,
   closestCenter,
@@ -20,9 +19,15 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { ImageField } from "@/components/Admin/Ui/ImageField";
 import { ensureImageStackItemId } from "@/lib/content-blocks/defaults";
+import {
+  IMAGE_STACK_DEFAULT_COLUMNS,
+  withImageStackColumnDefaults,
+} from "@/lib/content-blocks/image-stack-columns";
 import type { ImageStackBlockData, ImageStackItem } from "@/lib/content-blocks/types";
 import styles from "./block-editor.module.css";
 import { ExpandCollapseAllButtons } from "./expand-collapse-all-buttons";
+import { ResponsiveGridColumnsField } from "./responsive-grid-columns-field";
+import { StableDndContext } from "./stable-dnd-context";
 
 function imageSummary(item: ImageStackItem, index: number): string {
   if (item.alt?.trim()) return item.alt.trim();
@@ -165,6 +170,22 @@ export function ImageStackFields({
 
   const patch = (images: ImageStackItem[]) => onChange({ ...data, images });
 
+  const setLayout = (layout: ImageStackBlockData["layout"]) => {
+    if (layout === "grid") {
+      onChange(
+        withImageStackColumnDefaults({
+          ...data,
+          layout,
+          columns_desktop: data.columns_desktop ?? IMAGE_STACK_DEFAULT_COLUMNS.desktop,
+          columns_tablet: data.columns_tablet ?? IMAGE_STACK_DEFAULT_COLUMNS.tablet,
+          columns_mobile: data.columns_mobile ?? IMAGE_STACK_DEFAULT_COLUMNS.mobile,
+        }),
+      );
+      return;
+    }
+    onChange({ ...data, layout });
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -190,12 +211,19 @@ export function ImageStackFields({
         <select
           className="fieldSelect"
           value={data.layout}
-          onChange={(e) => onChange({ ...data, layout: e.target.value as ImageStackBlockData["layout"] })}
+          onChange={(e) => setLayout(e.target.value as ImageStackBlockData["layout"])}
         >
           <option value="vertical">Vertical</option>
           <option value="grid">Grid</option>
         </select>
       </label>
+
+      {data.layout === "grid" ? (
+        <ResponsiveGridColumnsField
+          value={data}
+          onChange={(patch) => onChange({ ...data, ...patch })}
+        />
+      ) : null}
 
       <p style={{ fontSize: 14, color: "#6d5757", margin: "0 0 12px" }}>
         Drag images to reorder. Collapse cards to keep the form tidy. Resize images in the preview.
@@ -215,7 +243,7 @@ export function ImageStackFields({
           ) : null}
         </div>
 
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={normalized.map((item) => item.id)} strategy={verticalListSortingStrategy}>
             {normalized.map((item, index) => (
               <SortableImageCard
@@ -229,7 +257,7 @@ export function ImageStackFields({
               />
             ))}
           </SortableContext>
-        </DndContext>
+        </StableDndContext>
 
         <div className={styles.columnAddRow}>
           <button

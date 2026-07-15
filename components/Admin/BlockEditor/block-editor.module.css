@@ -521,7 +521,7 @@
   position: sticky;
   top: 72px;
   z-index: 25;
-  padding: 8px 0 4px;
+  padding: 8px 0 5px;
   background: linear-gradient(#fff 70%, rgba(255, 255, 255, 0.94) 88%, transparent);
 }
 

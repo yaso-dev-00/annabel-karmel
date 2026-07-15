@@ -10,6 +10,22 @@ const nextConfig: NextConfig = {
     "/api/admin/advice-articles": ["./data/cms/**/*"],
     "/api/admin/advice-articles/[id]": ["./data/cms/**/*"],
     "/advice/[slug]": ["./data/cms/**/*"],
+    "/admin/articles": ["./data/cms/**/*"],
+    "/admin/articles/new": ["./data/cms/**/*"],
+    "/admin/articles/[id]/edit": ["./data/cms/**/*"],
+    "/admin/articles/[id]/preview": ["./data/cms/**/*"],
+    "/api/admin/articles": ["./data/cms/**/*"],
+    "/api/admin/articles/[id]": ["./data/cms/**/*"],
+    "/articles/[slug]": ["./data/cms/**/*"],
+    "/admin/experts": ["./data/cms/**/*"],
+    "/admin/experts/new": ["./data/cms/**/*"],
+    "/admin/experts/[id]/edit": ["./data/cms/**/*"],
+    "/admin/experts/[id]/preview": ["./data/cms/**/*"],
+    "/api/admin/experts": ["./data/cms/**/*"],
+    "/api/admin/experts/[id]": ["./data/cms/**/*"],
+    "/api/admin/experts/settings": ["./data/cms/**/*"],
+    "/experts/[slug]": ["./data/cms/**/*"],
+    "/meet-our-experts": ["./data/cms/**/*"],
   },
   async rewrites() {
     return [
@@ -22,6 +38,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        // Profile pages only — do not redirect static assets like /meet-our-experts/*.jpg
+        source: "/meet-our-experts/:slug([^/.]+)",
+        destination: "/experts/:slug",
+        permanent: true,
+      },
       {
         source: "/advice/baby-nutrition",
         destination: "/category/nutrition/baby-nutrition",

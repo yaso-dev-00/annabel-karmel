@@ -156,20 +156,22 @@ export function ArticleRecipeCarouselPreview({
                   onClickCapture={carousel.handleCardClickCapture}
                 >
                   <div className={styles.imageWrap}>
-                    {imageSrc ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={imageSrc}
-                        alt={recipe.title}
-                        loading={recipeIndex < 3 ? "eager" : "lazy"}
-                        decoding="async"
-                        className="block aspect-4/3 w-full object-cover"
-                        draggable={false}
-                        onLoad={recipeIndex === 0 ? measureCards : undefined}
-                      />
-                    ) : (
-                      <div className="block aspect-4/3 w-full bg-[#f6e9ef]" aria-hidden />
-                    )}
+                    <a href={recipe.href} className={styles.imageLink}>
+                      {imageSrc ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={imageSrc}
+                          alt={recipe.title}
+                          loading={recipeIndex < 3 ? "eager" : "lazy"}
+                          decoding="async"
+                          className="block aspect-4/3 w-full object-cover"
+                          draggable={false}
+                          onLoad={recipeIndex === 0 ? measureCards : undefined}
+                        />
+                      ) : (
+                        <div className="block aspect-4/3 w-full bg-[#f6e9ef]" aria-hidden />
+                      )}
+                    </a>
                     <div className={styles.iconRow}>
                       {recipe.appExclusive ? (
                         <span
@@ -195,8 +197,6 @@ export function ArticleRecipeCarouselPreview({
                     >
                       <a
                         href={recipe.href}
-                        target="_blank"
-                        rel="noopener"
                         className="text-inherit no-underline hover:text-(--hover-color)"
                       >
                         {recipe.title}

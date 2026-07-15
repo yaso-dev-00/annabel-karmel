@@ -2,20 +2,23 @@
 
 import { useMemo, useState } from "react";
 import { BLOCK_CATEGORIES, BLOCK_REGISTRY } from "@/lib/content-blocks/registry";
+import { isBlockAllowedInEditor, type ContentEditorContext } from "@/lib/content-blocks/block-context";
 import type { BlockType } from "@/lib/content-blocks/types";
 import styles from "./block-editor.module.css";
 
 type BlockPickerProps = {
   onSelect: (type: BlockType) => void;
   onClose: () => void;
+  editorContext?: ContentEditorContext;
 };
 
-export function BlockPicker({ onSelect, onClose }: BlockPickerProps) {
+export function BlockPicker({ onSelect, onClose, editorContext = "competition" }: BlockPickerProps) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string>("all");
 
   const filtered = useMemo(() => {
     return BLOCK_REGISTRY.filter((entry) => {
+      if (!isBlockAllowedInEditor(entry.type, editorContext)) return false;
       const matchesSearch =
         !search ||
         entry.label.toLowerCase().includes(search.toLowerCase()) ||
@@ -24,7 +27,7 @@ export function BlockPicker({ onSelect, onClose }: BlockPickerProps) {
       const matchesCategory = category === "all" || entry.category === category;
       return matchesSearch && matchesCategory;
     });
-  }, [search, category]);
+  }, [search, category, editorContext]);
 
   return (
     <div className={styles.pickerOverlay} onClick={onClose} role="presentation">

@@ -175,7 +175,8 @@
 .richEditor ul,
 .richEditor ol {
   margin: 0.5em 0 0.75em;
-  padding-left: 1.5rem;
+  padding-left: 1.75rem;
+  list-style-position: outside;
 }
 
 .richEditor ul {

@@ -81,7 +81,7 @@ body.admin-preview-fullscreen .sidebar {
 
 .sidebarLogoImage {
   display: block;
-  width: 112px;
+  width: 78px;
   max-width: 100%;
   height: auto;
   object-fit: contain;
@@ -101,6 +101,13 @@ body.admin-preview-fullscreen .sidebar {
   gap: 8px;
 }
 
+.sidebarSectionLabeled {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid #ece6e8;
+  gap: 10px;
+}
+
 .sidebarSectionTitle {
   margin: 0;
   padding: 0 12px;
@@ -109,6 +116,18 @@ body.admin-preview-fullscreen .sidebar {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #a8a0a2;
+}
+
+.sidebarSectionLabeled .sidebarSectionTitle {
+  margin: 0 4px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--admin-brand-soft);
+  color: var(--admin-brand);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: none;
 }
 
 .sidebarSectionLinks {
@@ -459,6 +478,97 @@ body.admin-preview-fullscreen .sidebar {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.adminListCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.listToolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.listSearchWrap {
+  position: relative;
+  flex: 1;
+  max-width: 360px;
+}
+
+.listSearchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--admin-muted);
+  pointer-events: none;
+}
+
+.listSearchInput {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  border: 1px solid var(--admin-border);
+  border-radius: 999px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  background: #fff;
+  color: var(--admin-text);
+}
+
+.listSearchInput:focus {
+  outline: 2px solid var(--admin-brand-light);
+  border-color: var(--admin-brand);
+}
+
+.listStatusSelect {
+  min-width: 160px;
+  border-radius: 999px;
+}
+
+.tableRowClickable {
+  cursor: pointer;
+}
+
+.tableRowClickable:hover {
+  background: #fdf8f8;
+}
+
+.tableRowClickable:focus-visible {
+  outline: 2px solid var(--admin-brand-light);
+  outline-offset: -2px;
+}
+
+.tableTitleCell {
+  min-width: 240px;
+}
+
+.tableTitleMain {
+  display: inline;
+  font-weight: 600;
+  color: var(--admin-text);
+}
+
+.tableTitleMain .badge {
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.tableTitlePath {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--admin-muted);
+  font-weight: 400;
+}
+
+.tableEmpty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--admin-muted);
 }
 
 .actionBar {

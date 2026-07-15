@@ -404,7 +404,7 @@ function ArticleRecipeCarouselLive({
                   transition={{ duration: 0.2 }}
                 >
                   <div className={styles.imageWrap}>
-                    <a href={recipe.href} target="_blank" rel="noopener" className={styles.imageLink}>
+                    <a href={recipe.href} className={styles.imageLink}>
                       {imageSrc ? (
                         <img
                           src={imageSrc}
@@ -443,8 +443,6 @@ function ArticleRecipeCarouselLive({
                     >
                       <a
                         href={recipe.href}
-                        target="_blank"
-                        rel="noopener"
                         className="text-inherit no-underline hover:text-(--hover-color)"
                       >
                         {recipe.title}

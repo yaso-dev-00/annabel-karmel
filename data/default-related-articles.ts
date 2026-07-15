@@ -49,7 +49,7 @@ export const defaultRelatedArticles: RelatedArticleItem[] = [
     image: "/articles/youngs-food-explorers/SALMON-CROQUETTES-WITH-SWEET-POTATO-BUTTERNUT-SQUASH-scaled-optimized.jpg",
   },
   {
-    href: resolveListingHref("/meet-our-experts/jenna-brown"),
+    href: resolveListingHref("/experts/jenna-brown"),
     title: "Jenna Brown – Environmental Health Practitioner",
     image: "/meet-our-experts/jenna-brown.png",
   },
@@ -89,7 +89,7 @@ export const defaultRelatedArticles: RelatedArticleItem[] = [
     image: "/articles/allergies-with-professor-adam-fox/hero.jpg",
   },
   {
-    href: resolveListingHref("/meet-our-experts/amy-ransom"),
+    href: resolveListingHref("/experts/amy-ransom"),
     title: "Amy Ransom, mum, writer and author",
     image: "/meet-our-experts/amy-ransom.jpg",
   },

@@ -1,0 +1,801 @@
+{
+  "partners": [
+    {
+      "id": "00000000-0000-4000-8000-000000000401",
+      "slug": "pampers-snacking",
+      "title": "Pampers x Snacking",
+      "listing_image": "/partners/pampers-snacking/hero-collage.png",
+      "listing_image_alt": "Pampers x Annabel Karmel Smart Snack Builder",
+      "seo_title": "Pampers x Snacking | Annabel Karmel",
+      "seo_description": "In partnership with Pampers — your FREE Smart Snack Builder with 40 healthy single-ingredients to mix & match, plus Annabel’s snacking tips.",
+      "content_max_width": "custom",
+      "show_instagram_share": true,
+      "status": "published",
+      "scheduled_at": null,
+      "published_at": "2026-07-15T06:53:03.379Z",
+      "created_at": "2025-01-01T00:00:00.000Z",
+      "updated_at": "2026-07-15T06:53:03.397Z",
+      "content_blocks": [
+        {
+          "id": "ps-hero",
+          "type": "image",
+          "order": 0,
+          "data": {
+            "src": "/partners/pampers-snacking/hero-collage.png",
+            "alt": "Smart Snack Builder collage",
+            "full_width": true,
+            "link_href": "https://www.annabelkarmel.com/wp-content/uploads/2026/03/Pampers-x-Annabel-Karmel-Smart-Snack-Builder.pdf",
+            "width": "1146px",
+            "height": "520px",
+            "mobile_width": "301px",
+            "mobile_height": "141px"
+          }
+        },
+        {
+          "id": "ps-heading",
+          "type": "heading",
+          "order": 1,
+          "data": {
+            "level": "h2",
+            "text": "Here is your FREE Smart Snack Builder!"
+          },
+          "settings": {
+            "text_align": "center",
+            "max_width": "custom",
+            "max_width_custom": "852px",
+            "min_height": "0",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "ps-partner-tag",
+          "type": "partnership_tag",
+          "order": 2,
+          "data": {
+            "label": "In partnership with",
+            "logo_src": "/partners/pampers-snacking/pampers-logo.png",
+            "logo_alt": "Pampers",
+            "logo_href": "https://www.pampers.co.uk/"
+          },
+          "settings": {
+            "max_width": "custom",
+            "max_width_custom": "1100px",
+            "min_height": "60px",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "ps-partner-intro",
+          "type": "rich_text",
+          "order": 3,
+          "data": {
+            "variant": "body",
+            "html": "<p>To fuel little ones on the move, we’ve teamed up with Pampers to create a handy Smart Snack Builder; 40 healthy single-ingredients to mix &amp; match!</p><p>Simply save this checklist to your phone or print off and stick on the wall. You’ll have endless ideas for simple balanced snack times.</p>"
+          },
+          "settings": {
+            "max_width": "custom",
+            "max_width_custom": "1100px",
+            "min_height": "107px",
+            "text_align": "center",
+            "paragraph_gap": "20px"
+          }
+        },
+        {
+          "id": "ps-checklist",
+          "type": "image",
+          "order": 4,
+          "data": {
+            "src": "/partners/pampers-snacking/checklist-hero.jpg",
+            "alt": "Smart Snack Builder checklist",
+            "full_width": true,
+            "link_href": "https://www.annabelkarmel.com/wp-content/uploads/2026/03/Pampers-x-Annabel-Karmel-Smart-Snack-Builder.pdf",
+            "width": "985px",
+            "height": "852px"
+          },
+          "settings": {
+            "max_width": "custom",
+            "max_width_custom": "829px"
+          }
+        },
+        {
+          "id": "ps-tips",
+          "type": "two_column",
+          "order": 5,
+          "settings": {
+            "border_radius": "s",
+            "max_width": "custom",
+            "max_width_custom": "1136px",
+            "min_height": "517px",
+            "paragraph_gap": "30px",
+            "padding": "0",
+            "border_width": "0",
+            "font_family": "secondary",
+            "text_color": "#666666"
+          },
+          "data": {
+            "left_blocks": [
+              {
+                "id": "ps-tips-copy",
+                "type": "rich_text",
+                "html": "<p style=\"text-align: left;\"><strong>Annabel's Snacking Tips!</strong></p><p style=\"text-align: left;\"><strong>1. Think mini meals, not snacks</strong><br>Treat snacks like fuel – balance carbs, protein, and fruit &amp; veg to keep little tummies fuller for longer.</p><p><strong>2. Keep it colourful</strong><br>A rainbow plate = more nutrients and more chance they’ll actually eat it.</p><p><strong>3. Portion for small hands</strong><br>Finger-friendly sizes help toddlers self-feed.</p><p><strong>4. Routine is everything</strong><br>Offer snacks at set times to avoid constant grazing and protect appetites for meals.</p><p><strong>5. Pair new with familiar</strong><br>Pair “safe” foods + one new food = less pressure, more curiosity.</p>"
+              }
+            ],
+            "right_blocks": [
+              {
+                "id": "7327a426-524c-4eba-89a0-90f18401babe",
+                "type": "rich_text",
+                "html": "<p>asdasd asdasdasdas</p>"
+              },
+              {
+                "id": "ps-tips-image",
+                "type": "image",
+                "src": "/partners/pampers-snacking/tips-graphic.png",
+                "alt": "Toddler eating fruit snacks",
+                "width": "439px",
+                "height": "391px"
+              }
+            ],
+            "left_settings": {
+              "padding_top": "20px",
+              "padding_right": "",
+              "padding_bottom": "",
+              "padding_left": "20px",
+              "font_family": "primary",
+              "paragraph_gap": "20px"
+            },
+            "right_settings": {
+              "text_align": "center"
+            }
+          }
+        },
+        {
+          "id": "ps-ready-heading",
+          "type": "heading",
+          "order": 6,
+          "data": {
+            "level": "h2",
+            "text": "Ready for everything..."
+          },
+          "settings": {
+            "text_align": "center",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "ps-ready-body",
+          "type": "rich_text",
+          "order": 7,
+          "data": {
+            "variant": "body",
+            "html": "<p>With the best fuel and the right nappy, there is no stopping little explorers! <a href=\"https://www.pampers.co.uk/products/pampers-premium-protection-nappy-pants\">Pampers Protection Nappy Pants</a> are the most comfortable ride for daily adventures.</p>"
+          },
+          "settings": {
+            "text_align": "center",
+            "line_height": "1.64",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "ps-product",
+          "type": "image",
+          "order": 8,
+          "data": {
+            "src": "/partners/pampers-snacking/product-desktop.png",
+            "alt": "Pampers Protection Nappy Pants – supporting little movers",
+            "full_width": true,
+            "link_href": "https://www.pampers.co.uk/products/pampers-premium-protection-nappy-pants",
+            "fallback_src": "/partners/pampers-snacking/product-mobile.png"
+          },
+          "settings": {
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "ps-links",
+          "type": "related_links",
+          "order": 9,
+          "data": {
+            "intro": "",
+            "layout": "row",
+            "link_style": "plain",
+            "links": [
+              {
+                "label": "pampers.co.uk",
+                "href": "https://www.pampers.co.uk/"
+              },
+              {
+                "label": "@pampersuk_ire",
+                "href": "https://www.instagram.com/pampersuk_ire/",
+                "icon_src": "/partners/social/instagram.png",
+                "icon_alt": "Instagram"
+              },
+              {
+                "label": "@pampersUKIre",
+                "href": "https://www.facebook.com/PampersUKIre",
+                "icon_src": "/partners/social/facebook.png",
+                "icon_alt": "Facebook"
+              }
+            ]
+          },
+          "settings": {
+            "spacing": "loose",
+            "margin_right": "",
+            "margin_left": "",
+            "margin_bottom": "60px",
+            "margin_top": "30px"
+          }
+        }
+      ],
+      "content_max_width_custom": "1350px"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000402",
+      "slug": "pampers-2026",
+      "title": "Pampers x Superfoods",
+      "listing_image": "/partners/pampers-superfoods/header.png",
+      "listing_image_alt": "Pampers Top 50 Superfoods Checklist",
+      "seo_title": "Pampers | Annabel Karmel",
+      "seo_description": "In partnership with Pampers — your FREE Top 50 Superfoods Checklist and tips for food acceptance.",
+      "content_max_width": "custom",
+      "show_instagram_share": true,
+      "status": "published",
+      "scheduled_at": null,
+      "published_at": "2025-01-01T00:00:00.000Z",
+      "created_at": "2025-01-01T00:00:00.000Z",
+      "updated_at": "2026-07-15T05:52:32.613Z",
+      "content_blocks": [
+        {
+          "id": "psf-header",
+          "type": "image",
+          "order": 0,
+          "data": {
+            "src": "/partners/pampers-superfoods/header.png",
+            "alt": "Top 50 Superfoods collage",
+            "full_width": true,
+            "link_href": "https://pdflink.to/annabel-karmel-pampers-top-50-superfoods-checklist/",
+            "width": "768px",
+            "height": "226px",
+            "mobile_width": "279px",
+            "mobile_height": "148px"
+          }
+        },
+        {
+          "id": "psf-heading",
+          "type": "heading",
+          "order": 1,
+          "data": {
+            "level": "h2",
+            "text": "Here is your FREE Top 50 Superfoods Checklist"
+          },
+          "settings": {
+            "text_align": "center",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "psf-partner-tag",
+          "type": "partnership_tag",
+          "order": 2,
+          "data": {
+            "label": "In partnership with",
+            "logo_src": "/partners/pampers-superfoods/pampers-logo.png",
+            "logo_alt": "Pampers",
+            "logo_href": "https://www.pampers.co.uk/"
+          },
+          "settings": {
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "psf-partner-intro",
+          "type": "rich_text",
+          "order": 3,
+          "data": {
+            "variant": "body",
+            "html": "<p>We’ve teamed up with Pampers to introduce babies to some of nature’s most powerful superfoods.</p><p>This is your FREE checklist to help your little one eat the rainbow!</p>"
+          },
+          "settings": {
+            "text_align": "center",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "psf-checklist",
+          "type": "image",
+          "order": 4,
+          "data": {
+            "src": "/partners/pampers-superfoods/checklist.png",
+            "alt": "Top 50 Superfoods checklist",
+            "full_width": true,
+            "link_href": "https://pdflink.to/annabel-karmel-pampers-top-50-superfoods-checklist/"
+          }
+        },
+        {
+          "id": "psf-tips",
+          "type": "two_column",
+          "order": 5,
+          "settings": {
+            "background_color": "#e8f4f8",
+            "border_radius": "s",
+            "padding": "0"
+          },
+          "data": {
+            "left_blocks": [
+              {
+                "id": "psf-tips-copy",
+                "type": "rich_text",
+                "html": "<p style=\"text-align: center;\">Top FIVE tips for food acceptance!</p><p style=\"text-align: center;\"></p>"
+              },
+              {
+                "id": "psf-tips-list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "It can take up to 15-20, or even more, attempts for a baby to accept new foods.",
+                  "Keep mealtimes calm, safe, and free from pressure.",
+                  "Offer a rainbow of flavours and textures, including non-sweet vegetables like broccoli and spinach.",
+                  "Babies learn by watching, so eat with them to show enjoyment of healthy foods.",
+                  "Allow babies to touch, smell, and play with food – it’s all about exploring!"
+                ]
+              }
+            ],
+            "right_blocks": [
+              {
+                "id": "psf-tips-image",
+                "type": "image",
+                "src": "/partners/pampers-superfoods/tips-graphic.png",
+                "alt": "Toddler eating fruit snacks",
+                "width": "497px",
+                "height": "560px"
+              }
+            ],
+            "left_settings": {
+              "padding": "20px",
+              "paragraph_gap": "20px"
+            }
+          }
+        },
+        {
+          "id": "psf-product-heading",
+          "type": "heading",
+          "order": 6,
+          "data": {
+            "level": "h2",
+            "text": "For all those mushy, squishy moments..."
+          },
+          "settings": {
+            "text_align": "center",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "psf-product-body",
+          "type": "rich_text",
+          "order": 7,
+          "data": {
+            "variant": "body",
+            "html": "<p>Pampers 99% Water Baby Wipes are the perfect pairing for eating the rainbow! Approved by dermatologists from the Skin Health Alliance, they are safe and gentle to use to help protect babies’ delicate skin.</p>"
+          },
+          "settings": {
+            "spacing": "loose",
+            "text_align": "center"
+          }
+        },
+        {
+          "id": "psf-wipes",
+          "type": "image",
+          "order": 8,
+          "data": {
+            "src": "/partners/pampers-superfoods/wipes-footer.png",
+            "alt": "Pampers 99% Water Baby Wipes",
+            "full_width": false,
+            "link_href": "https://www.pampers.co.uk/products/pampers-aqua-baby-wipes-plastic-free",
+            "use_mobile_image": true,
+            "mobile_src": "/partners/pampers-superfoods/wipes-vertical.png",
+            "width": "718px",
+            "height": "290px"
+          }
+        },
+        {
+          "id": "psf-links",
+          "type": "related_links",
+          "order": 9,
+          "data": {
+            "intro": "",
+            "layout": "row",
+            "link_style": "plain",
+            "links": [
+              {
+                "label": "pampers.co.uk",
+                "href": "https://www.pampers.co.uk/"
+              },
+              {
+                "label": "@pampersuk_ire",
+                "href": "https://www.instagram.com/pampersuk_ire/",
+                "icon_src": "/partners/social/instagram.png",
+                "icon_alt": "Instagram"
+              },
+              {
+                "label": "@pampersUKIre",
+                "href": "https://www.facebook.com/PampersUKIre",
+                "icon_src": "/partners/social/facebook.png",
+                "icon_alt": "Facebook"
+              },
+              {
+                "label": "@pampers_babies",
+                "href": "https://www.tiktok.com/@pampers_babies",
+                "icon_src": "/partners/social/tiktok.png",
+                "icon_alt": "TikTok"
+              }
+            ]
+          },
+          "settings": {
+            "spacing": "loose",
+            "margin_right": "",
+            "margin_bottom": "60px",
+            "margin_left": "",
+            "margin_top": "50px"
+          }
+        }
+      ],
+      "content_max_width_custom": "1300px"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000403",
+      "slug": "birds-eye",
+      "title": "Birds Eye",
+      "listing_image": "/partners/birds-eye/hero.png",
+      "listing_image_alt": "Birds Eye partnership recipes",
+      "seo_title": "Birds Eye | Annabel Karmel",
+      "seo_description": "Delicious family recipes with freezer favourites — Annabel has teamed up with Birds Eye for quick, goodness-packed recipes.",
+      "content_max_width": "wide",
+      "show_instagram_share": true,
+      "status": "published",
+      "scheduled_at": null,
+      "published_at": "2025-01-01T00:00:00.000Z",
+      "created_at": "2025-01-01T00:00:00.000Z",
+      "updated_at": "2026-07-14T08:57:56.941Z",
+      "content_blocks": [
+        {
+          "id": "be-heading",
+          "type": "heading",
+          "order": 0,
+          "data": {
+            "level": "h2",
+            "text": "Delicious family recipes with freezer favourites"
+          },
+          "settings": {
+            "text_align": "center"
+          }
+        },
+        {
+          "id": "be-partner-tag",
+          "type": "partnership_tag",
+          "order": 1,
+          "data": {
+            "label": "In partnership with",
+            "logo_src": "/partners/birds-eye/logo.png",
+            "logo_alt": "Birds Eye",
+            "logo_href": "https://www.birdseye.co.uk/"
+          },
+          "settings": {
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "be-partner-intro",
+          "type": "rich_text",
+          "order": 2,
+          "data": {
+            "variant": "body",
+            "html": "<p>Feeding your family just got even easier! Annabel has teamed up with Birds Eye to create a collection of quick, goodness-packed recipes using your all-time favourite freezer staples!</p><p>From naturally sweet <a href=\"https://www.birdseye.co.uk/\">Birds Eye Garden Peas</a>, to <a href=\"https://www.birdseye.co.uk/\">Birds Eye Omega 3 Fish Fingers</a>, these tasty ideas are dinner winners!</p><p>Ready to cook?</p>"
+          },
+          "settings": {
+            "text_align": "center",
+            "paragraph_gap": "30px",
+            "spacing": "loose",
+            "line_height": "1.67"
+          }
+        },
+        {
+          "id": "be-hero",
+          "type": "image",
+          "order": 3,
+          "data": {
+            "src": "/partners/birds-eye/hero.png",
+            "alt": "Birds Eye freezer favourites",
+            "full_width": true
+          },
+          "settings": {
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "be-peas-heading",
+          "type": "heading",
+          "order": 4,
+          "data": {
+            "level": "h2",
+            "text": "Pea-power!"
+          },
+          "settings": {
+            "text_align": "center",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "be-peas-body",
+          "type": "rich_text",
+          "order": 5,
+          "data": {
+            "variant": "body",
+            "html": "<p>Birds Eye Garden Peas make any dish pop. High in fibre and protein, and a source of vitamin C and folic acid, they’re a nutritious way to pack-in veggies!</p>"
+          },
+          "settings": {
+            "spacing": "loose",
+            "text_align": "center",
+            "line_height": "1.67"
+          }
+        },
+        {
+          "id": "be-peas-banner",
+          "type": "image_stack",
+          "order": 6,
+          "data": {
+            "layout": "grid",
+            "images": [
+              {
+                "src": "/partners/birds-eye/peas-banner-1.png",
+                "alt": "Birds Eye Garden Peas",
+                "width": "516px",
+                "height": "336px"
+              },
+              {
+                "src": "/partners/birds-eye/peas-banner-2.png",
+                "alt": "Birds Eye peas recipes",
+                "width": "320px",
+                "height": "210px"
+              }
+            ],
+            "columns_desktop": 2
+          },
+          "settings": {
+            "max_width": "custom",
+            "max_width_custom": "1051px",
+            "min_height": "216px",
+            "text_align": "center",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "be-peas-recipes",
+          "type": "recipe_grid",
+          "order": 7,
+          "data": {
+            "layout": "grid",
+            "items": [
+              {
+                "title": "Easy Peasy Fritters",
+                "image": "/partners/birds-eye/fritters.png",
+                "url": "/recipes/easy-peasy-fritters"
+              },
+              {
+                "title": "Pea, Carrot & Tomato Pasta",
+                "image": "/partners/birds-eye/pasta.png",
+                "url": "/recipes/10-minute-pea-tomato-carrot-pasta"
+              },
+              {
+                "title": "Chicken & Pea Tots",
+                "image": "/partners/birds-eye/tots.png",
+                "url": "/recipes/chicken-pea-tots"
+              }
+            ]
+          },
+          "settings": {
+            "text_align": "center",
+            "max_width": "custom",
+            "max_width_custom": "1091px",
+            "spacing": "loose",
+            "min_height": "279px"
+          }
+        },
+        {
+          "id": "be-fish-heading",
+          "type": "heading",
+          "order": 8,
+          "data": {
+            "level": "h2",
+            "text": "Easy wins with fish fingers"
+          },
+          "settings": {
+            "text_align": "center",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "be-fish-body",
+          "type": "rich_text",
+          "order": 9,
+          "data": {
+            "variant": "body",
+            "html": "<p>Want to up your family’s fish intake? Birds Eye Omega 3 Fish Fingers, made from 100% fish fillets, take centre stage in these weekday dinners.</p>"
+          },
+          "settings": {
+            "text_align": "center",
+            "spacing": "loose",
+            "paragraph_gap": "x",
+            "line_height": "1.67"
+          }
+        },
+        {
+          "id": "be-fish-banner",
+          "type": "image_stack",
+          "order": 10,
+          "data": {
+            "layout": "grid",
+            "images": [
+              {
+                "src": "/partners/birds-eye/fish-banner-1.png",
+                "alt": "Birds Eye Omega 3 Fish Fingers"
+              },
+              {
+                "src": "/partners/birds-eye/fish-banner-2.png",
+                "alt": "Birds Eye fish finger recipes"
+              }
+            ],
+            "columns_desktop": 2
+          },
+          "settings": {
+            "max_width": "custom",
+            "max_width_custom": "1068px"
+          }
+        },
+        {
+          "id": "be-fish-recipes",
+          "type": "recipe_grid",
+          "order": 11,
+          "data": {
+            "layout": "grid",
+            "items": [
+              {
+                "title": "Fish Finger Pie",
+                "image": "/partners/birds-eye/fish-finger-pie.png",
+                "url": "/recipes/fish-finger-pie"
+              },
+              {
+                "title": "Crunchy Fish Fingers",
+                "image": "/partners/birds-eye/crunchy-fish-fingers.png",
+                "url": "/recipes/crunchy-fish-fingers"
+              }
+            ],
+            "columns_desktop": 2
+          },
+          "settings": {
+            "spacing": "loose",
+            "max_width": "custom",
+            "max_width_custom": "808px",
+            "text_align": "center",
+            "margin_right": "",
+            "margin_bottom": "60px",
+            "margin_left": "",
+            "margin_top": "30px"
+          }
+        }
+      ]
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000404",
+      "slug": "craft-crumb",
+      "title": "Craft & Crumb",
+      "listing_image": "/craft-crumb/title-banner.png",
+      "listing_image_alt": "Craft & Crumb bake and craft kits",
+      "seo_title": "Craft & Crumb | Annabel Karmel",
+      "seo_description": "Say hello to our bake and craft kits with Craft & Crumb — Choc Mice Muffins, Teddy Bear Biscuits, and Be Wild Biscuits.",
+      "content_max_width": "wide",
+      "show_instagram_share": true,
+      "status": "published",
+      "scheduled_at": null,
+      "published_at": "2025-01-01T00:00:00.000Z",
+      "created_at": "2025-01-01T00:00:00.000Z",
+      "updated_at": "2026-07-15T06:52:30.858Z",
+      "content_blocks": [
+        {
+          "id": "cc-banner",
+          "type": "image",
+          "order": 0,
+          "data": {
+            "src": "/craft-crumb/title-banner.png",
+            "alt": "Say hello to our new bake and craft kits",
+            "full_width": true,
+            "link_href": "https://www.tesco.com/groceries/en-GB/search?query=craft+%26+crumb&inputType=free+text"
+          }
+        },
+        {
+          "id": "cc-hero",
+          "type": "image",
+          "order": 1,
+          "data": {
+            "src": "/craft-crumb/lifestyle-hero.jpg",
+            "alt": "Craft & Crumb lifestyle",
+            "full_width": true
+          }
+        },
+        {
+          "id": "cc-intro",
+          "type": "image",
+          "order": 2,
+          "data": {
+            "src": "/craft-crumb/intro-section.jpg",
+            "alt": "Craft & Crumb collaboration intro",
+            "full_width": true
+          }
+        },
+        {
+          "id": "cc-choc",
+          "type": "image_text",
+          "order": 3,
+          "data": {
+            "image_src": "/craft-crumb/choc-mice-muffins.jpg",
+            "image_alt": "Choc Mice Muffins bake and craft kit",
+            "image_position": "left",
+            "heading": "Choc Mice Muffins",
+            "body": "<p>Hickory, Dickory, Dock…get ready, it’s bake o’clock! You’ll have little ones scurrying to the kitchen with our mischievous muffins, complete with cute rocking mice craft.</p>",
+            "image_first": true
+          }
+        },
+        {
+          "id": "cc-teddy",
+          "type": "image_text",
+          "order": 4,
+          "data": {
+            "image_src": "/craft-crumb/teddy-bear-biscuits.png",
+            "image_alt": "Teddy Bear Biscuits bake and craft kit",
+            "image_position": "right",
+            "heading": "Teddy Bear Biscuits",
+            "body": "<p>No teddy bears’ picnic would be complete without a batch of beary tasty cookies. Complete with a make-your-own tray for sharing, it’s time for a pawesome kitchen adventure.</p>",
+            "image_first": true
+          }
+        },
+        {
+          "id": "cc-wild",
+          "type": "image_text",
+          "order": 5,
+          "data": {
+            "image_src": "/craft-crumb/be-wild-biscuits.jpg",
+            "image_alt": "Be Wild Biscuits bake and craft kit",
+            "image_position": "left",
+            "heading": "Be Wild Biscuits",
+            "body": "<p>Let little imaginations run free with these roarsome animal print biscuits! Packed with all natural ingredients, this tasty adventure is perfect for little paws with wild imaginations. Get ready for a biscuit tin stampede – these treats won’t last long!</p>",
+            "image_first": true
+          }
+        },
+        {
+          "id": "cc-cta",
+          "type": "cta_button",
+          "order": 6,
+          "data": {
+            "label": "DISCOVER THE RANGE",
+            "url": "https://www.tesco.com/groceries/en-GB/search?query=craft+%26+crumb&inputType=free+text",
+            "style": "primary",
+            "open_in_new_tab": true
+          },
+          "settings": {
+            "text_align": "center",
+            "spacing": "loose"
+          }
+        },
+        {
+          "id": "cc-footer",
+          "type": "image",
+          "order": 7,
+          "data": {
+            "src": "/craft-crumb/footer-banner.jpg",
+            "alt": "Craft & Crumb at Tesco",
+            "full_width": true,
+            "link_href": "https://www.craftandcrumb.com/pages/annabel-karmel"
+          }
+        }
+      ]
+    }
+  ]
+}

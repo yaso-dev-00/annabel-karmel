@@ -7,19 +7,23 @@ export type PaddingPatch = Pick<
   "padding" | "padding_top" | "padding_right" | "padding_bottom" | "padding_left"
 >;
 
+function hasPaddingSideValue(value?: string): boolean {
+  return value != null && value.trim() !== "";
+}
+
 export function hasIndividualPadding(settings?: BlockSettings): boolean {
   if (!settings) return false;
-  return Boolean(
-    settings.padding_top?.trim() ||
-      settings.padding_right?.trim() ||
-      settings.padding_bottom?.trim() ||
-      settings.padding_left?.trim(),
+  return (
+    hasPaddingSideValue(settings.padding_top) ||
+    hasPaddingSideValue(settings.padding_right) ||
+    hasPaddingSideValue(settings.padding_bottom) ||
+    hasPaddingSideValue(settings.padding_left)
   );
 }
 
 export function hasCustomPadding(settings?: BlockSettings): boolean {
   if (!settings) return false;
-  return Boolean(settings.padding?.trim() || hasIndividualPadding(settings));
+  return hasPaddingSideValue(settings.padding) || hasIndividualPadding(settings);
 }
 
 /** Applies only the padding sides the editor explicitly set. */
@@ -33,20 +37,20 @@ export function applyBlockPaddingStyle(style: CSSProperties, settings?: BlockSet
     const bottom = settings.padding_bottom?.trim();
     const left = settings.padding_left?.trim();
 
-    if (top) {
-      style.paddingTop = normalizeCssLength(top);
+    if (hasPaddingSideValue(top)) {
+      style.paddingTop = normalizeCssLength(top!);
       applied = true;
     }
-    if (right) {
-      style.paddingRight = normalizeCssLength(right);
+    if (hasPaddingSideValue(right)) {
+      style.paddingRight = normalizeCssLength(right!);
       applied = true;
     }
-    if (bottom) {
-      style.paddingBottom = normalizeCssLength(bottom);
+    if (hasPaddingSideValue(bottom)) {
+      style.paddingBottom = normalizeCssLength(bottom!);
       applied = true;
     }
-    if (left) {
-      style.paddingLeft = normalizeCssLength(left);
+    if (hasPaddingSideValue(left)) {
+      style.paddingLeft = normalizeCssLength(left!);
       applied = true;
     }
 
@@ -54,8 +58,8 @@ export function applyBlockPaddingStyle(style: CSSProperties, settings?: BlockSet
   }
 
   const unified = settings.padding?.trim();
-  if (unified) {
-    style.padding = normalizeCssLength(unified);
+  if (hasPaddingSideValue(unified)) {
+    style.padding = normalizeCssLength(unified!);
     return true;
   }
 

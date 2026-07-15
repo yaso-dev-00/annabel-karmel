@@ -36,8 +36,10 @@ export const BLOCK_REGISTRY: BlockRegistryEntry[] = [
   { type: "product_grid", label: "Product grid", description: "Grid of product cards", category: "grids", icon: "PG" },
   { type: "recipe_grid", label: "Recipe grid", description: "Grid or carousel of recipes", category: "grids", icon: "RG" },
   { type: "related_links", label: "Related links", description: "Intro plus list of links", category: "grids", icon: "RL" },
+  { type: "related_articles", label: "Related articles", description: "Carousel of articles from a category", category: "grids", icon: "RA" },
   { type: "expert_attribution", label: "Expert sign-off", description: "Expert attribution block", category: "attribution", icon: "E" },
   { type: "partner_promo", label: "Partner promo", description: "Logo and partner promotion", category: "attribution", icon: "P" },
+  { type: "partnership_tag", label: "Partnership tag", description: "In partnership with + logo", category: "attribution", icon: "Pt" },
   { type: "book_promo", label: "Book promo", description: "Book cover with description", category: "attribution", icon: "Bk" },
   { type: "author_bio", label: "Author bio", description: "Author photo and biography", category: "attribution", icon: "Ab" },
 ];
@@ -74,8 +76,12 @@ export function getBlockSummary(block: { type: BlockType; data: Record<string, u
       return String(block.data.alt || block.data.src || "Image");
     case "callout":
       return String(block.data.title ?? "Callout");
+    case "related_articles":
+      return `Related articles (${block.data.category_slug || "no category"})`;
     case "expert_attribution":
       return `Expert: ${String(block.data.preset ?? "custom")}`;
+    case "partnership_tag":
+      return String(block.data.label || block.data.logo_alt || "Partnership tag");
     default:
       return getBlockLabel(block.type);
   }

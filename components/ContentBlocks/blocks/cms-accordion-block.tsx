@@ -3,16 +3,18 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState, type CSSProperties, type ReactNode } from "react";
-import type { AccordionBlockData } from "@/lib/content-blocks/types";
+import type { AccordionBlockData, BlockSettings } from "@/lib/content-blocks/types";
+import { getProseParagraphGapStyle, hasParagraphGap } from "@/lib/content-blocks/block-prose";
 import { resolveImageSrc } from "@/lib/content-blocks/image-src";
 import styles from "../content-blocks.module.css";
 
 type CmsAccordionProps = {
   data: AccordionBlockData;
   style?: CSSProperties;
+  paragraphGapSettings?: BlockSettings;
 };
 
-export function CmsAccordionBlock({ data, style }: CmsAccordionProps) {
+export function CmsAccordionBlock({ data, style, paragraphGapSettings }: CmsAccordionProps) {
   const defaultTitle = (() => {
     if (data.default_open === "none") return null;
     if (data.default_open === "first") return data.panels[0]?.title ?? null;
@@ -21,6 +23,8 @@ export function CmsAccordionBlock({ data, style }: CmsAccordionProps) {
   })();
 
   const [openTitle, setOpenTitle] = useState<string | null>(defaultTitle);
+  const proseGapClass = hasParagraphGap(paragraphGapSettings) ? styles.blockProseParagraphGap : "";
+  const proseGapStyle = getProseParagraphGapStyle(paragraphGapSettings);
 
   return (
     <div className={`${styles.accordion} border border-[#d7d7d7] bg-white`} style={style}>
@@ -60,13 +64,20 @@ export function CmsAccordionBlock({ data, style }: CmsAccordionProps) {
                       />
                     ) : null}
                     {panel.paragraphs ? (
-                      <div dangerouslySetInnerHTML={{ __html: panel.paragraphs }} />
+                      <div
+                        className={`${styles.blockProse} ${proseGapClass}`.trim()}
+                        style={proseGapStyle}
+                        dangerouslySetInnerHTML={{ __html: panel.paragraphs }}
+                      />
                     ) : null}
                     {panel.list_items && panel.list_items.length > 0 ? (
                       <ul className={`${styles.list} !mt-4 !pl-6`}>
-                        {panel.list_items.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
+                        {panel.list_items
+                          .map((item) => item.trim())
+                          .filter(Boolean)
+                          .map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
                       </ul>
                     ) : null}
                     {panel.subsections?.map((sub) => (
@@ -81,20 +92,28 @@ export function CmsAccordionBlock({ data, style }: CmsAccordionProps) {
                           {sub.heading}
                         </h4>
                         {sub.paragraphs ? (
-                          <div dangerouslySetInnerHTML={{ __html: sub.paragraphs }} />
+                          <div
+                            className={`${styles.blockProse} ${proseGapClass}`.trim()}
+                            style={proseGapStyle}
+                            dangerouslySetInnerHTML={{ __html: sub.paragraphs }}
+                          />
                         ) : null}
                         {sub.list_items && sub.list_items.length > 0 ? (
                           <ul className={`${styles.list} !mt-2 !pl-6`}>
-                            {sub.list_items.map((item) => (
-                              <li key={item}>{item}</li>
-                            ))}
+                            {sub.list_items
+                              .map((item) => item.trim())
+                              .filter(Boolean)
+                              .map((item) => (
+                                <li key={item}>{item}</li>
+                              ))}
                           </ul>
                         ) : null}
                       </div>
                     ))}
                     {panel.closing_paragraphs ? (
                       <div
-                        className="mt-4"
+                        className={`mt-4 ${styles.blockProse} ${proseGapClass}`.trim()}
+                        style={proseGapStyle}
                         dangerouslySetInnerHTML={{ __html: panel.closing_paragraphs }}
                       />
                     ) : null}

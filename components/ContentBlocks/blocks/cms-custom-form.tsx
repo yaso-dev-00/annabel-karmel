@@ -6,6 +6,8 @@ import styles from "./cms-custom-form.module.css";
 type CmsCustomFormProps = {
   schema: CustomFormSchema;
   previewMode?: boolean;
+  /** Block toolbar chrome (padding, border, background) applied directly on the form. */
+  chromeStyle?: CSSProperties;
 };
 
 function globalStyleToCss(global?: FormGlobalStyle): CSSProperties {
@@ -145,8 +147,11 @@ function renderControl(field: FormField, previewMode?: boolean) {
   }
 }
 
-export function CmsCustomForm({ schema, previewMode }: CmsCustomFormProps) {
-  const formStyle = globalStyleToCss(schema.globalStyle);
+export function CmsCustomForm({ schema, previewMode, chromeStyle }: CmsCustomFormProps) {
+  const formStyle = {
+    ...globalStyleToCss(schema.globalStyle),
+    ...chromeStyle,
+  };
 
   return (
     <form

@@ -374,7 +374,12 @@ function ColumnEditor({
         ) : null}
       </div>
 
-      <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <StableDndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={() => setExpandedIds(new Set())}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={normalized.map((b) => b.id)} strategy={verticalListSortingStrategy}>
           {normalized.map((mini) => (
             <SortableMiniBlockCard

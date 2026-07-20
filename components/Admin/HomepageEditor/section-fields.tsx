@@ -3,6 +3,7 @@
 import {
   closestCenter,
   type DragEndEvent,
+  type DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -212,6 +213,10 @@ function SortableItemList<T extends { id: string }>({
     setOpenId((prev) => (prev === id ? null : id));
   };
 
+  const handleDragStart = (_event: DragStartEvent) => {
+    setOpenId(null);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -242,7 +247,12 @@ function SortableItemList<T extends { id: string }>({
           ) : null}
         </div>
       </div>
-      <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <StableDndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={ids} strategy={verticalListSortingStrategy}>
           <div className={styles.itemList}>
             {items.map((item, index) => (

@@ -231,6 +231,7 @@ export function CookbookCarouselEditor({ images, onChange }: CookbookCarouselEdi
         <StableDndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={() => setExpandedIds(new Set())}
           onDragEnd={handleDragEnd}
         >
           <SortableContext

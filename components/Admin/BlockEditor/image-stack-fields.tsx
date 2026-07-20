@@ -243,7 +243,12 @@ export function ImageStackFields({
           ) : null}
         </div>
 
-        <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <StableDndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={() => setExpandedIds(new Set())}
+          onDragEnd={handleDragEnd}
+        >
           <SortableContext items={normalized.map((item) => item.id)} strategy={verticalListSortingStrategy}>
             {normalized.map((item, index) => (
               <SortableImageCard

@@ -233,7 +233,12 @@ export function ExpertTopicsEditor({ topics, onChange }: ExpertTopicsEditorProps
       <p className={styles.topicsHint}>Drag to reorder. Collapse topics to keep the form tidy.</p>
 
       <div className="nestedList">
-        <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <StableDndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={() => setExpandedIds(new Set())}
+          onDragEnd={handleDragEnd}
+        >
           <SortableContext items={normalized.map((topic) => topic.id)} strategy={verticalListSortingStrategy}>
             {normalized.map((topic, index) => (
               <SortableTopicCard

@@ -36,6 +36,18 @@
   opacity: 0.92;
 }
 
+.accordionEditorItemDragging {
+  opacity: 0.35;
+  background: #f3efef;
+}
+
+.accordionEditorItemOverlay {
+  background: #fff;
+  border-color: #d9c4c8;
+  box-shadow: 0 10px 28px rgba(52, 18, 18, 0.16);
+  cursor: grabbing;
+}
+
 .accordionEditorItemHeader {
   display: flex;
   align-items: center;

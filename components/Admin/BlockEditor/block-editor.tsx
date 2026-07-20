@@ -7,6 +7,7 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
+  type DragStartEvent,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -65,6 +66,7 @@ type BlockEditorContextValue = {
   collapseAllBlocks: () => void;
   expandAllBlocks: () => void;
   sensors: ReturnType<typeof useSensors>;
+  handleDragStart: (event: DragStartEvent) => void;
   handleDragEnd: (event: DragEndEvent) => void;
   handleAddBlock: (type: BlockType, position?: "start" | "end") => void;
 };
@@ -337,6 +339,10 @@ export function BlockEditorRoot({
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
+  const handleDragStart = (_event: DragStartEvent) => {
+    setExpandedIds(new Set());
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
@@ -400,6 +406,7 @@ export function BlockEditorRoot({
         collapseAllBlocks,
         expandAllBlocks,
         sensors,
+        handleDragStart,
         handleDragEnd,
         handleAddBlock,
       }}
@@ -515,6 +522,7 @@ export function BlockEditorCanvas() {
     pickerOpen,
     setPickerOpen,
     sensors,
+    handleDragStart,
     handleDragEnd,
     handleAddBlock,
     collapseAllBlocks,
@@ -567,7 +575,12 @@ export function BlockEditorCanvas() {
         />
       </div>
       {dndReady ? (
-        <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <StableDndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
           <SortableContext items={blocks.map((b) => b.id)} strategy={verticalListSortingStrategy}>
             <div className={styles.canvas}>{blockCards}</div>
           </SortableContext>

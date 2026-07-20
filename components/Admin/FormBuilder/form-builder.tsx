@@ -443,6 +443,7 @@ type SectionCardProps = {
   onClearSelectedField: () => void;
   onRowDragEnd: (event: DragEndEvent, sectionId: string) => void;
   onFieldDragEnd: (event: DragEndEvent, sectionId: string, rowId: string) => void;
+  onCollapseAllRows: () => void;
   onPatchField: (fieldId: string, patch: Partial<FormField>) => void;
   onAddField: (sectionId: string, rowId: string, type: FormFieldType, index?: number) => void;
   dndReady: boolean;
@@ -463,6 +464,7 @@ function SectionCard({
   onClearSelectedField,
   onRowDragEnd,
   onFieldDragEnd,
+  onCollapseAllRows,
   onPatchField,
   onAddField,
   dndReady,
@@ -554,6 +556,7 @@ function SectionCard({
         <StableDndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={onCollapseAllRows}
           onDragEnd={(event) => onRowDragEnd(event, section.id)}
         >
           <SortableContext
@@ -883,6 +886,10 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
               <StableDndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
+                onDragStart={() => {
+                  setExpandedSectionIds(new Set());
+                  setExpandedRowIds(new Set());
+                }}
                 onDragEnd={handleSectionDragEnd}
               >
                 <SortableContext
@@ -906,6 +913,7 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
                       onClearSelectedField={() => setSelectedFieldId(null)}
                       onRowDragEnd={handleRowDragEnd}
                       onFieldDragEnd={handleFieldDragEnd}
+                      onCollapseAllRows={() => setExpandedRowIds(new Set())}
                       onPatchField={patchField}
                       onAddField={addField}
                       dndReady
@@ -931,6 +939,7 @@ export function FormBuilder({ schema, onChange }: FormBuilderProps) {
                   onClearSelectedField={() => setSelectedFieldId(null)}
                   onRowDragEnd={handleRowDragEnd}
                   onFieldDragEnd={handleFieldDragEnd}
+                  onCollapseAllRows={() => setExpandedRowIds(new Set())}
                   onPatchField={patchField}
                   onAddField={addField}
                   dndReady={false}

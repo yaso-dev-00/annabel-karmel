@@ -25,7 +25,17 @@ const CookbookPagePreview = memo(function CookbookPagePreview({
   cookbook: Cookbook;
 }) {
   const pageData = cookbookToPageData(cookbook);
-  return <CookbookDetailPageContent cookbook={pageData} />;
+  // Admin live preview is the detail page — also apply listing bold phrases when
+  // that wording appears in the detail copy, so the right-hand preview matches
+  // the Bold phrases editor the user is editing.
+  const previewData = {
+    ...pageData,
+    detailBodyHighlights: [
+      ...pageData.detailBodyHighlights,
+      ...pageData.bodyHighlights,
+    ],
+  };
+  return <CookbookDetailPageContent cookbook={previewData} />;
 });
 
 export const CookbookLivePreview = forwardRef<PreviewViewportHandle, CookbookLivePreviewProps>(

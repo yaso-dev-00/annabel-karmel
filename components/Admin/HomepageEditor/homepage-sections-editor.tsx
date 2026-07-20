@@ -3,6 +3,8 @@
 import {
   closestCenter,
   type DragEndEvent,
+  type DragStartEvent,
+  DragOverlay,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -62,6 +64,31 @@ function sectionMeta(section: HomepageSection): string {
   }
 }
 
+function SectionDragChrome({
+  title,
+  meta,
+  locked,
+}: {
+  title: string;
+  meta: string;
+  locked?: boolean;
+}) {
+  return (
+    <div className={styles.accordionEditorItemHeader}>
+      <span
+        className={`${blockStyles.dragHandle}${locked ? ` ${styles.dragHandleDisabled}` : ""}`}
+        aria-hidden
+      >
+        ⠿
+      </span>
+      <div className={styles.accordionEditorToggle}>
+        <span className={styles.accordionEditorTitle}>{title}</span>
+        <span className={styles.accordionEditorMeta}>{meta}</span>
+      </div>
+    </div>
+  );
+}
+
 function SortableHomepageSection({
   section,
   expanded,
@@ -79,6 +106,7 @@ function SortableHomepageSection({
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: section.id,
     disabled: locked,
+    animateLayoutChanges: () => false,
   });
   const title = HOMEPAGE_SECTION_LABELS[section.type];
 
@@ -86,11 +114,10 @@ function SortableHomepageSection({
     <div
       ref={setNodeRef}
       data-editor-item={section.id}
-      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ""}${locked ? ` ${styles.accordionEditorItemLocked}` : ""}`}
+      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ""}${locked ? ` ${styles.accordionEditorItemLocked}` : ""}${isDragging ? ` ${styles.accordionEditorItemDragging}` : ""}`}
       style={{
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
-        opacity: isDragging ? 0.55 : 1,
         zIndex: isDragging ? 2 : undefined,
       }}
     >
@@ -152,13 +179,34 @@ function SortableHomepageSection({
           ) : null}
         </div>
       </div>
-      {expanded ? (
+      {expanded && !isDragging ? (
         <div className={styles.accordionEditorBody}>
           <HomepageSectionFields section={section} onChange={onChange} />
         </div>
       ) : null}
     </div>
   );
+}
+
+/** Resolve drop index when the hover target is the locked Search recipes row. */
+function resolveDropIndex(
+  sections: HomepageSection[],
+  oldIndex: number,
+  overIndex: number,
+): number | null {
+  if (oldIndex < 0 || overIndex < 0) return null;
+  if (isHomepageSectionLocked(sections[oldIndex].type)) return null;
+
+  let newIndex = overIndex;
+  if (isHomepageSectionLocked(sections[overIndex].type)) {
+    // Dragging down past locked → land after it; dragging up → land before it.
+    newIndex = oldIndex < overIndex ? overIndex + 1 : overIndex - 1;
+  }
+
+  if (newIndex < 0 || newIndex >= sections.length) return null;
+  if (isHomepageSectionLocked(sections[newIndex].type)) return null;
+  if (newIndex === oldIndex) return null;
+  return newIndex;
 }
 
 export function HomepageSectionsEditor({
@@ -168,12 +216,17 @@ export function HomepageSectionsEditor({
 }: HomepageSectionsEditorProps) {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
   const sortableIds = useMemo(() => sections.map((section) => section.id), [sections]);
+  const activeSection = activeId
+    ? (sections.find((section) => section.id === activeId) ?? null)
+    : null;
 
   const missingTypes = useMemo(() => {
     const present = new Set(sections.map((section) => section.type));
@@ -190,17 +243,26 @@ export function HomepageSectionsEditor({
     return map;
   }, []);
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const id = String(event.active.id);
+    setActiveId(id);
+    // Collapse everything while dragging — expanded field editors make DnD laggy/inaccurate.
+    setExpandedIds(new Set());
+  };
+
+  const handleDragCancel = () => {
+    setActiveId(null);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    setActiveId(null);
     if (!over || active.id === over.id) return;
+
     const oldIndex = sections.findIndex((section) => section.id === active.id);
-    const newIndex = sections.findIndex((section) => section.id === over.id);
-    if (oldIndex < 0 || newIndex < 0) return;
-    const activeSection = sections[oldIndex];
-    const overSection = sections[newIndex];
-    if (isHomepageSectionLocked(activeSection.type) || isHomepageSectionLocked(overSection.type)) {
-      return;
-    }
+    const overIndex = sections.findIndex((section) => section.id === over.id);
+    const newIndex = resolveDropIndex(sections, oldIndex, overIndex);
+    if (newIndex == null) return;
     onChange(arrayMove(sections, oldIndex, newIndex));
   };
 
@@ -225,7 +287,7 @@ export function HomepageSectionsEditor({
         <div>
           <h2 className="cardSectionTitle">Homepage sections</h2>
           <p className={styles.sectionHint}>
-            Drag to reorder. Search recipes stays locked in place. ✕ removes items; trash deletes a
+            Drag the handle to reorder. Search recipes stays locked after Hero. Trash deletes a
             section.
           </p>
         </div>
@@ -236,7 +298,13 @@ export function HomepageSectionsEditor({
         />
       </div>
 
-      <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <StableDndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancel}
+      >
         <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
           <div className={styles.sectionList}>
             {sections.map((section) => (
@@ -253,6 +321,17 @@ export function HomepageSectionsEditor({
             ))}
           </div>
         </SortableContext>
+
+        <DragOverlay dropAnimation={null}>
+          {activeSection ? (
+            <div className={`${styles.accordionEditorItem} ${styles.accordionEditorItemOverlay}`}>
+              <SectionDragChrome
+                title={HOMEPAGE_SECTION_LABELS[activeSection.type]}
+                meta={sectionMeta(activeSection)}
+              />
+            </div>
+          ) : null}
+        </DragOverlay>
       </StableDndContext>
 
       {missingTypes.length > 0 ? (

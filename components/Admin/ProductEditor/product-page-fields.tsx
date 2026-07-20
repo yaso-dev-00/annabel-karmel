@@ -798,7 +798,12 @@ function AccordionEditor({
         <strong>table</strong>.
       </p>
 
-      <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <StableDndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={() => setExpandedIds(new Set())}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
           <div className={styles.accordionEditorList}>
             {accordion.map((item, index) => {

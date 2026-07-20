@@ -369,7 +369,12 @@ export function SortableGalleryEditor({
           {emptyHint ?? "No images for this colour yet."}
         </p>
       ) : (
-        <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <StableDndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={() => setExpandedIds(new Set())}
+          onDragEnd={handleDragEnd}
+        >
           <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
             <div className={styles.accordionEditorList}>
               {gallery.map((image, index) => {
@@ -593,7 +598,12 @@ export function SortableCareIconsEditor({
         {careIcons.length === 0 ? (
           <p className={styles.sectionHint}>No care icons yet.</p>
         ) : (
-          <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <StableDndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={() => setExpandedIds(new Set())}
+            onDragEnd={handleDragEnd}
+          >
             <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
               <div className={styles.accordionEditorList}>
                 {careIcons.map((icon, index) => {

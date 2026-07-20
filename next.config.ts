@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "**" },
+      { protocol: "http", hostname: "**" },
+    ],
+  },
   outputFileTracingIncludes: {
     "/admin": ["./data/cms/**/*"],
     "/admin/advice": ["./data/cms/**/*"],

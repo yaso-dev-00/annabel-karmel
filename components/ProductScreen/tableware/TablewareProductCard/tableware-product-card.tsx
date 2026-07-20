@@ -10,6 +10,8 @@ import styles from "./tableware-product-card.module.css";
 type TablewareProductCardProps = {
   product: TablewareProduct;
   variant?: "default" | "completeSet";
+  /** When true, product links stay in-place (admin preview). */
+  disableLinks?: boolean;
 };
 
 const swatchBorder: Record<TablewareSwatchColor, string> = {
@@ -18,7 +20,11 @@ const swatchBorder: Record<TablewareSwatchColor, string> = {
   blushberry: "#BC7F7A",
 };
 
-export function TablewareProductCard({ product, variant = "default" }: TablewareProductCardProps) {
+export function TablewareProductCard({
+  product,
+  variant = "default",
+  disableLinks = false,
+}: TablewareProductCardProps) {
   const initialSwatch = product.swatches.find((s) => s.active) ?? product.swatches[0];
   const [activeSwatch, setActiveSwatch] = useState(initialSwatch);
   const [linkHref, setLinkHref] = useState(product.href);
@@ -40,18 +46,28 @@ export function TablewareProductCard({ product, variant = "default" }: Tableware
     setHoverImage(swatch.hover);
   }, []);
 
+  const thumb = (
+    <>
+      <img src={defaultImage} alt="" className={`${styles.thumbImage} ${styles.defaultImage}`} decoding="async" />
+      <img src={hoverImage} alt="" className={`${styles.thumbImage} ${styles.hoverImage}`} decoding="async" />
+    </>
+  );
+
+  const title = <h3 className={styles.title}>{product.title}</h3>;
+
   return (
     <article className={`${styles.card}${variant === "completeSet" ? ` ${styles.cardCompleteSet}` : ""}`}>
       <div className={styles.thumb}>
-        <Link href={linkHref}>
-          <img src={defaultImage} alt="" className={`${styles.thumbImage} ${styles.defaultImage}`} decoding="async" />
-          <img src={hoverImage} alt="" className={`${styles.thumbImage} ${styles.hoverImage}`} decoding="async" />
-        </Link>
+        {disableLinks ? thumb : <Link href={linkHref}>{thumb}</Link>}
       </div>
 
-      <Link href={linkHref} className={styles.titleLink}>
-        <h3 className={styles.title}>{product.title}</h3>
-      </Link>
+      {disableLinks ? (
+        <div className={styles.titleLink}>{title}</div>
+      ) : (
+        <Link href={linkHref} className={styles.titleLink}>
+          {title}
+        </Link>
+      )}
 
       <div className={styles.swatches} role="list" aria-label={`${product.title} colour options`}>
         {product.swatches.map((swatch) => {

@@ -1,0 +1,47 @@
+{
+  "recipes": [
+    {
+      "id": "sample-sweet-potato-spinach",
+      "slug": "sweet-potato-spinach",
+      "title": "Sweet Potato & Spinach Puree",
+      "description": "This Sweet Potato & Spinach puree has the nutritional WOW factor. Containing not just one, but two superfood powerhouses, this recipe is a great way to hit little one's nutritional targets in the most tasty way!",
+      "featured_image": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Sweet-potato-spinach-min-scaled-optimized.jpg",
+      "featured_image_alt": "Sweet potato and spinach puree",
+      "prep_time": "5 mins",
+      "cook_time": "15 mins",
+      "servings": "3 portions",
+      "difficulty": "easy",
+      "suitable_for_freezing": true,
+      "app_exclusive": false,
+      "ingredients": [
+        { "qty": "150", "unit": "g", "item": "sweet potato, peeled and diced" },
+        { "qty": "40", "unit": "g", "item": "fresh baby spinach" }
+      ],
+      "method": [
+        { "text": "Put the sweet potato into a steamer. Steam for 15 minutes until tender." },
+        { "text": "Add the spinach and steam for a further 2 minutes." },
+        { "text": "Blend until smooth using a stick blender." }
+      ],
+      "taxonomies": [
+        { "kind": "recipe-category", "slug": "first-foods" },
+        { "kind": "recipe-category", "slug": "6-9-months-recipes" },
+        { "kind": "meal-time", "slug": "weaning" },
+        { "kind": "allergen", "slug": "dairy-free-recipes" },
+        { "kind": "allergen", "slug": "egg-free-recipes" },
+        { "kind": "allergen", "slug": "gluten-free-recipes" },
+        { "kind": "allergen", "slug": "nut-free-recipes" },
+        { "kind": "allergen", "slug": "vegetarian" },
+        { "kind": "allergen", "slug": "vegan" }
+      ],
+      "seo_title": "Sweet Potato & Spinach Puree | Annabel Karmel",
+      "seo_description": "A nutritious sweet potato and spinach puree for babies — dairy-free, gluten-free and perfect for first foods.",
+      "focus_keyphrase": "sweet potato spinach puree",
+      "noindex": false,
+      "status": "draft",
+      "scheduled_at": null,
+      "published_at": null,
+      "created_at": "2026-07-16T00:00:00.000Z",
+      "updated_at": "2026-07-16T00:00:00.000Z"
+    }
+  ]
+}

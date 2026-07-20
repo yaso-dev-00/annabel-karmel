@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useSnapCarousel } from "@/components/hooks/useSnapCarousel";
 import shared from "@/components/ProductScreen/shared/product-category-shared.module.css";
@@ -75,19 +75,20 @@ function CarouselNavIcon({ direction }: { direction: "prev" | "next" }) {
 }
 
 export function WaysToServeCarousel({
-  items,
+  items: rawItems,
   heading = "3 WAYS TO SERVE",
   headingId = "ways-to-serve-heading",
 }: WaysToServeCarouselProps) {
+  const items = rawItems.filter((item) => item.image.trim().length > 0);
   const [navOffset, setNavOffset] = useState(0);
   const carousel = useSnapCarousel({
     itemCount: items.length,
     cardSelector: ".ways-to-serve-card",
     controlsSelector: "button",
-    dragThreshold: 2,
-    touchDragThreshold: 1,
-    rubberBandFactor: 0.42,
-    touchMomentumFactor: 0.32,
+    dragThreshold: 10,
+    touchDragThreshold: 4,
+    rubberBandFactor: 0.28,
+    touchMomentumFactor: 0.28,
   });
 
   useEffect(() => {
@@ -110,6 +111,8 @@ export function WaysToServeCarousel({
 
   const canCycle = carousel.maxIndex > 0;
 
+  if (items.length === 0) return null;
+
   return (
     <section className="bg-white py-[100px]" aria-labelledby={headingId}>
       <div className="mx-auto w-full max-w-[1350px] px-4 sm:px-6 md:px-8">
@@ -122,14 +125,12 @@ export function WaysToServeCarousel({
       </div>
 
       <div className={styles.carouselWrap}>
-        <div
-          className={`${styles.carouselRow}${canCycle ? "" : ` ${styles.carouselRowNoNav}`}`}
-        >
+        <div className={styles.carouselRow}>
           {canCycle ? (
             <button
               type="button"
               aria-label="Previous recipes"
-              className={styles.navButton}
+              className={`${styles.navButton} ${styles.navButtonPrev}`}
               style={{ marginTop: navOffset }}
               disabled={carousel.index <= 0}
               onPointerDown={(event) => {
@@ -143,46 +144,46 @@ export function WaysToServeCarousel({
 
           <div
             ref={carousel.carouselRef}
-            className={styles.carouselViewport}
-            onPointerDownCapture={carousel.handlePointerDown}
-            onPointerMoveCapture={carousel.handlePointerMove}
-            onPointerUpCapture={carousel.handlePointerEnd}
-            onPointerCancelCapture={carousel.handlePointerEnd}
+            className={`${styles.carouselViewport}${canCycle ? "" : ` ${styles.carouselViewportStatic}`}`}
+            onPointerDownCapture={canCycle ? carousel.handlePointerDown : undefined}
+            onPointerMoveCapture={canCycle ? carousel.handlePointerMove : undefined}
+            onPointerUpCapture={canCycle ? carousel.handlePointerEnd : undefined}
+            onPointerCancelCapture={canCycle ? carousel.handlePointerEnd : undefined}
           >
-              <motion.div
-                ref={carousel.trackRef}
-                className={styles.carouselTrack}
-                style={{ x: carousel.x }}
-                initial={false}
-              >
-                {items.map((recipe, recipeIndex) => (
-                  <article
-                    key={recipe.title}
-                    className={`ways-to-serve-card ${styles.waysToServeCard}`}
-                    onClickCapture={carousel.handleCardClickCapture}
-                  >
-                    <div className={`${styles.cardImageLink} ways-to-serve-card-image`}>
-                      <img
-                        src={recipe.image}
-                        alt={recipe.title}
-                        className={styles.cardImage}
-                        draggable={false}
-                        onLoad={recipeIndex === 0 ? carousel.measure : undefined}
-                      />
-                    </div>
-                    <h3 className={styles.cardTitle}>
-                      <Link href={recipe.href}>{recipe.title}</Link>
-                    </h3>
-                  </article>
-                ))}
-              </motion.div>
-            </div>
+            <motion.div
+              ref={carousel.trackRef}
+              className={styles.carouselTrack}
+              style={canCycle ? { x: carousel.x } : undefined}
+              initial={false}
+            >
+              {items.map((recipe, recipeIndex) => (
+                <article
+                  key={recipe.title}
+                  className={`ways-to-serve-card ${styles.waysToServeCard}`}
+                  onClickCapture={canCycle ? carousel.handleCardClickCapture : undefined}
+                >
+                  <div className={`${styles.cardImageLink} ways-to-serve-card-image`}>
+                    <img
+                      src={recipe.image}
+                      alt={recipe.title}
+                      className={styles.cardImage}
+                      draggable={false}
+                      onLoad={recipeIndex === 0 ? carousel.measure : undefined}
+                    />
+                  </div>
+                  <h3 className={styles.cardTitle}>
+                    <Link href={recipe.href}>{recipe.title}</Link>
+                  </h3>
+                </article>
+              ))}
+            </motion.div>
+          </div>
 
           {canCycle ? (
             <button
               type="button"
               aria-label="Next recipes"
-              className={styles.navButton}
+              className={`${styles.navButton} ${styles.navButtonNext}`}
               style={{ marginTop: navOffset }}
               disabled={carousel.index >= carousel.maxIndex}
               onPointerDown={(event) => {

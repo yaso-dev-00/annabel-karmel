@@ -11,6 +11,7 @@ export type RecipeDetail = {
   description: string;
   appExclusive?: boolean;
   allergens: RecipeTaxonomyLink[];
+  mealTimes: RecipeTaxonomyLink[];
   ages: RecipeTaxonomyLink[];
   suitableForFreezing: boolean;
   prepTime?: string;

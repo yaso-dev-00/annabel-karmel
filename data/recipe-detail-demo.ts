@@ -19,6 +19,7 @@ export const recipeDetailDemoContent = {
     { label: "Vegetarian", href: "/allergen/vegetarian/" },
     { label: "Plant-based", href: "/allergen/vegan/" },
   ] satisfies RecipeTaxonomyLink[],
+  mealTimes: [{ label: "Weaning", href: "/meal-time/weaning/" }] satisfies RecipeTaxonomyLink[],
   ages: [
     { label: "First Foods", href: "/recipe-category/first-foods/" },
     { label: "6 Months +", href: "/recipe-category/6-9-months-recipes/" },

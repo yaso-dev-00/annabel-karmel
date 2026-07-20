@@ -658,10 +658,20 @@
 
 .accordionBody {
   overflow: hidden;
+  animation: accordionBodyIn 0.35s ease-in-out;
+}
+
+@keyframes accordionBodyIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .accordionBodyInner {
-  padding: 1rem 0px ;
+  padding: 1rem 0;
   color: #fff;
   font-family: var(--font-montserrat), sans-serif;
   font-size: 16px;
@@ -683,21 +693,52 @@
 
 .nutritionTable {
   width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 15px;
 }
 
-.nutritionTable th {
-  padding: 0.5rem 0.5rem 1rem 0;
-  font-weight: 600;
+.nutritionTable th,
+.nutritionTable td {
+  padding: 0.5rem 0.4rem 0.5rem 0;
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
-.nutritionTable td {
-  padding: 0.5rem 0.5rem 0.5rem 0;
-  text-align: left;
-  vertical-align: top;
+.nutritionTable th {
+  padding-bottom: 1rem;
+  font-weight: 600;
+}
+
+.nutritionTable th:not(:first-child),
+.nutritionTable td:not(:first-child) {
+  padding-left: 0.35rem;
+}
+
+@media (max-width: 479px) {
+  .nutritionTable {
+    font-size: 12px;
+  }
+
+  .nutritionTable th,
+  .nutritionTable td {
+    padding: 0.4rem 0.25rem 0.4rem 0;
+  }
+}
+
+@container cms-content (max-width: 479px) {
+  .nutritionTable {
+    font-size: 12px;
+  }
+
+  .nutritionTable th,
+  .nutritionTable td {
+    padding: 0.4rem 0.25rem 0.4rem 0;
+  }
 }
 
 .retailerSection {

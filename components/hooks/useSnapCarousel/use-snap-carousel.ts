@@ -407,11 +407,17 @@ export function useSnapCarousel({
       ? lastCard.offsetLeft + lastCard.offsetWidth + trackPaddingRight
       : itemCount * cardWidth + Math.max(0, itemCount - 1) * gap;
     const endAlignedMinX = viewportWidth - trackWidth;
+    // Sub-pixel flex rounding can oscillate between "fits" and "needs scroll"
+    // when nav chrome is toggled from maxIndex — treat tiny overflow as fitted.
+    const FIT_EPSILON = 2;
 
     if (useEdgeCenterSnap) {
       computedMaxIndex = Math.max(0, cards.length - 1);
       offset = 0;
       minX = endAlignedMinX;
+    } else if (endAlignedMinX >= -FIT_EPSILON) {
+      minX = 0;
+      computedMaxIndex = 0;
     } else {
       minX = endAlignedMinX;
       const visibilityMaxIndex = Math.max(0, cards.length - cardsVisible);
@@ -431,7 +437,9 @@ export function useSnapCarousel({
       offset,
       step: cardStep,
     };
-    computedMaxIndex = collapseRedundantMaxIndex(computedMaxIndex, snapMetricsBase);
+    if (!(endAlignedMinX >= -FIT_EPSILON && !useEdgeCenterSnap)) {
+      computedMaxIndex = collapseRedundantMaxIndex(computedMaxIndex, snapMetricsBase);
+    }
 
     alignOffsetRef.current = offset;
     stepRef.current = cardStep;
@@ -445,10 +453,10 @@ export function useSnapCarousel({
       return;
     }
 
-    setAlignOffset(offset);
-    setStep(cardStep);
-    setVisibleCards(cardsVisible);
-    setMaxIndex(computedMaxIndex);
+    setAlignOffset((prev) => (prev === offset ? prev : offset));
+    setStep((prev) => (Math.abs(prev - cardStep) < 0.5 ? prev : cardStep));
+    setVisibleCards((prev) => (prev === cardsVisible ? prev : cardsVisible));
+    setMaxIndex((prev) => (prev === computedMaxIndex ? prev : computedMaxIndex));
 
     if (indexRef.current > computedMaxIndex) {
       indexRef.current = computedMaxIndex;

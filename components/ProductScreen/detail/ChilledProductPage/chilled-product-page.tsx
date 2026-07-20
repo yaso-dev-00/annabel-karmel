@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
@@ -96,47 +96,40 @@ function ProductAccordionItem({
         <AccordionChevron open={open} />
       </button>
 
-      <AnimatePresence initial={false}>
-        {open ? (
-          <motion.div
-            key={item.title}
-            className={styles.accordionBody}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-          >
-            <div className={styles.accordionBodyInner}>
-              {item.table ? (
-                <table className={styles.nutritionTable}>
-                  <thead>
-                    <tr>
-                      {item.table.headers.map((header) => (
-                        <th key={header} scope="col">
-                          {header}
-                        </th>
+      {open ? (
+        <div className={styles.accordionBody}>
+          <div className={styles.accordionBodyInner}>
+            {item.table ? (
+              <table className={styles.nutritionTable}>
+                <thead>
+                  <tr>
+                    {item.table.headers.map((header) => (
+                      <th key={header} scope="col">
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {item.table.rows.map((row) => (
+                    <tr key={row[0]}>
+                      {row.map((cell) => (
+                        <td key={cell}>{cell}</td>
                       ))}
                     </tr>
-                  </thead>
-                  <tbody>
-                    {item.table.rows.map((row) => (
-                      <tr key={row[0]}>
-                        {row.map((cell) => (
-                          <td key={cell}>{cell}</td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                item.paragraphs?.map((paragraph) => (
-                  <p key={paragraph}>{renderAccordionParagraph(paragraph)}</p>
-                ))
-              )}
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              item.paragraphs?.map((paragraph, index) => (
+                <p key={`${index}-${paragraph.slice(0, 24)}`}>
+                  {renderAccordionParagraph(paragraph)}
+                </p>
+              ))
+            )}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -171,8 +164,9 @@ function ProductCarousel({
   arrowLeft: string;
   arrowRight: string;
 }) {
+  const visibleSlides = slides.filter((slide) => slide.src.trim().length > 0);
   const carousel = useSnapCarousel({
-    itemCount: slides.length,
+    itemCount: visibleSlides.length,
     cardSelector: ".chilled-product-carousel-slide",
     controlsSelector: "button",
     dragThreshold: 2,
@@ -189,26 +183,30 @@ function ProductCarousel({
 
   const goTo = useCallback(
     (next: number) => {
-      const total = slides.length;
+      const total = visibleSlides.length;
+      if (total <= 0) return;
       const wrapped = ((next % total) + total) % total;
       if (wrapped === carousel.index) return;
       carousel.animateToIndex(wrapped, CAROUSEL_SLIDE);
     },
-    [carousel, slides.length],
+    [carousel, visibleSlides.length],
   );
 
   useEffect(() => {
     carousel.measure();
-  }, [carousel.measure]);
+  }, [carousel.measure, visibleSlides.length]);
 
   useEffect(() => {
-    const timer = window.setInterval(() => {
+    if (visibleSlides.length <= 1) return;
+    const id = window.setInterval(() => {
       const current = indexRef.current;
-      const next = current >= slides.length - 1 ? 0 : current + 1;
+      const next = current >= visibleSlides.length - 1 ? 0 : current + 1;
       animateToIndexRef.current(next, CAROUSEL_SLIDE);
     }, 5000);
-    return () => window.clearInterval(timer);
-  }, [slides.length]);
+    return () => window.clearInterval(id);
+  }, [visibleSlides.length]);
+
+  if (visibleSlides.length === 0) return null;
 
   return (
     <div className={styles.carouselStage}>
@@ -228,9 +226,9 @@ function ProductCarousel({
             style={{ x: carousel.x }}
             initial={false}
           >
-            {slides.map((slide, slideIndex) => (
+            {visibleSlides.map((slide, slideIndex) => (
               <div
-                key={slide.src}
+                key={`${slide.src}-${slideIndex}`}
                 className={`chilled-product-carousel-slide ${styles.carouselSlideItem}`}
                 aria-hidden={slideIndex !== carousel.index}
                 onClickCapture={carousel.handleCardClickCapture}
@@ -379,7 +377,9 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
 
             <div className={styles.detailContent}>
               <ul className={badgeGridClass}>
-                {data.badges.map((badge) => (
+                {data.badges
+                  .filter((badge) => badge.src.trim())
+                  .map((badge) => (
                   <li key={badge.src}>
                     <img src={badge.src} alt={badge.alt} className={styles.badgeImage} loading="lazy" />
                   </li>
@@ -410,12 +410,14 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
               {data.retailer.heading}
             </h2>
             <a href={data.retailer.logoHref} target="_blank" rel="noreferrer">
-              <img
-                src={data.assets.tescoLogo}
-                alt="Tesco"
-                className={styles.tescoLogo}
-                loading="lazy"
-              />
+              {data.assets.tescoLogo?.trim() ? (
+                <img
+                  src={data.assets.tescoLogo}
+                  alt="Tesco"
+                  className={styles.tescoLogo}
+                  loading="lazy"
+                />
+              ) : null}
             </a>
           </div>
         </div>

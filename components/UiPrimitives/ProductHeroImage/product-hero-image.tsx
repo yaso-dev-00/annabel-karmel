@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import type { ProductHeroDimensions } from "@/data/chilled-product-page";
+import { normalizeCmsImageSrc } from "@/lib/content-blocks/image-src";
+import styles from "./product-hero-image.module.css";
 
 type ProductHeroImageProps = ProductHeroDimensions & {
   desktopSrc: string;
@@ -19,26 +21,34 @@ export function ProductHeroImage({
   mobileHeight,
   className,
 }: ProductHeroImageProps) {
+  const desktop = normalizeCmsImageSrc(desktopSrc);
+  const mobile = normalizeCmsImageSrc(mobileSrc);
+  if (!desktop && !mobile) return null;
+
   return (
     <div className={className}>
-      <Image
-        src={desktopSrc}
-        alt={alt}
-        width={desktopWidth}
-        height={desktopHeight}
-        priority
-        className="hidden h-auto w-full align-bottom md:block"
-        sizes="100vw"
-      />
-      <Image
-        src={mobileSrc}
-        alt={alt}
-        width={mobileWidth}
-        height={mobileHeight}
-        priority
-        className="block h-auto w-full align-bottom md:hidden"
-        sizes="100vw"
-      />
+      {desktop ? (
+        <Image
+          src={desktop}
+          alt={alt}
+          width={desktopWidth}
+          height={desktopHeight}
+          priority
+          className={styles.desktop}
+          sizes="100vw"
+        />
+      ) : null}
+      {mobile ? (
+        <Image
+          src={mobile}
+          alt={alt}
+          width={mobileWidth}
+          height={mobileHeight}
+          priority
+          className={styles.mobile}
+          sizes="100vw"
+        />
+      ) : null}
     </div>
   );
 }

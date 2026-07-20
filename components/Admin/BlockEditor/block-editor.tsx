@@ -359,7 +359,15 @@ export function BlockEditorRoot({
       setExpandedIds((prev) => new Set([...prev, newId]));
       setSelectedId(newId);
       requestAnimationFrame(() => {
-        document.getElementById(`block-card-${newId}`)?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        requestAnimationFrame(() => {
+          const card = document.getElementById(`block-card-${newId}`);
+          if (!card) return;
+          card.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+          const focusable = card.querySelector<HTMLElement>(
+            "[data-cms-block-form] input:not([type='color']):not([type='checkbox']), [data-cms-block-form] textarea, [data-cms-block-form] select, [data-cms-block-form] [contenteditable='true']",
+          );
+          focusable?.focus({ preventScroll: true });
+        });
       });
     }
   };

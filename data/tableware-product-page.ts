@@ -26,6 +26,8 @@ export type TablewareProductPageData = {
   metaDescription: string;
   activeColor: TablewareSwatchColor;
   activeColorLabel: string;
+  /** Unique swatch identity for preview when multiple variants share a colour. */
+  activeSwatchKey?: string;
   swatches: TablewareColorSwatch[];
   gallery: TablewareGalleryImage[];
   description: string[];

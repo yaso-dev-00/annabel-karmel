@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import { uploadImage } from "@/lib/admin/upload-image";
+import { normalizeCmsImageSrc } from "@/lib/content-blocks/image-src";
 import styles from "./image-field.module.css";
 
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -96,6 +97,10 @@ export function ImageField({
           placeholder="https://… or /path/to/image.jpg"
           value={value}
           onChange={(e) => onChange(e.target.value, alt)}
+          onBlur={(e) => {
+            const next = normalizeCmsImageSrc(e.target.value);
+            if (next !== value) onChange(next, alt);
+          }}
         />
       ) : (
         <>

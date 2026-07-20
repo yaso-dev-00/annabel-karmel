@@ -8,6 +8,72 @@
   max-width: 100%;
 }
 
+.heroDesktop {
+  display: none;
+  height: auto;
+  width: 100%;
+  vertical-align: bottom;
+}
+
+.heroMobile {
+  display: block;
+  height: auto;
+  width: 100%;
+  vertical-align: bottom;
+}
+
+@media (min-width: 768px) {
+  .heroDesktop {
+    display: block;
+  }
+
+  .heroMobile {
+    display: none;
+  }
+}
+
+@container cms-content (max-width: 767px) {
+  .heroDesktop {
+    display: none !important;
+  }
+
+  .heroMobile {
+    display: block !important;
+  }
+}
+
+@container cms-content (min-width: 768px) {
+  .heroDesktop {
+    display: block !important;
+  }
+
+  .heroMobile {
+    display: none !important;
+  }
+}
+
+:global([data-preview-viewport="mobile"]) .heroDesktop,
+:global([data-preview-viewport="tablet"]) .heroDesktop {
+  display: none !important;
+}
+
+:global([data-preview-viewport="mobile"]) .heroMobile,
+:global([data-preview-viewport="tablet"]) .heroMobile {
+  display: block !important;
+}
+
+:global([data-preview-viewport="landscape_tablet"]) .heroDesktop,
+:global([data-preview-viewport="desktop"]) .heroDesktop,
+:global([data-preview-viewport="large_desktop"]) .heroDesktop {
+  display: block !important;
+}
+
+:global([data-preview-viewport="landscape_tablet"]) .heroMobile,
+:global([data-preview-viewport="desktop"]) .heroMobile,
+:global([data-preview-viewport="large_desktop"]) .heroMobile {
+  display: none !important;
+}
+
 .inner {
   margin-inline: auto;
   width: 100%;
@@ -321,6 +387,48 @@
   }
 }
 
+@container cms-content (max-width: 767px) {
+  .badgeStripDesktop {
+    display: none !important;
+  }
+
+  .badgeStripMobile {
+    display: block !important;
+  }
+}
+
+@container cms-content (min-width: 768px) {
+  .badgeStripDesktop {
+    display: block !important;
+  }
+
+  .badgeStripMobile {
+    display: none !important;
+  }
+}
+
+:global([data-preview-viewport="mobile"]) .badgeStripDesktop,
+:global([data-preview-viewport="tablet"]) .badgeStripDesktop {
+  display: none !important;
+}
+
+:global([data-preview-viewport="mobile"]) .badgeStripMobile,
+:global([data-preview-viewport="tablet"]) .badgeStripMobile {
+  display: block !important;
+}
+
+:global([data-preview-viewport="landscape_tablet"]) .badgeStripDesktop,
+:global([data-preview-viewport="desktop"]) .badgeStripDesktop,
+:global([data-preview-viewport="large_desktop"]) .badgeStripDesktop {
+  display: block !important;
+}
+
+:global([data-preview-viewport="landscape_tablet"]) .badgeStripMobile,
+:global([data-preview-viewport="desktop"]) .badgeStripMobile,
+:global([data-preview-viewport="large_desktop"]) .badgeStripMobile {
+  display: none !important;
+}
+
 .description {
   margin: 1.25rem 0 0;
   font-family: var(--font-pequena), sans-serif;
@@ -404,10 +512,21 @@
 
 .accordionBody {
   overflow: hidden;
+  animation: accordionBodyIn 0.35s ease-in-out;
+}
+
+@keyframes accordionBodyIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .accordionBodyInner {
   padding: 1rem 0;
+  color: #fff;
   font-family: var(--font-montserrat), sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -428,21 +547,52 @@
 
 .nutritionTable {
   width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 15px;
 }
 
-.nutritionTable th {
-  padding: 0.5rem 0.5rem 1rem 0;
-  font-weight: 600;
+.nutritionTable th,
+.nutritionTable td {
+  padding: 0.5rem 0.4rem 0.5rem 0;
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
-.nutritionTable td {
-  padding: 0.5rem 0.5rem 0.5rem 0;
-  text-align: left;
-  vertical-align: top;
+.nutritionTable th {
+  padding-bottom: 1rem;
+  font-weight: 600;
+}
+
+.nutritionTable th:not(:first-child),
+.nutritionTable td:not(:first-child) {
+  padding-left: 0.35rem;
+}
+
+@media (max-width: 479px) {
+  .nutritionTable {
+    font-size: 12px;
+  }
+
+  .nutritionTable th,
+  .nutritionTable td {
+    padding: 0.4rem 0.25rem 0.4rem 0;
+  }
+}
+
+@container cms-content (max-width: 479px) {
+  .nutritionTable {
+    font-size: 12px;
+  }
+
+  .nutritionTable th,
+  .nutritionTable td {
+    padding: 0.4rem 0.25rem 0.4rem 0;
+  }
 }
 
 .nutritionFootnote {

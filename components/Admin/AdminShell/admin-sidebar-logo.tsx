@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function AdminSidebarLogo() {
   return (
-    <div className="sidebarBrand">
+    <Link href="/" className="sidebarBrand" aria-label="Annabel Karmel home">
       <Image
         src="/brand/annabel-karmel-logo.png"
         alt="Annabel Karmel"
@@ -12,6 +13,6 @@ export function AdminSidebarLogo() {
         style={{ height: "auto" }}
         priority
       />
-    </div>
+    </Link>
   );
 }

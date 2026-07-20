@@ -10,22 +10,19 @@ import {
   recipeFinderFreeFromOptions,
   recipeFinderMealTimeOptions,
 } from "@/data/recipe-finder-options";
+import { resolveHomePageContent } from "@/lib/homepage/resolve-home-page-content";
+import type { HomepageSectionType } from "@/lib/homepage/types";
 import { buildRecipeListingUrl } from "@/lib/recipe-search-url";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import {
-  appSectionContent,
-  awardLogos,
-  bestsellingCookbooks,
-  collabCards,
-  expertRangeCards,
-  heroSlides,
-  latestRecipes,
-  logoUrl,
-  partnerLogos,
-  recipeAppPath,
-  type CollabCard,
-} from "@/data/site-content";
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from "react";
+import { logoUrl, type CollabCard } from "@/data/site-content";
 import styles from "./home-page.module.css";
 
 const heroThemeByIndex = [
@@ -83,8 +80,17 @@ const heroCopyItem = {
 };
 */
 
-export function HomePageContent() {
+export type HomePageContentProps = {
+  previewMode?: boolean;
+  document?: import("@/lib/homepage/types").HomepageDocument | null;
+};
+
+export function HomePageContent({ previewMode = false, document = null }: HomePageContentProps = {}) {
   const router = useRouter();
+  const content = useMemo(() => resolveHomePageContent(document), [document]);
+  const fullBleedClass = previewMode
+    ? "relative w-full"
+    : "relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen";
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState(1);
   const [openFinderMenu, setOpenFinderMenu] = useState<string | null>(null);
@@ -122,7 +128,7 @@ export function HomePageContent() {
   const heroActivePointerId = useRef<number | null>(null);
 
   const recipeCarousel = useSnapCarousel({
-    itemCount: latestRecipes.length,
+    itemCount: content.latestRecipes.recipes.length,
     cardSelector: ".latest-recipe-card",
     controlsSelector: ".latest-carousel-controls, button",
     initialVisibleCards: 1,
@@ -130,21 +136,34 @@ export function HomePageContent() {
   });
 
   const cookbookCarousel = useSnapCarousel({
-    itemCount: bestsellingCookbooks.length,
+    itemCount: content.cookbooks.books.length,
     cardSelector: ".cookbook-card",
     controlsSelector: ".cookbook-carousel-controls, button",
     initialVisibleCards: 1,
   });
 
-  const current = useMemo(() => heroSlides[activeSlide], [activeSlide]);
+  const current = useMemo(() => content.heroSlides[activeSlide], [activeSlide, content.heroSlides]);
   const theme = heroThemeByIndex[activeSlide % heroThemeByIndex.length];
-  const repeatedCollabCards = useMemo(() => [...collabCards, ...collabCards, ...collabCards], []);
-  const repeatedPartnerLogos = useMemo(() => [...partnerLogos, ...partnerLogos, ...partnerLogos], []);
-  const repeatedAwardLogos = useMemo(() => [...awardLogos, ...awardLogos, ...awardLogos], []);
+  const repeatedCollabCards = useMemo(
+    () => [...content.collabs.cards, ...content.collabs.cards, ...content.collabs.cards],
+    [content.collabs.cards],
+  );
+  const repeatedPartnerLogos = useMemo(
+    () => [...content.partners.logos, ...content.partners.logos, ...content.partners.logos],
+    [content.partners.logos],
+  );
+  const repeatedAwardLogos = useMemo(
+    () => [
+      ...content.expertRanges.awardLogos,
+      ...content.expertRanges.awardLogos,
+      ...content.expertRanges.awardLogos,
+    ],
+    [content.expertRanges.awardLogos],
+  );
 
   const moveSlide = (step: number) => {
     setDirection(step);
-    setActiveSlide((prev) => (prev + step + heroSlides.length) % heroSlides.length);
+    setActiveSlide((prev) => (prev + step + content.heroSlides.length) % content.heroSlides.length);
   };
 
   const pauseHeroAutoScroll = () => {
@@ -380,18 +399,18 @@ export function HomePageContent() {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    globalThis.document.addEventListener("mousedown", handleClickOutside);
+    return () => globalThis.document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
     if (!mobileFilterOpen) {
       return;
     }
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const previousOverflow = globalThis.document.body.style.overflow;
+    globalThis.document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = previousOverflow;
+      globalThis.document.body.style.overflow = previousOverflow;
     };
   }, [mobileFilterOpen]);
 
@@ -408,8 +427,8 @@ export function HomePageContent() {
       setOpenMobileFinderMenu(null);
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    globalThis.document.addEventListener("mousedown", handleClickOutside);
+    return () => globalThis.document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileFilterOpen, openMobileFinderMenu]);
 
   const finderPanels = {
@@ -433,6 +452,9 @@ export function HomePageContent() {
 
   const handleFinderSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (previewMode) {
+      return;
+    }
     const ageLabel = finderSelections.age[0];
     const mealLabel = finderSelections.mealTime[0];
     const freeLabel = finderSelections.freeFrom[0];
@@ -468,11 +490,17 @@ export function HomePageContent() {
 
   const handleMobileSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (previewMode) {
+      return;
+    }
     router.push(buildRecipeListingUrl({ q: mobileQuery }));
   };
 
   const handleMobileFilterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (previewMode) {
+      return;
+    }
     setMobileFilterOpen(false);
     setOpenMobileFinderMenu(null);
     const ageLabel = mobileFinderSelections.age[0];
@@ -554,8 +582,8 @@ export function HomePageContent() {
     </article>
   );
 
-  return (
-    <main className="max-md:pb-16 overflow-x-clip">
+  const heroSection = (
+    <>
       <section className={`hero-showcase ${styles.heroShowcase}`}>
         <article
           className="hero-slider-shell"
@@ -724,7 +752,7 @@ export function HomePageContent() {
           </div>
 
           <div className="hero-dots" aria-label="Hero slides">
-            {heroSlides.map((slide, slideIndex) => (
+            {content.heroSlides.map((slide, slideIndex) => (
               <button
                 key={slide.title}
                 type="button"
@@ -769,7 +797,10 @@ export function HomePageContent() {
         </article>
       </section>
       */}
+    </>
+  );
 
+  const recipeFinderSection = (
       <section className="recipe-finder container py-4!">
         <form className="finder-row" ref={finderRef} onSubmit={handleFinderSubmit}>
           <label>
@@ -1059,12 +1090,14 @@ export function HomePageContent() {
           </div>
         ) : null}
       </section>
+  );
 
+  const latestRecipesSection = (
       <section className="latest-recipes">
         <div className="latest-recipes-inner">
           <div className="heading latest-recipes-heading">
-            <h4 className="latest-recipes-title text-[56px]! font-[500]!">Latest recipes</h4>
-            <p className="latest-recipes-subtitle mt-[25px]!">Recipes for every age, stage and occasion</p>
+            <h4 className="latest-recipes-title text-[56px]! font-[500]!">{content.latestRecipes.heading}</h4>
+            <p className="latest-recipes-subtitle mt-[25px]!">{content.latestRecipes.subtitle}</p>
           </div>
           <div
             ref={recipeCarousel.carouselRef}
@@ -1079,7 +1112,7 @@ export function HomePageContent() {
               className="latest-recipes-track"
               style={{ x: recipeCarousel.x }}
             >
-              {latestRecipes.map((recipe, recipeIndex) => (
+              {content.latestRecipes.recipes.map((recipe, recipeIndex) => (
                 <article
                   key={recipe.title}
                   className="latest-recipe-card"
@@ -1142,26 +1175,29 @@ export function HomePageContent() {
           <div className="latest-recipes-cta">
             <Link
               className={`inline-flex items-center gap-2 px-4 py-4 text-base font-semibold text-white shadow-[0_6px_16px_rgba(183,71,114,0.24)] transition-colors ${styles.ctaButton} ${styles.ctaPink}  rounded-[15px]!`}
-              href="/recipes"
+              href={content.latestRecipes.ctaHref}
             >
-              <span className={`${styles.ctaLabel} tracking-[0.2px] text-[20px]! font-[500]!`}>See all recipes</span>
+              <span className={`${styles.ctaLabel} tracking-[0.2px] text-[20px]! font-[500]!`}>{content.latestRecipes.ctaLabel}</span>
                            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path></svg>
               
             </Link>
           </div>
         </div>
       </section>
+  );
 
+  const recipeAppSection = (
+    <>
       {/* ——— New Figma recipe app promo (active) ——— */}
       <section className={styles.recipeAppPromo} aria-labelledby="home-recipe-app-heading">
         <div className={styles.recipeAppInner}>
           <div className={styles.recipeAppGrid}>
             <div className={styles.recipeAppCopy}>
               <h2 id="home-recipe-app-heading" className={styles.recipeAppHeading}>
-                {appSectionContent.heading}
+                {content.appSection.heading}
               </h2>
               <ul className={styles.recipeAppBullets}>
-                {appSectionContent.bullets.map((bullet) => (
+                {content.appSection.bullets.map((bullet) => (
                   <li key={bullet.lead} className={styles.recipeAppBullet}>
                     <RecipeAppBulletIcon />
                     <p className={styles.recipeAppBulletText}>
@@ -1171,19 +1207,19 @@ export function HomePageContent() {
                   </li>
                 ))}
               </ul>
-              <a href={appSectionContent.ctaHref} className={styles.recipeAppTrialButton}>
-                {appSectionContent.ctaLabel}
+              <a href={content.appSection.ctaHref} className={styles.recipeAppTrialButton}>
+                {content.appSection.ctaLabel}
               </a>
               <div className={styles.recipeAppStoreBadges}>
                 <a
-                  href={appSectionContent.appStoreHref}
+                  href={content.appSection.appStoreHref}
                   className={styles.recipeAppStoreBadge}
                   aria-label="Download on the App Store"
                 >
                   <img src="/home page/recipe-app/app-store-button.svg" alt="" />
                 </a>
                 <a
-                  href={appSectionContent.playStoreHref}
+                  href={content.appSection.playStoreHref}
                   className={styles.recipeAppStoreBadge}
                   aria-label="Get it on Google Play"
                 >
@@ -1194,7 +1230,7 @@ export function HomePageContent() {
 
             <div className={styles.recipeAppVisual}>
               <div className={styles.recipeAppAwards} aria-label="App awards">
-                {appSectionContent.awards.map((award) => (
+                {content.appSection.awards.map((award) => (
                   <img
                     key={award.src}
                     src={award.src}
@@ -1204,7 +1240,7 @@ export function HomePageContent() {
                 ))}
               </div>
               <img
-                src={appSectionContent.phonesImage}
+                src={content.appSection.phonesImage}
                 alt="Annabel Karmel recipe app on iPhone"
                 className={styles.recipeAppPhones}
               />
@@ -1320,8 +1356,10 @@ export function HomePageContent() {
         </div>
       </section>
       */}
+    </>
+  );
 
-      
+  const expertRangesSection = (
       <section className="relative overflow-hidden bg-white pt-10 pb-12 md:pt-20 md:pb-24 lg:pt-24 lg:pb-20">
         {/* <div
           className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#fdf2f4] to-transparent"
@@ -1329,11 +1367,10 @@ export function HomePageContent() {
         /> */}
         <div className="relative mx-auto flex w-full max-w-[1200px] flex-col items-center px-4 text-center sm:px-6 lg:px-8">
           <h2 className={`text-[38px] text-center max-[500px]:max-w-[350px] max-[900px]:max-w-[420px] tracking-[1px] font-[600] leading-[50px] tracking-[-0.02em] text-[#111] md:text-[56px] ${styles.displayMedium}`}>
-            Annabel&apos;s expert ranges
+            {content.expertRanges.heading}
           </h2>
           <p className="mt-5 max-w-[600px] text-pretty [font-family:var(--font-montserrat)] text-[1.44rem] text-center font-normal leading-[1.45] text-[#6b6568] md:mt-6 md:text-[1.05rem] lg:text-[22px]">
-            My famous cookbook recipes are enjoyed by toddlers and children all over the world. And now they can refuel on
-            my trusted favourites in a flash with my chilled and frozen meal ranges.
+            {content.expertRanges.body}
           </p>
           <div
             className="relative left-1/2 mt-8 w-screen max-w-[100vw] -translate-x-1/2 overflow-hidden py-6 md:hidden"
@@ -1364,7 +1401,7 @@ export function HomePageContent() {
             </motion.div>
           </div>
           <div className="mt-12 hidden w-full max-w-[1200px] flex-wrap items-center justify-center gap-x-8 gap-y-10 md:mt-[32px] md:flex md:gap-x-10 lg:mt-[24px] lg:gap-x-3">
-            {awardLogos.map((logo) => (
+            {content.expertRanges.awardLogos.map((logo) => (
               <img
                 key={logo}
                 src={logo}
@@ -1375,7 +1412,7 @@ export function HomePageContent() {
             ))}
           </div>
           <div className="mt-10 grid w-full  grid-cols-1 gap-4 md:mt-12 md:grid-cols-2 md:gap-5">
-            {expertRangeCards.map((card) => (
+            {content.expertRanges.cards.map((card) => (
               <article key={card.title} className="overflow-hidden rounded-[12px] bg-[#f7f4ea]">
                 <a href={card.href} target="_blank" rel="noreferrer" className="block">
                   <img src={card.image} alt={card.title} className="h-[400px] w-full object-cover md:h-[400px]" />
@@ -1401,15 +1438,16 @@ export function HomePageContent() {
           </div>
         </div>
       </section>
+  );
 
-      <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen overflow-hidden bg-white  py-5 md:py-8 lg:py-6">
+  const cookbooksSection = (
+      <section className={`${fullBleedClass} overflow-hidden bg-white  py-5 md:py-8 lg:py-6`}>
         <div className="mx-auto w-full max-w-full px-4 text-center sm:px-6 lg:px-0">
           <h3 className={`text-[40px] text-center tracking-[1px] font-[800] leading-[1.3] text-[#161418] md:text-[56px] ${styles.displayMedium}`}>
-            Bestselling cookbooks
+            {content.cookbooks.heading}
           </h3>
           <p className="mx-auto mt-6 max-w-[700px] [font-family:var(--font-montserrat)] text-[23px] leading-[1.3] text-[#444344] md:text-[22px]">
-            From weaning to kids cooking and quick and easy family meals, Annabel&apos;s delicious, nutritious and simple
-            recipe books are a household staple.
+            {content.cookbooks.body}
           </p>
 
           <div
@@ -1425,7 +1463,7 @@ export function HomePageContent() {
               className="cookbook-carousel-track flex gap-8 max-[700px]:gap-5 will-change-transform"
               style={{ x: cookbookCarousel.x }}
             >
-              {bestsellingCookbooks.map((book, bookIndex) => (
+              {content.cookbooks.books.map((book, bookIndex) => (
                 <article
                   key={book.title}
                   className="cookbook-card"
@@ -1484,10 +1522,10 @@ export function HomePageContent() {
 
           <div className="mt-9 flex justify-center">
             <Link
-              href="/app-book-category/our-books"
+              href={content.cookbooks.ctaHref}
               className={`inline-flex items-center gap-2.5 rounded-[10px] px-6 py-3 text-[15px] font-semibold text-white transition-colors ${styles.ctaButton} ${styles.ctaPink}`}
             >
-              <span className={`${styles.ctaLabel} font-[500] text-[20px] md:text-[20px]`}>Discover all cookbooks</span>
+              <span className={`${styles.ctaLabel} font-[500] text-[20px] md:text-[20px]`}>{content.cookbooks.ctaLabel}</span>
               <span className={`inline-flex h-[40px] w-[40px] items-center justify-center rounded-[15px] bg-white ${styles.ctaPinkIcon}`} aria-hidden>
               <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none"><rect x="0.5" width="41" height="41" rx="16" fill="white"></rect><path d="M13.5 20.5H27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path><path d="M20.5 13.5L27.5 20.5L20.5 27.5" stroke="#B34769" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path></svg>
               </span>
@@ -1495,15 +1533,17 @@ export function HomePageContent() {
           </div>
         </div>
       </section>
+  );
 
-      <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen overflow-hidden bg-transparent py-10 md:py-16 lg:py-20">
+  const collabsSection = (
+      <section className={`${fullBleedClass} overflow-hidden bg-transparent py-10 md:py-16 lg:py-20`}>
         <div className="mx-auto w-full max-w-none px-0">
           <h3 className={`text-center text-[34px] font-[600] leading-[1.1] text-[#17141b] md:text-[56px] ${styles.displayMedium}`}>
-            Annabel&apos;s collabs
+            {content.collabs.heading}
           </h3>
 
           <div className="mt-9 flex flex-col gap-6 px-4 md:hidden">
-            {collabCards.map((collab) =>
+            {content.collabs.cards.map((collab) =>
               renderCollabArticle(
                 collab,
                 collab.title,
@@ -1533,22 +1573,24 @@ export function HomePageContent() {
           </div>
         </div>
       </section>
+  );
 
-      <section className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-white py-6 md:py-9 pt-[10px]!">
+  const partnersSection = (
+      <section className={`${fullBleedClass} bg-white py-6 md:py-9 pt-[10px]!`}>
         <div className="mx-auto flex w-full max-w-[1100px] flex-col space-y-3 px-4 text-center sm:px-6 lg:px-8">
           <h3 className={`text-[40px] font-bold leading-[1.1] text-[#19161d] md:text-[52px] ${styles.displayMedium}`}>
-            Partner with us
+            {content.partners.heading}
           </h3>
           <p className="mx-auto mt-5 max-w-[600px] [font-family:var(--font-montserrat)] text-[23px] leading-[1.55] text-[#5d5660] md:text-[22px]">
-            Partner with Annabel Karmel to connect your brand with young families through trusted, impactful collaborations.
+            {content.partners.body}
           </p>
           <a
-            href="/contact"
+            href={content.partners.ctaHref}
             target="_blank"
             rel="noreferrer"
               className={`mt-8 inline-flex w-fit items-center gap-3 self-center rounded-[20px] px-5 py-3 text-[16px] font-semibold text-white transition-colors ${styles.ctaButton} ${styles.ctaTeal}`}
           >
-              <span className={`${styles.ctaLabel} font-[500] text-[22px] md:text-[20px]`}>Get in touch</span>
+              <span className={`${styles.ctaLabel} font-[500] text-[22px] md:text-[20px]`}>{content.partners.ctaLabel}</span>
               <span className={`inline-flex h-10 w-10 items-center justify-center rounded-[16px] bg-white ${styles.ctaTealIcon}`} aria-hidden>
               <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none"><rect width="41" height="41" rx="16" fill="white"></rect><path d="M13 20.5H27" stroke="#6E9CA5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path><path d="M20 13.5L27 20.5L20 27.5" stroke="#6E9CA5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"></path></svg>
             </span>
@@ -1579,9 +1621,57 @@ export function HomePageContent() {
             </motion.div>
         </div>
       </section>
+  );
+
+  const instagramSection = (
 <div className="mt-[50px]!">
-      <InstagramShareSection descriptionClassName="mx-auto mt-4 max-w-[1000px] [font-family:var(--font-montserrat)] text-[20px] text-normal leading-[1.5] text-[#5c5660] md:text-[22px]" />
+      <InstagramShareSection
+        title={content.instagram.title}
+        titleAccent={content.instagram.titleAccent}
+        description={content.instagram.description}
+        posts={content.instagram.posts}
+        className={
+          previewMode
+            ? "relative w-full bg-white pb-10 md:pb-16"
+            : "relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-white pb-10 md:pb-16"
+        }
+        descriptionClassName="mx-auto mt-4 max-w-[1000px] [font-family:var(--font-montserrat)] text-[20px] text-normal leading-[1.5] text-[#5c5660] md:text-[22px]"
+      />
    </div>
+  );
+
+  const sectionsByType: Record<HomepageSectionType, ReactNode> = {
+    hero: heroSection,
+    recipe_finder: recipeFinderSection,
+    latest_recipes: latestRecipesSection,
+    recipe_app: recipeAppSection,
+    expert_ranges: expertRangesSection,
+    cookbooks: cookbooksSection,
+    collabs: collabsSection,
+    partners: partnersSection,
+    instagram: instagramSection,
+  };
+
+  return (
+    <main
+      className={
+        previewMode ? "max-md:pb-16" : "max-md:pb-16 overflow-x-clip"
+      }
+      onClickCapture={(event) => {
+        if (!previewMode) {
+          return;
+        }
+        const anchor = (event.target as HTMLElement).closest("a");
+        if (anchor) {
+          event.preventDefault();
+        }
+      }}
+    >
+      {content.sectionOrder.map((type) => (
+        <div key={type} data-homepage-section={type}>
+          {sectionsByType[type]}
+        </div>
+      ))}
     </main>
   );
 }

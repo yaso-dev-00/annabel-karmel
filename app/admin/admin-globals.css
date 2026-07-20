@@ -76,7 +76,10 @@ body.admin-preview-fullscreen .sidebar {
 }
 
 .sidebarBrand {
+  display: block;
   padding: 24px 24px 16px;
+  text-decoration: none;
+  color: inherit;
 }
 
 .sidebarLogoImage {

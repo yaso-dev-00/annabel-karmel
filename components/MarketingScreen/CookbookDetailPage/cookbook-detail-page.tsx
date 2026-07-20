@@ -1,32 +1,10 @@
 import type { CSSProperties } from "react";
 
 import { BookImageCarousel } from "@/components/SharedCarousels/BookImageCarousel";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
 import { ourBooksAssets } from "@/data/our-books-page";
 import type { CookbookPageData } from "@/lib/cookbooks";
+import { renderHighlightedText } from "@/lib/cookbooks/highlight-text";
 import styles from "./cookbook-detail-page.module.css";
-
-function escapeRegExp(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function renderHighlightedText(text: string, highlights: string[]) {
-  if (highlights.length === 0) {
-    return text;
-  }
-
-  const pattern = new RegExp(
-    `(${[...highlights].sort((a, b) => b.length - a.length).map(escapeRegExp).join("|")})`,
-    "g",
-  );
-
-  return text.split(pattern).map((part, index) => {
-    if (highlights.includes(part)) {
-      return <strong key={`${part}-${index}`}>{part}</strong>;
-    }
-    return part;
-  });
-}
 
 function DetailBody({ cookbook }: { cookbook: CookbookPageData }) {
   const paragraphs = cookbook.detailBody.split("\n\n");
@@ -52,7 +30,6 @@ export function CookbookDetailPageContent({ cookbook }: CookbookDetailPageConten
   } as CSSProperties;
 
   return (
-    <>
     <main className={styles.page} style={pageStyle}>
       <div className={styles.inner}>
         <h1 className={styles.pageTitle}>{cookbook.title}</h1>
@@ -85,12 +62,6 @@ export function CookbookDetailPageContent({ cookbook }: CookbookDetailPageConten
           </div>
         </div>
       </div>
-
-    
     </main>
-      <div className={styles.shareWrap}>
-      <InstagramShareSection />
-    </div>
-    </>
   );
 }

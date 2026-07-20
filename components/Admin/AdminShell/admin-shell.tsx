@@ -16,19 +16,22 @@ const NAV_SECTIONS: { title?: string; items: NavItem[] }[] = [
   {
     items: [
       { href: "/admin", label: "Dashboard", exact: true },
-      { href: "#", label: "Recipes", disabled: true },
+      { href: "/admin/recipes", label: "Recipes" },
     ],
   },
   {
     title: "Website content",
     items: [
-      { href: "#", label: "Homepage Editor", disabled: true },
+      { href: "/admin/homepage", label: "Homepage Editor" },
       { href: "/admin/articles", label: "Articles" },
       { href: "/admin/experts", label: "Experts" },
       { href: "/admin/advice", label: "Advice" },
-      { href: "#", label: "Products", disabled: true },
+      { href: "/admin/cookbooks", label: "Cookbooks" },
+      { href: "/admin/products", label: "Products" },
+      { href: "/admin/grow-products", label: "Grow Products" },
       { href: "/admin/competitions", label: "Competitions" },
       { href: "/admin/partners", label: "Our Partners" },
+      { href: "/admin/ads", label: "Advertisements" },
       { href: "#", label: "Content Pages", disabled: true },
     ],
   },
@@ -51,6 +54,14 @@ export function AdminShell({ title, breadcrumb, children, actions }: AdminShellP
     // pages (and dashboard) always pull the latest RSC payload.
     router.refresh();
   }, [pathname, router]);
+
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) router.refresh();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, [router]);
 
   return (
     <div className="adminRoot">

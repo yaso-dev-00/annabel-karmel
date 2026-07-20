@@ -1,0 +1,124 @@
+/**
+ * Cookbook admin preview: page CSS uses browser @media / vw, so a wide admin
+ * window forces desktop 2-col layout inside a ~400px mobile frame.
+ * Override from the PreviewViewport device attribute + container width.
+ */
+
+/* --- Mobile / tablet device selection --- */
+[data-preview-viewport="mobile"] [class*="detailGrid"],
+[data-preview-viewport="tablet"] [class*="detailGrid"] {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 1.5rem !important;
+  padding-bottom: 2.5rem !important;
+  padding-inline: 0 !important;
+}
+
+[data-preview-viewport="mobile"] [class*="pageTitle"],
+[data-preview-viewport="tablet"] [class*="pageTitle"] {
+  font-size: 28px !important;
+  padding: 1.75rem 1rem 1.25rem !important;
+  line-height: 1.2 !important;
+}
+
+[data-preview-viewport="mobile"] [class*="inner"],
+[data-preview-viewport="tablet"] [class*="inner"] {
+  padding-inline: 0 !important;
+}
+
+[data-preview-viewport="mobile"] [class*="mediaCol"],
+[data-preview-viewport="tablet"] [class*="mediaCol"] {
+  padding-right: 0 !important;
+  width: 100% !important;
+}
+
+[data-preview-viewport="mobile"] [class*="carouselPanel"],
+[data-preview-viewport="tablet"] [class*="carouselPanel"] {
+  padding: 1rem 0 1.25rem !important;
+  width: 100% !important;
+}
+
+[data-preview-viewport="mobile"] [class*="contentCol"],
+[data-preview-viewport="tablet"] [class*="contentCol"] {
+  padding: 1rem !important;
+  width: 100% !important;
+}
+
+[data-preview-viewport="mobile"] [class*="bodyCopy"],
+[data-preview-viewport="tablet"] [class*="bodyCopy"],
+[data-preview-viewport="mobile"] [class*="suitableFor"],
+[data-preview-viewport="tablet"] [class*="suitableFor"] {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+[data-preview-viewport="mobile"] [class*="buyButton"],
+[data-preview-viewport="tablet"] [class*="buyButton"] {
+  min-height: 52px !important;
+  font-size: 15px !important;
+  padding: 0.9rem 1rem !important;
+}
+
+/* Book carousel: undo desktop slide height / vw sizing inside the frame */
+[data-preview-viewport="mobile"] [data-book-carousel] [class*="slide"],
+[data-preview-viewport="tablet"] [data-book-carousel] [class*="slide"] {
+  min-height: 300px !important;
+  padding: 1rem 1rem 2.75rem !important;
+}
+
+[data-preview-viewport="mobile"] [data-book-carousel] [class*="image"],
+[data-preview-viewport="tablet"] [data-book-carousel] [class*="image"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: 260px !important;
+  height: auto !important;
+}
+
+[data-preview-viewport="mobile"] [data-book-carousel] [class*="viewport"],
+[data-preview-viewport="tablet"] [data-book-carousel] [class*="viewport"] {
+  border-radius: 0 !important;
+}
+
+[data-preview-viewport="mobile"] [data-book-carousel] [class*="arrow"],
+[data-preview-viewport="tablet"] [data-book-carousel] [class*="arrow"] {
+  display: none !important;
+}
+
+/* Container-query fallback when frame is narrow regardless of device chip */
+@container cms-content (max-width: 899px) {
+  [class*="detailGrid"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  [class*="pageTitle"] {
+    font-size: 28px !important;
+    padding: 1.75rem 1rem 1.25rem !important;
+  }
+
+  [class*="mediaCol"] {
+    padding-right: 0 !important;
+  }
+
+  [class*="contentCol"] {
+    padding: 1rem !important;
+  }
+
+  [class*="bodyCopy"],
+  [class*="suitableFor"] {
+    font-size: 16px !important;
+  }
+
+  [data-book-carousel] [class*="slide"] {
+    min-height: 300px !important;
+    padding: 1rem 1rem 2.75rem !important;
+  }
+
+  [data-book-carousel] [class*="image"] {
+    max-height: 260px !important;
+    width: 100% !important;
+  }
+
+  [data-book-carousel] [class*="arrow"] {
+    display: none !important;
+  }
+}

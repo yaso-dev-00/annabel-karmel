@@ -1,30 +1,36 @@
-import { instagramPostCards } from "@/data/site-content";
+import { instagramPostCards, type InstagramPostCard } from "@/data/site-content";
 
 type InstagramShareSectionProps = {
   className?: string;
   titleClassName?: string;
   descriptionClassName?: string;
+  title?: string;
+  titleAccent?: string;
+  description?: string;
+  posts?: InstagramPostCard[];
 };
 
 export function InstagramShareSection({
   className = "relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-white pb-10 md:pb-16",
   titleClassName = "[font-family:var(--font-playfair)] text-[36px] font-semibold leading-[1.12] text-[#19161d] md:text-[46px]",
   descriptionClassName = "mx-auto mt-4 max-w-[1000px] [font-family:var(--font-montserrat)] text-[20px] leading-normal text-[#5c5660] md:text-[22px]",
+  title = "Share the love",
+  titleAccent = "#AnnabelKarmel",
+  description = "Follow us on Instagram for exclusive recipes, competitions and lots more tasty content!",
+  posts = instagramPostCards,
 }: InstagramShareSectionProps) {
   return (
     <section className={className}>
       <div className="mx-auto w-full max-w-[1120px] px-[30px] text-center">
         <h3 className={titleClassName}>
-          Share the love <span className="text-[#b34769]">#AnnabelKarmel</span>
+          {title} <span className="text-[#b34769]">{titleAccent}</span>
         </h3>
-        <p className={descriptionClassName}>
-          Follow us on Instagram for exclusive recipes, competitions and lots more tasty content!
-        </p>
+        <p className={descriptionClassName}>{description}</p>
       </div>
 
       <div className="mt-9 overflow-x-auto overflow-y-hidden scrollbar-hide [-webkit-overflow-scrolling:touch] pb-2 sm:mx-auto sm:max-w-[1120px] sm:overflow-visible sm:px-[30px] sm:pb-0">
         <div className="flex w-max gap-2 px-[30px] sm:grid sm:w-full sm:grid-cols-2 sm:gap-2 sm:px-0 md:grid-cols-3 lg:grid-cols-6">
-          {instagramPostCards.map((post, index) => (
+          {posts.map((post, index) => (
             <a
               key={`${post.href}-${index}`}
               href={post.href}

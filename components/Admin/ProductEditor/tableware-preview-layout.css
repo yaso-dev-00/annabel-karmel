@@ -1,0 +1,44 @@
+/**
+ * Tableware admin preview: undo meal-product preview overrides that
+ * incorrectly target shared class suffixes (e.g. carouselStage, retailerSection).
+ * Layout itself comes from tableware @container cms-content rules on .page.
+ */
+
+[data-preview-frame]:has([class$="growLogoLink"]) [class*="completeSetCarouselWrap"] [class*="carouselStage"] {
+  width: 100% !important;
+  max-width: none !important;
+  padding-inline: 0 !important;
+}
+
+[data-preview-frame]:has([class$="growLogoLink"]) [class*="completeSetCarouselWrap"] [class*="carouselViewport"] {
+  height: auto !important;
+  aspect-ratio: auto !important;
+}
+
+[data-preview-viewport="mobile"]:has([class$="growLogoLink"]) [class*="completeSetCarouselWrap"] [class*="carouselViewport"],
+[data-preview-viewport="tablet"]:has([class$="growLogoLink"]) [class*="completeSetCarouselWrap"] [class*="carouselViewport"] {
+  padding-inline: 15px !important;
+}
+
+[data-preview-viewport="mobile"]:has([class$="growLogoLink"]) [class*="completeSetCarouselWrap"] [class*="carouselTrack"],
+[data-preview-viewport="tablet"]:has([class$="growLogoLink"]) [class*="completeSetCarouselWrap"] [class*="carouselTrack"] {
+  gap: 10px !important;
+}
+
+[data-preview-viewport="mobile"]:has([class$="growLogoLink"]) [class*="completeSetCarouselWrap"] [class*="carouselSlide"],
+[data-preview-viewport="tablet"]:has([class$="growLogoLink"]) [class*="completeSetCarouselWrap"] [class*="carouselSlide"] {
+  width: calc((100% - 10px) / 1.5) !important;
+  max-width: calc((100% - 10px) / 1.5) !important;
+}
+
+[data-preview-viewport="mobile"]:has([class$="growLogoLink"]) [class*="carouselArrow"],
+[data-preview-viewport="tablet"]:has([class$="growLogoLink"]) [class*="carouselArrow"] {
+  display: none !important;
+}
+
+/* Meal-product retailerSection min-height must not inflate Grow shop CTA */
+[data-preview-frame]:has([class$="growLogoLink"]) [class$="retailerSection"] {
+  min-height: 0 !important;
+  padding: 8px 0 0 !important;
+  margin-top: 20px !important;
+}

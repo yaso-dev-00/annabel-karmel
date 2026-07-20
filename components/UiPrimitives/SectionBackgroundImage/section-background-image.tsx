@@ -35,45 +35,51 @@ export function SectionBackgroundImage({
   mobileImageHeight = 10500,
   unoptimized = false,
 }: SectionBackgroundImageProps) {
-  const mobile = mobileSrc ?? desktopSrc;
+  const desktop = desktopSrc.trim();
+  const mobile = (mobileSrc ?? desktopSrc).trim();
+  if (!desktop && !mobile) return null;
 
   return (
     <div className={styles.wrap} aria-hidden>
-      <Image
-        src={desktopSrc}
-        alt={alt}
-        fill
-        priority={priority}
-        sizes="(min-width: 768px) 100vw, 0px"
-        unoptimized={unoptimized}
-        className={`${styles.image} ${styles.desktopOnly}`}
-        style={{ objectFit: desktopFit, objectPosition: desktopPosition }}
-      />
-      {mobileLayout === "fullWidth" ? (
-        <div className={`${styles.mobileFullWidth} ${styles.mobileOnly}`}>
-          <Image
-            src={mobile}
-            alt={alt}
-            width={mobileImageWidth}
-            height={mobileImageHeight}
-            priority={priority}
-            sizes="(max-width: 767px) 100vw, 0px"
-            unoptimized={unoptimized}
-            className={styles.mobileFullWidthImage}
-          />
-        </div>
-      ) : (
+      {desktop ? (
         <Image
-          src={mobile}
+          src={desktop}
           alt={alt}
           fill
           priority={priority}
-          sizes="(max-width: 767px) 100vw, 0px"
+          sizes="(min-width: 768px) 100vw, 0px"
           unoptimized={unoptimized}
-          className={`${styles.image} ${styles.mobileOnly}`}
-          style={{ objectFit: mobileFit, objectPosition: mobilePosition }}
+          className={`${styles.image} ${styles.desktopOnly}`}
+          style={{ objectFit: desktopFit, objectPosition: desktopPosition }}
         />
-      )}
+      ) : null}
+      {mobile ? (
+        mobileLayout === "fullWidth" ? (
+          <div className={`${styles.mobileFullWidth} ${styles.mobileOnly}`}>
+            <Image
+              src={mobile}
+              alt={alt}
+              width={mobileImageWidth}
+              height={mobileImageHeight}
+              priority={priority}
+              sizes="(max-width: 767px) 100vw, 0px"
+              unoptimized={unoptimized}
+              className={styles.mobileFullWidthImage}
+            />
+          </div>
+        ) : (
+          <Image
+            src={mobile}
+            alt={alt}
+            fill
+            priority={priority}
+            sizes="(max-width: 767px) 100vw, 0px"
+            unoptimized={unoptimized}
+            className={`${styles.image} ${styles.mobileOnly}`}
+            style={{ objectFit: mobileFit, objectPosition: mobilePosition }}
+          />
+        )
+      ) : null}
     </div>
   );
 }
@@ -93,10 +99,13 @@ export function SingleSectionBackgroundImage({
   position?: string;
   unoptimized?: boolean;
 }) {
+  const imageSrc = src.trim();
+  if (!imageSrc) return null;
+
   return (
     <div className={styles.wrap} aria-hidden>
       <Image
-        src={src}
+        src={imageSrc}
         alt={alt}
         fill
         priority={priority}

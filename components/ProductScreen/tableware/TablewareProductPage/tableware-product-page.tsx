@@ -5,11 +5,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
 import { TablewareFeaturesSection } from "@/components/ProductScreen/tableware/TablewareFeaturesSection";
 import { TablewareProductCard } from "@/components/ProductScreen/tableware/TablewareProductCard";
 import { CAROUSEL_DRAG_RELEASE, CAROUSEL_SLIDE, useSnapCarousel } from "@/components/hooks/useSnapCarousel";
-import type { TablewareProductPageData } from "@/data/tableware-product-page";
+import type { TablewareColorSwatch, TablewareProductPageData } from "@/data/tableware-product-page";
 import {
   getCompleteSetProducts,
   tablewareProductSharedAssets,
@@ -22,6 +21,16 @@ const SWATCH_BORDER: Record<TablewareSwatchColor, string> = {
   "soft-sage": "#b4c7a3",
   "warm-stone": "#f0e1da",
   blushberry: "#bc7f7a",
+};
+
+export type TablewareProductPageContentProps = {
+  data: TablewareProductPageData;
+  /**
+   * Admin live preview: colour swatches switch content in-place (no navigation),
+   * and internal product links are inert.
+   */
+  previewMode?: boolean;
+  onSwatchSelect?: (swatch: TablewareColorSwatch, index: number) => void;
 };
 
 function GalleryChevron({
@@ -345,7 +354,13 @@ function ProductGallery({ images }: { images: TablewareProductPageData["gallery"
   );
 }
 
-function CompleteSetCarousel({ products }: { products: TablewareProduct[] }) {
+function CompleteSetCarousel({
+  products,
+  disableLinks = false,
+}: {
+  products: TablewareProduct[];
+  disableLinks?: boolean;
+}) {
   const carousel = useSnapCarousel({
     itemCount: products.length,
     cardSelector: ".tableware-complete-set-slide",
@@ -399,7 +414,11 @@ function CompleteSetCarousel({ products }: { products: TablewareProduct[] }) {
               className={`tableware-complete-set-slide ${styles.carouselSlide}`}
               onClickCapture={carousel.handleCardClickCapture}
             >
-              <TablewareProductCard product={product} variant="completeSet" />
+              <TablewareProductCard
+                product={product}
+                variant="completeSet"
+                disableLinks={disableLinks}
+              />
             </div>
           ))}
         </motion.div>
@@ -435,26 +454,41 @@ function CompleteSetCarousel({ products }: { products: TablewareProduct[] }) {
   );
 }
 
-export function TablewareProductPageContent({ data }: { data: TablewareProductPageData }) {
+export function TablewareProductPageContent({
+  data,
+  previewMode = false,
+  onSwatchSelect,
+}: TablewareProductPageContentProps) {
   const completeSetProducts = getCompleteSetProducts(data.completeSetSlugs, data.slug);
+
+  const growLogo = (
+    <Image
+      src={tablewareProductSharedAssets.growLogo}
+      alt="grow by Annabel Karmel"
+      width={245}
+      height={70}
+      className={styles.growLogo}
+      priority
+    />
+  );
 
   return (
     <main className={styles.page}>
       <section className={styles.heroSection} aria-label={data.title}>
         <div className={`${styles.container} ${styles.heroGrid}`}>
-          <ProductGallery images={data.gallery} />
+          <ProductGallery
+            key={`${data.slug}-${data.activeSwatchKey ?? data.activeColor}-${data.gallery.map((image) => image.src).join("|")}`}
+            images={data.gallery}
+          />
 
           <div className={styles.productInfo}>
-            <Link href="/tableware/" className={styles.growLogoLink}>
-              <Image
-                src={tablewareProductSharedAssets.growLogo}
-                alt="grow by Annabel Karmel"
-                width={245}
-                height={70}
-                className={styles.growLogo}
-                priority
-              />
-            </Link>
+            {previewMode ? (
+              <div className={styles.growLogoLink}>{growLogo}</div>
+            ) : (
+              <Link href="/tableware/" className={styles.growLogoLink}>
+                {growLogo}
+              </Link>
+            )}
 
             <h1 className={styles.productTitle}>{data.title}</h1>
 
@@ -463,22 +497,49 @@ export function TablewareProductPageContent({ data }: { data: TablewareProductPa
             </p>
 
             <div className={styles.colorSwatches} role="list" aria-label="Colour options">
-              {data.swatches.map((swatch) => {
-                const isActive = swatch.color === data.activeColor;
+              {data.swatches.map((swatch, index) => {
+                const swatchKey = swatch.slug.trim() || `swatch-${index}`;
+                const isActive = data.activeSwatchKey
+                  ? swatchKey === data.activeSwatchKey
+                  : swatch.color === data.activeColor;
+                const useHexSwatch = Boolean(previewMode && swatch.hex.trim());
                 const swatchSrc = isActive
                   ? tablewareAssets.swatchImagesActive[swatch.color]
                   : tablewareAssets.swatchImages[swatch.color];
+                const className = `${styles.colorSwatch} ${styles[swatch.color]}${isActive ? ` ${styles.colorSwatchActive}` : ""}`;
+                const style = useHexSwatch
+                  ? ({
+                      backgroundColor: swatch.hex,
+                      backgroundImage: "none",
+                      borderColor: isActive ? swatch.hex : "transparent",
+                    } as const)
+                  : ({
+                      backgroundImage: `url(${swatchSrc})`,
+                      borderColor: isActive ? SWATCH_BORDER[swatch.color] : "transparent",
+                    } as const);
+
+                if (previewMode) {
+                  return (
+                    <button
+                      key={`${swatchKey}-${index}`}
+                      type="button"
+                      role="listitem"
+                      className={className}
+                      style={style}
+                      aria-label={`Preview ${swatch.label} colour`}
+                      aria-pressed={isActive}
+                      onClick={() => onSwatchSelect?.(swatch, index)}
+                    />
+                  );
+                }
 
                 return (
                   <Link
-                    key={swatch.slug}
+                    key={`${swatchKey}-${index}`}
                     href={tablewareProductHref(swatch.slug)}
                     role="listitem"
-                    className={`${styles.colorSwatch} ${styles[swatch.color]}${isActive ? ` ${styles.colorSwatchActive}` : ""}`}
-                    style={{
-                      backgroundImage: `url(${swatchSrc})`,
-                      borderColor: isActive ? SWATCH_BORDER[swatch.color] : "transparent",
-                    }}
+                    className={className}
+                    style={style}
                     aria-label={`${swatch.label} colour`}
                     aria-current={isActive ? "true" : undefined}
                   />
@@ -585,14 +646,10 @@ export function TablewareProductPageContent({ data }: { data: TablewareProductPa
             </h2>
           </div>
           <div className={styles.completeSetCarouselWrap}>
-            <CompleteSetCarousel products={completeSetProducts} />
+            <CompleteSetCarousel products={completeSetProducts} disableLinks={previewMode} />
           </div>
         </section>
       ) : null}
-
-     <div className="mt-[50px]">
-     <InstagramShareSection />
-     </div>
     </main>
   );
 }

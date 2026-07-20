@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
 import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
 import { TablewareProductPageContent } from "@/components/ProductScreen/tableware/TablewareProductPage";
 import {
   getAllTablewareProductSlugs,
@@ -45,6 +46,9 @@ export default async function TablewareProductPage({ params }: TablewareProductP
     <>
       <SiteHeader />
       <TablewareProductPageContent data={data} />
+      <div className="mt-[50px]">
+        <InstagramShareSection />
+      </div>
       <SiteFooter />
     </>
   );

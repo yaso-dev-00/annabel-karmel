@@ -236,6 +236,67 @@
   }
 }
 
+/*
+ * Admin preview / PDP: .page is a cms-content container. Mirror the
+ * mobile↔tablet features layout from container width so a phone-sized
+ * preview frame does not pick up browser @media (min-width: 768px).
+ */
+@container cms-content (max-width: 767px) {
+  .featuresSection {
+    margin-top: 40px !important;
+    padding: 0 15px !important;
+  }
+
+  .featuresCard {
+    border-radius: 20px !important;
+    padding: 28px 10px 90px !important;
+  }
+
+  .featuresArtDesktop {
+    display: none !important;
+  }
+
+  .featuresArtMobile {
+    display: block !important;
+  }
+
+  .featuresHeading {
+    margin-bottom: 24px !important;
+    font-size: 32px !important;
+    line-height: 1.15 !important;
+  }
+
+  .featuresColumns {
+    flex-direction: column !important;
+    gap: 0 !important;
+    max-width: 830px !important;
+    padding-left: 10px !important;
+    padding-bottom: 50px !important;
+  }
+
+  .featuresItem {
+    font-size: 16px !important;
+    line-height: 26px !important;
+  }
+}
+
+@container cms-content (min-width: 768px) {
+  .featuresArtDesktop {
+    display: block !important;
+  }
+
+  .featuresArtMobile {
+    display: none !important;
+  }
+
+  .featuresColumns {
+    flex-direction: row !important;
+    gap: 20px !important;
+    padding-left: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
 .lifestyleSection {
   max-width: 1240px;
   margin: 60px auto 40px;

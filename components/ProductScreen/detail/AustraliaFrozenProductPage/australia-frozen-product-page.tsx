@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
@@ -86,8 +86,9 @@ function ProductCarousel({
 }: {
   slides: AustraliaFrozenProductPageData["carousel"];
 }) {
+  const visibleSlides = slides.filter((slide) => slide.src.trim().length > 0);
   const carousel = useSnapCarousel({
-    itemCount: slides.length,
+    itemCount: visibleSlides.length,
     cardSelector: ".au-product-slide",
     controlsSelector: "button",
     centerSingleSlide: true,
@@ -105,26 +106,30 @@ function ProductCarousel({
 
   const goTo = useCallback(
     (next: number) => {
-      const total = slides.length;
+      const total = visibleSlides.length;
+      if (total <= 0) return;
       const wrapped = ((next % total) + total) % total;
       if (wrapped === carousel.index) return;
       carousel.animateToIndex(wrapped, CAROUSEL_SLIDE);
     },
-    [carousel, slides.length],
+    [carousel, visibleSlides.length],
   );
 
   useEffect(() => {
     carousel.measure();
-  }, [carousel.measure]);
+  }, [carousel.measure, visibleSlides.length]);
 
   useEffect(() => {
+    if (visibleSlides.length <= 1) return;
     const timer = window.setInterval(() => {
       const current = indexRef.current;
-      const next = current >= slides.length - 1 ? 0 : current + 1;
+      const next = current >= visibleSlides.length - 1 ? 0 : current + 1;
       animateToIndexRef.current(next, CAROUSEL_SLIDE);
     }, 5000);
     return () => window.clearInterval(timer);
-  }, [slides.length]);
+  }, [visibleSlides.length]);
+
+  if (visibleSlides.length === 0) return null;
 
   return (
     <div
@@ -141,9 +146,9 @@ function ProductCarousel({
         style={{ x: carousel.x }}
         initial={false}
       >
-        {slides.map((slide, slideIndex) => (
+        {visibleSlides.map((slide, slideIndex) => (
           <div
-            key={slide.src}
+            key={`${slide.src}-${slideIndex}`}
             className={`au-product-slide ${styles.carouselSlide}`}
             onClickCapture={carousel.handleCardClickCapture}
           >
@@ -161,7 +166,7 @@ function ProductCarousel({
         ))}
       </motion.div>
 
-      {slides.length > 1 ? (
+      {visibleSlides.length > 1 ? (
         <>
           <button
             type="button"
@@ -189,7 +194,7 @@ function ProductCarousel({
           <p className={styles.slideCounter} aria-live="polite">
             <span className={styles.slideCounterCurrent}>{carousel.index + 1}</span>
             <span>/</span>
-            <span>{slides.length}</span>
+            <span>{visibleSlides.length}</span>
           </p>
         </>
       ) : null}
@@ -230,19 +235,11 @@ function AccordionPanel({
         </svg>
       </button>
 
-      <AnimatePresence initial={false}>
-        {open ? (
-          <motion.div
-            className={styles.accordionBody}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-          >
-            <div className={styles.accordionBodyInner}>{children}</div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {open ? (
+        <div className={styles.accordionBody}>
+          <div className={styles.accordionBodyInner}>{children}</div>
+        </div>
+      ) : null}
     </div>
   );
 }

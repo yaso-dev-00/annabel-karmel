@@ -945,6 +945,10 @@
   -ms-overflow-style: none;
 }
 
+.previewBodyFlush {
+  padding: 0;
+}
+
 .previewBody::-webkit-scrollbar {
   display: none;
 }

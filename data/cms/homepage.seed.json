@@ -1,0 +1,516 @@
+{
+  "homepage": {
+    "id": "homepage",
+    "title": "Homepage",
+    "status": "published",
+    "scheduled_at": null,
+    "published_at": "2026-07-19T09:04:15.448Z",
+    "created_at": "2026-07-19T09:04:15.448Z",
+    "updated_at": "2026-07-19T09:04:15.448Z",
+    "sections": [
+      {
+        "id": "section-hero",
+        "type": "hero",
+        "data": {
+          "slides": [
+            {
+              "id": "hero-slide-1",
+              "title": "Fish Finger Pie",
+              "subtitle": "Your new failsafe family favourite has arrived!",
+              "cta": "Discover",
+              "href": "/recipes/fish-finger-pie",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/06/Birds-Eye-Fish-Finger-Hero-scaled.jpg"
+            },
+            {
+              "id": "hero-slide-2",
+              "title": "Plant-powered for kids!",
+              "subtitle": "The tastiest take on kids' all time favourites, now available at Asda.",
+              "cta": "Discover",
+              "href": "https://www.asda.com/groceries/search/annabel%20karmel%20meat%20free",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/05/PLant-Based-Launch-Hero-scaled.jpg"
+            },
+            {
+              "id": "hero-slide-3",
+              "title": "Kids' tikka, quikka",
+              "subtitle": "Delicious dinners at the speed of life.",
+              "cta": "Discover",
+              "href": "/products/mild-chicken-tikka/",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2026/06/Chicken-Tikka_1080x1350_Plate_NoText.jpg"
+            }
+          ]
+        }
+      },
+      {
+        "id": "section-recipe-finder",
+        "type": "recipe_finder",
+        "data": {}
+      },
+      {
+        "id": "section-latest-recipes",
+        "type": "latest_recipes",
+        "data": {
+          "heading": "Latest recipes",
+          "subtitle": "Recipes for every age, stage and occasion",
+          "ctaLabel": "See all recipes",
+          "ctaHref": "/recipes",
+          "recipes": [
+            {
+              "id": "latest-recipe-1",
+              "title": "Smoked Sweet Paprika, Pepper & Chicken Puree",
+              "duration": "20 mins",
+              "href": "/recipes/smoked-sweet-paprika-pepper-chicken-puree-2",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/05/Chicken-Puree-with-Smoked-Sweet-Paprika-768x960-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-2",
+              "title": "Salmon & Spinach Fritters",
+              "duration": "15 mins",
+              "href": "/recipes/salmon-spinach-fritters-2",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/02/Salmon-and-Spinach-Fritters-p.185-768x1006-1-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-3",
+              "title": "Sweet Potato & Chicken Croquettes",
+              "duration": "15 mins",
+              "href": "/recipes/sweet-potato-chicken-croquettes-2",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/02/Sweet-Potato-and-Chicken-Croquettes-p.126-768x1008-1-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-4",
+              "title": "Mac 'n' Cheese Veggie Muffins",
+              "duration": "40 mins",
+              "href": "/recipes/mac-n-cheese-veggie-muffins",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2025/02/Mac-%E2%80%98n-Cheese-Veggie-Muffin-p.99-768x1118-1-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-5",
+              "title": "Easy Teriyaki Salmon",
+              "duration": "22 mins",
+              "href": "/recipes/104277",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/09/SALMON-1-1-768x960-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-6",
+              "title": "Rainbow Veggie Pizza",
+              "duration": "25 mins",
+              "href": "/recipes/rainbow-veggie-pizza",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/09/RAINBOW-PIZZA-2-1-scaled-e1741012376348-768x769-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-7",
+              "title": "Choc Orange Marble Cake",
+              "duration": "45 mins",
+              "href": "/recipes/choc-orange-marble-cake",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/09/MARBLE-CAKE-1-1-scaled-e1741012470291-768x768-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-8",
+              "title": "Easy 5-Veg Croquettes",
+              "duration": "20 mins",
+              "href": "/recipes/easy-5-veg-croquettes",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/09/CROQUETTES-2-768x960-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-9",
+              "title": "Best-ever Roast Beef",
+              "duration": "45 mins",
+              "href": "/recipes/best-ever-roast-beef",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/09/ROAST-BEEF-1-1-768x1152-optimized.jpg"
+            },
+            {
+              "id": "latest-recipe-10",
+              "title": "Veggie Frittata Fingers",
+              "duration": "20 mins",
+              "href": "/recipes/veggie-frittata-fingers",
+              "image": "https://www.annabelkarmel.com/wp-content/uploads/2024/10/AKBABY3-scaled-e1729072983537-768x768-optimized.jpg"
+            }
+          ]
+        }
+      },
+      {
+        "id": "section-recipe-app",
+        "type": "recipe_app",
+        "data": {
+          "heading": "Your go-to recipe app for every age & stage",
+          "bullets": [
+            {
+              "id": "app-bullet-1",
+              "lead": "1,500+ recipes",
+              "text": " for baby, toddler, and the whole family"
+            },
+            {
+              "id": "app-bullet-2",
+              "lead": "Explore 100+ first foods",
+              "text": " and learn how to safely serve them"
+            },
+            {
+              "id": "app-bullet-3",
+              "lead": "Track your baby’s food journey",
+              "text": " and celebrate milestones"
+            },
+            {
+              "id": "app-bullet-4",
+              "lead": "Expert advice",
+              "text": " to support you at every age and stage"
+            }
+          ],
+          "ctaLabel": "Start your 7-day FREE trial",
+          "ctaHref": "/the-ultimate-baby-toddler-recipe-app",
+          "appStoreHref": "/the-ultimate-baby-toddler-recipe-app/download/ios",
+          "playStoreHref": "/the-ultimate-baby-toddler-recipe-app/download/android",
+          "awards": [
+            {
+              "id": "app-award-1",
+              "src": "/home page/recipe-app/lbp-app-2026.png",
+              "alt": "LovedByParents Winner 2026"
+            },
+            {
+              "id": "app-award-2",
+              "src": "/home page/recipe-app/mfm-app-2025.png",
+              "alt": "Made for Mums Gold 2025"
+            },
+            {
+              "id": "app-award-3",
+              "src": "/home page/recipe-app/tmm-app-2026.png",
+              "alt": "The Mum Marketplace Gold 2026"
+            },
+            {
+              "id": "app-award-4",
+              "src": "/home page/recipe-app/lbp-tried-tested-app-2026.png",
+              "alt": "LovedByParents Tried & Tested 2026"
+            },
+            {
+              "id": "app-award-5",
+              "src": "/home page/recipe-app/ftm-app-2026.png",
+              "alt": "First Time Mums Top 5 2026"
+            }
+          ],
+          "phonesImage": "/home page/recipe-app/home-app-image.png"
+        }
+      },
+      {
+        "id": "section-expert-ranges",
+        "type": "expert_ranges",
+        "data": {
+          "heading": "Annabel's expert ranges",
+          "body": "My famous cookbook recipes are enjoyed by toddlers and children all over the world. And now they can refuel on my trusted favourites in a flash with my chilled and frozen meal ranges.",
+          "awardLogos": [
+            {
+              "id": "award-logo-1",
+              "src": "https://www.annabelkarmel.com/wp-content/uploads/2025/04/AWARDS_03-optimized.png",
+              "alt": ""
+            },
+            {
+              "id": "award-logo-2",
+              "src": "https://www.annabelkarmel.com/wp-content/uploads/2025/04/AWARDS_04-optimized.png",
+              "alt": ""
+            },
+            {
+              "id": "award-logo-3",
+              "src": "https://www.annabelkarmel.com/wp-content/uploads/2025/04/AWARDS_05-optimized.png",
+              "alt": ""
+            },
+            {
+              "id": "award-logo-4",
+              "src": "https://www.annabelkarmel.com/wp-content/uploads/2025/04/AWARDS_06-optimized.png",
+              "alt": ""
+            },
+            {
+              "id": "award-logo-5",
+              "src": "https://www.annabelkarmel.com/wp-content/uploads/2025/04/AWARDS_07-optimized.png",
+              "alt": ""
+            },
+            {
+              "id": "award-logo-6",
+              "src": "https://www.annabelkarmel.com/wp-content/uploads/2025/04/AWARDS_09-optimized.png",
+              "alt": ""
+            },
+            {
+              "id": "award-logo-7",
+              "src": "https://www.annabelkarmel.com/wp-content/uploads/2025/04/AWARDS_08-optimized.png",
+              "alt": ""
+            }
+          ],
+          "cards": [
+            {
+              "id": "expert-card-1",
+              "title": "Fridge meals",
+              "image": "/home page/anabelle expert/Chilled_Meals-img-optimized.webp",
+              "href": "/product-category/chilled-meals"
+            },
+            {
+              "id": "expert-card-2",
+              "title": "Freezer meals",
+              "image": "/home page/anabelle expert/Homepage-Hero-Section-scaled2-optimized.jpg",
+              "href": "/product-category/frozen-meals"
+            }
+          ]
+        }
+      },
+      {
+        "id": "section-cookbooks",
+        "type": "cookbooks",
+        "data": {
+          "heading": "Bestselling cookbooks",
+          "body": "From weaning to kids cooking and quick and easy family meals, Annabel's delicious, nutritious and simple recipe books are a household staple.",
+          "ctaLabel": "Discover all cookbooks",
+          "ctaHref": "/app-book-category/our-books",
+          "books": [
+            {
+              "id": "cookbook-1",
+              "title": "Finger Foods for Babies & Toddlers",
+              "image": "/home page/best selling cookbooks/food-optimized.jpg",
+              "href": "/apps-books/finger-foods"
+            },
+            {
+              "id": "cookbook-2",
+              "title": "Weaning",
+              "image": "/home page/best selling cookbooks/weaning-optimized.jpg",
+              "href": "/apps-books/weaning-2"
+            },
+            {
+              "id": "cookbook-3",
+              "title": "Complete Baby & Toddler Meal Planner",
+              "image": "/home page/best selling cookbooks/toddler-optimized.jpg",
+              "href": "/apps-books/new-complete-baby-toddler-meal-planner-25th-anniversary-edition"
+            },
+            {
+              "id": "cookbook-4",
+              "title": "My First Cookbook",
+              "image": "/home page/best selling cookbooks/cookbook-optimized.jpg",
+              "href": "/apps-books/my-first-cookbook"
+            },
+            {
+              "id": "cookbook-5",
+              "title": "Where Does My Food Come From?",
+              "image": "/home page/best selling cookbooks/where-optimized.jpg",
+              "href": "/apps-books/where-does-my-food-come-from"
+            },
+            {
+              "id": "cookbook-6",
+              "title": "Fun, Fast & Easy Children's Cookbook",
+              "image": "/home page/best selling cookbooks/Fun-Fast-Easy-2-optimized.jpg",
+              "href": "/apps-books/fun-fast-easy-childrens-cookbook"
+            },
+            {
+              "id": "cookbook-7",
+              "title": "Weaning Made Simple",
+              "image": "/home page/best selling cookbooks/weaningmade-optimized.jpg",
+              "href": "/apps-books/weaning-made-simple"
+            },
+            {
+              "id": "cookbook-8",
+              "title": "Real Food Kids Will Love",
+              "image": "/home page/best selling cookbooks/kids-optimized.jpg",
+              "href": "/apps-books/real-foods-kids-will-love"
+            },
+            {
+              "id": "cookbook-9",
+              "title": "Busy Mum's Cookbook",
+              "image": "/home page/best selling cookbooks/recips-optimized.jpg",
+              "href": "/app-book-category/our-books"
+            },
+            {
+              "id": "cookbook-10",
+              "title": "Baby-Led Weaning Recipe Book",
+              "image": "/home page/best selling cookbooks/1-optimized.jpg",
+              "href": "/apps-books/baby-led-weaning-recipe-book"
+            },
+            {
+              "id": "cookbook-11",
+              "title": "Family Cookbook",
+              "image": "/home page/best selling cookbooks/3-optimized.jpg",
+              "href": "/apps-books/annabels-family-cookbook"
+            },
+            {
+              "id": "cookbook-12",
+              "title": "Baby's First Year Journal",
+              "image": "/home page/best selling cookbooks/2-optimized.jpg",
+              "href": "/apps-books/babys-first-year-journal"
+            }
+          ]
+        }
+      },
+      {
+        "id": "section-collabs",
+        "type": "collabs",
+        "data": {
+          "heading": "Annabel's collabs",
+          "cards": [
+            {
+              "id": "collab-1",
+              "title": "Craft & Crumb",
+              "subtitle": "Bake, create and have fun!",
+              "href": "/craft-crumb",
+              "logoImage": "/home page/anabelle collabs/background image.webp",
+              "cardImage": "/home page/anabelle collabs/cards/Craft-Crumb-scaled-optimized.webp"
+            },
+            {
+              "id": "collab-2",
+              "title": "Pots for Tots",
+              "subtitle": "Handmade bites & meals for babies & tots",
+              "href": "/competitions/pots-for-tots",
+              "logoImage": "/home page/anabelle collabs/579136-logo-1708518539-optimized.webp",
+              "cardImage": "/home page/anabelle collabs/cards/PFT-homepage-optimized.webp"
+            }
+          ]
+        }
+      },
+      {
+        "id": "section-partners",
+        "type": "partners",
+        "data": {
+          "heading": "Partner with us",
+          "body": "Partner with Annabel Karmel to connect your brand with young families through trusted, impactful collaborations.",
+          "ctaLabel": "Get in touch",
+          "ctaHref": "/contact",
+          "logos": [
+            {
+              "id": "partner-1",
+              "name": "Sani Resort",
+              "image": "/home page/partners/1.-Sani-Resort-optimized.webp",
+              "href": "/partners/sani-resort"
+            },
+            {
+              "id": "partner-2",
+              "name": "Pampers",
+              "image": "/home page/partners/2.-pampers-optimized.webp",
+              "href": "/partners/pampers"
+            },
+            {
+              "id": "partner-3",
+              "name": "Dualit",
+              "image": "/home page/partners/3.-Dualit-optimized.webp",
+              "href": "/partners/dualit"
+            },
+            {
+              "id": "partner-4",
+              "name": "P&O Cruises",
+              "image": "/home page/partners/4-optimized.webp",
+              "href": "/partners/po-cruises"
+            },
+            {
+              "id": "partner-5",
+              "name": "Bugaboo",
+              "image": "/home page/partners/5.-Bugaboo-optimized.webp",
+              "href": "/partners/bugaboo"
+            },
+            {
+              "id": "partner-6",
+              "name": "Symprove",
+              "image": "/home page/partners/6.-Symprove-optimized.webp",
+              "href": "/partners/symprove"
+            },
+            {
+              "id": "partner-7",
+              "name": "HECK",
+              "image": "/home page/partners/7.-Heck-optimized.webp",
+              "href": "/partners/heck"
+            },
+            {
+              "id": "partner-8",
+              "name": "Jumeirah Carlton Tower",
+              "image": "/home page/partners/8.-Jumeirah-Carlton-Tower-optimized.webp",
+              "href": "/partners/jumeirah-carlton-tower"
+            },
+            {
+              "id": "partner-9",
+              "name": "Green Giant",
+              "image": "/home page/partners/9.-Green-Giant-optimized.webp",
+              "href": "/partners/green-giant"
+            },
+            {
+              "id": "partner-10",
+              "name": "Warburtons",
+              "image": "/home page/partners/10.-Warburtons-optimized.webp",
+              "href": "/partners/warburtons"
+            },
+            {
+              "id": "partner-11",
+              "name": "Hamleys",
+              "image": "/home page/partners/11.-Hamleys-optimized.webp",
+              "href": "/partners/hamleys"
+            },
+            {
+              "id": "partner-12",
+              "name": "Reading Eggs",
+              "image": "/home page/partners/12.-Reading-eggs-optimized.webp",
+              "href": "/partners/reading-eggs"
+            },
+            {
+              "id": "partner-13",
+              "name": "Emirates",
+              "image": "/home page/partners/13.-Emirates-optimized.webp",
+              "href": "/partners/emirates"
+            },
+            {
+              "id": "partner-14",
+              "name": "Miele",
+              "image": "/home page/partners/14.-Miele-optimized.webp",
+              "href": "/partners/miele"
+            },
+            {
+              "id": "partner-15",
+              "name": "Kallo",
+              "image": "/home page/partners/15.-Kallo-optimized.webp",
+              "href": "/partners/kallo"
+            },
+            {
+              "id": "partner-16",
+              "name": "Baby Annabell",
+              "image": "/home page/partners/16.-baby-Annabell-optimized.webp",
+              "href": "/partners/baby-annabell"
+            }
+          ]
+        }
+      },
+      {
+        "id": "section-instagram",
+        "type": "instagram",
+        "data": {
+          "title": "Share the love",
+          "titleAccent": "#AnnabelKarmel",
+          "description": "Follow us on Instagram for exclusive recipes, competitions and lots more tasty content!",
+          "posts": [
+            {
+              "id": "instagram-1",
+              "href": "/instagram/post-1",
+              "image": "/home page/insta images/670802490_1863107937686587_4855595673991752587_n.jpg",
+              "kind": "video"
+            },
+            {
+              "id": "instagram-2",
+              "href": "/instagram/post-2",
+              "image": "/home page/insta images/670540182_18589797889037816_6122834599263660726_n.jpg",
+              "kind": "carousel"
+            },
+            {
+              "id": "instagram-3",
+              "href": "/instagram/post-3",
+              "image": "/home page/insta images/669507134_18589300015037816_7211905225444844087_n.jpg",
+              "kind": "image"
+            },
+            {
+              "id": "instagram-4",
+              "href": "/instagram/post-4",
+              "image": "/home page/insta images/669053108_18589298416037816_1648841802693883020_n.jpg",
+              "kind": "image"
+            },
+            {
+              "id": "instagram-5",
+              "href": "/instagram/post-5",
+              "image": "/home page/insta images/670161684_18589288627037816_5787670877465417401_n.jpg",
+              "kind": "video"
+            },
+            {
+              "id": "instagram-6",
+              "href": "/instagram/post-6",
+              "image": "/home page/insta images/662031208_18589056445037816_8836927448447459310_n.jpg",
+              "kind": "carousel"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

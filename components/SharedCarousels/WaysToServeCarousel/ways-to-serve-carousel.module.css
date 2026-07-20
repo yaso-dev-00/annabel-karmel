@@ -17,31 +17,21 @@
     width: 100%;
     max-width: 1350px;
     margin-inline: auto;
-    padding-inline: 2rem;
+    padding-inline: 4.5rem;
   }
 }
 
 @media (min-width: 1280px) {
   .carouselWrap {
-    padding-inline: 2rem;
+    padding-inline: 4.5rem;
   }
 }
 
 .carouselRow {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-}
-
-@media (min-width: 768px) {
-  .carouselRow {
-    grid-template-columns: 64px minmax(0, 1fr) 64px;
-    column-gap: 1rem;
-  }
-
-  .carouselRowNoNav {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 .carouselViewport {
@@ -55,6 +45,16 @@
 
 .carouselViewport:active {
   cursor: grabbing;
+}
+
+.carouselViewportStatic {
+  cursor: default;
+  touch-action: pan-y pinch-zoom;
+  user-select: auto;
+}
+
+.carouselViewportStatic:active {
+  cursor: default;
 }
 
 .carouselViewport.is-carousel-interacting {
@@ -110,7 +110,9 @@
 .navButton {
   display: none;
   place-items: center;
-  align-self: start;
+  position: absolute;
+  z-index: 2;
+  top: 0;
   width: 64px;
   height: 64px;
   padding: 0;
@@ -118,6 +120,14 @@
   background: transparent;
   cursor: pointer;
   transition: transform 0.2s ease;
+}
+
+.navButtonPrev {
+  left: 0;
+}
+
+.navButtonNext {
+  right: 0;
 }
 
 @media (min-width: 768px) {

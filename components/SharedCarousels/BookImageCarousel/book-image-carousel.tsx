@@ -48,7 +48,7 @@ export function BookImageCarousel({ images, title, showMobileTitle = true }: Boo
   if (images.length === 0) return null;
 
   return (
-    <div className={styles.carousel}>
+    <div className={styles.carousel} data-book-carousel>
       {showMobileTitle ? <h3 className={styles.mobileTitle}>{title}</h3> : null}
 
       <div
@@ -67,7 +67,7 @@ export function BookImageCarousel({ images, title, showMobileTitle = true }: Boo
         >
           {images.map((image, slideIndex) => (
             <div
-              key={image.src}
+              key={`${image.src}-${slideIndex}`}
               className={`book-carousel-slide ${styles.slide}`}
               aria-hidden={slideIndex !== carousel.index}
               onClickCapture={carousel.handleCardClickCapture}

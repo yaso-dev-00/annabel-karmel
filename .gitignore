@@ -54,6 +54,10 @@ route-urls.txt
 
 # CMS runtime store (seed file is committed)
 /data/cms/advice-articles.json
+/data/cms/cookbooks.json
+/data/cms/products.json
+/data/cms/ads.json
+/data/cms/homepage.json
 
 # CMS uploaded images (directory kept via .gitkeep)
 /public/cms-uploads/*

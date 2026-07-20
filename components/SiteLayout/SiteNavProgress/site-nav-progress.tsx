@@ -13,6 +13,7 @@ function SiteNavProgressInner() {
   const isNavigatingRef = useRef(false);
   const hideTimerRef = useRef<number | undefined>(undefined);
   const routeKeyRef = useRef("");
+  const isPreviewFrame = pathname === "/homepage-preview-frame";
 
   const start = useCallback(() => {
     window.clearTimeout(hideTimerRef.current);
@@ -22,6 +23,8 @@ function SiteNavProgressInner() {
   }, []);
 
   useEffect(() => {
+    if (isPreviewFrame) return;
+
     const routeKey = `${pathname}?${searchParams.toString()}`;
 
     if (routeKeyRef.current === "") {
@@ -42,9 +45,11 @@ function SiteNavProgressInner() {
     isNavigatingRef.current = false;
     setPhase("completing");
     hideTimerRef.current = window.setTimeout(() => setPhase("idle"), 350);
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, isPreviewFrame]);
 
   useEffect(() => {
+    if (isPreviewFrame) return;
+
     const handleClick = (event: MouseEvent) => {
       if (event.defaultPrevented || event.button !== 0) {
         return;
@@ -96,13 +101,13 @@ function SiteNavProgressInner() {
 
     document.addEventListener("click", handleClick, true);
     return () => document.removeEventListener("click", handleClick, true);
-  }, [start]);
+  }, [start, isPreviewFrame]);
 
   useEffect(() => {
     return () => window.clearTimeout(hideTimerRef.current);
   }, []);
 
-  if (phase === "idle") {
+  if (isPreviewFrame || phase === "idle") {
     return null;
   }
 

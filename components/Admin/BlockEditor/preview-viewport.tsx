@@ -1,8 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState,
+  type ReactNode,
+} from "react";
 import { createPortal } from "react-dom";
 import styles from "./block-editor.module.css";
+
+export type PreviewViewportHandle = {
+  openFullscreen: () => void;
+  closeFullscreen: () => void;
+};
 
 export type PreviewViewportKey =
   | "mobile"
@@ -41,31 +53,60 @@ type PreviewStyleToolbarSlot = ReactNode | ((ctx: { isFullscreen: boolean }) => 
 type PreviewViewportProps = {
   children: ReactNode;
   className?: string;
+  bodyClassName?: string;
   title?: string;
   styleToolbar?: PreviewStyleToolbarSlot;
   fullscreenActions?: ReactNode;
   blockMaxWidthLabel?: string | null;
   selectedBlockId?: string | null;
+  /** Open in fullscreen overlay on first mount (e.g. dedicated preview pages). */
+  defaultFullscreen?: boolean;
+  /**
+   * When set, the docked (right-side) preview always uses this device size and
+   * hides the responsive toolbar. Fullscreen still shows all viewports.
+   */
+  dockedViewport?: PreviewViewportKey;
+  /**
+   * Overrides the docked preview frame width (in px). Useful to preview a
+   * specific mobile device width without affecting the shared viewport presets.
+   */
+  dockedWidth?: number;
+  /**
+   * Per-device width overrides for both docked and fullscreen toolbars/frames.
+   * e.g. `{ mobile: 400 }` for product previews.
+   */
+  viewportWidthOverrides?: Partial<Record<PreviewViewportKey, number>>;
 };
 
-export function PreviewViewport({
-  children,
-  className,
-  title = "Live preview",
-  styleToolbar,
-  fullscreenActions,
-  blockMaxWidthLabel,
-  selectedBlockId,
-}: PreviewViewportProps) {
-  const [viewport, setViewport] = useState<PreviewViewportKey>(DEFAULT_VIEWPORT);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewportProps>(
+  function PreviewViewport(
+    {
+      children,
+      className,
+      bodyClassName,
+      title = "Live preview",
+      styleToolbar,
+      fullscreenActions,
+      blockMaxWidthLabel,
+      selectedBlockId,
+      defaultFullscreen = false,
+      dockedViewport,
+      dockedWidth,
+      viewportWidthOverrides,
+    },
+    ref,
+  ) {
+  const [viewport, setViewport] = useState<PreviewViewportKey>(
+    dockedViewport ?? DEFAULT_VIEWPORT,
+  );
+  const [isFullscreen, setIsFullscreen] = useState(defaultFullscreen);
   const [styleSidebarOpen, setStyleSidebarOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setViewport(readStoredViewport());
+    setViewport(dockedViewport ?? readStoredViewport());
     setMounted(true);
-  }, []);
+  }, [dockedViewport]);
 
   useEffect(() => {
     if (isFullscreen) {
@@ -140,6 +181,15 @@ export function PreviewViewport({
     sessionStorage.setItem(STORAGE_KEY, key);
   };
 
+  const openFullscreen = useCallback(() => {
+    setIsFullscreen(true);
+    setStyleSidebarOpen(true);
+  }, []);
+
+  const closeFullscreen = useCallback(() => {
+    setIsFullscreen(false);
+  }, []);
+
   const toggleFullscreen = useCallback(() => {
     setIsFullscreen((prev) => {
       const next = !prev;
@@ -148,7 +198,27 @@ export function PreviewViewport({
     });
   }, []);
 
-  const width = PREVIEW_VIEWPORTS.find((v) => v.key === viewport)?.width ?? 1280;
+  useImperativeHandle(
+    ref,
+    () => ({
+      openFullscreen,
+      closeFullscreen,
+    }),
+    [openFullscreen, closeFullscreen],
+  );
+
+  const viewports = PREVIEW_VIEWPORTS.map((v) => ({
+    ...v,
+    width: viewportWidthOverrides?.[v.key] ?? v.width,
+  }));
+
+  const activeViewport =
+    !isFullscreen && dockedViewport ? dockedViewport : viewport;
+  const presetWidth =
+    viewports.find((v) => v.key === activeViewport)?.width ?? 1280;
+  const width =
+    !isFullscreen && dockedViewport && dockedWidth ? dockedWidth : presetWidth;
+  const showViewportToolbar = isFullscreen || !dockedViewport;
 
   const dockedClass = !isFullscreen ? className : undefined;
 
@@ -178,13 +248,13 @@ export function PreviewViewport({
     </div>
   );
 
-  const previewToolbar = (
+  const previewToolbar = showViewportToolbar ? (
     <div className={styles.previewToolbar} role="toolbar" aria-label="Preview device size">
-      {PREVIEW_VIEWPORTS.map((v) => (
+      {viewports.map((v) => (
         <button
           key={v.key}
           type="button"
-          className={`${styles.previewViewportBtn} ${viewport === v.key ? styles.previewViewportBtnActive : ""}`}
+          className={`${styles.previewViewportBtn} ${activeViewport === v.key ? styles.previewViewportBtnActive : ""}`}
           onClick={() => select(v.key)}
           title={`${v.label} (${v.width}px)`}
         >
@@ -199,16 +269,21 @@ export function PreviewViewport({
         </div>
       ) : null}
     </div>
-  );
+  ) : null;
 
   const previewScroll = (
-    <div className={styles.previewScroll}>
+    <div className={styles.previewScroll} data-preview-scroll="true">
       <div
         className={styles.previewFrame}
         data-preview-frame="true"
+        data-preview-fullscreen={isFullscreen ? "true" : "false"}
+        data-preview-viewport={activeViewport}
+        data-preview-width={String(width)}
         style={{ "--preview-width": `${width}px` } as React.CSSProperties}
       >
-        <div className={styles.previewBody}>{children}</div>
+        <div className={`${styles.previewBody}${bodyClassName ? ` ${bodyClassName}` : ""}`}>
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -274,4 +349,4 @@ export function PreviewViewport({
   }
 
   return panel;
-}
+});

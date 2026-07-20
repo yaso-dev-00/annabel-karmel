@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
@@ -97,52 +97,45 @@ function ProductAccordionItem({
         <AccordionChevron open={open} />
       </button>
 
-      <AnimatePresence initial={false}>
-        {open ? (
-          <motion.div
-            key={item.title}
-            className={styles.accordionBody}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-          >
-            <div className={styles.accordionBodyInner}>
-              {item.table ? (
-                <>
-                  <table className={styles.nutritionTable}>
-                    <thead>
-                      <tr>
-                        {item.table.headers.map((header) => (
-                          <th key={header} scope="col">
-                            {header}
-                          </th>
+      {open ? (
+        <div className={styles.accordionBody}>
+          <div className={styles.accordionBodyInner}>
+            {item.table ? (
+              <>
+                <table className={styles.nutritionTable}>
+                  <thead>
+                    <tr>
+                      {item.table.headers.map((header) => (
+                        <th key={header} scope="col">
+                          {header}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {item.table.rows.map((row) => (
+                      <tr key={row[0]}>
+                        {row.map((cell) => (
+                          <td key={cell}>{cell}</td>
                         ))}
                       </tr>
-                    </thead>
-                    <tbody>
-                      {item.table.rows.map((row) => (
-                        <tr key={row[0]}>
-                          {row.map((cell) => (
-                            <td key={cell}>{cell}</td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  {item.table.footnote ? (
-                    <p className={styles.nutritionFootnote}>{item.table.footnote}</p>
-                  ) : null}
-                </>
-              ) : (
-                item.paragraphs?.map((paragraph) => (
-                  <p key={paragraph}>{renderAccordionParagraph(paragraph)}</p>
-                ))
-              )}
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+                    ))}
+                  </tbody>
+                </table>
+                {item.table.footnote ? (
+                  <p className={styles.nutritionFootnote}>{item.table.footnote}</p>
+                ) : null}
+              </>
+            ) : (
+              item.paragraphs?.map((paragraph, index) => (
+                <p key={`${index}-${paragraph.slice(0, 24)}`}>
+                  {renderAccordionParagraph(paragraph)}
+                </p>
+              ))
+            )}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -177,8 +170,9 @@ function ProductCarousel({
   arrowLeft: string;
   arrowRight: string;
 }) {
+  const visibleSlides = slides.filter((slide) => slide.src.trim().length > 0);
   const carousel = useSnapCarousel({
-    itemCount: slides.length,
+    itemCount: visibleSlides.length,
     cardSelector: ".plant-powered-carousel-slide",
     controlsSelector: "button",
     dragThreshold: 2,
@@ -195,26 +189,30 @@ function ProductCarousel({
 
   const goTo = useCallback(
     (next: number) => {
-      const total = slides.length;
+      const total = visibleSlides.length;
+      if (total <= 0) return;
       const wrapped = ((next % total) + total) % total;
       if (wrapped === carousel.index) return;
       carousel.animateToIndex(wrapped, CAROUSEL_SLIDE);
     },
-    [carousel, slides.length],
+    [carousel, visibleSlides.length],
   );
 
   useEffect(() => {
     carousel.measure();
-  }, [carousel.measure]);
+  }, [carousel.measure, visibleSlides.length]);
 
   useEffect(() => {
+    if (visibleSlides.length <= 1) return;
     const timer = window.setInterval(() => {
       const current = indexRef.current;
-      const next = current >= slides.length - 1 ? 0 : current + 1;
+      const next = current >= visibleSlides.length - 1 ? 0 : current + 1;
       animateToIndexRef.current(next, CAROUSEL_SLIDE);
     }, 5000);
     return () => window.clearInterval(timer);
-  }, [slides.length]);
+  }, [visibleSlides.length]);
+
+  if (visibleSlides.length === 0) return null;
 
   return (
     <div className={styles.carouselStage}>
@@ -234,9 +232,9 @@ function ProductCarousel({
             style={{ x: carousel.x }}
             initial={false}
           >
-            {slides.map((slide, slideIndex) => (
+            {visibleSlides.map((slide, slideIndex) => (
               <div
-                key={slide.src}
+                key={`${slide.src}-${slideIndex}`}
                 className={`plant-powered-carousel-slide ${styles.carouselSlideItem}`}
                 aria-hidden={slideIndex !== carousel.index}
                 onClickCapture={carousel.handleCardClickCapture}
@@ -340,24 +338,28 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
   return (
     <main className={styles.page}>
       <section className={`${styles.fullBleed} leading-0`} aria-label={data.heroAlt}>
-        <Image
-          src={data.assets.heroDesktop}
-          alt={data.heroAlt}
-          width={data.hero.desktopWidth}
-          height={data.hero.desktopHeight}
-          priority
-          className="hidden h-auto w-full align-bottom md:block"
-          sizes="100vw"
-        />
-        <Image
-          src={data.assets.heroMobile}
-          alt={data.heroAlt}
-          width={data.hero.mobileWidth}
-          height={data.hero.mobileHeight}
-          priority
-          className="block h-auto w-full align-bottom md:hidden"
-          sizes="100vw"
-        />
+        {data.assets.heroDesktop.trim() ? (
+          <Image
+            src={data.assets.heroDesktop}
+            alt={data.heroAlt}
+            width={data.hero.desktopWidth}
+            height={data.hero.desktopHeight}
+            priority
+            className={styles.heroDesktop}
+            sizes="100vw"
+          />
+        ) : null}
+        {data.assets.heroMobile.trim() ? (
+          <Image
+            src={data.assets.heroMobile}
+            alt={data.heroAlt}
+            width={data.hero.mobileWidth}
+            height={data.hero.mobileHeight}
+            priority
+            className={styles.heroMobile}
+            sizes="100vw"
+          />
+        ) : null}
       </section>
 
       <section
@@ -391,22 +393,26 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
 
             <div className={styles.detailContent}>
               <div className={styles.badgeStrip}>
-                <Image
-                  src={data.badges.desktop}
-                  alt={data.badges.alt}
-                  width={data.badges.desktopWidth}
-                  height={data.badges.desktopHeight}
-                  className={`${styles.badgeStripImage} ${styles.badgeStripDesktop}`}
-                  sizes="(min-width: 768px) 600px, 0px"
-                />
-                <Image
-                  src={data.badges.mobile}
-                  alt={data.badges.alt}
-                  width={data.badges.mobileWidth}
-                  height={data.badges.mobileHeight}
-                  className={`${styles.badgeStripImage} ${styles.badgeStripMobile}`}
-                  sizes="(max-width: 767px) 100vw, 0px"
-                />
+                {data.badges.desktop.trim() ? (
+                  <Image
+                    src={data.badges.desktop}
+                    alt={data.badges.alt}
+                    width={data.badges.desktopWidth}
+                    height={data.badges.desktopHeight}
+                    className={`${styles.badgeStripImage} ${styles.badgeStripDesktop}`}
+                    sizes="(min-width: 768px) 600px, 0px"
+                  />
+                ) : null}
+                {data.badges.mobile.trim() ? (
+                  <Image
+                    src={data.badges.mobile}
+                    alt={data.badges.alt}
+                    width={data.badges.mobileWidth}
+                    height={data.badges.mobileHeight}
+                    className={`${styles.badgeStripImage} ${styles.badgeStripMobile}`}
+                    sizes="(max-width: 767px) 100vw, 0px"
+                  />
+                ) : null}
               </div>
 
               {(Array.isArray(data.description) ? data.description : [data.description]).map(
@@ -439,14 +445,16 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
               {data.retailer.heading}
             </h2>
             <a href={data.retailer.logoHref} target="_blank" rel="noreferrer">
-              <Image
-                src={data.assets.asdaLogo}
-                alt="ASDA"
-                width={1360}
-                height={404}
-                className={styles.asdaLogo}
-                sizes="(min-width: 768px) 320px, 75vw"
-              />
+              {data.assets.asdaLogo.trim() ? (
+                <Image
+                  src={data.assets.asdaLogo}
+                  alt="ASDA"
+                  width={1360}
+                  height={404}
+                  className={styles.asdaLogo}
+                  sizes="(min-width: 768px) 320px, 75vw"
+                />
+              ) : null}
             </a>
           </div>
         </div>

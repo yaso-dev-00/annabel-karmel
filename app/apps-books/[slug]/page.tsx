@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { CookbookDetailPageContent } from "@/components/MarketingScreen/CookbookDetailPage";
+import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
 import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
 import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
 import { getAllCookbookSlugs, getCookbookBySlug } from "@/lib/cookbooks";
@@ -42,6 +43,9 @@ export default async function CookbookPage({ params }: CookbookPageProps) {
     <>
       <SiteHeader />
       <CookbookDetailPageContent cookbook={cookbook} />
+      <div className="mt-[50px]">
+        <InstagramShareSection />
+      </div>
       <SiteFooter />
     </>
   );

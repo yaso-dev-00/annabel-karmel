@@ -10,29 +10,8 @@ import {
   ourBooksProducts,
   type OurBooksProduct,
 } from "@/data/our-books-page";
+import { renderHighlightedText } from "@/lib/cookbooks/highlight-text";
 import styles from "./our-books-page.module.css";
-
-function escapeRegExp(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function renderHighlightedText(text: string, highlights: string[]) {
-  if (highlights.length === 0) {
-    return text;
-  }
-
-  const pattern = new RegExp(
-    `(${[...highlights].sort((a, b) => b.length - a.length).map(escapeRegExp).join("|")})`,
-    "g",
-  );
-
-  return text.split(pattern).map((part, index) => {
-    if (highlights.includes(part)) {
-      return <strong key={`${part}-${index}`}>{part}</strong>;
-    }
-    return part;
-  });
-}
 
 function BookBody({ product }: { product: OurBooksProduct }) {
   const paragraphs = product.body.split("\n\n");

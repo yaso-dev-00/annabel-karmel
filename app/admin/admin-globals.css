@@ -494,12 +494,14 @@ body.admin-preview-fullscreen .sidebar {
   gap: 12px;
   padding: 16px;
   border-bottom: 1px solid var(--admin-border);
+  flex-wrap: wrap;
 }
 
 .listSearchWrap {
   position: relative;
   flex: 1;
   max-width: 360px;
+  min-width: 180px;
 }
 
 .listSearchIcon {
@@ -527,9 +529,41 @@ body.admin-preview-fullscreen .sidebar {
   border-color: var(--admin-brand);
 }
 
-.listStatusSelect {
-  min-width: 160px;
+.listStatusTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.listStatusTab {
+  padding: 7px 12px;
+  border: 1px solid transparent;
   border-radius: 999px;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--admin-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.listStatusTab:hover {
+  color: var(--admin-text);
+  background: #f7f1f2;
+}
+
+.listStatusTabActive {
+  background: #fff;
+  border-color: var(--admin-border);
+  color: var(--admin-text);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.listStatusTab:focus-visible {
+  outline: 2px solid var(--admin-brand-light);
+  outline-offset: 2px;
 }
 
 .tableRowClickable {

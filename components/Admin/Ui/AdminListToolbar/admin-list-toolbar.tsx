@@ -49,18 +49,23 @@ export function AdminListToolbar({
           aria-label={searchPlaceholder}
         />
       </div>
-      <select
-        className="listStatusSelect fieldSelect"
-        value={statusFilter}
-        onChange={(event) => onStatusFilterChange(event.target.value)}
-        aria-label="Filter by status"
-      >
-        {statusOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <div className="listStatusTabs" role="tablist" aria-label="Filter by status">
+        {statusOptions.map((option) => {
+          const selected = statusFilter === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              className={`listStatusTab${selected ? " listStatusTabActive" : ""}`}
+              onClick={() => onStatusFilterChange(option.value)}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

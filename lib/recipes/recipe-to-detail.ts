@@ -16,7 +16,7 @@ function taxonomyLinks(
   kind: "recipe-category" | "meal-time" | "allergen",
 ): RecipeTaxonomyLink[] {
   return recipe.taxonomies
-    .filter((ref) => ref.kind === kind)
+    .filter((ref) => ref.kind === kind && !ref.hidden)
     .flatMap((ref) => {
       const taxonomy = getTaxonomy(ref.kind, ref.slug);
       if (!taxonomy) return [];

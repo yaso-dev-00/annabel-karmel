@@ -169,6 +169,20 @@
   font-weight: 600;
 }
 
+.chipHidden {
+  background: #f3f3f3;
+  color: #6a6a6a;
+  opacity: 0.9;
+}
+
+.chipHiddenLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+}
+
 .chipRemove {
   border: none;
   background: transparent;
@@ -184,13 +198,118 @@
   opacity: 1;
 }
 
-.chipAddSelect {
-  width: auto;
-  min-width: 88px;
-  padding: 4px 8px !important;
-  font-size: 11.5px !important;
-  border-style: dashed !important;
-  color: #969494;
+.addPicker {
+  position: relative;
+  display: inline-flex;
+}
+
+.addPickerTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px solid #e2d6d9;
+  border-radius: 999px;
+  background: #fff;
+  color: #7a4a58;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.addPickerTrigger:hover {
+  border-color: #c9a3ae;
+  background: #fdf7f8;
+  color: #8e3046;
+}
+
+.addPickerTrigger[aria-expanded="true"] {
+  border-color: #8e3046;
+  background: #fdf1f3;
+  color: #8e3046;
+}
+
+.addPickerChevron {
+  font-size: 10px;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.addPickerMenu {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 6px);
+  z-index: 40;
+  width: min(280px, 72vw);
+  max-height: 280px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e4dce0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(40, 20, 28, 0.12);
+  overflow: hidden;
+}
+
+.addPickerSearchWrap {
+  padding: 8px;
+  border-bottom: 1px solid #f0eaec;
+  background: #faf7f8;
+}
+
+.addPickerSearch {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #e4dce0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #2a2a2a;
+  background: #fff;
+}
+
+.addPickerSearch:focus {
+  outline: none;
+  border-color: #b34769;
+  box-shadow: 0 0 0 3px rgba(179, 71, 105, 0.12);
+}
+
+.addPickerList {
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  overflow-y: auto;
+  max-height: 220px;
+}
+
+.addPickerOption {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #3a3a3a;
+  cursor: pointer;
+}
+
+.addPickerOption:hover {
+  background: #fdf1f3;
+  color: #8e3046;
+}
+
+.addPickerEmpty {
+  padding: 14px 10px;
+  font-size: 13px;
+  color: #8a8a8a;
+  text-align: center;
 }
 
 .quantityBar {

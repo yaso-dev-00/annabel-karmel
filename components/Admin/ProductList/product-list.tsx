@@ -100,7 +100,7 @@ export function ProductList({
   section = "meals",
   listPath = "/admin/products",
 }: ProductListProps) {
-  const products = useAdminListRefresh(initialProducts, fetchProducts, listPath);
+  const { items: products } = useAdminListRefresh(initialProducts, fetchProducts, listPath);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 

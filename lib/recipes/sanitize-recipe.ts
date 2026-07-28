@@ -1,4 +1,5 @@
 import type { RecipeTaxonomyKind } from "@/data/recipe-taxonomies";
+import { RECIPE_TAXONOMY_KINDS } from "@/data/recipe-taxonomies";
 import { normalizeRecipeCookingFields } from "@/lib/recipes/recipe-cooking-field-format";
 import { normalizeRecipe } from "@/lib/admin/recipe-status";
 import {
@@ -12,7 +13,7 @@ import {
   type RecipesStore,
 } from "@/lib/recipes/types";
 
-const TAXONOMY_KINDS: RecipeTaxonomyKind[] = ["recipe-category", "meal-time", "allergen"];
+const TAXONOMY_KINDS: RecipeTaxonomyKind[] = [...RECIPE_TAXONOMY_KINDS];
 const DIFFICULTY_VALUES = new Set(RECIPE_DIFFICULTIES.map((d) => d.value));
 const UNIT_VALUES = new Set(RECIPE_INGREDIENT_UNITS);
 
@@ -56,7 +57,11 @@ function sanitizeTaxonomyRef(raw: unknown): RecipeTaxonomyRef | null {
   const kind = trimString(input.kind) as RecipeTaxonomyKind;
   const slug = trimString(input.slug);
   if (!TAXONOMY_KINDS.includes(kind) || !slug) return null;
-  return { kind, slug };
+  return {
+    kind,
+    slug,
+    ...(input.hidden === true ? { hidden: true } : {}),
+  };
 }
 
 function sanitizeDifficulty(raw: unknown): RecipeDifficulty {

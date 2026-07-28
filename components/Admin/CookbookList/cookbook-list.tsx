@@ -73,7 +73,7 @@ function ClickableTableRow({
 }
 
 export function CookbookList({ cookbooks: initialCookbooks }: CookbookListProps) {
-  const cookbooks = useAdminListRefresh(initialCookbooks, fetchCookbooks, "/admin/cookbooks");
+  const { items: cookbooks } = useAdminListRefresh(initialCookbooks, fetchCookbooks, "/admin/cookbooks");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 

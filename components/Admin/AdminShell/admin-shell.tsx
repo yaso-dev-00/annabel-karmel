@@ -17,6 +17,7 @@ const NAV_SECTIONS: { title?: string; items: NavItem[] }[] = [
     items: [
       { href: "/admin", label: "Dashboard", exact: true },
       { href: "/admin/recipes", label: "Recipes" },
+      { href: "/admin/recipes/taxonomies", label: "Taxonomies" },
     ],
   },
   {
@@ -37,6 +38,22 @@ const NAV_SECTIONS: { title?: string; items: NavItem[] }[] = [
   },
 ];
 
+function isNavItemActive(item: NavItem, pathname: string, allItems: NavItem[]): boolean {
+  if (item.disabled || item.href === "#") return false;
+  if (item.exact) return pathname === item.href;
+
+  const matches = allItems.filter(
+    (candidate) =>
+      !candidate.disabled &&
+      candidate.href !== "#" &&
+      !candidate.exact &&
+      pathname.startsWith(candidate.href),
+  );
+  if (matches.length === 0) return false;
+  const best = matches.reduce((a, b) => (b.href.length > a.href.length ? b : a));
+  return best.href === item.href;
+}
+
 type AdminShellProps = {
   title?: string;
   breadcrumb?: string;
@@ -47,6 +64,7 @@ type AdminShellProps = {
 export function AdminShell({ title, breadcrumb, children, actions }: AdminShellProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const allNavItems = NAV_SECTIONS.flatMap((section) => section.items);
 
   useEffect(() => {
     // Mutations go through client fetch → API routes; revalidatePath alone does not
@@ -77,9 +95,7 @@ export function AdminShell({ title, breadcrumb, children, actions }: AdminShellP
                 {section.title ? <p className="sidebarSectionTitle">{section.title}</p> : null}
                 <div className="sidebarSectionLinks">
                   {section.items.map((item) => {
-                    const active = item.exact
-                      ? pathname === item.href
-                      : pathname.startsWith(item.href) && item.href !== "#";
+                    const active = isNavItemActive(item, pathname, allNavItems);
 
                     return (
                       <Link

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createRecipe, getAllRecipes } from "@/lib/admin/recipes-store";
+import { createRecipe, getAllRecipesUncached } from "@/lib/admin/recipes-store";
 import { revalidateRecipePages } from "@/lib/admin/revalidate-recipe-pages";
 import type { Recipe } from "@/lib/recipes/types";
 
@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 const NO_STORE_HEADERS = { "Cache-Control": "no-store, max-age=0" };
 
 export async function GET() {
-  const recipes = await getAllRecipes();
+  const recipes = await getAllRecipesUncached();
   return NextResponse.json({ recipes }, { headers: NO_STORE_HEADERS });
 }
 

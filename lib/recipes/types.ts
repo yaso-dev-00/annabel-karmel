@@ -19,6 +19,8 @@ export type RecipeStep = {
 export type RecipeTaxonomyRef = {
   kind: RecipeTaxonomyKind;
   slug: string;
+  /** When true, recipe stays in the category but is hidden from public category listings. */
+  hidden?: boolean;
 };
 
 export type Recipe = {

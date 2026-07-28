@@ -15,14 +15,23 @@ type RevalidateRecipe = {
   slug?: string;
 };
 
-/** Admin + preview paths only — live /recipes/[slug] stays on static listings for now. */
+/**
+ * Expire recipe cache tags immediately so the next read is fresh
+ * (Route Handlers cannot use updateTag).
+ */
+export function revalidateRecipeTags(recipe?: RevalidateRecipe): void {
+  revalidateTag(RECIPES_CACHE_TAG, { expire: 0 });
+  if (recipe?.id) revalidateTag(recipeIdTag(recipe.id), { expire: 0 });
+  if (recipe?.slug) revalidateTag(recipeSlugTag(recipe.slug), { expire: 0 });
+}
+
+/** Admin + preview paths — live /recipes/[slug] stays on static listings for now. */
 export function revalidateRecipePages(recipe?: RevalidateRecipe): void {
-  revalidateTag(RECIPES_CACHE_TAG, "seconds");
-  if (recipe?.id) revalidateTag(recipeIdTag(recipe.id), "seconds");
-  if (recipe?.slug) revalidateTag(recipeSlugTag(recipe.slug), "seconds");
+  revalidateRecipeTags(recipe);
 
   revalidatePath("/admin");
   revalidatePath("/admin/recipes");
+  revalidatePath("/admin/recipes/taxonomies");
   revalidatePath("/admin", "layout");
 
   if (recipe?.id) {

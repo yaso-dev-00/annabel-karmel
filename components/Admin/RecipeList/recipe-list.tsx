@@ -79,7 +79,7 @@ function ClickableTableRow({
 }
 
 export function RecipeList({ recipes: initialRecipes }: RecipeListProps) {
-  const recipes = useAdminListRefresh(initialRecipes, fetchRecipes, "/admin/recipes");
+  const { items: recipes } = useAdminListRefresh(initialRecipes, fetchRecipes, "/admin/recipes");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
@@ -120,7 +120,7 @@ export function RecipeList({ recipes: initialRecipes }: RecipeListProps) {
             <th>Title</th>
             <th>Status</th>
             <th>Category</th>
-            <th>Updated</th>
+            <th>Published</th>
           </tr>
         </thead>
         <tbody>
@@ -158,7 +158,9 @@ export function RecipeList({ recipes: initialRecipes }: RecipeListProps) {
                     <RecipeStatusBadge recipe={recipe} />
                   </td>
                   <td>{primaryCategoryLabel(recipe)}</td>
-                  <td>{formatAdminListDate(recipe.updated_at)}</td>
+                  <td>
+                    {recipe.published_at ? formatAdminListDate(recipe.published_at) : "—"}
+                  </td>
                 </ClickableTableRow>
               );
             })

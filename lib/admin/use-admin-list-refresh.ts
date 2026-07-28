@@ -8,14 +8,16 @@ function isAdminListPath(pathname: string, listPath: string): boolean {
 }
 
 /**
- * Keeps admin listing tables fresh after edits. Server-rendered props can lag behind
- * client navigations; this refetches from the admin API when the list route is active.
+ * Keeps admin listing tables fresh after edits.
+ * The admin API is the source of truth — RSC props can lag behind mutations
+ * (revalidatePath + router.refresh), so we re-fetch from the API instead of
+ * blindly applying server props.
  */
 export function useAdminListRefresh<T>(
   initial: T[],
   fetcher: () => Promise<T[]>,
   listPath: string,
-): T[] {
+): { items: T[]; refresh: () => Promise<void> } {
   const pathname = usePathname();
   const [items, setItems] = useState(initial);
 
@@ -29,13 +31,9 @@ export function useAdminListRefresh<T>(
   }, [fetcher]);
 
   useEffect(() => {
-    setItems(initial);
-  }, [initial]);
-
-  useEffect(() => {
     if (!isAdminListPath(pathname, listPath)) return;
     void refresh();
-  }, [pathname, listPath, refresh]);
+  }, [pathname, listPath, refresh, initial]);
 
   useEffect(() => {
     const onVisible = () => {
@@ -52,5 +50,5 @@ export function useAdminListRefresh<T>(
     };
   }, [pathname, listPath, refresh]);
 
-  return items;
+  return { items, refresh };
 }

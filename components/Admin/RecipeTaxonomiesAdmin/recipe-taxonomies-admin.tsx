@@ -11,12 +11,29 @@ import {
   resolveRecipeStatus,
 } from "@/lib/admin/recipe-status";
 import { formatAdminListDate } from "@/lib/admin/format-admin-list";
-import { updateRecipeTaxonomiesAction } from "@/lib/admin/recipe-taxonomy-actions";
+import { fetchRecipes, updateRecipeApi } from "@/lib/admin/recipes-client";
 import type { Recipe, RecipeTaxonomyRef } from "@/lib/recipes/types";
 import editorStyles from "@/components/Admin/RecipeEditor/recipe-editor.module.css";
 import styles from "./recipe-taxonomies-admin.module.css";
 
 const ADD_PAGE_SIZE = 10;
+const MAX_ERROR_LENGTH = 140;
+
+/** Collapse noisy/raw backend errors into a short, actionable message for the admin UI. */
+function friendlyPersistError(err: unknown, fallback: string): string {
+  const raw = err instanceof Error ? err.message : fallback;
+
+  if (/blob.*(suspended|storage limit|quota)/i.test(raw) || /storage limit/i.test(raw)) {
+    return "Storage is unavailable: the Vercel Blob store has hit its limit. Free up space or upgrade the plan in Vercel, then try again.";
+  }
+  if (/BLOB_READ_WRITE_TOKEN/i.test(raw)) {
+    return "Storage isn't configured: add BLOB_READ_WRITE_TOKEN in Vercel project settings, then redeploy.";
+  }
+  if (raw.length > MAX_ERROR_LENGTH) {
+    return `${raw.slice(0, MAX_ERROR_LENGTH).trim()}…`;
+  }
+  return raw;
+}
 
 type RecipeTaxonomiesAdminProps = {
   recipes: Recipe[];
@@ -167,14 +184,12 @@ export function RecipeTaxonomiesAdmin({ recipes: initialRecipes }: RecipeTaxonom
     setRecipes(optimistic);
 
     try {
-      const { recipes: nextRecipes } = await updateRecipeTaxonomiesAction(
-        recipeId,
-        nextTaxonomies,
-      );
+      await updateRecipeApi(recipeId, { taxonomies: nextTaxonomies });
+      const nextRecipes = await fetchRecipes();
       setRecipes(nextRecipes);
     } catch (err) {
       setRecipes(previous);
-      setError(err instanceof Error ? err.message : failureMessage);
+      setError(friendlyPersistError(err, failureMessage));
     } finally {
       setBusyId(null);
     }
@@ -234,7 +249,19 @@ export function RecipeTaxonomiesAdmin({ recipes: initialRecipes }: RecipeTaxonom
         ))}
       </div>
 
-      {error ? <p className={styles.errorBanner}>{error}</p> : null}
+      {error ? (
+        <div className={styles.errorBanner}>
+          <span className={styles.errorBannerText}>{error}</span>
+          <button
+            type="button"
+            className={styles.errorBannerDismiss}
+            aria-label="Dismiss error"
+            onClick={() => setError(null)}
+          >
+            ×
+          </button>
+        </div>
+      ) : null}
 
       <div className={styles.layout}>
         <div className={styles.termList} role="listbox" aria-label={`${group.label} categories`}>

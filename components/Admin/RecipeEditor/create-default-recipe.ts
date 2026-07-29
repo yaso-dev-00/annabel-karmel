@@ -24,7 +24,7 @@ export function createDefaultRecipe(): Recipe {
     difficulty: "medium",
     suitable_for_freezing: false,
     app_exclusive: false,
-    ingredients: [{ qty: "", unit: "g", item: "" }],
+    ingredients: [{ title: "", items: [] }],
     method: [{ text: "" }],
     taxonomies: [],
     seo_title: "",
@@ -36,5 +36,10 @@ export function createDefaultRecipe(): Recipe {
     published_at: null,
     created_at: now,
     updated_at: now,
+    visibility: "both",
+    yield_type: "serves",
+    yield_value: "",
+    schema: {},
+    sponsor: {},
   };
 }

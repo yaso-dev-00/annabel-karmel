@@ -9,20 +9,17 @@
       "featured_image_alt": "Sweet potato and spinach puree",
       "prep_time": "5 mins",
       "cook_time": "15 mins",
-      "servings": "3 portions",
+      "servings": "",
       "difficulty": "easy",
       "suitable_for_freezing": true,
-      "app_exclusive": false,
+      "app_exclusive": true,
       "ingredients": [
         {
-          "qty": "150",
-          "unit": "g",
-          "item": "sweet potato, peeled and diced"
-        },
-        {
-          "qty": "40",
-          "unit": "g",
-          "item": "fresh baby spinach"
+          "title": "",
+          "items": [
+            "150g sweet potato, peeled and diced",
+            "40g fresh baby spinach"
+          ]
         }
       ],
       "method": [
@@ -38,13 +35,10 @@
       ],
       "taxonomies": [
         {
-          "kind": "meal-time",
-          "slug": "weaning"
-        },
-        {
           "kind": "allergen",
           "slug": "dairy-free-recipes",
-          "hidden": true
+          "hidden": true,
+          "primary": true
         },
         {
           "kind": "allergen",
@@ -67,12 +61,9 @@
           "slug": "vegan"
         },
         {
-          "kind": "meal-time",
-          "slug": "breakfast"
-        },
-        {
           "kind": "recipe-category",
-          "slug": "12-18-months"
+          "slug": "12-18-months",
+          "primary": true
         },
         {
           "kind": "recipe-category",
@@ -82,6 +73,58 @@
           "kind": "recipe-category",
           "slug": "after-first-tastes",
           "hidden": true
+        },
+        {
+          "kind": "meal-time",
+          "slug": "weaning"
+        },
+        {
+          "kind": "meal-time",
+          "slug": "breakfast",
+          "primary": true
+        },
+        {
+          "kind": "meal-time",
+          "slug": "light-meals"
+        },
+        {
+          "kind": "occasions",
+          "slug": "bonfire-night-recipes"
+        },
+        {
+          "kind": "occasions",
+          "slug": "mothers-day-recipe-ideas-for-kids",
+          "primary": true
+        },
+        {
+          "kind": "ingredients",
+          "slug": "beef"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "cookies",
+          "primary": true
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "cakes"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "finger-food-recipe-ideas"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "snacks"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "fussy-eater-favourites"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "halloween",
+          "primary": true
         }
       ],
       "seo_title": "Sweet Potato & Spinach Puree | Annabel Karmel",
@@ -91,15 +134,31 @@
       "status": "published",
       "scheduled_at": null,
       "published_at": "2026-07-16T12:24:24.503Z",
-      "updated_at": "2026-07-28T05:17:33.341Z",
-      "created_at": "2026-07-16T00:00:00.000Z"
+      "updated_at": "2026-07-29T06:53:02.171Z",
+      "created_at": "2026-07-16T00:00:00.000Z",
+      "visibility": "both",
+      "info_uk": "<ul><li><p>csdcdcsd</p></li></ul>",
+      "info_us": "<ul><li><p>csdcdcsd</p></li></ul>",
+      "method_us": [
+        {
+          "text": "Put the sweet potato into a steamer. Steam for 15 minutes until tender."
+        },
+        {
+          "text": "Add the spinach and steam for a further 2 minutes."
+        },
+        {
+          "text": "Blend until smooth using a stick blender."
+        }
+      ],
+      "yield_type": "makes",
+      "author_id": "annabel-karmel"
     },
     {
       "id": "2b6bc429-3ae5-4981-a004-ccafcf82ee27",
       "slug": "chicken-gravvy",
       "title": "chicken gravyy",
       "description": "akjnajd djksa dkjas dka dja djk dka d",
-      "featured_image": "https://www.annabelkarmel.com/wp-content/uploads/2023/11/Sweet-potato-spinach-min-scaled-optimized.jpg",
+      "featured_image": "/cms-uploads/b7362123-e60c-4e0b-94e9-181980ef304b.jpg",
       "prep_time": "15 mins",
       "cook_time": "12 mins",
       "servings": "8 portions",
@@ -108,14 +167,19 @@
       "app_exclusive": false,
       "ingredients": [
         {
-          "qty": "10",
-          "unit": "g",
-          "item": "chicken powder"
+          "title": "nv",
+          "items": [
+            "10g chicken powder",
+            "ttgfd"
+          ]
         }
       ],
       "method": [
         {
           "text": "add the oil"
+        },
+        {
+          "text": "custard 50g"
         }
       ],
       "taxonomies": [
@@ -130,15 +194,12 @@
         },
         {
           "kind": "recipe-category",
-          "slug": "18-months"
+          "slug": "18-months",
+          "primary": true
         },
         {
           "kind": "recipe-category",
           "slug": "baby-recipes"
-        },
-        {
-          "kind": "sweet_treats",
-          "slug": "healthy-ice-cream-ice-lolly-recipes-for-kids-toddlers-babies"
         },
         {
           "kind": "recipe-category",
@@ -156,17 +217,44 @@
         {
           "kind": "recipe-category",
           "slug": "first-foods"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "healthy-ice-cream-ice-lolly-recipes-for-kids-toddlers-babies"
         }
       ],
       "seo_title": "asjdnasjk",
       "seo_description": "akdasjk adakjs",
       "focus_keyphrase": "asb das dahs",
       "noindex": true,
-      "status": "published",
-      "scheduled_at": null,
-      "published_at": "2026-07-16T08:15:14.471Z",
-      "updated_at": "2026-07-28T05:18:37.944Z",
-      "created_at": "2026-07-16T08:11:59.070Z"
+      "status": "scheduled",
+      "scheduled_at": "2026-07-29T09:48:50.416Z",
+      "published_at": "2026-07-29T07:17:13.872Z",
+      "updated_at": "2026-07-29T09:48:50.438Z",
+      "created_at": "2026-07-16T08:11:59.070Z",
+      "visibility": "desktop",
+      "content_us": "<p></p>",
+      "info_uk": "<ol><li><p>best for all</p></li></ol>",
+      "info_us": "<ol><li><p>best for all</p></li></ol>",
+      "ingredients_us": [
+        {
+          "title": "nv",
+          "items": [
+            "10g chicken powder",
+            "ttgfd"
+          ]
+        }
+      ],
+      "method_us": [
+        {
+          "text": "add the oil"
+        },
+        {
+          "text": "custard 50g"
+        }
+      ],
+      "allergen_icon": "/cms-uploads/b7362123-e60c-4e0b-94e9-181980ef304b.jpg",
+      "author_id": "annabel-karmel"
     }
   ]
 }

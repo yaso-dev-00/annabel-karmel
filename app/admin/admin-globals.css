@@ -169,6 +169,114 @@ body.admin-preview-fullscreen .sidebar {
   pointer-events: none;
 }
 
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.navGroupHeader {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.navGroupHeader:hover {
+  background: #faf7f8;
+}
+
+.navGroupHeader:hover .navGroupToggle,
+.navGroupHeader:hover .navLinkGroup {
+  color: #8e3046;
+}
+
+.navGroupHeaderActive {
+  background: #fdf1f3;
+}
+
+.navGroupHeaderActive .navGroupToggle,
+.navGroupHeaderActive .navLinkGroup {
+  color: #8e3046;
+}
+
+.navGroupToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: 6px;
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.navGroupToggle:hover {
+  background: rgba(142, 48, 70, 0.08);
+  color: #8e3046;
+}
+
+.navGroupChevron {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg) translateY(-1px);
+  transition: transform 0.15s ease;
+}
+
+.navGroupToggleOpen .navGroupChevron {
+  transform: rotate(45deg) translateY(-1px);
+}
+
+.navLinkGroup {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 14px 11px 2px;
+  border-radius: 0 999px 999px 0;
+  background: transparent;
+}
+
+.navGroupHeader .navLinkGroup:hover,
+.navGroupHeader .navLinkGroup.navLinkActive {
+  background: transparent;
+}
+
+.navSubLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 2px 0 8px 22px;
+  padding: 4px 0 4px 14px;
+  border-left: 2px solid #ecd8de;
+}
+
+.navLinkSub {
+  padding: 7px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  border-radius: 8px;
+}
+
+.navLinkSub:hover {
+  background: #faf5f6;
+  color: #8e3046;
+}
+
+.navLinkSub.navLinkActive {
+  background: #fdf1f3;
+  color: #8e3046;
+  font-weight: 600;
+}
+
 .mainArea {
   flex: 1;
   margin-left: var(--admin-sidebar-width);

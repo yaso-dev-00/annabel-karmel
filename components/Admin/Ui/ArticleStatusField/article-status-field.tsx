@@ -14,6 +14,13 @@ type ArticleStatusFieldProps = {
   value: AdviceArticleStatus;
   scheduledAt?: string | null;
   onChange: (status: AdviceArticleStatus, scheduledAt?: string | null) => void;
+  /** Limit which statuses are shown. Defaults to the full advice list. */
+  statuses?: AdviceArticleStatus[];
+  labels?: Partial<Record<AdviceArticleStatus, string>>;
+  hints?: Partial<Record<AdviceArticleStatus, string>>;
+  disableConfirmTitle?: string;
+  disableConfirmMessage?: string;
+  disableConfirmLabel?: string;
 };
 
 function toDatetimeLocalValue(iso: string | null | undefined): string {
@@ -31,7 +38,17 @@ function fromDatetimeLocalValue(value: string): string | null {
   return date.toISOString();
 }
 
-export function ArticleStatusField({ value, scheduledAt, onChange }: ArticleStatusFieldProps) {
+export function ArticleStatusField({
+  value,
+  scheduledAt,
+  onChange,
+  statuses = ADVICE_ARTICLE_STATUSES,
+  labels,
+  hints,
+  disableConfirmTitle = "Disable this article?",
+  disableConfirmMessage = "The article will be hidden from the public site and preview will be unavailable until you change the status again.",
+  disableConfirmLabel = "Disable article",
+}: ArticleStatusFieldProps) {
   const [confirmDisable, setConfirmDisable] = useState(false);
 
   const requestStatusChange = (status: AdviceArticleStatus) => {
@@ -41,6 +58,11 @@ export function ArticleStatusField({ value, scheduledAt, onChange }: ArticleStat
     }
     onChange(status, scheduledAt);
   };
+
+  const statusLabel = (status: AdviceArticleStatus) =>
+    labels?.[status] ?? ADVICE_ARTICLE_STATUS_LABELS[status];
+  const statusHint =
+    hints?.[value] ?? ADVICE_ARTICLE_STATUS_HINTS[value] ?? ADVICE_ARTICLE_STATUS_HINTS.draft;
 
   return (
     <>
@@ -53,7 +75,7 @@ export function ArticleStatusField({ value, scheduledAt, onChange }: ArticleStat
           role="radiogroup"
           aria-labelledby="article-status-label"
         >
-          {ADVICE_ARTICLE_STATUSES.map((status) => {
+          {statuses.map((status) => {
             const selected = value === status;
             return (
               <button
@@ -65,12 +87,12 @@ export function ArticleStatusField({ value, scheduledAt, onChange }: ArticleStat
                 onClick={() => requestStatusChange(status)}
               >
                 <span className={styles.radio} aria-hidden />
-                {ADVICE_ARTICLE_STATUS_LABELS[status]}
+                {statusLabel(status)}
               </button>
             );
           })}
         </div>
-        <p className={styles.hint}>{ADVICE_ARTICLE_STATUS_HINTS[value]}</p>
+        <p className={styles.hint}>{statusHint}</p>
         {value === "scheduled" ? (
           <div className={styles.scheduleField}>
             <label className={styles.scheduleLabel} htmlFor="article-scheduled-at">
@@ -89,9 +111,9 @@ export function ArticleStatusField({ value, scheduledAt, onChange }: ArticleStat
 
       <ConfirmModal
         open={confirmDisable}
-        title="Disable this article?"
-        message="The article will be hidden from the public site and preview will be unavailable until you change the status again."
-        confirmLabel="Disable article"
+        title={disableConfirmTitle}
+        message={disableConfirmMessage}
+        confirmLabel={disableConfirmLabel}
         onConfirm={() => {
           onChange("disabled", scheduledAt);
           setConfirmDisable(false);

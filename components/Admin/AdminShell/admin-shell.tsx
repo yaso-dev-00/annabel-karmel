@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AdminSidebarLogo } from "./admin-sidebar-logo";
 
 type NavItem = {
@@ -10,14 +10,22 @@ type NavItem = {
   label: string;
   exact?: boolean;
   disabled?: boolean;
+  children?: NavItem[];
 };
+
+function flattenNavItems(items: NavItem[]): NavItem[] {
+  return items.flatMap((item) => [item, ...(item.children ? flattenNavItems(item.children) : [])]);
+}
 
 const NAV_SECTIONS: { title?: string; items: NavItem[] }[] = [
   {
     items: [
       { href: "/admin", label: "Dashboard", exact: true },
-      { href: "/admin/recipes", label: "Recipes" },
-      { href: "/admin/recipes/taxonomies", label: "Taxonomies" },
+      {
+        href: "/admin/recipes",
+        label: "Recipes",
+        children: [{ href: "/admin/recipes/categories", label: "Categories" }],
+      },
     ],
   },
   {
@@ -54,6 +62,72 @@ function isNavItemActive(item: NavItem, pathname: string, allItems: NavItem[]): 
   return best.href === item.href;
 }
 
+function NavGroup({
+  item,
+  pathname,
+  allNavItems,
+}: {
+  item: NavItem;
+  pathname: string;
+  allNavItems: NavItem[];
+}) {
+  const childActive = item.children?.some((child) => isNavItemActive(child, pathname, allNavItems));
+  const active = isNavItemActive(item, pathname, allNavItems);
+  const [expanded, setExpanded] = useState(Boolean(childActive));
+
+  useEffect(() => {
+    if (childActive) setExpanded(true);
+  }, [childActive]);
+
+  const open = expanded;
+  const parentActive = active;
+
+  return (
+    <div className="navGroup">
+      <div className={`navGroupHeader${parentActive ? " navGroupHeaderActive" : ""}`}>
+        <button
+          type="button"
+          className={`navGroupToggle${open ? " navGroupToggleOpen" : ""}`}
+          aria-expanded={open}
+          aria-label={`${open ? "Collapse" : "Expand"} ${item.label} menu`}
+          onClick={() => setExpanded((current) => !current)}
+        >
+          <span className="navGroupChevron" aria-hidden />
+        </button>
+        <Link
+          href={item.disabled ? "#" : item.href}
+          prefetch={false}
+          className={`navLink navLinkGroup${parentActive ? " navLinkActive" : ""}${item.disabled ? " navLinkDisabled" : ""}`}
+          aria-disabled={item.disabled}
+          aria-current={parentActive ? "page" : undefined}
+        >
+          {item.label}
+        </Link>
+      </div>
+      {open ? (
+        <div className="navSubLinks">
+          {item.children?.map((child) => {
+            const subActive = isNavItemActive(child, pathname, allNavItems);
+
+            return (
+              <Link
+                key={child.label}
+                href={child.disabled ? "#" : child.href}
+                prefetch={false}
+                className={`navLink navLinkSub ${subActive ? "navLinkActive" : ""} ${child.disabled ? "navLinkDisabled" : ""}`}
+                aria-disabled={child.disabled}
+                aria-current={subActive ? "page" : undefined}
+              >
+                {child.label}
+              </Link>
+            );
+          })}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 type AdminShellProps = {
   title?: string;
   breadcrumb?: string;
@@ -64,7 +138,7 @@ type AdminShellProps = {
 export function AdminShell({ title, breadcrumb, children, actions }: AdminShellProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const allNavItems = NAV_SECTIONS.flatMap((section) => section.items);
+  const allNavItems = NAV_SECTIONS.flatMap((section) => flattenNavItems(section.items));
 
   useEffect(() => {
     // Mutations go through client fetch → API routes; revalidatePath alone does not
@@ -95,6 +169,17 @@ export function AdminShell({ title, breadcrumb, children, actions }: AdminShellP
                 {section.title ? <p className="sidebarSectionTitle">{section.title}</p> : null}
                 <div className="sidebarSectionLinks">
                   {section.items.map((item) => {
+                    if (item.children?.length) {
+                      return (
+                        <NavGroup
+                          key={item.label}
+                          item={item}
+                          pathname={pathname}
+                          allNavItems={allNavItems}
+                        />
+                      );
+                    }
+
                     const active = isNavItemActive(item, pathname, allNavItems);
 
                     return (

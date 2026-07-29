@@ -1,14 +1,18 @@
 import type { RecipeDetail, RecipeTaxonomyLink } from "@/data/recipe-detail";
 import { getTaxonomy } from "@/data/recipe-taxonomies";
-import type { Recipe, RecipeIngredient } from "@/lib/recipes/types";
+import type { Recipe, RecipeIngredientSection } from "@/lib/recipes/types";
 
-function formatIngredient(ingredient: RecipeIngredient): string {
-  const qty = ingredient.qty.trim();
-  const unit = ingredient.unit.trim();
-  const item = ingredient.item.trim();
-  if (qty && unit) return `${qty}${unit} ${item}`.replace(/\s+/g, " ").trim();
-  if (qty) return `${qty} ${item}`.trim();
-  return item;
+function flattenIngredientSections(sections: RecipeIngredientSection[]): string[] {
+  const lines: string[] = [];
+  for (const section of sections) {
+    const title = section.title.trim();
+    if (title) lines.push(title);
+    for (const item of section.items) {
+      const line = item.trim();
+      if (line) lines.push(line);
+    }
+  }
+  return lines;
 }
 
 function taxonomyLinks(
@@ -44,7 +48,7 @@ export function recipeToDetail(recipe: Recipe): RecipeDetail {
     prepTime: recipe.prep_time || undefined,
     cookTime: recipe.cook_time || undefined,
     portions: recipe.servings || undefined,
-    ingredients: recipe.ingredients.map(formatIngredient),
+    ingredients: flattenIngredientSections(recipe.ingredients),
     method: recipe.method.map((step) => step.text),
     breadcrumb: breadcrumbCategory ? [breadcrumbCategory] : undefined,
   };

@@ -1,12 +1,8 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
-import { uploadImage } from "@/lib/admin/upload-image";
-import { normalizeCmsImageSrc } from "@/lib/content-blocks/image-src";
+import { useState } from "react";
+import { MediaLibraryModal } from "@/components/Admin/Ui/MediaLibraryModal";
 import styles from "./image-field.module.css";
-
-const MAX_BYTES = 5 * 1024 * 1024;
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
 type ImageFieldProps = {
   value: string;
@@ -17,8 +13,6 @@ type ImageFieldProps = {
   showAlt?: boolean;
 };
 
-type Tab = "url" | "upload";
-
 export function ImageField({
   value,
   alt = "",
@@ -27,136 +21,38 @@ export function ImageField({
   altLabel = "Alt text",
   showAlt = true,
 }: ImageFieldProps) {
-  const [tab, setTab] = useState<Tab>("url");
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [dragging, setDragging] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleFile = useCallback(
-    async (file: File) => {
-      setError(null);
-      if (!ALLOWED_TYPES.includes(file.type)) {
-        setError("Use JPEG, PNG, WebP, or GIF.");
-        return;
-      }
-      if (file.size > MAX_BYTES) {
-        setError("Maximum file size is 5 MB.");
-        return;
-      }
-      setUploading(true);
-      try {
-        const url = await uploadImage(file);
-        onChange(url, alt);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Upload failed");
-      } finally {
-        setUploading(false);
-      }
-    },
-    [alt, onChange],
-  );
-
-  const onDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setDragging(false);
-      const file = e.dataTransfer.files[0];
-      if (file) void handleFile(file);
-    },
-    [handleFile],
-  );
+  const [open, setOpen] = useState(false);
 
   return (
     <div className={styles.imageField}>
-      <div className={styles.tabs} role="tablist">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={tab === "url"}
-          className={`${styles.tab} ${tab === "url" ? styles.tabActive : ""}`}
-          onClick={() => setTab("url")}
-        >
-          URL
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={tab === "upload"}
-          className={`${styles.tab} ${tab === "upload" ? styles.tabActive : ""}`}
-          onClick={() => setTab("upload")}
-        >
-          Upload
-        </button>
-      </div>
-
-      {tab === "url" ? (
-        <input
-          type="url"
-          className={styles.urlInput}
-          placeholder="https://… or /path/to/image.jpg"
-          value={value}
-          onChange={(e) => onChange(e.target.value, alt)}
-          onBlur={(e) => {
-            const next = normalizeCmsImageSrc(e.target.value);
-            if (next !== value) onChange(next, alt);
-          }}
-        />
-      ) : (
-        <>
-          <div
-            className={`${styles.dropZone} ${dragging ? styles.dropZoneDragging : ""}`}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDragging(true);
-            }}
-            onDragLeave={() => setDragging(false)}
-            onDrop={onDrop}
-            onClick={() => inputRef.current?.click()}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
-            }}
-            role="button"
-            tabIndex={0}
-          >
-            <p className={styles.dropZoneText}>
-              {uploading ? "Uploading…" : "Drop an image here or click to browse"}
-            </p>
-            <p className={styles.dropZoneHint}>JPEG, PNG, WebP, GIF — max 5 MB</p>
-          </div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/gif"
-            className={styles.hiddenInput}
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) void handleFile(file);
-              e.target.value = "";
-            }}
-          />
-        </>
-      )}
-
-      {uploading ? <p className={styles.uploading}>Uploading…</p> : null}
-      {error ? <p className={styles.error}>{error}</p> : null}
-
       {value ? (
         <div className={styles.preview}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={value} alt={alt || "Preview"} className={styles.thumbnail} />
           <div className={styles.previewActions}>
             <span className={styles.previewUrl}>{value}</span>
-            <button
-              type="button"
-              className={styles.removeBtn}
-              onClick={() => onChange("", alt)}
-            >
-              Remove
-            </button>
+            <div className={styles.actionRow}>
+              <button type="button" className={styles.selectBtn} onClick={() => setOpen(true)}>
+                Replace
+              </button>
+              <button
+                type="button"
+                className={styles.removeBtn}
+                onClick={() => onChange("", alt)}
+              >
+                Remove
+              </button>
+            </div>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <button type="button" className={styles.addBtn} onClick={() => setOpen(true)}>
+          <span className={styles.addBtnIcon} aria-hidden>
+            +
+          </span>
+          Add Image
+        </button>
+      )}
 
       {showAlt && onAltChange ? (
         <div className={styles.altField}>
@@ -170,6 +66,13 @@ export function ImageField({
           />
         </div>
       ) : null}
+
+      <MediaLibraryModal
+        open={open}
+        onClose={() => setOpen(false)}
+        initialUrl={value}
+        onSelect={(url) => onChange(url, alt)}
+      />
     </div>
   );
 }

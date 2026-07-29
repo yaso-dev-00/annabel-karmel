@@ -4,77 +4,41 @@
   gap: 10px;
 }
 
-.tabs {
+.addBtn {
   display: inline-flex;
-  gap: 4px;
-  padding: 4px;
-  background: #f6e9ef;
-  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: fit-content;
-}
-
-.tab {
-  padding: 6px 14px;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1.5px dashed #d79cac;
+  border-radius: 10px;
+  background: #fffaf8;
+  color: #963b58;
   font-size: 13px;
   font-weight: 600;
-  color: #6d5757;
+  font-family: inherit;
   cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
-.tabActive {
-  background: #fff;
-  color: #b34769;
-  box-shadow: 0 1px 3px rgba(52, 18, 18, 0.08);
-}
-
-.urlInput {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #efd8d8;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-.dropZone {
-  border: 2px dashed #e9c6ce;
-  border-radius: 12px;
-  padding: 24px;
-  text-align: center;
-  cursor: pointer;
-  background: #fffaf7;
-  transition: border-color 0.15s, background 0.15s;
-}
-
-.dropZone:hover,
-.dropZoneDragging {
+.addBtn:hover {
+  background: #fbf1f0;
   border-color: #b34769;
-  background: #f6e9ef;
 }
 
-.dropZoneText {
-  margin: 0;
-  font-size: 14px;
-  color: #6d5757;
-}
-
-.dropZoneHint {
-  margin: 6px 0 0;
-  font-size: 12px;
-  color: #999;
-}
-
-.hiddenInput {
-  display: none;
+.addBtnIcon {
+  font-size: 16px;
+  line-height: 1;
 }
 
 .preview {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  margin-top: 4px;
 }
 
 .thumbnail {
@@ -84,6 +48,7 @@
   border-radius: 8px;
   border: 1px solid #efd8d8;
   flex-shrink: 0;
+  background: #f6f0f0;
 }
 
 .previewActions {
@@ -100,28 +65,41 @@
   word-break: break-all;
 }
 
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selectBtn,
 .removeBtn {
   align-self: flex-start;
-  padding: 4px 12px;
-  border: 1px solid #efd8d8;
+  padding: 6px 12px;
   border-radius: 999px;
-  background: #fff;
   font-size: 12px;
-  color: #b34769;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+}
+
+.selectBtn {
+  border: 1px solid #d79cac;
+  background: #fff;
+  color: #963b58;
+}
+
+.selectBtn:hover {
+  background: #fbf1f0;
+}
+
+.removeBtn {
+  border: 1px solid #efd8d8;
+  background: #fff;
+  color: #6d5757;
 }
 
 .removeBtn:hover {
   background: #f6e9ef;
-}
-
-.error {
-  font-size: 13px;
-  color: #c62828;
-}
-
-.uploading {
-  font-size: 13px;
   color: #b34769;
 }
 
@@ -143,4 +121,5 @@
   border: 1px solid #efd8d8;
   border-radius: 10px;
   font-size: 14px;
+  font-family: inherit;
 }

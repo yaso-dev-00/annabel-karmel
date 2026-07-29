@@ -14,15 +14,16 @@ type RecipeCookingInfoFieldsProps = {
   servings: string;
   difficulty: RecipeDifficulty;
   suitableForFreezing: boolean;
-  appExclusive: boolean;
   onChange: <K extends keyof Recipe>(key: K, value: Recipe[K]) => void;
 };
 
 function TimeField({
+  id,
   label,
   value,
   onChange,
 }: {
+  id: string;
   label: string;
   value: string;
   onChange: (next: string) => void;
@@ -35,9 +36,12 @@ function TimeField({
 
   return (
     <div className="field">
-      <label className="fieldLabel">{label}</label>
+      <label className="fieldLabel" htmlFor={id}>
+        {label}
+      </label>
       <div className={styles.quantityBar}>
         <input
+          id={id}
           className={styles.quantityBarInput}
           type="number"
           min={0}
@@ -71,8 +75,11 @@ function ServingsField({
 }) {
   return (
     <div className="field">
-      <label className="fieldLabel">Servings / portions</label>
+      <label className="fieldLabel" htmlFor="recipe-servings">
+        Servings / portions
+      </label>
       <input
+        id="recipe-servings"
         className="fieldInput"
         type="text"
         value={value}
@@ -90,18 +97,30 @@ export function RecipeCookingInfoFields({
   servings,
   difficulty,
   suitableForFreezing,
-  appExclusive,
   onChange,
 }: RecipeCookingInfoFieldsProps) {
   return (
     <div className={styles.cookingInfoSection}>
       <div className={styles.cookingInfoGrid}>
-        <TimeField label="Prep time" value={prepTime} onChange={(next) => onChange("prep_time", next)} />
-        <TimeField label="Cook time" value={cookTime} onChange={(next) => onChange("cook_time", next)} />
+        <TimeField
+          id="recipe-prep-time"
+          label="Prep time"
+          value={prepTime}
+          onChange={(next) => onChange("prep_time", next)}
+        />
+        <TimeField
+          id="recipe-cook-time"
+          label="Cook time"
+          value={cookTime}
+          onChange={(next) => onChange("cook_time", next)}
+        />
         <ServingsField value={servings} onChange={(next) => onChange("servings", next)} />
         <div className="field">
-          <label className="fieldLabel">Difficulty</label>
+          <label className="fieldLabel" htmlFor="recipe-difficulty">
+            Difficulty
+          </label>
           <select
+            id="recipe-difficulty"
             className="fieldSelect"
             value={difficulty}
             onChange={(e) => onChange("difficulty", e.target.value as RecipeDifficulty)}
@@ -123,14 +142,6 @@ export function RecipeCookingInfoFields({
             onChange={(e) => onChange("suitable_for_freezing", e.target.checked)}
           />
           <span>Suitable for freezing</span>
-        </label>
-        <label className={styles.cookingInfoFlag}>
-          <input
-            type="checkbox"
-            checked={appExclusive}
-            onChange={(e) => onChange("app_exclusive", e.target.checked)}
-          />
-          <span>App exclusive</span>
         </label>
       </div>
     </div>

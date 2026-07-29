@@ -1,79 +1,68 @@
 "use client";
 
-import { ImageField } from "@/components/Admin/Ui/ImageField";
 import type { RecipeStep } from "@/lib/recipes/types";
 import styles from "./recipe-editor.module.css";
 
 type RecipeMethodEditorProps = {
   steps: RecipeStep[];
   onChange: (steps: RecipeStep[]) => void;
+  /** Prefix for input ids (e.g. "uk" / "us"). */
+  idPrefix: string;
+  /** Optional heading when not wrapped in locale tabs. */
+  heading?: string;
 };
 
-export function RecipeMethodEditor({ steps, onChange }: RecipeMethodEditorProps) {
-  const updateStep = (index: number, patch: Partial<RecipeStep>) => {
-    onChange(steps.map((step, i) => (i === index ? { ...step, ...patch } : step)));
-  };
+function linesToSteps(text: string, previous: RecipeStep[]): RecipeStep[] {
+  const lines = text.split(/\r?\n/);
+  return lines.map((line, index) => {
+    const prev = previous[index];
+    return {
+      text: line,
+      ...(prev?.image ? { image: prev.image } : {}),
+      ...(prev?.image_alt ? { image_alt: prev.image_alt } : {}),
+    };
+  });
+}
 
-  const removeStep = (index: number) => {
-    onChange(steps.filter((_, i) => i !== index));
-  };
-
-  const addStep = () => {
-    onChange([...steps, { text: "" }]);
-  };
+export function RecipeMethodEditor({
+  steps,
+  onChange,
+  idPrefix,
+  heading,
+}: RecipeMethodEditorProps) {
+  const fieldId = `${idPrefix}-method-steps`;
+  const value = steps.map((step) => step.text).join("\n");
+  const stepCount = steps.filter((step) => step.text.trim()).length;
 
   return (
-    <div className="card">
-      <div className={styles.sectionHeader}>
-        <h2 className="cardSectionTitle">Method</h2>
-        <span className={styles.sectionMeta}>
-          {steps.length} steps · each step can carry its own photo
-        </span>
+    <div className={styles.ingredientLocaleColumn}>
+      {heading ? <h3 className={styles.ingredientLocaleHeading}>{heading}</h3> : null}
+      <div className="field">
+        <label className="fieldLabel" htmlFor={fieldId}>
+          Steps <span className={styles.requiredMark} aria-hidden>*</span>
+        </label>
+        <p className={styles.sectionHint}>Add method steps, one per line</p>
+        <textarea
+          id={fieldId}
+          className="fieldTextarea"
+          rows={12}
+          value={value}
+          onChange={(e) => onChange(linesToSteps(e.target.value, steps))}
+          placeholder={
+            "Preheat the oven to 180C Fan.\nBlend until smooth.\nBake for 10 minutes until pale golden."
+          }
+          aria-required="true"
+        />
+        <p className={styles.sectionMeta}>{stepCount} steps</p>
       </div>
-      <div className={styles.stack}>
-        {steps.map((step, index) => (
-          <div key={index} className={styles.methodRow}>
-            <div className={styles.stepNumber} aria-hidden>
-              {index + 1}
-            </div>
-            <div className={styles.methodBody}>
-              <textarea
-                className="fieldTextarea"
-                rows={2}
-                value={step.text}
-                onChange={(e) => updateStep(index, { text: e.target.value })}
-                placeholder="Describe this step…"
-                aria-label={`Method step ${index + 1}`}
-              />
-              <ImageField
-                value={step.image ?? ""}
-                alt={step.image_alt}
-                showAlt={Boolean(step.image)}
-                altLabel="Step photo alt"
-                onChange={(src, altVal) =>
-                  updateStep(index, {
-                    image: src || undefined,
-                    image_alt: altVal || undefined,
-                  })
-                }
-                onAltChange={(altVal) => updateStep(index, { image_alt: altVal })}
-              />
-            </div>
-            <button
-              type="button"
-              className={styles.iconRemove}
-              onClick={() => removeStep(index)}
-              title="Remove step"
-              aria-label={`Remove step ${index + 1}`}
-            >
-              ✕
-            </button>
-          </div>
-        ))}
-      </div>
-      <button type="button" className={`btn btnGhost ${styles.addRowBtn}`} onClick={addStep}>
-        + Add step
-      </button>
     </div>
   );
+}
+
+export function cloneSteps(list: RecipeStep[]): RecipeStep[] {
+  return list.map((step) => ({ ...step }));
+}
+
+export function countMethodSteps(steps: RecipeStep[]): number {
+  return steps.filter((step) => step.text.trim()).length;
 }

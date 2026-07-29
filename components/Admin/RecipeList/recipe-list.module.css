@@ -1,0 +1,268 @@
+.recipeListCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.subviewBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 0;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--admin-border);
+  background: #faf8f8;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.subviewLink,
+.subviewStatic {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: var(--admin-brand, #963b58);
+  cursor: pointer;
+}
+
+.subviewLink:hover {
+  text-decoration: underline;
+}
+
+.subviewLinkActive {
+  color: var(--admin-text, #261919);
+  font-weight: 700;
+  cursor: default;
+  text-decoration: none;
+}
+
+.subviewStatic {
+  color: var(--admin-muted, #666);
+  cursor: default;
+}
+
+.subviewSep {
+  color: var(--admin-muted, #999);
+  margin: 0 4px;
+}
+
+.filtersRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.searchInput {
+  width: min(100%, 200px);
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.searchBtn,
+.filterBtn {
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+  background: #f6f6f6;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.searchBtn:hover,
+.filterBtn:hover {
+  background: #eee;
+}
+
+.filterSelect {
+  min-width: 0;
+  max-width: 100%;
+  height: 28px;
+  padding: 0 24px 0 8px;
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+  background: #fff;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--admin-text, #3d3a3a);
+  box-sizing: border-box;
+}
+
+.listMetaBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--admin-border);
+  background: #fff;
+}
+
+.itemCount {
+  font-size: 12px;
+  color: var(--admin-muted, #666);
+}
+
+.pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pageBtn {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+  background: #fff;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: #f6f6f6;
+}
+
+.pageBtn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.pageIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--admin-text, #3d3a3a);
+}
+
+.pageInput {
+  width: 32px;
+  height: 26px;
+  padding: 0 4px;
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.tableWrap :global(.table th),
+.tableWrap :global(.table td) {
+  padding: 8px 12px;
+}
+
+.titleCellMain {
+  display: block;
+  font-weight: 600;
+  color: var(--admin-text, #261919);
+}
+
+.titleRowActions {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.rowActionLink {
+  color: var(--admin-brand, #963b58);
+  text-decoration: none;
+}
+
+.rowActionLink:hover {
+  text-decoration: underline;
+}
+
+.titleCellStatus {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--admin-muted, #666);
+}
+
+.linkCell {
+  color: var(--admin-brand, #963b58);
+  text-decoration: none;
+}
+
+.linkCell:hover {
+  text-decoration: underline;
+}
+
+.categoriesCell {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--admin-brand, #963b58);
+}
+
+.dateCell {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.visibilityCell {
+  font-size: 13px;
+}
+
+.sortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  cursor: pointer;
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+
+.sortBtn:hover {
+  color: var(--admin-brand, #963b58);
+}
+
+.sortBtnActive {
+  color: var(--admin-text, #261919);
+}
+
+.sortArrow {
+  font-size: 11px;
+  line-height: 1;
+  color: var(--admin-muted, #888);
+}
+
+.sortBtnActive .sortArrow {
+  color: var(--admin-brand, #963b58);
+}

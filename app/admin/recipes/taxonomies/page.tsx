@@ -1,16 +1,5 @@
-import { AdminShell } from "@/components/Admin/AdminShell";
-import { RecipeTaxonomiesAdmin } from "@/components/Admin/RecipeTaxonomiesAdmin/recipe-taxonomies-admin";
-import { getAllRecipes } from "@/lib/admin/recipes-store";
+import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-export default async function AdminRecipeTaxonomiesPage() {
-  const recipes = await getAllRecipes();
-
-  return (
-    <AdminShell title="Recipe taxonomies" breadcrumb="Recipes / Taxonomies">
-      <RecipeTaxonomiesAdmin recipes={recipes} />
-    </AdminShell>
-  );
+export default function AdminRecipeTaxonomiesRedirectPage() {
+  redirect("/admin/recipes/categories");
 }

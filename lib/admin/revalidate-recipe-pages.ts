@@ -25,17 +25,17 @@ export function revalidateRecipeTags(recipe?: RevalidateRecipe): void {
   if (recipe?.slug) revalidateTag(recipeSlugTag(recipe.slug), { expire: 0 });
 }
 
-/** Admin + preview paths — live /recipes/[slug] stays on static listings for now. */
+/** Admin paths — live /recipes/[slug] stays on static listings for now. */
 export function revalidateRecipePages(recipe?: RevalidateRecipe): void {
   revalidateRecipeTags(recipe);
 
   revalidatePath("/admin");
   revalidatePath("/admin/recipes");
+  revalidatePath("/admin/recipes/categories");
   revalidatePath("/admin/recipes/taxonomies");
   revalidatePath("/admin", "layout");
 
   if (recipe?.id) {
     revalidatePath(`/admin/recipes/${recipe.id}/edit`);
-    revalidatePath(`/admin/recipes/${recipe.id}/preview`);
   }
 }

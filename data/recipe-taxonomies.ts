@@ -20,7 +20,8 @@ export type RecipeTaxonomyKind =
   | "occasions"
   | "ingredients"
   | "dish_type"
-  | "sweet_treats";
+  | "sweet_treats"
+  | "mobile-recipe-category";
 
 export type RecipeTaxonomy = {
   kind: RecipeTaxonomyKind;
@@ -28,6 +29,10 @@ export type RecipeTaxonomy = {
   label: string;
   path: string;
   sourceUrl: string;
+  /** Default (inactive) icon URL for allergen / dietary terms. */
+  icon?: string;
+  /** Hover / active icon URL for allergen / dietary terms. */
+  iconActive?: string;
 };
 
 export type RecipeTaxonomyGroup = {
@@ -44,6 +49,7 @@ function taxonomy(
   slug: string,
   label: string,
   segment: string = kind,
+  icons?: { icon?: string; iconActive?: string },
 ): RecipeTaxonomy {
   const path = `/${segment}/${slug}`;
   return {
@@ -52,15 +58,22 @@ function taxonomy(
     label,
     path,
     sourceUrl: `${BASE}${path}/`,
+    ...(icons?.icon ? { icon: icons.icon } : {}),
+    ...(icons?.iconActive ? { iconActive: icons.iconActive } : {}),
   };
 }
 
 function terms(
   kind: RecipeTaxonomyKind,
-  items: { slug: string; label: string }[],
+  items: { slug: string; label: string; icon?: string; iconActive?: string }[],
   segment: string = kind,
 ): RecipeTaxonomy[] {
-  return items.map((item) => taxonomy(kind, item.slug, item.label, segment));
+  return items.map((item) =>
+    taxonomy(kind, item.slug, item.label, segment, {
+      icon: item.icon,
+      iconActive: item.iconActive,
+    }),
+  );
 }
 
 /** By Age (recipe-category) — full live finder list */
@@ -102,13 +115,48 @@ export const mealTimes = terms(
 export const freeFrom = terms(
   "allergen",
   [
-    { slug: "vegan", label: "Plant-based" },
-    { slug: "vegetarian", label: "Vegetarian" },
-    { slug: "dairy-free-recipes", label: "Dairy-free" },
-    { slug: "egg-free-recipes", label: "Egg-free" },
-    { slug: "gluten-free-recipes", label: "Gluten-free" },
-    { slug: "nut-free-recipes", label: "Nut-free" },
-    { slug: "all-free-from", label: "All Free From" },
+    {
+      slug: "vegan",
+      label: "Plant-based",
+      icon: "/images/allergens/plant-based.svg",
+      iconActive: "/images/allergens/plant-based-active.svg",
+    },
+    {
+      slug: "vegetarian",
+      label: "Vegetarian",
+      icon: "/images/allergens/vegetarian.svg",
+      iconActive: "/images/allergens/vegetarian-active.svg",
+    },
+    {
+      slug: "dairy-free-recipes",
+      label: "Dairy-free",
+      icon: "/images/allergens/dairy-free.svg",
+      iconActive: "/images/allergens/dairy-free-active.svg",
+    },
+    {
+      slug: "egg-free-recipes",
+      label: "Egg-free",
+      icon: "/images/allergens/egg-free.svg",
+      iconActive: "/images/allergens/egg-free-active.svg",
+    },
+    {
+      slug: "gluten-free-recipes",
+      label: "Gluten-free",
+      icon: "/images/allergens/gluten-free.svg",
+      iconActive: "/images/allergens/gluten-free-active.svg",
+    },
+    {
+      slug: "nut-free-recipes",
+      label: "Nut-free",
+      icon: "/images/allergens/nut-free.svg",
+      iconActive: "/images/allergens/nut-free-active.svg",
+    },
+    {
+      slug: "all-free-from",
+      label: "All Free From",
+      icon: "/images/allergens/all-free-from.svg",
+      iconActive: "/images/allergens/all-free-from-active.svg",
+    },
   ],
   "allergen",
 );
@@ -178,6 +226,22 @@ export const sweetTreats = terms("sweet_treats", [
   { slug: "tray-bakes-bars", label: "Tray Bakes & Bars" },
 ]);
 
+/** Mobile Recipe Categories — app-facing category set. */
+export const mobileRecipeCategories = terms(
+  "mobile-recipe-category",
+  [
+    { slug: "snacks", label: "Snacks" },
+    { slug: "fussy-eater-favourites", label: "Fussy Eater Favourites" },
+    { slug: "halloween", label: "Halloween" },
+    { slug: "dairy-free", label: "Dairy-Free" },
+    { slug: "summer", label: "Summer" },
+    { slug: "world-book-day", label: "World Book Day" },
+    { slug: "mothers-day", label: "Mother's Day" },
+    { slug: "easter", label: "Easter" },
+  ],
+  "mobile-recipe-category",
+);
+
 export const recipesArchiveTaxonomy: RecipeTaxonomy = {
   kind: "recipe-category",
   slug: "recipes-archive",
@@ -189,13 +253,32 @@ export const recipesArchiveTaxonomy: RecipeTaxonomy = {
 /** Admin tabs / recipe editor groups — same order as WordPress recipe taxonomies. */
 export const recipeTaxonomyGroups: RecipeTaxonomyGroup[] = [
   { id: "recipe-category", label: "By Age", kind: "recipe-category", terms: byAge },
-  { id: "allergen", label: "Free from", kind: "allergen", terms: freeFrom },
+  { id: "allergen", label: "Allergens & Dietary Requirements", kind: "allergen", terms: freeFrom },
   { id: "meal-time", label: "Meal times", kind: "meal-time", terms: mealTimes },
   { id: "occasions", label: "Occasions", kind: "occasions", terms: occasions },
   { id: "ingredients", label: "Ingredients", kind: "ingredients", terms: ingredientTaxonomies },
   { id: "dish_type", label: "Dish type", kind: "dish_type", terms: dishTypes },
   { id: "sweet_treats", label: "Sweet treats", kind: "sweet_treats", terms: sweetTreats },
+  {
+    id: "mobile-recipe-category",
+    label: "Mobile Recipe Categories",
+    kind: "mobile-recipe-category",
+    terms: mobileRecipeCategories,
+  },
 ];
+
+export type RecipeCategoriesStore = {
+  groups: RecipeTaxonomyGroup[];
+};
+
+export function defaultRecipeCategoriesStore(): RecipeCategoriesStore {
+  return {
+    groups: recipeTaxonomyGroups.map((group) => ({
+      ...group,
+      terms: group.terms.map((term) => ({ ...term })),
+    })),
+  };
+}
 
 export const allRecipeTaxonomies: RecipeTaxonomy[] = recipeTaxonomyGroups.flatMap(
   (group) => group.terms,

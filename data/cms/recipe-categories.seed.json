@@ -1,0 +1,683 @@
+{
+  "groups": [
+    {
+      "id": "recipe-category",
+      "label": "By Age",
+      "kind": "recipe-category",
+      "terms": [
+        {
+          "kind": "recipe-category",
+          "slug": "first-foods",
+          "label": "First Foods",
+          "path": "/recipe-category/first-foods",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/first-foods/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "after-first-tastes",
+          "label": "After First Tastes",
+          "path": "/recipe-category/after-first-tastes",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/after-first-tastes/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "6-9-months-recipes",
+          "label": "6 Months +",
+          "path": "/recipe-category/6-9-months-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/6-9-months-recipes/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "9-12-months",
+          "label": "9 Months +",
+          "path": "/recipe-category/9-12-months",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/9-12-months/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "baby-recipes",
+          "label": "Baby",
+          "path": "/recipe-category/baby-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/baby-recipes/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "12-18-months",
+          "label": "12 Months +",
+          "path": "/recipe-category/12-18-months",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/12-18-months/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "18-months",
+          "label": "18 Months +",
+          "path": "/recipe-category/18-months",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/18-months/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "toddler-recipes",
+          "label": "Toddler",
+          "path": "/recipe-category/toddler-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/toddler-recipes/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "family-recipes",
+          "label": "Family",
+          "path": "/recipe-category/family-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/family-recipes/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "back-to-school",
+          "label": "Lunchboxes",
+          "path": "/recipe-category/back-to-school",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/back-to-school/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "finger-foods",
+          "label": "Finger Foods",
+          "path": "/recipe-category/finger-foods",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/finger-foods/"
+        }
+      ]
+    },
+    {
+      "id": "allergen",
+      "label": "Allergens & Dietary Requirements",
+      "kind": "allergen",
+      "terms": [
+        {
+          "kind": "allergen",
+          "slug": "vegan",
+          "label": "Plant-based",
+          "path": "/allergen/vegan",
+          "sourceUrl": "https://www.annabelkarmel.com/allergen/vegan/",
+          "icon": "/images/allergens/plant-based.svg",
+          "iconActive": "/images/allergens/plant-based-active.svg"
+        },
+        {
+          "kind": "allergen",
+          "slug": "vegetarian",
+          "label": "Vegetarian",
+          "path": "/allergen/vegetarian",
+          "sourceUrl": "https://www.annabelkarmel.com/allergen/vegetarian/",
+          "icon": "/images/allergens/vegetarian.svg",
+          "iconActive": "/images/allergens/vegetarian-active.svg"
+        },
+        {
+          "kind": "allergen",
+          "slug": "dairy-free-recipes",
+          "label": "Dairy-free",
+          "path": "/allergen/dairy-free-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/allergen/dairy-free-recipes/",
+          "icon": "/images/allergens/dairy-free.svg",
+          "iconActive": "/images/allergens/dairy-free-active.svg"
+        },
+        {
+          "kind": "allergen",
+          "slug": "egg-free-recipes",
+          "label": "Egg-free",
+          "path": "/allergen/egg-free-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/allergen/egg-free-recipes/",
+          "icon": "/images/allergens/egg-free.svg",
+          "iconActive": "/images/allergens/egg-free-active.svg"
+        },
+        {
+          "kind": "allergen",
+          "slug": "gluten-free-recipes",
+          "label": "Gluten-free",
+          "path": "/allergen/gluten-free-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/allergen/gluten-free-recipes/",
+          "icon": "/images/allergens/gluten-free.svg",
+          "iconActive": "/images/allergens/gluten-free-active.svg"
+        },
+        {
+          "kind": "allergen",
+          "slug": "nut-free-recipes",
+          "label": "Nut-free",
+          "path": "/allergen/nut-free-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/allergen/nut-free-recipes/",
+          "icon": "/images/allergens/nut-free.svg",
+          "iconActive": "/images/allergens/nut-free-active.svg"
+        },
+        {
+          "kind": "allergen",
+          "slug": "all-free-from",
+          "label": "All Free From",
+          "path": "/allergen/all-free-from",
+          "sourceUrl": "https://www.annabelkarmel.com/allergen/all-free-from/",
+          "icon": "/images/allergens/all-free-from.svg",
+          "iconActive": "/images/allergens/all-free-from-active.svg"
+        }
+      ]
+    },
+    {
+      "id": "meal-time",
+      "label": "Meal times",
+      "kind": "meal-time",
+      "terms": [
+        {
+          "kind": "meal-time",
+          "slug": "breakfast",
+          "label": "Breakfast",
+          "path": "/meal-time/breakfast",
+          "sourceUrl": "https://www.annabelkarmel.com/meal-time/breakfast/"
+        },
+        {
+          "kind": "meal-time",
+          "slug": "brunch",
+          "label": "Brunch",
+          "path": "/meal-time/brunch",
+          "sourceUrl": "https://www.annabelkarmel.com/meal-time/brunch/"
+        },
+        {
+          "kind": "meal-time",
+          "slug": "light-meals",
+          "label": "Light Meals",
+          "path": "/meal-time/light-meals",
+          "sourceUrl": "https://www.annabelkarmel.com/meal-time/light-meals/"
+        },
+        {
+          "kind": "meal-time",
+          "slug": "main-meals",
+          "label": "Main Meals",
+          "path": "/meal-time/main-meals",
+          "sourceUrl": "https://www.annabelkarmel.com/meal-time/main-meals/"
+        },
+        {
+          "kind": "meal-time",
+          "slug": "tea-time",
+          "label": "Tea Time",
+          "path": "/meal-time/tea-time",
+          "sourceUrl": "https://www.annabelkarmel.com/meal-time/tea-time/"
+        },
+        {
+          "kind": "meal-time",
+          "slug": "snack",
+          "label": "Snacks",
+          "path": "/meal-time/snack",
+          "sourceUrl": "https://www.annabelkarmel.com/meal-time/snack/"
+        },
+        {
+          "kind": "meal-time",
+          "slug": "dessert-recipes",
+          "label": "Desserts",
+          "path": "/meal-time/dessert-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/meal-time/dessert-recipes/"
+        },
+        {
+          "kind": "meal-time",
+          "slug": "weaning",
+          "label": "Weaning",
+          "path": "/meal-time/weaning",
+          "sourceUrl": "https://www.annabelkarmel.com/meal-time/weaning/"
+        }
+      ]
+    },
+    {
+      "id": "occasions",
+      "label": "Occasions",
+      "kind": "occasions",
+      "terms": [
+        {
+          "kind": "occasions",
+          "slug": "childrens-party-food-recipes",
+          "label": "Birthday Parties",
+          "path": "/occasions/childrens-party-food-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/childrens-party-food-recipes/"
+        },
+        {
+          "kind": "occasions",
+          "slug": "party-recipes",
+          "label": "Party Recipes",
+          "path": "/occasions/party-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/party-recipes/"
+        },
+        {
+          "kind": "occasions",
+          "slug": "bonfire-night-recipes",
+          "label": "Bonfire Night",
+          "path": "/occasions/bonfire-night-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/bonfire-night-recipes/"
+        },
+        {
+          "kind": "occasions",
+          "slug": "kid-friendly-christmas-recipes",
+          "label": "Christmas",
+          "path": "/occasions/kid-friendly-christmas-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/kid-friendly-christmas-recipes/"
+        },
+        {
+          "kind": "occasions",
+          "slug": "healthy-easter-recipes-food-ideas-for-kids-toddlers-babies",
+          "label": "Easter",
+          "path": "/occasions/healthy-easter-recipes-food-ideas-for-kids-toddlers-babies",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/healthy-easter-recipes-food-ideas-for-kids-toddlers-babies/"
+        },
+        {
+          "kind": "occasions",
+          "slug": "halloween-recipe-ideas",
+          "label": "Halloween",
+          "path": "/occasions/halloween-recipe-ideas",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/halloween-recipe-ideas/"
+        },
+        {
+          "kind": "occasions",
+          "slug": "mothers-day-recipe-ideas-for-kids",
+          "label": "Mother's Day",
+          "path": "/occasions/mothers-day-recipe-ideas-for-kids",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/mothers-day-recipe-ideas-for-kids/"
+        },
+        {
+          "kind": "occasions",
+          "slug": "easy-valentines-day-recipes-for-kids-toddlers",
+          "label": "Valentines Day",
+          "path": "/occasions/easy-valentines-day-recipes-for-kids-toddlers",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/easy-valentines-day-recipes-for-kids-toddlers/"
+        },
+        {
+          "kind": "occasions",
+          "slug": "winter-warmers",
+          "label": "Winter Warmers",
+          "path": "/occasions/winter-warmers",
+          "sourceUrl": "https://www.annabelkarmel.com/occasions/winter-warmers/"
+        }
+      ]
+    },
+    {
+      "id": "ingredients",
+      "label": "Ingredients",
+      "kind": "ingredients",
+      "terms": [
+        {
+          "kind": "ingredients",
+          "slug": "beef",
+          "label": "Beef",
+          "path": "/ingredients/beef",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/beef/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "broccoli",
+          "label": "Broccoli",
+          "path": "/ingredients/broccoli",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/broccoli/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "cheese",
+          "label": "Cheese",
+          "path": "/ingredients/cheese",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/cheese/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "chicken",
+          "label": "Chicken",
+          "path": "/ingredients/chicken",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/chicken/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "chocolate",
+          "label": "Chocolate",
+          "path": "/ingredients/chocolate",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/chocolate/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "egg",
+          "label": "Egg",
+          "path": "/ingredients/egg",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/egg/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "fish",
+          "label": "Fish",
+          "path": "/ingredients/fish",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/fish/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "fruit",
+          "label": "Fruit",
+          "path": "/ingredients/fruit",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/fruit/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "lamb",
+          "label": "Lamb",
+          "path": "/ingredients/lamb",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/lamb/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "meat",
+          "label": "Meat",
+          "path": "/ingredients/meat",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/meat/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "oats",
+          "label": "Oats",
+          "path": "/ingredients/oats",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/oats/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "pork",
+          "label": "Pork",
+          "path": "/ingredients/pork",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/pork/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "rice",
+          "label": "Rice",
+          "path": "/ingredients/rice",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/rice/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "salmon",
+          "label": "Salmon",
+          "path": "/ingredients/salmon",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/salmon/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "sweet-potato",
+          "label": "Sweet Potato",
+          "path": "/ingredients/sweet-potato",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/sweet-potato/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "tuna",
+          "label": "Tuna",
+          "path": "/ingredients/tuna",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/tuna/"
+        },
+        {
+          "kind": "ingredients",
+          "slug": "vegetables",
+          "label": "Vegetables",
+          "path": "/ingredients/vegetables",
+          "sourceUrl": "https://www.annabelkarmel.com/ingredients/vegetables/"
+        }
+      ]
+    },
+    {
+      "id": "dish_type",
+      "label": "Dish type",
+      "kind": "dish_type",
+      "terms": [
+        {
+          "kind": "dish_type",
+          "slug": "baby-led-weaning-recipes",
+          "label": "Baby Led Weaning",
+          "path": "/dish_type/baby-led-weaning-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/baby-led-weaning-recipes/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "bolognese",
+          "label": "Bolognese",
+          "path": "/dish_type/bolognese",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/bolognese/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "curry-recipes-for-kids-toddlers-babies",
+          "label": "Curry",
+          "path": "/dish_type/curry-recipes-for-kids-toddlers-babies",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/curry-recipes-for-kids-toddlers-babies/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "everyday-meals",
+          "label": "Everyday Meals",
+          "path": "/dish_type/everyday-meals",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/everyday-meals/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "finger-food-recipe-ideas",
+          "label": "Finger Food",
+          "path": "/dish_type/finger-food-recipe-ideas",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/finger-food-recipe-ideas/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "fussy-eaters-meal-ideas",
+          "label": "Food for Fussy Kids",
+          "path": "/dish_type/fussy-eaters-meal-ideas",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/fussy-eaters-meal-ideas/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "kids-cooking",
+          "label": "Kids Cooking",
+          "path": "/dish_type/kids-cooking",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/kids-cooking/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "lunch-boxes",
+          "label": "Lunchbox",
+          "path": "/dish_type/lunch-boxes",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/lunch-boxes/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "pancakes",
+          "label": "Pancakes",
+          "path": "/dish_type/pancakes",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/pancakes/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "recipe-filter-pasta",
+          "label": "Pasta",
+          "path": "/dish_type/recipe-filter-pasta",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/recipe-filter-pasta/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "pie",
+          "label": "Pie",
+          "path": "/dish_type/pie",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/pie/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "pizza",
+          "label": "Pizza",
+          "path": "/dish_type/pizza",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/pizza/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "quick-easy",
+          "label": "Quick & Easy",
+          "path": "/dish_type/quick-easy",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/quick-easy/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "risotto",
+          "label": "Risotto",
+          "path": "/dish_type/risotto",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/risotto/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "salads",
+          "label": "Salads",
+          "path": "/dish_type/salads",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/salads/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "sandwiches-wraps",
+          "label": "Sandwiches & Wraps",
+          "path": "/dish_type/sandwiches-wraps",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/sandwiches-wraps/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "soups",
+          "label": "Soups",
+          "path": "/dish_type/soups",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/soups/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "sunday-dinner",
+          "label": "Sunday Dinner",
+          "path": "/dish_type/sunday-dinner",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/sunday-dinner/"
+        },
+        {
+          "kind": "dish_type",
+          "slug": "traditional-british-recipes",
+          "label": "Traditional British Food",
+          "path": "/dish_type/traditional-british-recipes",
+          "sourceUrl": "https://www.annabelkarmel.com/dish_type/traditional-british-recipes/"
+        }
+      ]
+    },
+    {
+      "id": "sweet_treats",
+      "label": "Sweet treats",
+      "kind": "sweet_treats",
+      "terms": [
+        {
+          "kind": "sweet_treats",
+          "slug": "bread",
+          "label": "Bread",
+          "path": "/sweet_treats/bread",
+          "sourceUrl": "https://www.annabelkarmel.com/sweet_treats/bread/"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "cakes",
+          "label": "Cakes",
+          "path": "/sweet_treats/cakes",
+          "sourceUrl": "https://www.annabelkarmel.com/sweet_treats/cakes/"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "cookies",
+          "label": "Cookies",
+          "path": "/sweet_treats/cookies",
+          "sourceUrl": "https://www.annabelkarmel.com/sweet_treats/cookies/"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "cupcakes",
+          "label": "Cupcakes",
+          "path": "/sweet_treats/cupcakes",
+          "sourceUrl": "https://www.annabelkarmel.com/sweet_treats/cupcakes/"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "healthy-ice-cream-ice-lolly-recipes-for-kids-toddlers-babies",
+          "label": "Ice Cream & Ice Lollies",
+          "path": "/sweet_treats/healthy-ice-cream-ice-lolly-recipes-for-kids-toddlers-babies",
+          "sourceUrl": "https://www.annabelkarmel.com/sweet_treats/healthy-ice-cream-ice-lolly-recipes-for-kids-toddlers-babies/"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "muffins",
+          "label": "Muffins",
+          "path": "/sweet_treats/muffins",
+          "sourceUrl": "https://www.annabelkarmel.com/sweet_treats/muffins/"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "smoothies",
+          "label": "Smoothies",
+          "path": "/sweet_treats/smoothies",
+          "sourceUrl": "https://www.annabelkarmel.com/sweet_treats/smoothies/"
+        },
+        {
+          "kind": "sweet_treats",
+          "slug": "tray-bakes-bars",
+          "label": "Tray Bakes & Bars",
+          "path": "/sweet_treats/tray-bakes-bars",
+          "sourceUrl": "https://www.annabelkarmel.com/sweet_treats/tray-bakes-bars/"
+        }
+      ]
+    },
+    {
+      "id": "mobile-recipe-category",
+      "label": "Mobile Recipe Categories",
+      "kind": "mobile-recipe-category",
+      "terms": [
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "snacks",
+          "label": "Snacks",
+          "path": "/mobile-recipe-category/snacks",
+          "sourceUrl": "https://www.annabelkarmel.com/mobile-recipe-category/snacks/"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "fussy-eater-favourites",
+          "label": "Fussy Eater Favourites",
+          "path": "/mobile-recipe-category/fussy-eater-favourites",
+          "sourceUrl": "https://www.annabelkarmel.com/mobile-recipe-category/fussy-eater-favourites/"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "halloween",
+          "label": "Halloween",
+          "path": "/mobile-recipe-category/halloween",
+          "sourceUrl": "https://www.annabelkarmel.com/mobile-recipe-category/halloween/"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "dairy-free",
+          "label": "Dairy-Free",
+          "path": "/mobile-recipe-category/dairy-free",
+          "sourceUrl": "https://www.annabelkarmel.com/mobile-recipe-category/dairy-free/"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "summer",
+          "label": "Summer",
+          "path": "/mobile-recipe-category/summer",
+          "sourceUrl": "https://www.annabelkarmel.com/mobile-recipe-category/summer/"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "world-book-day",
+          "label": "World Book Day",
+          "path": "/mobile-recipe-category/world-book-day",
+          "sourceUrl": "https://www.annabelkarmel.com/mobile-recipe-category/world-book-day/"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "mothers-day",
+          "label": "Mother's Day",
+          "path": "/mobile-recipe-category/mothers-day",
+          "sourceUrl": "https://www.annabelkarmel.com/mobile-recipe-category/mothers-day/"
+        },
+        {
+          "kind": "mobile-recipe-category",
+          "slug": "easter",
+          "label": "Easter",
+          "path": "/mobile-recipe-category/easter",
+          "sourceUrl": "https://www.annabelkarmel.com/mobile-recipe-category/easter/"
+        }
+      ]
+    }
+  ]
+}

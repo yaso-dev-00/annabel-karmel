@@ -1,13 +1,17 @@
 import Link from "next/link";
 import { AdminShell } from "@/components/Admin/AdminShell";
 import { RecipeList } from "@/components/Admin/RecipeList/recipe-list";
+import { getCategoryGroups } from "@/lib/admin/recipe-categories-store";
 import { getAllRecipes } from "@/lib/admin/recipes-store";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminRecipesListPage() {
-  const recipes = await getAllRecipes();
+  const [recipes, categoryGroups] = await Promise.all([
+    getAllRecipes(),
+    getCategoryGroups(),
+  ]);
 
   return (
     <AdminShell
@@ -19,7 +23,7 @@ export default async function AdminRecipesListPage() {
         </Link>
       }
     >
-      <RecipeList recipes={recipes} />
+      <RecipeList recipes={recipes} categoryGroups={categoryGroups} />
     </AdminShell>
   );
 }

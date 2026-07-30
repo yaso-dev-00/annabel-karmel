@@ -232,7 +232,6 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
   const [gatedFilter, setGatedFilter] = useState("all");
   const [seoFilter, setSeoFilter] = useState("all");
   const [readabilityFilter, setReadabilityFilter] = useState("all");
-  const [mobileFilter, setMobileFilter] = useState("all");
 
   const toggleSort = (column: SortColumn) => {
     if (sortColumn === column) {
@@ -309,7 +308,6 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
 
       const visibility = recipeVisibility(recipe);
       if (visibilityFilter !== "all" && visibility !== visibilityFilter) return false;
-      if (mobileFilter !== "all" && visibility !== mobileFilter) return false;
 
       if (gatedFilter === "gated" && !recipe.app_exclusive) return false;
       if (gatedFilter === "public" && recipe.app_exclusive) return false;
@@ -333,7 +331,6 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
     allergenFilter,
     visibilityFilter,
     gatedFilter,
-    mobileFilter,
     sortColumn,
     sortDirection,
     categoryGroups,
@@ -358,8 +355,7 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
     visibilityFilter !== "all" ||
     gatedFilter !== "all" ||
     seoFilter !== "all" ||
-    readabilityFilter !== "all" ||
-    mobileFilter !== "all";
+    readabilityFilter !== "all";
 
   const clearFilters = () => {
     setDateFilter("all");
@@ -369,7 +365,6 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
     setGatedFilter("all");
     setSeoFilter("all");
     setReadabilityFilter("all");
-    setMobileFilter("all");
     setPage(1);
   };
 
@@ -494,17 +489,6 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
           aria-label="All Readability Scores"
         >
           <option value="all">All Readability Scores</option>
-        </select>
-
-        <select
-          className={styles.filterSelect}
-          value={mobileFilter}
-          onChange={(event) => setMobileFilter(event.target.value)}
-          aria-label="Any Mobile"
-        >
-          <option value="all">Any Mobile?</option>
-          <option value="mobile">Mobile</option>
-          <option value="both">Both</option>
         </select>
 
         <button

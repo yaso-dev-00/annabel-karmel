@@ -71,12 +71,6 @@ function SortableTermRow({
       >
         ⠿
       </button>
-      {term.icon ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={term.icon} alt="" className={styles.termIcon} width={24} height={24} />
-      ) : (
-        <span className={styles.termIconPlaceholder} aria-hidden />
-      )}
       <input
         className={styles.termLabelInput}
         value={label}

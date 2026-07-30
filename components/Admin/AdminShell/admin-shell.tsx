@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import {
+  clearAdminSession,
+  getAdminSession,
+  getAdminSessionServerSnapshot,
+  subscribeAdminSession,
+} from "@/lib/admin/auth-session";
 import { AdminSidebarLogo } from "./admin-sidebar-logo";
 
 type NavItem = {
@@ -26,6 +32,11 @@ const NAV_SECTIONS: { title?: string; items: NavItem[] }[] = [
         label: "Recipes",
         children: [{ href: "/admin/recipes/categories", label: "Categories" }],
       },
+      {
+        href: "/admin/users",
+        label: "Users",
+        children: [{ href: "/admin/users", label: "All Users", exact: true }],
+      },
     ],
   },
   {
@@ -46,9 +57,17 @@ const NAV_SECTIONS: { title?: string; items: NavItem[] }[] = [
   },
 ];
 
+/** Only one of these collapsible groups stays open at a time. */
+const ACCORDION_GROUP_HREFS = new Set(["/admin/recipes", "/admin/users"]);
+
 function isNavItemActive(item: NavItem, pathname: string, allItems: NavItem[]): boolean {
   if (item.disabled || item.href === "#") return false;
-  if (item.exact) return pathname === item.href;
+  if (item.exact) {
+    // Exact + trailing paths (e.g. All Users → /admin/users/[id])
+    if (pathname === item.href) return true;
+    if (item.href !== "/admin" && pathname.startsWith(`${item.href}/`)) return true;
+    return false;
+  }
 
   const matches = allItems.filter(
     (candidate) =>
@@ -62,49 +81,52 @@ function isNavItemActive(item: NavItem, pathname: string, allItems: NavItem[]): 
   return best.href === item.href;
 }
 
+function groupIsActive(item: NavItem, pathname: string, allNavItems: NavItem[]): boolean {
+  if (isNavItemActive(item, pathname, allNavItems)) return true;
+  return Boolean(item.children?.some((child) => isNavItemActive(child, pathname, allNavItems)));
+}
+
 function NavGroup({
   item,
   pathname,
   allNavItems,
+  expanded,
+  onToggle,
 }: {
   item: NavItem;
   pathname: string;
   allNavItems: NavItem[];
+  expanded: boolean;
+  onToggle: () => void;
 }) {
-  const childActive = item.children?.some((child) => isNavItemActive(child, pathname, allNavItems));
-  const active = isNavItemActive(item, pathname, allNavItems);
-  const [expanded, setExpanded] = useState(Boolean(childActive));
-
-  useEffect(() => {
-    if (childActive) setExpanded(true);
-  }, [childActive]);
-
-  const open = expanded;
-  const parentActive = active;
+  const active = groupIsActive(item, pathname, allNavItems);
 
   return (
     <div className="navGroup">
-      <div className={`navGroupHeader${parentActive ? " navGroupHeaderActive" : ""}`}>
+      <div className={`navGroupHeader${active ? " navGroupHeaderActive" : ""}`}>
         <button
           type="button"
-          className={`navGroupToggle${open ? " navGroupToggleOpen" : ""}`}
-          aria-expanded={open}
-          aria-label={`${open ? "Collapse" : "Expand"} ${item.label} menu`}
-          onClick={() => setExpanded((current) => !current)}
+          className={`navGroupToggle${expanded ? " navGroupToggleOpen" : ""}`}
+          aria-expanded={expanded}
+          aria-label={`${expanded ? "Collapse" : "Expand"} ${item.label} menu`}
+          onClick={onToggle}
         >
           <span className="navGroupChevron" aria-hidden />
         </button>
         <Link
           href={item.disabled ? "#" : item.href}
           prefetch={false}
-          className={`navLink navLinkGroup${parentActive ? " navLinkActive" : ""}${item.disabled ? " navLinkDisabled" : ""}`}
+          className={`navLink navLinkGroup${active ? " navLinkActive" : ""}${item.disabled ? " navLinkDisabled" : ""}`}
           aria-disabled={item.disabled}
-          aria-current={parentActive ? "page" : undefined}
+          aria-current={active ? "page" : undefined}
+          onClick={() => {
+            if (!expanded) onToggle();
+          }}
         >
           {item.label}
         </Link>
       </div>
-      {open ? (
+      {expanded ? (
         <div className="navSubLinks">
           {item.children?.map((child) => {
             const subActive = isNavItemActive(child, pathname, allNavItems);
@@ -139,6 +161,27 @@ export function AdminShell({ title, breadcrumb, children, actions }: AdminShellP
   const pathname = usePathname();
   const router = useRouter();
   const allNavItems = NAV_SECTIONS.flatMap((section) => flattenNavItems(section.items));
+  const session = useSyncExternalStore(
+    subscribeAdminSession,
+    getAdminSession,
+    getAdminSessionServerSnapshot,
+  );
+  const sessionEmail = session?.email ?? null;
+
+  const accordionItems = NAV_SECTIONS.flatMap((section) =>
+    section.items.filter((item) => item.children?.length && ACCORDION_GROUP_HREFS.has(item.href)),
+  );
+
+  const activeAccordionHref =
+    accordionItems.find((item) => groupIsActive(item, pathname, allNavItems))?.href ?? null;
+
+  const [openAccordionHref, setOpenAccordionHref] = useState<string | null>(activeAccordionHref);
+
+  useEffect(() => {
+    if (activeAccordionHref) {
+      setOpenAccordionHref(activeAccordionHref);
+    }
+  }, [activeAccordionHref]);
 
   useEffect(() => {
     // Mutations go through client fetch → API routes; revalidatePath alone does not
@@ -155,66 +198,96 @@ export function AdminShell({ title, breadcrumb, children, actions }: AdminShellP
     return () => window.removeEventListener("pageshow", onPageShow);
   }, [router]);
 
+  const handleLogout = () => {
+    clearAdminSession();
+    router.replace("/admin/login");
+  };
+
+  const toggleAccordion = (href: string) => {
+    setOpenAccordionHref((current) => (current === href ? null : href));
+  };
+
   return (
-    <div className="adminRoot">
-      <div className="adminLayout">
-        <aside className="sidebar">
-          <AdminSidebarLogo />
-          <nav className="sidebarNav" aria-label="Admin navigation">
-            {NAV_SECTIONS.map((section, index) => (
-              <div
-                key={section.title ?? `section-${index}`}
-                className={`sidebarSection${section.title ? " sidebarSectionLabeled" : ""}`}
-              >
-                {section.title ? <p className="sidebarSectionTitle">{section.title}</p> : null}
-                <div className="sidebarSectionLinks">
-                  {section.items.map((item) => {
-                    if (item.children?.length) {
+      <div className="adminRoot">
+        <div className="adminLayout">
+          <aside className="sidebar">
+            <AdminSidebarLogo />
+            <nav className="sidebarNav" aria-label="Admin navigation">
+              {NAV_SECTIONS.map((section, index) => (
+                <div
+                  key={section.title ?? `section-${index}`}
+                  className={`sidebarSection${section.title ? " sidebarSectionLabeled" : ""}`}
+                >
+                  {section.title ? <p className="sidebarSectionTitle">{section.title}</p> : null}
+                  <div className="sidebarSectionLinks">
+                    {section.items.map((item) => {
+                      if (item.children?.length) {
+                        const isAccordion = ACCORDION_GROUP_HREFS.has(item.href);
+                        const expanded = isAccordion
+                          ? openAccordionHref === item.href
+                          : groupIsActive(item, pathname, allNavItems);
+
+                        return (
+                          <NavGroup
+                            key={item.label}
+                            item={item}
+                            pathname={pathname}
+                            allNavItems={allNavItems}
+                            expanded={expanded}
+                            onToggle={() => {
+                              if (isAccordion) {
+                                toggleAccordion(item.href);
+                              }
+                            }}
+                          />
+                        );
+                      }
+
+                      const active = isNavItemActive(item, pathname, allNavItems);
+
                       return (
-                        <NavGroup
+                        <Link
                           key={item.label}
-                          item={item}
-                          pathname={pathname}
-                          allNavItems={allNavItems}
-                        />
+                          href={item.disabled ? "#" : item.href}
+                          prefetch={false}
+                          className={`navLink ${active ? "navLinkActive" : ""} ${item.disabled ? "navLinkDisabled" : ""}`}
+                          aria-disabled={item.disabled}
+                          aria-current={active ? "page" : undefined}
+                        >
+                          {item.label}
+                        </Link>
                       );
-                    }
-
-                    const active = isNavItemActive(item, pathname, allNavItems);
-
-                    return (
-                      <Link
-                        key={item.label}
-                        href={item.disabled ? "#" : item.href}
-                        prefetch={false}
-                        className={`navLink ${active ? "navLinkActive" : ""} ${item.disabled ? "navLinkDisabled" : ""}`}
-                        aria-disabled={item.disabled}
-                        aria-current={active ? "page" : undefined}
-                      >
-                        {item.label}
-                      </Link>
-                    );
-                  })}
+                    })}
+                  </div>
                 </div>
+              ))}
+            </nav>
+          </aside>
+          <div className="mainArea">
+            <header className="topBar">
+              <div>
+                {breadcrumb ? (
+                  <p className="breadcrumb">
+                    Admin / <strong>{breadcrumb}</strong>
+                  </p>
+                ) : null}
+                {title ? <h1 className="cardTitle">{title}</h1> : null}
               </div>
-            ))}
-          </nav>
-        </aside>
-        <div className="mainArea">
-          <header className="topBar">
-            <div>
-              {breadcrumb ? (
-                <p className="breadcrumb">
-                  Admin / <strong>{breadcrumb}</strong>
-                </p>
-              ) : null}
-              {title ? <h1 className="cardTitle">{title}</h1> : null}
-            </div>
-            {actions ? <div>{actions}</div> : null}
-          </header>
-          <div className="pageContent">{children}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                {actions}
+                {sessionEmail ? (
+                  <span style={{ fontSize: 12, color: "var(--admin-muted, #666)" }}>
+                    {sessionEmail}
+                  </span>
+                ) : null}
+                <button type="button" className="btn btnSecondary" onClick={handleLogout}>
+                  Log out
+                </button>
+              </div>
+            </header>
+            <div className="pageContent">{children}</div>
+          </div>
         </div>
       </div>
-    </div>
   );
 }

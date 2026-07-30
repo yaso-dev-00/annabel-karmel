@@ -540,54 +540,6 @@
   cursor: pointer;
 }
 
-.seoToggle {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin: 0;
-  padding: 14px 16px;
-  border: 1px solid #efd8d8;
-  border-radius: 10px;
-  background: #fffaf7;
-  cursor: pointer;
-  user-select: none;
-}
-
-.seoToggle input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  margin-top: 2px;
-  flex-shrink: 0;
-  accent-color: var(--admin-brand, #963b58);
-  cursor: pointer;
-}
-
-.seoToggleCopy {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.seoToggleTitle {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--admin-text, #3d3a3a);
-}
-
-.seoToggleHint {
-  font-size: 12px;
-  font-weight: 400;
-  color: #969494;
-  line-height: 1.4;
-}
-
-.seoToggleHint code {
-  font-size: 11px;
-  background: #f6f6f6;
-  padding: 1px 5px;
-  border-radius: 4px;
-}
-
 .slugField {
   margin-top: 4px;
 }

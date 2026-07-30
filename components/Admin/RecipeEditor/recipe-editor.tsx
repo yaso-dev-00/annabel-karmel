@@ -676,31 +676,6 @@ export function RecipeEditor({
                   onChange={(e) => update("seo_description", e.target.value)}
                 />
               </div>
-              <div className="field">
-                <label className="fieldLabel" htmlFor="focus-keyphrase">
-                  Focus keyphrase
-                </label>
-                <input
-                  id="focus-keyphrase"
-                  className="fieldInput"
-                  value={recipe.focus_keyphrase ?? ""}
-                  onChange={(e) => update("focus_keyphrase", e.target.value)}
-                  placeholder="e.g. sweet potato puree"
-                />
-              </div>
-              <label className={styles.seoToggle}>
-                <input
-                  type="checkbox"
-                  checked={Boolean(recipe.noindex)}
-                  onChange={(e) => update("noindex", e.target.checked)}
-                />
-                <span className={styles.seoToggleCopy}>
-                  <span className={styles.seoToggleTitle}>Hide from search engines</span>
-                  <span className={styles.seoToggleHint}>
-                    Adds <code>noindex</code> so Google won&apos;t list this recipe
-                  </span>
-                </span>
-              </label>
             </div>
           </div>
         </div>

@@ -112,7 +112,7 @@
 
 .termRow {
   display: grid;
-  grid-template-columns: 36px 28px minmax(0, 1.4fr) minmax(0, 1fr) auto;
+  grid-template-columns: 36px minmax(0, 1.4fr) minmax(0, 1fr) auto;
   gap: 10px;
   align-items: center;
   padding: 10px 12px;
@@ -140,20 +140,6 @@
 .dragHandle:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-}
-
-.termIcon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  border-radius: 999px;
-}
-
-.termIconPlaceholder {
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  background: #f3ecec;
 }
 
 .termLabelInput,
@@ -216,7 +202,7 @@
 
 @media (max-width: 800px) {
   .termRow {
-    grid-template-columns: 36px 28px 1fr;
+    grid-template-columns: 36px 1fr;
   }
 
   .termSlugInput,

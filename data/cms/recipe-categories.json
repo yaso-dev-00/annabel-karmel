@@ -7,13 +7,6 @@
       "terms": [
         {
           "kind": "recipe-category",
-          "slug": "first-foods",
-          "label": "First Foods",
-          "path": "/recipe-category/first-foods",
-          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/first-foods/"
-        },
-        {
-          "kind": "recipe-category",
           "slug": "after-first-tastes",
           "label": "After First Tastes",
           "path": "/recipe-category/after-first-tastes",
@@ -21,17 +14,17 @@
         },
         {
           "kind": "recipe-category",
-          "slug": "6-9-months-recipes",
-          "label": "6 Months +",
-          "path": "/recipe-category/6-9-months-recipes",
-          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/6-9-months-recipes/"
-        },
-        {
-          "kind": "recipe-category",
           "slug": "9-12-months",
           "label": "9 Months +",
           "path": "/recipe-category/9-12-months",
           "sourceUrl": "https://www.annabelkarmel.com/recipe-category/9-12-months/"
+        },
+        {
+          "kind": "recipe-category",
+          "slug": "18-months",
+          "label": "18 Months +",
+          "path": "/recipe-category/18-months",
+          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/18-months/"
         },
         {
           "kind": "recipe-category",
@@ -46,13 +39,6 @@
           "label": "12 Months +",
           "path": "/recipe-category/12-18-months",
           "sourceUrl": "https://www.annabelkarmel.com/recipe-category/12-18-months/"
-        },
-        {
-          "kind": "recipe-category",
-          "slug": "18-months",
-          "label": "18 Months +",
-          "path": "/recipe-category/18-months",
-          "sourceUrl": "https://www.annabelkarmel.com/recipe-category/18-months/"
         },
         {
           "kind": "recipe-category",

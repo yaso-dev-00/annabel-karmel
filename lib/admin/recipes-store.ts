@@ -1,10 +1,16 @@
-import { unstable_cache } from "next/cache";
-import seedStore from "@/data/cms/recipes.seed.json";
-import { isRecipePublic } from "@/lib/admin/recipe-status";
-import { readRecipesCmsStoreRaw, writeRecipesCmsStoreRaw } from "@/lib/admin/recipes-cms-store-io";
-import { RECIPES_CACHE_TAG } from "@/lib/admin/revalidate-recipe-pages";
-import { sanitizeRecipe, sanitizeRecipesStore } from "@/lib/recipes/sanitize-recipe";
-import type { Recipe, RecipesStore } from "@/lib/recipes/types";
+import { unstable_cache } from 'next/cache';
+import seedStore from '@/data/cms/recipes.seed.json';
+import { isRecipePublic } from '@/lib/admin/recipe-status';
+import {
+  readRecipesCmsStoreRaw,
+  writeRecipesCmsStoreRaw,
+} from '@/lib/admin/recipes-cms-store-io';
+import { RECIPES_CACHE_TAG } from '@/lib/admin/revalidate-recipe-pages';
+import {
+  sanitizeRecipe,
+  sanitizeRecipesStore,
+} from '@/lib/recipes/sanitize-recipe';
+import type { Recipe, RecipesStore } from '@/lib/recipes/types';
 
 async function readStore(): Promise<RecipesStore> {
   let raw: string;
@@ -34,9 +40,13 @@ async function listRecipesFromStore(): Promise<Recipe[]> {
 }
 
 /** Cached + tagged list for RSC pages — invalidated via revalidateTag(RECIPES_CACHE_TAG). */
-export const getAllRecipes = unstable_cache(listRecipesFromStore, ["recipes-all"], {
-  tags: [RECIPES_CACHE_TAG],
-});
+export const getAllRecipes = unstable_cache(
+  listRecipesFromStore,
+  ['recipes-all'],
+  {
+    tags: [RECIPES_CACHE_TAG],
+  },
+);
 
 /** Always reads the store (API routes / post-mutation responses). */
 export async function getAllRecipesUncached(): Promise<Recipe[]> {
@@ -48,7 +58,9 @@ export async function getRecipeById(id: string): Promise<Recipe | null> {
   return store.recipes.find((recipe) => recipe.id === id) ?? null;
 }
 
-export async function getPublishedRecipeBySlug(slug: string): Promise<Recipe | null> {
+export async function getPublishedRecipeBySlug(
+  slug: string,
+): Promise<Recipe | null> {
   const store = await readStore();
   const recipe = store.recipes.find((item) => item.slug === slug);
   if (!recipe || !isRecipePublic(recipe)) return null;
@@ -60,7 +72,11 @@ export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
   return store.recipes.find((item) => item.slug === slug) ?? null;
 }
 
-function assertUniqueSlug(store: RecipesStore, slug: string, excludeId?: string): void {
+function assertUniqueSlug(
+  store: RecipesStore,
+  slug: string,
+  excludeId?: string,
+): void {
   const conflict = store.recipes.find(
     (recipe) => recipe.slug === slug && recipe.id !== excludeId,
   );
@@ -70,7 +86,7 @@ function assertUniqueSlug(store: RecipesStore, slug: string, excludeId?: string)
 }
 
 export async function createRecipe(
-  input: Omit<Recipe, "id" | "created_at" | "updated_at">,
+  input: Omit<Recipe, 'id' | 'created_at' | 'updated_at'>,
 ): Promise<Recipe> {
   const store = await readStore();
   assertUniqueSlug(store, input.slug.trim());
@@ -90,7 +106,7 @@ export async function createRecipe(
 
 export async function updateRecipe(
   id: string,
-  input: Partial<Omit<Recipe, "id" | "created_at">>,
+  input: Partial<Omit<Recipe, 'id' | 'created_at'>>,
 ): Promise<Recipe | null> {
   const store = await readStore();
   const index = store.recipes.findIndex((recipe) => recipe.id === id);

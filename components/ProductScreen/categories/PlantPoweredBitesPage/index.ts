@@ -1,1 +1,1 @@
-export * from "./plant-powered-bites-page";
+export * from './plant-powered-bites-page';

@@ -1,1 +1,1 @@
-export * from "./australia-frozen-product-page";
+export * from './australia-frozen-product-page';

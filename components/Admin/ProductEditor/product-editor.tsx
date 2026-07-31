@@ -1,13 +1,16 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
-import type { PreviewViewportHandle } from "@/components/Admin/BlockEditor/preview-viewport";
-import { ProductLivePreview } from "@/components/Admin/ProductEditor/product-live-preview";
-import { ProductPageFields } from "@/components/Admin/ProductEditor/product-page-fields";
-import { createDefaultPageContent } from "@/components/Admin/ProductEditor/create-default-product";
-import { createProductApi, updateProductApi } from "@/lib/admin/products-client";
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ArticleStatusField } from '@/components/Admin/Ui/ArticleStatusField';
+import type { PreviewViewportHandle } from '@/components/Admin/BlockEditor/preview-viewport';
+import { ProductLivePreview } from '@/components/Admin/ProductEditor/product-live-preview';
+import { ProductPageFields } from '@/components/Admin/ProductEditor/product-page-fields';
+import { createDefaultPageContent } from '@/components/Admin/ProductEditor/create-default-product';
+import {
+  createProductApi,
+  updateProductApi,
+} from '@/lib/admin/products-client';
 import {
   applyProductStatus,
   buildProductSavePayload,
@@ -15,39 +18,41 @@ import {
   isProductDisabled,
   isProductPreviewable,
   resolveProductStatus,
-} from "@/lib/admin/product-status";
-import { validateProductForPublish } from "@/lib/products/sanitize-product";
+} from '@/lib/admin/product-status';
+import { validateProductForPublish } from '@/lib/products/sanitize-product';
 import {
   PRODUCT_CATEGORIES,
   productCategoryLabel,
   type Product,
   type ProductCategory,
   type ProductStatus,
-} from "@/lib/products/types";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import styles from "./product-editor.module.css";
+} from '@/lib/products/types';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import styles from './product-editor.module.css';
 
 type ProductEditorProps = {
   initialProduct: Product;
   isNew?: boolean;
   /** Grow Products section locks category to tableware and uses /tableware/ slug path. */
-  section?: "meals" | "grow";
+  section?: 'meals' | 'grow';
 };
 
-const MEAL_CATEGORIES = PRODUCT_CATEGORIES.filter((c) => c.value !== "tableware");
+const MEAL_CATEGORIES = PRODUCT_CATEGORIES.filter(
+  (c) => c.value !== 'tableware',
+);
 
 function slugifyTitle(title: string): string {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 export function ProductEditor({
   initialProduct,
   isNew,
-  section = "meals",
+  section = 'meals',
 }: ProductEditorProps) {
   const router = useRouter();
   const previewRef = useRef<PreviewViewportHandle>(null);
@@ -57,25 +62,30 @@ export function ProductEditor({
   const [message, setMessage] = useState<string | null>(null);
   const [autoSlug, setAutoSlug] = useState(isNew && !initialProduct.slug);
   const [editingSlug, setEditingSlug] = useState(false);
-  const [tablewareVariantKey, setTablewareVariantKey] = useState<string | null>(null);
+  const [tablewareVariantKey, setTablewareVariantKey] = useState<string | null>(
+    null,
+  );
 
   // Soft navigations / refresh can pass a newer initialProduct while this client
   // component stays mounted — don't keep stale empty colour galleries around.
   useEffect(() => {
     if (dirty) return;
-    setProduct(initialProduct);
+    queueMicrotask(() => setProduct(initialProduct));
   }, [initialProduct, dirty]);
 
-  const isGrow = section === "grow" || product.category === "tableware";
-  const slugPrefix = isGrow ? "/tableware/" : "/products/";
+  const isGrow = section === 'grow' || product.category === 'tableware';
+  const slugPrefix = isGrow ? '/tableware/' : '/products/';
   const categoryOptions = isGrow
-    ? PRODUCT_CATEGORIES.filter((c) => c.value === "tableware")
+    ? PRODUCT_CATEGORIES.filter((c) => c.value === 'tableware')
     : MEAL_CATEGORIES;
 
-  const update = useCallback(<K extends keyof Product>(key: K, value: Product[K]) => {
-    setProduct((prev) => ({ ...prev, [key]: value }));
-    setDirty(true);
-  }, []);
+  const update = useCallback(
+    <K extends keyof Product>(key: K, value: Product[K]) => {
+      setProduct((prev) => ({ ...prev, [key]: value }));
+      setDirty(true);
+    },
+    [],
+  );
 
   const save = async (publish = false) => {
     setSaving(true);
@@ -95,7 +105,7 @@ export function ProductEditor({
         const created = await createProductApi(payload);
         setProduct(created);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.replace(
           isGrow
             ? `/admin/grow-products/${created.id}/edit`
@@ -106,18 +116,24 @@ export function ProductEditor({
         const updated = await updateProductApi(product.id, payload);
         setProduct(updated);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.refresh();
       }
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Save failed. Please try again.';
       setMessage(detail);
     } finally {
       setSaving(false);
     }
   };
 
-  const handleStatusChange = async (status: ProductStatus, scheduledAt?: string | null) => {
+  const handleStatusChange = async (
+    status: ProductStatus,
+    scheduledAt?: string | null,
+  ) => {
     const next = applyProductStatus(product, status, scheduledAt);
     setProduct(next);
 
@@ -125,21 +141,26 @@ export function ProductEditor({
       setSaving(true);
       setMessage(null);
       try {
-        const updated = await updateProductApi(product.id, getProductStatusPatch(next));
+        const updated = await updateProductApi(
+          product.id,
+          getProductStatusPatch(next),
+        );
         setProduct(updated);
         setDirty(false);
         setMessage(
-          status === "disabled"
-            ? "Product disabled."
-            : status === "published"
-              ? "Product published."
-              : "Status saved.",
+          status === 'disabled'
+            ? 'Product disabled.'
+            : status === 'published'
+              ? 'Product published.'
+              : 'Status saved.',
         );
         router.refresh();
       } catch (error) {
         setDirty(true);
         const detail =
-          error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+          error instanceof Error
+            ? error.message
+            : 'Failed to save status. Try Save draft.';
         setMessage(detail);
       } finally {
         setSaving(false);
@@ -191,10 +212,15 @@ export function ProductEditor({
         </div>
         <div className={styles.slugField}>
           <div className={styles.slugFieldHeader}>
-            <label className={styles.slugFieldLabel} htmlFor={editingSlug ? "product-slug" : undefined}>
+            <label
+              className={styles.slugFieldLabel}
+              htmlFor={editingSlug ? 'product-slug' : undefined}
+            >
               Page URL
             </label>
-            {autoSlug ? <span className={styles.slugAutoHint}>Synced from title</span> : null}
+            {autoSlug ? (
+              <span className={styles.slugAutoHint}>Synced from title</span>
+            ) : null}
           </div>
 
           {editingSlug ? (
@@ -206,11 +232,11 @@ export function ProductEditor({
                 value={product.slug}
                 onChange={(e) => {
                   setAutoSlug(false);
-                  update("slug", e.target.value);
+                  update('slug', e.target.value);
                 }}
                 onBlur={() => setEditingSlug(false)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === "Escape") {
+                  if (e.key === 'Enter' || e.key === 'Escape') {
                     e.preventDefault();
                     setEditingSlug(false);
                   }
@@ -230,7 +256,9 @@ export function ProductEditor({
           ) : (
             <div className={styles.slugBar}>
               <span className={styles.slugPrefix}>{slugPrefix}</span>
-              <span className={styles.slugValue}>{product.slug || "your-product-slug"}</span>
+              <span className={styles.slugValue}>
+                {product.slug || 'your-product-slug'}
+              </span>
               <button
                 type="button"
                 className={styles.slugEditBtn}
@@ -253,12 +281,16 @@ export function ProductEditor({
     <div className="editorSections">
       <div className="editorPageHeader">
         <div>
-          <h1 className="cardTitle">{product.title || "Untitled"}</h1>
-          <p className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}>
-            {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
+          <h1 className="cardTitle">{product.title || 'Untitled'}</h1>
+          <p className={`statusBar ${dirty && !message ? 'statusDirty' : ''}`}>
+            {message
+              ? message
+              : dirty
+                ? 'Unsaved changes'
+                : 'All changes saved'}
           </p>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
           {previewable ? (
             <button
               type="button"
@@ -277,7 +309,12 @@ export function ProductEditor({
               Preview
             </button>
           )}
-          <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+          <button
+            type="button"
+            className="btn btnSecondary"
+            onClick={saveDraft}
+            disabled={saving}
+          >
             Save draft
           </button>
           <button
@@ -304,7 +341,9 @@ export function ProductEditor({
                 <select
                   className="fieldInput"
                   value={product.category}
-                  onChange={(e) => handleCategoryChange(e.target.value as ProductCategory)}
+                  onChange={(e) =>
+                    handleCategoryChange(e.target.value as ProductCategory)
+                  }
                 >
                   {categoryOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -313,12 +352,14 @@ export function ProductEditor({
                   ))}
                 </select>
                 <p className={styles.sectionHint}>
-                  Category locks the page template. Choose carefully — it cannot be changed after
-                  save.
+                  Category locks the page template. Choose carefully — it cannot
+                  be changed after save.
                 </p>
               </div>
             ) : (
-              <p className={styles.categoryLocked}>{productCategoryLabel(product.category)}</p>
+              <p className={styles.categoryLocked}>
+                {productCategoryLabel(product.category)}
+              </p>
             )}
           </div>
 
@@ -345,7 +386,9 @@ export function ProductEditor({
             <div className={styles.sectionHeader}>
               <h2 className="cardSectionTitle">SEO</h2>
             </div>
-            <p className={styles.sectionHint}>How this product appears in search results</p>
+            <p className={styles.sectionHint}>
+              How this product appears in search results
+            </p>
             <div className="cardForm">
               <div className="field">
                 <div className={styles.sectionHeader}>
@@ -353,7 +396,7 @@ export function ProductEditor({
                     SEO title
                   </label>
                   <span
-                    className={`${styles.charCount} ${seoTitleLen > 60 ? styles.charCountWarn : ""}`}
+                    className={`${styles.charCount} ${seoTitleLen > 60 ? styles.charCountWarn : ''}`}
                   >
                     {seoTitleLen}/60
                   </span>
@@ -362,7 +405,7 @@ export function ProductEditor({
                   id="seo-title"
                   className="fieldInput"
                   value={product.seo_title}
-                  onChange={(e) => update("seo_title", e.target.value)}
+                  onChange={(e) => update('seo_title', e.target.value)}
                 />
               </div>
               <div className="field">
@@ -371,7 +414,7 @@ export function ProductEditor({
                     Meta description
                   </label>
                   <span
-                    className={`${styles.charCount} ${seoDescLen > 160 ? styles.charCountWarn : ""}`}
+                    className={`${styles.charCount} ${seoDescLen > 160 ? styles.charCountWarn : ''}`}
                   >
                     {seoDescLen}/160
                   </span>
@@ -381,14 +424,17 @@ export function ProductEditor({
                   className="fieldTextarea"
                   rows={3}
                   value={product.seo_description}
-                  onChange={(e) => update("seo_description", e.target.value)}
+                  onChange={(e) => update('seo_description', e.target.value)}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <aside className={blockStyles.editorPreviewColumn} aria-label="Live preview">
+        <aside
+          className={blockStyles.editorPreviewColumn}
+          aria-label="Live preview"
+        >
           <ProductLivePreview
             ref={previewRef}
             product={product}

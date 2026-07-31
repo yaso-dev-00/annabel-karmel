@@ -1,16 +1,20 @@
-import { FoodCategoryAccordion } from "@/components/ArticleScreen/FoodCategoryAccordion";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { teethingAccordionItems, teethingIntro, teethingRelatedArticles } from "@/data/teething-page";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+import { FoodCategoryAccordion } from '@/components/ArticleScreen/FoodCategoryAccordion';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import {
+  teethingAccordionItems,
+  teethingIntro,
+  teethingRelatedArticles,
+} from '@/data/teething-page';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Teething | Child Development, Health and Learning | Annabel Karmel",
+  title: 'Teething | Child Development, Health and Learning | Annabel Karmel',
   description:
-    "Expert teething advice covering what to expect, teething soothers and recipes, and tips for introducing tooth brushing.",
+    'Expert teething advice covering what to expect, teething soothers and recipes, and tips for introducing tooth brushing.',
 };
 
 export default function TeethingPage() {
@@ -22,7 +26,10 @@ export default function TeethingPage() {
           <p className={styles.intro}>{teethingIntro}</p>
 
           <div className="mt-[28px]">
-            <FoodCategoryAccordion items={teethingAccordionItems} defaultOpenTitle={null} />
+            <FoodCategoryAccordion
+              items={teethingAccordionItems}
+              defaultOpenTitle={null}
+            />
           </div>
 
           <div className="mt-[90px] text-center">

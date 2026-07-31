@@ -1,13 +1,13 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { getRelatedArticles } from "@/data/related-articles";
-import styles from "./page.module.css";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { getRelatedArticles } from '@/data/related-articles';
+import styles from './page.module.css';
 
-const relatedArticles = getRelatedArticles("/halloween-kids-party-recipes");
+const relatedArticles = getRelatedArticles('/halloween-kids-party-recipes');
 
-const LOVE_BASE = "https://lovebakerstreet.com";
+const LOVE_BASE = 'https://lovebakerstreet.com';
 
 function FacebookIcon() {
   return (
@@ -43,7 +43,9 @@ export default function HalloweenKidsPartyRecipesPage() {
       <main className="bg-white">
         <article className="mx-auto w-full max-w-[1200px]">
           {/* Intro — cream */}
-          <section className={`${styles.cream} mt-[40px]! px-[14px] pb-14 pt-6 md:pb-16 md:pt-10`}>
+          <section
+            className={`${styles.cream} mt-[40px]! px-[14px] pb-14 pt-6 md:pb-16 md:pt-10`}
+          >
             <img
               src="/articles/halloween-kids-party-recipes/baker-street-logo.png"
               alt="Baker Street"
@@ -52,17 +54,22 @@ export default function HalloweenKidsPartyRecipesPage() {
               height={130}
             />
             <p className={`${styles.introBody} mt-8`}>
-              With the spooky season upon us, it can only mean one thing – it&apos;s time to start planning our Halloween
-              celebrations! To get in the festive spirit, I&apos;ve teamed up with Baker Street to create a delicious
-              spread of spine-chilling Halloween meal ideas using their cleverly-packed, and not to mention oh-so-tasty
+              With the spooky season upon us, it can only mean one thing –
+              it&apos;s time to start planning our Halloween celebrations! To
+              get in the festive spirit, I&apos;ve teamed up with Baker Street
+              to create a delicious spread of spine-chilling Halloween meal
+              ideas using their cleverly-packed, and not to mention oh-so-tasty
               bakery products.
             </p>
             <p className={`${styles.introBody}`}>
-              From spooky sweet and savoury sarnies to Monster Burgers that your little monsters can make, there&apos;s a
-              whole host of delicious and frighteningly good creations to be made and enjoyed – they&apos;re so tasty
-              it&apos;s almost scary!
+              From spooky sweet and savoury sarnies to Monster Burgers that your
+              little monsters can make, there&apos;s a whole host of delicious
+              and frighteningly good creations to be made and enjoyed –
+              they&apos;re so tasty it&apos;s almost scary!
             </p>
-            <p className={styles.introBody}>Make this year&apos;s Halloween festivities the tastiest one yet!</p>
+            <p className={styles.introBody}>
+              Make this year&apos;s Halloween festivities the tastiest one yet!
+            </p>
             <img
               src="/articles/halloween-kids-party-recipes/annabel-signature.png"
               alt="Annabel Karmel signature"
@@ -78,13 +85,17 @@ export default function HalloweenKidsPartyRecipesPage() {
               <div>
                 <p className={styles.kicker}>Cleverly packed to last longer</p>
                 <p className={styles.twoColText}>
-                  Baker Street&apos;s delicious range of bread and bakery products – including our Original Burger Buns,
-                  Classic Hot Dog Rolls and Sliced Loaves – are lovingly baked and cleverly packed to last longer.
+                  Baker Street&apos;s delicious range of bread and bakery
+                  products – including our Original Burger Buns, Classic Hot Dog
+                  Rolls and Sliced Loaves – are lovingly baked and cleverly
+                  packed to last longer.
                 </p>
                 <p className={`${styles.twoColText}`}>
-                  Our mission is to create great tasting bread and help families reduce their food waste at home. And we
-                  believe that with Baker Street, everyone can enjoy every last Baker Street bun, roll and slice of
-                  bread – it really is the best thing since sliced bread!
+                  Our mission is to create great tasting bread and help families
+                  reduce their food waste at home. And we believe that with
+                  Baker Street, everyone can enjoy every last Baker Street bun,
+                  roll and slice of bread – it really is the best thing since
+                  sliced bread!
                 </p>
               </div>
               <div>
@@ -98,27 +109,37 @@ export default function HalloweenKidsPartyRecipesPage() {
               </div>
             </div>
             <p className={`${styles.transitionCenter} mx-auto mt-10 `}>
-              Whether it&apos;s for your favourite fakeaway or watching the big game, for Bonfire Night bangers or scary
-              sharers this Halloween, Baker Street has you covered for every occasion!
+              Whether it&apos;s for your favourite fakeaway or watching the big
+              game, for Bonfire Night bangers or scary sharers this Halloween,
+              Baker Street has you covered for every occasion!
             </p>
           </section>
 
           {/* Party ideas + recipes — cream */}
           <section className={`${styles.cream} px-[14px] pb-6 pt-5`}>
             <h2 className={styles.blockTitle}>
-              Get in the spooky spirit with Annabel&apos;s so-tasty-they&apos;re-scary Halloween party food ideas
+              Get in the spooky spirit with Annabel&apos;s
+              so-tasty-they&apos;re-scary Halloween party food ideas
             </h2>
 
             {/* Monster burgers */}
             <div className="mx-auto mt-12 max-w-5xl">
               <h3 className={styles.recipeTitle}>Monster burgers</h3>
               <p className={styles.recipeStarring}>
-                <a className="hover:text-[var(--hover-color)]!"  href={`${LOVE_BASE}/products/burger-buns/original/`} target="_blank" rel="noopener noreferrer">
+                <a
+                  className="hover:text-[var(--hover-color)]!"
+                  href={`${LOVE_BASE}/products/burger-buns/original/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Starring Baker Street&apos;s Original Burger Buns
                 </a>
               </p>
               <div className="mt-15 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-                <a href="https://www.annabelkarmel.com/recipes/monster-burgers-2/" className="block">
+                <a
+                  href="https://www.annabelkarmel.com/recipes/monster-burgers-2/"
+                  className="block"
+                >
                   <img
                     src="/articles/halloween-kids-party-recipes/monster-burgers-food.jpg"
                     alt="Monster burgers with Baker Street buns"
@@ -143,7 +164,10 @@ export default function HalloweenKidsPartyRecipesPage() {
                 </a>
               </div>
               <div className="mt-8 flex justify-center">
-                <a className={styles.cta} href="https://www.annabelkarmel.com/recipes/monster-burgers-2/">
+                <a
+                  className={styles.cta}
+                  href="https://www.annabelkarmel.com/recipes/monster-burgers-2/"
+                >
                   Get the recipe
                 </a>
               </div>
@@ -151,9 +175,16 @@ export default function HalloweenKidsPartyRecipesPage() {
 
             {/* Spooky sandwiches */}
             <div className="mx-auto mt-16 max-w-5xl md:mt-20">
-              <h3 className={styles.recipeTitle}>Spooky Halloween sandwiches</h3>
+              <h3 className={styles.recipeTitle}>
+                Spooky Halloween sandwiches
+              </h3>
               <p className={styles.recipeStarring}>
-                <a className="hover:text-[var(--hover-color)]!" href={`${LOVE_BASE}/products/sliced-loaves/white/`} target="_blank" rel="noopener noreferrer">
+                <a
+                  className="hover:text-[var(--hover-color)]!"
+                  href={`${LOVE_BASE}/products/sliced-loaves/white/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Starring Baker Street&apos;s Sliced White Loaf
                 </a>
               </p>
@@ -174,7 +205,10 @@ export default function HalloweenKidsPartyRecipesPage() {
                 />
               </div>
               <div className="mt-8 flex justify-center">
-                <a className={styles.cta} href="https://www.annabelkarmel.com/recipes/spooky-halloween-sandwiches/">
+                <a
+                  className={styles.cta}
+                  href="https://www.annabelkarmel.com/recipes/spooky-halloween-sandwiches/"
+                >
                   Get the recipe
                 </a>
               </div>
@@ -184,7 +218,12 @@ export default function HalloweenKidsPartyRecipesPage() {
             <div className="mx-auto mt-16 max-w-5xl pb-4 md:mt-20">
               <h3 className={styles.recipeTitle}>Pumpkin cheesecake</h3>
               <p className={styles.recipeStarring}>
-                <a className="hover:text-[var(--hover-color)]!" href={`${LOVE_BASE}/products/sponges-flans/large-sponge-flan-case`} target="_blank" rel="noopener noreferrer">
+                <a
+                  className="hover:text-[var(--hover-color)]!"
+                  href={`${LOVE_BASE}/products/sponges-flans/large-sponge-flan-case`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Starring Baker Street&apos;s Large Flan Case
                 </a>
               </p>
@@ -205,7 +244,10 @@ export default function HalloweenKidsPartyRecipesPage() {
                 />
               </div>
               <div className="mt-8 flex justify-center">
-                <a className={styles.cta} href="https://www.annabelkarmel.com/recipes/pumpkin-cheesecake/">
+                <a
+                  className={styles.cta}
+                  href="https://www.annabelkarmel.com/recipes/pumpkin-cheesecake/"
+                >
                   Get the recipe
                 </a>
               </div>
@@ -229,7 +271,8 @@ export default function HalloweenKidsPartyRecipesPage() {
               <strong> for more recipes &amp; info.</strong>
             </p>
             <p className={`${styles.followText} mx-auto`}>
-              Follow Baker Street on social for spooky creations for your Halloween Big Night In
+              Follow Baker Street on social for spooky creations for your
+              Halloween Big Night In
             </p>
             <div className={`${styles.socialRow} mt-12`}>
               <a
@@ -264,7 +307,9 @@ export default function HalloweenKidsPartyRecipesPage() {
 
           <div className="mt-[50px] px-[14px] text-center">
             <h2 className={styles.relatedTitle}>Related Articles</h2>
-            <p className={styles.relatedText}>Some more articles you might enjoy...</p>
+            <p className={styles.relatedText}>
+              Some more articles you might enjoy...
+            </p>
           </div>
         </article>
 

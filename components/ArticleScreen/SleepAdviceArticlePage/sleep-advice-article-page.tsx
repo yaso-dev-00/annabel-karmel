@@ -1,7 +1,7 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   careItOutEcourseUrl,
   careItOutFreeVideoUrl,
@@ -9,10 +9,10 @@ import {
   careItOutUrl,
   kerrySeckerFacebookUrl,
   kerrySeckerInstagramUrl,
-} from "@/data/kerry-secker-attribution";
-import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import Link from "next/link";
-import defaultStyles from "./sleep-advice.module.css";
+} from '@/data/kerry-secker-attribution';
+import type { RelatedArticleItem } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import Link from 'next/link';
+import defaultStyles from './sleep-advice.module.css';
 
 type StyleMap = Record<string, string | undefined>;
 
@@ -63,7 +63,7 @@ type SleepAdviceArticlePageProps = {
 };
 
 function renderListItem(item: SleepAdviceListItem, styles: StyleMap) {
-  if (typeof item === "string") {
+  if (typeof item === 'string') {
     return item;
   }
 
@@ -75,10 +75,16 @@ function renderListItem(item: SleepAdviceListItem, styles: StyleMap) {
 }
 
 function listItemKey(item: SleepAdviceListItem) {
-  return typeof item === "string" ? item : `${item.label}:${item.text}`;
+  return typeof item === 'string' ? item : `${item.label}:${item.text}`;
 }
 
-function SleepAdviceImage({ section, styles }: { section: SleepAdviceSection; styles: StyleMap }) {
+function SleepAdviceImage({
+  section,
+  styles,
+}: {
+  section: SleepAdviceSection;
+  styles: StyleMap;
+}) {
   if (!section.image) {
     return null;
   }
@@ -112,7 +118,9 @@ function SleepAdviceSection({
         <h2 className={styles.sectionTitle}>{section.title}</h2>
       )}
 
-      {section.imageFirst ? <SleepAdviceImage section={section} styles={styles} /> : null}
+      {section.imageFirst ? (
+        <SleepAdviceImage section={section} styles={styles} />
+      ) : null}
 
       {section.paragraphs?.map((paragraph) => (
         <p key={paragraph} className={styles.body}>
@@ -135,7 +143,9 @@ function SleepAdviceSection({
         </div>
       ) : null}
 
-      {!section.imageFirst ? <SleepAdviceImage section={section} styles={styles} /> : null}
+      {!section.imageFirst ? (
+        <SleepAdviceImage section={section} styles={styles} />
+      ) : null}
 
       {section.listItems && section.listItems.length > 0 ? (
         section.ordered ? (
@@ -189,7 +199,12 @@ export function SleepAdviceArticlePage({
       <main className="overflow-x-hidden bg-white">
         <article className="mx-auto w-full max-w-[1200px] px-[8px] pb-[10px] pt-[16px] sm:px-[12px] md:mt-[40px] md:px-[14px] md:pt-[20px]">
           {sections.map((section, index) => (
-            <SleepAdviceSection key={section.title} section={section} styles={styles} isFirst={index === 0} />
+            <SleepAdviceSection
+              key={section.title}
+              section={section}
+              styles={styles}
+              isFirst={index === 0}
+            />
           ))}
 
           <div className={styles.attributionBlock}>
@@ -202,34 +217,65 @@ export function SleepAdviceArticlePage({
               loading="lazy"
             />
             <p className={styles.attribution}>
-              Visit{" "}
-              <Link href={careItOutUrl} className={styles.attributionLink} target="_blank" rel="noreferrer">
+              Visit{' '}
+              <Link
+                href={careItOutUrl}
+                className={styles.attributionLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Care It Out
               </Link>
-              &reg; for more information and{" "}
-              <Link href={careItOutFreeVideoUrl} className={styles.attributionLink} target="_blank" rel="noreferrer">
+              &reg; for more information and{' '}
+              <Link
+                href={careItOutFreeVideoUrl}
+                className={styles.attributionLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 free video
-              </Link>{" "}
+              </Link>{' '}
               to get you started.
             </p>
             <p className={styles.attribution}>
-              Kerry Secker&apos;s{" "}
-              <Link href={careItOutEcourseUrl} className={styles.attributionLink} target="_blank" rel="noreferrer">
+              Kerry Secker&apos;s{' '}
+              <Link
+                href={careItOutEcourseUrl}
+                className={styles.attributionLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Ecourse
-              </Link>{" "}
-              on bedtime basics for under 18 months is now available. The Care Care It Out{" "}
-              <Link href={careItOutPodcastUrl} className={styles.attributionLink} target="_blank" rel="noreferrer">
+              </Link>{' '}
+              on bedtime basics for under 18 months is now available. The Care
+              Care It Out{' '}
+              <Link
+                href={careItOutPodcastUrl}
+                className={styles.attributionLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Sleep Show Podcast
-              </Link>{" "}
+              </Link>{' '}
               is also now live with new episodes fortnightly.
             </p>
             <p className={styles.attribution}>
-              Follow Kerry on{" "}
-              <Link href={kerrySeckerFacebookUrl} className={styles.attributionLink} target="_blank" rel="noreferrer">
+              Follow Kerry on{' '}
+              <Link
+                href={kerrySeckerFacebookUrl}
+                className={styles.attributionLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Facebook
-              </Link>{" "}
-              and{" "}
-              <Link href={kerrySeckerInstagramUrl} className={styles.attributionLink} target="_blank" rel="noreferrer">
+              </Link>{' '}
+              and{' '}
+              <Link
+                href={kerrySeckerInstagramUrl}
+                className={styles.attributionLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Instagram
               </Link>
               .

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useCallback, useEffect, useRef, type CSSProperties } from "react";
+import Image from 'next/image';
+import { useCallback, useEffect, useRef, type CSSProperties } from 'react';
 
-import { recipeAppFeatures, recipeAppLinks } from "@/data/recipe-app-page";
-import styles from "@/components/MarketingScreen/RecipeAppPage/recipe-app-page.module.css";
+import { recipeAppFeatures, recipeAppLinks } from '@/data/recipe-app-page';
+import styles from '@/components/MarketingScreen/RecipeAppPage/recipe-app-page.module.css';
 
 const STEP_COUNT = recipeAppFeatures.length;
-const DESKTOP_QUERY = "(min-width: 900px)";
+const DESKTOP_QUERY = '(min-width: 900px)';
 const MIN_THUMB_PX = 48;
 
 export function RecipeAppFeaturesScroll() {
@@ -25,7 +25,7 @@ export function RecipeAppFeaturesScroll() {
     }
 
     if (!window.matchMedia(DESKTOP_QUERY).matches) {
-      thumb.style.display = "none";
+      thumb.style.display = 'none';
       return;
     }
 
@@ -33,7 +33,7 @@ export function RecipeAppFeaturesScroll() {
     const trackHeight = track.clientHeight;
 
     if (maxScroll <= 0 || trackHeight <= 0) {
-      thumb.style.display = "none";
+      thumb.style.display = 'none';
       return;
     }
 
@@ -44,7 +44,7 @@ export function RecipeAppFeaturesScroll() {
     const maxThumbTop = trackHeight - thumbHeight;
     const thumbTop = (viewport.scrollTop / maxScroll) * maxThumbTop;
 
-    thumb.style.display = "block";
+    thumb.style.display = 'block';
     thumb.style.height = `${thumbHeight}px`;
     thumb.style.transform = `translateY(${thumbTop}px)`;
   }, []);
@@ -127,29 +127,29 @@ export function RecipeAppFeaturesScroll() {
     });
 
     resizeObserver.observe(viewport);
-    viewport.addEventListener("scroll", onScroll, { passive: true });
-    viewport.addEventListener("wheel", onWheel, { passive: false });
-    viewport.addEventListener("touchstart", onTouchStart, { passive: true });
-    viewport.addEventListener("touchmove", onTouchMove, { passive: true });
-    desktopQuery.addEventListener("change", onLayoutChange);
-    window.addEventListener("resize", onLayoutChange, { passive: true });
+    viewport.addEventListener('scroll', onScroll, { passive: true });
+    viewport.addEventListener('wheel', onWheel, { passive: false });
+    viewport.addEventListener('touchstart', onTouchStart, { passive: true });
+    viewport.addEventListener('touchmove', onTouchMove, { passive: true });
+    desktopQuery.addEventListener('change', onLayoutChange);
+    window.addEventListener('resize', onLayoutChange, { passive: true });
     updateCustomScrollbar();
 
     return () => {
       resizeObserver.disconnect();
-      viewport.removeEventListener("scroll", onScroll);
-      viewport.removeEventListener("wheel", onWheel);
-      viewport.removeEventListener("touchstart", onTouchStart);
-      viewport.removeEventListener("touchmove", onTouchMove);
-      desktopQuery.removeEventListener("change", onLayoutChange);
-      window.removeEventListener("resize", onLayoutChange);
+      viewport.removeEventListener('scroll', onScroll);
+      viewport.removeEventListener('wheel', onWheel);
+      viewport.removeEventListener('touchstart', onTouchStart);
+      viewport.removeEventListener('touchmove', onTouchMove);
+      desktopQuery.removeEventListener('change', onLayoutChange);
+      window.removeEventListener('resize', onLayoutChange);
     };
   }, [updateCustomScrollbar]);
 
   return (
     <section
       className={styles.featuresScrollSection}
-      style={{ "--feature-step-count": STEP_COUNT } as CSSProperties}
+      style={{ '--feature-step-count': STEP_COUNT } as CSSProperties}
       aria-label="App features"
     >
       <div className={styles.featuresScrollGrid}>
@@ -205,7 +205,10 @@ export function RecipeAppFeaturesScroll() {
 
           <div className={styles.featuresCustomScrollbar} aria-hidden="true">
             <div ref={trackRef} className={styles.featuresCustomScrollbarTrack}>
-              <div ref={thumbRef} className={styles.featuresCustomScrollbarThumb} />
+              <div
+                ref={thumbRef}
+                className={styles.featuresCustomScrollbarThumb}
+              />
             </div>
           </div>
         </div>

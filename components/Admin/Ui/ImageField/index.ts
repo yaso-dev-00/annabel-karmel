@@ -1,1 +1,1 @@
-export { ImageField } from "./image-field";
+export { ImageField } from './image-field';

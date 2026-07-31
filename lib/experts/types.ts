@@ -1,4 +1,5 @@
-export type ExpertStatus = "draft" | "published" | "scheduled" | "private" | "disabled";
+export type ExpertStatus =
+  'draft' | 'published' | 'scheduled' | 'private' | 'disabled';
 
 export type ExpertTopic = {
   id?: string;

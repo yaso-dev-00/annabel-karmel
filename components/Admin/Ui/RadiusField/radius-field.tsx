@@ -1,7 +1,11 @@
-"use client";
+'use client';
 
-import { DS_RADIUS, RADIUS_PRESETS, type RadiusPreset } from "@/lib/design-system/tokens";
-import styles from "./radius-field.module.css";
+import {
+  DS_RADIUS,
+  RADIUS_PRESETS,
+  type RadiusPreset,
+} from '@/lib/design-system/tokens';
+import styles from './radius-field.module.css';
 
 type RadiusFieldProps = {
   value?: RadiusPreset;
@@ -20,13 +24,15 @@ export function RadiusField({ value, onChange }: RadiusFieldProps) {
             type="button"
             role="radio"
             aria-checked={active}
-            className={`${styles.option} ${active ? styles.optionActive : ""}`}
+            className={`${styles.option} ${active ? styles.optionActive : ''}`}
             onClick={() => onChange(active ? undefined : preset)}
             title={`${token.value} — ${token.label}`}
           >
             <span
               className={styles.preview}
-              style={{ borderRadius: token.value === "999px" ? "50%" : token.value }}
+              style={{
+                borderRadius: token.value === '999px' ? '50%' : token.value,
+              }}
             />
             <span className={styles.value}>{token.value}</span>
             <span className={styles.label}>{token.label}</span>

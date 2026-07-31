@@ -1,20 +1,20 @@
-import { FoodCategoryAccordion } from "@/components/ArticleScreen/FoodCategoryAccordion";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { FoodCategoryAccordion } from '@/components/ArticleScreen/FoodCategoryAccordion';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   pottyTrainingAccordionItems,
   pottyTrainingIntro,
   pottyTrainingRelatedArticles,
-} from "@/data/potty-training-page";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+} from '@/data/potty-training-page';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Potty Training | Child Development | Annabel Karmel",
+  title: 'Potty Training | Child Development | Annabel Karmel',
   description:
-    "Expert potty training advice covering readiness signs, routines, accidents, night-time training, and tips for a positive toilet training experience.",
+    'Expert potty training advice covering readiness signs, routines, accidents, night-time training, and tips for a positive toilet training experience.',
 };
 
 export default function PottyTrainingPage() {
@@ -26,7 +26,10 @@ export default function PottyTrainingPage() {
           <p className={styles.intro}>{pottyTrainingIntro}</p>
 
           <div className="mt-[28px]">
-            <FoodCategoryAccordion items={pottyTrainingAccordionItems} defaultOpenTitle={null} />
+            <FoodCategoryAccordion
+              items={pottyTrainingAccordionItems}
+              defaultOpenTitle={null}
+            />
           </div>
 
           <div className="mt-[90px] text-center">

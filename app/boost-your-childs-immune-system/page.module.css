@@ -7,7 +7,7 @@
 }
 
 .sectionHeading {
-  margin: 30px 0 0 ;
+  margin: 30px 0 0;
   font-family: var(--font-display);
   font-size: 40px;
   line-height: 1.08;
@@ -46,7 +46,6 @@
 
 .recipeLink a:hover {
   color: var(--hover-color) !important;
-
 }
 
 .relatedTitle {
@@ -73,7 +72,6 @@
   .recipeLink,
   .relatedTitle,
   .relatedText {
-  
     padding: 0 10px;
   }
 

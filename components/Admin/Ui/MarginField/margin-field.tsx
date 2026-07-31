@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { CssLengthInput } from "@/components/Admin/Ui/CssLengthInput";
-import type { BlockSettings } from "@/lib/content-blocks/types";
-import { isCssLengthShorthand } from "@/lib/content-blocks/css-length";
-import { hasIndividualMargin } from "@/lib/content-blocks/margin";
-import styles from "../PaddingField/padding-field.module.css";
+import { useState } from 'react';
+import { CssLengthInput } from '@/components/Admin/Ui/CssLengthInput';
+import type { BlockSettings } from '@/lib/content-blocks/types';
+import { isCssLengthShorthand } from '@/lib/content-blocks/css-length';
+import { hasIndividualMargin } from '@/lib/content-blocks/margin';
+import styles from '../PaddingField/padding-field.module.css';
 
 type MarginFieldProps = {
   settings: BlockSettings;
@@ -13,13 +13,19 @@ type MarginFieldProps = {
   inputClassName?: string;
 };
 
-export function MarginField({ settings, onChange, inputClassName }: MarginFieldProps) {
-  const [mode, setMode] = useState<"unified" | "sides">(() =>
-    hasIndividualMargin(settings) || isCssLengthShorthand(settings.margin) ? "sides" : "unified",
+export function MarginField({
+  settings,
+  onChange,
+  inputClassName,
+}: MarginFieldProps) {
+  const [mode, setMode] = useState<'unified' | 'sides'>(() =>
+    hasIndividualMargin(settings) || isCssLengthShorthand(settings.margin)
+      ? 'sides'
+      : 'unified',
   );
 
   const switchToUnified = () => {
-    setMode("unified");
+    setMode('unified');
     onChange({
       margin: settings.margin,
       margin_top: undefined,
@@ -30,8 +36,8 @@ export function MarginField({ settings, onChange, inputClassName }: MarginFieldP
   };
 
   const switchToSides = () => {
-    setMode("sides");
-    const fallback = settings.margin?.trim() || "";
+    setMode('sides');
+    const fallback = settings.margin?.trim() || '';
     onChange({
       margin: undefined,
       margin_top: settings.margin_top ?? fallback,
@@ -46,21 +52,21 @@ export function MarginField({ settings, onChange, inputClassName }: MarginFieldP
       <div className={styles.modeRow}>
         <button
           type="button"
-          className={`${styles.modeBtn} ${mode === "unified" ? styles.modeBtnActive : ""}`}
+          className={`${styles.modeBtn} ${mode === 'unified' ? styles.modeBtnActive : ''}`}
           onClick={switchToUnified}
         >
           All sides
         </button>
         <button
           type="button"
-          className={`${styles.modeBtn} ${mode === "sides" ? styles.modeBtnActive : ""}`}
+          className={`${styles.modeBtn} ${mode === 'sides' ? styles.modeBtnActive : ''}`}
           onClick={switchToSides}
         >
           Per side
         </button>
       </div>
 
-      {mode === "unified" ? (
+      {mode === 'unified' ? (
         <>
           <CssLengthInput
             value={settings.margin}
@@ -77,7 +83,9 @@ export function MarginField({ settings, onChange, inputClassName }: MarginFieldP
             inputClassName={inputClassName}
             allowAuto
           />
-          <p className={styles.hint}>Outer space around the block. Use auto for horizontal centering.</p>
+          <p className={styles.hint}>
+            Outer space around the block. Use auto for horizontal centering.
+          </p>
         </>
       ) : (
         <>
@@ -86,7 +94,9 @@ export function MarginField({ settings, onChange, inputClassName }: MarginFieldP
               <span className={styles.sideLabel}>Top</span>
               <CssLengthInput
                 value={settings.margin_top}
-                onChange={(margin_top) => onChange({ margin_top, margin: undefined })}
+                onChange={(margin_top) =>
+                  onChange({ margin_top, margin: undefined })
+                }
                 placeholder="0"
                 compact
                 allowAuto
@@ -97,7 +107,9 @@ export function MarginField({ settings, onChange, inputClassName }: MarginFieldP
               <span className={styles.sideLabel}>Left</span>
               <CssLengthInput
                 value={settings.margin_left}
-                onChange={(margin_left) => onChange({ margin_left, margin: undefined })}
+                onChange={(margin_left) =>
+                  onChange({ margin_left, margin: undefined })
+                }
                 placeholder="auto"
                 compact
                 allowAuto
@@ -109,7 +121,9 @@ export function MarginField({ settings, onChange, inputClassName }: MarginFieldP
               <span className={styles.sideLabel}>Right</span>
               <CssLengthInput
                 value={settings.margin_right}
-                onChange={(margin_right) => onChange({ margin_right, margin: undefined })}
+                onChange={(margin_right) =>
+                  onChange({ margin_right, margin: undefined })
+                }
                 placeholder="auto"
                 compact
                 allowAuto
@@ -120,7 +134,9 @@ export function MarginField({ settings, onChange, inputClassName }: MarginFieldP
               <span className={styles.sideLabel}>Bottom</span>
               <CssLengthInput
                 value={settings.margin_bottom}
-                onChange={(margin_bottom) => onChange({ margin_bottom, margin: undefined })}
+                onChange={(margin_bottom) =>
+                  onChange({ margin_bottom, margin: undefined })
+                }
                 placeholder="0"
                 compact
                 allowAuto
@@ -128,7 +144,9 @@ export function MarginField({ settings, onChange, inputClassName }: MarginFieldP
               />
             </div>
           </div>
-          <p className={styles.hint}>Set top, right, bottom, and left independently.</p>
+          <p className={styles.hint}>
+            Set top, right, bottom, and left independently.
+          </p>
         </>
       )}
     </div>

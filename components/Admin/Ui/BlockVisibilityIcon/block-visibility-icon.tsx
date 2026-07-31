@@ -4,7 +4,10 @@ type BlockVisibilityIconProps = {
   className?: string;
 };
 
-export function BlockVisibilityIcon({ visible, className }: BlockVisibilityIconProps) {
+export function BlockVisibilityIcon({
+  visible,
+  className,
+}: BlockVisibilityIconProps) {
   if (visible) {
     return (
       <svg viewBox="0 0 24 24" aria-hidden className={className} fill="none">
@@ -28,8 +31,18 @@ export function BlockVisibilityIcon({ visible, className }: BlockVisibilityIconP
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M9.88 9.88a3 3 0 104.24 4.24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M3 3l18 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path
+        d="M9.88 9.88a3 3 0 104.24 4.24"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M3 3l18 18"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }

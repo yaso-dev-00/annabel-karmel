@@ -1,1 +1,1 @@
-export { CookbookDetailPageContent } from "./cookbook-detail-page";
+export { CookbookDetailPageContent } from './cookbook-detail-page';

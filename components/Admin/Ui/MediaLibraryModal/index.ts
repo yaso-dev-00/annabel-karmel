@@ -1,1 +1,1 @@
-export { MediaLibraryModal } from "./media-library-modal";
+export { MediaLibraryModal } from './media-library-modal';

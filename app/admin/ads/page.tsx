@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { AdminShell } from "@/components/Admin/AdminShell";
-import { AdList } from "@/components/Admin/AdList/ad-list";
-import { getAllAds } from "@/lib/admin/ads-store";
+import Link from 'next/link';
+import { AdminShell } from '@/components/Admin/AdminShell';
+import { AdList } from '@/components/Admin/AdList/ad-list';
+import { getAllAds } from '@/lib/admin/ads-store';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function AdminAdsListPage() {

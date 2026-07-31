@@ -1,13 +1,21 @@
-"use client";
+'use client';
 
-import { ColorField } from "@/components/Admin/Ui/ColorField";
-import { CssLengthInput } from "@/components/Admin/Ui/CssLengthInput";
-import { createBlockId } from "@/lib/content-blocks/defaults";
-import type { CustomFormSchema, FormField, FormValidationRule } from "@/lib/content-blocks/form-schema";
-import { patchFormFieldOptions } from "@/lib/content-blocks/form-schema";
-import { DS_BACKGROUND_PRESETS, DS_BORDER_PRESETS, DS_TEXT_PRESETS } from "@/lib/design-system/color-presets";
-import { DS_COLORS } from "@/lib/design-system/tokens";
-import styles from "./form-builder.module.css";
+import { ColorField } from '@/components/Admin/Ui/ColorField';
+import { CssLengthInput } from '@/components/Admin/Ui/CssLengthInput';
+import { createBlockId } from '@/lib/content-blocks/defaults';
+import type {
+  CustomFormSchema,
+  FormField,
+  FormValidationRule,
+} from '@/lib/content-blocks/form-schema';
+import { patchFormFieldOptions } from '@/lib/content-blocks/form-schema';
+import {
+  DS_BACKGROUND_PRESETS,
+  DS_BORDER_PRESETS,
+  DS_TEXT_PRESETS,
+} from '@/lib/design-system/color-presets';
+import { DS_COLORS } from '@/lib/design-system/tokens';
+import styles from './form-builder.module.css';
 
 type FormPropertiesPanelProps = {
   field: FormField | null;
@@ -17,12 +25,12 @@ type FormPropertiesPanelProps = {
 };
 
 const WIDTH_PRESETS = [
-  { value: "100%", label: "Full width" },
-  { value: "75%", label: "75%" },
-  { value: "50%", label: "Half" },
-  { value: "33%", label: "Third" },
-  { value: "25%", label: "Quarter" },
-  { value: "auto", label: "Auto" },
+  { value: '100%', label: 'Full width' },
+  { value: '75%', label: '75%' },
+  { value: '50%', label: 'Half' },
+  { value: '33%', label: 'Third' },
+  { value: '25%', label: 'Quarter' },
+  { value: 'auto', label: 'Auto' },
 ];
 
 export function FormPropertiesPanel({
@@ -40,8 +48,10 @@ export function FormPropertiesPanel({
             Submit URL
             <input
               className="fieldInput"
-              value={schema.action ?? ""}
-              onChange={(e) => onSchemaChange({ ...schema, action: e.target.value })}
+              value={schema.action ?? ''}
+              onChange={(e) =>
+                onSchemaChange({ ...schema, action: e.target.value })
+              }
               placeholder="https://…"
             />
           </label>
@@ -49,9 +59,12 @@ export function FormPropertiesPanel({
             Method
             <select
               className="fieldSelect"
-              value={schema.method ?? "post"}
+              value={schema.method ?? 'post'}
               onChange={(e) =>
-                onSchemaChange({ ...schema, method: e.target.value as CustomFormSchema["method"] })
+                onSchemaChange({
+                  ...schema,
+                  method: e.target.value as CustomFormSchema['method'],
+                })
               }
             >
               <option value="post">POST</option>
@@ -85,35 +98,44 @@ export function FormPropertiesPanel({
           }
           compact
         />
-        <p className={styles.propertiesHint}>Select a field above to edit its properties.</p>
+        <p className={styles.propertiesHint}>
+          Select a field above to edit its properties.
+        </p>
       </div>
     );
   }
 
   const style = field.style ?? {};
-  const patchStyle = (patch: Partial<NonNullable<FormField["style"]>>) => {
+  const patchStyle = (patch: Partial<NonNullable<FormField['style']>>) => {
     onFieldChange({ style: { ...style, ...patch } });
   };
 
   const validation = field.validation ?? [];
-  const setValidation = (rules: FormValidationRule[]) => onFieldChange({ validation: rules });
+  const setValidation = (rules: FormValidationRule[]) =>
+    onFieldChange({ validation: rules });
 
-  const hasRequired = validation.some((rule) => rule.type === "required");
+  const hasRequired = validation.some((rule) => rule.type === 'required');
   const isChoiceField =
-    field.type === "select" || field.type === "radio" || field.type === "checkbox";
+    field.type === 'select' ||
+    field.type === 'radio' ||
+    field.type === 'checkbox';
   const options = field.options ?? [];
 
   const optionsEditor = isChoiceField ? (
     <div className={styles.optionsEditor}>
       <p className={styles.propGroupTitle}>
-        {field.type === "radio" ? "Radio options" : field.type === "checkbox" ? "Checkbox options" : "Select options"}
+        {field.type === 'radio'
+          ? 'Radio options'
+          : field.type === 'checkbox'
+            ? 'Checkbox options'
+            : 'Select options'}
       </p>
-      {field.type === "radio" ? (
+      {field.type === 'radio' ? (
         <label className={styles.propLabel}>
           Group label
           <input
             className="fieldInput"
-            value={field.label ?? ""}
+            value={field.label ?? ''}
             onChange={(e) => onFieldChange({ label: e.target.value })}
           />
         </label>
@@ -153,7 +175,11 @@ export function FormPropertiesPanel({
           onFieldChange(
             patchFormFieldOptions(field, [
               ...options,
-              { id: createBlockId(), label: "New option", value: `option_${Date.now()}` },
+              {
+                id: createBlockId(),
+                label: 'New option',
+                value: `option_${Date.now()}`,
+              },
             ]),
           )
         }
@@ -171,7 +197,7 @@ export function FormPropertiesPanel({
         Field name
         <input
           className="fieldInput"
-          value={field.name ?? ""}
+          value={field.name ?? ''}
           onChange={(e) => onFieldChange({ name: e.target.value })}
         />
       </label>
@@ -180,7 +206,7 @@ export function FormPropertiesPanel({
         Help text
         <input
           className="fieldInput"
-          value={field.helpText ?? ""}
+          value={field.helpText ?? ''}
           onChange={(e) => onFieldChange({ helpText: e.target.value })}
         />
       </label>
@@ -193,7 +219,9 @@ export function FormPropertiesPanel({
           className="fieldSelect"
           value={field.columnSpan ?? 1}
           onChange={(e) =>
-            onFieldChange({ columnSpan: Number(e.target.value) as FormField["columnSpan"] })
+            onFieldChange({
+              columnSpan: Number(e.target.value) as FormField['columnSpan'],
+            })
           }
         >
           <option value={1}>1 column</option>
@@ -207,7 +235,7 @@ export function FormPropertiesPanel({
         Width
         <select
           className="fieldSelect"
-          value={style.width ?? "100%"}
+          value={style.width ?? '100%'}
           onChange={(e) => patchStyle({ width: e.target.value })}
         >
           {WIDTH_PRESETS.map((preset) => (
@@ -218,7 +246,7 @@ export function FormPropertiesPanel({
         </select>
       </label>
 
-      {field.type === "textarea" ? (
+      {field.type === 'textarea' ? (
         <label className={styles.propLabel}>
           Min height
           <CssLengthInput
@@ -274,15 +302,17 @@ export function FormPropertiesPanel({
         />
       </label>
 
-      {field.type === "button" ? (
+      {field.type === 'button' ? (
         <>
           <label className={styles.propLabel}>
             Button style
             <select
               className="fieldSelect"
-              value={field.buttonVariant ?? "primary"}
+              value={field.buttonVariant ?? 'primary'}
               onChange={(e) =>
-                onFieldChange({ buttonVariant: e.target.value as FormField["buttonVariant"] })
+                onFieldChange({
+                  buttonVariant: e.target.value as FormField['buttonVariant'],
+                })
               }
             >
               <option value="primary">Primary</option>
@@ -293,9 +323,11 @@ export function FormPropertiesPanel({
             Action
             <select
               className="fieldSelect"
-              value={field.buttonAction ?? "submit"}
+              value={field.buttonAction ?? 'submit'}
               onChange={(e) =>
-                onFieldChange({ buttonAction: e.target.value as FormField["buttonAction"] })
+                onFieldChange({
+                  buttonAction: e.target.value as FormField['buttonAction'],
+                })
               }
             >
               <option value="submit">Submit</option>
@@ -306,7 +338,7 @@ export function FormPropertiesPanel({
         </>
       ) : null}
 
-      {field.type !== "button" ? (
+      {field.type !== 'button' ? (
         <div className={styles.validationEditor}>
           <p className={styles.propGroupTitle}>Validation</p>
           <label className="fieldCheckbox">
@@ -315,9 +347,14 @@ export function FormPropertiesPanel({
               checked={hasRequired}
               onChange={(e) => {
                 if (e.target.checked) {
-                  setValidation([...validation.filter((r) => r.type !== "required"), { type: "required" }]);
+                  setValidation([
+                    ...validation.filter((r) => r.type !== 'required'),
+                    { type: 'required' },
+                  ]);
                 } else {
-                  setValidation(validation.filter((r) => r.type !== "required"));
+                  setValidation(
+                    validation.filter((r) => r.type !== 'required'),
+                  );
                 }
               }}
             />
@@ -327,12 +364,14 @@ export function FormPropertiesPanel({
             Min length
             <input
               className="fieldInput"
-              value={validation.find((r) => r.type === "minLength")?.value ?? ""}
+              value={
+                validation.find((r) => r.type === 'minLength')?.value ?? ''
+              }
               onChange={(e) => {
-                const rest = validation.filter((r) => r.type !== "minLength");
+                const rest = validation.filter((r) => r.type !== 'minLength');
                 setValidation(
                   e.target.value
-                    ? [...rest, { type: "minLength", value: e.target.value }]
+                    ? [...rest, { type: 'minLength', value: e.target.value }]
                     : rest,
                 );
               }}
@@ -342,12 +381,14 @@ export function FormPropertiesPanel({
             Max length
             <input
               className="fieldInput"
-              value={validation.find((r) => r.type === "maxLength")?.value ?? ""}
+              value={
+                validation.find((r) => r.type === 'maxLength')?.value ?? ''
+              }
               onChange={(e) => {
-                const rest = validation.filter((r) => r.type !== "maxLength");
+                const rest = validation.filter((r) => r.type !== 'maxLength');
                 setValidation(
                   e.target.value
-                    ? [...rest, { type: "maxLength", value: e.target.value }]
+                    ? [...rest, { type: 'maxLength', value: e.target.value }]
                     : rest,
                 );
               }}

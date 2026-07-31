@@ -79,7 +79,7 @@
 
 .sectionHeadingDark {
   margin: 0;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: var(--font-pequena), sans-serif;
   font-size: 40px;
   font-weight: 400;
@@ -113,12 +113,11 @@
 .promiseSection {
   position: relative;
   z-index: 1;
-  
+
   margin-top: -30px;
   padding: 100px 0;
   min-height: calc(100vw * 828 / 2160);
 }
-
 
 @media (max-width: 767px) {
   .promiseSection {
@@ -127,8 +126,6 @@
     padding: 56px 0 72px;
   }
 }
- 
-
 
 @media (min-width: 768px) and (max-width: 1023px) {
   .promiseSection {
@@ -164,14 +161,12 @@
   }
 }
 
-
-
 .retailersSection {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   min-height: max(calc(100vw * 564 / 2160), 12rem);
   padding: 65px 0 75px;
 }
@@ -221,7 +216,6 @@
   overflow-x: clip;
   margin-top: 0;
   padding: 56px 0 72px;
-  
 }
 
 .frozenCtaSection .shapeBottom {

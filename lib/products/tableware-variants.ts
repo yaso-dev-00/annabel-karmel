@@ -1,13 +1,16 @@
-import type { TablewareSwatchColor } from "@/data/tableware-page";
+import type { TablewareSwatchColor } from '@/data/tableware-page';
 import type {
   TablewareColorSwatch,
   TablewareGalleryImage,
   TablewareProductPageData,
-} from "@/data/tableware-product-page";
-import { getTablewareProductPageData } from "@/data/tableware-product-page";
-import type { TablewareColorVariant, TablewarePageContent } from "@/lib/products/types";
+} from '@/data/tableware-product-page';
+import { getTablewareProductPageData } from '@/data/tableware-product-page';
+import type {
+  TablewareColorVariant,
+  TablewarePageContent,
+} from '@/lib/products/types';
 
-const VARIANT_INDEX_PREFIX = "index:";
+const VARIANT_INDEX_PREFIX = 'index:';
 
 export function makeTablewareVariantKey(index: number): string {
   return `${VARIANT_INDEX_PREFIX}${index}`;
@@ -30,13 +33,21 @@ export function resolveTablewareVariant(
     const byIndex = parseTablewareVariantIndex(colorOrSlugOrIndex);
     if (byIndex !== null && variants[byIndex]) return variants[byIndex]!;
 
-    const bySlug = variants.find((variant) => variant.slug === colorOrSlugOrIndex);
+    const bySlug = variants.find(
+      (variant) => variant.slug === colorOrSlugOrIndex,
+    );
     if (bySlug) return bySlug;
-    const byColor = variants.find((variant) => variant.color === colorOrSlugOrIndex);
+    const byColor = variants.find(
+      (variant) => variant.color === colorOrSlugOrIndex,
+    );
     if (byColor) return byColor;
   }
 
-  return variants.find((variant) => variant.color === page.activeColor) ?? variants[0] ?? null;
+  return (
+    variants.find((variant) => variant.color === page.activeColor) ??
+    variants[0] ??
+    null
+  );
 }
 
 export function resolveTablewareVariantIndex(
@@ -50,13 +61,19 @@ export function resolveTablewareVariantIndex(
     const byIndex = parseTablewareVariantIndex(colorOrSlugOrIndex);
     if (byIndex !== null && variants[byIndex]) return byIndex;
 
-    const slugIndex = variants.findIndex((variant) => variant.slug === colorOrSlugOrIndex);
+    const slugIndex = variants.findIndex(
+      (variant) => variant.slug === colorOrSlugOrIndex,
+    );
     if (slugIndex >= 0) return slugIndex;
-    const colorIndex = variants.findIndex((variant) => variant.color === colorOrSlugOrIndex);
+    const colorIndex = variants.findIndex(
+      (variant) => variant.color === colorOrSlugOrIndex,
+    );
     if (colorIndex >= 0) return colorIndex;
   }
 
-  const activeIndex = variants.findIndex((variant) => variant.color === page.activeColor);
+  const activeIndex = variants.findIndex(
+    (variant) => variant.color === page.activeColor,
+  );
   return activeIndex >= 0 ? activeIndex : 0;
 }
 
@@ -71,12 +88,16 @@ export function tablewareVariantsToSwatches(
   }));
 }
 
-function galleryWithSrc(gallery: TablewareGalleryImage[]): TablewareGalleryImage[] {
+function galleryWithSrc(
+  gallery: TablewareGalleryImage[],
+): TablewareGalleryImage[] {
   return gallery.filter((image) => image.src.trim());
 }
 
 /** Prefer CMS gallery; if empty, fall back to static Grow PDP JSON for that slug. */
-export function resolveVariantGallery(variant: TablewareColorVariant): TablewareGalleryImage[] {
+export function resolveVariantGallery(
+  variant: TablewareColorVariant,
+): TablewareGalleryImage[] {
   const fromCms = galleryWithSrc(variant.gallery);
   if (fromCms.length > 0) return fromCms;
 
@@ -98,19 +119,22 @@ export function tablewareContentToPageData(
     ({
       slug: meta.slug,
       color: page.activeColor,
-      label: "Colour",
-      hex: "#c3d2b6",
+      label: 'Colour',
+      hex: '#c3d2b6',
       gallery: [] as TablewareGalleryImage[],
-      shopHref: "",
+      shopHref: '',
     } satisfies TablewareColorVariant);
 
   const gallery = resolveVariantGallery(active);
-  const staticPage = active.slug.trim() ? getTablewareProductPageData(active.slug.trim()) : undefined;
+  const staticPage = active.slug.trim()
+    ? getTablewareProductPageData(active.slug.trim())
+    : undefined;
   const shopHref =
     active.shopHref.trim() ||
     staticPage?.retailer.shopHref ||
     page.retailer.shopHref;
-  const activeSwatchKey = active.slug.trim() || makeTablewareVariantKey(activeIndex);
+  const activeSwatchKey =
+    active.slug.trim() || makeTablewareVariantKey(activeIndex);
 
   return {
     slug: active.slug.trim() || meta.slug,
@@ -137,16 +161,16 @@ export function tablewareContentToPageData(
 }
 
 export function emptyTablewareVariant(
-  color: TablewareSwatchColor = "soft-sage",
-  label = "Soft Sage",
-  hex = "#c3d2b6",
+  color: TablewareSwatchColor = 'soft-sage',
+  label = 'Soft Sage',
+  hex = '#c3d2b6',
 ): TablewareColorVariant {
   return {
-    slug: "",
+    slug: '',
     color,
     label,
     hex,
-    gallery: [{ src: "", alt: "" }],
-    shopHref: "",
+    gallery: [{ src: '', alt: '' }],
+    shopHref: '',
   };
 }

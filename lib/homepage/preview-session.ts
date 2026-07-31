@@ -1,6 +1,6 @@
-import type { HomepageDocument } from "@/lib/homepage/types";
+import type { HomepageDocument } from '@/lib/homepage/types';
 
-export const HOMEPAGE_PREVIEW_DOC_KEY = "ak-homepage-preview-document";
+export const HOMEPAGE_PREVIEW_DOC_KEY = 'ak-homepage-preview-document';
 
 export function writeHomepagePreviewDocument(document: HomepageDocument): void {
   try {

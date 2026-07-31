@@ -1,6 +1,6 @@
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from 'next/cache';
 
-export const PARTNERS_CACHE_TAG = "partners";
+export const PARTNERS_CACHE_TAG = 'partners';
 
 export function partnerIdTag(id: string): string {
   return `partner:${id}`;
@@ -16,13 +16,13 @@ type RevalidatePartner = {
 };
 
 export function revalidatePartnerPages(partner?: RevalidatePartner): void {
-  revalidateTag(PARTNERS_CACHE_TAG, "seconds");
-  if (partner?.id) revalidateTag(partnerIdTag(partner.id), "seconds");
-  if (partner?.slug) revalidateTag(partnerSlugTag(partner.slug), "seconds");
+  revalidateTag(PARTNERS_CACHE_TAG, 'seconds');
+  if (partner?.id) revalidateTag(partnerIdTag(partner.id), 'seconds');
+  if (partner?.slug) revalidateTag(partnerSlugTag(partner.slug), 'seconds');
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/partners");
-  revalidatePath("/admin", "layout");
+  revalidatePath('/admin');
+  revalidatePath('/admin/partners');
+  revalidatePath('/admin', 'layout');
 
   if (partner?.id) {
     revalidatePath(`/admin/partners/${partner.id}/edit`);

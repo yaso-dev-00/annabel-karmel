@@ -1,19 +1,19 @@
-import type { CSSProperties } from "react";
-import type { BlockSettings } from "./types";
-import { normalizeCssLength } from "./css-length";
+import type { CSSProperties } from 'react';
+import type { BlockSettings } from './types';
+import { normalizeCssLength } from './css-length';
 
 export type MarginPatch = Pick<
   BlockSettings,
-  "margin" | "margin_top" | "margin_right" | "margin_bottom" | "margin_left"
+  'margin' | 'margin_top' | 'margin_right' | 'margin_bottom' | 'margin_left'
 >;
 
 export function hasIndividualMargin(settings?: BlockSettings): boolean {
   if (!settings) return false;
   return Boolean(
     settings.margin_top?.trim() ||
-      settings.margin_right?.trim() ||
-      settings.margin_bottom?.trim() ||
-      settings.margin_left?.trim(),
+    settings.margin_right?.trim() ||
+    settings.margin_bottom?.trim() ||
+    settings.margin_left?.trim(),
   );
 }
 
@@ -23,7 +23,10 @@ export function hasCustomMargin(settings?: BlockSettings): boolean {
 }
 
 /** Applies custom margins, or leaves default wrapper spacing from CSS. */
-export function applyBlockMarginStyle(style: CSSProperties, settings?: BlockSettings): void {
+export function applyBlockMarginStyle(
+  style: CSSProperties,
+  settings?: BlockSettings,
+): void {
   if (!settings) return;
 
   if (hasIndividualMargin(settings)) {

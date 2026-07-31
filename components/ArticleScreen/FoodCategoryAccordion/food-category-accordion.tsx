@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState, type ReactNode } from "react";
-import styles from "@/app/eggs-questions-answered/page.module.css";
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState, type ReactNode } from 'react';
+import styles from '@/app/eggs-questions-answered/page.module.css';
 
 export type FoodCategorySubsection = {
   heading: string;
   /** Section titles (e.g. "If a baby is choking:") use display font; steps stay on body font. */
-  headingVariant?: "display" | "step";
+  headingVariant?: 'display' | 'step';
   paragraphs?: (string | ReactNode)[];
   listItems?: string[];
 };
@@ -27,9 +27,14 @@ type FoodCategoryAccordionProps = {
   defaultOpenTitle?: string | null;
 };
 
-export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryAccordionProps) {
+export function FoodCategoryAccordion({
+  items,
+  defaultOpenTitle,
+}: FoodCategoryAccordionProps) {
   const [openTitle, setOpenTitle] = useState<string | null>(() =>
-    defaultOpenTitle !== undefined ? defaultOpenTitle : (items[0]?.title ?? null),
+    defaultOpenTitle !== undefined
+      ? defaultOpenTitle
+      : (items[0]?.title ?? null),
   );
 
   const toggle = (title: string) => {
@@ -46,10 +51,10 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
             <button
               type="button"
               onClick={() => toggle(item.title)}
-              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ""}`}
+              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ''}`}
             >
               <span aria-hidden="true" className={styles.accordionMarker}>
-                {isOpen ? "-" : "+"}
+                {isOpen ? '-' : '+'}
               </span>
               {item.title}
             </button>
@@ -59,10 +64,10 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                 <motion.div
                   key={item.title}
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
+                  animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.45, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
+                  transition={{ duration: 0.45, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
                 >
                   <div className={styles.accordionBody}>
                     {item.image ? (
@@ -76,7 +81,11 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                     ) : null}
                     {(item.paragraphs ?? []).map((paragraph, index) => (
                       <p
-                        key={typeof paragraph === "string" ? paragraph : `${item.title}-p-${index}`}
+                        key={
+                          typeof paragraph === 'string'
+                            ? paragraph
+                            : `${item.title}-p-${index}`
+                        }
                         className={styles.accordionBodyText}
                       >
                         {paragraph}
@@ -85,7 +94,10 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                     {item.listItems ? (
                       <ul className={styles.accordionList}>
                         {item.listItems.map((listItem) => (
-                          <li key={listItem} className={styles.accordionListItem}>
+                          <li
+                            key={listItem}
+                            className={styles.accordionListItem}
+                          >
                             {listItem}
                           </li>
                         ))}
@@ -95,14 +107,20 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                       <div key={section.heading}>
                         <p
                           className={`${styles.accordionBodyText} ${styles.accordionSubheading}${
-                            section.headingVariant === "display" ? ` ${styles.accordionSubheadingDisplay}` : ""
+                            section.headingVariant === 'display'
+                              ? ` ${styles.accordionSubheadingDisplay}`
+                              : ''
                           }`}
                         >
                           <strong>{section.heading}</strong>
                         </p>
                         {(section.paragraphs ?? []).map((paragraph, index) => (
                           <p
-                            key={typeof paragraph === "string" ? paragraph : `${section.heading}-p-${index}`}
+                            key={
+                              typeof paragraph === 'string'
+                                ? paragraph
+                                : `${section.heading}-p-${index}`
+                            }
                             className={styles.accordionBodyText}
                           >
                             {paragraph}
@@ -111,7 +129,10 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                         {section.listItems ? (
                           <ul className={styles.accordionList}>
                             {section.listItems.map((listItem) => (
-                              <li key={listItem} className={styles.accordionListItem}>
+                              <li
+                                key={listItem}
+                                className={styles.accordionListItem}
+                              >
                                 {listItem}
                               </li>
                             ))}
@@ -121,7 +142,11 @@ export function FoodCategoryAccordion({ items, defaultOpenTitle }: FoodCategoryA
                     ))}
                     {(item.closingParagraphs ?? []).map((paragraph, index) => (
                       <p
-                        key={typeof paragraph === "string" ? paragraph : `${item.title}-closing-${index}`}
+                        key={
+                          typeof paragraph === 'string'
+                            ? paragraph
+                            : `${item.title}-closing-${index}`
+                        }
                         className={styles.accordionBodyText}
                       >
                         {paragraph}

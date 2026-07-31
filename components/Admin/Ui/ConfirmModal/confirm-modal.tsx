@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useId } from "react";
-import styles from "./confirm-modal.module.css";
+import { useEffect, useId } from 'react';
+import styles from './confirm-modal.module.css';
 
 type ConfirmModalProps = {
   open: boolean;
@@ -17,8 +17,8 @@ export function ConfirmModal({
   open,
   title,
   message,
-  confirmLabel = "Confirm",
-  cancelLabel = "Cancel",
+  confirmLabel = 'Confirm',
+  cancelLabel = 'Cancel',
   onConfirm,
   onCancel,
 }: ConfirmModalProps) {
@@ -27,16 +27,20 @@ export function ConfirmModal({
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onCancel();
+      if (event.key === 'Escape') onCancel();
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [open, onCancel]);
 
   if (!open) return null;
 
   return (
-    <div className={styles.confirmOverlay} role="presentation" onClick={onCancel}>
+    <div
+      className={styles.confirmOverlay}
+      role="presentation"
+      onClick={onCancel}
+    >
       <div
         className={styles.confirmDialog}
         role="alertdialog"

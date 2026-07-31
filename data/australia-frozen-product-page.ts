@@ -3,7 +3,7 @@ import {
   australiaFrozenPromise,
   australiaFrozenRange,
   australiaFrozenWhereToBuy,
-} from "./australia-frozen-page";
+} from './australia-frozen-page';
 
 export type AustraliaFrozenProductCarouselSlide = {
   src: string;
@@ -31,7 +31,7 @@ export type AustraliaFrozenProductPageData = {
 export const australiaFrozenProductSharedAssets = {
   woodBg: australiaFrozenAssets.woodBg,
   promiseBg: `${australiaFrozenAssets.promiseBg}`,
-  promisePhoto: "/product-category/australia-frozen/annabel-group-mia.jpg",
+  promisePhoto: '/product-category/australia-frozen/annabel-group-mia.jpg',
   buyBg: australiaFrozenAssets.buyBg,
   logoWoolworths: australiaFrozenAssets.logoWoolworths,
   logoColes: australiaFrozenAssets.logoColes,
@@ -43,14 +43,14 @@ export const australiaFrozenProductRange = australiaFrozenRange;
 export const australiaFrozenProductWhereToBuy = australiaFrozenWhereToBuy;
 
 export function getAustraliaFrozenProductRetailers(
-  productRetailers: AustraliaFrozenProductPageData["retailers"],
+  productRetailers: AustraliaFrozenProductPageData['retailers'],
 ) {
   const entries: { src: string; alt: string; href: string }[] = [];
 
   if (productRetailers.woolworths) {
     entries.push({
       src: australiaFrozenProductSharedAssets.logoWoolworths,
-      alt: "Woolworths",
+      alt: 'Woolworths',
       href: productRetailers.woolworths,
     });
   }
@@ -58,7 +58,7 @@ export function getAustraliaFrozenProductRetailers(
   if (productRetailers.coles) {
     entries.push({
       src: australiaFrozenProductSharedAssets.logoColes,
-      alt: "Coles",
+      alt: 'Coles',
       href: productRetailers.coles,
     });
   }
@@ -66,7 +66,7 @@ export function getAustraliaFrozenProductRetailers(
   if (productRetailers.iga) {
     entries.push({
       src: australiaFrozenProductSharedAssets.logoIga,
-      alt: "IGA",
+      alt: 'IGA',
       href: productRetailers.iga,
     });
   }

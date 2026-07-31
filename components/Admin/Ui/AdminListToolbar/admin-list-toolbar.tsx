@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 type StatusOption = {
   value: string;
@@ -38,7 +38,12 @@ export function AdminListToolbar({
             stroke="currentColor"
             strokeWidth="2"
           />
-          <path d="M16 16l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <path
+            d="M16 16l5 5"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </svg>
         <input
           type="search"
@@ -49,7 +54,11 @@ export function AdminListToolbar({
           aria-label={searchPlaceholder}
         />
       </div>
-      <div className="listStatusTabs" role="tablist" aria-label="Filter by status">
+      <div
+        className="listStatusTabs"
+        role="tablist"
+        aria-label="Filter by status"
+      >
         {statusOptions.map((option) => {
           const selected = statusFilter === option.value;
           return (
@@ -58,7 +67,7 @@ export function AdminListToolbar({
               type="button"
               role="tab"
               aria-selected={selected}
-              className={`listStatusTab${selected ? " listStatusTabActive" : ""}`}
+              className={`listStatusTab${selected ? ' listStatusTabActive' : ''}`}
               onClick={() => onStatusFilterChange(option.value)}
             >
               {option.label}

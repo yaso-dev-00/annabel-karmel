@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { FormEvent, useMemo, useState } from "react";
+import Link from 'next/link';
+import { FormEvent, useMemo, useState } from 'react';
 import {
   ADMIN_USER_ROLES,
   buildDisplayNameOptions,
   roleLabel,
   type AdminUser,
   type AdminUserRole,
-} from "@/lib/admin/users/types";
-import { saveAdminUserOverride } from "@/lib/admin/users/users-storage";
-import styles from "./user-editor.module.css";
+} from '@/lib/admin/users/types';
+import { saveAdminUserOverride } from '@/lib/admin/users/users-storage';
+import styles from './user-editor.module.css';
 
 type UserEditorProps = {
   initialUser: AdminUser;
@@ -41,13 +41,13 @@ export function UserEditor({ initialUser }: UserEditorProps) {
 
     if (!user.nickname.trim()) {
       setMessageError(true);
-      setMessage("Nickname is required.");
+      setMessage('Nickname is required.');
       return;
     }
 
     if (!user.email.trim()) {
       setMessageError(true);
-      setMessage("Email is required.");
+      setMessage('Email is required.');
       return;
     }
 
@@ -59,13 +59,16 @@ export function UserEditor({ initialUser }: UserEditorProps) {
         email: user.email.trim(),
         firstName: user.firstName.trim(),
         lastName: user.lastName.trim(),
-        displayName: user.displayName.trim() || buildDisplayNameOptions(user)[0] || user.username,
+        displayName:
+          user.displayName.trim() ||
+          buildDisplayNameOptions(user)[0] ||
+          user.username,
       });
       setUser(saved);
-      setMessage("User updated.");
+      setMessage('User updated.');
     } catch {
       setMessageError(true);
-      setMessage("Could not save user.");
+      setMessage('Could not save user.');
     } finally {
       setSaving(false);
     }
@@ -73,13 +76,16 @@ export function UserEditor({ initialUser }: UserEditorProps) {
 
   const sendPasswordReset = () => {
     setMessageError(false);
-    setMessage("Password reset email sent (demo).");
+    setMessage('Password reset email sent (demo).');
   };
 
   return (
     <form className={styles.editor} onSubmit={onSave}>
       <p style={{ margin: 0, fontSize: 13 }}>
-        <Link href="/admin/users" style={{ color: "var(--admin-brand, #963b58)" }}>
+        <Link
+          href="/admin/users"
+          style={{ color: 'var(--admin-brand, #963b58)' }}
+        >
           ← All Users
         </Link>
       </p>
@@ -99,7 +105,7 @@ export function UserEditor({ initialUser }: UserEditorProps) {
                   id="user-nickname"
                   className={styles.input}
                   value={user.nickname}
-                  onChange={(event) => update("nickname", event.target.value)}
+                  onChange={(event) => update('nickname', event.target.value)}
                   required
                 />
               </td>
@@ -116,7 +122,9 @@ export function UserEditor({ initialUser }: UserEditorProps) {
                   disabled
                   readOnly
                 />
-                <span className={styles.fieldHint}>Usernames cannot be changed.</span>
+                <span className={styles.fieldHint}>
+                  Usernames cannot be changed.
+                </span>
               </td>
             </tr>
             <tr>
@@ -128,7 +136,9 @@ export function UserEditor({ initialUser }: UserEditorProps) {
                   id="user-role"
                   className={styles.select}
                   value={user.role}
-                  onChange={(event) => update("role", event.target.value as AdminUserRole)}
+                  onChange={(event) =>
+                    update('role', event.target.value as AdminUserRole)
+                  }
                 >
                   {ADMIN_USER_ROLES.map((role) => (
                     <option key={role} value={role}>
@@ -147,7 +157,7 @@ export function UserEditor({ initialUser }: UserEditorProps) {
                   id="user-first-name"
                   className={styles.input}
                   value={user.firstName}
-                  onChange={(event) => update("firstName", event.target.value)}
+                  onChange={(event) => update('firstName', event.target.value)}
                 />
               </td>
             </tr>
@@ -160,20 +170,24 @@ export function UserEditor({ initialUser }: UserEditorProps) {
                   id="user-last-name"
                   className={styles.input}
                   value={user.lastName}
-                  onChange={(event) => update("lastName", event.target.value)}
+                  onChange={(event) => update('lastName', event.target.value)}
                 />
               </td>
             </tr>
             <tr>
               <th scope="row">
-                <label htmlFor="user-display-name">Display name publicly as</label>
+                <label htmlFor="user-display-name">
+                  Display name publicly as
+                </label>
               </th>
               <td>
                 <select
                   id="user-display-name"
                   className={styles.select}
                   value={user.displayName}
-                  onChange={(event) => update("displayName", event.target.value)}
+                  onChange={(event) =>
+                    update('displayName', event.target.value)
+                  }
                 >
                   {displayOptions.map((option) => (
                     <option key={option} value={option}>
@@ -201,7 +215,7 @@ export function UserEditor({ initialUser }: UserEditorProps) {
                   className={styles.input}
                   type="email"
                   value={user.email}
-                  onChange={(event) => update("email", event.target.value)}
+                  onChange={(event) => update('email', event.target.value)}
                   required
                 />
               </td>
@@ -214,7 +228,11 @@ export function UserEditor({ initialUser }: UserEditorProps) {
         <h2 className={styles.panelHeader}>Account Management</h2>
         <div style={{ padding: 14 }}>
           <div className={styles.actions}>
-            <button type="button" className="btn btnSecondary" onClick={sendPasswordReset}>
+            <button
+              type="button"
+              className="btn btnSecondary"
+              onClick={sendPasswordReset}
+            >
               Send password reset
             </button>
           </div>
@@ -223,10 +241,12 @@ export function UserEditor({ initialUser }: UserEditorProps) {
 
       <div className={styles.actions}>
         <button type="submit" className="btn btnPrimary" disabled={saving}>
-          {saving ? "Updating…" : "Update User"}
+          {saving ? 'Updating…' : 'Update User'}
         </button>
         {message ? (
-          <p className={`${styles.message}${messageError ? ` ${styles.messageError}` : ""}`}>
+          <p
+            className={`${styles.message}${messageError ? ` ${styles.messageError}` : ''}`}
+          >
             {message}
           </p>
         ) : null}

@@ -1,12 +1,19 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import styles from "./cms-related-articles-carousel.module.css";
+import Link from 'next/link';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import type { RelatedArticleItem } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import styles from './cms-related-articles-carousel.module.css';
 
 const NAV_BUTTON_CLASS =
-  "grid h-8 w-8 cursor-pointer place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] transition-colors hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11";
+  'grid h-8 w-8 cursor-pointer place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] transition-colors hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11';
 
 type CmsRelatedArticlesCarouselProps = {
   items: RelatedArticleItem[];
@@ -21,7 +28,7 @@ function eventTargetElement(target: EventTarget | null): Element | null {
 }
 
 function isLinkTarget(target: EventTarget | null): boolean {
-  return Boolean(eventTargetElement(target)?.closest("a[href]"));
+  return Boolean(eventTargetElement(target)?.closest('a[href]'));
 }
 
 function perViewFromWidth(width: number) {
@@ -34,26 +41,30 @@ function resolveLayoutWidth(stage: HTMLElement): number {
   const previewFrame = stage.closest('[data-preview-frame="true"]');
   if (previewFrame instanceof HTMLElement) {
     const previewWidth = Number.parseFloat(
-      getComputedStyle(previewFrame).getPropertyValue("--preview-width"),
+      getComputedStyle(previewFrame).getPropertyValue('--preview-width'),
     );
     if (!Number.isNaN(previewWidth) && previewWidth > 0) {
       return previewWidth;
     }
   }
 
-  const containerWidth = stage.offsetWidth || stage.parentElement?.clientWidth || 0;
+  const containerWidth =
+    stage.offsetWidth || stage.parentElement?.clientWidth || 0;
   if (containerWidth > 0) {
     return containerWidth;
   }
 
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     return window.innerWidth;
   }
 
   return 0;
 }
 
-export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRelatedArticlesCarouselProps) {
+export function CmsRelatedArticlesCarousel({
+  items,
+  previewMode = false,
+}: CmsRelatedArticlesCarouselProps) {
   const [layoutWidth, setLayoutWidth] = useState(0);
   const [slideTransition, setSlideTransition] = useState(false);
   const [page, setPage] = useState(0);
@@ -77,10 +88,10 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
     if (width > 0) {
       setLayoutWidth((current) => (current === width ? current : width));
     }
-    const image = stage.querySelector<HTMLElement>("[data-cms-related-thumb]");
+    const image = stage.querySelector<HTMLElement>('[data-cms-related-thumb]');
     if (!image || image.offsetWidth <= 0) return;
-    stage.style.setProperty("--nav-center-y", `${image.offsetHeight / 2}px`);
-    stage.dataset.navReady = "";
+    stage.style.setProperty('--nav-center-y', `${image.offsetHeight / 2}px`);
+    stage.dataset.navReady = '';
   }, []);
 
   const pages = useMemo(() => {
@@ -91,11 +102,8 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
     return windows;
   }, [items, perView]);
 
-  useLayoutEffect(() => {
-    if (page > pages.length - 1) {
-      setPage(Math.max(0, pages.length - 1));
-    }
-  }, [page, pages.length]);
+  const maxPage = Math.max(0, pages.length - 1);
+  const displayPage = Math.min(page, maxPage);
 
   useLayoutEffect(() => {
     measureStageLayout();
@@ -103,7 +111,7 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
 
   useLayoutEffect(() => {
     if (!layoutReady) return;
-    setSlideTransition(false);
+    queueMicrotask(() => setSlideTransition(false));
     const frame = requestAnimationFrame(() => setSlideTransition(true));
     return () => cancelAnimationFrame(frame);
   }, [layoutReady, perView]);
@@ -117,22 +125,25 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
     const onWindowResize = () => measureStageLayout();
     const previewFrame = stage.closest('[data-preview-frame="true"]');
     if (!(previewFrame instanceof HTMLElement)) {
-      window.addEventListener("resize", onWindowResize);
+      window.addEventListener('resize', onWindowResize);
     }
 
     let previewStyleObserver: MutationObserver | undefined;
-    if (previewFrame instanceof HTMLElement && typeof MutationObserver !== "undefined") {
+    if (
+      previewFrame instanceof HTMLElement &&
+      typeof MutationObserver !== 'undefined'
+    ) {
       previewStyleObserver = new MutationObserver(measureStageLayout);
       previewStyleObserver.observe(previewFrame, {
         attributes: true,
-        attributeFilter: ["style"],
+        attributeFilter: ['style'],
       });
     }
 
-    if (typeof ResizeObserver === "undefined") {
+    if (typeof ResizeObserver === 'undefined') {
       return () => {
         previewStyleObserver?.disconnect();
-        window.removeEventListener("resize", onWindowResize);
+        window.removeEventListener('resize', onWindowResize);
       };
     }
 
@@ -146,7 +157,7 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
     return () => {
       ro.disconnect();
       previewStyleObserver?.disconnect();
-      window.removeEventListener("resize", onWindowResize);
+      window.removeEventListener('resize', onWindowResize);
     };
   }, [measureStageLayout]);
 
@@ -188,7 +199,8 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
 
-    if (pointerStartX.current === null || pointerCurrentX.current === null) return;
+    if (pointerStartX.current === null || pointerCurrentX.current === null)
+      return;
 
     const deltaX = pointerCurrentX.current - pointerStartX.current;
     const swipeThreshold = 24;
@@ -210,7 +222,7 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
       className={`${styles.carouselStage} mt-[30px]`}
       ref={stageRef}
       data-per-view={String(perView)}
-      {...(previewMode ? { "data-cms-interactive": "true" } : {})}
+      {...(previewMode ? { 'data-cms-interactive': 'true' } : {})}
     >
       <div
         className="overflow-hidden touch-pan-x select-none cursor-grab active:cursor-grabbing"
@@ -221,12 +233,19 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
         onPointerLeave={onPointerEnd}
       >
         <div
-          className={`flex ${slideTransition ? "transition-transform duration-500 ease-out" : ""}`}
-          style={{ transform: layoutReady ? `translateX(-${page * 100}%)` : undefined }}
+          className={`flex ${slideTransition ? 'transition-transform duration-500 ease-out' : ''}`}
+          style={{
+            transform: layoutReady
+              ? `translateX(-${displayPage * 100}%)`
+              : undefined,
+          }}
         >
           {layoutReady
             ? pages.map((chunk, pageIndex) => (
-                <div key={`page-${pageIndex}`} className="w-full shrink-0 grow-0 basis-full">
+                <div
+                  key={`page-${pageIndex}`}
+                  className="w-full shrink-0 grow-0 basis-full"
+                >
                   <div
                     className={styles.pageGrid}
                     style={{
@@ -234,7 +253,10 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
                     }}
                   >
                     {chunk.map((article) => (
-                      <article key={article.href} className={styles.articleCard}>
+                      <article
+                        key={article.href}
+                        className={styles.articleCard}
+                      >
                         {article.image ? (
                           <img
                             src={article.image}
@@ -244,13 +266,22 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
                             className={styles.articleThumb}
                           />
                         ) : (
-                          <div data-cms-related-thumb className={styles.articleThumbPlaceholder}>
+                          <div
+                            data-cms-related-thumb
+                            className={styles.articleThumbPlaceholder}
+                          >
                             <div className="absolute left-[12%] top-[24%] h-6 w-6 rounded-full bg-[#f1f3f5]" />
                             <div className="absolute -bottom-6 left-[28%] h-[72%] w-[78%] rounded-t-[80px] bg-[#f1f3f5]" />
                           </div>
                         )}
-                        <h3 className={styles.articleTitle} style={{ fontFamily: "var(--font-body)" }}>
-                          <Link href={article.href} className={styles.articleTitleLink}>
+                        <h3
+                          className={styles.articleTitle}
+                          style={{ fontFamily: 'var(--font-body)' }}
+                        >
+                          <Link
+                            href={article.href}
+                            className={styles.articleTitleLink}
+                          >
                             {article.title}
                           </Link>
                         </h3>
@@ -270,7 +301,11 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
         disabled={!canCycle || !layoutReady}
         className={`${styles.navButton} left-1 min-[700px]:left-3 ${NAV_BUTTON_CLASS}`}
       >
-        <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden
+          className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]"
+        >
           <path
             d="M14.5 5.5L8 12l6.5 6.5"
             fill="none"
@@ -288,7 +323,11 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
         disabled={!canCycle || !layoutReady}
         className={`${styles.navButton} right-1 min-[700px]:right-3 ${NAV_BUTTON_CLASS}`}
       >
-        <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden
+          className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]"
+        >
           <path
             d="M9.5 5.5L16 12l-6.5 6.5"
             fill="none"
@@ -309,7 +348,7 @@ export function CmsRelatedArticlesCarousel({ items, previewMode = false }: CmsRe
                 aria-label={`Go to related articles page ${i + 1}`}
                 onClick={() => setPage(i)}
                 className={`h-[6px] w-[6px] rounded-full transition-colors ${
-                  i === page ? "bg-[#222]" : "bg-[#c7c7c7]"
+                  i === displayPage ? 'bg-[#222]' : 'bg-[#c7c7c7]'
                 }`}
               />
             ))

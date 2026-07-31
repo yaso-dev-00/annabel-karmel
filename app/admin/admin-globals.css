@@ -1,4 +1,4 @@
-@import "../../lib/design-system/design-system.css";
+@import '../../lib/design-system/design-system.css';
 
 .adminRoot {
   --admin-brand: var(--ds-primary, #b24a66);
@@ -149,7 +149,9 @@ body.admin-preview-fullscreen .sidebar {
   font-size: 15px;
   font-weight: 500;
   line-height: 1.2;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .navLink:hover {
@@ -180,7 +182,9 @@ body.admin-preview-fullscreen .sidebar {
   align-items: center;
   min-height: 42px;
   border-radius: 999px;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .navGroupHeader:hover {
@@ -214,7 +218,9 @@ body.admin-preview-fullscreen .sidebar {
   color: #888;
   cursor: pointer;
   border-radius: 999px;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .navGroupToggle:hover {
@@ -466,7 +472,6 @@ body.admin-preview-fullscreen .sidebar {
   color: var(--admin-brand);
 }
 
-
 .field {
   display: flex;
   flex-direction: column;
@@ -537,7 +542,7 @@ body.admin-preview-fullscreen .sidebar {
   user-select: none;
 }
 
-.fieldCheckbox input[type="checkbox"] {
+.fieldCheckbox input[type='checkbox'] {
   width: 16px;
   height: 16px;
   margin: 0;

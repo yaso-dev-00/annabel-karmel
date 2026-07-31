@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ConfirmModal } from "@/components/Admin/Ui/ConfirmModal";
+import { useState } from 'react';
+import { ConfirmModal } from '@/components/Admin/Ui/ConfirmModal';
 import {
   ADVICE_ARTICLE_STATUSES,
   ADVICE_ARTICLE_STATUS_HINTS,
   ADVICE_ARTICLE_STATUS_LABELS,
-} from "@/lib/admin/advice-article-status";
-import type { AdviceArticleStatus } from "@/lib/content-blocks/types";
-import styles from "./article-status-field.module.css";
+} from '@/lib/admin/advice-article-status';
+import type { AdviceArticleStatus } from '@/lib/content-blocks/types';
+import styles from './article-status-field.module.css';
 
 type ArticleStatusFieldProps = {
   value: AdviceArticleStatus;
@@ -24,10 +24,10 @@ type ArticleStatusFieldProps = {
 };
 
 function toDatetimeLocalValue(iso: string | null | undefined): string {
-  if (!iso) return "";
+  if (!iso) return '';
   const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "";
-  const pad = (n: number) => String(n).padStart(2, "0");
+  if (Number.isNaN(date.getTime())) return '';
+  const pad = (n: number) => String(n).padStart(2, '0');
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
@@ -45,14 +45,14 @@ export function ArticleStatusField({
   statuses = ADVICE_ARTICLE_STATUSES,
   labels,
   hints,
-  disableConfirmTitle = "Disable this article?",
-  disableConfirmMessage = "The article will be hidden from the public site and preview will be unavailable until you change the status again.",
-  disableConfirmLabel = "Disable article",
+  disableConfirmTitle = 'Disable this article?',
+  disableConfirmMessage = 'The article will be hidden from the public site and preview will be unavailable until you change the status again.',
+  disableConfirmLabel = 'Disable article',
 }: ArticleStatusFieldProps) {
   const [confirmDisable, setConfirmDisable] = useState(false);
 
   const requestStatusChange = (status: AdviceArticleStatus) => {
-    if (status === "disabled" && value !== "disabled") {
+    if (status === 'disabled' && value !== 'disabled') {
       setConfirmDisable(true);
       return;
     }
@@ -62,7 +62,9 @@ export function ArticleStatusField({
   const statusLabel = (status: AdviceArticleStatus) =>
     labels?.[status] ?? ADVICE_ARTICLE_STATUS_LABELS[status];
   const statusHint =
-    hints?.[value] ?? ADVICE_ARTICLE_STATUS_HINTS[value] ?? ADVICE_ARTICLE_STATUS_HINTS.draft;
+    hints?.[value] ??
+    ADVICE_ARTICLE_STATUS_HINTS[value] ??
+    ADVICE_ARTICLE_STATUS_HINTS.draft;
 
   return (
     <>
@@ -83,7 +85,7 @@ export function ArticleStatusField({
                 type="button"
                 role="radio"
                 aria-checked={selected}
-                className={`${styles.option} ${selected ? styles.optionSelected : ""} ${status === "disabled" && selected ? styles.optionDisabledSelected : ""}`}
+                className={`${styles.option} ${selected ? styles.optionSelected : ''} ${status === 'disabled' && selected ? styles.optionDisabledSelected : ''}`}
                 onClick={() => requestStatusChange(status)}
               >
                 <span className={styles.radio} aria-hidden />
@@ -93,9 +95,12 @@ export function ArticleStatusField({
           })}
         </div>
         <p className={styles.hint}>{statusHint}</p>
-        {value === "scheduled" ? (
+        {value === 'scheduled' ? (
           <div className={styles.scheduleField}>
-            <label className={styles.scheduleLabel} htmlFor="article-scheduled-at">
+            <label
+              className={styles.scheduleLabel}
+              htmlFor="article-scheduled-at"
+            >
               Publish date & time
             </label>
             <input
@@ -103,7 +108,9 @@ export function ArticleStatusField({
               type="datetime-local"
               className={styles.scheduleInput}
               value={toDatetimeLocalValue(scheduledAt)}
-              onChange={(e) => onChange("scheduled", fromDatetimeLocalValue(e.target.value))}
+              onChange={(e) =>
+                onChange('scheduled', fromDatetimeLocalValue(e.target.value))
+              }
             />
           </div>
         ) : null}
@@ -115,7 +122,7 @@ export function ArticleStatusField({
         message={disableConfirmMessage}
         confirmLabel={disableConfirmLabel}
         onConfirm={() => {
-          onChange("disabled", scheduledAt);
+          onChange('disabled', scheduledAt);
           setConfirmDisable(false);
         }}
         onCancel={() => setConfirmDisable(false)}

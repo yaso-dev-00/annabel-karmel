@@ -35,7 +35,7 @@ function linkifyText(text: string): string {
 export function linkifyHtml(html: string): string {
   const tokenRegex = /(<[^>]*>)|([^<]+)/g;
   let insideAnchor = 0;
-  let output = "";
+  let output = '';
 
   for (const match of html.matchAll(tokenRegex)) {
     const tag = match[1];
@@ -57,19 +57,21 @@ export function linkifyHtml(html: string): string {
 }
 
 export function stripEmptyHeadings(html: string): string {
-  return html.replace(/<h([1-6])(\s[^>]*)?>\s*<\/h\1>/gi, "");
+  return html.replace(/<h([1-6])(\s[^>]*)?>\s*<\/h\1>/gi, '');
 }
 
 export function stripEmptyParagraphs(html: string): string {
-  return html.replace(/<p(\s[^>]*)?>[\s\u00a0]*<\/p>/gi, "");
+  return html.replace(/<p(\s[^>]*)?>[\s\u00a0]*<\/p>/gi, '');
 }
 
 export function wrapLegalTables(html: string): string {
   return html
     .replace(/<table(\s[^>]*)?>/gi, '<div class="legalTableScroll"><table$1>')
-    .replace(/<\/table>/gi, "</table></div>");
+    .replace(/<\/table>/gi, '</table></div>');
 }
 
 export function prepareLegalHtml(html: string): string {
-  return wrapLegalTables(stripEmptyParagraphs(stripEmptyHeadings(linkifyHtml(html))));
+  return wrapLegalTables(
+    stripEmptyParagraphs(stripEmptyHeadings(linkifyHtml(html))),
+  );
 }

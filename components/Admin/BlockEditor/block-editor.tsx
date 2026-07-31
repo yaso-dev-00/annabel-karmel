@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   closestCenter,
@@ -8,43 +8,48 @@ import {
   useSensors,
   type DragEndEvent,
   type DragStartEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useRef,
   useState,
   type ReactNode,
-} from "react";
-import { ContentBlockRenderer } from "@/components/ContentBlocks/content-block-renderer";
-import { getBlockLabel, getBlockSummary } from "@/lib/content-blocks/registry";
-import type { BlockSettings, BlockType, ContentBlock, MaxWidthPreset } from "@/lib/content-blocks/types";
-import { BlockVisibilityIcon } from "@/components/Admin/Ui/BlockVisibilityIcon";
-import { MaxWidthField } from "@/components/Admin/Ui/MaxWidthField";
-import { BlockFormFields } from "./block-form-fields";
-import { BlockPicker } from "./block-picker";
-import { StableDndContext } from "./stable-dnd-context";
-import { PreviewViewport } from "./preview-viewport";
-import { PreviewStyleToolbar } from "./preview-style-toolbar";
-import { formatBlockMaxWidthLabel } from "@/lib/content-blocks/max-width";
+} from 'react';
+import { ContentBlockRenderer } from '@/components/ContentBlocks/content-block-renderer';
+import { getBlockLabel, getBlockSummary } from '@/lib/content-blocks/registry';
+import type {
+  BlockSettings,
+  BlockType,
+  ContentBlock,
+  MaxWidthPreset,
+} from '@/lib/content-blocks/types';
+import { BlockVisibilityIcon } from '@/components/Admin/Ui/BlockVisibilityIcon';
+import { MaxWidthField } from '@/components/Admin/Ui/MaxWidthField';
+import { BlockFormFields } from './block-form-fields';
+import { BlockPicker } from './block-picker';
+import { StableDndContext } from './stable-dnd-context';
+import { PreviewViewport } from './preview-viewport';
+import { PreviewStyleToolbar } from './preview-style-toolbar';
+import { formatBlockMaxWidthLabel } from '@/lib/content-blocks/max-width';
 import {
   editorContextToRenderContext,
   isBlockAllowedInEditor,
   type ContentEditorContext,
-} from "@/lib/content-blocks/block-context";
-import { useBlockEditor } from "./use-block-editor";
-import styles from "./block-editor.module.css";
+} from '@/lib/content-blocks/block-context';
+import { useBlockEditor } from './use-block-editor';
+import { useIsClient } from '@/lib/use-is-client';
+import styles from './block-editor.module.css';
 
-type TwoColumnStyleTarget = "block" | "left" | "right";
+type TwoColumnStyleTarget = 'block' | 'left' | 'right';
 
 type BlockEditorContextValue = {
   blocks: ContentBlock[];
@@ -68,7 +73,7 @@ type BlockEditorContextValue = {
   sensors: ReturnType<typeof useSensors>;
   handleDragStart: (event: DragStartEvent) => void;
   handleDragEnd: (event: DragEndEvent) => void;
-  handleAddBlock: (type: BlockType, position?: "start" | "end") => void;
+  handleAddBlock: (type: BlockType, position?: 'start' | 'end') => void;
 };
 
 const BlockEditorContext = createContext<BlockEditorContextValue | null>(null);
@@ -76,7 +81,9 @@ const BlockEditorContext = createContext<BlockEditorContextValue | null>(null);
 function useBlockEditorContext() {
   const context = useContext(BlockEditorContext);
   if (!context) {
-    throw new Error("Block editor components must be used within BlockEditorRoot.");
+    throw new Error(
+      'Block editor components must be used within BlockEditorRoot.',
+    );
   }
   return context;
 }
@@ -98,7 +105,10 @@ function BlockMaxWidthSetting({
 }: {
   value?: MaxWidthPreset;
   customValue?: string;
-  onChange: (settings: { max_width?: MaxWidthPreset; max_width_custom?: string }) => void;
+  onChange: (settings: {
+    max_width?: MaxWidthPreset;
+    max_width_custom?: string;
+  }) => void;
 }) {
   return (
     <div className={styles.blockSettings}>
@@ -108,7 +118,7 @@ function BlockMaxWidthSetting({
       </label>
       <MaxWidthField
         id="block-max-width"
-        preset={value ?? ""}
+        preset={value ?? ''}
         customValue={customValue}
         inheritLabel="Inherit article default"
         selectClassName={styles.settingsSelect}
@@ -120,10 +130,12 @@ function BlockMaxWidthSetting({
           }
           onChange({
             max_width: preset,
-            max_width_custom: preset === "custom" ? customValue : undefined,
+            max_width_custom: preset === 'custom' ? customValue : undefined,
           });
         }}
-        onCustomChange={(custom) => onChange({ max_width: "custom", max_width_custom: custom })}
+        onCustomChange={(custom) =>
+          onChange({ max_width: 'custom', max_width_custom: custom })
+        }
       />
     </div>
   );
@@ -139,7 +151,7 @@ type BlockCardProps = {
   onToggleHidden: () => void;
   onDuplicate: () => void;
   onRemove: () => void;
-  onUpdate: (data: ContentBlock["data"]) => void;
+  onUpdate: (data: ContentBlock['data']) => void;
   onSettingsChange: (settings: Partial<BlockSettings>) => void;
 };
 
@@ -155,13 +167,13 @@ function BlockCard({
   onRemove,
   onUpdate,
   onSettingsChange,
-  relatedArticlesCatalog = "advice",
-  editorContext = "competition",
+  relatedArticlesCatalog = 'advice',
+  editorContext = 'competition',
   nodeRef,
   style,
   dragHandleProps,
 }: BlockCardProps & {
-  relatedArticlesCatalog?: "advice" | "article";
+  relatedArticlesCatalog?: 'advice' | 'article';
   editorContext?: ContentEditorContext;
   nodeRef?: (element: HTMLElement | null) => void;
   style?: React.CSSProperties;
@@ -172,35 +184,74 @@ function BlockCard({
       ref={nodeRef}
       style={style}
       id={`block-card-${block.id}`}
-      className={`${styles.blockCard} ${selected ? styles.blockCardSelected : ""} ${hidden ? styles.blockCardHidden : ""}`}
+      className={`${styles.blockCard} ${selected ? styles.blockCardSelected : ''} ${hidden ? styles.blockCardHidden : ''}`}
     >
       <div className={styles.blockCardHeader} onClick={onSelect}>
-        <span className={styles.dragHandle} {...dragHandleProps} aria-label="Drag to reorder">
+        <span
+          className={styles.dragHandle}
+          {...dragHandleProps}
+          aria-label="Drag to reorder"
+        >
           ⠿
         </span>
-        <span className={styles.blockTypeLabel}>{getBlockLabel(block.type)}</span>
-        {hidden ? <span className={styles.blockHiddenLabel}>Hidden</span> : null}
+        <span className={styles.blockTypeLabel}>
+          {getBlockLabel(block.type)}
+        </span>
+        {hidden ? (
+          <span className={styles.blockHiddenLabel}>Hidden</span>
+        ) : null}
         <span className={styles.blockSummary}>{getBlockSummary(block)}</span>
         <div className={styles.blockActions}>
           <button
             type="button"
-            className={`${styles.iconBtn} ${hidden ? styles.iconBtnActive : ""}`}
+            className={`${styles.iconBtn} ${hidden ? styles.iconBtnActive : ''}`}
             onClick={(e) => {
               e.stopPropagation();
               onToggleHidden();
             }}
-            aria-label={hidden ? "Show block on published page" : "Hide block from published page"}
-            title={hidden ? "Show on published page" : "Hide on published page"}
+            aria-label={
+              hidden
+                ? 'Show block on published page'
+                : 'Hide block from published page'
+            }
+            title={hidden ? 'Show on published page' : 'Hide on published page'}
           >
-            <BlockVisibilityIcon visible={!hidden} className={styles.visibilityIcon} />
+            <BlockVisibilityIcon
+              visible={!hidden}
+              className={styles.visibilityIcon}
+            />
           </button>
-          <button type="button" className={styles.iconBtn} onClick={(e) => { e.stopPropagation(); onToggle(); }} aria-label="Expand">
-            {expanded ? "▲" : "▼"}
+          <button
+            type="button"
+            className={styles.iconBtn}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle();
+            }}
+            aria-label="Expand"
+          >
+            {expanded ? '▲' : '▼'}
           </button>
-          <button type="button" className={styles.iconBtn} onClick={(e) => { e.stopPropagation(); onDuplicate(); }} aria-label="Duplicate">
+          <button
+            type="button"
+            className={styles.iconBtn}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDuplicate();
+            }}
+            aria-label="Duplicate"
+          >
             ⧉
           </button>
-          <button type="button" className={styles.iconBtn} onClick={(e) => { e.stopPropagation(); onRemove(); }} aria-label="Delete">
+          <button
+            type="button"
+            className={styles.iconBtn}
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove();
+            }}
+            aria-label="Delete"
+          >
             ✕
           </button>
         </div>
@@ -235,11 +286,18 @@ function BlockCard({
 
 function SortableBlockCard(
   props: BlockCardProps & {
-    relatedArticlesCatalog?: "advice" | "article";
+    relatedArticlesCatalog?: 'advice' | 'article';
     editorContext?: ContentEditorContext;
   },
 ) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: props.block.id,
   });
 
@@ -270,7 +328,7 @@ function SortableBlockCard(
 export function BlockEditorRoot({
   blocks,
   onChange,
-  contentMaxWidth = "default",
+  contentMaxWidth = 'default',
   contentMaxWidthCustom,
   excludeArticleSlug,
   editorContext,
@@ -278,13 +336,14 @@ export function BlockEditorRoot({
 }: BlockEditorRootProps) {
   const editor = useBlockEditor(blocks, onChange);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(blocks[0]?.id ?? null);
-  const [twoColumnStyleTarget, setTwoColumnStyleTarget] = useState<TwoColumnStyleTarget>("block");
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set(blocks.map((b) => b.id)));
-
-  useEffect(() => {
-    setTwoColumnStyleTarget("block");
-  }, [selectedId]);
+  const [selectedId, setSelectedId] = useState<string | null>(
+    blocks[0]?.id ?? null,
+  );
+  const [twoColumnStyleTarget, setTwoColumnStyleTarget] =
+    useState<TwoColumnStyleTarget>('block');
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(
+    () => new Set(blocks.map((b) => b.id)),
+  );
 
   const scrollPreviewToBlock = useCallback((id: string) => {
     window.setTimeout(() => {
@@ -294,17 +353,22 @@ export function BlockEditorRoot({
 
       const blockRect = blockEl.getBoundingClientRect();
       const containerRect = scrollContainer.getBoundingClientRect();
-      const offset = blockRect.top - containerRect.top + scrollContainer.scrollTop;
+      const offset =
+        blockRect.top - containerRect.top + scrollContainer.scrollTop;
       const targetScroll =
         offset - scrollContainer.clientHeight / 2 + blockEl.clientHeight / 2;
 
-      scrollContainer.scrollTo({ top: Math.max(0, targetScroll), behavior: "smooth" });
+      scrollContainer.scrollTo({
+        top: Math.max(0, targetScroll),
+        behavior: 'smooth',
+      });
     }, 80);
   }, []);
 
   const selectBlock = useCallback(
     (id: string) => {
       setSelectedId(id);
+      setTwoColumnStyleTarget('block');
       setExpandedIds((prev) => new Set([...prev, id]));
       scrollPreviewToBlock(id);
     },
@@ -319,9 +383,12 @@ export function BlockEditorRoot({
         const card = document.getElementById(`block-card-${id}`);
         if (!card) return;
 
-        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         card.classList.add(styles.blockCardFlash);
-        window.setTimeout(() => card.classList.remove(styles.blockCardFlash), 1200);
+        window.setTimeout(
+          () => card.classList.remove(styles.blockCardFlash),
+          1200,
+        );
 
         const focusable = card.querySelector<HTMLElement>(
           "[data-cms-block-form] input:not([type='color']):not([type='checkbox']), [data-cms-block-form] textarea, [data-cms-block-form] select, [data-cms-block-form] [contenteditable='true']",
@@ -336,7 +403,9 @@ export function BlockEditorRoot({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const handleDragStart = (_event: DragStartEvent) => {
@@ -350,25 +419,33 @@ export function BlockEditorRoot({
     }
   };
 
-  const handleAddBlock = (type: BlockType, position: "start" | "end" = "end") => {
+  const handleAddBlock = (
+    type: BlockType,
+    position: 'start' | 'end' = 'end',
+  ) => {
     if (!isBlockAllowedInEditor(type, editorContext)) return;
     const newId = editor.addBlock(type, position);
     if (newId) {
-      if (type === "related_articles" && editorContext === "article") {
+      if (type === 'related_articles' && editorContext === 'article') {
         editor.updateBlock(newId, {
-          heading: "Related Articles",
-          subtitle: "Some more articles you might enjoy...",
-          category_slug: "baby-nutrition",
+          heading: 'Related Articles',
+          subtitle: 'Some more articles you might enjoy...',
+          category_slug: 'baby-nutrition',
           article_slugs: [],
         });
       }
       setExpandedIds((prev) => new Set([...prev, newId]));
       setSelectedId(newId);
+      setTwoColumnStyleTarget('block');
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           const card = document.getElementById(`block-card-${newId}`);
           if (!card) return;
-          card.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+          card.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'nearest',
+          });
           const focusable = card.querySelector<HTMLElement>(
             "[data-cms-block-form] input:not([type='color']):not([type='checkbox']), [data-cms-block-form] textarea, [data-cms-block-form] select, [data-cms-block-form] [contenteditable='true']",
           );
@@ -435,17 +512,20 @@ function renderBlockCardProps(
         return next;
       }),
     onToggleHidden: () =>
-      editor.updateBlockSettings(block.id, { hidden: block.settings?.hidden ? undefined : true }),
+      editor.updateBlockSettings(block.id, {
+        hidden: block.settings?.hidden ? undefined : true,
+      }),
     onDuplicate: () => editor.duplicateBlock(block.id),
     onRemove: () => {
-      if (confirm("Delete this block?")) editor.removeBlock(block.id);
+      if (confirm('Delete this block?')) editor.removeBlock(block.id);
     },
     onUpdate: (data) => editor.updateBlock(block.id, data),
-    onSettingsChange: (settings) => editor.updateBlockSettings(block.id, settings),
+    onSettingsChange: (settings) =>
+      editor.updateBlockSettings(block.id, settings),
   };
 }
 
-type AddBlockPlacement = "start" | "end";
+type AddBlockPlacement = 'start' | 'end';
 
 function AddBlockButton({
   placement,
@@ -456,11 +536,12 @@ function AddBlockButton({
   onOpenPicker: (placement: AddBlockPlacement) => void;
   compact?: boolean;
 }) {
-  const fullLabel = placement === "start" ? "Add block at top" : "Add block at bottom";
+  const fullLabel =
+    placement === 'start' ? 'Add block at top' : 'Add block at bottom';
   const label = compact
-    ? placement === "start"
-      ? "+ Add top"
-      : "+ Add bottom"
+    ? placement === 'start'
+      ? '+ Add top'
+      : '+ Add bottom'
     : `+ ${fullLabel}`;
 
   return (
@@ -529,12 +610,8 @@ export function BlockEditorCanvas() {
     expandAllBlocks,
     editorContext,
   } = ctx;
-  const [dndReady, setDndReady] = useState(false);
-  const pickerPlacementRef = useRef<AddBlockPlacement>("end");
-
-  useEffect(() => {
-    setDndReady(true);
-  }, []);
+  const dndReady = useIsClient();
+  const pickerPlacementRef = useRef<AddBlockPlacement>('end');
 
   const openPicker = (placement: AddBlockPlacement) => {
     pickerPlacementRef.current = placement;
@@ -544,25 +621,26 @@ export function BlockEditorCanvas() {
   const blockCards = blocks
     .filter((block) => isBlockAllowedInEditor(block.type, editorContext))
     .map((block) => {
-    const cardProps = renderBlockCardProps(block, ctx);
-    const relatedArticlesCatalog = editorContext === "article" ? "article" : "advice";
-    return dndReady ? (
-      <SortableBlockCard
-        key={block.id}
-        {...cardProps}
-        relatedArticlesCatalog={relatedArticlesCatalog}
-        editorContext={editorContext}
-      />
-    ) : (
-      <BlockCard
-        key={block.id}
-        {...cardProps}
-        relatedArticlesCatalog={relatedArticlesCatalog}
-        editorContext={editorContext}
-        dragHandleProps={{ "aria-hidden": true, tabIndex: -1 }}
-      />
-    );
-  });
+      const cardProps = renderBlockCardProps(block, ctx);
+      const relatedArticlesCatalog =
+        editorContext === 'article' ? 'article' : 'advice';
+      return dndReady ? (
+        <SortableBlockCard
+          key={block.id}
+          {...cardProps}
+          relatedArticlesCatalog={relatedArticlesCatalog}
+          editorContext={editorContext}
+        />
+      ) : (
+        <BlockCard
+          key={block.id}
+          {...cardProps}
+          relatedArticlesCatalog={relatedArticlesCatalog}
+          editorContext={editorContext}
+          dragHandleProps={{ 'aria-hidden': true, tabIndex: -1 }}
+        />
+      );
+    });
 
   return (
     <div className={styles.canvasWrap}>
@@ -571,7 +649,11 @@ export function BlockEditorCanvas() {
           onOpenPicker={openPicker}
           onCollapseAll={collapseAllBlocks}
           onExpandAll={expandAllBlocks}
-          blockCount={blocks.filter((block) => isBlockAllowedInEditor(block.type, editorContext)).length}
+          blockCount={
+            blocks.filter((block) =>
+              isBlockAllowedInEditor(block.type, editorContext),
+            ).length
+          }
         />
       </div>
       {dndReady ? (
@@ -581,7 +663,10 @@ export function BlockEditorCanvas() {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <SortableContext items={blocks.map((b) => b.id)} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={blocks.map((b) => b.id)}
+            strategy={verticalListSortingStrategy}
+          >
             <div className={styles.canvas}>{blockCards}</div>
           </SortableContext>
         </StableDndContext>
@@ -600,7 +685,11 @@ export function BlockEditorCanvas() {
   );
 }
 
-export function BlockEditorLivePreview({ fullscreenActions }: { fullscreenActions?: ReactNode }) {
+export function BlockEditorLivePreview({
+  fullscreenActions,
+}: {
+  fullscreenActions?: ReactNode;
+}) {
   const {
     blocks,
     contentMaxWidth,
@@ -619,7 +708,10 @@ export function BlockEditorLivePreview({ fullscreenActions }: { fullscreenAction
 
   const handleStyleSettingsChange = (patch: Partial<BlockSettings>) => {
     if (!selectedBlock) return;
-    if (selectedBlock.type === "two_column" && twoColumnStyleTarget !== "block") {
+    if (
+      selectedBlock.type === 'two_column' &&
+      twoColumnStyleTarget !== 'block'
+    ) {
       editor.updateTwoColumnColumnSettings(
         selectedBlock.id,
         twoColumnStyleTarget,
@@ -634,7 +726,9 @@ export function BlockEditorLivePreview({ fullscreenActions }: { fullscreenAction
     <PreviewViewport
       className={styles.previewPanelDocked}
       fullscreenActions={fullscreenActions}
-      blockMaxWidthLabel={selectedBlock ? formatBlockMaxWidthLabel(selectedBlock.settings) : null}
+      blockMaxWidthLabel={
+        selectedBlock ? formatBlockMaxWidthLabel(selectedBlock.settings) : null
+      }
       selectedBlockId={selectedId}
       styleToolbar={({ isFullscreen }) =>
         selectedBlock ? (
@@ -642,16 +736,21 @@ export function BlockEditorLivePreview({ fullscreenActions }: { fullscreenAction
             block={selectedBlock}
             isFullscreen={isFullscreen}
             twoColumnTarget={
-              selectedBlock.type === "two_column" ? twoColumnStyleTarget : undefined
+              selectedBlock.type === 'two_column'
+                ? twoColumnStyleTarget
+                : undefined
             }
             onTwoColumnTargetChange={
-              selectedBlock.type === "two_column" ? setTwoColumnStyleTarget : undefined
+              selectedBlock.type === 'two_column'
+                ? setTwoColumnStyleTarget
+                : undefined
             }
             onSettingsChange={handleStyleSettingsChange}
           />
         ) : (
           <div className={styles.previewHint}>
-            Click a block · drag pink handles (max-width) · blue handles (images)
+            Click a block · drag pink handles (max-width) · blue handles
+            (images)
           </div>
         )
       }
@@ -668,7 +767,9 @@ export function BlockEditorLivePreview({ fullscreenActions }: { fullscreenAction
           openBlockForEditing(id);
           setTwoColumnStyleTarget(target);
         }}
-        onBlockSettingsChange={(id, patch) => editor.updateBlockSettings(id, patch)}
+        onBlockSettingsChange={(id, patch) =>
+          editor.updateBlockSettings(id, patch)
+        }
         onBlockDataChange={(id, data) => editor.updateBlock(id, data)}
         excludeArticleSlug={excludeArticleSlug}
         renderContext={renderContext}
@@ -690,10 +791,10 @@ type BlockEditorProps = {
 export function BlockEditor({
   blocks,
   onChange,
-  contentMaxWidth = "default",
+  contentMaxWidth = 'default',
   contentMaxWidthCustom,
   previewFullscreenActions,
-  editorContext = "competition",
+  editorContext = 'competition',
 }: BlockEditorProps) {
   return (
     <BlockEditorRoot

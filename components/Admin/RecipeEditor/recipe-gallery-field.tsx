@@ -1,17 +1,22 @@
-"use client";
+'use client';
 
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import type { RecipeMedia } from "@/lib/recipes/types";
-import styles from "./recipe-editor.module.css";
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import type { RecipeMedia } from '@/lib/recipes/types';
+import styles from './recipe-editor.module.css';
 
 type RecipeGalleryFieldProps = {
   images: RecipeMedia[];
   onChange: (images: RecipeMedia[]) => void;
 };
 
-export function RecipeGalleryField({ images, onChange }: RecipeGalleryFieldProps) {
+export function RecipeGalleryField({
+  images,
+  onChange,
+}: RecipeGalleryFieldProps) {
   const update = (index: number, patch: Partial<RecipeMedia>) => {
-    onChange(images.map((image, i) => (i === index ? { ...image, ...patch } : image)));
+    onChange(
+      images.map((image, i) => (i === index ? { ...image, ...patch } : image)),
+    );
   };
 
   const remove = (index: number) => {
@@ -28,7 +33,7 @@ export function RecipeGalleryField({ images, onChange }: RecipeGalleryFieldProps
   };
 
   const add = () => {
-    onChange([...images, { src: "", alt: "" }]);
+    onChange([...images, { src: '', alt: '' }]);
   };
 
   return (
@@ -82,7 +87,11 @@ export function RecipeGalleryField({ images, onChange }: RecipeGalleryFieldProps
           </div>
         ))
       )}
-      <button type="button" className={`btn btnGhost ${styles.addRowBtn}`} onClick={add}>
+      <button
+        type="button"
+        className={`btn btnGhost ${styles.addRowBtn}`}
+        onClick={add}
+      >
         + Add image
       </button>
     </div>

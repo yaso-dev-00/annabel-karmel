@@ -1,1 +1,1 @@
-export { ColorField, ColorThemePanel, type ColorPreset } from "./color-field";
+export { ColorField, ColorThemePanel, type ColorPreset } from './color-field';

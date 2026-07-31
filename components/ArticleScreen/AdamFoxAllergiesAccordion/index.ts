@@ -1,1 +1,1 @@
-export * from "./adam-fox-allergies-accordion";
+export * from './adam-fox-allergies-accordion';

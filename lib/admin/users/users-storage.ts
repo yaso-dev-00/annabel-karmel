@@ -1,10 +1,12 @@
-import { ADMIN_USERS_SEED } from "@/data/admin-users";
-import type { AdminUser } from "@/lib/admin/users/types";
+import { ADMIN_USERS_SEED } from '@/data/admin-users';
+import type { AdminUser } from '@/lib/admin/users/types';
 
-export const ADMIN_USERS_OVERRIDES_KEY = "ak-admin-users-overrides";
+export const ADMIN_USERS_OVERRIDES_KEY = 'ak-admin-users-overrides';
 
 function canUseStorage(): boolean {
-  return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
+  return (
+    typeof window !== 'undefined' && typeof window.localStorage !== 'undefined'
+  );
 }
 
 function readOverrides(): Record<string, AdminUser> {
@@ -13,7 +15,7 @@ function readOverrides(): Record<string, AdminUser> {
     const raw = window.localStorage.getItem(ADMIN_USERS_OVERRIDES_KEY);
     if (!raw) return {};
     const parsed = JSON.parse(raw) as Record<string, AdminUser>;
-    return parsed && typeof parsed === "object" ? parsed : {};
+    return parsed && typeof parsed === 'object' ? parsed : {};
   } catch {
     return {};
   }
@@ -21,13 +23,17 @@ function readOverrides(): Record<string, AdminUser> {
 
 function writeOverrides(overrides: Record<string, AdminUser>): void {
   if (!canUseStorage()) return;
-  window.localStorage.setItem(ADMIN_USERS_OVERRIDES_KEY, JSON.stringify(overrides));
+  window.localStorage.setItem(
+    ADMIN_USERS_OVERRIDES_KEY,
+    JSON.stringify(overrides),
+  );
 }
 
 export function getMergedAdminUsers(): AdminUser[] {
   const overrides = readOverrides();
-  return ADMIN_USERS_SEED.map((user) => overrides[user.id] ?? user).sort((a, b) =>
-    a.username.localeCompare(b.username, undefined, { sensitivity: "base" }),
+  return ADMIN_USERS_SEED.map((user) => overrides[user.id] ?? user).sort(
+    (a, b) =>
+      a.username.localeCompare(b.username, undefined, { sensitivity: 'base' }),
   );
 }
 

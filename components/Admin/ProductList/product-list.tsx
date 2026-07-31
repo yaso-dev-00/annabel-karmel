@@ -1,28 +1,25 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminListToolbar } from "@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AdminListToolbar } from '@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar';
 import {
   PRODUCT_STATUS_LABELS,
   PRODUCT_STATUSES,
   getProductStatusBadgeClass,
   isProductDisabled,
   resolveProductStatus,
-} from "@/lib/admin/product-status";
+} from '@/lib/admin/product-status';
 import {
   formatAdminListDate,
   matchesAdminListSearch,
-} from "@/lib/admin/format-admin-list";
-import { fetchProducts } from "@/lib/admin/products-client";
-import { useAdminListRefresh } from "@/lib/admin/use-admin-list-refresh";
-import {
-  productCategoryLabel,
-  type Product,
-} from "@/lib/products/types";
-import styles from "@/components/Admin/ProductEditor/product-editor.module.css";
+} from '@/lib/admin/format-admin-list';
+import { fetchProducts } from '@/lib/admin/products-client';
+import { useAdminListRefresh } from '@/lib/admin/use-admin-list-refresh';
+import { productCategoryLabel, type Product } from '@/lib/products/types';
+import styles from '@/components/Admin/ProductEditor/product-editor.module.css';
 
-type ProductListSection = "meals" | "grow";
+type ProductListSection = 'meals' | 'grow';
 
 type ProductListProps = {
   products: Product[];
@@ -42,25 +39,31 @@ function ProductStatusBadge({ product }: { product: Product }) {
 function listingThumb(product: Product): string {
   const page = product.page;
   switch (page.kind) {
-    case "australia-frozen":
-      return page.carousel[0]?.src ?? "";
-    case "tableware": {
+    case 'australia-frozen':
+      return page.carousel[0]?.src ?? '';
+    case 'tableware': {
       const active =
-        page.colorVariants.find((variant) => variant.color === page.activeColor) ??
-        page.colorVariants[0];
-      return active?.gallery[0]?.src ?? "";
+        page.colorVariants.find(
+          (variant) => variant.color === page.activeColor,
+        ) ?? page.colorVariants[0];
+      return active?.gallery[0]?.src ?? '';
     }
-    case "chilled-meals":
-    case "frozen-meals":
-    case "plant-powered-bites":
-      return page.assets.heroMobile || page.assets.heroDesktop || page.carousel[0]?.src || "";
+    case 'chilled-meals':
+    case 'frozen-meals':
+    case 'plant-powered-bites':
+      return (
+        page.assets.heroMobile ||
+        page.assets.heroDesktop ||
+        page.carousel[0]?.src ||
+        ''
+      );
     default:
-      return "";
+      return '';
   }
 }
 
 function publicPath(product: Product): string {
-  if (product.category === "tableware") {
+  if (product.category === 'tableware') {
     return `/tableware/${product.slug}`;
   }
   return `/products/${product.slug}`;
@@ -79,10 +82,10 @@ function ClickableTableRow({
 
   return (
     <tr
-      className={`tableRowClickable${className ? ` ${className}` : ""}`}
+      className={`tableRowClickable${className ? ` ${className}` : ''}`}
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -97,16 +100,20 @@ function ClickableTableRow({
 
 export function ProductList({
   products: initialProducts,
-  section = "meals",
-  listPath = "/admin/products",
+  section = 'meals',
+  listPath = '/admin/products',
 }: ProductListProps) {
-  const { items: products } = useAdminListRefresh(initialProducts, fetchProducts, listPath);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const { items: products } = useAdminListRefresh(
+    initialProducts,
+    fetchProducts,
+    listPath,
+  );
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const statusOptions = useMemo(
     () => [
-      { value: "all", label: "All statuses" },
+      { value: 'all', label: 'All statuses' },
       ...PRODUCT_STATUSES.map((status) => ({
         value: status,
         label: PRODUCT_STATUS_LABELS[status],
@@ -118,10 +125,12 @@ export function ProductList({
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const inSection =
-        section === "grow" ? product.category === "tableware" : product.category !== "tableware";
+        section === 'grow'
+          ? product.category === 'tableware'
+          : product.category !== 'tableware';
       if (!inSection) return false;
       const status = resolveProductStatus(product);
-      const matchesStatus = statusFilter === "all" || status === statusFilter;
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
       const matchesSearch = matchesAdminListSearch(
         searchQuery,
         product.title,
@@ -132,12 +141,14 @@ export function ProductList({
     });
   }, [products, searchQuery, statusFilter, section]);
 
-  const showCategoryColumn = section !== "grow";
+  const showCategoryColumn = section !== 'grow';
 
   return (
     <div className="card adminListCard">
       <AdminListToolbar
-        searchPlaceholder={section === "grow" ? "Search Grow products…" : "Search products…"}
+        searchPlaceholder={
+          section === 'grow' ? 'Search Grow products…' : 'Search products…'
+        }
         searchQuery={searchQuery}
         onSearchQueryChange={setSearchQuery}
         statusFilter={statusFilter}
@@ -170,11 +181,11 @@ export function ProductList({
                 <ClickableTableRow
                   key={product.id}
                   href={
-                    section === "grow"
+                    section === 'grow'
                       ? `/admin/grow-products/${product.id}/edit`
                       : `/admin/products/${product.id}/edit`
                   }
-                  className={isDisabled ? "tableRowDisabled" : undefined}
+                  className={isDisabled ? 'tableRowDisabled' : undefined}
                 >
                   <td>
                     <div className={styles.thumbCell}>
@@ -183,15 +194,21 @@ export function ProductList({
                   </td>
                   <td className="tableTitleCell">
                     <span className="tableTitleMain">{product.title}</span>
-                    <span className="tableTitlePath">{publicPath(product)}</span>
+                    <span className="tableTitlePath">
+                      {publicPath(product)}
+                    </span>
                     {isDisabled ? (
-                      <span className="tableRowDisabledNote">Hidden from site</span>
+                      <span className="tableRowDisabledNote">
+                        Hidden from site
+                      </span>
                     ) : null}
                   </td>
                   <td>
                     <ProductStatusBadge product={product} />
                   </td>
-                  {showCategoryColumn ? <td>{productCategoryLabel(product.category)}</td> : null}
+                  {showCategoryColumn ? (
+                    <td>{productCategoryLabel(product.category)}</td>
+                  ) : null}
                   <td>{formatAdminListDate(product.updated_at)}</td>
                 </ClickableTableRow>
               );

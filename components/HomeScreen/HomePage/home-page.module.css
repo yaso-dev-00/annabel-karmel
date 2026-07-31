@@ -53,17 +53,15 @@
   margin-inline: auto;
 }
 
- 
-
 .recipeAppPromo {
   box-sizing: border-box;
   width: 100%;
   max-width: 95%;
   margin-inline: auto;
   background-color: #fdf1f1;
-  background-image: url("/home page/recipe-app/section-background.png");
+  background-image: url('/home page/recipe-app/section-background.png');
   background-repeat: no-repeat;
-  background-position:left;
+  background-position: left;
   background-size: cover;
   overflow-x: clip;
   overflow-y: visible;
@@ -78,7 +76,7 @@
     border-bottom-right-radius: 1.5rem;
     padding-bottom: 10px;
     max-width: 95%;
-    background-position:center;
+    background-position: center;
   }
 }
 
@@ -185,8 +183,8 @@
   flex-shrink: 0;
   place-items: center;
   border-radius: 9999px;
-  background-color: #E9C6CE;
-  color: #B34769;
+  background-color: #e9c6ce;
+  color: #b34769;
 }
 
 @media (min-width: 768px) {
@@ -229,7 +227,7 @@
   justify-content: center;
   margin-top: 1.75rem;
   padding: 1rem 2rem;
-  border-radius:14px;
+  border-radius: 14px;
   background-color: #a64461;
   color: #fff;
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
@@ -345,8 +343,6 @@
 @media (min-width: 768px) {
   .recipeAppAwardBadge {
     height: 68px;
-
-    
   }
 }
 
@@ -459,4 +455,3 @@
     flex-shrink: 0;
   }
 }
-

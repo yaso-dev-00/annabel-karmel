@@ -1,19 +1,20 @@
 export const FORM_FIELD_TYPES = [
-  "text",
-  "email",
-  "number",
-  "tel",
-  "url",
-  "textarea",
-  "select",
-  "checkbox",
-  "radio",
-  "button",
+  'text',
+  'email',
+  'number',
+  'tel',
+  'url',
+  'textarea',
+  'select',
+  'checkbox',
+  'radio',
+  'button',
 ] as const;
 
 export type FormFieldType = (typeof FORM_FIELD_TYPES)[number];
 
-export type FormValidationType = "required" | "minLength" | "maxLength" | "pattern" | "email";
+export type FormValidationType =
+  'required' | 'minLength' | 'maxLength' | 'pattern' | 'email';
 
 export type FormValidationRule = {
   type: FormValidationType;
@@ -51,8 +52,8 @@ export type FormField = {
   name?: string;
   defaultValue?: string;
   options?: FormFieldOption[];
-  buttonVariant?: "primary" | "secondary";
-  buttonAction?: "submit" | "reset" | "button";
+  buttonVariant?: 'primary' | 'secondary';
+  buttonAction?: 'submit' | 'reset' | 'button';
   validation?: FormValidationRule[];
   style?: FormFieldStyle;
   columnSpan?: 1 | 2 | 3 | 4;
@@ -86,7 +87,7 @@ export type CustomFormSchema = {
   description?: string;
   submitLabel?: string;
   action?: string;
-  method?: "get" | "post";
+  method?: 'get' | 'post';
   sections: FormSection[];
   globalStyle?: FormGlobalStyle;
 };

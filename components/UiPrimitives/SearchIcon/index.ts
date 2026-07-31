@@ -1,1 +1,1 @@
-export * from "./search-icon";
+export * from './search-icon';

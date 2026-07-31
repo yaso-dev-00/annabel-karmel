@@ -1,8 +1,14 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { siteAdBanners, type SiteAdPlacementId } from "@/data/promo-banners";
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from 'react';
+import { siteAdBanners, type SiteAdPlacementId } from '@/data/promo-banners';
 
 /** Hero carousel uses 5500ms — keep ads on a different cadence and phase offset. */
 const AD_AUTO_INTERVAL_MS = 6000;
@@ -25,7 +31,9 @@ export function SiteAdPlacement({ placement }: SiteAdPlacementProps) {
 
   const moveAd = useCallback((step: number) => {
     setDirection(step);
-    setActiveIndex((prev) => (prev + step + siteAdBanners.length) % siteAdBanners.length);
+    setActiveIndex(
+      (prev) => (prev + step + siteAdBanners.length) % siteAdBanners.length,
+    );
   }, []);
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLElement>) => {
@@ -60,7 +68,10 @@ export function SiteAdPlacement({ placement }: SiteAdPlacementProps) {
     const deltaX = event.clientX - startX;
     const deltaY = event.clientY - startY;
 
-    if (Math.abs(deltaX) > AD_SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (
+      Math.abs(deltaX) > AD_SWIPE_THRESHOLD &&
+      Math.abs(deltaX) > Math.abs(deltaY)
+    ) {
       didSwipeRef.current = true;
       moveAd(deltaX > 0 ? -1 : 1);
     }
@@ -89,7 +100,11 @@ export function SiteAdPlacement({ placement }: SiteAdPlacementProps) {
   return (
     <section
       className={`site-ad-placement site-ad-placement-${placement} w-full`}
-      aria-label={placement === "header" ? "Header promotional banner" : "Footer promotional banner"}
+      aria-label={
+        placement === 'header'
+          ? 'Header promotional banner'
+          : 'Footer promotional banner'
+      }
       data-ad-placement={placement}
     >
       <div className="container">
@@ -110,7 +125,7 @@ export function SiteAdPlacement({ placement }: SiteAdPlacementProps) {
               initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
               className="site-ad-slide block"
               onClick={(event) => {
                 if (didSwipeRef.current) {
@@ -137,6 +152,10 @@ export function SiteAdPlacement({ placement }: SiteAdPlacementProps) {
 }
 
 /** @deprecated Use SiteAdPlacement */
-export function SiteAdCarousel({ placement = "header" }: { placement?: SiteAdPlacementId }) {
+export function SiteAdCarousel({
+  placement = 'header',
+}: {
+  placement?: SiteAdPlacementId;
+}) {
   return <SiteAdPlacement placement={placement} />;
 }

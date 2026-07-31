@@ -1,10 +1,10 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RecipeBrowseSection } from "@/components/RecipeScreen/RecipeBrowseSection";
-import { RecipeFinder } from "@/components/RecipeScreen/RecipeFinder";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RecipeBrowseSection } from '@/components/RecipeScreen/RecipeBrowseSection';
+import { RecipeFinder } from '@/components/RecipeScreen/RecipeFinder';
 import {
   browseByMealTimeSection,
   popularByAgeSection,
-} from "@/data/recipes-archive-page";
+} from '@/data/recipes-archive-page';
 
 export function RecipesArchivePageContent() {
   return (
@@ -20,7 +20,7 @@ export function RecipesArchivePageContent() {
         tiles={browseByMealTimeSection.tiles}
       />
       <div className="mt-[50px]!">
-      <InstagramShareSection />
+        <InstagramShareSection />
       </div>
     </main>
   );

@@ -55,7 +55,7 @@
 }
 
 .selectWrap::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   right: 0;
@@ -80,7 +80,7 @@
 }
 
 .selectWrap::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   right: 4px;
@@ -117,7 +117,9 @@
   cursor: pointer;
   color: #00665e;
   border-bottom-color: #8aa4ab;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .selectWrap:hover .selectTrigger,

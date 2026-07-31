@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { AdminShell } from "@/components/Admin/AdminShell";
-import { AdviceArticleList } from "@/components/Admin/AdviceArticleList/advice-article-list";
-import { getAllAdviceArticles } from "@/lib/admin/advice-articles-store";
+import Link from 'next/link';
+import { AdminShell } from '@/components/Admin/AdminShell';
+import { AdviceArticleList } from '@/components/Admin/AdviceArticleList/advice-article-list';
+import { getAllAdviceArticles } from '@/lib/admin/advice-articles-store';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function AdminAdviceListPage() {

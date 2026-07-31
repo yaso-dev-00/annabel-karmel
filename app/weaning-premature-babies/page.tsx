@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export default function WeaningPrematureBabiesRedirectPage() {
-  redirect("/advice/weaning-premature-babies");
+  redirect('/advice/weaning-premature-babies');
 }

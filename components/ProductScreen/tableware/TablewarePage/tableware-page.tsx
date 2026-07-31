@@ -1,22 +1,25 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { TablewareFeaturesSection } from "@/components/ProductScreen/tableware/TablewareFeaturesSection";
-import { TablewareHeroCarousel } from "@/components/ProductScreen/tableware/TablewareHeroCarousel";
-import { TablewareProductCard } from "@/components/ProductScreen/tableware/TablewareProductCard";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { TablewareFeaturesSection } from '@/components/ProductScreen/tableware/TablewareFeaturesSection';
+import { TablewareHeroCarousel } from '@/components/ProductScreen/tableware/TablewareHeroCarousel';
+import { TablewareProductCard } from '@/components/ProductScreen/tableware/TablewareProductCard';
 import {
   tablewareAssets,
   tablewareFeatures,
   tablewareIntro,
   tablewareProducts,
   tablewareStory,
-} from "@/data/tableware-page";
-import styles from "./tableware-page.module.css";
+} from '@/data/tableware-page';
+import styles from './tableware-page.module.css';
 
 export function TablewarePageContent() {
   return (
     <main className={styles.page}>
       <TablewareHeroCarousel />
 
-      <section className={styles.introSection} aria-label="Grow by Annabel Karmel">
+      <section
+        className={styles.introSection}
+        aria-label="Grow by Annabel Karmel"
+      >
         <div className={styles.introInner}>
           <img
             src={tablewareAssets.growLogo}
@@ -30,7 +33,10 @@ export function TablewarePageContent() {
         </div>
       </section>
 
-      <section className={styles.productsSection} aria-label="Grow tableware products">
+      <section
+        className={styles.productsSection}
+        aria-label="Grow tableware products"
+      >
         <div className={styles.productsGrid}>
           {tablewareProducts.map((product) => (
             <TablewareProductCard key={product.slug} product={product} />
@@ -43,7 +49,10 @@ export function TablewarePageContent() {
         columns={tablewareFeatures.columns}
       />
 
-      <section className={styles.lifestyleSection} aria-label="Grow tableware lifestyle">
+      <section
+        className={styles.lifestyleSection}
+        aria-label="Grow tableware lifestyle"
+      >
         <img
           src={tablewareAssets.lifestyleBanner}
           alt=""
@@ -52,7 +61,10 @@ export function TablewarePageContent() {
         />
       </section>
 
-      <section className={styles.storySection} aria-labelledby="tableware-story-heading">
+      <section
+        className={styles.storySection}
+        aria-labelledby="tableware-story-heading"
+      >
         <div className={styles.storyInner}>
           <h2 id="tableware-story-heading" className={styles.storyHeading}>
             {tablewareStory.heading}
@@ -61,7 +73,11 @@ export function TablewarePageContent() {
             {tablewareStory.paragraphs.map((paragraph, index) => (
               <p
                 key={paragraph}
-                className={index === 3 ? styles.storyParagraphLeft : styles.storyParagraph}
+                className={
+                  index === 3
+                    ? styles.storyParagraphLeft
+                    : styles.storyParagraph
+                }
               >
                 {paragraph}
               </p>

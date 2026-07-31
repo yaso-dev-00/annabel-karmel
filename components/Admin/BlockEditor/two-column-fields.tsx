@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   KeyboardSensor,
   PointerSensor,
@@ -8,66 +8,71 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { MaxWidthField } from "@/components/Admin/Ui/MaxWidthField";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import { MaxWidthField } from '@/components/Admin/Ui/MaxWidthField';
 import {
   createBlockId,
   ensureNestedMiniBlockId,
   normalizeTwoColumnData,
-} from "@/lib/content-blocks/defaults";
+} from '@/lib/content-blocks/defaults';
 import type {
   MaxWidthPreset,
   NestedMiniBlock,
   NestedMiniBlockStyle,
   TwoColumnBlockData,
-} from "@/lib/content-blocks/types";
-import { RichTextEditor } from "./rich-text-editor";
-import styles from "./block-editor.module.css";
-import { ExpandCollapseAllButtons } from "./expand-collapse-all-buttons";
-import { StableDndContext } from "./stable-dnd-context";
+} from '@/lib/content-blocks/types';
+import { RichTextEditor } from './rich-text-editor';
+import styles from './block-editor.module.css';
+import { ExpandCollapseAllButtons } from './expand-collapse-all-buttons';
+import { StableDndContext } from './stable-dnd-context';
 
-const MINI_BLOCK_LABELS: Record<NestedMiniBlock["type"], string> = {
-  rich_text: "Rich text",
-  image: "Image",
-  list: "List",
-  cta_button: "CTA button",
+const MINI_BLOCK_LABELS: Record<NestedMiniBlock['type'], string> = {
+  rich_text: 'Rich text',
+  image: 'Image',
+  list: 'List',
+  cta_button: 'CTA button',
 };
 
-function createMiniBlock(type: NestedMiniBlock["type"]): NestedMiniBlock & { id: string } {
+function createMiniBlock(
+  type: NestedMiniBlock['type'],
+): NestedMiniBlock & { id: string } {
   const id = createBlockId();
   switch (type) {
-    case "rich_text":
-      return { id, type: "rich_text", html: "<p></p>" };
-    case "image":
-      return { id, type: "image", src: "", alt: "" };
-    case "list":
-      return { id, type: "list", ordered: false, items: [] };
-    case "cta_button":
-      return { id, type: "cta_button", label: "Button", url: "/" };
+    case 'rich_text':
+      return { id, type: 'rich_text', html: '<p></p>' };
+    case 'image':
+      return { id, type: 'image', src: '', alt: '' };
+    case 'list':
+      return { id, type: 'list', ordered: false, items: [] };
+    case 'cta_button':
+      return { id, type: 'cta_button', label: 'Button', url: '/' };
   }
 }
 
 function miniBlockSummary(block: NestedMiniBlock): string {
   switch (block.type) {
-    case "rich_text": {
-      const text = block.html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-      return text.slice(0, 48) || "Empty text";
+    case 'rich_text': {
+      const text = block.html
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      return text.slice(0, 48) || 'Empty text';
     }
-    case "image":
-      return block.src ? block.alt || "Image" : "No image";
-    case "list":
-      return `${block.items.length} item${block.items.length === 1 ? "" : "s"}`;
-    case "cta_button":
-      return block.label || "Button";
+    case 'image':
+      return block.src ? block.alt || 'Image' : 'No image';
+    case 'list':
+      return `${block.items.length} item${block.items.length === 1 ? '' : 's'}`;
+    case 'cta_button':
+      return block.label || 'Button';
   }
 }
 
@@ -81,7 +86,7 @@ function patchMiniStyle(
     delete next.max_width;
     delete next.max_width_custom;
   }
-  if (next.max_width !== "custom") delete next.max_width_custom;
+  if (next.max_width !== 'custom') delete next.max_width_custom;
   const hasStyle = Boolean(next.text_align || next.max_width);
   return { ...block, style: hasStyle ? next : undefined };
 }
@@ -100,11 +105,12 @@ function MiniBlockStyleFields({
         <label className={styles.miniBlockStyleLabel}>Text align</label>
         <select
           className="fieldSelect"
-          value={style?.text_align ?? ""}
+          value={style?.text_align ?? ''}
           onChange={(e) =>
             onChange(
               patchMiniStyle(block, {
-                text_align: (e.target.value || undefined) as NestedMiniBlockStyle["text_align"],
+                text_align: (e.target.value ||
+                  undefined) as NestedMiniBlockStyle['text_align'],
               }),
             )
           }
@@ -120,7 +126,7 @@ function MiniBlockStyleFields({
         <label className={styles.miniBlockStyleLabel}>Max width</label>
         <MaxWidthField
           id={`mini-max-width-${block.id ?? block.type}`}
-          preset={style?.max_width ?? ""}
+          preset={style?.max_width ?? ''}
           customValue={style?.max_width_custom}
           inheritLabel="Column default"
           selectClassName="fieldSelect"
@@ -129,12 +135,18 @@ function MiniBlockStyleFields({
             onChange(
               patchMiniStyle(block, {
                 max_width: (preset || undefined) as MaxWidthPreset | undefined,
-                max_width_custom: preset === "custom" ? style?.max_width_custom : undefined,
+                max_width_custom:
+                  preset === 'custom' ? style?.max_width_custom : undefined,
               }),
             )
           }
           onCustomChange={(value) =>
-            onChange(patchMiniStyle(block, { max_width: "custom", max_width_custom: value }))
+            onChange(
+              patchMiniStyle(block, {
+                max_width: 'custom',
+                max_width_custom: value,
+              }),
+            )
           }
         />
       </div>
@@ -151,38 +163,45 @@ function MiniBlockEditor({
 }) {
   const content = (() => {
     switch (block.type) {
-      case "rich_text":
+      case 'rich_text':
         return (
-          <RichTextEditor value={block.html} onChange={(html) => onChange({ ...block, html })} />
+          <RichTextEditor
+            value={block.html}
+            onChange={(html) => onChange({ ...block, html })}
+          />
         );
-      case "image":
+      case 'image':
         return (
           <ImageField
             value={block.src}
             alt={block.alt}
-            onChange={(src, altVal) => onChange({ ...block, src, alt: altVal ?? block.alt })}
+            onChange={(src, altVal) =>
+              onChange({ ...block, src, alt: altVal ?? block.alt })
+            }
             onAltChange={(altVal) => onChange({ ...block, alt: altVal })}
           />
         );
-      case "list":
+      case 'list':
         return (
           <>
             <label className="fieldCheckbox">
               <input
                 type="checkbox"
                 checked={block.ordered}
-                onChange={(e) => onChange({ ...block, ordered: e.target.checked })}
+                onChange={(e) =>
+                  onChange({ ...block, ordered: e.target.checked })
+                }
               />
               Numbered list
             </label>
             <textarea
               className="fieldTextarea"
-              value={block.items.join("\n")}
+              value={block.items.join('\n')}
               onChange={(e) =>
                 onChange({
                   ...block,
                   // Keep empty lines while typing so Enter can start the next item.
-                  items: e.target.value.split("\n"),
+                  items: e.target.value.split('\n'),
                 })
               }
               onBlur={() =>
@@ -195,7 +214,7 @@ function MiniBlockEditor({
             />
           </>
         );
-      case "cta_button":
+      case 'cta_button':
         return (
           <>
             <input
@@ -236,7 +255,14 @@ function SortableMiniBlockCard({
   onChange: (block: NestedMiniBlock) => void;
   onRemove: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: block.id,
   });
 
@@ -265,20 +291,24 @@ function SortableMiniBlockCard({
         >
           ⠿
         </span>
-        <span className={styles.miniBlockType}>{MINI_BLOCK_LABELS[block.type]}</span>
-        <span className={styles.miniBlockSummary}>{miniBlockSummary(block)}</span>
+        <span className={styles.miniBlockType}>
+          {MINI_BLOCK_LABELS[block.type]}
+        </span>
+        <span className={styles.miniBlockSummary}>
+          {miniBlockSummary(block)}
+        </span>
         <div className={styles.miniBlockActions}>
           <button
             type="button"
             className={styles.iconBtn}
-            aria-label={expanded ? "Collapse" : "Expand"}
-            title={expanded ? "Collapse" : "Expand"}
+            aria-label={expanded ? 'Collapse' : 'Expand'}
+            title={expanded ? 'Collapse' : 'Expand'}
             onClick={(e) => {
               e.stopPropagation();
               onToggle();
             }}
           >
-            {expanded ? "▲" : "▼"}
+            {expanded ? '▲' : '▼'}
           </button>
           <button
             type="button"
@@ -310,7 +340,7 @@ function ColumnEditor({
   onChange,
 }: {
   label: string;
-  columnKey: "left" | "right";
+  columnKey: 'left' | 'right';
   blocks: NestedMiniBlock[];
   onChange: (blocks: NestedMiniBlock[]) => void;
 }) {
@@ -318,7 +348,7 @@ function ColumnEditor({
     () => blocks.map((b) => ensureNestedMiniBlockId(b)),
     [blocks],
   );
-  const idsKey = normalized.map((b) => b.id).join("|");
+  const idsKey = normalized.map((b) => b.id).join('|');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
   const knownIdsRef = useRef(new Set<string>());
 
@@ -338,7 +368,9 @@ function ColumnEditor({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -368,7 +400,9 @@ function ColumnEditor({
         {normalized.length > 0 ? (
           <ExpandCollapseAllButtons
             label={label}
-            onExpandAll={() => setExpandedIds(new Set(normalized.map((b) => b.id)))}
+            onExpandAll={() =>
+              setExpandedIds(new Set(normalized.map((b) => b.id)))
+            }
             onCollapseAll={() => setExpandedIds(new Set())}
           />
         ) : null}
@@ -380,7 +414,10 @@ function ColumnEditor({
         onDragStart={() => setExpandedIds(new Set())}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={normalized.map((b) => b.id)} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={normalized.map((b) => b.id)}
+          strategy={verticalListSortingStrategy}
+        >
           {normalized.map((mini) => (
             <SortableMiniBlockCard
               key={`${columnKey}-${mini.id}`}
@@ -388,29 +425,35 @@ function ColumnEditor({
               expanded={expandedIds.has(mini.id)}
               onToggle={() => toggle(mini.id)}
               onChange={(updated) => {
-                onChange(normalized.map((b) => (b.id === mini.id ? updated : b)));
+                onChange(
+                  normalized.map((b) => (b.id === mini.id ? updated : b)),
+                );
               }}
-              onRemove={() => onChange(normalized.filter((b) => b.id !== mini.id))}
+              onRemove={() =>
+                onChange(normalized.filter((b) => b.id !== mini.id))
+              }
             />
           ))}
         </SortableContext>
       </StableDndContext>
 
       <div className={styles.columnAddRow}>
-        {(Object.keys(MINI_BLOCK_LABELS) as NestedMiniBlock["type"][]).map((type) => (
-          <button
-            key={type}
-            type="button"
-            className="btn btnGhost"
-            onClick={() => {
-              const created = createMiniBlock(type);
-              setExpandedIds((prev) => new Set(prev).add(created.id));
-              onChange([...normalized, created]);
-            }}
-          >
-            + {MINI_BLOCK_LABELS[type]}
-          </button>
-        ))}
+        {(Object.keys(MINI_BLOCK_LABELS) as NestedMiniBlock['type'][]).map(
+          (type) => (
+            <button
+              key={type}
+              type="button"
+              className="btn btnGhost"
+              onClick={() => {
+                const created = createMiniBlock(type);
+                setExpandedIds((prev) => new Set(prev).add(created.id));
+                onChange([...normalized, created]);
+              }}
+            >
+              + {MINI_BLOCK_LABELS[type]}
+            </button>
+          ),
+        )}
       </div>
     </div>
   );
@@ -427,10 +470,11 @@ export function TwoColumnFields({
 
   return (
     <>
-      <p style={{ fontSize: 14, color: "#6d5757", marginBottom: 12 }}>
-        Drag nested blocks to reorder. In the live preview, click the block, a column, or use the
-        style toolbar tabs (Block / Left / Right) to style each column separately — padding,
-        background, and typography can differ per side. Columns stack on mobile preview.
+      <p style={{ fontSize: 14, color: '#6d5757', marginBottom: 12 }}>
+        Drag nested blocks to reorder. In the live preview, click the block, a
+        column, or use the style toolbar tabs (Block / Left / Right) to style
+        each column separately — padding, background, and typography can differ
+        per side. Columns stack on mobile preview.
       </p>
       <ColumnEditor
         label="Left column"

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import {
   KeyboardSensor,
   PointerSensor,
@@ -8,29 +8,30 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { ExpandCollapseAllButtons } from "@/components/Admin/BlockEditor/expand-collapse-all-buttons";
-import { StableDndContext } from "@/components/Admin/BlockEditor/stable-dnd-context";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import type { ChilledProductAccordionItem } from "@/data/chilled-product-page";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { ExpandCollapseAllButtons } from '@/components/Admin/BlockEditor/expand-collapse-all-buttons';
+import { StableDndContext } from '@/components/Admin/BlockEditor/stable-dnd-context';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import type { ChilledProductAccordionItem } from '@/data/chilled-product-page';
+import { descriptionParagraphs } from '@/lib/products/description-paragraphs';
 import type {
   AustraliaFrozenPageContent,
   ChilledProductPageContent,
   FrozenProductPageContent,
   PlantPoweredBitesPageContent,
   ProductPageContent,
-} from "@/lib/products/types";
-import { TablewareFields } from "@/components/Admin/ProductEditor/tableware-page-fields";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import styles from "./product-editor.module.css";
+} from '@/lib/products/types';
+import { TablewareFields } from '@/components/Admin/ProductEditor/tableware-page-fields';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import styles from './product-editor.module.css';
 
 type ProductPageFieldsProps = {
   page: ProductPageContent;
@@ -41,7 +42,7 @@ type ProductPageFieldsProps = {
 
 function RemoveButton({
   onClick,
-  label = "Remove",
+  label = 'Remove',
 }: {
   onClick: () => void;
   label?: string;
@@ -61,7 +62,7 @@ function RemoveButton({
 
 function IconRemoveButton({
   onClick,
-  label = "Remove",
+  label = 'Remove',
 }: {
   onClick: () => void;
   label?: string;
@@ -71,9 +72,15 @@ function IconRemoveButton({
 
 function scrollToEditorItem(itemId: string) {
   const run = () => {
-    const el = document.querySelector<HTMLElement>(`[data-editor-item="${itemId}"]`);
+    const el = document.querySelector<HTMLElement>(
+      `[data-editor-item="${itemId}"]`,
+    );
     if (!el) return false;
-    el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    el.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'nearest',
+    });
     const focusable = el.querySelector<HTMLElement>(
       "input:not([type='hidden']):not([type='checkbox']):not([type='file']), textarea, select, [contenteditable='true']",
     );
@@ -105,7 +112,7 @@ function StringListEditor({
   onChange,
   rows = 3,
   hint,
-  addLabel = "+ Add",
+  addLabel = '+ Add',
 }: {
   label: string;
   values: string[];
@@ -114,7 +121,7 @@ function StringListEditor({
   hint?: string;
   addLabel?: string;
 }) {
-  const listKey = `string-list-${label.toLowerCase().replace(/\s+/g, "-")}`;
+  const listKey = `string-list-${label.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (
     <div className="card">
@@ -123,7 +130,7 @@ function StringListEditor({
         <button
           type="button"
           className="btn btnGhost"
-          onClick={() => addListItem(values, "", listKey, onChange)}
+          onClick={() => addListItem(values, '', listKey, onChange)}
         >
           {addLabel}
         </button>
@@ -131,9 +138,13 @@ function StringListEditor({
       {hint ? <p className={styles.sectionHint}>{hint}</p> : null}
       <div className={styles.listStack}>
         {values.map((value, index) => (
-          <div key={index} className={styles.listRow} data-editor-item={`${listKey}-${index}`}>
+          <div
+            key={index}
+            className={styles.listRow}
+            data-editor-item={`${listKey}-${index}`}
+          >
             <textarea
-              className={`fieldTextarea${hint ? ` ${styles.descriptionTextarea}` : ""}`}
+              className={`fieldTextarea${hint ? ` ${styles.descriptionTextarea}` : ''}`}
               rows={rows}
               value={value}
               placeholder={`${label} ${index + 1}`}
@@ -143,7 +154,9 @@ function StringListEditor({
                 onChange(next);
               }}
             />
-            <RemoveButton onClick={() => onChange(values.filter((_, i) => i !== index))} />
+            <RemoveButton
+              onClick={() => onChange(values.filter((_, i) => i !== index))}
+            />
           </div>
         ))}
       </div>
@@ -165,7 +178,7 @@ function ProductDescriptionField({
       <div className={styles.sectionHeader}>
         <h2 className="cardSectionTitle">Description</h2>
         <span className={styles.charCount}>
-          {length === 0 ? "Empty" : `${length.toLocaleString()} characters`}
+          {length === 0 ? 'Empty' : `${length.toLocaleString()} characters`}
         </span>
       </div>
       <p className={styles.sectionHint}>
@@ -219,8 +232,11 @@ function AustraliaFrozenFields({
             type="button"
             className="btn btnGhost"
             onClick={() =>
-              addListItem(page.carousel, { src: "", alt: "" }, "carousel", (carousel) =>
-                onChange({ ...page, carousel }),
+              addListItem(
+                page.carousel,
+                { src: '', alt: '' },
+                'carousel',
+                (carousel) => onChange({ ...page, carousel }),
               )
             }
           >
@@ -229,7 +245,11 @@ function AustraliaFrozenFields({
         </div>
         <div className={styles.listStack}>
           {page.carousel.map((slide, index) => (
-            <div key={index} className={styles.listRow} data-editor-item={`carousel-${index}`}>
+            <div
+              key={index}
+              className={styles.listRow}
+              data-editor-item={`carousel-${index}`}
+            >
               <div className={styles.listRowFields}>
                 <ImageField
                   value={slide.src}
@@ -262,12 +282,12 @@ function AustraliaFrozenFields({
       <div className="card">
         <h2 className="cardSectionTitle">Retailer links</h2>
         <div className="cardForm">
-          {(["woolworths", "coles", "iga"] as const).map((key) => (
+          {(['woolworths', 'coles', 'iga'] as const).map((key) => (
             <div className="field" key={key}>
               <label className="fieldLabel">{key}</label>
               <input
                 className="fieldInput"
-                value={page.retailers[key] ?? ""}
+                value={page.retailers[key] ?? ''}
                 onChange={(e) =>
                   onChange({
                     ...page,
@@ -290,8 +310,11 @@ function AustraliaFrozenFields({
             type="button"
             className="btn btnGhost"
             onClick={() =>
-              addListItem(page.ingredients, "", "au-ingredients", (ingredients) =>
-                onChange({ ...page, ingredients }),
+              addListItem(
+                page.ingredients,
+                '',
+                'au-ingredients',
+                (ingredients) => onChange({ ...page, ingredients }),
               )
             }
           >
@@ -299,9 +322,9 @@ function AustraliaFrozenFields({
           </button>
         </div>
         <p className={styles.sectionHint}>
-          Each box becomes its own paragraph in the Ingredients accordion. Use{" "}
-          <strong>**double asterisks**</strong> around words to bold allergens (e.g.{" "}
-          <code>**Milk**</code>).
+          Each box becomes its own paragraph in the Ingredients accordion. Use{' '}
+          <strong>**double asterisks**</strong> around words to bold allergens
+          (e.g. <code>**Milk**</code>).
         </p>
         <div className={styles.accordionParagraphs}>
           {page.ingredients.map((paragraph, index) => (
@@ -316,9 +339,9 @@ function AustraliaFrozenFields({
                 value={paragraph}
                 placeholder={
                   index === 0
-                    ? "Full ingredients list…"
+                    ? 'Full ingredients list…'
                     : index === 1
-                      ? "e.g. **CONTAINS: GLUTEN, WHEAT, MILK.**"
+                      ? 'e.g. **CONTAINS: GLUTEN, WHEAT, MILK.**'
                       : `Paragraph ${index + 1}`
                 }
                 onChange={(e) => {
@@ -360,9 +383,9 @@ function AustraliaFrozenFields({
               ...page,
               nutrition: {
                 headers: [
-                  table.headers[0] ?? "",
-                  table.headers[1] ?? "",
-                  table.headers[2] ?? "",
+                  table.headers[0] ?? '',
+                  table.headers[1] ?? '',
+                  table.headers[2] ?? '',
                 ],
                 rows: table.rows,
               },
@@ -374,12 +397,14 @@ function AustraliaFrozenFields({
   );
 }
 
-function emptyAccordionTable(): NonNullable<ChilledProductAccordionItem["table"]> {
+function emptyAccordionTable(): NonNullable<
+  ChilledProductAccordionItem['table']
+> {
   return {
-    headers: ["", "", ""],
+    headers: ['', '', ''],
     rows: [
-      ["", "", ""],
-      ["", "", ""],
+      ['', '', ''],
+      ['', '', ''],
     ],
   };
 }
@@ -390,23 +415,26 @@ function AccordionTableEditor({
   onChange,
   showFootnote = true,
 }: {
-  table: NonNullable<ChilledProductAccordionItem["table"]>;
+  table: NonNullable<ChilledProductAccordionItem['table']>;
   sectionId: string;
-  onChange: (table: NonNullable<ChilledProductAccordionItem["table"]>) => void;
+  onChange: (table: NonNullable<ChilledProductAccordionItem['table']>) => void;
   showFootnote?: boolean;
 }) {
   const colCount = Math.max(table.headers.length, 3);
   const rowListKey = `${sectionId}-table-row`;
 
   const setHeader = (col: number, value: string) => {
-    const headers = Array.from({ length: colCount }, (_, i) => table.headers[i] ?? "");
+    const headers = Array.from(
+      { length: colCount },
+      (_, i) => table.headers[i] ?? '',
+    );
     headers[col] = value;
     onChange({ ...table, headers });
   };
 
   const setCell = (rowIndex: number, col: number, value: string) => {
     const rows = table.rows.map((row) =>
-      Array.from({ length: colCount }, (_, i) => row[i] ?? ""),
+      Array.from({ length: colCount }, (_, i) => row[i] ?? ''),
     );
     rows[rowIndex][col] = value;
     onChange({ ...table, rows });
@@ -422,7 +450,7 @@ function AccordionTableEditor({
           <input
             key={`h-${col}`}
             className={`fieldInput ${styles.accordionTableHeaderInput}`}
-            value={table.headers[col] ?? ""}
+            value={table.headers[col] ?? ''}
             placeholder={`Header ${col + 1}`}
             aria-label={`Table header ${col + 1}`}
             onChange={(e) => setHeader(col, e.target.value)}
@@ -439,13 +467,15 @@ function AccordionTableEditor({
           >
             <div
               className={styles.accordionTableGrid}
-              style={{ gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))` }}
+              style={{
+                gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`,
+              }}
             >
               {Array.from({ length: colCount }, (_, col) => (
                 <input
                   key={col}
                   className="fieldInput"
-                  value={row[col] ?? ""}
+                  value={row[col] ?? ''}
                   placeholder={table.headers[col] || `Column ${col + 1}`}
                   aria-label={`Row ${rowIndex + 1}, column ${col + 1}`}
                   onChange={(e) => setCell(rowIndex, col, e.target.value)}
@@ -472,7 +502,7 @@ function AccordionTableEditor({
           onClick={() =>
             addListItem(
               table.rows,
-              Array.from({ length: colCount }, () => ""),
+              Array.from({ length: colCount }, () => ''),
               rowListKey,
               (rows) => onChange({ ...table, rows }),
             )
@@ -487,7 +517,7 @@ function AccordionTableEditor({
           <label className="fieldLabel">Footnote (optional)</label>
           <input
             className="fieldInput"
-            value={table.footnote ?? ""}
+            value={table.footnote ?? ''}
             placeholder="e.g. Values are typical"
             onChange={(e) =>
               onChange({
@@ -521,19 +551,26 @@ function SortableAccordionSection({
   onChange,
   onRemove,
 }: SortableAccordionSectionProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id,
   });
-  const contentType = item.table ? "table" : "text";
-  const paragraphs = item.paragraphs ?? [""];
+  const contentType = item.table ? 'table' : 'text';
+  const paragraphs = item.paragraphs ?? [''];
   const preview =
-    contentType === "table"
+    contentType === 'table'
       ? `${item.table?.rows.length ?? 0} table rows`
       : `${paragraphs.filter((p) => p.trim()).length || 0} paragraphs`;
   const title = item.title.trim() || `Section ${index + 1}`;
 
-  const setContentType = (type: "text" | "table") => {
-    if (type === "table") {
+  const setContentType = (type: 'text' | 'table') => {
+    if (type === 'table') {
       onChange({
         table: item.table ?? emptyAccordionTable(),
         paragraphs: undefined,
@@ -541,7 +578,7 @@ function SortableAccordionSection({
       return;
     }
     onChange({
-      paragraphs: item.paragraphs?.length ? item.paragraphs : [""],
+      paragraphs: item.paragraphs?.length ? item.paragraphs : [''],
       table: undefined,
     });
   };
@@ -550,7 +587,7 @@ function SortableAccordionSection({
     <div
       ref={setNodeRef}
       data-editor-item={id}
-      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ""}`}
+      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ''}`}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -586,13 +623,13 @@ function SortableAccordionSection({
             type="button"
             className={blockStyles.iconBtn}
             aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
-            title={expanded ? "Collapse" : "Expand"}
+            title={expanded ? 'Collapse' : 'Expand'}
             onClick={(e) => {
               e.stopPropagation();
               onToggle();
             }}
           >
-            {expanded ? "▲" : "▼"}
+            {expanded ? '▲' : '▼'}
           </button>
           <IconRemoveButton
             label={`Remove ${title}`}
@@ -619,32 +656,36 @@ function SortableAccordionSection({
             <div className="field">
               <span className="fieldLabel">Content type</span>
               <div className={styles.accordionContentType}>
-                <div className={styles.accordionTypeToggle} role="group" aria-label="Content type">
+                <div
+                  className={styles.accordionTypeToggle}
+                  role="group"
+                  aria-label="Content type"
+                >
                   <button
                     type="button"
-                    className={`${styles.accordionTypeBtn}${contentType === "text" ? ` ${styles.accordionTypeBtnActive}` : ""}`}
-                    onClick={() => setContentType("text")}
+                    className={`${styles.accordionTypeBtn}${contentType === 'text' ? ` ${styles.accordionTypeBtnActive}` : ''}`}
+                    onClick={() => setContentType('text')}
                   >
                     Text paragraphs
                   </button>
                   <button
                     type="button"
-                    className={`${styles.accordionTypeBtn}${contentType === "table" ? ` ${styles.accordionTypeBtnActive}` : ""}`}
-                    onClick={() => setContentType("table")}
+                    className={`${styles.accordionTypeBtn}${contentType === 'table' ? ` ${styles.accordionTypeBtnActive}` : ''}`}
+                    onClick={() => setContentType('table')}
                   >
                     Table
                   </button>
                 </div>
                 <p className={styles.sectionHint}>
-                  {contentType === "table"
-                    ? "Edit column headers and cell values for this section."
-                    : "Each box becomes its own paragraph on the page."}
+                  {contentType === 'table'
+                    ? 'Edit column headers and cell values for this section.'
+                    : 'Each box becomes its own paragraph on the page.'}
                 </p>
               </div>
             </div>
           </div>
 
-          {contentType === "table" && item.table ? (
+          {contentType === 'table' && item.table ? (
             <AccordionTableEditor
               table={item.table}
               sectionId={id}
@@ -675,9 +716,13 @@ function SortableAccordionSection({
                   <IconRemoveButton
                     label={`Remove paragraph ${pIndex + 1}`}
                     onClick={() => {
-                      const nextParagraphs = paragraphs.filter((_, i) => i !== pIndex);
+                      const nextParagraphs = paragraphs.filter(
+                        (_, i) => i !== pIndex,
+                      );
                       onChange({
-                        paragraphs: nextParagraphs.length ? nextParagraphs : [""],
+                        paragraphs: nextParagraphs.length
+                          ? nextParagraphs
+                          : [''],
                         table: undefined,
                       });
                     }}
@@ -690,7 +735,7 @@ function SortableAccordionSection({
                 onClick={() => {
                   const nextIndex = paragraphs.length;
                   onChange({
-                    paragraphs: [...paragraphs, ""],
+                    paragraphs: [...paragraphs, ''],
                     table: undefined,
                   });
                   scrollToEditorItem(`${id}-paragraph-${nextIndex}`);
@@ -710,8 +755,8 @@ function AccordionEditor({
   accordion,
   onChange,
 }: {
-  accordion: ChilledProductPageContent["accordion"];
-  onChange: (accordion: ChilledProductPageContent["accordion"]) => void;
+  accordion: ChilledProductPageContent['accordion'];
+  onChange: (accordion: ChilledProductPageContent['accordion']) => void;
 }) {
   const idPrefix = useId();
   const seqRef = useRef(accordion.length);
@@ -730,21 +775,27 @@ function AccordionEditor({
   );
 
   useEffect(() => {
-    setItemIds((prev) => {
-      if (prev.length === accordion.length) return prev;
-      if (prev.length < accordion.length) {
-        return [
-          ...prev,
-          ...Array.from({ length: accordion.length - prev.length }, () => createId()),
-        ];
-      }
-      return prev.slice(0, accordion.length);
+    queueMicrotask(() => {
+      setItemIds((prev) => {
+        if (prev.length === accordion.length) return prev;
+        if (prev.length < accordion.length) {
+          return [
+            ...prev,
+            ...Array.from({ length: accordion.length - prev.length }, () =>
+              createId(),
+            ),
+          ];
+        }
+        return prev.slice(0, accordion.length);
+      });
     });
   }, [accordion.length, createId]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -785,7 +836,10 @@ function AccordionEditor({
               const id = createId();
               setItemIds((prev) => [...prev, id]);
               setExpandedIds((prev) => new Set(prev).add(id));
-              onChange([...accordion, { title: "New section", paragraphs: [""] }]);
+              onChange([
+                ...accordion,
+                { title: 'New section', paragraphs: [''] },
+              ]);
               scrollToEditorItem(id);
             }}
           >
@@ -794,8 +848,8 @@ function AccordionEditor({
         </div>
       </div>
       <p className={styles.sectionHint}>
-        Drag to reorder. Each section can be either <strong>text paragraphs</strong> or a{" "}
-        <strong>table</strong>.
+        Drag to reorder. Each section can be either{' '}
+        <strong>text paragraphs</strong> or a <strong>table</strong>.
       </p>
 
       <StableDndContext
@@ -844,8 +898,8 @@ function RelatedEditor({
   related,
   onChange,
 }: {
-  related: ChilledProductPageContent["related"];
-  onChange: (related: ChilledProductPageContent["related"]) => void;
+  related: ChilledProductPageContent['related'];
+  onChange: (related: ChilledProductPageContent['related']) => void;
 }) {
   return (
     <div className="card">
@@ -855,7 +909,7 @@ function RelatedEditor({
           type="button"
           className="btn btnGhost"
           onClick={() =>
-            addListItem(related, { image: "", href: "" }, "related", onChange)
+            addListItem(related, { image: '', href: '' }, 'related', onChange)
           }
         >
           + Related
@@ -863,7 +917,11 @@ function RelatedEditor({
       </div>
       <div className={styles.listStack}>
         {related.map((item, index) => (
-          <div key={index} className={styles.listRow} data-editor-item={`related-${index}`}>
+          <div
+            key={index}
+            className={styles.listRow}
+            data-editor-item={`related-${index}`}
+          >
             <div className={styles.listRowFields}>
               <input
                 className="fieldInput"
@@ -885,7 +943,9 @@ function RelatedEditor({
                 }}
               />
             </div>
-            <RemoveButton onClick={() => onChange(related.filter((_, i) => i !== index))} />
+            <RemoveButton
+              onClick={() => onChange(related.filter((_, i) => i !== index))}
+            />
           </div>
         ))}
       </div>
@@ -912,7 +972,10 @@ function PlantPoweredFields({
               rows={2}
               value={page.hero.title}
               onChange={(e) =>
-                onChange({ ...page, hero: { ...page.hero, title: e.target.value } })
+                onChange({
+                  ...page,
+                  hero: { ...page.hero, title: e.target.value },
+                })
               }
             />
           </div>
@@ -923,7 +986,10 @@ function PlantPoweredFields({
               rows={3}
               value={page.hero.intro}
               onChange={(e) =>
-                onChange({ ...page, hero: { ...page.hero, intro: e.target.value } })
+                onChange({
+                  ...page,
+                  hero: { ...page.hero, intro: e.target.value },
+                })
               }
             />
           </div>
@@ -966,7 +1032,9 @@ function PlantPoweredFields({
 
       <div className="card">
         <h2 className="cardSectionTitle">Section backgrounds</h2>
-        <p className={styles.sectionHint}>Detail, retailer, and related-products backgrounds</p>
+        <p className={styles.sectionHint}>
+          Detail, retailer, and related-products backgrounds
+        </p>
         <div className="cardForm">
           <div className="field">
             <label className="fieldLabel">Detail background (desktop)</label>
@@ -1041,7 +1109,7 @@ function PlantPoweredFields({
         hint="Body copy paragraphs shown on the product detail section."
         addLabel="+ Paragraph"
         rows={5}
-        values={Array.isArray(page.description) ? [...page.description] : [page.description]}
+        values={descriptionParagraphs(page.description)}
         onChange={(description) => onChange({ ...page, description })}
       />
 
@@ -1054,8 +1122,8 @@ function PlantPoweredFields({
             onClick={() =>
               addListItem(
                 page.carousel,
-                { src: "", alt: "", width: 800, height: 800 },
-                "carousel",
+                { src: '', alt: '', width: 800, height: 800 },
+                'carousel',
                 (carousel) => onChange({ ...page, carousel }),
               )
             }
@@ -1065,7 +1133,11 @@ function PlantPoweredFields({
         </div>
         <div className={styles.listStack}>
           {page.carousel.map((slide, index) => (
-            <div key={index} className={styles.listRow} data-editor-item={`carousel-${index}`}>
+            <div
+              key={index}
+              className={styles.listRow}
+              data-editor-item={`carousel-${index}`}
+            >
               <div className={styles.listRowFields}>
                 <ImageField
                   value={slide.src}
@@ -1186,8 +1258,8 @@ function PlantPoweredFields({
             onClick={() =>
               addListItem(
                 page.waysToServe,
-                { title: "", href: "", image: "" },
-                "ways-to-serve",
+                { title: '', href: '', image: '' },
+                'ways-to-serve',
                 (waysToServe) => onChange({ ...page, waysToServe }),
               )
             }
@@ -1273,7 +1345,10 @@ function ChilledFields({
               rows={2}
               value={page.hero.title}
               onChange={(e) =>
-                onChange({ ...page, hero: { ...page.hero, title: e.target.value } })
+                onChange({
+                  ...page,
+                  hero: { ...page.hero, title: e.target.value },
+                })
               }
             />
           </div>
@@ -1284,7 +1359,10 @@ function ChilledFields({
               rows={3}
               value={page.hero.intro}
               onChange={(e) =>
-                onChange({ ...page, hero: { ...page.hero, intro: e.target.value } })
+                onChange({
+                  ...page,
+                  hero: { ...page.hero, intro: e.target.value },
+                })
               }
             />
           </div>
@@ -1327,7 +1405,9 @@ function ChilledFields({
 
       <div className="card">
         <h2 className="cardSectionTitle">Section backgrounds</h2>
-        <p className={styles.sectionHint}>Detail, retailer, and related-products backgrounds</p>
+        <p className={styles.sectionHint}>
+          Detail, retailer, and related-products backgrounds
+        </p>
         <div className="cardForm">
           <div className="field">
             <label className="fieldLabel">Detail background (desktop)</label>
@@ -1381,11 +1461,11 @@ function ChilledFields({
               }
             />
           </div>
-          {"tescoLogo" in page.assets ? (
+          {'tescoLogo' in page.assets ? (
             <div className="field">
               <label className="fieldLabel">Tesco logo</label>
               <ImageField
-                value={page.assets.tescoLogo ?? ""}
+                value={page.assets.tescoLogo ?? ''}
                 showAlt={false}
                 onChange={(src) =>
                   onChange({
@@ -1411,8 +1491,11 @@ function ChilledFields({
             type="button"
             className="btn btnGhost"
             onClick={() =>
-              addListItem(page.carousel, { src: "", alt: "" }, "carousel", (carousel) =>
-                onChange({ ...page, carousel }),
+              addListItem(
+                page.carousel,
+                { src: '', alt: '' },
+                'carousel',
+                (carousel) => onChange({ ...page, carousel }),
               )
             }
           >
@@ -1421,7 +1504,11 @@ function ChilledFields({
         </div>
         <div className={styles.listStack}>
           {page.carousel.map((slide, index) => (
-            <div key={index} className={styles.listRow} data-editor-item={`carousel-${index}`}>
+            <div
+              key={index}
+              className={styles.listRow}
+              data-editor-item={`carousel-${index}`}
+            >
               <div className={styles.listRowFields}>
                 <ImageField
                   value={slide.src}
@@ -1458,8 +1545,11 @@ function ChilledFields({
             type="button"
             className="btn btnGhost"
             onClick={() =>
-              addListItem(page.badges, { src: "", alt: "" }, "badge", (badges) =>
-                onChange({ ...page, badges }),
+              addListItem(
+                page.badges,
+                { src: '', alt: '' },
+                'badge',
+                (badges) => onChange({ ...page, badges }),
               )
             }
           >
@@ -1468,7 +1558,11 @@ function ChilledFields({
         </div>
         <div className={styles.listStack}>
           {page.badges.map((badge, index) => (
-            <div key={index} className={styles.listRow} data-editor-item={`badge-${index}`}>
+            <div
+              key={index}
+              className={styles.listRow}
+              data-editor-item={`badge-${index}`}
+            >
               <div className={styles.listRowFields}>
                 <ImageField
                   value={badge.src}
@@ -1523,7 +1617,7 @@ function ChilledFields({
             <label className="fieldLabel">Logo link URL</label>
             <input
               className="fieldInput"
-              value={page.retailer.logoHref ?? ""}
+              value={page.retailer.logoHref ?? ''}
               onChange={(e) =>
                 onChange({
                   ...page,
@@ -1562,7 +1656,10 @@ function FrozenFields({
               rows={2}
               value={page.hero.title}
               onChange={(e) =>
-                onChange({ ...page, hero: { ...page.hero, title: e.target.value } })
+                onChange({
+                  ...page,
+                  hero: { ...page.hero, title: e.target.value },
+                })
               }
             />
           </div>
@@ -1573,7 +1670,10 @@ function FrozenFields({
               rows={3}
               value={page.hero.intro}
               onChange={(e) =>
-                onChange({ ...page, hero: { ...page.hero, intro: e.target.value } })
+                onChange({
+                  ...page,
+                  hero: { ...page.hero, intro: e.target.value },
+                })
               }
             />
           </div>
@@ -1616,7 +1716,9 @@ function FrozenFields({
 
       <div className="card">
         <h2 className="cardSectionTitle">Section backgrounds</h2>
-        <p className={styles.sectionHint}>Detail, retailer, and related-products backgrounds</p>
+        <p className={styles.sectionHint}>
+          Detail, retailer, and related-products backgrounds
+        </p>
         <div className="cardForm">
           <div className="field">
             <label className="fieldLabel">Detail background (desktop)</label>
@@ -1673,7 +1775,7 @@ function FrozenFields({
           <div className="field">
             <label className="fieldLabel">Cloud left</label>
             <ImageField
-              value={page.assets.cloudLeft ?? ""}
+              value={page.assets.cloudLeft ?? ''}
               showAlt={false}
               onChange={(src) =>
                 onChange({
@@ -1686,7 +1788,7 @@ function FrozenFields({
           <div className="field">
             <label className="fieldLabel">Cloud right</label>
             <ImageField
-              value={page.assets.cloudRight ?? ""}
+              value={page.assets.cloudRight ?? ''}
               showAlt={false}
               onChange={(src) =>
                 onChange({
@@ -1711,8 +1813,11 @@ function FrozenFields({
             type="button"
             className="btn btnGhost"
             onClick={() =>
-              addListItem(page.carousel, { src: "", alt: "" }, "carousel", (carousel) =>
-                onChange({ ...page, carousel }),
+              addListItem(
+                page.carousel,
+                { src: '', alt: '' },
+                'carousel',
+                (carousel) => onChange({ ...page, carousel }),
               )
             }
           >
@@ -1721,7 +1826,11 @@ function FrozenFields({
         </div>
         <div className={styles.listStack}>
           {page.carousel.map((slide, index) => (
-            <div key={index} className={styles.listRow} data-editor-item={`carousel-${index}`}>
+            <div
+              key={index}
+              className={styles.listRow}
+              data-editor-item={`carousel-${index}`}
+            >
               <div className={styles.listRowFields}>
                 <ImageField
                   value={slide.src}
@@ -1758,8 +1867,11 @@ function FrozenFields({
             type="button"
             className="btn btnGhost"
             onClick={() =>
-              addListItem(page.badges, { src: "", alt: "" }, "badge", (badges) =>
-                onChange({ ...page, badges }),
+              addListItem(
+                page.badges,
+                { src: '', alt: '' },
+                'badge',
+                (badges) => onChange({ ...page, badges }),
               )
             }
           >
@@ -1768,7 +1880,11 @@ function FrozenFields({
         </div>
         <div className={styles.listStack}>
           {page.badges.map((badge, index) => (
-            <div key={index} className={styles.listRow} data-editor-item={`badge-${index}`}>
+            <div
+              key={index}
+              className={styles.listRow}
+              data-editor-item={`badge-${index}`}
+            >
               <div className={styles.listRowFields}>
                 <ImageField
                   value={badge.src}
@@ -1836,7 +1952,7 @@ export function ProductPageFields({
   onPreviewVariantChange,
   productSlug,
 }: ProductPageFieldsProps) {
-  if (page.kind === "tableware") {
+  if (page.kind === 'tableware') {
     return (
       <TablewareFields
         page={page}
@@ -1846,13 +1962,13 @@ export function ProductPageFields({
       />
     );
   }
-  if (page.kind === "australia-frozen") {
+  if (page.kind === 'australia-frozen') {
     return <AustraliaFrozenFields page={page} onChange={onChange} />;
   }
-  if (page.kind === "plant-powered-bites") {
+  if (page.kind === 'plant-powered-bites') {
     return <PlantPoweredFields page={page} onChange={onChange} />;
   }
-  if (page.kind === "frozen-meals") {
+  if (page.kind === 'frozen-meals') {
     return <FrozenFields page={page} onChange={onChange} />;
   }
   return <ChilledFields page={page} onChange={onChange} />;

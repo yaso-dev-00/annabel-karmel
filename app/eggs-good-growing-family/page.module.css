@@ -32,7 +32,7 @@
   color: var(--hover-color);
 }
 
-.infoText a:hover{
+.infoText a:hover {
   color: var(--hover-color);
 }
 .infoHeading {
@@ -88,8 +88,6 @@
   .relatedText {
     padding: 0 10px;
   }
-
- 
 
   .relatedText {
     font-size: 17px;

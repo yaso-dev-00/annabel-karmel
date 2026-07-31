@@ -39,10 +39,9 @@
   font-weight: 900;
   color: #3a3a3a;
 }
- 
- a:hover {
-  color:var(--hover-color) !important;
- 
+
+a:hover {
+  color: var(--hover-color) !important;
 }
 
 .accordionRow {
@@ -134,8 +133,7 @@
   list-style: disc;
 }
 
-.accordionBodyText + .accordionList
- { 
+.accordionBodyText + .accordionList {
   margin-top: 20px;
 }
 
@@ -194,7 +192,6 @@
     padding: 0 10px;
   }
 
-  
   /* .infoNote {
     font-size: 36px;
   } */

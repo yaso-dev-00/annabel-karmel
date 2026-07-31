@@ -1,19 +1,22 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { veggieRecipes, veggiesIntro } from "@/data/get-kids-eating-vegetables-page";
-import { getRelatedArticles } from "@/data/related-articles";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import {
+  veggieRecipes,
+  veggiesIntro,
+} from '@/data/get-kids-eating-vegetables-page';
+import { getRelatedArticles } from '@/data/related-articles';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "10 Recipes Guaranteed To Get Kids Eating Vegetables | Annabel Karmel",
+  title: '10 Recipes Guaranteed To Get Kids Eating Vegetables | Annabel Karmel',
   description:
-    "Tasty yet effective mealtime picks to get kids to love their veg! From veggie croquettes to hidden veg bolognese — recipes kids will actually eat.",
+    'Tasty yet effective mealtime picks to get kids to love their veg! From veggie croquettes to hidden veg bolognese — recipes kids will actually eat.',
 };
 
-const relatedArticles = getRelatedArticles("/get-kids-eating-vegetables");
+const relatedArticles = getRelatedArticles('/get-kids-eating-vegetables');
 
 export default function GetKidsEatingVegetablesPage() {
   return (
@@ -25,19 +28,33 @@ export default function GetKidsEatingVegetablesPage() {
 
           <div className="mt-[40px]! space-y-[60px]">
             {veggieRecipes.map((recipe) => (
-              <section key={recipe.title} style={{ background: "#f3ebee" }}>
+              <section key={recipe.title} style={{ background: '#f3ebee' }}>
                 <a href={recipe.href} target="_blank" rel="noopener noreferrer">
-                  <img src={recipe.image} alt={recipe.imageAlt} className="w-full" />
+                  <img
+                    src={recipe.image}
+                    alt={recipe.imageAlt}
+                    className="w-full"
+                  />
                 </a>
-                <div style={{ padding: "16px 21px" }} className="pb-[21px]! pt-[10px] text-center">
+                <div
+                  style={{ padding: '16px 21px' }}
+                  className="pb-[21px]! pt-[10px] text-center"
+                >
                   <h2 className={styles.cardTitle}>{recipe.title}</h2>
                   <p className={`${styles.cardExcerpt} mt-[10px]!`}>
                     {recipe.body}
                     <br />
-                    <span className={styles.postViews}>Post Views: {recipe.postViews}</span>
+                    <span className={styles.postViews}>
+                      Post Views: {recipe.postViews}
+                    </span>
                   </p>
                   <div className="mt-[20px] text-center">
-                    <a href={recipe.href} target="_blank" rel="noopener noreferrer" className={styles.readMore}>
+                    <a
+                      href={recipe.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.readMore}
+                    >
                       Read More
                     </a>
                   </div>
@@ -48,7 +65,9 @@ export default function GetKidsEatingVegetablesPage() {
 
           <div className="mt-[70px] text-center">
             <h2 className={styles.relatedTitle}>Related Articles</h2>
-            <p className={styles.relatedText}>Some more articles you might enjoy...</p>
+            <p className={styles.relatedText}>
+              Some more articles you might enjoy...
+            </p>
           </div>
         </article>
 

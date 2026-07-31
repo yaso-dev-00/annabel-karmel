@@ -1,1 +1,1 @@
-export * from "./marketing-primitives";
+export * from './marketing-primitives';

@@ -1,7 +1,14 @@
-import type { CSSProperties } from "react";
-import type { CustomFormSchema, FormField, FormGlobalStyle } from "@/lib/content-blocks/form-schema";
-import { fieldStyleToCss, isInteractiveChoiceField } from "@/lib/content-blocks/form-schema";
-import styles from "./cms-custom-form.module.css";
+import type { CSSProperties } from 'react';
+import type {
+  CustomFormSchema,
+  FormField,
+  FormGlobalStyle,
+} from '@/lib/content-blocks/form-schema';
+import {
+  fieldStyleToCss,
+  isInteractiveChoiceField,
+} from '@/lib/content-blocks/form-schema';
+import styles from './cms-custom-form.module.css';
 
 type CmsCustomFormProps = {
   schema: CustomFormSchema;
@@ -18,13 +25,13 @@ function globalStyleToCss(global?: FormGlobalStyle): CSSProperties {
     gap: global.gap,
     borderRadius: global.borderRadius,
     border: global.borderColor ? `1px solid ${global.borderColor}` : undefined,
-    ["--form-label-color" as string]: global.labelColor,
-    ["--form-border-color" as string]: global.borderColor,
+    ['--form-label-color' as string]: global.labelColor,
+    ['--form-border-color' as string]: global.borderColor,
   };
 }
 
 function fieldRequired(field: FormField): boolean {
-  return Boolean(field.validation?.some((rule) => rule.type === "required"));
+  return Boolean(field.validation?.some((rule) => rule.type === 'required'));
 }
 
 function renderControl(field: FormField, previewMode?: boolean) {
@@ -33,7 +40,7 @@ function renderControl(field: FormField, previewMode?: boolean) {
   const disabled = previewMode && !isInteractiveChoiceField(field.type);
 
   switch (field.type) {
-    case "textarea":
+    case 'textarea':
       return (
         <textarea
           className={styles.control}
@@ -46,7 +53,7 @@ function renderControl(field: FormField, previewMode?: boolean) {
           rows={4}
         />
       );
-    case "select":
+    case 'select':
       return (
         <select
           className={styles.control}
@@ -56,7 +63,7 @@ function renderControl(field: FormField, previewMode?: boolean) {
           required={fieldRequired(field)}
           disabled={disabled}
         >
-          <option value="">{field.placeholder ?? "Select…"}</option>
+          <option value="">{field.placeholder ?? 'Select…'}</option>
           {field.options?.map((option) => (
             <option key={option.id} value={option.value}>
               {option.label}
@@ -64,7 +71,7 @@ function renderControl(field: FormField, previewMode?: boolean) {
           ))}
         </select>
       );
-    case "checkbox": {
+    case 'checkbox': {
       const options = field.options ?? [];
       if (options.length === 0) {
         return (
@@ -77,7 +84,7 @@ function renderControl(field: FormField, previewMode?: boolean) {
               required={fieldRequired(field)}
               disabled={disabled}
             />
-            <span>{field.label ?? "Checkbox"}</span>
+            <span>{field.label ?? 'Checkbox'}</span>
           </label>
         );
       }
@@ -99,7 +106,7 @@ function renderControl(field: FormField, previewMode?: boolean) {
         </div>
       );
     }
-    case "radio":
+    case 'radio':
       return (
         <div className={styles.choiceGroup}>
           {field.options?.map((option) => (
@@ -117,17 +124,19 @@ function renderControl(field: FormField, previewMode?: boolean) {
           ))}
         </div>
       );
-    case "button": {
+    case 'button': {
       const variant =
-        field.buttonVariant === "secondary" ? styles.buttonSecondary : styles.buttonPrimary;
+        field.buttonVariant === 'secondary'
+          ? styles.buttonSecondary
+          : styles.buttonPrimary;
       return (
         <button
-          type={field.buttonAction ?? "submit"}
+          type={field.buttonAction ?? 'submit'}
           className={`${styles.button} ${variant}`}
           style={style}
-          disabled={disabled && field.buttonAction === "submit"}
+          disabled={disabled && field.buttonAction === 'submit'}
         >
-          {field.label ?? "Submit"}
+          {field.label ?? 'Submit'}
         </button>
       );
     }
@@ -147,7 +156,11 @@ function renderControl(field: FormField, previewMode?: boolean) {
   }
 }
 
-export function CmsCustomForm({ schema, previewMode, chromeStyle }: CmsCustomFormProps) {
+export function CmsCustomForm({
+  schema,
+  previewMode,
+  chromeStyle,
+}: CmsCustomFormProps) {
   const formStyle = {
     ...globalStyleToCss(schema.globalStyle),
     ...chromeStyle,
@@ -158,16 +171,22 @@ export function CmsCustomForm({ schema, previewMode, chromeStyle }: CmsCustomFor
       className={styles.form}
       style={formStyle}
       action={schema.action}
-      method={schema.method ?? "post"}
+      method={schema.method ?? 'post'}
       onSubmit={previewMode ? (e) => e.preventDefault() : undefined}
       noValidate={previewMode}
     >
-      {schema.title ? <h3 className={styles.formTitle}>{schema.title}</h3> : null}
-      {schema.description ? <p className={styles.formDescription}>{schema.description}</p> : null}
+      {schema.title ? (
+        <h3 className={styles.formTitle}>{schema.title}</h3>
+      ) : null}
+      {schema.description ? (
+        <p className={styles.formDescription}>{schema.description}</p>
+      ) : null}
 
       {schema.sections.map((section) => (
         <section key={section.id} className={styles.section}>
-          {section.title ? <h4 className={styles.sectionTitle}>{section.title}</h4> : null}
+          {section.title ? (
+            <h4 className={styles.sectionTitle}>{section.title}</h4>
+          ) : null}
           {section.description ? (
             <p className={styles.sectionDescription}>{section.description}</p>
           ) : null}
@@ -176,25 +195,31 @@ export function CmsCustomForm({ schema, previewMode, chromeStyle }: CmsCustomFor
             <div
               key={row.id}
               className={styles.row}
-              style={{ ["--form-row-cols" as string]: row.columns }}
+              style={{ ['--form-row-cols' as string]: row.columns }}
             >
               {row.fields.map((field) => {
                 const span = field.columnSpan ?? 1;
-                const isButton = field.type === "button";
+                const isButton = field.type === 'button';
                 return (
                   <div
                     key={field.id}
-                    className={`${styles.field} ${isButton ? styles.fieldButton : ""}`}
-                    style={{ gridColumn: `span ${Math.min(span, row.columns)}` }}
+                    className={`${styles.field} ${isButton ? styles.fieldButton : ''}`}
+                    style={{
+                      gridColumn: `span ${Math.min(span, row.columns)}`,
+                    }}
                   >
-                    {field.label && !isButton && field.type !== "checkbox" ? (
+                    {field.label && !isButton && field.type !== 'checkbox' ? (
                       <label className={styles.label} htmlFor={field.id}>
                         {field.label}
-                        {fieldRequired(field) ? <span className={styles.required}> *</span> : null}
+                        {fieldRequired(field) ? (
+                          <span className={styles.required}> *</span>
+                        ) : null}
                       </label>
                     ) : null}
                     {renderControl(field, previewMode)}
-                    {field.helpText ? <p className={styles.helpText}>{field.helpText}</p> : null}
+                    {field.helpText ? (
+                      <p className={styles.helpText}>{field.helpText}</p>
+                    ) : null}
                   </div>
                 );
               })}

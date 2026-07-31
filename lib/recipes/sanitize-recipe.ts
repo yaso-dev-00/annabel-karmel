@@ -1,7 +1,7 @@
-import type { RecipeTaxonomyKind } from "@/data/recipe-taxonomies";
-import { RECIPE_TAXONOMY_KINDS } from "@/data/recipe-taxonomies";
-import { normalizeRecipeCookingFields } from "@/lib/recipes/recipe-cooking-field-format";
-import { normalizeRecipe } from "@/lib/admin/recipe-status";
+import type { RecipeTaxonomyKind } from '@/data/recipe-taxonomies';
+import { RECIPE_TAXONOMY_KINDS } from '@/data/recipe-taxonomies';
+import { normalizeRecipeCookingFields } from '@/lib/recipes/recipe-cooking-field-format';
+import { normalizeRecipe } from '@/lib/admin/recipe-status';
 import {
   RECIPE_DIFFICULTIES,
   RECIPE_INGREDIENT_UNITS,
@@ -21,35 +21,39 @@ import {
   type RecipeVisibility,
   type RecipeYieldType,
   type RecipesStore,
-} from "@/lib/recipes/types";
+} from '@/lib/recipes/types';
 
 const TAXONOMY_KINDS: RecipeTaxonomyKind[] = [...RECIPE_TAXONOMY_KINDS];
 const DIFFICULTY_VALUES = new Set(RECIPE_DIFFICULTIES.map((d) => d.value));
 const UNIT_VALUES = new Set(RECIPE_INGREDIENT_UNITS);
 const YIELD_TYPE_VALUES = new Set(RECIPE_YIELD_TYPES.map((y) => y.value));
-const VIDEO_PROVIDER_VALUES = new Set(RECIPE_VIDEO_PROVIDERS.map((v) => v.value));
+const VIDEO_PROVIDER_VALUES = new Set(
+  RECIPE_VIDEO_PROVIDERS.map((v) => v.value),
+);
 
 /** ISO 8601 duration like PT15M, PT1H30M, PT2H */
 const ISO_DURATION = /^PT(?:\d+H)?(?:\d+M)?(?:\d+S)?$/i;
 
-function trimString(value: unknown, fallback = ""): string {
-  return typeof value === "string" ? value.trim() : fallback;
+function trimString(value: unknown, fallback = ''): string {
+  return typeof value === 'string' ? value.trim() : fallback;
 }
 
 /** Preserve internal whitespace for HTML fields; only trim ends. */
 function trimHtml(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === 'string' ? value.trim() : '';
 }
 
 function sanitizeIngredient(raw: unknown): RecipeIngredient | null {
-  if (!raw || typeof raw !== "object") return null;
+  if (!raw || typeof raw !== 'object') return null;
   const input = raw as Record<string, unknown>;
   const item = trimString(input.item);
   if (!item) return null;
-  const unitRaw = trimString(input.unit, "g").toLowerCase();
-  const unit = UNIT_VALUES.has(unitRaw as (typeof RECIPE_INGREDIENT_UNITS)[number])
+  const unitRaw = trimString(input.unit, 'g').toLowerCase();
+  const unit = UNIT_VALUES.has(
+    unitRaw as (typeof RECIPE_INGREDIENT_UNITS)[number],
+  )
     ? unitRaw
-    : "g";
+    : 'g';
   return {
     qty: trimString(input.qty),
     unit,
@@ -61,7 +65,7 @@ function formatLegacyIngredient(ingredient: RecipeIngredient): string {
   const qty = ingredient.qty.trim();
   const unit = ingredient.unit.trim();
   const item = ingredient.item.trim();
-  if (qty && unit) return `${qty}${unit} ${item}`.replace(/\s+/g, " ").trim();
+  if (qty && unit) return `${qty}${unit} ${item}`.replace(/\s+/g, ' ').trim();
   if (qty) return `${qty} ${item}`.trim();
   return item;
 }
@@ -69,10 +73,10 @@ function formatLegacyIngredient(ingredient: RecipeIngredient): string {
 function parseItemLines(raw: unknown): string[] {
   if (Array.isArray(raw)) {
     return raw
-      .map((line) => (typeof line === "string" ? line.trim() : ""))
+      .map((line) => (typeof line === 'string' ? line.trim() : ''))
       .filter(Boolean);
   }
-  if (typeof raw === "string") {
+  if (typeof raw === 'string') {
     return raw
       .split(/\r?\n/)
       .map((line) => line.trim())
@@ -81,13 +85,17 @@ function parseItemLines(raw: unknown): string[] {
   return [];
 }
 
-function sanitizeIngredientSection(raw: unknown): RecipeIngredientSection | null {
-  if (!raw || typeof raw !== "object") return null;
+function sanitizeIngredientSection(
+  raw: unknown,
+): RecipeIngredientSection | null {
+  if (!raw || typeof raw !== 'object') return null;
   const input = raw as Record<string, unknown>;
 
-  if ("items" in input || "ingredients" in input || "title" in input) {
+  if ('items' in input || 'ingredients' in input || 'title' in input) {
     const title = trimString(input.title);
-    const items = parseItemLines(input.items ?? input.ingredients ?? input.lines);
+    const items = parseItemLines(
+      input.items ?? input.ingredients ?? input.lines,
+    );
     if (!title && items.length === 0) return null;
     return { title, items };
   }
@@ -103,21 +111,21 @@ function sanitizeIngredientSection(raw: unknown): RecipeIngredientSection | null
 function sanitizeIngredientSections(raw: unknown): RecipeIngredientSection[] {
   if (!Array.isArray(raw) || raw.length === 0) return [];
 
-  const first = raw[0];
+  const first: unknown = raw[0];
   const looksLegacy =
-    first &&
-    typeof first === "object" &&
-    ("qty" in (first as object) || "unit" in (first as object) || "item" in (first as object)) &&
-    !("items" in (first as object)) &&
-    !("ingredients" in (first as object)) &&
-    !("title" in (first as object));
+    first !== null &&
+    typeof first === 'object' &&
+    ('qty' in first || 'unit' in first || 'item' in first) &&
+    !('items' in first) &&
+    !('ingredients' in first) &&
+    !('title' in first);
 
   if (looksLegacy) {
     const lines = raw.flatMap((row) => {
       const ingredient = sanitizeIngredient(row);
       return ingredient ? [formatLegacyIngredient(ingredient)] : [];
     });
-    return lines.length > 0 ? [{ title: "", items: lines }] : [];
+    return lines.length > 0 ? [{ title: '', items: lines }] : [];
   }
 
   return raw.flatMap((row) => {
@@ -131,7 +139,7 @@ function countIngredientItems(sections: RecipeIngredientSection[]): number {
 }
 
 function sanitizeStep(raw: unknown): RecipeStep | null {
-  if (!raw || typeof raw !== "object") return null;
+  if (!raw || typeof raw !== 'object') return null;
   const input = raw as Record<string, unknown>;
   const text = trimString(input.text);
   if (!text) return null;
@@ -145,7 +153,7 @@ function sanitizeStep(raw: unknown): RecipeStep | null {
 }
 
 function sanitizeTaxonomyRef(raw: unknown): RecipeTaxonomyRef | null {
-  if (!raw || typeof raw !== "object") return null;
+  if (!raw || typeof raw !== 'object') return null;
   const input = raw as Record<string, unknown>;
   const kind = trimString(input.kind) as RecipeTaxonomyKind;
   const slug = trimString(input.slug);
@@ -208,13 +216,14 @@ function normalizePrimaryFlags(refs: RecipeTaxonomyRef[]): RecipeTaxonomyRef[] {
 
 function sanitizeVisibility(raw: unknown): RecipeVisibility {
   const value = trimString(raw).toLowerCase();
-  if (value === "mobile" || value === "desktop" || value === "both") return value;
-  return "both";
+  if (value === 'mobile' || value === 'desktop' || value === 'both')
+    return value;
+  return 'both';
 }
 
 function sanitizeDifficulty(raw: unknown): RecipeDifficulty {
   const value = trimString(raw).toLowerCase() as RecipeDifficulty;
-  return DIFFICULTY_VALUES.has(value) ? value : "medium";
+  return DIFFICULTY_VALUES.has(value) ? value : 'medium';
 }
 
 function sanitizeStepList(raw: unknown): RecipeStep[] {
@@ -226,7 +235,7 @@ function sanitizeStepList(raw: unknown): RecipeStep[] {
 }
 
 function sanitizeMedia(raw: unknown): RecipeMedia | null {
-  if (!raw || typeof raw !== "object") return null;
+  if (!raw || typeof raw !== 'object') return null;
   const input = raw as Record<string, unknown>;
   const src = trimString(input.src);
   if (!src) return null;
@@ -261,12 +270,17 @@ function sanitizeYieldType(raw: unknown): RecipeYieldType | undefined {
 }
 
 function sanitizeVideo(raw: unknown): RecipeVideo | undefined {
-  if (!raw || typeof raw !== "object") return undefined;
+  if (!raw || typeof raw !== 'object') return undefined;
   const input = raw as Record<string, unknown>;
   const url = trimString(input.url);
   if (!url) return undefined;
-  const providerRaw = trimString(input.provider, "youtube").toLowerCase() as RecipeVideoProvider;
-  const provider = VIDEO_PROVIDER_VALUES.has(providerRaw) ? providerRaw : "youtube";
+  const providerRaw = trimString(
+    input.provider,
+    'youtube',
+  ).toLowerCase() as RecipeVideoProvider;
+  const provider = VIDEO_PROVIDER_VALUES.has(providerRaw)
+    ? providerRaw
+    : 'youtube';
   const caption = trimString(input.caption);
   const poster = trimString(input.poster);
   return {
@@ -278,7 +292,7 @@ function sanitizeVideo(raw: unknown): RecipeVideo | undefined {
 }
 
 function sanitizeSchema(raw: unknown): RecipeSchema | undefined {
-  if (!raw || typeof raw !== "object") return undefined;
+  if (!raw || typeof raw !== 'object') return undefined;
   const input = raw as Record<string, unknown>;
   const schema: RecipeSchema = {
     aggregate_rating: trimString(input.aggregate_rating) || undefined,
@@ -293,7 +307,7 @@ function sanitizeSchema(raw: unknown): RecipeSchema | undefined {
 }
 
 function sanitizeSponsor(raw: unknown): RecipeSponsor | undefined {
-  if (!raw || typeof raw !== "object") return undefined;
+  if (!raw || typeof raw !== 'object') return undefined;
   const input = raw as Record<string, unknown>;
   const sponsor: RecipeSponsor = {
     name: trimString(input.name) || undefined,
@@ -306,15 +320,15 @@ function sanitizeSponsor(raw: unknown): RecipeSponsor | undefined {
 }
 
 export function sanitizeRecipe(raw: unknown): Recipe {
-  if (!raw || typeof raw !== "object") {
-    throw new Error("Invalid recipe payload");
+  if (!raw || typeof raw !== 'object') {
+    throw new Error('Invalid recipe payload');
   }
 
   const input = raw as Record<string, unknown>;
   const slug = trimString(input.slug);
   const title = trimString(input.title);
-  if (!slug) throw new Error("Recipe slug is required");
-  if (!title) throw new Error("Recipe title is required");
+  if (!slug) throw new Error('Recipe slug is required');
+  if (!title) throw new Error('Recipe title is required');
 
   const ingredients = sanitizeIngredientSections(input.ingredients);
   const method = sanitizeStepList(input.method);
@@ -376,7 +390,7 @@ export function sanitizeRecipe(raw: unknown): Recipe {
     seo_description: trimString(input.seo_description),
     focus_keyphrase: trimString(input.focus_keyphrase) || undefined,
     noindex: Boolean(input.noindex),
-    status: input.status as Recipe["status"],
+    status: input.status as Recipe['status'],
     scheduled_at: (input.scheduled_at as string | null | undefined) ?? null,
     published_at: (input.published_at as string | null | undefined) ?? null,
     updated_at: trimString(input.updated_at) || new Date().toISOString(),
@@ -409,7 +423,7 @@ export function sanitizeRecipe(raw: unknown): Recipe {
 }
 
 export function sanitizeRecipesStore(raw: unknown): RecipesStore {
-  if (!raw || typeof raw !== "object") {
+  if (!raw || typeof raw !== 'object') {
     return { recipes: [] };
   }
   const store = raw as Record<string, unknown>;
@@ -428,29 +442,36 @@ export function sanitizeRecipesStore(raw: unknown): RecipesStore {
 
 function isValidIsoDuration(value: string): boolean {
   if (!value) return true;
-  return ISO_DURATION.test(value) && value.toUpperCase() !== "PT";
+  return ISO_DURATION.test(value) && value.toUpperCase() !== 'PT';
 }
 
 export function validateRecipeForPublish(recipe: Recipe): string | null {
-  if (!recipe.title.trim()) return "Title is required to publish.";
-  if (!recipe.slug.trim()) return "Slug is required to publish.";
-  if (!recipe.featured_image.trim()) return "Featured image is required to publish.";
-  if (!recipe.prep_time.trim()) return "Prep time is required to publish.";
-  if (!recipe.cook_time.trim()) return "Cook time is required to publish.";
+  if (!recipe.title.trim()) return 'Title is required to publish.';
+  if (!recipe.slug.trim()) return 'Slug is required to publish.';
+  if (!recipe.featured_image.trim())
+    return 'Featured image is required to publish.';
+  if (!recipe.prep_time.trim()) return 'Prep time is required to publish.';
+  if (!recipe.cook_time.trim()) return 'Cook time is required to publish.';
   if (countIngredientItems(recipe.ingredients) < 1) {
-    return "Add at least one ingredient to publish.";
+    return 'Add at least one ingredient to publish.';
   }
   if (recipe.method.filter((step) => step.text.trim()).length < 1) {
-    return "Add at least one method step to publish.";
+    return 'Add at least one method step to publish.';
   }
-  if (recipe.status === "scheduled" && !recipe.scheduled_at) {
-    return "Scheduled recipes need a publish date.";
+  if (recipe.status === 'scheduled' && !recipe.scheduled_at) {
+    return 'Scheduled recipes need a publish date.';
   }
-  if (recipe.schema?.cooking_time && !isValidIsoDuration(recipe.schema.cooking_time)) {
-    return "Schema cooking time must use ISO 8601 format (e.g. PT15M).";
+  if (
+    recipe.schema?.cooking_time &&
+    !isValidIsoDuration(recipe.schema.cooking_time)
+  ) {
+    return 'Schema cooking time must use ISO 8601 format (e.g. PT15M).';
   }
-  if (recipe.schema?.preparation_time && !isValidIsoDuration(recipe.schema.preparation_time)) {
-    return "Schema preparation time must use ISO 8601 format (e.g. PT15M).";
+  if (
+    recipe.schema?.preparation_time &&
+    !isValidIsoDuration(recipe.schema.preparation_time)
+  ) {
+    return 'Schema preparation time must use ISO 8601 format (e.g. PT15M).';
   }
   return null;
 }

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import type { RecipeStep } from "@/lib/recipes/types";
-import styles from "./recipe-editor.module.css";
+import type { RecipeStep } from '@/lib/recipes/types';
+import styles from './recipe-editor.module.css';
 
 type RecipeMethodEditorProps = {
   steps: RecipeStep[];
@@ -31,15 +31,20 @@ export function RecipeMethodEditor({
   heading,
 }: RecipeMethodEditorProps) {
   const fieldId = `${idPrefix}-method-steps`;
-  const value = steps.map((step) => step.text).join("\n");
+  const value = steps.map((step) => step.text).join('\n');
   const stepCount = steps.filter((step) => step.text.trim()).length;
 
   return (
     <div className={styles.ingredientLocaleColumn}>
-      {heading ? <h3 className={styles.ingredientLocaleHeading}>{heading}</h3> : null}
+      {heading ? (
+        <h3 className={styles.ingredientLocaleHeading}>{heading}</h3>
+      ) : null}
       <div className="field">
         <label className="fieldLabel" htmlFor={fieldId}>
-          Steps <span className={styles.requiredMark} aria-hidden>*</span>
+          Steps{' '}
+          <span className={styles.requiredMark} aria-hidden>
+            *
+          </span>
         </label>
         <p className={styles.sectionHint}>Add method steps, one per line</p>
         <textarea
@@ -49,7 +54,7 @@ export function RecipeMethodEditor({
           value={value}
           onChange={(e) => onChange(linesToSteps(e.target.value, steps))}
           placeholder={
-            "Preheat the oven to 180C Fan.\nBlend until smooth.\nBake for 10 minutes until pale golden."
+            'Preheat the oven to 180C Fan.\nBlend until smooth.\nBake for 10 minutes until pale golden.'
           }
           aria-required="true"
         />

@@ -74,11 +74,10 @@
 .link {
   color: #3f3841;
   font-weight: 700;
-  
 }
 
 .link:hover {
-  color: var(--hover-color)!important;
+  color: var(--hover-color) !important;
 }
 
 .postViews {
@@ -119,9 +118,9 @@
     padding: 8px 14px 40px;
   }
 
-   .accordionSummary{
+  .accordionSummary {
     font-size: 20px;
-   }
+  }
 
   .relatedText {
     font-size: 17px;

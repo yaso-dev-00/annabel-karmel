@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
 import {
   CSS_LENGTH_UNITS,
   composeCssLength,
   parseEditableCssLength,
   type CssLengthUnit,
-} from "@/lib/content-blocks/css-length";
-import styles from "./css-length-input.module.css";
+} from '@/lib/content-blocks/css-length';
+import styles from './css-length-input.module.css';
 
 type CssLengthInputProps = {
   value?: string;
@@ -21,28 +21,31 @@ type CssLengthInputProps = {
 export function CssLengthInput({
   value,
   onChange,
-  placeholder = "0",
+  placeholder = '0',
   inputClassName,
   compact = false,
   allowAuto = false,
   ariaLabel,
 }: CssLengthInputProps) {
   const parsed = parseEditableCssLength(value);
-  const amount = parsed?.amount ?? "";
-  const unit = parsed?.unit ?? "px";
+  const amount = parsed?.amount ?? '';
+  const unit = parsed?.unit ?? 'px';
   const isKeyword = allowAuto && /^(auto|inherit|initial|unset)$/i.test(amount);
 
   const inputClasses = [
     styles.lengthInput,
-    compact ? styles.lengthInputCompact : "",
-    inputClassName ?? "",
+    compact ? styles.lengthInputCompact : '',
+    inputClassName ?? '',
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 
-  const selectClasses = [styles.unitSelect, compact ? styles.unitSelectCompact : ""]
+  const selectClasses = [
+    styles.unitSelect,
+    compact ? styles.unitSelectCompact : '',
+  ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 
   const handleAmountChange = (nextAmount: string) => {
     onChange(composeCssLength(nextAmount, unit, allowAuto));
@@ -52,9 +55,9 @@ export function CssLengthInput({
     onChange(composeCssLength(amount, nextUnit, allowAuto));
   };
 
-  const rowClasses = [styles.lengthRow, compact ? styles.lengthRowCompact : ""]
+  const rowClasses = [styles.lengthRow, compact ? styles.lengthRowCompact : '']
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 
   return (
     <div className={rowClasses}>
@@ -71,7 +74,7 @@ export function CssLengthInput({
           className={selectClasses}
           value={unit}
           onChange={(e) => handleUnitChange(e.target.value as CssLengthUnit)}
-          aria-label={ariaLabel ? `${ariaLabel} unit` : "Unit"}
+          aria-label={ariaLabel ? `${ariaLabel} unit` : 'Unit'}
         >
           {CSS_LENGTH_UNITS.map((option) => (
             <option key={option} value={option}>

@@ -1,37 +1,39 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminListToolbar } from "@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AdminListToolbar } from '@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar';
 import {
   COOKBOOK_STATUS_LABELS,
   COOKBOOK_STATUSES,
   getCookbookStatusBadgeClass,
   isCookbookDisabled,
   resolveCookbookStatus,
-} from "@/lib/admin/cookbook-status";
+} from '@/lib/admin/cookbook-status';
 import {
   formatAdminListDate,
   matchesAdminListSearch,
-} from "@/lib/admin/format-admin-list";
-import { fetchCookbooks } from "@/lib/admin/cookbooks-client";
-import { useAdminListRefresh } from "@/lib/admin/use-admin-list-refresh";
-import type { Cookbook } from "@/lib/cookbooks/types";
-import styles from "@/components/Admin/CookbookEditor/cookbook-editor.module.css";
+} from '@/lib/admin/format-admin-list';
+import { fetchCookbooks } from '@/lib/admin/cookbooks-client';
+import { useAdminListRefresh } from '@/lib/admin/use-admin-list-refresh';
+import type { Cookbook } from '@/lib/cookbooks/types';
+import styles from '@/components/Admin/CookbookEditor/cookbook-editor.module.css';
 
 type CookbookListProps = {
   cookbooks: Cookbook[];
 };
 
 function cookbookMeta(cookbook: Cookbook): string {
-  const retailerCount = cookbook.buyLinks.filter((link) => link.url.trim()).length;
+  const retailerCount = cookbook.buyLinks.filter((link) =>
+    link.url.trim(),
+  ).length;
   const parts: string[] = [];
   if (cookbook.badge.trim()) parts.push(cookbook.badge.trim());
   if (retailerCount > 0) {
-    parts.push(`${retailerCount} retailer${retailerCount === 1 ? "" : "s"}`);
+    parts.push(`${retailerCount} retailer${retailerCount === 1 ? '' : 's'}`);
   }
-  if (parts.length > 0) return parts.join(" · ");
-  return cookbook.subtitle || "—";
+  if (parts.length > 0) return parts.join(' · ');
+  return cookbook.subtitle || '—';
 }
 
 function CookbookStatusBadge({ cookbook }: { cookbook: Cookbook }) {
@@ -56,10 +58,10 @@ function ClickableTableRow({
 
   return (
     <tr
-      className={`tableRowClickable${className ? ` ${className}` : ""}`}
+      className={`tableRowClickable${className ? ` ${className}` : ''}`}
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -72,14 +74,20 @@ function ClickableTableRow({
   );
 }
 
-export function CookbookList({ cookbooks: initialCookbooks }: CookbookListProps) {
-  const { items: cookbooks } = useAdminListRefresh(initialCookbooks, fetchCookbooks, "/admin/cookbooks");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+export function CookbookList({
+  cookbooks: initialCookbooks,
+}: CookbookListProps) {
+  const { items: cookbooks } = useAdminListRefresh(
+    initialCookbooks,
+    fetchCookbooks,
+    '/admin/cookbooks',
+  );
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const statusOptions = useMemo(
     () => [
-      { value: "all", label: "All statuses" },
+      { value: 'all', label: 'All statuses' },
       ...COOKBOOK_STATUSES.map((status) => ({
         value: status,
         label: COOKBOOK_STATUS_LABELS[status],
@@ -91,7 +99,7 @@ export function CookbookList({ cookbooks: initialCookbooks }: CookbookListProps)
   const filteredCookbooks = useMemo(() => {
     return cookbooks.filter((cookbook) => {
       const status = resolveCookbookStatus(cookbook);
-      const matchesStatus = statusFilter === "all" || status === statusFilter;
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
       const matchesSearch = matchesAdminListSearch(
         searchQuery,
         cookbook.title,
@@ -132,13 +140,15 @@ export function CookbookList({ cookbooks: initialCookbooks }: CookbookListProps)
           ) : (
             filteredCookbooks.map((cookbook) => {
               const isDisabled = isCookbookDisabled(cookbook);
-              const cover = cookbook.carouselImages.find((image) => image.src.trim())?.src;
+              const cover = cookbook.carouselImages.find((image) =>
+                image.src.trim(),
+              )?.src;
 
               return (
                 <ClickableTableRow
                   key={cookbook.id}
                   href={`/admin/cookbooks/${cookbook.id}/edit`}
-                  className={isDisabled ? "tableRowDisabled" : undefined}
+                  className={isDisabled ? 'tableRowDisabled' : undefined}
                 >
                   <td>
                     <div className={styles.thumbCell}>
@@ -147,15 +157,19 @@ export function CookbookList({ cookbooks: initialCookbooks }: CookbookListProps)
                   </td>
                   <td className="tableTitleCell">
                     <span className="tableTitleMain">{cookbook.title}</span>
-                    <span className="tableTitlePath">{cookbookMeta(cookbook)}</span>
+                    <span className="tableTitlePath">
+                      {cookbookMeta(cookbook)}
+                    </span>
                     {isDisabled ? (
-                      <span className="tableRowDisabledNote">Hidden from site</span>
+                      <span className="tableRowDisabledNote">
+                        Hidden from site
+                      </span>
                     ) : null}
                   </td>
                   <td>
                     <CookbookStatusBadge cookbook={cookbook} />
                   </td>
-                  <td>{cookbook.year ?? "—"}</td>
+                  <td>{cookbook.year ?? '—'}</td>
                   <td>{formatAdminListDate(cookbook.updated_at)}</td>
                 </ClickableTableRow>
               );

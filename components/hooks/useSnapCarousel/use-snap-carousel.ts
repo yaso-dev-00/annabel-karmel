@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import { animate, useMotionValue, useMotionValueEvent } from "framer-motion";
+import { animate, useMotionValue, useMotionValueEvent } from 'framer-motion';
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
-} from "react";
+} from 'react';
 
 export const CAROUSEL_SPRING = {
-  type: "spring" as const,
+  type: 'spring' as const,
   stiffness: 420,
   damping: 42,
 };
@@ -29,7 +30,7 @@ export const CAROUSEL_SLIDE = {
 };
 
 export const CAROUSEL_DRAG_RELEASE = {
-  type: "spring" as const,
+  type: 'spring' as const,
   stiffness: 320,
   damping: 36,
 };
@@ -48,7 +49,7 @@ function eventTargetElement(target: EventTarget | null): Element | null {
 }
 
 function isLinkTarget(target: EventTarget | null): boolean {
-  return Boolean(eventTargetElement(target)?.closest("a[href]"));
+  return Boolean(eventTargetElement(target)?.closest('a[href]'));
 }
 
 type SnapMetrics = {
@@ -62,7 +63,15 @@ type SnapMetrics = {
 };
 
 function resolveTargetX(slideIndex: number, metrics: SnapMetrics): number {
-  const { edgeCenterSnap, viewportWidth, cardCenters, minX, offset, step, maxIndex } = metrics;
+  const {
+    edgeCenterSnap,
+    viewportWidth,
+    cardCenters,
+    minX,
+    offset,
+    step,
+    maxIndex,
+  } = metrics;
 
   if (edgeCenterSnap) {
     if (slideIndex <= 0) {
@@ -89,7 +98,7 @@ function resolveTargetX(slideIndex: number, metrics: SnapMetrics): number {
 
 function collapseRedundantMaxIndex(
   candidateMaxIndex: number,
-  metrics: Omit<SnapMetrics, "maxIndex">,
+  metrics: Omit<SnapMetrics, 'maxIndex'>,
 ): number {
   if (candidateMaxIndex <= 0) {
     return 0;
@@ -155,7 +164,7 @@ function clampDragOffset(
 export function useSnapCarousel({
   itemCount,
   cardSelector,
-  controlsSelector = "button",
+  controlsSelector = 'button',
   initialVisibleCards = 1,
   centerSingleSlide = false,
   onInteraction,
@@ -198,7 +207,7 @@ export function useSnapCarousel({
 
   const isHorizontalDragIntent = useCallback(
     (deltaX: number, deltaY: number, pointerType: string) => {
-      if (pointerType === "touch") {
+      if (pointerType === 'touch') {
         return (
           Math.abs(deltaX) > touchDragThreshold &&
           Math.abs(deltaX) >= Math.abs(deltaY) * 0.35
@@ -218,13 +227,15 @@ export function useSnapCarousel({
   const [index, setIndex] = useState(0);
   const [step, setStep] = useState(0);
   const [alignOffset, setAlignOffset] = useState(0);
-  const [visibleCards, setVisibleCards] = useState(initialVisibleCards);
+  const [, setVisibleCards] = useState(initialVisibleCards);
   const [maxIndex, setMaxIndex] = useState(0);
   const [positionAtStart, setPositionAtStart] = useState(true);
   const [positionAtEnd, setPositionAtEnd] = useState(false);
 
-  stepRef.current = step;
-  alignOffsetRef.current = alignOffset;
+  useLayoutEffect(() => {
+    stepRef.current = step;
+    alignOffsetRef.current = alignOffset;
+  }, [step, alignOffset]);
 
   const getSnapMetrics = useCallback((): SnapMetrics => {
     return {
@@ -258,7 +269,7 @@ export function useSnapCarousel({
     setPositionAtEnd(currentX <= minBound + epsilon);
   }, [getTargetX, x]);
 
-  useMotionValueEvent(x, "change", syncPositionBounds);
+  useMotionValueEvent(x, 'change', syncPositionBounds);
 
   useEffect(() => {
     syncPositionBounds();
@@ -314,13 +325,14 @@ export function useSnapCarousel({
       }
 
       const resolvedTransition =
-        "duration" in transition
-          ? "fixed" in transition && transition.fixed
+        'duration' in transition
+          ? 'fixed' in transition && transition.fixed
             ? { duration: transition.duration, ease: transition.ease }
             : {
                 duration: Math.max(
                   0.75,
-                  (Math.abs(targetX - x.get()) / Math.max(currentStep, 1)) * transition.duration,
+                  (Math.abs(targetX - x.get()) / Math.max(currentStep, 1)) *
+                    transition.duration,
                 ),
                 ease: transition.ease,
               }
@@ -331,7 +343,7 @@ export function useSnapCarousel({
       animationRef.current?.stop();
 
       const motionTransition =
-        "type" in resolvedTransition
+        'type' in resolvedTransition
           ? { ...resolvedTransition, velocity }
           : resolvedTransition;
 
@@ -362,7 +374,7 @@ export function useSnapCarousel({
     }
 
     const styles = window.getComputedStyle(track);
-    let gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
+    let gap = Number.parseFloat(styles.columnGap || styles.gap || '0') || 0;
 
     if (gap <= 0 && cards.length > 1) {
       gap = cards[1].offsetLeft - cards[0].offsetLeft - cards[0].offsetWidth;
@@ -384,13 +396,16 @@ export function useSnapCarousel({
       viewportWidth = carousel.clientWidth;
     }
 
-    const cardsVisible = Math.max(1, Math.floor((viewportWidth + gap) / cardStep));
+    const cardsVisible = Math.max(
+      1,
+      Math.floor((viewportWidth + gap) / cardStep),
+    );
     const useEdgeCenterSnap = centerSingleSlide && cardsVisible <= 1;
 
     viewportWidthRef.current = viewportWidth;
     edgeCenterSnapRef.current = useEdgeCenterSnap;
-    carousel.classList.toggle("is-center-snap", useEdgeCenterSnap);
-    track.style.removeProperty("--carousel-center-pad");
+    carousel.classList.toggle('is-center-snap', useEdgeCenterSnap);
+    track.style.removeProperty('--carousel-center-pad');
 
     const cardCenters = Array.from(cards).map(
       (card) => card.offsetLeft + card.offsetWidth / 2,
@@ -429,7 +444,7 @@ export function useSnapCarousel({
       );
     }
 
-    const snapMetricsBase: Omit<SnapMetrics, "maxIndex"> = {
+    const snapMetricsBase: Omit<SnapMetrics, 'maxIndex'> = {
       edgeCenterSnap: useEdgeCenterSnap,
       viewportWidth,
       cardCenters,
@@ -438,7 +453,10 @@ export function useSnapCarousel({
       step: cardStep,
     };
     if (!(endAlignedMinX >= -FIT_EPSILON && !useEdgeCenterSnap)) {
-      computedMaxIndex = collapseRedundantMaxIndex(computedMaxIndex, snapMetricsBase);
+      computedMaxIndex = collapseRedundantMaxIndex(
+        computedMaxIndex,
+        snapMetricsBase,
+      );
     }
 
     alignOffsetRef.current = offset;
@@ -456,7 +474,9 @@ export function useSnapCarousel({
     setAlignOffset((prev) => (prev === offset ? prev : offset));
     setStep((prev) => (Math.abs(prev - cardStep) < 0.5 ? prev : cardStep));
     setVisibleCards((prev) => (prev === cardsVisible ? prev : cardsVisible));
-    setMaxIndex((prev) => (prev === computedMaxIndex ? prev : computedMaxIndex));
+    setMaxIndex((prev) =>
+      prev === computedMaxIndex ? prev : computedMaxIndex,
+    );
 
     if (indexRef.current > computedMaxIndex) {
       indexRef.current = computedMaxIndex;
@@ -493,12 +513,12 @@ export function useSnapCarousel({
 
   useEffect(() => {
     scheduleMeasure();
-    window.addEventListener("resize", scheduleMeasure);
+    window.addEventListener('resize', scheduleMeasure);
 
     const carousel = carouselRef.current;
     const track = trackRef.current;
     const resizeObserver =
-      typeof ResizeObserver !== "undefined"
+      typeof ResizeObserver !== 'undefined'
         ? new ResizeObserver(() => {
             scheduleMeasure();
           })
@@ -512,7 +532,7 @@ export function useSnapCarousel({
     }
 
     return () => {
-      window.removeEventListener("resize", scheduleMeasure);
+      window.removeEventListener('resize', scheduleMeasure);
       if (measureRafRef.current !== null) {
         window.cancelAnimationFrame(measureRafRef.current);
       }
@@ -531,7 +551,8 @@ export function useSnapCarousel({
       return;
     }
 
-    const wasUnmeasured = prevStepRef.current <= 0 && !prevEdgeCenterSnapRef.current;
+    const wasUnmeasured =
+      prevStepRef.current <= 0 && !prevEdgeCenterSnapRef.current;
     const layoutChanged =
       prevStepRef.current !== step ||
       prevAlignOffsetRef.current !== alignOffset ||
@@ -597,18 +618,24 @@ export function useSnapCarousel({
       }
     };
 
-    carousel.addEventListener("touchmove", blockTouchScrollWhileDragging, { passive: false });
-    return () => carousel.removeEventListener("touchmove", blockTouchScrollWhileDragging);
+    carousel.addEventListener('touchmove', blockTouchScrollWhileDragging, {
+      passive: false,
+    });
+    return () =>
+      carousel.removeEventListener('touchmove', blockTouchScrollWhileDragging);
   }, [touchDragThreshold]);
 
   const setCarouselInteracting = useCallback((active: boolean) => {
-    carouselRef.current?.classList.toggle("is-carousel-interacting", active);
+    carouselRef.current?.classList.toggle('is-carousel-interacting', active);
   }, []);
 
   const handleNavigation = useCallback(
     (direction: number) => {
       onInteraction?.();
-      const next = Math.max(0, Math.min(maxIndexRef.current, targetIndexRef.current + direction));
+      const next = Math.max(
+        0,
+        Math.min(maxIndexRef.current, targetIndexRef.current + direction),
+      );
       if (next === targetIndexRef.current) {
         return;
       }
@@ -644,7 +671,13 @@ export function useSnapCarousel({
       setCarouselInteracting(true);
       event.currentTarget.setPointerCapture(event.pointerId);
     },
-    [cancelAnimation, controlsSelector, onInteraction, setCarouselInteracting, x],
+    [
+      cancelAnimation,
+      controlsSelector,
+      onInteraction,
+      setCarouselInteracting,
+      x,
+    ],
   );
 
   const handlePointerMove = useCallback(
@@ -661,20 +694,23 @@ export function useSnapCarousel({
       const deltaX = event.clientX - pointerStartX.current;
       const deltaY = event.clientY - pointerStartY.current;
       const moveThreshold =
-        event.pointerType === "touch" ? touchDragThreshold : dragThreshold;
+        event.pointerType === 'touch' ? touchDragThreshold : dragThreshold;
 
-      if (Math.abs(deltaX) >= moveThreshold || Math.abs(deltaY) >= moveThreshold) {
+      if (
+        Math.abs(deltaX) >= moveThreshold ||
+        Math.abs(deltaY) >= moveThreshold
+      ) {
         pointerMovedRef.current = true;
       }
 
       if (!isDragging.current) {
         if (isHorizontalDragIntent(deltaX, deltaY, event.pointerType)) {
           isDragging.current = true;
-          if (event.pointerType === "touch") {
+          if (event.pointerType === 'touch') {
             touchHorizontalIntent.current = true;
           }
         } else if (
-          event.pointerType === "touch" &&
+          event.pointerType === 'touch' &&
           Math.abs(deltaY) > touchDragThreshold * 2 &&
           Math.abs(deltaY) > Math.abs(deltaX) * 1.25
         ) {
@@ -697,7 +733,8 @@ export function useSnapCarousel({
       const lastSample = lastPointerSample.current;
       const elapsed = now - lastSample.t;
       if (elapsed > 0 && elapsed < 80) {
-        velocityXRef.current = ((event.clientX - lastSample.x) / elapsed) * 1000;
+        velocityXRef.current =
+          ((event.clientX - lastSample.x) / elapsed) * 1000;
       }
       lastPointerSample.current = { x: event.clientX, t: now };
 
@@ -731,7 +768,7 @@ export function useSnapCarousel({
       const moved = pointerMovedRef.current || wasDragging;
 
       const releaseVelocity = velocityXRef.current;
-      const wasTouch = activePointerType.current === "touch";
+      const wasTouch = activePointerType.current === 'touch';
 
       activePointerId.current = null;
       activePointerType.current = null;
@@ -776,7 +813,10 @@ export function useSnapCarousel({
         }
       }
 
-      if (!wasDragging || (stepRef.current <= 0 && !edgeCenterSnapRef.current)) {
+      if (
+        !wasDragging ||
+        (stepRef.current <= 0 && !edgeCenterSnapRef.current)
+      ) {
         isDragging.current = false;
         return;
       }
@@ -798,7 +838,11 @@ export function useSnapCarousel({
         nextIndex = 0;
       }
 
-      animateToIndex(nextIndex, dragReleaseTransition, wasTouch ? releaseVelocity : 0);
+      animateToIndex(
+        nextIndex,
+        dragReleaseTransition,
+        wasTouch ? releaseVelocity : 0,
+      );
 
       blockClickRef.current = true;
       window.setTimeout(() => {
@@ -833,16 +877,19 @@ export function useSnapCarousel({
     [finishPointerDrag],
   );
 
-  const handleCardClickCapture = useCallback((event: ReactMouseEvent<HTMLElement>) => {
-    if (isLinkTarget(event.target)) {
-      return;
-    }
+  const handleCardClickCapture = useCallback(
+    (event: ReactMouseEvent<HTMLElement>) => {
+      if (isLinkTarget(event.target)) {
+        return;
+      }
 
-    if (isDragging.current || blockClickRef.current) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  }, []);
+      if (isDragging.current || blockClickRef.current) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    },
+    [],
+  );
 
   return {
     carouselRef,

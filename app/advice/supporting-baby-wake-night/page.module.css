@@ -146,7 +146,7 @@
 }
 
 .attributionBlock::after {
-  content: "";
+  content: '';
   display: block;
   clear: both;
 }

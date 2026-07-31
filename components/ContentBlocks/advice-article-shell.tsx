@@ -1,12 +1,12 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { resolveMaxWidth } from "@/lib/content-blocks/max-width";
-import { groupAdviceArticleBlocks } from "@/lib/content-blocks/advice-article-layout";
-import type { AdviceArticle } from "@/lib/content-blocks/types";
-import { ContentBlockRenderer } from "./content-block-renderer";
-import styles from "./advice-article-shell.module.css";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { resolveMaxWidth } from '@/lib/content-blocks/max-width';
+import { groupAdviceArticleBlocks } from '@/lib/content-blocks/advice-article-layout';
+import type { AdviceArticle } from '@/lib/content-blocks/types';
+import { ContentBlockRenderer } from './content-block-renderer';
+import styles from './advice-article-shell.module.css';
 
 type AdviceArticleShellProps = {
   article: AdviceArticle;
@@ -17,9 +17,9 @@ export function AdviceArticleShell({ article }: AdviceArticleShellProps) {
     article.content_max_width,
     article.content_max_width_custom,
   );
-  const contentMaxWidth = article.content_max_width ?? "default";
+  const contentMaxWidth = article.content_max_width ?? 'default';
   const hasRelatedArticlesBlock = article.content_blocks.some(
-    (block) => block.type === "related_articles",
+    (block) => block.type === 'related_articles',
   );
   const blockGroups = groupAdviceArticleBlocks(article.content_blocks);
 
@@ -27,7 +27,7 @@ export function AdviceArticleShell({ article }: AdviceArticleShellProps) {
     contentMaxWidth,
     contentMaxWidthCustom: article.content_max_width_custom,
     excludeArticleSlug: article.slug,
-    renderContext: "advice" as const,
+    renderContext: 'advice' as const,
   };
 
   return (
@@ -36,7 +36,10 @@ export function AdviceArticleShell({ article }: AdviceArticleShellProps) {
       <main className={styles.main}>
         {blockGroups.map((group, index) =>
           group.fullBleed ? (
-            <div key={`full-bleed-${index}`} className={styles.fullBleedSection}>
+            <div
+              key={`full-bleed-${index}`}
+              className={styles.fullBleedSection}
+            >
               <ContentBlockRenderer blocks={group.blocks} {...rendererProps} />
             </div>
           ) : (

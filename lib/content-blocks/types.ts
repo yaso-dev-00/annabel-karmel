@@ -1,62 +1,69 @@
-import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import type { CustomFormSchema } from "@/lib/content-blocks/form-schema";
-import type { FontFamilyPreset, RadiusPreset, ShadowPreset } from "@/lib/design-system/tokens";
+import type { RelatedArticleItem } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import type { CustomFormSchema } from '@/lib/content-blocks/form-schema';
+import type {
+  FontFamilyPreset,
+  RadiusPreset,
+  ShadowPreset,
+} from '@/lib/design-system/tokens';
 
 export const BLOCK_TYPES = [
-  "hero",
-  "rich_text",
-  "heading",
-  "list",
-  "divider",
-  "image",
-  "image_text",
-  "image_stack",
-  "two_column",
-  "video",
-  "accordion",
-  "table",
-  "multi_column_table",
-  "callout",
-  "cta_button",
-  "form_embed",
-  "announcement_banner",
-  "product_grid",
-  "recipe_grid",
-  "related_links",
-  "related_articles",
-  "expert_attribution",
-  "partner_promo",
-  "partnership_tag",
-  "book_promo",
-  "author_bio",
+  'hero',
+  'rich_text',
+  'heading',
+  'list',
+  'divider',
+  'image',
+  'image_text',
+  'image_stack',
+  'two_column',
+  'video',
+  'accordion',
+  'table',
+  'multi_column_table',
+  'callout',
+  'cta_button',
+  'form_embed',
+  'announcement_banner',
+  'product_grid',
+  'recipe_grid',
+  'related_links',
+  'related_articles',
+  'expert_attribution',
+  'partner_promo',
+  'partnership_tag',
+  'book_promo',
+  'author_bio',
 ] as const;
 
 export type BlockType = (typeof BLOCK_TYPES)[number];
 
-export type BlockSpacing = "compact" | "normal" | "loose";
+export type BlockSpacing = 'compact' | 'normal' | 'loose';
 
-export type MaxWidthPreset = "narrow" | "default" | "wide" | "full" | "custom";
+export type MaxWidthPreset = 'narrow' | 'default' | 'wide' | 'full' | 'custom';
 
-export const MAX_WIDTH_VALUES: Record<Exclude<MaxWidthPreset, "custom">, string> = {
-  narrow: "720px",
-  default: "900px",
-  wide: "1100px",
-  full: "100%",
+export const MAX_WIDTH_VALUES: Record<
+  Exclude<MaxWidthPreset, 'custom'>,
+  string
+> = {
+  narrow: '720px',
+  default: '900px',
+  wide: '1100px',
+  full: '100%',
 };
 
 export const MAX_WIDTH_LABELS: Record<MaxWidthPreset, string> = {
-  narrow: "Narrow — 720px",
-  default: "Default — 900px",
-  wide: "Wide — 1100px",
-  full: "Full width",
-  custom: "Custom…",
+  narrow: 'Narrow — 720px',
+  default: 'Default — 900px',
+  wide: 'Wide — 1100px',
+  full: 'Full width',
+  custom: 'Custom…',
 };
 
 export type BlockSettings = {
   css_class?: string;
   background_color?: string;
   text_color?: string;
-  font_weight?: "400" | "600" | "700" | "900";
+  font_weight?: '400' | '600' | '700' | '900';
   min_height?: string;
   height_custom?: string;
   width_custom?: string;
@@ -88,8 +95,8 @@ export type BlockSettings = {
   border_bottom?: string;
   border_left?: string;
   border_color?: string;
-  border_style?: "none" | "solid" | "dashed" | "dotted";
-  text_align?: "left" | "center" | "right" | "justify";
+  border_style?: 'none' | 'solid' | 'dashed' | 'dotted';
+  text_align?: 'left' | 'center' | 'right' | 'justify';
   /** Unitless multiplier (e.g. 1.42) or CSS length (e.g. 24px). */
   line_height?: string;
   /** Prose blocks: vertical space between consecutive paragraphs in `.blockProse` / `.body` copy. */
@@ -111,11 +118,11 @@ export type HeroBlockData = {
 
 export type RichTextBlockData = {
   html: string;
-  variant: "body" | "lead" | "pull_quote";
+  variant: 'body' | 'lead' | 'pull_quote';
 };
 
 export type HeadingBlockData = {
-  level: "h1" | "h2" | "h3";
+  level: 'h1' | 'h2' | 'h3';
   text: string;
 };
 
@@ -123,12 +130,12 @@ export type ListBlockItem = string | { label: string; text: string };
 
 export type ListBlockData = {
   ordered: boolean;
-  style: "plain" | "labeled";
+  style: 'plain' | 'labeled';
   items: ListBlockItem[];
 };
 
 export type DividerBlockData = {
-  style: "hr" | "image";
+  style: 'hr' | 'image';
   image_src?: string;
 };
 
@@ -157,7 +164,7 @@ export type ImageTextBlockData = {
   image_alt: string;
   image_width?: string;
   image_height?: string;
-  image_position: "left" | "right" | "top";
+  image_position: 'left' | 'right' | 'top';
   heading?: string;
   body: string;
   image_first?: boolean;
@@ -176,7 +183,7 @@ export type ImageStackItem = {
 export type ImageStackColumnCount = 1 | 2 | 3 | 4;
 
 export type ImageStackBlockData = {
-  layout: "vertical" | "grid";
+  layout: 'vertical' | 'grid';
   /** Desktop columns (≥1024px). Default 3 when layout is grid. */
   columns_desktop?: ImageStackColumnCount;
   /** Tablet columns (768–1023px). Default 2 when layout is grid. */
@@ -184,32 +191,43 @@ export type ImageStackBlockData = {
   /** Mobile columns (≤767px). Default 1 when layout is grid. */
   columns_mobile?: ImageStackColumnCount;
   /** Shared cell aspect for grid — prefer over dragging image height. */
-  image_aspect?: "auto" | "4/3" | "1/1" | "3/2" | "3/4";
+  image_aspect?: 'auto' | '4/3' | '1/1' | '3/2' | '3/4';
   images: ImageStackItem[];
 };
 
 /** Per nested item styles inside two-column (and similar) layouts. */
 export type NestedMiniBlockStyle = {
-  text_align?: "left" | "center" | "right" | "justify";
+  text_align?: 'left' | 'center' | 'right' | 'justify';
   max_width?: MaxWidthPreset;
   max_width_custom?: string;
 };
 
 export type NestedMiniBlock =
-  | { id?: string; type: "rich_text"; html: string; style?: NestedMiniBlockStyle }
   | {
       id?: string;
-      type: "image";
+      type: 'rich_text';
+      html: string;
+      style?: NestedMiniBlockStyle;
+    }
+  | {
+      id?: string;
+      type: 'image';
       src: string;
       alt: string;
       width?: string;
       height?: string;
       style?: NestedMiniBlockStyle;
     }
-  | { id?: string; type: "cta_button"; label: string; url: string; style?: NestedMiniBlockStyle }
   | {
       id?: string;
-      type: "list";
+      type: 'cta_button';
+      label: string;
+      url: string;
+      style?: NestedMiniBlockStyle;
+    }
+  | {
+      id?: string;
+      type: 'list';
       ordered: boolean;
       items: string[];
       style?: NestedMiniBlockStyle;
@@ -224,7 +242,7 @@ export type TwoColumnBlockData = {
 };
 
 export type VideoBlockData = {
-  provider: "youtube" | "vimeo" | "upload";
+  provider: 'youtube' | 'vimeo' | 'upload';
   url: string;
   caption?: string;
 };
@@ -232,7 +250,7 @@ export type VideoBlockData = {
 export type AccordionSubsection = {
   id: string;
   heading: string;
-  heading_variant?: "display" | "step";
+  heading_variant?: 'display' | 'step';
   paragraphs?: string;
   list_items?: string[];
 };
@@ -248,16 +266,16 @@ export type AccordionPanel = {
 };
 
 export type AccordionBlockData = {
-  default_open: "first" | "none" | { panel_id: string };
+  default_open: 'first' | 'none' | { panel_id: string };
   numbered_titles?: boolean;
   panels: AccordionPanel[];
 };
 
 export type TableBlockData = {
   caption?: string;
-  style: "default" | "compact" | "striped" | "borderless";
-  border_style?: "full" | "horizontal" | "none";
-  label_width?: "auto" | "35" | "45";
+  style: 'default' | 'compact' | 'striped' | 'borderless';
+  border_style?: 'full' | 'horizontal' | 'none';
+  label_width?: 'auto' | '35' | '45';
   header_bg?: string;
   row_bg?: string;
   striped_row_bg?: string;
@@ -272,8 +290,8 @@ export type MultiColumnTableBlockData = {
   column_count: 2 | 3 | 4 | 5;
   headers: string[];
   rows: string[][];
-  style: TableBlockData["style"];
-  border_style?: TableBlockData["border_style"];
+  style: TableBlockData['style'];
+  border_style?: TableBlockData['border_style'];
   header_bg?: string;
   row_bg?: string;
   striped_row_bg?: string;
@@ -283,7 +301,7 @@ export type MultiColumnTableBlockData = {
 };
 
 export type CalloutBlockData = {
-  variant: "tip" | "highlight" | "warning";
+  variant: 'tip' | 'highlight' | 'warning';
   title?: string;
   body: string;
   background_color?: string;
@@ -292,7 +310,7 @@ export type CalloutBlockData = {
 export type CtaButtonBlockData = {
   label: string;
   url: string;
-  style: "primary" | "secondary";
+  style: 'primary' | 'secondary';
   open_in_new_tab?: boolean;
 };
 
@@ -300,7 +318,7 @@ export type FormEmbedBlockData = {
   title?: string;
   /** Legacy raw HTML embed */
   embed_code?: string;
-  mode?: "builder" | "embed";
+  mode?: 'builder' | 'embed';
   schema?: CustomFormSchema;
 };
 
@@ -328,12 +346,12 @@ export type ProductGridBlockData = {
   /** Mobile columns (≤767px). Default 1. */
   columns_mobile?: ImageStackColumnCount;
   /** Shared card image aspect — prefer over fixed heights. */
-  image_aspect?: "auto" | "4/3" | "1/1" | "3/2" | "3/4";
+  image_aspect?: 'auto' | '4/3' | '1/1' | '3/2' | '3/4';
   items: GridItem[];
 };
 
 export type RecipeGridBlockData = {
-  layout: "grid" | "carousel";
+  layout: 'grid' | 'carousel';
   /** Desktop columns (≥1024px). Default 3 when layout is grid. */
   columns_desktop?: ImageStackColumnCount;
   /** Tablet columns (768–1023px). Default 2 when layout is grid. */
@@ -341,18 +359,23 @@ export type RecipeGridBlockData = {
   /** Mobile columns (≤767px). Default 1 when layout is grid. */
   columns_mobile?: ImageStackColumnCount;
   /** Shared card image aspect for grid — prefer over fixed heights. */
-  image_aspect?: "auto" | "4/3" | "1/1" | "3/2" | "3/4";
+  image_aspect?: 'auto' | '4/3' | '1/1' | '3/2' | '3/4';
   items: GridItem[];
 };
 
 export type RelatedLinksBlockData = {
   intro: string;
-  links: { label: string; href: string; icon_src?: string; icon_alt?: string }[];
+  links: {
+    label: string;
+    href: string;
+    icon_src?: string;
+    icon_alt?: string;
+  }[];
   /** Vertical list (default) or horizontal social-style row. */
-  layout?: "list" | "row";
+  layout?: 'list' | 'row';
   link_color?: string;
-  link_style?: "underline" | "plain" | "arrow";
-  list_spacing?: "compact" | "normal" | "loose";
+  link_style?: 'underline' | 'plain' | 'arrow';
+  list_spacing?: 'compact' | 'normal' | 'loose';
 };
 
 export type RelatedArticlesBlockData = {
@@ -364,7 +387,7 @@ export type RelatedArticlesBlockData = {
 };
 
 export type ExpertAttributionBlockData = {
-  preset: "milk_making_mama" | "kerry_secker" | "mother_box" | "custom";
+  preset: 'milk_making_mama' | 'kerry_secker' | 'mother_box' | 'custom';
   prefix?: string;
   image_url?: string;
   name?: string;
@@ -379,7 +402,7 @@ export type PartnerPromoBlockData = {
   title?: string;
   body?: string;
   links?: { label: string; href: string; style?: string }[];
-  layout: "horizontal" | "stacked";
+  layout: 'horizontal' | 'stacked';
 };
 
 /** Partners-only: “In partnership with” label + logo row. */
@@ -449,7 +472,8 @@ export type ContentBlock = {
   };
 }[BlockType];
 
-export type AdviceArticleStatus = "draft" | "published" | "scheduled" | "private" | "disabled";
+export type AdviceArticleStatus =
+  'draft' | 'published' | 'scheduled' | 'private' | 'disabled';
 
 export type AdviceArticle = {
   id: string;
@@ -477,10 +501,10 @@ export type AdviceArticlesStore = {
   articles: AdviceArticle[];
 };
 
-export const SAMPLE_ARTICLE_ID = "00000000-0000-4000-8000-000000000001";
-export const SAMPLE_ARTICLE_SLUG = "sample-advice-article";
-export const SHOWCASE_ARTICLE_ID = "00000000-0000-4000-8000-000000000002";
-export const SHOWCASE_ARTICLE_SLUG = "cms-block-showcase";
+export const SAMPLE_ARTICLE_ID = '00000000-0000-4000-8000-000000000001';
+export const SAMPLE_ARTICLE_SLUG = 'sample-advice-article';
+export const SHOWCASE_ARTICLE_ID = '00000000-0000-4000-8000-000000000002';
+export const SHOWCASE_ARTICLE_SLUG = 'cms-block-showcase';
 
 export type CompetitionStatus = AdviceArticleStatus;
 
@@ -509,8 +533,8 @@ export type CompetitionsStore = {
   competitions: Competition[];
 };
 
-export const SAMPLE_COMPETITION_ID = "00000000-0000-4000-8000-000000000201";
-export const SAMPLE_COMPETITION_SLUG = "win-a-christmas-bundle-worth-300";
+export const SAMPLE_COMPETITION_ID = '00000000-0000-4000-8000-000000000201';
+export const SAMPLE_COMPETITION_SLUG = 'win-a-christmas-bundle-worth-300';
 
 export type PartnerPageStatus = AdviceArticleStatus;
 
@@ -539,14 +563,16 @@ export type PartnersStore = {
   partners: PartnerPage[];
 };
 
-export const PARTNER_PAMPERS_SNACKING_ID = "00000000-0000-4000-8000-000000000401";
-export const PARTNER_PAMPERS_SNACKING_SLUG = "pampers-snacking";
-export const PARTNER_PAMPERS_SUPERFOODS_ID = "00000000-0000-4000-8000-000000000402";
-export const PARTNER_PAMPERS_SUPERFOODS_SLUG = "pampers-2026";
-export const PARTNER_BIRDS_EYE_ID = "00000000-0000-4000-8000-000000000403";
-export const PARTNER_BIRDS_EYE_SLUG = "birds-eye";
-export const PARTNER_CRAFT_CRUMB_ID = "00000000-0000-4000-8000-000000000404";
-export const PARTNER_CRAFT_CRUMB_SLUG = "craft-crumb";
+export const PARTNER_PAMPERS_SNACKING_ID =
+  '00000000-0000-4000-8000-000000000401';
+export const PARTNER_PAMPERS_SNACKING_SLUG = 'pampers-snacking';
+export const PARTNER_PAMPERS_SUPERFOODS_ID =
+  '00000000-0000-4000-8000-000000000402';
+export const PARTNER_PAMPERS_SUPERFOODS_SLUG = 'pampers-2026';
+export const PARTNER_BIRDS_EYE_ID = '00000000-0000-4000-8000-000000000403';
+export const PARTNER_BIRDS_EYE_SLUG = 'birds-eye';
+export const PARTNER_CRAFT_CRUMB_ID = '00000000-0000-4000-8000-000000000404';
+export const PARTNER_CRAFT_CRUMB_SLUG = 'craft-crumb';
 
 /** Website Articles CMS entity — same shape as AdviceArticle, different path/categories. */
 export type ArticleStatus = AdviceArticleStatus;
@@ -577,7 +603,7 @@ export type ArticlesStore = {
   articles: Article[];
 };
 
-export const SAMPLE_SITE_ARTICLE_ID = "00000000-0000-4000-8000-000000000301";
-export const SAMPLE_SITE_ARTICLE_SLUG = "sample-article";
-export const SHOWCASE_SITE_ARTICLE_ID = "00000000-0000-4000-8000-000000000302";
-export const SHOWCASE_SITE_ARTICLE_SLUG = "articles-block-showcase";
+export const SAMPLE_SITE_ARTICLE_ID = '00000000-0000-4000-8000-000000000301';
+export const SAMPLE_SITE_ARTICLE_SLUG = 'sample-article';
+export const SHOWCASE_SITE_ARTICLE_ID = '00000000-0000-4000-8000-000000000302';
+export const SHOWCASE_SITE_ARTICLE_SLUG = 'articles-block-showcase';

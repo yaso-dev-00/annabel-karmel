@@ -1,9 +1,9 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { getExpertsListing } from "@/lib/admin/experts-store";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { getExpertsListing } from '@/lib/admin/experts-store';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function MeetOurExpertsPage() {
@@ -25,7 +25,10 @@ export default async function MeetOurExpertsPage() {
         <section className="mx-auto w-full max-w-[1120px] px-4 pb-16 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {experts.map((expert) => (
-              <article key={expert.id} className="overflow-hidden border border-[#ece5e7] bg-white">
+              <article
+                key={expert.id}
+                className="overflow-hidden border border-[#ece5e7] bg-white"
+              >
                 <a href={`/experts/${expert.slug}`}>
                   <img
                     src={expert.image}

@@ -74,11 +74,11 @@
   }
 }
 
-.carouselStage[data-per-view="1"] .pageGrid {
+.carouselStage[data-per-view='1'] .pageGrid {
   padding-inline: 10px;
 }
 
-.carouselStage[data-per-view="1"] .articleCard {
+.carouselStage[data-per-view='1'] .articleCard {
   width: 100%;
   max-width: 340px;
   margin-inline: auto;

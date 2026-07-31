@@ -1,12 +1,15 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { PregnancyAdviceListing } from "@/components/ArticleScreen/PregnancyAdviceListing";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { yourPregnancyArticles, yourPregnancyIntro } from "@/data/pregnancy-advice-listings";
-import type { Metadata } from "next";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { PregnancyAdviceListing } from '@/components/ArticleScreen/PregnancyAdviceListing';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import {
+  yourPregnancyArticles,
+  yourPregnancyIntro,
+} from '@/data/pregnancy-advice-listings';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Your Pregnancy Advice & Articles | Annabel Karmel",
+  title: 'Your Pregnancy Advice & Articles | Annabel Karmel',
   description: yourPregnancyIntro,
 };
 

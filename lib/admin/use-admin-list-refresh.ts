@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 function isAdminListPath(pathname: string, listPath: string): boolean {
   return pathname === listPath || pathname === `${listPath}/`;
@@ -32,21 +32,26 @@ export function useAdminListRefresh<T>(
 
   useEffect(() => {
     if (!isAdminListPath(pathname, listPath)) return;
-    void refresh();
+    queueMicrotask(() => {
+      void refresh();
+    });
   }, [pathname, listPath, refresh, initial]);
 
   useEffect(() => {
     const onVisible = () => {
-      if (document.visibilityState === "visible" && isAdminListPath(pathname, listPath)) {
+      if (
+        document.visibilityState === 'visible' &&
+        isAdminListPath(pathname, listPath)
+      ) {
         void refresh();
       }
     };
 
-    document.addEventListener("visibilitychange", onVisible);
-    window.addEventListener("focus", onVisible);
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('focus', onVisible);
     return () => {
-      document.removeEventListener("visibilitychange", onVisible);
-      window.removeEventListener("focus", onVisible);
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('focus', onVisible);
     };
   }, [pathname, listPath, refresh]);
 

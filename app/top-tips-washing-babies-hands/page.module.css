@@ -13,7 +13,6 @@
   font-size: 22px;
   line-height: 1.42;
   color: #3f3841;
-   
 }
 
 .body {
@@ -84,7 +83,7 @@
 }
 
 .authorIntro::after {
-  content: "";
+  content: '';
   display: block;
   clear: both;
 }
@@ -153,9 +152,6 @@
 }
 
 @media (max-width: 900px) {
-   
-   
-
   .body,
   .bodyNoTop,
   .bulletItem {
@@ -165,8 +161,6 @@
   .bulletList {
     padding-left: 30px;
   }
-
-  
 
   .authorPhoto {
     float: none;
@@ -183,7 +177,7 @@
   }
 
   .followText {
-     margin-top: 20px;
+    margin-top: 20px;
   }
 
   .relatedTitle {

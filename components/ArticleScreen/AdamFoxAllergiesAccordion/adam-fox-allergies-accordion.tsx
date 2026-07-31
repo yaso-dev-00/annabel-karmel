@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import styles from "@/app/allergies-with-professor-adam-fox/page.module.css";
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import styles from '@/app/allergies-with-professor-adam-fox/page.module.css';
 
 type Segment = string | { label: string; href: string };
 
@@ -21,8 +21,12 @@ type AdamFoxAllergiesAccordionProps = {
   items: AdamFoxAccordionItem[];
 };
 
-export function AdamFoxAllergiesAccordion({ items }: AdamFoxAllergiesAccordionProps) {
-  const [openTitle, setOpenTitle] = useState<string | null>(() => items[0]?.title ?? null);
+export function AdamFoxAllergiesAccordion({
+  items,
+}: AdamFoxAllergiesAccordionProps) {
+  const [openTitle, setOpenTitle] = useState<string | null>(
+    () => items[0]?.title ?? null,
+  );
 
   const toggle = (title: string) => {
     setOpenTitle((current) => (current === title ? null : title));
@@ -38,10 +42,10 @@ export function AdamFoxAllergiesAccordion({ items }: AdamFoxAllergiesAccordionPr
             <button
               type="button"
               onClick={() => toggle(item.title)}
-              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ""}`}
+              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ''}`}
             >
               <span aria-hidden="true" className={styles.accordionMarker}>
-                {isOpen ? "-" : "+"}
+                {isOpen ? '-' : '+'}
               </span>
               {item.title}
             </button>
@@ -51,26 +55,32 @@ export function AdamFoxAllergiesAccordion({ items }: AdamFoxAllergiesAccordionPr
                 <motion.div
                   key={item.title}
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
+                  animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.45, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
+                  transition={{ duration: 0.45, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
                 >
                   <div className={styles.accordionBody}>
                     {item.paragraphs.map((paragraph, index) => {
-                      if (typeof paragraph === "string") {
+                      if (typeof paragraph === 'string') {
                         return (
-                          <p key={`${item.title}-${index}`} className={styles.accordionBodyText}>
+                          <p
+                            key={`${item.title}-${index}`}
+                            className={styles.accordionBodyText}
+                          >
                             {paragraph}
                           </p>
                         );
                       }
 
-                      if ("segments" in paragraph) {
+                      if ('segments' in paragraph) {
                         return (
-                          <p key={`${item.title}-${index}`} className={styles.accordionBodyText}>
+                          <p
+                            key={`${item.title}-${index}`}
+                            className={styles.accordionBodyText}
+                          >
                             {paragraph.segments.map((segment) =>
-                              typeof segment === "string" ? (
+                              typeof segment === 'string' ? (
                                 segment
                               ) : (
                                 <a
@@ -88,15 +98,23 @@ export function AdamFoxAllergiesAccordion({ items }: AdamFoxAllergiesAccordionPr
                         );
                       }
 
-                      if ("intro" in paragraph) {
+                      if ('intro' in paragraph) {
                         const compact = paragraph.compact === true;
                         const textClass = compact
                           ? `${styles.accordionBodyText} ${styles.symptomsText20}`
                           : styles.accordionBodyText;
-                        const listClass = compact ? `${styles.bulletList} ${styles.symptomsText20}` : styles.bulletList;
+                        const listClass = compact
+                          ? `${styles.bulletList} ${styles.symptomsText20}`
+                          : styles.bulletList;
                         return (
                           <div key={`${item.title}-${index}`}>
-                            {paragraph.intro.trim() ? <p className={`${textClass} text-[22px]! mb-[30px]!`}>{paragraph.intro}</p> : null}
+                            {paragraph.intro.trim() ? (
+                              <p
+                                className={`${textClass} text-[22px]! mb-[30px]!`}
+                              >
+                                {paragraph.intro}
+                              </p>
+                            ) : null}
                             <ul className={listClass}>
                               {paragraph.bullets.map((bullet) => (
                                 <li key={bullet}>{bullet}</li>
@@ -109,7 +127,7 @@ export function AdamFoxAllergiesAccordion({ items }: AdamFoxAllergiesAccordionPr
                       return (
                         <p
                           key={`${item.title}-${index}`}
-                          className={`${styles.emphasis}${paragraph.compact ? ` ${styles.symptomsText20}` : ""} text-[22px]! mb-[30px]! mt-[30px]!`}
+                          className={`${styles.emphasis}${paragraph.compact ? ` ${styles.symptomsText20}` : ''} text-[22px]! mb-[30px]! mt-[30px]!`}
                         >
                           {paragraph.emphasis}
                         </p>

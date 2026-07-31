@@ -1,1 +1,1 @@
-export * from "./recipe-listing-grid";
+export * from './recipe-listing-grid';

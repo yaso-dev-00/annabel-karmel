@@ -191,7 +191,7 @@
 
 .promiseSection {
   position: relative;
- 
+
   margin-top: -40px;
   padding: 100px 0 60px;
   min-height: calc(100vw * 728 / 2160);
@@ -343,7 +343,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   min-height: max(calc(100vw * 564 / 2160), 12rem);
   padding: 40px 0 80px;
 }

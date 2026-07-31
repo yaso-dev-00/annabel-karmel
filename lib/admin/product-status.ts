@@ -1,5 +1,8 @@
-import type { AdviceArticle, AdviceArticleStatus } from "@/lib/content-blocks/types";
-import type { Product, ProductStatus } from "@/lib/products/types";
+import type {
+  AdviceArticle,
+  AdviceArticleStatus,
+} from '@/lib/content-blocks/types';
+import type { Product, ProductStatus } from '@/lib/products/types';
 import {
   ADVICE_ARTICLE_STATUS_HINTS,
   ADVICE_ARTICLE_STATUS_LABELS,
@@ -13,7 +16,7 @@ import {
   isAdviceArticlePublic,
   normalizeAdviceArticle,
   resolveAdviceArticleStatus,
-} from "@/lib/admin/advice-article-status";
+} from '@/lib/admin/advice-article-status';
 
 export const PRODUCT_STATUSES = ADVICE_ARTICLE_STATUSES;
 export const PRODUCT_STATUS_LABELS = ADVICE_ARTICLE_STATUS_LABELS;
@@ -31,15 +34,18 @@ export function buildProductSavePayload(
   product: Product,
   options?: { publish?: boolean },
 ): Product {
-  return buildAdviceArticleSavePayload(asAdvice(product), options) as unknown as Product;
+  return buildAdviceArticleSavePayload(
+    asAdvice(product),
+    options,
+  ) as unknown as Product;
 }
 
 export function getProductStatusPatch(
   product: Product,
-): Pick<Product, "status" | "published_at" | "scheduled_at"> {
+): Pick<Product, 'status' | 'published_at' | 'scheduled_at'> {
   return getAdviceArticleStatusPatch(asAdvice(product)) as Pick<
     Product,
-    "status" | "published_at" | "scheduled_at"
+    'status' | 'published_at' | 'scheduled_at'
   >;
 }
 

@@ -1,1 +1,1 @@
-export * from "./site-ad-placement";
+export * from './site-ad-placement';

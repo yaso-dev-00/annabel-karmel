@@ -1,1 +1,1 @@
-export * from "./dairy-free-faq-accordion";
+export * from './dairy-free-faq-accordion';

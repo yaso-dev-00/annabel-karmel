@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import shared from "@/components/ProductScreen/shared/product-category-shared.module.css";
+import shared from '@/components/ProductScreen/shared/product-category-shared.module.css';
 
 export type ProductCategoryProductCardProps = {
   title: string;
@@ -16,8 +16,8 @@ export type ProductCategoryProductCardProps = {
 
 export function ProductCategoryDiscoverButton({
   href,
-  color = "#005d20",
-  hoverColor = "#e93a88",
+  color = '#005d20',
+  hoverColor = '#e93a88',
 }: {
   href: string;
   color?: string;
@@ -29,8 +29,8 @@ export function ProductCategoryDiscoverButton({
       className={`${shared.discoverButton} ${shared.pequena} inline-flex min-w-[180px] items-center justify-center px-15 py-3 text-[30px] leading-[1.2] lowercase text-white! transition-colors duration-200`}
       style={
         {
-          "--discover-bg": color,
-          "--discover-hover": hoverColor,
+          '--discover-bg': color,
+          '--discover-hover': hoverColor,
         } as React.CSSProperties
       }
     >
@@ -44,19 +44,19 @@ export function ProductCategoryProductCard({
   description,
   image,
   href,
-  buttonColor = "#005d20",
-  buttonHoverColor = "#00A19D",
+  buttonColor = '#005d20',
+  buttonHoverColor = '#00A19D',
   imageWidth = 825,
   imageHeight = 1007,
 }: ProductCategoryProductCardProps) {
-  const isSvg = image.endsWith(".svg");
+  const isSvg = image.endsWith('.svg');
 
   return (
     <div className={shared.productCard}>
       <Link href={href} className="block">
         <Image
           src={image}
-          alt={title.replace(/\n/g, " ")}
+          alt={title.replace(/\n/g, ' ')}
           width={imageWidth}
           height={imageHeight}
           unoptimized={isSvg}

@@ -1,32 +1,37 @@
-import type { PartnerPage, PartnerPageStatus } from "@/lib/content-blocks/types";
+import type {
+  PartnerPage,
+  PartnerPageStatus,
+} from '@/lib/content-blocks/types';
 
 export const PARTNER_PAGE_STATUSES: PartnerPageStatus[] = [
-  "draft",
-  "published",
-  "scheduled",
-  "private",
-  "disabled",
+  'draft',
+  'published',
+  'scheduled',
+  'private',
+  'disabled',
 ];
 
 export const PARTNER_PAGE_STATUS_LABELS: Record<PartnerPageStatus, string> = {
-  draft: "Draft",
-  published: "Published",
-  scheduled: "Scheduled",
-  private: "Private",
-  disabled: "Disabled",
+  draft: 'Draft',
+  published: 'Published',
+  scheduled: 'Scheduled',
+  private: 'Private',
+  disabled: 'Disabled',
 };
 
 export const PARTNER_PAGE_STATUS_HINTS: Record<PartnerPageStatus, string> = {
-  draft: "Saved in the CMS only — not visible on the public site.",
-  published: "Live on the site and available to visitors now.",
-  scheduled: "Automatically goes live at the date and time you set.",
-  private: "Hidden from public listings; viewable via admin preview only.",
-  disabled: "Turned off — hidden from the public site until re-enabled.",
+  draft: 'Saved in the CMS only — not visible on the public site.',
+  published: 'Live on the site and available to visitors now.',
+  scheduled: 'Automatically goes live at the date and time you set.',
+  private: 'Hidden from public listings; viewable via admin preview only.',
+  disabled: 'Turned off — hidden from the public site until re-enabled.',
 };
 
-export function resolvePartnerPageStatus(partner: PartnerPage): PartnerPageStatus {
+export function resolvePartnerPageStatus(
+  partner: PartnerPage,
+): PartnerPageStatus {
   if (partner.status) return partner.status;
-  return partner.published_at ? "published" : "draft";
+  return partner.published_at ? 'published' : 'draft';
 }
 
 export function buildPartnerPageSavePayload(
@@ -34,15 +39,14 @@ export function buildPartnerPageSavePayload(
   options?: { publish?: boolean },
 ): PartnerPage {
   const status = options?.publish
-    ? "published"
+    ? 'published'
     : (partner.status ?? resolvePartnerPageStatus(partner));
   return applyPartnerPageStatus(partner, status, partner.scheduled_at);
 }
 
-export function getPartnerPageStatusPatch(partner: PartnerPage): Pick<
-  PartnerPage,
-  "status" | "published_at" | "scheduled_at"
-> {
+export function getPartnerPageStatusPatch(
+  partner: PartnerPage,
+): Pick<PartnerPage, 'status' | 'published_at' | 'scheduled_at'> {
   const normalized = applyPartnerPageStatus(
     partner,
     partner.status ?? resolvePartnerPageStatus(partner),
@@ -60,19 +64,21 @@ export function normalizePartnerPage(partner: PartnerPage): PartnerPage {
   const scheduled_at = partner.scheduled_at ?? null;
   let published_at = partner.published_at;
 
-  if (status === "draft") {
+  if (status === 'draft') {
     published_at = null;
-  } else if (status === "published") {
-    published_at = published_at ?? partner.updated_at ?? new Date().toISOString();
-  } else if (status === "scheduled") {
+  } else if (status === 'published') {
+    published_at =
+      published_at ?? partner.updated_at ?? new Date().toISOString();
+  } else if (status === 'scheduled') {
     if (scheduled_at && new Date(scheduled_at).getTime() <= Date.now()) {
       published_at = published_at ?? scheduled_at;
     } else {
       published_at = null;
     }
-  } else if (status === "private") {
-    published_at = published_at ?? partner.updated_at ?? new Date().toISOString();
-  } else if (status === "disabled") {
+  } else if (status === 'private') {
+    published_at =
+      published_at ?? partner.updated_at ?? new Date().toISOString();
+  } else if (status === 'disabled') {
     published_at = null;
   }
 
@@ -90,19 +96,24 @@ export function applyPartnerPageStatus(
   scheduledAt?: string | null,
 ): PartnerPage {
   const now = new Date().toISOString();
-  const scheduled_at = status === "scheduled" ? (scheduledAt ?? partner.scheduled_at ?? now) : null;
+  const scheduled_at =
+    status === 'scheduled'
+      ? (scheduledAt ?? partner.scheduled_at ?? now)
+      : null;
 
   let published_at = partner.published_at;
-  if (status === "draft") {
+  if (status === 'draft') {
     published_at = null;
-  } else if (status === "published") {
+  } else if (status === 'published') {
     published_at = published_at ?? now;
-  } else if (status === "scheduled") {
-    const isDue = scheduled_at ? new Date(scheduled_at).getTime() <= Date.now() : false;
+  } else if (status === 'scheduled') {
+    const isDue = scheduled_at
+      ? new Date(scheduled_at).getTime() <= Date.now()
+      : false;
     published_at = isDue ? (published_at ?? scheduled_at) : null;
-  } else if (status === "private") {
+  } else if (status === 'private') {
     published_at = published_at ?? now;
-  } else if (status === "disabled") {
+  } else if (status === 'disabled') {
     published_at = null;
   }
 
@@ -116,9 +127,10 @@ export function applyPartnerPageStatus(
 
 export function isPartnerPagePublic(partner: PartnerPage): boolean {
   const status = resolvePartnerPageStatus(partner);
-  if (status === "draft" || status === "private" || status === "disabled") return false;
-  if (status === "published") return Boolean(partner.published_at);
-  if (status === "scheduled") {
+  if (status === 'draft' || status === 'private' || status === 'disabled')
+    return false;
+  if (status === 'published') return Boolean(partner.published_at);
+  if (status === 'scheduled') {
     const at = partner.scheduled_at;
     if (!at) return false;
     return new Date(at).getTime() <= Date.now();
@@ -127,24 +139,26 @@ export function isPartnerPagePublic(partner: PartnerPage): boolean {
 }
 
 export function isPartnerPageDisabled(partner: PartnerPage): boolean {
-  return resolvePartnerPageStatus(partner) === "disabled";
+  return resolvePartnerPageStatus(partner) === 'disabled';
 }
 
 export function isPartnerPagePreviewable(partner: PartnerPage): boolean {
   return !isPartnerPageDisabled(partner);
 }
 
-export function getPartnerPageStatusBadgeClass(status: PartnerPageStatus): string {
+export function getPartnerPageStatusBadgeClass(
+  status: PartnerPageStatus,
+): string {
   switch (status) {
-    case "published":
-      return "badgePublished";
-    case "scheduled":
-      return "badgeScheduled";
-    case "private":
-      return "badgePrivate";
-    case "disabled":
-      return "badgeDisabled";
+    case 'published':
+      return 'badgePublished';
+    case 'scheduled':
+      return 'badgeScheduled';
+    case 'private':
+      return 'badgePrivate';
+    case 'disabled':
+      return 'badgeDisabled';
     default:
-      return "badgeDraft";
+      return 'badgeDraft';
   }
 }

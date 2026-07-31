@@ -48,7 +48,7 @@
 }
 
 .orderedList li::before {
-  content: counter(spices-why) ".";
+  content: counter(spices-why) '.';
   position: absolute;
   left: 60px;
   width: 1.8em;
@@ -87,7 +87,6 @@
   .leadStrong,
   .relatedTitle,
   .relatedText {
-   
     padding: 0 10px;
   }
 
@@ -99,7 +98,6 @@
     max-width: 36rem;
   }
   .orderedList li::before {
-
     left: 0;
   }
 

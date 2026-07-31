@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { RichTextEditor } from "@/components/Admin/BlockEditor/rich-text-editor";
-import styles from "./recipe-editor.module.css";
+import { RichTextEditor } from '@/components/Admin/BlockEditor/rich-text-editor';
+import styles from './recipe-editor.module.css';
 
 type RecipeRichTextFieldProps = {
   id?: string;
@@ -27,7 +27,11 @@ export function RecipeRichTextField({
       </label>
       {hint ? <p className={styles.fieldHint}>{hint}</p> : null}
       <div id={id}>
-        <RichTextEditor value={value} onChange={onChange} placeholder={placeholder} />
+        <RichTextEditor
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+        />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "Mundial";
-  src: url("/tableware/fonts/mundial-regular.otf") format("opentype");
+  font-family: 'Mundial';
+  src: url('/tableware/fonts/mundial-regular.otf') format('opentype');
   font-weight: 400 600;
   font-style: normal;
   font-display: swap;
@@ -450,7 +450,7 @@
   font-family: var(--font-montserrat), Montserrat, sans-serif;
   font-size: 15px;
   line-height: 1.35;
-  color: #6E9CA5;
+  color: #6e9ca5;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -468,7 +468,7 @@
   font-size: 16px;
   line-height: 26px;
   color: #000;
-  font-style:italic;
+  font-style: italic;
 }
 
 .distributorText a {
@@ -489,7 +489,7 @@
   margin-top: 16px;
   padding: 56px 0 64px;
 
-  background-image: url("/tableware/complete-set-bg.png");
+  background-image: url('/tableware/complete-set-bg.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -560,7 +560,9 @@
   transform: translateY(-50%);
   cursor: pointer;
   box-shadow: 0 2px 14px rgba(0, 0, 0, 0.14);
-  transition: color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .carouselArrow:hover {
@@ -832,9 +834,7 @@
 
   .careGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    
-    }
-  
+  }
 
   .careIconWrap {
     width: 72px;
@@ -1033,7 +1033,6 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px 12px;
   }
- 
 
   .careLabel {
     font-size: 18px;

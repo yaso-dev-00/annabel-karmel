@@ -1,8 +1,11 @@
-import seedStore from "@/data/cms/articles.seed.json";
-import type { Article, ArticlesStore } from "@/lib/content-blocks/types";
-import { isArticlePublic } from "@/lib/admin/article-status";
-import { readArticlesCmsStoreRaw, writeArticlesCmsStoreRaw } from "@/lib/admin/articles-cms-store-io";
-import { sanitizeArticle } from "@/lib/content-blocks/sanitize-settings";
+import seedStore from '@/data/cms/articles.seed.json';
+import type { Article, ArticlesStore } from '@/lib/content-blocks/types';
+import { isArticlePublic } from '@/lib/admin/article-status';
+import {
+  readArticlesCmsStoreRaw,
+  writeArticlesCmsStoreRaw,
+} from '@/lib/admin/articles-cms-store-io';
+import { sanitizeArticle } from '@/lib/content-blocks/sanitize-settings';
 
 async function readStore(): Promise<ArticlesStore> {
   let raw: string;
@@ -44,7 +47,9 @@ export async function getArticleById(id: string): Promise<Article | null> {
   return store.articles.find((article) => article.id === id) ?? null;
 }
 
-export async function getPublishedArticleBySlug(slug: string): Promise<Article | null> {
+export async function getPublishedArticleBySlug(
+  slug: string,
+): Promise<Article | null> {
   const store = await readStore();
   const article = store.articles.find((item) => item.slug === slug);
   if (!article || !isArticlePublic(article)) return null;
@@ -57,7 +62,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 }
 
 export async function createArticle(
-  input: Omit<Article, "id" | "created_at" | "updated_at">,
+  input: Omit<Article, 'id' | 'created_at' | 'updated_at'>,
 ): Promise<Article> {
   const store = await readStore();
   const now = new Date().toISOString();
@@ -74,7 +79,7 @@ export async function createArticle(
 
 export async function updateArticle(
   id: string,
-  input: Partial<Omit<Article, "id" | "created_at">>,
+  input: Partial<Omit<Article, 'id' | 'created_at'>>,
 ): Promise<Article | null> {
   const store = await readStore();
   const index = store.articles.findIndex((article) => article.id === id);

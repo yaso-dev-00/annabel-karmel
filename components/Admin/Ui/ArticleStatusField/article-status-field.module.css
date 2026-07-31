@@ -43,7 +43,10 @@
   font-weight: 600;
   color: #4d4d4d;
   text-align: left;
-  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .option:hover {
@@ -78,7 +81,9 @@
   border: 2px solid #d0c6c8;
   background: #fff;
   position: relative;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
 }
 
 .optionSelected .radio {
@@ -87,7 +92,7 @@
 }
 
 .optionSelected .radio::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 3px;
   border-radius: 50%;

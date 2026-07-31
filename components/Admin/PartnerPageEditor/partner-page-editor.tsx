@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
 import {
   createPartnerPageApi,
   updatePartnerPageApi,
-} from "@/lib/admin/partners-client";
+} from '@/lib/admin/partners-client';
 import {
   applyPartnerPageStatus,
   buildPartnerPageSavePayload,
@@ -15,30 +15,43 @@ import {
   isPartnerPagePreviewable,
   isPartnerPagePublic,
   resolvePartnerPageStatus,
-} from "@/lib/admin/partner-page-status";
-import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { MaxWidthField } from "@/components/Admin/Ui/MaxWidthField";
-import { BlockEditorCanvas, BlockEditorLivePreview, BlockEditorRoot } from "@/components/Admin/BlockEditor/block-editor";
-import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import type { PartnerPage, PartnerPageStatus } from "@/lib/content-blocks/types";
+} from '@/lib/admin/partner-page-status';
+import { ArticleStatusField } from '@/components/Admin/Ui/ArticleStatusField';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import { MaxWidthField } from '@/components/Admin/Ui/MaxWidthField';
+import {
+  BlockEditorCanvas,
+  BlockEditorLivePreview,
+  BlockEditorRoot,
+} from '@/components/Admin/BlockEditor/block-editor';
+import styles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import type {
+  PartnerPage,
+  PartnerPageStatus,
+} from '@/lib/content-blocks/types';
 
 type PartnerPageEditorProps = {
   initialPartner: PartnerPage;
   isNew?: boolean;
 };
 
-export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorProps) {
+export function PartnerPageEditor({
+  initialPartner,
+  isNew,
+}: PartnerPageEditorProps) {
   const router = useRouter();
   const [partner, setPartner] = useState(initialPartner);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const update = useCallback(<K extends keyof PartnerPage>(key: K, value: PartnerPage[K]) => {
-    setPartner((prev) => ({ ...prev, [key]: value }));
-    setDirty(true);
-  }, []);
+  const update = useCallback(
+    <K extends keyof PartnerPage>(key: K, value: PartnerPage[K]) => {
+      setPartner((prev) => ({ ...prev, [key]: value }));
+      setDirty(true);
+    },
+    [],
+  );
 
   const save = async (publish = false) => {
     setSaving(true);
@@ -49,25 +62,31 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
         const created = await createPartnerPageApi(payload);
         setPartner(created);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.replace(`/admin/partners/${created.id}/edit`);
         router.refresh();
       } else {
         const updated = await updatePartnerPageApi(partner.id, payload);
         setPartner(updated);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.refresh();
       }
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Save failed. Please try again.';
       setMessage(detail);
     } finally {
       setSaving(false);
     }
   };
 
-  const handleStatusChange = async (status: PartnerPageStatus, scheduledAt?: string | null) => {
+  const handleStatusChange = async (
+    status: PartnerPageStatus,
+    scheduledAt?: string | null,
+  ) => {
     const next = applyPartnerPageStatus(partner, status, scheduledAt);
     setPartner(next);
 
@@ -75,20 +94,26 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
       setSaving(true);
       setMessage(null);
       try {
-        const updated = await updatePartnerPageApi(partner.id, getPartnerPageStatusPatch(next));
+        const updated = await updatePartnerPageApi(
+          partner.id,
+          getPartnerPageStatusPatch(next),
+        );
         setPartner(updated);
         setDirty(false);
         setMessage(
-          status === "disabled"
-            ? "Partner page disabled."
-            : status === "published"
-              ? "Partner page published."
-              : "Status saved.",
+          status === 'disabled'
+            ? 'Partner page disabled.'
+            : status === 'published'
+              ? 'Partner page published.'
+              : 'Status saved.',
         );
         router.refresh();
       } catch (error) {
         setDirty(true);
-        const detail = error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+        const detail =
+          error instanceof Error
+            ? error.message
+            : 'Failed to save status. Try Save draft.';
         setMessage(detail);
       } finally {
         setSaving(false);
@@ -107,20 +132,26 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
   return (
     <BlockEditorRoot
       blocks={partner.content_blocks}
-      onChange={(blocks) => update("content_blocks", blocks)}
-      contentMaxWidth={partner.content_max_width ?? "default"}
+      onChange={(blocks) => update('content_blocks', blocks)}
+      contentMaxWidth={partner.content_max_width ?? 'default'}
       contentMaxWidthCustom={partner.content_max_width_custom}
       editorContext="partners"
     >
       <div className="editorSections">
         <div className="editorPageHeader">
           <div>
-            <h1 className="cardTitle">{partner.title || "Untitled"}</h1>
-            <p className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}>
-              {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
+            <h1 className="cardTitle">{partner.title || 'Untitled'}</h1>
+            <p
+              className={`statusBar ${dirty && !message ? 'statusDirty' : ''}`}
+            >
+              {message
+                ? message
+                : dirty
+                  ? 'Unsaved changes'
+                  : 'All changes saved'}
             </p>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             {partner.id && partner.slug ? (
               previewable ? (
                 <Link
@@ -145,10 +176,20 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
                 </button>
               )
             ) : null}
-            <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+            <button
+              type="button"
+              className="btn btnSecondary"
+              onClick={saveDraft}
+              disabled={saving}
+            >
               Save draft
             </button>
-            <button type="button" className="btn btnPrimary" onClick={publish} disabled={saving || isPartnerPageDisabled(partner)}>
+            <button
+              type="button"
+              className="btn btnPrimary"
+              onClick={publish}
+              disabled={saving || isPartnerPageDisabled(partner)}
+            >
               Publish
             </button>
           </div>
@@ -166,19 +207,31 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
               <div className="metaGrid">
                 <div className="field">
                   <label className="fieldLabel">Title</label>
-                  <input className="fieldInput" value={partner.title} onChange={(e) => update("title", e.target.value)} />
+                  <input
+                    className="fieldInput"
+                    value={partner.title}
+                    onChange={(e) => update('title', e.target.value)}
+                  />
                 </div>
                 <div className="field">
                   <label className="fieldLabel">Slug</label>
-                  <input className="fieldInput" value={partner.slug} onChange={(e) => update("slug", e.target.value)} placeholder="pampers-snacking" />
+                  <input
+                    className="fieldInput"
+                    value={partner.slug}
+                    onChange={(e) => update('slug', e.target.value)}
+                    placeholder="pampers-snacking"
+                  />
                 </div>
                 <div className="field">
-                  <label className="fieldLabel" htmlFor="partner-content-max-width">
+                  <label
+                    className="fieldLabel"
+                    htmlFor="partner-content-max-width"
+                  >
                     Content max width
                   </label>
                   <MaxWidthField
                     id="partner-content-max-width"
-                    preset={partner.content_max_width ?? "default"}
+                    preset={partner.content_max_width ?? 'default'}
                     customValue={partner.content_max_width_custom}
                     selectClassName="fieldSelect"
                     inputClassName="fieldInput"
@@ -188,21 +241,23 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
                         ...prev,
                         content_max_width: preset,
                         content_max_width_custom:
-                          preset === "custom" ? prev.content_max_width_custom : undefined,
+                          preset === 'custom'
+                            ? prev.content_max_width_custom
+                            : undefined,
                       }));
                       setDirty(true);
                     }}
                     onCustomChange={(value) => {
                       setPartner((prev) => ({
                         ...prev,
-                        content_max_width: "custom",
+                        content_max_width: 'custom',
                         content_max_width_custom: value,
                       }));
                       setDirty(true);
                     }}
                   />
                 </div>
-                <div className="field" style={{ gridColumn: "1 / -1" }}>
+                <div className="field" style={{ gridColumn: '1 / -1' }}>
                   <label className="fieldLabel">Listing image</label>
                   <ImageField
                     value={partner.listing_image}
@@ -215,7 +270,9 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
                       }));
                       setDirty(true);
                     }}
-                    onAltChange={(altVal) => update("listing_image_alt", altVal)}
+                    onAltChange={(altVal) =>
+                      update('listing_image_alt', altVal)
+                    }
                   />
                 </div>
                 <div className="field">
@@ -223,7 +280,9 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
                     <input
                       type="checkbox"
                       checked={partner.show_instagram_share}
-                      onChange={(e) => update("show_instagram_share", e.target.checked)}
+                      onChange={(e) =>
+                        update('show_instagram_share', e.target.checked)
+                      }
                     />
                     <span>Show Instagram share section</span>
                   </label>
@@ -236,11 +295,20 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
               <div className="cardForm">
                 <div className="field">
                   <label className="fieldLabel">SEO title</label>
-                  <input className="fieldInput" value={partner.seo_title} onChange={(e) => update("seo_title", e.target.value)} />
+                  <input
+                    className="fieldInput"
+                    value={partner.seo_title}
+                    onChange={(e) => update('seo_title', e.target.value)}
+                  />
                 </div>
                 <div className="field">
                   <label className="fieldLabel">SEO description</label>
-                  <textarea className="fieldTextarea" value={partner.seo_description} onChange={(e) => update("seo_description", e.target.value)} rows={3} />
+                  <textarea
+                    className="fieldTextarea"
+                    value={partner.seo_description}
+                    onChange={(e) => update('seo_description', e.target.value)}
+                    rows={3}
+                  />
                 </div>
               </div>
             </div>
@@ -249,21 +317,36 @@ export function PartnerPageEditor({ initialPartner, isNew }: PartnerPageEditorPr
               <h2 className="cardSectionTitle">Content blocks</h2>
               <div className="cardForm">
                 {partner.content_blocks.length === 0 && isNew ? (
-                  <p className="mutedNote">Start adding blocks below to build your partner page.</p>
+                  <p className="mutedNote">
+                    Start adding blocks below to build your partner page.
+                  </p>
                 ) : null}
                 <BlockEditorCanvas />
               </div>
             </div>
           </div>
 
-          <aside className={styles.editorPreviewColumn} aria-label="Live preview">
+          <aside
+            className={styles.editorPreviewColumn}
+            aria-label="Live preview"
+          >
             <BlockEditorLivePreview
               fullscreenActions={
                 <>
-                  <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+                  <button
+                    type="button"
+                    className="btn btnSecondary"
+                    onClick={saveDraft}
+                    disabled={saving}
+                  >
                     Save draft
                   </button>
-                  <button type="button" className="btn btnPrimary" onClick={publish} disabled={saving}>
+                  <button
+                    type="button"
+                    className="btn btnPrimary"
+                    onClick={publish}
+                    disabled={saving}
+                  >
                     Publish
                   </button>
                 </>

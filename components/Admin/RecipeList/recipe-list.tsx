@@ -1,29 +1,29 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from 'next/link';
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   resolveRecipeStatus,
   recipeStatusDateMeta,
   isRecipePreviewable,
-} from "@/lib/admin/recipe-status";
-import { matchesAdminListSearch } from "@/lib/admin/format-admin-list";
-import { fetchRecipes } from "@/lib/admin/recipes-client";
-import { useAdminListRefresh } from "@/lib/admin/use-admin-list-refresh";
-import { getRecipeAuthorById } from "@/data/recipe-authors";
+} from '@/lib/admin/recipe-status';
+import { matchesAdminListSearch } from '@/lib/admin/format-admin-list';
+import { fetchRecipes } from '@/lib/admin/recipes-client';
+import { useAdminListRefresh } from '@/lib/admin/use-admin-list-refresh';
+import { getRecipeAuthorById } from '@/data/recipe-authors';
 import {
   getTaxonomy,
   type RecipeTaxonomyGroup,
   type RecipeTaxonomyKind,
-} from "@/data/recipe-taxonomies";
+} from '@/data/recipe-taxonomies';
 import {
   RECIPE_VISIBILITIES,
   type Recipe,
   type RecipeStatus,
   type RecipeVisibility,
-} from "@/lib/recipes/types";
-import styles from "./recipe-list.module.css";
+} from '@/lib/recipes/types';
+import styles from './recipe-list.module.css';
 
 const PAGE_SIZE = 20;
 
@@ -32,41 +32,43 @@ type RecipeListProps = {
   categoryGroups?: RecipeTaxonomyGroup[];
 };
 
-type StatusSubview = "all" | RecipeStatus;
-type SortColumn = "author" | "date" | "categories" | "visibility";
-type SortDirection = "asc" | "desc";
+type StatusSubview = 'all' | RecipeStatus;
+type SortColumn = 'author' | 'date' | 'categories' | 'visibility';
+type SortDirection = 'asc' | 'desc';
 
 function formatRecipeListDate(recipe: Recipe): string {
   const status = resolveRecipeStatus(recipe);
   const meta = recipeStatusDateMeta(recipe);
-  if (!meta.iso) return "—";
+  if (!meta.iso) return '—';
   const d = new Date(meta.iso);
   const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  const h = String(d.getHours()).padStart(2, "0");
-  const min = String(d.getMinutes()).padStart(2, "0");
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const h = String(d.getHours()).padStart(2, '0');
+  const min = String(d.getMinutes()).padStart(2, '0');
   const prefix =
-    status === "published"
-      ? "Published"
-      : status === "scheduled"
-        ? "Scheduled"
-        : status === "disabled"
-          ? "Disabled"
-          : "Draft";
+    status === 'published'
+      ? 'Published'
+      : status === 'scheduled'
+        ? 'Scheduled'
+        : status === 'disabled'
+          ? 'Disabled'
+          : 'Draft';
   return `${prefix} ${y}/${m}/${day} at ${h}:${min}`;
 }
 
 function recipeVisibility(recipe: Recipe): RecipeVisibility {
-  return recipe.visibility ?? "both";
+  return recipe.visibility ?? 'both';
 }
 
 function visibilityLabel(value: RecipeVisibility): string {
-  return RECIPE_VISIBILITIES.find((option) => option.value === value)?.label ?? value;
+  return (
+    RECIPE_VISIBILITIES.find((option) => option.value === value)?.label ?? value
+  );
 }
 
 function primaryRefForKind(
-  taxonomies: Recipe["taxonomies"],
+  taxonomies: Recipe['taxonomies'],
   kind: RecipeTaxonomyKind,
 ) {
   const refs = taxonomies.filter((ref) => ref.kind === kind);
@@ -92,11 +94,11 @@ function primaryCategoryLabels(
     if (taxonomy) labels.push(taxonomy.label);
   }
 
-  return labels.length > 0 ? labels.join(", ") : "—";
+  return labels.length > 0 ? labels.join(', ') : '—';
 }
 
 function authorSortKey(recipe: Recipe): string {
-  return getRecipeAuthorById(recipe.author_id)?.name?.toLowerCase() ?? "";
+  return getRecipeAuthorById(recipe.author_id)?.name?.toLowerCase() ?? '';
 }
 
 function dateSortKey(recipe: Recipe): number {
@@ -106,7 +108,10 @@ function dateSortKey(recipe: Recipe): number {
   return Number.isNaN(time) ? 0 : time;
 }
 
-function categoriesSortKey(recipe: Recipe, categoryGroups: RecipeTaxonomyGroup[]): string {
+function categoriesSortKey(
+  recipe: Recipe,
+  categoryGroups: RecipeTaxonomyGroup[],
+): string {
   return primaryCategoryLabels(recipe, categoryGroups).toLowerCase();
 }
 
@@ -128,22 +133,22 @@ function compareRecipes(
 ): number {
   let cmp = 0;
   switch (column) {
-    case "author":
+    case 'author':
       cmp = authorSortKey(a).localeCompare(authorSortKey(b));
       break;
-    case "date":
+    case 'date':
       cmp = dateSortKey(a) - dateSortKey(b);
       break;
-    case "categories":
+    case 'categories':
       cmp = categoriesSortKey(a, categoryGroups).localeCompare(
         categoriesSortKey(b, categoryGroups),
       );
       break;
-    case "visibility":
+    case 'visibility':
       cmp = visibilitySortKey(a) - visibilitySortKey(b);
       break;
   }
-  return direction === "asc" ? cmp : -cmp;
+  return direction === 'asc' ? cmp : -cmp;
 }
 
 function SortHeader({
@@ -160,14 +165,16 @@ function SortHeader({
   onSort: (column: SortColumn) => void;
 }) {
   const active = activeColumn === column;
-  const arrow = active ? (direction === "asc" ? "↑" : "↓") : "↕";
+  const arrow = active ? (direction === 'asc' ? '↑' : '↓') : '↕';
 
   return (
     <button
       type="button"
-      className={`${styles.sortBtn}${active ? ` ${styles.sortBtnActive}` : ""}`}
+      className={`${styles.sortBtn}${active ? ` ${styles.sortBtnActive}` : ''}`}
       onClick={() => onSort(column)}
-      aria-sort={active ? (direction === "asc" ? "ascending" : "descending") : "none"}
+      aria-sort={
+        active ? (direction === 'asc' ? 'ascending' : 'descending') : 'none'
+      }
     >
       <span>{label}</span>
       <span className={styles.sortArrow} aria-hidden="true">
@@ -183,10 +190,10 @@ function recipePreviewHref(recipe: Recipe): string | null {
 }
 
 function monthKey(iso: string | null | undefined): string {
-  if (!iso) return "";
+  if (!iso) return '';
   const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "";
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  if (Number.isNaN(d.getTime())) return '';
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
 }
 
 function ClickableTableRow({
@@ -203,7 +210,7 @@ function ClickableTableRow({
       className="tableRowClickable"
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -216,34 +223,45 @@ function ClickableTableRow({
   );
 }
 
-export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: RecipeListProps) {
-  const { items: recipes } = useAdminListRefresh(initialRecipes, fetchRecipes, "/admin/recipes");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [appliedSearch, setAppliedSearch] = useState("");
-  const [statusSubview, setStatusSubview] = useState<StatusSubview>("all");
+export function RecipeList({
+  recipes: initialRecipes,
+  categoryGroups = [],
+}: RecipeListProps) {
+  const { items: recipes } = useAdminListRefresh(
+    initialRecipes,
+    fetchRecipes,
+    '/admin/recipes',
+  );
+  const [searchQuery, setSearchQuery] = useState('');
+  const [appliedSearch, setAppliedSearch] = useState('');
+  const [statusSubview, setStatusSubview] = useState<StatusSubview>('all');
   const [page, setPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<SortColumn | null>(null);
-  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
-  const [dateFilter, setDateFilter] = useState("all");
-  const [ageFilter, setAgeFilter] = useState("all");
-  const [allergenFilter, setAllergenFilter] = useState("all");
-  const [visibilityFilter, setVisibilityFilter] = useState("all");
-  const [gatedFilter, setGatedFilter] = useState("all");
-  const [seoFilter, setSeoFilter] = useState("all");
-  const [readabilityFilter, setReadabilityFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState('all');
+  const [ageFilter, setAgeFilter] = useState('all');
+  const [allergenFilter, setAllergenFilter] = useState('all');
+  const [visibilityFilter, setVisibilityFilter] = useState('all');
+  const [gatedFilter, setGatedFilter] = useState('all');
+  const [seoFilter, setSeoFilter] = useState('all');
+  const [readabilityFilter, setReadabilityFilter] = useState('all');
 
   const toggleSort = (column: SortColumn) => {
     if (sortColumn === column) {
-      setSortDirection((current) => (current === "asc" ? "desc" : "asc"));
+      setSortDirection((current) => (current === 'asc' ? 'desc' : 'asc'));
       return;
     }
     setSortColumn(column);
-    setSortDirection("asc");
+    setSortDirection('asc');
   };
 
-  const ageGroup = categoryGroups.find((group) => group.kind === "recipe-category");
-  const allergenGroup = categoryGroups.find((group) => group.kind === "allergen");
+  const ageGroup = categoryGroups.find(
+    (group) => group.kind === 'recipe-category',
+  );
+  const allergenGroup = categoryGroups.find(
+    (group) => group.kind === 'allergen',
+  );
 
   const statusCounts = useMemo(() => {
     const counts: Record<StatusSubview, number> = {
@@ -275,16 +293,16 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
   const filteredRecipes = useMemo(() => {
     let list = recipes.filter((recipe) => {
       const status = resolveRecipeStatus(recipe);
-      const matchesStatus = statusSubview === "all" || status === statusSubview;
+      const matchesStatus = statusSubview === 'all' || status === statusSubview;
       const matchesSearch = matchesAdminListSearch(
         appliedSearch,
         recipe.title,
         recipe.slug,
-        getRecipeAuthorById(recipe.author_id)?.name ?? "",
+        getRecipeAuthorById(recipe.author_id)?.name ?? '',
       );
       if (!matchesStatus || !matchesSearch) return false;
 
-      if (dateFilter !== "all") {
+      if (dateFilter !== 'all') {
         const key =
           monthKey(recipe.published_at) ||
           monthKey(recipe.scheduled_at) ||
@@ -292,25 +310,26 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
         if (key !== dateFilter) return false;
       }
 
-      if (ageFilter !== "all") {
+      if (ageFilter !== 'all') {
         const hasAge = recipe.taxonomies.some(
-          (ref) => ref.kind === "recipe-category" && ref.slug === ageFilter,
+          (ref) => ref.kind === 'recipe-category' && ref.slug === ageFilter,
         );
         if (!hasAge) return false;
       }
 
-      if (allergenFilter !== "all") {
+      if (allergenFilter !== 'all') {
         const hasAllergen = recipe.taxonomies.some(
-          (ref) => ref.kind === "allergen" && ref.slug === allergenFilter,
+          (ref) => ref.kind === 'allergen' && ref.slug === allergenFilter,
         );
         if (!hasAllergen) return false;
       }
 
       const visibility = recipeVisibility(recipe);
-      if (visibilityFilter !== "all" && visibility !== visibilityFilter) return false;
+      if (visibilityFilter !== 'all' && visibility !== visibilityFilter)
+        return false;
 
-      if (gatedFilter === "gated" && !recipe.app_exclusive) return false;
-      if (gatedFilter === "public" && recipe.app_exclusive) return false;
+      if (gatedFilter === 'gated' && !recipe.app_exclusive) return false;
+      if (gatedFilter === 'public' && recipe.app_exclusive) return false;
 
       return true;
     });
@@ -349,22 +368,22 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
   };
 
   const hasActiveFilters =
-    dateFilter !== "all" ||
-    ageFilter !== "all" ||
-    allergenFilter !== "all" ||
-    visibilityFilter !== "all" ||
-    gatedFilter !== "all" ||
-    seoFilter !== "all" ||
-    readabilityFilter !== "all";
+    dateFilter !== 'all' ||
+    ageFilter !== 'all' ||
+    allergenFilter !== 'all' ||
+    visibilityFilter !== 'all' ||
+    gatedFilter !== 'all' ||
+    seoFilter !== 'all' ||
+    readabilityFilter !== 'all';
 
   const clearFilters = () => {
-    setDateFilter("all");
-    setAgeFilter("all");
-    setAllergenFilter("all");
-    setVisibilityFilter("all");
-    setGatedFilter("all");
-    setSeoFilter("all");
-    setReadabilityFilter("all");
+    setDateFilter('all');
+    setAgeFilter('all');
+    setAllergenFilter('all');
+    setVisibilityFilter('all');
+    setGatedFilter('all');
+    setSeoFilter('all');
+    setReadabilityFilter('all');
     setPage(1);
   };
 
@@ -373,10 +392,10 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
   };
 
   const subviewItems: { key: StatusSubview; label: string; count: number }[] = [
-    { key: "all", label: "All", count: statusCounts.all },
-    { key: "published", label: "Published", count: statusCounts.published },
-    { key: "scheduled", label: "Scheduled", count: statusCounts.scheduled },
-    { key: "draft", label: "Drafts", count: statusCounts.draft },
+    { key: 'all', label: 'All', count: statusCounts.all },
+    { key: 'published', label: 'Published', count: statusCounts.published },
+    { key: 'scheduled', label: 'Scheduled', count: statusCounts.scheduled },
+    { key: 'draft', label: 'Drafts', count: statusCounts.draft },
   ];
 
   return (
@@ -387,7 +406,7 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
             {index > 0 ? <span className={styles.subviewSep}>|</span> : null}
             <button
               type="button"
-              className={`${styles.subviewLink}${statusSubview === item.key ? ` ${styles.subviewLinkActive}` : ""}`}
+              className={`${styles.subviewLink}${statusSubview === item.key ? ` ${styles.subviewLinkActive}` : ''}`}
               onClick={() => {
                 setStatusSubview(item.key);
                 setPage(1);
@@ -402,7 +421,9 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
         <span className={styles.subviewSep}>|</span>
         <span className={styles.subviewStatic}>Orphaned content (1260)</span>
         <span className={styles.subviewSep}>|</span>
-        <span className={styles.subviewStatic}>Stale cornerstone content (0)</span>
+        <span className={styles.subviewStatic}>
+          Stale cornerstone content (0)
+        </span>
       </div>
 
       <div className={styles.filtersRow}>
@@ -496,7 +517,7 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
           className={styles.filterBtn}
           onClick={hasActiveFilters ? clearFilters : applyFilters}
         >
-          {hasActiveFilters ? "Clear filters" : "Filter"}
+          {hasActiveFilters ? 'Clear filters' : 'Filter'}
         </button>
 
         <form
@@ -634,19 +655,22 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
                 const author = getRecipeAuthorById(recipe.author_id);
                 const status = resolveRecipeStatus(recipe);
                 const statusSuffix =
-                  status === "scheduled"
-                    ? " — Scheduled"
-                    : status === "draft"
-                      ? " — Draft"
-                      : status === "disabled"
-                        ? " — Disabled"
-                        : "";
+                  status === 'scheduled'
+                    ? ' — Scheduled'
+                    : status === 'draft'
+                      ? ' — Draft'
+                      : status === 'disabled'
+                        ? ' — Disabled'
+                        : '';
 
                 const previewHref = recipePreviewHref(recipe);
-                const showPreview = status === "draft" && previewHref;
+                const showPreview = status === 'draft' && previewHref;
 
                 return (
-                  <ClickableTableRow key={recipe.id} href={`/admin/recipes/${recipe.id}/edit`}>
+                  <ClickableTableRow
+                    key={recipe.id}
+                    href={`/admin/recipes/${recipe.id}/edit`}
+                  >
                     <td className="tableTitleCell">
                       <span className={styles.titleCellMain}>
                         {recipe.title}
@@ -670,10 +694,12 @@ export function RecipeList({ recipes: initialRecipes, categoryGroups = [] }: Rec
                       {author ? (
                         <span className={styles.linkCell}>{author.name}</span>
                       ) : (
-                        "—"
+                        '—'
                       )}
                     </td>
-                    <td className={styles.dateCell}>{formatRecipeListDate(recipe)}</td>
+                    <td className={styles.dateCell}>
+                      {formatRecipeListDate(recipe)}
+                    </td>
                     <td className={styles.categoriesCell}>
                       {primaryCategoryLabels(recipe, categoryGroups)}
                     </td>

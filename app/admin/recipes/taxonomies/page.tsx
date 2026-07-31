@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export default function AdminRecipeTaxonomiesRedirectPage() {
-  redirect("/admin/recipes/categories");
+  redirect('/admin/recipes/categories');
 }

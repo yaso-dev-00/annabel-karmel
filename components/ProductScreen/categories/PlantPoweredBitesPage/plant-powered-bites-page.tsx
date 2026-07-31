@@ -1,16 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { ProductCategoryIntroSection } from "@/components/ProductScreen/shared/ProductCategoryIntroSection";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { ProductCategoryIntroSection } from '@/components/ProductScreen/shared/ProductCategoryIntroSection';
 import {
   ProductCategoryDiscoverButton,
   ProductCategoryProductCard,
-} from "@/components/ProductScreen/shared/ProductCategoryProductCard";
-import {
-  SectionBackgroundImage,
-} from "@/components/UiPrimitives/SectionBackgroundImage";
-import { WaysToServeCarousel } from "@/components/SharedCarousels/WaysToServeCarousel";
+} from '@/components/ProductScreen/shared/ProductCategoryProductCard';
+import { SectionBackgroundImage } from '@/components/UiPrimitives/SectionBackgroundImage';
+import { WaysToServeCarousel } from '@/components/SharedCarousels/WaysToServeCarousel';
 import {
   plantPoweredBitesAssets,
   plantPoweredBitesFrozenCta,
@@ -19,13 +17,21 @@ import {
   plantPoweredBitesPromise,
   plantPoweredBitesRetailer,
   plantPoweredBitesWaysToServe,
-} from "@/data/plant-powered-bites-page";
-import styles from "./plant-powered-bites-page.module.css";
+} from '@/data/plant-powered-bites-page';
+import styles from './plant-powered-bites-page.module.css';
 
 function WaveShapeBottom() {
   return (
-    <div className={styles.shapeBottom} aria-hidden="true" data-negative="false">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+    <div
+      className={styles.shapeBottom}
+      aria-hidden="true"
+      data-negative="false"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1000 100"
+        preserveAspectRatio="none"
+      >
         <path
           className={styles.shapeFill}
           d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"
@@ -38,7 +44,10 @@ function WaveShapeBottom() {
 export function PlantPoweredBitesPageContent() {
   return (
     <main className={styles.page}>
-      <section className={`${styles.fullBleed} ${styles.heroSection}`} aria-label="Plant-powered bites hero">
+      <section
+        className={`${styles.fullBleed} ${styles.heroSection}`}
+        aria-label="Plant-powered bites hero"
+      >
         <div className={`${styles.heroImageWrap} ${styles.heroImageDesktop}`}>
           <Image
             src={plantPoweredBitesAssets.heroDesktop}
@@ -79,9 +88,16 @@ export function PlantPoweredBitesPageContent() {
         className={`${styles.fullBleed} ${styles.promiseSection} flex flex-col items-center justify-center `}
         aria-labelledby="plant-powered-bites-promise-heading"
       >
-        <SectionBackgroundImage desktopSrc={plantPoweredBitesAssets.promiseBg} />
-        <div className={`${styles.sectionContent} ${styles.inner} flex flex-col gap-y-6 md:gap-y-10`}>
-          <h2 id="plant-powered-bites-promise-heading" className={`${styles.sectionHeadingDark} uppercase`}>
+        <SectionBackgroundImage
+          desktopSrc={plantPoweredBitesAssets.promiseBg}
+        />
+        <div
+          className={`${styles.sectionContent} ${styles.inner} flex flex-col gap-y-6 md:gap-y-10`}
+        >
+          <h2
+            id="plant-powered-bites-promise-heading"
+            className={`${styles.sectionHeadingDark} uppercase`}
+          >
             {plantPoweredBitesPromise.heading}
           </h2>
           <Image
@@ -128,10 +144,17 @@ export function PlantPoweredBitesPageContent() {
         className={`${styles.fullBleed} ${styles.retailersSection}`}
         aria-labelledby="plant-powered-bites-retailer-heading"
       >
-        <SectionBackgroundImage desktopSrc={plantPoweredBitesAssets.retailersBg} />
+        <SectionBackgroundImage
+          desktopSrc={plantPoweredBitesAssets.retailersBg}
+        />
         <WaveShapeBottom />
-        <div className={`${styles.sectionContent} ${styles.inner} max-w-[1210px]!`}>
-          <h2 id="plant-powered-bites-retailer-heading" className={`${styles.retailersHeading} uppercase`}>
+        <div
+          className={`${styles.sectionContent} ${styles.inner} max-w-[1210px]!`}
+        >
+          <h2
+            id="plant-powered-bites-retailer-heading"
+            className={`${styles.retailersHeading} uppercase`}
+          >
             {plantPoweredBitesRetailer.heading}
           </h2>
           <div className="mt-6 flex justify-center md:mt-8">
@@ -165,7 +188,9 @@ export function PlantPoweredBitesPageContent() {
           mobileSrc={plantPoweredBitesAssets.frozenCtaBgMobile}
         />
         <WaveShapeBottom />
-        <div className={`${styles.sectionContent} ${styles.inner} max-w-[1350px]!`}>
+        <div
+          className={`${styles.sectionContent} ${styles.inner} max-w-[1350px]!`}
+        >
           <div className={styles.frozenCtaLayout}>
             <div className={styles.frozenCtaPhotoLeft}>
               <Link href={plantPoweredBitesFrozenCta.href}>
@@ -196,7 +221,11 @@ export function PlantPoweredBitesPageContent() {
                 {plantPoweredBitesFrozenCta.heading}
               </h2>
               <div className="mt-4 flex w-full justify-center md:mt-6">
-                <ProductCategoryDiscoverButton href={plantPoweredBitesFrozenCta.href} color="#005D1F" hoverColor="#E93A88" />
+                <ProductCategoryDiscoverButton
+                  href={plantPoweredBitesFrozenCta.href}
+                  color="#005D1F"
+                  hoverColor="#E93A88"
+                />
               </div>
             </div>
 

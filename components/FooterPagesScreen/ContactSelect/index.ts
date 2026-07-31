@@ -1,1 +1,1 @@
-export * from "./contact-select";
+export * from './contact-select';

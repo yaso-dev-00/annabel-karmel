@@ -1,1 +1,1 @@
-export * from "./chilled-meals-page";
+export * from './chilled-meals-page';

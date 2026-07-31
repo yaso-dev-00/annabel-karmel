@@ -54,7 +54,6 @@
   .heroDesktop {
     display: block;
     padding-inline: var(--ra-shell-pad);
-   
   }
 }
 
@@ -75,14 +74,14 @@
   overflow: hidden;
   border-radius: 24px;
   background-color: rgba(134, 39, 69, 0.5);
-  background-image: url("/recipe-app/hero-desktop.png");
+  background-image: url('/recipe-app/hero-desktop.png');
   background-position: top right;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .heroDesktopInner::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.15);
@@ -205,7 +204,7 @@
 .heroMobileInner {
   overflow: hidden;
   border-radius: 24px;
-  background-image: url("/recipe-app/hero-mobile.png");
+  background-image: url('/recipe-app/hero-mobile.png');
   background-position: bottom center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -374,8 +373,6 @@
   height: auto;
 }
 
- 
-
 @media (min-width: 900px) {
   .joinShell {
     padding-inline: var(--ra-shell-pad);
@@ -432,8 +429,8 @@
 }
 
 @media (min-width: 1024px) {
-  .joinCollageImageRight{
-    width:100% ;
+  .joinCollageImageRight {
+    width: 100%;
   }
 }
 
@@ -521,7 +518,6 @@
     line-height: 39.2px;
   }
 }
-
 
 .joinCta {
   display: inline-flex;
@@ -615,13 +611,11 @@
   }
 }
 
- 
-
 .quoteCard {
   overflow: hidden;
   border-radius: 24px;
   background: var(--ra-pink);
-  background-image: url("/recipe-app/vector-quote.png");
+  background-image: url('/recipe-app/vector-quote.png');
   background-position: bottom right;
   background-repeat: no-repeat;
   background-size: 98% auto;
@@ -695,7 +689,7 @@
 
 @media (min-width: 1440px) {
   .quoteCopy {
-    padding:73px 0px 50px 65px;
+    padding: 73px 0px 50px 65px;
   }
 }
 
@@ -763,7 +757,10 @@
 
 @media (min-width: 1024px) {
   .featuresScrollGrid {
-    padding-inline: max(var(--ra-shell-pad), calc((100vw - var(--ra-shell-max)) / 2));
+    padding-inline: max(
+      var(--ra-shell-pad),
+      calc((100vw - var(--ra-shell-max)) / 2)
+    );
   }
 }
 
@@ -806,12 +803,12 @@
   }
 }
 
-@media(min-width: 1024px) {
+@media (min-width: 1024px) {
   .featuresScrollViewport {
     gap: 0px;
   }
 }
- 
+
 .featuresCustomScrollbar {
   display: none;
 }
@@ -955,10 +952,10 @@
   .featurePanelCopy {
     display: flex;
     flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-inline: auto;
-      text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-inline: auto;
+    text-align: center;
   }
 }
 
@@ -974,8 +971,6 @@
     width: 100%;
   }
 }
-
-
 
 .featurePanelImage {
   display: block;
@@ -1005,7 +1000,6 @@
   max-width: 100%;
 }
 
-
 @media (max-width: 900px) {
   .featurePanelImageMobile {
     width: 100%;
@@ -1014,18 +1008,15 @@
     max-height: min(75svh, 480px);
     object-fit: contain;
     object-position: center bottom;
-   
   }
 }
 
 @media (max-width: 500px) {
   .featurePanelImageMobile {
-    
     max-height: min(65svh, 480px);
-    
   }
 }
- 
+
 /* @media (min-width: 768px) and (max-width: 900px) {
   .featurePanelImage.featurePanelImageMobile {
     max-height: min(44svh, 340px);
@@ -1141,7 +1132,7 @@
 }
 
 .categoriesSection::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: var(--ra-pink-soft);
@@ -1380,7 +1371,7 @@
   padding: 48px 24px 120px;
   border-radius: 24px 24px 0 0;
   background-color: var(--ra-pink);
-  background-image: url("/recipe-app/weaning/frame-bg.png");
+  background-image: url('/recipe-app/weaning/frame-bg.png');
   background-position: bottom center;
   background-repeat: no-repeat;
   text-align: center;
@@ -1579,7 +1570,7 @@
 .weaningCardTitle {
   margin: 0 0 8px;
   font-family: var(--font-display);
-  font-size:22px;
+  font-size: 22px;
   font-weight: 600;
   line-height: 1.3;
   color: var(--ra-heading);
@@ -1624,7 +1615,10 @@
     grid-template-columns: minmax(0, 0.5fr) minmax(0, 0.6fr);
     gap: 20px 40px;
     align-items: start;
-    padding-inline: max(var(--ra-shell-pad), calc((100vw - var(--ra-shell-max)) / 2));
+    padding-inline: max(
+      var(--ra-shell-pad),
+      calc((100vw - var(--ra-shell-max)) / 2)
+    );
   }
 }
 
@@ -1652,7 +1646,7 @@
 .discoverHeading {
   margin: 0 0 20px;
   font-family: var(--font-display);
-  font-size:56px;
+  font-size: 56px;
   font-weight: 600;
   line-height: 1.2;
   text-align: left;
@@ -1737,13 +1731,13 @@
   font-size: 18px;
   font-weight: 500;
   line-height: 1.35;
-  color: #AFAEAE;
+  color: #afaeae;
   cursor: pointer;
   transition: color 0.25s ease;
 }
 
 .discoverTab:first-child .discoverTabBorder::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   right: 0;
@@ -1891,7 +1885,7 @@
   z-index: 1;
   width: 100%;
   overflow: hidden;
-  aspect-ratio:1;
+  aspect-ratio: 1;
 }
 
 @media (min-width: 768px) {
@@ -1945,7 +1939,7 @@
 }
 
 @media (max-width: 370px) {
-  .discoverCalloutText{
+  .discoverCalloutText {
     font-size: 14px;
   }
 }
@@ -2004,7 +1998,10 @@
   }
 
   .testimonialsHeaderInner {
-    padding-inline: max(var(--ra-shell-pad), calc((100vw - var(--ra-shell-max)) / 2));
+    padding-inline: max(
+      var(--ra-shell-pad),
+      calc((100vw - var(--ra-shell-max)) / 2)
+    );
   }
 }
 
@@ -2118,7 +2115,7 @@
 
 @media (max-width: 767px) {
   .testimonialCard {
-    width:  calc(95.2857vw - 10.5px);
+    width: calc(95.2857vw - 10.5px);
     max-width: 360px;
   }
 }
@@ -2186,7 +2183,10 @@
   .testimonialControls {
     max-width: var(--ra-shell-max);
     margin-inline: auto;
-    padding-inline: max(var(--ra-shell-pad), calc((100vw - var(--ra-shell-max)) / 2));
+    padding-inline: max(
+      var(--ra-shell-pad),
+      calc((100vw - var(--ra-shell-max)) / 2)
+    );
   }
 }
 
@@ -2255,7 +2255,10 @@
 @media (min-width: 1024px) {
   .pricingGrid {
     gap: 32px;
-    padding-inline: max(var(--ra-shell-pad), calc((100vw - var(--ra-shell-max)) / 2));
+    padding-inline: max(
+      var(--ra-shell-pad),
+      calc((100vw - var(--ra-shell-max)) / 2)
+    );
   }
 }
 
@@ -2290,7 +2293,7 @@
 
 @media (min-width: 768px) {
   .pricingStoreBadges {
-      justify-content: start;
+    justify-content: start;
   }
 }
 
@@ -2304,15 +2307,15 @@
   padding: 20px 24px;
   border-radius: 24px;
   background-color: var(--ra-pink);
-  background-image: url("/recipe-app/pricing-vector.png");
+  background-image: url('/recipe-app/pricing-vector.png');
   background-position: left;
   background-repeat: no-repeat;
-  background-size:cover;
+  background-size: cover;
   color: #fff;
   text-align: center;
 }
 
-.pricingCopy{
+.pricingCopy {
   text-align: center;
 }
 
@@ -2326,7 +2329,6 @@
   .pricingCard {
     min-height: 320px;
     padding: 24px 32px;
-    
   }
 }
 
@@ -2381,7 +2383,7 @@
 }
 
 .pricingSlider::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 3px;
   bottom: 3px;
@@ -2466,4 +2468,3 @@
   margin-top: 70px;
   padding-bottom: 40px;
 }
- 

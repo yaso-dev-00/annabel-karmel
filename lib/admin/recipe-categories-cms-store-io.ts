@@ -1,15 +1,15 @@
-import { del, get, list, put } from "@vercel/blob";
-import { promises as fs } from "fs";
-import path from "path";
-import { defaultRecipeCategoriesStore } from "@/data/recipe-taxonomies";
+import { del, get, list, put } from '@vercel/blob';
+import { promises as fs } from 'fs';
+import path from 'path';
+import { defaultRecipeCategoriesStore } from '@/data/recipe-taxonomies';
 
-const LEGACY_BLOB_PATHNAME = "cms/recipe-categories.json";
-const VERSIONED_PREFIX = "cms/recipe-categories/v";
+const LEGACY_BLOB_PATHNAME = 'cms/recipe-categories.json';
+const VERSIONED_PREFIX = 'cms/recipe-categories/v';
 const MAX_VERSIONS = 12;
 
-const CMS_DIR = path.join(process.cwd(), "data", "cms");
-const LOCAL_RUNTIME_FILE = path.join(CMS_DIR, "recipe-categories.json");
-const SEED_FILE = path.join(CMS_DIR, "recipe-categories.seed.json");
+const CMS_DIR = path.join(process.cwd(), 'data', 'cms');
+const LOCAL_RUNTIME_FILE = path.join(CMS_DIR, 'recipe-categories.json');
+const SEED_FILE = path.join(CMS_DIR, 'recipe-categories.seed.json');
 const BUNDLED_SEED_RAW = JSON.stringify(defaultRecipeCategoriesStore());
 
 export function blobRecipeCategoriesCmsEnabled(): boolean {
@@ -19,7 +19,9 @@ export function blobRecipeCategoriesCmsEnabled(): boolean {
 function getBlobAuthOptions(): { token: string; storeId?: string } {
   const token = process.env.BLOB_READ_WRITE_TOKEN;
   if (!token) {
-    throw new Error("BLOB_READ_WRITE_TOKEN is required for CMS persistence on Vercel.");
+    throw new Error(
+      'BLOB_READ_WRITE_TOKEN is required for CMS persistence on Vercel.',
+    );
   }
   const options: { token: string; storeId?: string } = { token };
   if (process.env.BLOB_STORE_ID) {
@@ -30,20 +32,22 @@ function getBlobAuthOptions(): { token: string; storeId?: string } {
 
 async function readSeedRaw(): Promise<string> {
   try {
-    return await fs.readFile(SEED_FILE, "utf8");
+    return await fs.readFile(SEED_FILE, 'utf8');
   } catch {
     return BUNDLED_SEED_RAW;
   }
 }
 
-async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string> {
+async function streamToText(
+  stream: ReadableStream<Uint8Array>,
+): Promise<string> {
   return new Response(stream).text();
 }
 
 async function readBlobAtPathname(pathname: string): Promise<string | null> {
   try {
     const result = await get(pathname, {
-      access: "public",
+      access: 'public',
       useCache: false,
       ...getBlobAuthOptions(),
     });
@@ -58,7 +62,11 @@ async function readBlobAtPathname(pathname: string): Promise<string | null> {
 
 async function readLatestVersionedBlob(): Promise<string | null> {
   const auth = getBlobAuthOptions();
-  const { blobs } = await list({ prefix: VERSIONED_PREFIX, limit: MAX_VERSIONS + 4, ...auth });
+  const { blobs } = await list({
+    prefix: VERSIONED_PREFIX,
+    limit: MAX_VERSIONS + 4,
+    ...auth,
+  });
   if (!blobs.length) return null;
 
   const latest = blobs.reduce((current, candidate) =>
@@ -79,10 +87,16 @@ async function readBlobRaw(): Promise<string | null> {
 
 async function pruneOldVersions(): Promise<void> {
   const auth = getBlobAuthOptions();
-  const { blobs } = await list({ prefix: VERSIONED_PREFIX, limit: MAX_VERSIONS + 20, ...auth });
+  const { blobs } = await list({
+    prefix: VERSIONED_PREFIX,
+    limit: MAX_VERSIONS + 20,
+    ...auth,
+  });
   if (blobs.length <= MAX_VERSIONS) return;
 
-  const sorted = blobs.slice().sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
+  const sorted = blobs
+    .slice()
+    .sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
   const stale = sorted.slice(MAX_VERSIONS);
   if (!stale.length) return;
 
@@ -95,7 +109,7 @@ async function pruneOldVersions(): Promise<void> {
 async function writeBlobRaw(raw: string): Promise<void> {
   if (!blobRecipeCategoriesCmsEnabled()) {
     throw new Error(
-      "CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.",
+      'CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.',
     );
   }
 
@@ -103,8 +117,8 @@ async function writeBlobRaw(raw: string): Promise<void> {
   const pathname = `${VERSIONED_PREFIX}${Date.now()}.json`;
 
   await put(pathname, raw, {
-    access: "public",
-    contentType: "application/json",
+    access: 'public',
+    contentType: 'application/json',
     addRandomSuffix: false,
     ...auth,
   });
@@ -121,7 +135,7 @@ export async function readRecipeCategoriesCmsStoreRaw(): Promise<string> {
 
   if (!process.env.VERCEL) {
     try {
-      return await fs.readFile(LOCAL_RUNTIME_FILE, "utf8");
+      return await fs.readFile(LOCAL_RUNTIME_FILE, 'utf8');
     } catch {
       // Fall back to seed below.
     }
@@ -130,7 +144,9 @@ export async function readRecipeCategoriesCmsStoreRaw(): Promise<string> {
   return readSeedRaw();
 }
 
-export async function writeRecipeCategoriesCmsStoreRaw(raw: string): Promise<void> {
+export async function writeRecipeCategoriesCmsStoreRaw(
+  raw: string,
+): Promise<void> {
   if (blobRecipeCategoriesCmsEnabled()) {
     await writeBlobRaw(raw);
     return;
@@ -138,10 +154,10 @@ export async function writeRecipeCategoriesCmsStoreRaw(raw: string): Promise<voi
 
   if (process.env.VERCEL) {
     throw new Error(
-      "CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.",
+      'CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.',
     );
   }
 
   await fs.mkdir(CMS_DIR, { recursive: true });
-  await fs.writeFile(LOCAL_RUNTIME_FILE, raw, "utf8");
+  await fs.writeFile(LOCAL_RUNTIME_FILE, raw, 'utf8');
 }

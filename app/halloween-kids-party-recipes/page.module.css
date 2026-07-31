@@ -25,7 +25,7 @@
 }
 
 .signature {
-  margin:40px auto 0 !important;
+  margin: 40px auto 0 !important;
   display: block;
   max-width: 330px;
   height: auto;
@@ -98,18 +98,14 @@
   font-size: 22px;
   font-style: italic !important;
   color: #3d3d3d;
-  
 }
-
-
-
 
 .cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 48px;
-  padding:13px;
+  padding: 13px;
   background: #6f7885;
   color: #fff;
   font-family: var(--font-body);
@@ -143,9 +139,7 @@
 }
 
 .visitText a:hover {
- 
-   color: var(--hover-color);
-
+  color: var(--hover-color);
 }
 
 .followText {
@@ -171,7 +165,7 @@
   width: 50px;
   height: 50px;
   border-radius: 5px;
-  background: #6B4024;
+  background: #6b4024;
   color: #fff;
   transition: opacity 0.15s ease;
 }

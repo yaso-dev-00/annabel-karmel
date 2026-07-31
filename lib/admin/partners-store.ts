@@ -1,8 +1,11 @@
-import seedStore from "@/data/cms/partners.seed.json";
-import type { PartnerPage, PartnersStore } from "@/lib/content-blocks/types";
-import { isPartnerPagePublic } from "@/lib/admin/partner-page-status";
-import { readPartnersCmsStoreRaw, writePartnersCmsStoreRaw } from "@/lib/admin/partners-cms-store-io";
-import { sanitizePartnerPage } from "@/lib/content-blocks/sanitize-settings";
+import seedStore from '@/data/cms/partners.seed.json';
+import type { PartnerPage, PartnersStore } from '@/lib/content-blocks/types';
+import { isPartnerPagePublic } from '@/lib/admin/partner-page-status';
+import {
+  readPartnersCmsStoreRaw,
+  writePartnersCmsStoreRaw,
+} from '@/lib/admin/partners-cms-store-io';
+import { sanitizePartnerPage } from '@/lib/content-blocks/sanitize-settings';
 
 async function readStore(): Promise<PartnersStore> {
   let raw: string;
@@ -39,25 +42,31 @@ export async function getAllPartners(): Promise<PartnerPage[]> {
   return store.partners.slice().sort((a, b) => a.title.localeCompare(b.title));
 }
 
-export async function getPartnerPageById(id: string): Promise<PartnerPage | null> {
+export async function getPartnerPageById(
+  id: string,
+): Promise<PartnerPage | null> {
   const store = await readStore();
   return store.partners.find((partner) => partner.id === id) ?? null;
 }
 
-export async function getPublishedPartnerPageBySlug(slug: string): Promise<PartnerPage | null> {
+export async function getPublishedPartnerPageBySlug(
+  slug: string,
+): Promise<PartnerPage | null> {
   const store = await readStore();
   const partner = store.partners.find((item) => item.slug === slug);
   if (!partner || !isPartnerPagePublic(partner)) return null;
   return partner;
 }
 
-export async function getPartnerPageBySlug(slug: string): Promise<PartnerPage | null> {
+export async function getPartnerPageBySlug(
+  slug: string,
+): Promise<PartnerPage | null> {
   const store = await readStore();
   return store.partners.find((item) => item.slug === slug) ?? null;
 }
 
 export async function createPartnerPage(
-  input: Omit<PartnerPage, "id" | "created_at" | "updated_at">,
+  input: Omit<PartnerPage, 'id' | 'created_at' | 'updated_at'>,
 ): Promise<PartnerPage> {
   const store = await readStore();
   const now = new Date().toISOString();
@@ -74,7 +83,7 @@ export async function createPartnerPage(
 
 export async function updatePartnerPage(
   id: string,
-  input: Partial<Omit<PartnerPage, "id" | "created_at">>,
+  input: Partial<Omit<PartnerPage, 'id' | 'created_at'>>,
 ): Promise<PartnerPage | null> {
   const store = await readStore();
   const index = store.partners.findIndex((partner) => partner.id === id);

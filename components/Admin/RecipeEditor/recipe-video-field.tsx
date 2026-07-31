@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import {
   RECIPE_VIDEO_PROVIDERS,
   type RecipeVideo,
   type RecipeVideoProvider,
-} from "@/lib/recipes/types";
-import styles from "./recipe-editor.module.css";
+} from '@/lib/recipes/types';
+import styles from './recipe-editor.module.css';
 
 type RecipeVideoFieldProps = {
   video?: RecipeVideo;
@@ -16,13 +16,13 @@ type RecipeVideoFieldProps = {
 
 export function RecipeVideoField({
   video,
-  vimeoEmbed = "",
+  vimeoEmbed = '',
   onVideoChange,
   onVimeoEmbedChange,
 }: RecipeVideoFieldProps) {
-  const provider = video?.provider ?? "youtube";
-  const url = video?.url ?? "";
-  const caption = video?.caption ?? "";
+  const provider = video?.provider ?? 'youtube';
+  const url = video?.url ?? '';
+  const caption = video?.caption ?? '';
 
   const patch = (next: Partial<RecipeVideo>) => {
     const merged: RecipeVideo = {
@@ -32,7 +32,11 @@ export function RecipeVideoField({
       ...(video?.poster ? { poster: video.poster } : {}),
       ...(next.poster !== undefined ? { poster: next.poster } : {}),
     };
-    if (!merged.url.trim() && !merged.caption?.trim() && !merged.poster?.trim()) {
+    if (
+      !merged.url.trim() &&
+      !merged.caption?.trim() &&
+      !merged.poster?.trim()
+    ) {
       onVideoChange(undefined);
       return;
     }
@@ -54,7 +58,9 @@ export function RecipeVideoField({
           id="recipe-video-provider"
           className="fieldSelect"
           value={provider}
-          onChange={(e) => patch({ provider: e.target.value as RecipeVideoProvider })}
+          onChange={(e) =>
+            patch({ provider: e.target.value as RecipeVideoProvider })
+          }
         >
           {RECIPE_VIDEO_PROVIDERS.map((option) => (
             <option key={option.value} value={option.value}>

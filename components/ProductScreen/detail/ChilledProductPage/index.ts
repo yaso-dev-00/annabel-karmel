@@ -1,1 +1,1 @@
-export * from "./chilled-product-page";
+export * from './chilled-product-page';

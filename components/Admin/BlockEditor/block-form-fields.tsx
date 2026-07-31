@@ -1,34 +1,68 @@
-"use client";
+'use client';
 
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { ColorField, ColorThemePanel } from "@/components/Admin/Ui/ColorField";
-import { createBlockId } from "@/lib/content-blocks/defaults";
-import type { BlockDataByType, BlockSettings, ContentBlock, HeroBlockData, RichTextBlockData, HeadingBlockData, ListBlockData, ImageBlockData, ImageTextBlockData, CalloutBlockData, TableBlockData, MultiColumnTableBlockData, AccordionBlockData, AccordionSubsection, TwoColumnBlockData, RelatedLinksBlockData, RelatedArticlesBlockData, ExpertAttributionBlockData, CtaButtonBlockData, DividerBlockData, VideoBlockData, FormEmbedBlockData, AnnouncementBannerBlockData, ProductGridBlockData, RecipeGridBlockData, PartnerPromoBlockData, PartnershipTagBlockData, BookPromoBlockData, AuthorBioBlockData, ImageStackBlockData } from "@/lib/content-blocks/types";
-import { resolveHeroBackgroundColor, HERO_DEFAULT_BACKGROUND } from "@/lib/content-blocks/block-background";
-import { DS_BACKGROUND_PRESETS } from "@/lib/design-system/color-presets";
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import { ColorField, ColorThemePanel } from '@/components/Admin/Ui/ColorField';
+import { createBlockId } from '@/lib/content-blocks/defaults';
+import type {
+  BlockDataByType,
+  BlockSettings,
+  ContentBlock,
+  HeroBlockData,
+  RichTextBlockData,
+  HeadingBlockData,
+  ListBlockData,
+  ImageBlockData,
+  ImageTextBlockData,
+  CalloutBlockData,
+  TableBlockData,
+  MultiColumnTableBlockData,
+  AccordionBlockData,
+  AccordionSubsection,
+  TwoColumnBlockData,
+  RelatedLinksBlockData,
+  RelatedArticlesBlockData,
+  ExpertAttributionBlockData,
+  CtaButtonBlockData,
+  DividerBlockData,
+  VideoBlockData,
+  FormEmbedBlockData,
+  AnnouncementBannerBlockData,
+  ProductGridBlockData,
+  RecipeGridBlockData,
+  PartnerPromoBlockData,
+  PartnershipTagBlockData,
+  BookPromoBlockData,
+  AuthorBioBlockData,
+  ImageStackBlockData,
+} from '@/lib/content-blocks/types';
+import {
+  resolveHeroBackgroundColor,
+  HERO_DEFAULT_BACKGROUND,
+} from '@/lib/content-blocks/block-background';
+import { DS_BACKGROUND_PRESETS } from '@/lib/design-system/color-presets';
 import {
   createEmptyMultiColumnRow,
   MULTI_COLUMN_COUNT_LABELS,
   MULTI_COLUMN_TABLE_COUNTS,
   resizeMultiColumnTable,
-} from "@/lib/content-blocks/multi-column-table";
-import { FormBuilder } from "@/components/Admin/FormBuilder";
-import { createDefaultFormSchema } from "@/lib/content-blocks/form-schema";
-import { RichTextEditor } from "./rich-text-editor";
-import { TwoColumnFields } from "./two-column-fields";
-import { ImageStackFields } from "./image-stack-fields";
-import { RelatedArticlesFields } from "./related-articles-fields";
-import { ResponsiveGridColumnsField } from "./responsive-grid-columns-field";
-import { RESPONSIVE_GRID_DEFAULT_COLUMNS } from "@/lib/content-blocks/responsive-grid-columns";
-import { withProductGridColumnDefaults } from "@/lib/content-blocks/product-grid-columns";
-import { withRecipeGridColumnDefaults } from "@/lib/content-blocks/recipe-grid-columns";
-import type { ContentEditorContext } from "@/lib/content-blocks/block-context";
+} from '@/lib/content-blocks/multi-column-table';
+import { FormBuilder } from '@/components/Admin/FormBuilder';
+import { createDefaultFormSchema } from '@/lib/content-blocks/form-schema';
+import { RichTextEditor } from './rich-text-editor';
+import { TwoColumnFields } from './two-column-fields';
+import { ImageStackFields } from './image-stack-fields';
+import { RelatedArticlesFields } from './related-articles-fields';
+import { ResponsiveGridColumnsField } from './responsive-grid-columns-field';
+import { RESPONSIVE_GRID_DEFAULT_COLUMNS } from '@/lib/content-blocks/responsive-grid-columns';
+import { withProductGridColumnDefaults } from '@/lib/content-blocks/product-grid-columns';
+import { withRecipeGridColumnDefaults } from '@/lib/content-blocks/recipe-grid-columns';
+import type { ContentEditorContext } from '@/lib/content-blocks/block-context';
 import {
   DEFAULT_LINK_COLOR,
   RELATED_LINK_COLOR_PRESETS,
   RELATED_LINK_STYLE_LABELS,
   RELATED_LIST_SPACING_LABELS,
-} from "@/lib/content-blocks/related-links-styles";
+} from '@/lib/content-blocks/related-links-styles';
 import {
   DEFAULT_TABLE_COLORS,
   TABLE_BORDER_LABELS,
@@ -39,13 +73,13 @@ import {
   TABLE_STYLE_LABELS,
   TABLE_TEXT_PRESETS,
   type TableAppearanceData,
-} from "@/lib/content-blocks/table-styles";
+} from '@/lib/content-blocks/table-styles';
 
 type BlockFormFieldsProps = {
   block: ContentBlock;
-  onChange: (data: ContentBlock["data"]) => void;
+  onChange: (data: ContentBlock['data']) => void;
   onSettingsChange?: (patch: Partial<BlockSettings>) => void;
-  relatedArticlesCatalog?: "advice" | "article";
+  relatedArticlesCatalog?: 'advice' | 'article';
   editorContext?: ContentEditorContext;
 };
 
@@ -77,9 +111,13 @@ function TableAppearanceFields({
         <select
           className="fieldSelect"
           value={data.style}
-          onChange={(e) => onPatch({ style: e.target.value as TableAppearanceData["style"] })}
+          onChange={(e) =>
+            onPatch({ style: e.target.value as TableAppearanceData['style'] })
+          }
         >
-          {(Object.keys(TABLE_STYLE_LABELS) as TableAppearanceData["style"][]).map((key) => (
+          {(
+            Object.keys(TABLE_STYLE_LABELS) as TableAppearanceData['style'][]
+          ).map((key) => (
             <option key={key} value={key}>
               {TABLE_STYLE_LABELS[key]}
             </option>
@@ -89,21 +127,29 @@ function TableAppearanceFields({
       <Field label="Borders">
         <select
           className="fieldSelect"
-          value={data.border_style ?? "full"}
+          value={data.border_style ?? 'full'}
           onChange={(e) =>
-            onPatch({ border_style: e.target.value as TableAppearanceData["border_style"] })
+            onPatch({
+              border_style: e.target
+                .value as TableAppearanceData['border_style'],
+            })
           }
         >
-          {(Object.keys(TABLE_BORDER_LABELS) as NonNullable<TableAppearanceData["border_style"]>[]).map(
-            (key) => (
-              <option key={key} value={key}>
-                {TABLE_BORDER_LABELS[key]}
-              </option>
-            ),
-          )}
+          {(
+            Object.keys(TABLE_BORDER_LABELS) as NonNullable<
+              TableAppearanceData['border_style']
+            >[]
+          ).map((key) => (
+            <option key={key} value={key}>
+              {TABLE_BORDER_LABELS[key]}
+            </option>
+          ))}
         </select>
       </Field>
-      <ColorThemePanel title="Table colors" hint="Curated presets with custom picker for each role.">
+      <ColorThemePanel
+        title="Table colors"
+        hint="Curated presets with custom picker for each role."
+      >
         <ColorField
           label="Header background"
           value={data.header_bg}
@@ -118,7 +164,7 @@ function TableAppearanceFields({
           presets={TABLE_ROW_BG_PRESETS}
           onChange={(row_bg) => onPatch({ row_bg })}
         />
-        {data.style === "striped" ? (
+        {data.style === 'striped' ? (
           <ColorField
             label="Striped row background"
             value={data.striped_row_bg}
@@ -164,7 +210,11 @@ function CheckboxField({
 }) {
   return (
     <label className="fieldCheckbox">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+      />
       <span>{label}</span>
     </label>
   );
@@ -174,37 +224,62 @@ export function BlockFormFields({
   block,
   onChange,
   onSettingsChange,
-  relatedArticlesCatalog = "advice",
-  editorContext = "competition",
+  relatedArticlesCatalog = 'advice',
+  editorContext = 'competition',
 }: BlockFormFieldsProps) {
-  const patch = (data: ContentBlock["data"]) => onChange(data);
+  const patch = (data: ContentBlock['data']) => onChange(data);
 
   switch (block.type) {
-    case "hero": {
+    case 'hero': {
       const d = block.data as HeroBlockData;
       return (
         <>
           <Field label="Headline">
-            <input className="fieldInput" value={d.headline} onChange={(e) => patch({ ...d, headline: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.headline}
+              onChange={(e) => patch({ ...d, headline: e.target.value })}
+            />
           </Field>
           <Field label="Subheadline">
-            <input className="fieldInput" value={d.subheadline ?? ""} onChange={(e) => patch({ ...d, subheadline: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.subheadline ?? ''}
+              onChange={(e) => patch({ ...d, subheadline: e.target.value })}
+            />
           </Field>
           <Field label="Hero image">
             <ImageField
-              value={d.image_url ?? ""}
-              alt={d.image_alt ?? ""}
-              onChange={(src, altVal) => patch({ ...d, image_url: src, image_alt: altVal ?? d.image_alt ?? "" })}
+              value={d.image_url ?? ''}
+              alt={d.image_alt ?? ''}
+              onChange={(src, altVal) =>
+                patch({
+                  ...d,
+                  image_url: src,
+                  image_alt: altVal ?? d.image_alt ?? '',
+                })
+              }
               onAltChange={(altVal) => patch({ ...d, image_alt: altVal })}
             />
           </Field>
           <Field label="CTA label">
-            <input className="fieldInput" value={d.cta_label ?? ""} onChange={(e) => patch({ ...d, cta_label: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.cta_label ?? ''}
+              onChange={(e) => patch({ ...d, cta_label: e.target.value })}
+            />
           </Field>
           <Field label="CTA URL">
-            <input className="fieldInput" value={d.cta_url ?? ""} onChange={(e) => patch({ ...d, cta_url: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.cta_url ?? ''}
+              onChange={(e) => patch({ ...d, cta_url: e.target.value })}
+            />
           </Field>
-          <ColorThemePanel title="Hero colors" hint="Shared with the layout toolbar — changes apply in both places.">
+          <ColorThemePanel
+            title="Hero colors"
+            hint="Shared with the layout toolbar — changes apply in both places."
+          >
             <ColorField
               label="Background"
               value={resolveHeroBackgroundColor(d, block.settings)}
@@ -212,63 +287,93 @@ export function BlockFormFields({
               presets={DS_BACKGROUND_PRESETS}
               onChange={(background_color) => {
                 onSettingsChange?.({ background_color });
-                if (d.background_color) patch({ ...d, background_color: undefined });
+                if (d.background_color)
+                  patch({ ...d, background_color: undefined });
               }}
             />
           </ColorThemePanel>
         </>
       );
     }
-    case "rich_text": {
+    case 'rich_text': {
       const d = block.data as RichTextBlockData;
       return (
         <>
           <Field label="Variant">
-            <select className="fieldSelect" value={d.variant} onChange={(e) => patch({ ...d, variant: e.target.value as typeof d.variant })}>
+            <select
+              className="fieldSelect"
+              value={d.variant}
+              onChange={(e) =>
+                patch({ ...d, variant: e.target.value as typeof d.variant })
+              }
+            >
               <option value="body">Body</option>
               <option value="lead">Lead</option>
               <option value="pull_quote">Pull quote</option>
             </select>
           </Field>
           <Field label="Content">
-            <RichTextEditor value={d.html} onChange={(html) => patch({ ...d, html })} />
+            <RichTextEditor
+              value={d.html}
+              onChange={(html) => patch({ ...d, html })}
+            />
           </Field>
         </>
       );
     }
-    case "heading": {
+    case 'heading': {
       const d = block.data as HeadingBlockData;
       return (
         <>
           <Field label="Level">
-            <select className="fieldSelect" value={d.level} onChange={(e) => patch({ ...d, level: e.target.value as typeof d.level })}>
+            <select
+              className="fieldSelect"
+              value={d.level}
+              onChange={(e) =>
+                patch({ ...d, level: e.target.value as typeof d.level })
+              }
+            >
               <option value="h1">H1</option>
               <option value="h2">H2</option>
               <option value="h3">H3</option>
             </select>
           </Field>
           <Field label="Text">
-            <input className="fieldInput" value={d.text} onChange={(e) => patch({ ...d, text: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.text}
+              onChange={(e) => patch({ ...d, text: e.target.value })}
+            />
           </Field>
         </>
       );
     }
-    case "list": {
+    case 'list': {
       const d = block.data as ListBlockData;
       return (
         <>
           <Field label="Style">
-            <select className="fieldSelect" value={d.style} onChange={(e) => patch({ ...d, style: e.target.value as typeof d.style })}>
+            <select
+              className="fieldSelect"
+              value={d.style}
+              onChange={(e) =>
+                patch({ ...d, style: e.target.value as typeof d.style })
+              }
+            >
               <option value="plain">Plain</option>
               <option value="labeled">Label + text</option>
             </select>
           </Field>
-          <CheckboxField label="Ordered" checked={d.ordered} onChange={(ordered) => patch({ ...d, ordered })} />
+          <CheckboxField
+            label="Ordered"
+            checked={d.ordered}
+            onChange={(ordered) => patch({ ...d, ordered })}
+          />
           <Field label="Items">
             <div className="nestedList">
               {d.items.map((item, i) => (
                 <div key={i} className="nestedRow">
-                  {d.style === "labeled" && typeof item === "object" ? (
+                  {d.style === 'labeled' && typeof item === 'object' ? (
                     <>
                       <input
                         className="fieldInput"
@@ -276,7 +381,10 @@ export function BlockFormFields({
                         value={item.label}
                         onChange={(e) => {
                           const items = [...d.items];
-                          items[i] = { ...(item as { label: string; text: string }), label: e.target.value };
+                          items[i] = {
+                            ...(item as { label: string; text: string }),
+                            label: e.target.value,
+                          };
                           patch({ ...d, items });
                         }}
                       />
@@ -286,7 +394,10 @@ export function BlockFormFields({
                         value={item.text}
                         onChange={(e) => {
                           const items = [...d.items];
-                          items[i] = { ...(item as { label: string; text: string }), text: e.target.value };
+                          items[i] = {
+                            ...(item as { label: string; text: string }),
+                            text: e.target.value,
+                          };
                           patch({ ...d, items });
                         }}
                       />
@@ -294,8 +405,8 @@ export function BlockFormFields({
                   ) : (
                     <input
                       className="fieldInput"
-                      style={{ gridColumn: "1 / 3" }}
-                      value={typeof item === "string" ? item : item.text}
+                      style={{ gridColumn: '1 / 3' }}
+                      value={typeof item === 'string' ? item : item.text}
                       onChange={(e) => {
                         const items = [...d.items];
                         items[i] = e.target.value;
@@ -306,7 +417,12 @@ export function BlockFormFields({
                   <button
                     type="button"
                     className="iconBtn"
-                    onClick={() => patch({ ...d, items: d.items.filter((_, idx) => idx !== i) })}
+                    onClick={() =>
+                      patch({
+                        ...d,
+                        items: d.items.filter((_, idx) => idx !== i),
+                      })
+                    }
                   >
                     ✕
                   </button>
@@ -318,7 +434,10 @@ export function BlockFormFields({
                 onClick={() =>
                   patch({
                     ...d,
-                    items: [...d.items, d.style === "labeled" ? { label: "", text: "" } : ""],
+                    items: [
+                      ...d.items,
+                      d.style === 'labeled' ? { label: '', text: '' } : '',
+                    ],
                   })
                 }
               >
@@ -329,17 +448,21 @@ export function BlockFormFields({
         </>
       );
     }
-    case "image": {
+    case 'image': {
       const d = block.data as ImageBlockData;
-      const mobileEnabled = d.use_mobile_image ?? Boolean(d.mobile_src?.trim() || d.fallback_src?.trim());
-      const mobileSrc = d.mobile_src ?? d.fallback_src ?? "";
+      const mobileEnabled =
+        d.use_mobile_image ??
+        Boolean(d.mobile_src?.trim() || d.fallback_src?.trim());
+      const mobileSrc = d.mobile_src ?? d.fallback_src ?? '';
       return (
         <>
           <Field label="Image (desktop)">
             <ImageField
               value={d.src}
               alt={d.alt}
-              onChange={(src, altVal) => patch({ ...d, src, alt: altVal ?? d.alt })}
+              onChange={(src, altVal) =>
+                patch({ ...d, src, alt: altVal ?? d.alt })
+              }
               onAltChange={(altVal) => patch({ ...d, alt: altVal })}
             />
           </Field>
@@ -362,31 +485,39 @@ export function BlockFormFields({
                   })
                 }
               />
-              <p style={{ margin: "8px 0 0", fontSize: 13, color: "#6d5757" }}>
-                Shown at ≤767px (and in the mobile preview). Leave empty to keep using the desktop
-                image.
+              <p style={{ margin: '8px 0 0', fontSize: 13, color: '#6d5757' }}>
+                Shown at ≤767px (and in the mobile preview). Leave empty to keep
+                using the desktop image.
               </p>
             </Field>
           ) : null}
           <Field label="Caption">
-            <input className="fieldInput" value={d.caption ?? ""} onChange={(e) => patch({ ...d, caption: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.caption ?? ''}
+              onChange={(e) => patch({ ...d, caption: e.target.value })}
+            />
           </Field>
           <CheckboxField
             label="Full width"
             checked={d.full_width ?? false}
             onChange={(full_width) => patch({ ...d, full_width })}
           />
-          <p style={{ margin: "0 0 12px", fontSize: 13, color: "#6d5757" }}>
-            Resize in the preview: desktop/tablet preview sets desktop size; mobile preview sets
-            mobile size separately .
+          <p style={{ margin: '0 0 12px', fontSize: 13, color: '#6d5757' }}>
+            Resize in the preview: desktop/tablet preview sets desktop size;
+            mobile preview sets mobile size separately .
           </p>
           <Field label="Link URL">
-            <input className="fieldInput" value={d.link_href ?? ""} onChange={(e) => patch({ ...d, link_href: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.link_href ?? ''}
+              onChange={(e) => patch({ ...d, link_href: e.target.value })}
+            />
           </Field>
         </>
       );
     }
-    case "image_text": {
+    case 'image_text': {
       const d = block.data as ImageTextBlockData;
       return (
         <>
@@ -394,60 +525,106 @@ export function BlockFormFields({
             <ImageField
               value={d.image_src}
               alt={d.image_alt}
-              onChange={(src, altVal) => patch({ ...d, image_src: src, image_alt: altVal ?? d.image_alt })}
+              onChange={(src, altVal) =>
+                patch({
+                  ...d,
+                  image_src: src,
+                  image_alt: altVal ?? d.image_alt,
+                })
+              }
               onAltChange={(altVal) => patch({ ...d, image_alt: altVal })}
             />
           </Field>
           <Field label="Position">
-            <select className="fieldSelect" value={d.image_position} onChange={(e) => patch({ ...d, image_position: e.target.value as typeof d.image_position })}>
+            <select
+              className="fieldSelect"
+              value={d.image_position}
+              onChange={(e) =>
+                patch({
+                  ...d,
+                  image_position: e.target.value as typeof d.image_position,
+                })
+              }
+            >
               <option value="left">Left</option>
               <option value="right">Right</option>
               <option value="top">Top</option>
             </select>
           </Field>
           <Field label="Heading">
-            <input className="fieldInput" value={d.heading ?? ""} onChange={(e) => patch({ ...d, heading: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.heading ?? ''}
+              onChange={(e) => patch({ ...d, heading: e.target.value })}
+            />
           </Field>
           <Field label="Body">
-            <RichTextEditor value={d.body} onChange={(body) => patch({ ...d, body })} />
+            <RichTextEditor
+              value={d.body}
+              onChange={(body) => patch({ ...d, body })}
+            />
           </Field>
         </>
       );
     }
-    case "callout": {
+    case 'callout': {
       const d = block.data as CalloutBlockData;
       return (
         <>
           <Field label="Variant">
-            <select className="fieldSelect" value={d.variant} onChange={(e) => patch({ ...d, variant: e.target.value as typeof d.variant })}>
+            <select
+              className="fieldSelect"
+              value={d.variant}
+              onChange={(e) =>
+                patch({ ...d, variant: e.target.value as typeof d.variant })
+              }
+            >
               <option value="tip">Tip</option>
               <option value="highlight">Highlight</option>
               <option value="warning">Warning</option>
             </select>
           </Field>
           <Field label="Title">
-            <input className="fieldInput" value={d.title ?? ""} onChange={(e) => patch({ ...d, title: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.title ?? ''}
+              onChange={(e) => patch({ ...d, title: e.target.value })}
+            />
           </Field>
           <Field label="Body">
-            <RichTextEditor value={d.body} onChange={(body) => patch({ ...d, body })} />
+            <RichTextEditor
+              value={d.body}
+              onChange={(body) => patch({ ...d, body })}
+            />
           </Field>
         </>
       );
     }
-    case "table": {
+    case 'table': {
       const d = block.data as TableBlockData;
       return (
         <>
           <Field label="Caption">
-            <input className="fieldInput" value={d.caption ?? ""} onChange={(e) => patch({ ...d, caption: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.caption ?? ''}
+              onChange={(e) => patch({ ...d, caption: e.target.value })}
+            />
           </Field>
           <Field label="Table style">
             <select
               className="fieldSelect"
               value={d.style}
-              onChange={(e) => patch({ ...d, style: e.target.value as TableBlockData["style"] })}
+              onChange={(e) =>
+                patch({
+                  ...d,
+                  style: e.target.value as TableBlockData['style'],
+                })
+              }
             >
-              {(Object.keys(TABLE_STYLE_LABELS) as TableBlockData["style"][]).map((key) => (
+              {(
+                Object.keys(TABLE_STYLE_LABELS) as TableBlockData['style'][]
+              ).map((key) => (
                 <option key={key} value={key}>
                   {TABLE_STYLE_LABELS[key]}
                 </option>
@@ -457,38 +634,52 @@ export function BlockFormFields({
           <Field label="Borders">
             <select
               className="fieldSelect"
-              value={d.border_style ?? "full"}
+              value={d.border_style ?? 'full'}
               onChange={(e) =>
-                patch({ ...d, border_style: e.target.value as TableBlockData["border_style"] })
+                patch({
+                  ...d,
+                  border_style: e.target
+                    .value as TableBlockData['border_style'],
+                })
               }
             >
-              {(Object.keys(TABLE_BORDER_LABELS) as NonNullable<TableBlockData["border_style"]>[]).map(
-                (key) => (
-                  <option key={key} value={key}>
-                    {TABLE_BORDER_LABELS[key]}
-                  </option>
-                ),
-              )}
+              {(
+                Object.keys(TABLE_BORDER_LABELS) as NonNullable<
+                  TableBlockData['border_style']
+                >[]
+              ).map((key) => (
+                <option key={key} value={key}>
+                  {TABLE_BORDER_LABELS[key]}
+                </option>
+              ))}
             </select>
           </Field>
           <Field label="Label column width">
             <select
               className="fieldSelect"
-              value={d.label_width ?? "auto"}
+              value={d.label_width ?? 'auto'}
               onChange={(e) =>
-                patch({ ...d, label_width: e.target.value as TableBlockData["label_width"] })
+                patch({
+                  ...d,
+                  label_width: e.target.value as TableBlockData['label_width'],
+                })
               }
             >
-              {(Object.keys(TABLE_LABEL_WIDTH_LABELS) as NonNullable<TableBlockData["label_width"]>[]).map(
-                (key) => (
-                  <option key={key} value={key}>
-                    {TABLE_LABEL_WIDTH_LABELS[key]}
-                  </option>
-                ),
-              )}
+              {(
+                Object.keys(TABLE_LABEL_WIDTH_LABELS) as NonNullable<
+                  TableBlockData['label_width']
+                >[]
+              ).map((key) => (
+                <option key={key} value={key}>
+                  {TABLE_LABEL_WIDTH_LABELS[key]}
+                </option>
+              ))}
             </select>
           </Field>
-          <ColorThemePanel title="Table colors" hint="Curated presets with custom picker for each role.">
+          <ColorThemePanel
+            title="Table colors"
+            hint="Curated presets with custom picker for each role."
+          >
             <ColorField
               label="Header background"
               value={d.header_bg}
@@ -503,7 +694,7 @@ export function BlockFormFields({
               presets={TABLE_ROW_BG_PRESETS}
               onChange={(row_bg) => patch({ ...d, row_bg })}
             />
-            {d.style === "striped" ? (
+            {d.style === 'striped' ? (
               <ColorField
                 label="Striped row background"
                 value={d.striped_row_bg}
@@ -524,7 +715,9 @@ export function BlockFormFields({
               value={d.header_text_color}
               defaultColor={DEFAULT_TABLE_COLORS.header_text_color}
               presets={TABLE_TEXT_PRESETS}
-              onChange={(header_text_color) => patch({ ...d, header_text_color })}
+              onChange={(header_text_color) =>
+                patch({ ...d, header_text_color })
+              }
             />
             <ColorField
               label="Body text color"
@@ -558,12 +751,27 @@ export function BlockFormFields({
                       patch({ ...d, rows });
                     }}
                   />
-                  <button type="button" className="iconBtn" onClick={() => patch({ ...d, rows: d.rows.filter((_, idx) => idx !== i) })}>
+                  <button
+                    type="button"
+                    className="iconBtn"
+                    onClick={() =>
+                      patch({
+                        ...d,
+                        rows: d.rows.filter((_, idx) => idx !== i),
+                      })
+                    }
+                  >
                     ✕
                   </button>
                 </div>
               ))}
-              <button type="button" className="btn btnGhost" onClick={() => patch({ ...d, rows: [...d.rows, { label: "", value: "" }] })}>
+              <button
+                type="button"
+                className="btn btnGhost"
+                onClick={() =>
+                  patch({ ...d, rows: [...d.rows, { label: '', value: '' }] })
+                }
+              >
                 + Add row
               </button>
             </div>
@@ -571,14 +779,14 @@ export function BlockFormFields({
         </>
       );
     }
-    case "multi_column_table": {
+    case 'multi_column_table': {
       const d = block.data as MultiColumnTableBlockData;
       return (
         <>
           <Field label="Caption">
             <input
               className="fieldInput"
-              value={d.caption ?? ""}
+              value={d.caption ?? ''}
               onChange={(e) => patch({ ...d, caption: e.target.value })}
             />
           </Field>
@@ -590,7 +798,9 @@ export function BlockFormFields({
                 patch(
                   resizeMultiColumnTable(
                     d,
-                    Number(e.target.value) as MultiColumnTableBlockData["column_count"],
+                    Number(
+                      e.target.value,
+                    ) as MultiColumnTableBlockData['column_count'],
                   ),
                 )
               }
@@ -605,7 +815,7 @@ export function BlockFormFields({
           <Field label="Column headers">
             <div
               className="nestedRowMultiColumn"
-              style={{ ["--nested-row-cols" as string]: d.column_count }}
+              style={{ ['--nested-row-cols' as string]: d.column_count }}
             >
               {d.headers.map((header, index) => (
                 <input
@@ -623,20 +833,25 @@ export function BlockFormFields({
               <span aria-hidden="true" />
             </div>
           </Field>
-          <TableAppearanceFields data={d} onPatch={(appearance) => patch({ ...d, ...appearance })} />
+          <TableAppearanceFields
+            data={d}
+            onPatch={(appearance) => patch({ ...d, ...appearance })}
+          />
           <Field label="Rows">
             <div className="nestedList">
               {d.rows.map((row, rowIndex) => (
                 <div
                   key={rowIndex}
                   className="nestedRowMultiColumn"
-                  style={{ ["--nested-row-cols" as string]: d.column_count }}
+                  style={{ ['--nested-row-cols' as string]: d.column_count }}
                 >
                   {row.map((cell, colIndex) => (
                     <input
                       key={colIndex}
                       className="fieldInput"
-                      placeholder={d.headers[colIndex] || `Column ${colIndex + 1}`}
+                      placeholder={
+                        d.headers[colIndex] || `Column ${colIndex + 1}`
+                      }
                       value={cell}
                       onChange={(e) => {
                         const rows = d.rows.map((existingRow, index) => {
@@ -652,7 +867,12 @@ export function BlockFormFields({
                   <button
                     type="button"
                     className="nestedRowRemoveBtn"
-                    onClick={() => patch({ ...d, rows: d.rows.filter((_, index) => index !== rowIndex) })}
+                    onClick={() =>
+                      patch({
+                        ...d,
+                        rows: d.rows.filter((_, index) => index !== rowIndex),
+                      })
+                    }
                     aria-label={`Remove row ${rowIndex + 1}`}
                   >
                     ✕
@@ -663,7 +883,13 @@ export function BlockFormFields({
                 type="button"
                 className="btn btnGhost"
                 onClick={() =>
-                  patch({ ...d, rows: [...d.rows, createEmptyMultiColumnRow(d.column_count)] })
+                  patch({
+                    ...d,
+                    rows: [
+                      ...d.rows,
+                      createEmptyMultiColumnRow(d.column_count),
+                    ],
+                  })
                 }
               >
                 + Add row
@@ -673,19 +899,30 @@ export function BlockFormFields({
         </>
       );
     }
-    case "accordion": {
+    case 'accordion': {
       const d = block.data as AccordionBlockData;
       return (
         <>
           <Field label="Default open">
             <select
               className="fieldSelect"
-              value={d.default_open === "none" ? "none" : d.default_open === "first" ? "first" : "panel"}
+              value={
+                d.default_open === 'none'
+                  ? 'none'
+                  : d.default_open === 'first'
+                    ? 'first'
+                    : 'panel'
+              }
               onChange={(e) => {
                 const val = e.target.value;
-                if (val === "none") patch({ ...d, default_open: "none" });
-                else if (val === "first") patch({ ...d, default_open: "first" });
-                else patch({ ...d, default_open: { panel_id: d.panels[0]?.id ?? "" } });
+                if (val === 'none') patch({ ...d, default_open: 'none' });
+                else if (val === 'first')
+                  patch({ ...d, default_open: 'first' });
+                else
+                  patch({
+                    ...d,
+                    default_open: { panel_id: d.panels[0]?.id ?? '' },
+                  });
               }}
             >
               <option value="first">First panel</option>
@@ -712,7 +949,7 @@ export function BlockFormFields({
               </Field>
               <Field label="Content">
                 <RichTextEditor
-                  value={panel.paragraphs ?? ""}
+                  value={panel.paragraphs ?? ''}
                   onChange={(html) => {
                     const panels = [...d.panels];
                     panels[pi] = { ...panel, paragraphs: html };
@@ -723,12 +960,12 @@ export function BlockFormFields({
               <Field label="List items (one per line)">
                 <textarea
                   className="fieldTextarea"
-                  value={(panel.list_items ?? []).join("\n")}
+                  value={(panel.list_items ?? []).join('\n')}
                   onChange={(e) => {
                     const panels = [...d.panels];
                     panels[pi] = {
                       ...panel,
-                      list_items: e.target.value.split("\n"),
+                      list_items: e.target.value.split('\n'),
                     };
                     patch({ ...d, panels });
                   }}
@@ -762,13 +999,14 @@ export function BlockFormFields({
                   <Field label="Heading style">
                     <select
                       className="fieldSelect"
-                      value={sub.heading_variant ?? "step"}
+                      value={sub.heading_variant ?? 'step'}
                       onChange={(e) => {
                         const panels = [...d.panels];
                         const subsections = [...(panel.subsections ?? [])];
                         subsections[si] = {
                           ...sub,
-                          heading_variant: e.target.value as AccordionSubsection["heading_variant"],
+                          heading_variant: e.target
+                            .value as AccordionSubsection['heading_variant'],
                         };
                         panels[pi] = { ...panel, subsections };
                         patch({ ...d, panels });
@@ -780,7 +1018,7 @@ export function BlockFormFields({
                   </Field>
                   <Field label="Subsection content">
                     <RichTextEditor
-                      value={sub.paragraphs ?? ""}
+                      value={sub.paragraphs ?? ''}
                       onChange={(html) => {
                         const panels = [...d.panels];
                         const subsections = [...(panel.subsections ?? [])];
@@ -793,13 +1031,13 @@ export function BlockFormFields({
                   <Field label="Subsection list items (one per line)">
                     <textarea
                       className="fieldTextarea"
-                      value={(sub.list_items ?? []).join("\n")}
+                      value={(sub.list_items ?? []).join('\n')}
                       onChange={(e) => {
                         const panels = [...d.panels];
                         const subsections = [...(panel.subsections ?? [])];
                         subsections[si] = {
                           ...sub,
-                          list_items: e.target.value.split("\n"),
+                          list_items: e.target.value.split('\n'),
                         };
                         panels[pi] = { ...panel, subsections };
                         patch({ ...d, panels });
@@ -826,7 +1064,9 @@ export function BlockFormFields({
                         const panels = [...d.panels];
                         panels[pi] = {
                           ...panel,
-                          subsections: (panel.subsections ?? []).filter((s) => s.id !== sub.id),
+                          subsections: (panel.subsections ?? []).filter(
+                            (s) => s.id !== sub.id,
+                          ),
                         };
                         patch({ ...d, panels });
                       }}
@@ -845,7 +1085,11 @@ export function BlockFormFields({
                     ...panel,
                     subsections: [
                       ...(panel.subsections ?? []),
-                      { id: createBlockId(), heading: "New subsection", heading_variant: "step" },
+                      {
+                        id: createBlockId(),
+                        heading: 'New subsection',
+                        heading_variant: 'step',
+                      },
                     ],
                   };
                   patch({ ...d, panels });
@@ -857,7 +1101,12 @@ export function BlockFormFields({
                 <button
                   type="button"
                   className="btn btnGhost"
-                  onClick={() => patch({ ...d, panels: d.panels.filter((p) => p.id !== panel.id) })}
+                  onClick={() =>
+                    patch({
+                      ...d,
+                      panels: d.panels.filter((p) => p.id !== panel.id),
+                    })
+                  }
                 >
                   Remove panel
                 </button>
@@ -870,7 +1119,14 @@ export function BlockFormFields({
             onClick={() =>
               patch({
                 ...d,
-                panels: [...d.panels, { id: createBlockId(), title: "New panel", paragraphs: "<p></p>" }],
+                panels: [
+                  ...d.panels,
+                  {
+                    id: createBlockId(),
+                    title: 'New panel',
+                    paragraphs: '<p></p>',
+                  },
+                ],
               })
             }
           >
@@ -879,19 +1135,22 @@ export function BlockFormFields({
         </>
       );
     }
-    case "related_links": {
+    case 'related_links': {
       const d = block.data as RelatedLinksBlockData;
-      const allowSocialRow = editorContext === "partners";
-      const isSocialRow = allowSocialRow && d.layout === "row";
+      const allowSocialRow = editorContext === 'partners';
+      const isSocialRow = allowSocialRow && d.layout === 'row';
       return (
         <>
           {allowSocialRow ? (
             <Field label="Layout">
               <select
                 className="fieldSelect"
-                value={d.layout ?? "list"}
+                value={d.layout ?? 'list'}
                 onChange={(e) =>
-                  patch({ ...d, layout: e.target.value as RelatedLinksBlockData["layout"] })
+                  patch({
+                    ...d,
+                    layout: e.target.value as RelatedLinksBlockData['layout'],
+                  })
                 }
               >
                 <option value="list">Vertical list</option>
@@ -900,25 +1159,34 @@ export function BlockFormFields({
             </Field>
           ) : null}
           <Field label="Intro">
-            <RichTextEditor value={d.intro} onChange={(intro) => patch({ ...d, intro })} />
+            <RichTextEditor
+              value={d.intro}
+              onChange={(intro) => patch({ ...d, intro })}
+            />
           </Field>
           {!isSocialRow ? (
             <>
               <Field label="Link style">
                 <select
                   className="fieldSelect"
-                  value={d.link_style ?? "underline"}
+                  value={d.link_style ?? 'underline'}
                   onChange={(e) =>
-                    patch({ ...d, link_style: e.target.value as RelatedLinksBlockData["link_style"] })
+                    patch({
+                      ...d,
+                      link_style: e.target
+                        .value as RelatedLinksBlockData['link_style'],
+                    })
                   }
                 >
-                  {(Object.keys(RELATED_LINK_STYLE_LABELS) as NonNullable<RelatedLinksBlockData["link_style"]>[]).map(
-                    (key) => (
-                      <option key={key} value={key}>
-                        {RELATED_LINK_STYLE_LABELS[key]}
-                      </option>
-                    ),
-                  )}
+                  {(
+                    Object.keys(RELATED_LINK_STYLE_LABELS) as NonNullable<
+                      RelatedLinksBlockData['link_style']
+                    >[]
+                  ).map((key) => (
+                    <option key={key} value={key}>
+                      {RELATED_LINK_STYLE_LABELS[key]}
+                    </option>
+                  ))}
                 </select>
               </Field>
               <ColorField
@@ -931,21 +1199,24 @@ export function BlockFormFields({
               <Field label="List spacing">
                 <select
                   className="fieldSelect"
-                  value={d.list_spacing ?? "normal"}
+                  value={d.list_spacing ?? 'normal'}
                   onChange={(e) =>
                     patch({
                       ...d,
-                      list_spacing: e.target.value as RelatedLinksBlockData["list_spacing"],
+                      list_spacing: e.target
+                        .value as RelatedLinksBlockData['list_spacing'],
                     })
                   }
                 >
-                  {(Object.keys(RELATED_LIST_SPACING_LABELS) as NonNullable<RelatedLinksBlockData["list_spacing"]>[]).map(
-                    (key) => (
-                      <option key={key} value={key}>
-                        {RELATED_LIST_SPACING_LABELS[key]}
-                      </option>
-                    ),
-                  )}
+                  {(
+                    Object.keys(RELATED_LIST_SPACING_LABELS) as NonNullable<
+                      RelatedLinksBlockData['list_spacing']
+                    >[]
+                  ).map((key) => (
+                    <option key={key} value={key}>
+                      {RELATED_LIST_SPACING_LABELS[key]}
+                    </option>
+                  ))}
                 </select>
               </Field>
             </>
@@ -976,14 +1247,14 @@ export function BlockFormFields({
                   />
                   {isSocialRow ? (
                     <ImageField
-                      value={link.icon_src ?? ""}
-                      alt={link.icon_alt ?? ""}
+                      value={link.icon_src ?? ''}
+                      alt={link.icon_alt ?? ''}
                       onChange={(src, altVal) => {
                         const links = [...d.links];
                         links[i] = {
                           ...link,
                           icon_src: src,
-                          icon_alt: altVal ?? link.icon_alt ?? "",
+                          icon_alt: altVal ?? link.icon_alt ?? '',
                         };
                         patch({ ...d, links });
                       }}
@@ -998,7 +1269,12 @@ export function BlockFormFields({
                     <button
                       type="button"
                       className="btn btnGhost"
-                      onClick={() => patch({ ...d, links: d.links.filter((_, idx) => idx !== i) })}
+                      onClick={() =>
+                        patch({
+                          ...d,
+                          links: d.links.filter((_, idx) => idx !== i),
+                        })
+                      }
                     >
                       Remove
                     </button>
@@ -1008,7 +1284,9 @@ export function BlockFormFields({
               <button
                 type="button"
                 className="btn btnGhost nestedAddBtn"
-                onClick={() => patch({ ...d, links: [...d.links, { label: "", href: "/" }] })}
+                onClick={() =>
+                  patch({ ...d, links: [...d.links, { label: '', href: '/' }] })
+                }
               >
                 + Add link
               </button>
@@ -1017,7 +1295,7 @@ export function BlockFormFields({
         </>
       );
     }
-    case "related_articles": {
+    case 'related_articles': {
       const d = block.data as RelatedArticlesBlockData;
       return (
         <RelatedArticlesFields
@@ -1027,12 +1305,18 @@ export function BlockFormFields({
         />
       );
     }
-    case "expert_attribution": {
+    case 'expert_attribution': {
       const d = block.data as ExpertAttributionBlockData;
       return (
         <>
           <Field label="Preset">
-            <select className="fieldSelect" value={d.preset} onChange={(e) => patch({ ...d, preset: e.target.value as typeof d.preset })}>
+            <select
+              className="fieldSelect"
+              value={d.preset}
+              onChange={(e) =>
+                patch({ ...d, preset: e.target.value as typeof d.preset })
+              }
+            >
               <option value="milk_making_mama">Milk Making Mama</option>
               <option value="kerry_secker">Kerry Secker</option>
               <option value="mother_box">Mother Box</option>
@@ -1040,21 +1324,30 @@ export function BlockFormFields({
             </select>
           </Field>
           <Field label="Prefix text">
-            <input className="fieldInput" value={d.prefix ?? ""} onChange={(e) => patch({ ...d, prefix: e.target.value })} placeholder="Optional intro shown before the preset sign-off" />
+            <input
+              className="fieldInput"
+              value={d.prefix ?? ''}
+              onChange={(e) => patch({ ...d, prefix: e.target.value })}
+              placeholder="Optional intro shown before the preset sign-off"
+            />
           </Field>
-          {d.preset === "custom" ? (
+          {d.preset === 'custom' ? (
             <>
               <Field label="Name">
-                <input className="fieldInput" value={d.name ?? ""} onChange={(e) => patch({ ...d, name: e.target.value })} />
+                <input
+                  className="fieldInput"
+                  value={d.name ?? ''}
+                  onChange={(e) => patch({ ...d, name: e.target.value })}
+                />
               </Field>
               <Field label="Bio">
                 <textarea
                   className="fieldTextarea"
-                  value={(d.bio_paragraphs ?? []).join("\n\n")}
+                  value={(d.bio_paragraphs ?? []).join('\n\n')}
                   onChange={(e) =>
                     patch({
                       ...d,
-                      bio_paragraphs: e.target.value.split("\n\n"),
+                      bio_paragraphs: e.target.value.split('\n\n'),
                     })
                   }
                   onBlur={() =>
@@ -1111,7 +1404,9 @@ export function BlockFormFields({
                           e.stopPropagation();
                           patch({
                             ...d,
-                            links: (d.links ?? []).filter((_, idx) => idx !== i),
+                            links: (d.links ?? []).filter(
+                              (_, idx) => idx !== i,
+                            ),
                           });
                         }}
                       >
@@ -1127,7 +1422,7 @@ export function BlockFormFields({
                       e.stopPropagation();
                       patch({
                         ...d,
-                        links: [...(d.links ?? []), { label: "", href: "/" }],
+                        links: [...(d.links ?? []), { label: '', href: '/' }],
                       });
                     }}
                   >
@@ -1140,18 +1435,32 @@ export function BlockFormFields({
         </>
       );
     }
-    case "cta_button": {
+    case 'cta_button': {
       const d = block.data as CtaButtonBlockData;
       return (
         <>
           <Field label="Label">
-            <input className="fieldInput" value={d.label} onChange={(e) => patch({ ...d, label: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.label}
+              onChange={(e) => patch({ ...d, label: e.target.value })}
+            />
           </Field>
           <Field label="URL">
-            <input className="fieldInput" value={d.url} onChange={(e) => patch({ ...d, url: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.url}
+              onChange={(e) => patch({ ...d, url: e.target.value })}
+            />
           </Field>
           <Field label="Style">
-            <select className="fieldSelect" value={d.style} onChange={(e) => patch({ ...d, style: e.target.value as typeof d.style })}>
+            <select
+              className="fieldSelect"
+              value={d.style}
+              onChange={(e) =>
+                patch({ ...d, style: e.target.value as typeof d.style })
+              }
+            >
               <option value="primary">Primary</option>
               <option value="secondary">Secondary</option>
             </select>
@@ -1159,20 +1468,26 @@ export function BlockFormFields({
         </>
       );
     }
-    case "divider": {
+    case 'divider': {
       const d = block.data as DividerBlockData;
       return (
         <>
           <Field label="Style">
-            <select className="fieldSelect" value={d.style} onChange={(e) => patch({ ...d, style: e.target.value as typeof d.style })}>
+            <select
+              className="fieldSelect"
+              value={d.style}
+              onChange={(e) =>
+                patch({ ...d, style: e.target.value as typeof d.style })
+              }
+            >
               <option value="hr">Horizontal rule</option>
               <option value="image">Image</option>
             </select>
           </Field>
-          {d.style === "image" ? (
+          {d.style === 'image' ? (
             <Field label="Divider image">
               <ImageField
-                value={d.image_src ?? ""}
+                value={d.image_src ?? ''}
                 showAlt={false}
                 onChange={(src) => patch({ ...d, image_src: src })}
               />
@@ -1181,29 +1496,43 @@ export function BlockFormFields({
         </>
       );
     }
-    case "video": {
+    case 'video': {
       const d = block.data as VideoBlockData;
       return (
         <>
           <Field label="Provider">
-            <select className="fieldSelect" value={d.provider} onChange={(e) => patch({ ...d, provider: e.target.value as typeof d.provider })}>
+            <select
+              className="fieldSelect"
+              value={d.provider}
+              onChange={(e) =>
+                patch({ ...d, provider: e.target.value as typeof d.provider })
+              }
+            >
               <option value="youtube">YouTube</option>
               <option value="vimeo">Vimeo</option>
               <option value="upload">Upload URL</option>
             </select>
           </Field>
           <Field label="URL / ID">
-            <input className="fieldInput" value={d.url} onChange={(e) => patch({ ...d, url: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.url}
+              onChange={(e) => patch({ ...d, url: e.target.value })}
+            />
           </Field>
           <Field label="Caption">
-            <input className="fieldInput" value={d.caption ?? ""} onChange={(e) => patch({ ...d, caption: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.caption ?? ''}
+              onChange={(e) => patch({ ...d, caption: e.target.value })}
+            />
           </Field>
         </>
       );
     }
-    case "form_embed": {
+    case 'form_embed': {
       const d = block.data as FormEmbedBlockData;
-      const mode = d.mode ?? (d.schema ? "builder" : "embed");
+      const mode = d.mode ?? (d.schema ? 'builder' : 'embed');
       const schema = d.schema ?? createDefaultFormSchema();
 
       return (
@@ -1213,11 +1542,19 @@ export function BlockFormFields({
               className="fieldSelect"
               value={mode}
               onChange={(e) => {
-                const nextMode = e.target.value as FormEmbedBlockData["mode"];
-                if (nextMode === "builder") {
-                  patch({ ...d, mode: "builder", schema: d.schema ?? createDefaultFormSchema() });
+                const nextMode = e.target.value as FormEmbedBlockData['mode'];
+                if (nextMode === 'builder') {
+                  patch({
+                    ...d,
+                    mode: 'builder',
+                    schema: d.schema ?? createDefaultFormSchema(),
+                  });
                 } else {
-                  patch({ ...d, mode: "embed", embed_code: d.embed_code ?? "" });
+                  patch({
+                    ...d,
+                    mode: 'embed',
+                    embed_code: d.embed_code ?? '',
+                  });
                 }
               }}
             >
@@ -1226,26 +1563,28 @@ export function BlockFormFields({
             </select>
           </Field>
 
-          {mode === "builder" ? (
+          {mode === 'builder' ? (
             <FormBuilder
               schema={schema}
-              onChange={(nextSchema) => patch({ ...d, mode: "builder", schema: nextSchema })}
+              onChange={(nextSchema) =>
+                patch({ ...d, mode: 'builder', schema: nextSchema })
+              }
             />
           ) : (
             <>
               <Field label="Title">
                 <input
                   className="fieldInput"
-                  value={d.title ?? ""}
+                  value={d.title ?? ''}
                   onChange={(e) => patch({ ...d, title: e.target.value })}
                 />
               </Field>
               <Field label="Embed code">
                 <textarea
                   className="fieldTextarea"
-                  value={d.embed_code ?? ""}
+                  value={d.embed_code ?? ''}
                   onChange={(e) => patch({ ...d, embed_code: e.target.value })}
-                  style={{ fontFamily: "monospace", minHeight: 120 }}
+                  style={{ fontFamily: 'monospace', minHeight: 120 }}
                 />
               </Field>
             </>
@@ -1253,24 +1592,38 @@ export function BlockFormFields({
         </>
       );
     }
-    case "announcement_banner": {
+    case 'announcement_banner': {
       const d = block.data as AnnouncementBannerBlockData;
       return (
         <>
           <Field label="Message">
-            <input className="fieldInput" value={d.message} onChange={(e) => patch({ ...d, message: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.message}
+              onChange={(e) => patch({ ...d, message: e.target.value })}
+            />
           </Field>
           <Field label="Link URL">
-            <input className="fieldInput" value={d.link_url ?? ""} onChange={(e) => patch({ ...d, link_url: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.link_url ?? ''}
+              onChange={(e) => patch({ ...d, link_url: e.target.value })}
+            />
           </Field>
           <Field label="Link label">
-            <input className="fieldInput" value={d.link_label ?? ""} onChange={(e) => patch({ ...d, link_label: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.link_label ?? ''}
+              onChange={(e) => patch({ ...d, link_label: e.target.value })}
+            />
           </Field>
         </>
       );
     }
-    case "product_grid": {
-      const d = withProductGridColumnDefaults(block.data as ProductGridBlockData);
+    case 'product_grid': {
+      const d = withProductGridColumnDefaults(
+        block.data as ProductGridBlockData,
+      );
       return (
         <>
           <ResponsiveGridColumnsField
@@ -1280,31 +1633,67 @@ export function BlockFormFields({
           />
           {d.items.map((item, i) => (
             <div key={i} className="card nestedCard">
-              <input className="fieldInput" placeholder="Title" value={item.title} onChange={(e) => { const items = [...d.items]; items[i] = { ...item, title: e.target.value }; patch({ ...d, items }); }} />
+              <input
+                className="fieldInput"
+                placeholder="Title"
+                value={item.title}
+                onChange={(e) => {
+                  const items = [...d.items];
+                  items[i] = { ...item, title: e.target.value };
+                  patch({ ...d, items });
+                }}
+              />
               <ImageField
                 value={item.image}
                 showAlt={false}
-                onChange={(src) => { const items = [...d.items]; items[i] = { ...item, image: src }; patch({ ...d, items }); }}
+                onChange={(src) => {
+                  const items = [...d.items];
+                  items[i] = { ...item, image: src };
+                  patch({ ...d, items });
+                }}
               />
-              <input className="fieldInput" placeholder="URL" value={item.url} onChange={(e) => { const items = [...d.items]; items[i] = { ...item, url: e.target.value }; patch({ ...d, items }); }} />
+              <input
+                className="fieldInput"
+                placeholder="URL"
+                value={item.url}
+                onChange={(e) => {
+                  const items = [...d.items];
+                  items[i] = { ...item, url: e.target.value };
+                  patch({ ...d, items });
+                }}
+              />
               <div className="nestedCardAction">
                 <button
                   type="button"
                   className="btn btnGhost"
-                  onClick={() => patch({ ...d, items: d.items.filter((_, idx) => idx !== i) })}
+                  onClick={() =>
+                    patch({
+                      ...d,
+                      items: d.items.filter((_, idx) => idx !== i),
+                    })
+                  }
                 >
                   Remove item
                 </button>
               </div>
             </div>
           ))}
-          <button type="button" className="btn btnGhost" onClick={() => patch({ ...d, items: [...d.items, { title: "", image: "", url: "/" }] })}>
+          <button
+            type="button"
+            className="btn btnGhost"
+            onClick={() =>
+              patch({
+                ...d,
+                items: [...d.items, { title: '', image: '', url: '/' }],
+              })
+            }
+          >
             + Add item
           </button>
         </>
       );
     }
-    case "recipe_grid": {
+    case 'recipe_grid': {
       const d = block.data as RecipeGridBlockData;
       return (
         <>
@@ -1313,15 +1702,21 @@ export function BlockFormFields({
               className="fieldSelect"
               value={d.layout}
               onChange={(e) => {
-                const layout = e.target.value as RecipeGridBlockData["layout"];
-                if (layout === "grid") {
+                const layout = e.target.value as RecipeGridBlockData['layout'];
+                if (layout === 'grid') {
                   patch(
                     withRecipeGridColumnDefaults({
                       ...d,
                       layout,
-                      columns_desktop: d.columns_desktop ?? RESPONSIVE_GRID_DEFAULT_COLUMNS.desktop,
-                      columns_tablet: d.columns_tablet ?? RESPONSIVE_GRID_DEFAULT_COLUMNS.tablet,
-                      columns_mobile: d.columns_mobile ?? RESPONSIVE_GRID_DEFAULT_COLUMNS.mobile,
+                      columns_desktop:
+                        d.columns_desktop ??
+                        RESPONSIVE_GRID_DEFAULT_COLUMNS.desktop,
+                      columns_tablet:
+                        d.columns_tablet ??
+                        RESPONSIVE_GRID_DEFAULT_COLUMNS.tablet,
+                      columns_mobile:
+                        d.columns_mobile ??
+                        RESPONSIVE_GRID_DEFAULT_COLUMNS.mobile,
                     }),
                   );
                   return;
@@ -1333,7 +1728,7 @@ export function BlockFormFields({
               <option value="carousel">Carousel</option>
             </select>
           </Field>
-          {d.layout === "grid" ? (
+          {d.layout === 'grid' ? (
             <ResponsiveGridColumnsField
               value={d}
               defaultImageAspect="4/3"
@@ -1342,20 +1737,45 @@ export function BlockFormFields({
           ) : null}
           {d.items.map((item, i) => (
             <div key={i} className="card nestedCard">
-              <input className="fieldInput" placeholder="Title" value={item.title} onChange={(e) => { const items = [...d.items]; items[i] = { ...item, title: e.target.value }; patch({ ...d, items }); }} />
+              <input
+                className="fieldInput"
+                placeholder="Title"
+                value={item.title}
+                onChange={(e) => {
+                  const items = [...d.items];
+                  items[i] = { ...item, title: e.target.value };
+                  patch({ ...d, items });
+                }}
+              />
               <ImageField
                 value={item.image}
                 showAlt={false}
-                onChange={(src) => { const items = [...d.items]; items[i] = { ...item, image: src }; patch({ ...d, items }); }}
+                onChange={(src) => {
+                  const items = [...d.items];
+                  items[i] = { ...item, image: src };
+                  patch({ ...d, items });
+                }}
               />
-              <input className="fieldInput" placeholder="URL" value={item.url} onChange={(e) => { const items = [...d.items]; items[i] = { ...item, url: e.target.value }; patch({ ...d, items }); }} />
+              <input
+                className="fieldInput"
+                placeholder="URL"
+                value={item.url}
+                onChange={(e) => {
+                  const items = [...d.items];
+                  items[i] = { ...item, url: e.target.value };
+                  patch({ ...d, items });
+                }}
+              />
               <label className="fieldCheckbox">
                 <input
                   type="checkbox"
                   checked={item.app_exclusive ?? false}
                   onChange={(e) => {
                     const items = [...d.items];
-                    items[i] = { ...item, app_exclusive: e.target.checked || undefined };
+                    items[i] = {
+                      ...item,
+                      app_exclusive: e.target.checked || undefined,
+                    };
                     patch({ ...d, items });
                   }}
                 />
@@ -1365,20 +1785,34 @@ export function BlockFormFields({
                 <button
                   type="button"
                   className="btn btnGhost"
-                  onClick={() => patch({ ...d, items: d.items.filter((_, idx) => idx !== i) })}
+                  onClick={() =>
+                    patch({
+                      ...d,
+                      items: d.items.filter((_, idx) => idx !== i),
+                    })
+                  }
                 >
                   Remove item
                 </button>
               </div>
             </div>
           ))}
-          <button type="button" className="btn btnGhost" onClick={() => patch({ ...d, items: [...d.items, { title: "", image: "", url: "/" }] })}>
+          <button
+            type="button"
+            className="btn btnGhost"
+            onClick={() =>
+              patch({
+                ...d,
+                items: [...d.items, { title: '', image: '', url: '/' }],
+              })
+            }
+          >
             + Add item
           </button>
         </>
       );
     }
-    case "partner_promo": {
+    case 'partner_promo': {
       const d = block.data as PartnerPromoBlockData;
       return (
         <>
@@ -1386,15 +1820,19 @@ export function BlockFormFields({
             <ImageField
               value={d.logo_src}
               alt={d.logo_alt}
-              onChange={(src, altVal) => patch({ ...d, logo_src: src, logo_alt: altVal ?? d.logo_alt })}
+              onChange={(src, altVal) =>
+                patch({ ...d, logo_src: src, logo_alt: altVal ?? d.logo_alt })
+              }
               onAltChange={(altVal) => patch({ ...d, logo_alt: altVal })}
             />
           </Field>
           <Field label="Logo link URL">
             <input
               className="fieldInput"
-              value={d.logo_href ?? ""}
-              onChange={(e) => patch({ ...d, logo_href: e.target.value || undefined })}
+              value={d.logo_href ?? ''}
+              onChange={(e) =>
+                patch({ ...d, logo_href: e.target.value || undefined })
+              }
               placeholder="https://"
             />
           </Field>
@@ -1402,17 +1840,29 @@ export function BlockFormFields({
             <select
               className="fieldSelect"
               value={d.layout}
-              onChange={(e) => patch({ ...d, layout: e.target.value as PartnerPromoBlockData["layout"] })}
+              onChange={(e) =>
+                patch({
+                  ...d,
+                  layout: e.target.value as PartnerPromoBlockData['layout'],
+                })
+              }
             >
               <option value="stacked">Stacked</option>
               <option value="horizontal">Horizontal</option>
             </select>
           </Field>
           <Field label="Title">
-            <input className="fieldInput" value={d.title ?? ""} onChange={(e) => patch({ ...d, title: e.target.value })} />
+            <input
+              className="fieldInput"
+              value={d.title ?? ''}
+              onChange={(e) => patch({ ...d, title: e.target.value })}
+            />
           </Field>
           <Field label="Body">
-            <RichTextEditor value={d.body ?? ""} onChange={(body) => patch({ ...d, body })} />
+            <RichTextEditor
+              value={d.body ?? ''}
+              onChange={(body) => patch({ ...d, body })}
+            />
           </Field>
           <Field label="Links">
             {(d.links ?? []).map((link, i) => (
@@ -1442,7 +1892,9 @@ export function BlockFormFields({
                     type="button"
                     className="btn btnGhost"
                     onClick={() => {
-                      const links = (d.links ?? []).filter((_, index) => index !== i);
+                      const links = (d.links ?? []).filter(
+                        (_, index) => index !== i,
+                      );
                       patch({ ...d, links });
                     }}
                   >
@@ -1457,7 +1909,7 @@ export function BlockFormFields({
               onClick={() =>
                 patch({
                   ...d,
-                  links: [...(d.links ?? []), { label: "", href: "" }],
+                  links: [...(d.links ?? []), { label: '', href: '' }],
                 })
               }
             >
@@ -1467,7 +1919,7 @@ export function BlockFormFields({
         </>
       );
     }
-    case "partnership_tag": {
+    case 'partnership_tag': {
       const d = block.data as PartnershipTagBlockData;
       return (
         <>
@@ -1483,22 +1935,26 @@ export function BlockFormFields({
             <ImageField
               value={d.logo_src}
               alt={d.logo_alt}
-              onChange={(src, altVal) => patch({ ...d, logo_src: src, logo_alt: altVal ?? d.logo_alt })}
+              onChange={(src, altVal) =>
+                patch({ ...d, logo_src: src, logo_alt: altVal ?? d.logo_alt })
+              }
               onAltChange={(altVal) => patch({ ...d, logo_alt: altVal })}
             />
           </Field>
           <Field label="Logo link URL">
             <input
               className="fieldInput"
-              value={d.logo_href ?? ""}
-              onChange={(e) => patch({ ...d, logo_href: e.target.value || undefined })}
+              value={d.logo_href ?? ''}
+              onChange={(e) =>
+                patch({ ...d, logo_href: e.target.value || undefined })
+              }
               placeholder="https://"
             />
           </Field>
         </>
       );
     }
-    case "book_promo": {
+    case 'book_promo': {
       const d = block.data as BookPromoBlockData;
       return (
         <>
@@ -1506,17 +1962,40 @@ export function BlockFormFields({
             <ImageField
               value={d.cover_src}
               alt={d.cover_alt}
-              onChange={(src, altVal) => patch({ ...d, cover_src: src, cover_alt: altVal ?? d.cover_alt })}
+              onChange={(src, altVal) =>
+                patch({
+                  ...d,
+                  cover_src: src,
+                  cover_alt: altVal ?? d.cover_alt,
+                })
+              }
               onAltChange={(altVal) => patch({ ...d, cover_alt: altVal })}
             />
           </Field>
-          <Field label="Book title"><input className="fieldInput" value={d.book_title} onChange={(e) => patch({ ...d, book_title: e.target.value })} /></Field>
-          <Field label="Book URL"><input className="fieldInput" value={d.book_href} onChange={(e) => patch({ ...d, book_href: e.target.value })} /></Field>
-          <Field label="Description"><RichTextEditor value={d.body} onChange={(body) => patch({ ...d, body })} /></Field>
+          <Field label="Book title">
+            <input
+              className="fieldInput"
+              value={d.book_title}
+              onChange={(e) => patch({ ...d, book_title: e.target.value })}
+            />
+          </Field>
+          <Field label="Book URL">
+            <input
+              className="fieldInput"
+              value={d.book_href}
+              onChange={(e) => patch({ ...d, book_href: e.target.value })}
+            />
+          </Field>
+          <Field label="Description">
+            <RichTextEditor
+              value={d.body}
+              onChange={(body) => patch({ ...d, body })}
+            />
+          </Field>
         </>
       );
     }
-    case "author_bio": {
+    case 'author_bio': {
       const d = block.data as AuthorBioBlockData;
       return (
         <>
@@ -1524,20 +2003,43 @@ export function BlockFormFields({
             <ImageField
               value={d.photo_src}
               alt={d.photo_alt}
-              onChange={(src, altVal) => patch({ ...d, photo_src: src, photo_alt: altVal ?? d.photo_alt })}
+              onChange={(src, altVal) =>
+                patch({
+                  ...d,
+                  photo_src: src,
+                  photo_alt: altVal ?? d.photo_alt,
+                })
+              }
               onAltChange={(altVal) => patch({ ...d, photo_alt: altVal })}
             />
           </Field>
-          <Field label="Name"><input className="fieldInput" value={d.name} onChange={(e) => patch({ ...d, name: e.target.value })} /></Field>
-          <Field label="Bio paragraphs"><textarea className="fieldTextarea" value={d.bio_paragraphs.join("\n\n")} onChange={(e) => patch({ ...d, bio_paragraphs: e.target.value.split("\n\n").filter(Boolean) })} /></Field>
+          <Field label="Name">
+            <input
+              className="fieldInput"
+              value={d.name}
+              onChange={(e) => patch({ ...d, name: e.target.value })}
+            />
+          </Field>
+          <Field label="Bio paragraphs">
+            <textarea
+              className="fieldTextarea"
+              value={d.bio_paragraphs.join('\n\n')}
+              onChange={(e) =>
+                patch({
+                  ...d,
+                  bio_paragraphs: e.target.value.split('\n\n').filter(Boolean),
+                })
+              }
+            />
+          </Field>
         </>
       );
     }
-    case "image_stack": {
+    case 'image_stack': {
       const d = block.data as ImageStackBlockData;
       return <ImageStackFields data={d} onChange={(data) => patch(data)} />;
     }
-    case "two_column": {
+    case 'two_column': {
       const d = block.data as TwoColumnBlockData;
       return <TwoColumnFields data={d} onChange={(data) => patch(data)} />;
     }

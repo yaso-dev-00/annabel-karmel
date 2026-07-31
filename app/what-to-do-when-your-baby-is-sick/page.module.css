@@ -24,7 +24,7 @@
   font-family: var(--font-display);
   font-size: 26px;
   line-height: 1.14;
-  font-weight:bolder !important;
+  font-weight: bolder !important;
   color: #3a3a3a;
   text-decoration: underline;
   text-underline-offset: 2px;
@@ -38,7 +38,6 @@
 .bulletListWide {
   padding-left: 100px !important;
 }
-
 
 .bulletItem {
   margin-top: 8px;
@@ -77,7 +76,6 @@
   width: 100%;
   min-width: 680px;
   border-collapse: collapse;
-  
 }
 
 .th {
@@ -142,7 +140,6 @@
   .attribution,
   .relatedTitle,
   .relatedText {
-    
     padding: 0 10px !important;
   }
 
@@ -160,13 +157,10 @@
 }
 
 @media (max-width: 768px) {
-  .bulletItem{
+  .bulletItem {
     font-size: 16px;
   }
-  .bulletItemSm{
+  .bulletItemSm {
     font-size: 16px;
   }
- 
 }
-
- 

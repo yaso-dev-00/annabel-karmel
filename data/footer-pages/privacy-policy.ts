@@ -1,5 +1,5 @@
 export const privacyPolicyPage = {
-  title: "Privacy Policy",
+  title: 'Privacy Policy',
   html: `<h4>Please click on the link below for the relevant Privacy Policy:</h4>
 <h4><a href="#webpolicy">Website Privacy Policy</a></h4>
 <h4><a href="#apppolicy">App Privacy Policy</a></h4>

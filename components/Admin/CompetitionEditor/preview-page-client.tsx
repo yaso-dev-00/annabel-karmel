@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { CompetitionShell } from "@/components/ContentBlocks/competition-shell";
-import { PreviewViewport } from "@/components/Admin/BlockEditor/preview-viewport";
-import type { Competition } from "@/lib/content-blocks/types";
-import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
+import { CompetitionShell } from '@/components/ContentBlocks/competition-shell';
+import { PreviewViewport } from '@/components/Admin/BlockEditor/preview-viewport';
+import type { Competition } from '@/lib/content-blocks/types';
+import styles from '@/components/Admin/BlockEditor/block-editor.module.css';
 
 type PreviewPageClientProps = {
   competition: Competition;

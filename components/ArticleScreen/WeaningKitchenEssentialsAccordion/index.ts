@@ -1,1 +1,1 @@
-export * from "./weaning-kitchen-essentials-accordion";
+export * from './weaning-kitchen-essentials-accordion';

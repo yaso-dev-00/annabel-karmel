@@ -1,7 +1,10 @@
-import seedStore from "@/data/cms/ads.seed.json";
-import type { AdsStore, SiteAd } from "@/lib/ads/types";
-import { readAdsCmsStoreRaw, writeAdsCmsStoreRaw } from "@/lib/admin/ads-cms-store-io";
-import { sanitizeSiteAd } from "@/lib/admin/sanitize-ad";
+import seedStore from '@/data/cms/ads.seed.json';
+import type { AdsStore, SiteAd } from '@/lib/ads/types';
+import {
+  readAdsCmsStoreRaw,
+  writeAdsCmsStoreRaw,
+} from '@/lib/admin/ads-cms-store-io';
+import { sanitizeSiteAd } from '@/lib/admin/sanitize-ad';
 
 async function readStore(): Promise<AdsStore> {
   let raw: string;
@@ -47,7 +50,7 @@ export async function getAdById(id: string): Promise<SiteAd | null> {
 }
 
 export async function createAd(
-  input: Omit<SiteAd, "id" | "created_at" | "updated_at">,
+  input: Omit<SiteAd, 'id' | 'created_at' | 'updated_at'>,
 ): Promise<SiteAd> {
   const store = await readStore();
   const now = new Date().toISOString();
@@ -64,7 +67,7 @@ export async function createAd(
 
 export async function updateAd(
   id: string,
-  input: Partial<Omit<SiteAd, "id" | "created_at">>,
+  input: Partial<Omit<SiteAd, 'id' | 'created_at'>>,
 ): Promise<SiteAd | null> {
   const store = await readStore();
   const index = store.ads.findIndex((ad) => ad.id === id);

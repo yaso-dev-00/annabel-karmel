@@ -1,14 +1,18 @@
-import type { CSSProperties } from "react";
-import type { BlockSettings } from "./types";
-import { normalizeCssLength } from "./css-length";
+import type { CSSProperties } from 'react';
+import type { BlockSettings } from './types';
+import { normalizeCssLength } from './css-length';
 
 export type PaddingPatch = Pick<
   BlockSettings,
-  "padding" | "padding_top" | "padding_right" | "padding_bottom" | "padding_left"
+  | 'padding'
+  | 'padding_top'
+  | 'padding_right'
+  | 'padding_bottom'
+  | 'padding_left'
 >;
 
 function hasPaddingSideValue(value?: string): boolean {
-  return value != null && value.trim() !== "";
+  return value != null && value.trim() !== '';
 }
 
 export function hasIndividualPadding(settings?: BlockSettings): boolean {
@@ -23,11 +27,16 @@ export function hasIndividualPadding(settings?: BlockSettings): boolean {
 
 export function hasCustomPadding(settings?: BlockSettings): boolean {
   if (!settings) return false;
-  return hasPaddingSideValue(settings.padding) || hasIndividualPadding(settings);
+  return (
+    hasPaddingSideValue(settings.padding) || hasIndividualPadding(settings)
+  );
 }
 
 /** Applies only the padding sides the editor explicitly set. */
-export function applyBlockPaddingStyle(style: CSSProperties, settings?: BlockSettings): boolean {
+export function applyBlockPaddingStyle(
+  style: CSSProperties,
+  settings?: BlockSettings,
+): boolean {
   if (!settings) return false;
 
   if (hasIndividualPadding(settings)) {
@@ -77,6 +86,8 @@ export function clearPaddingFields(): PaddingPatch {
 }
 
 /** Resets intrinsic block padding when wrapper padding is customized. */
-export function resetIntrinsicPaddingStyle(settings?: BlockSettings): CSSProperties | undefined {
+export function resetIntrinsicPaddingStyle(
+  settings?: BlockSettings,
+): CSSProperties | undefined {
   return hasCustomPadding(settings) ? { padding: 0 } : undefined;
 }

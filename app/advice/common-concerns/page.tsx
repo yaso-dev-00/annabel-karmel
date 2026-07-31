@@ -1,20 +1,20 @@
-import { FoodCategoryAccordion } from "@/components/ArticleScreen/FoodCategoryAccordion";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { FoodCategoryAccordion } from '@/components/ArticleScreen/FoodCategoryAccordion';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   commonConcernsAccordionItems,
   commonConcernsIntro,
   commonConcernsRelatedArticles,
-} from "@/data/common-concerns-page";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+} from '@/data/common-concerns-page';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Common Concerns | Child Development & Health | Annabel Karmel",
+  title: 'Common Concerns | Child Development & Health | Annabel Karmel',
   description:
-    "Common toddler ailments including nits, chickenpox, colds, teeth-care, and constipation or diarrhoea — how to spot symptoms and help your child recover.",
+    'Common toddler ailments including nits, chickenpox, colds, teeth-care, and constipation or diarrhoea — how to spot symptoms and help your child recover.',
 };
 
 export default function CommonConcernsPage() {
@@ -26,7 +26,10 @@ export default function CommonConcernsPage() {
           <p className={styles.intro}>{commonConcernsIntro}</p>
 
           <div className="mt-[28px]">
-            <FoodCategoryAccordion items={commonConcernsAccordionItems} defaultOpenTitle={null} />
+            <FoodCategoryAccordion
+              items={commonConcernsAccordionItems}
+              defaultOpenTitle={null}
+            />
           </div>
 
           <div className="mt-[90px] text-center">

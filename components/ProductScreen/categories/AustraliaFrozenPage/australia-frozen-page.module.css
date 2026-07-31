@@ -14,7 +14,7 @@
 .pageContainer {
   margin-inline: auto;
   width: 100%;
-  
+
   box-sizing: border-box;
 }
 
@@ -67,7 +67,7 @@
 
 .bodyCopy {
   margin: 0 0 20px;
-  font-family: var(--font-montserrat), "mont-light", Montserrat, sans-serif;
+  font-family: var(--font-montserrat), 'mont-light', Montserrat, sans-serif;
   font-size: 20px;
   font-weight: 300;
   line-height: 30px;
@@ -107,14 +107,14 @@
   min-height: 300px;
   padding: 2rem 10px;
   box-sizing: border-box;
-  gap:15px;
+  gap: 15px;
 }
 
 @media (min-width: 768px) {
   .splitTile {
     padding: 2.5rem 2rem;
     min-height: 350px;
-    gap:20px;
+    gap: 20px;
   }
 }
 
@@ -172,13 +172,11 @@
   background-color: #fccad1;
   background-image: var(--annabel-bg);
   background-repeat: no-repeat;
-  background-position:top 20% center;
+  background-position: top 20% center;
   background-size: cover;
   padding: 0;
   min-height: 500px;
 }
-
- 
 
 @media (min-width: 1000px) {
   .tileAnnabel {
@@ -292,9 +290,6 @@
   fill: #3d3d3d;
 }
 
-
- 
-
 .carouselViewport {
   position: relative;
   width: 100%;
@@ -342,10 +337,9 @@
   height: 100%;
   min-height: 200px;
   object-fit: cover;
-  object-position:top;
+  object-position: top;
   pointer-events: none;
   -webkit-user-drag: none;
-  
 }
 
 @media (min-width: 768px) {
@@ -598,7 +592,6 @@
   justify-content: center;
   max-width: 200px;
   margin: 0 10px;
-  
 }
 
 .retailerLogo {

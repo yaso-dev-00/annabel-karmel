@@ -1,1 +1,1 @@
-export * from "./recipe-detail-page";
+export * from './recipe-detail-page';

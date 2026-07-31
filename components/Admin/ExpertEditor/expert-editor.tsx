@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import { createExpertApi, updateExpertApi } from "@/lib/admin/experts-client";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import { createExpertApi, updateExpertApi } from '@/lib/admin/experts-client';
 import {
   applyExpertStatus,
   buildExpertSavePayload,
@@ -12,15 +12,15 @@ import {
   isExpertPreviewable,
   isExpertPublic,
   resolveExpertStatus,
-} from "@/lib/admin/expert-status";
-import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { ExpertProfileShell } from "@/components/ContentBlocks/expert-profile-shell";
-import { PreviewViewport } from "@/components/Admin/BlockEditor/preview-viewport";
-import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import { ExpertTopicsEditor } from "@/components/Admin/ExpertEditor/expert-topics-editor";
-import type { Expert, ExpertStatus } from "@/lib/experts/types";
-import editorStyles from "./expert-editor.module.css";
+} from '@/lib/admin/expert-status';
+import { ArticleStatusField } from '@/components/Admin/Ui/ArticleStatusField';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import { ExpertProfileShell } from '@/components/ContentBlocks/expert-profile-shell';
+import { PreviewViewport } from '@/components/Admin/BlockEditor/preview-viewport';
+import styles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import { ExpertTopicsEditor } from '@/components/Admin/ExpertEditor/expert-topics-editor';
+import type { Expert, ExpertStatus } from '@/lib/experts/types';
+import editorStyles from './expert-editor.module.css';
 
 type ExpertEditorProps = {
   initialExpert: Expert;
@@ -31,8 +31,8 @@ function slugifyName(name: string): string {
   return name
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
@@ -43,10 +43,13 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
   const [message, setMessage] = useState<string | null>(null);
   const [autoSlug, setAutoSlug] = useState(isNew && !initialExpert.slug);
 
-  const update = useCallback(<K extends keyof Expert>(key: K, value: Expert[K]) => {
-    setExpert((prev) => ({ ...prev, [key]: value }));
-    setDirty(true);
-  }, []);
+  const update = useCallback(
+    <K extends keyof Expert>(key: K, value: Expert[K]) => {
+      setExpert((prev) => ({ ...prev, [key]: value }));
+      setDirty(true);
+    },
+    [],
+  );
 
   const save = async (publish = false) => {
     setSaving(true);
@@ -57,25 +60,31 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
         const created = await createExpertApi(payload);
         setExpert(created);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.replace(`/admin/experts/${created.id}/edit`);
         router.refresh();
       } else {
         const updated = await updateExpertApi(expert.id, payload);
         setExpert(updated);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.refresh();
       }
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Save failed. Please try again.';
       setMessage(detail);
     } finally {
       setSaving(false);
     }
   };
 
-  const handleStatusChange = async (status: ExpertStatus, scheduledAt?: string | null) => {
+  const handleStatusChange = async (
+    status: ExpertStatus,
+    scheduledAt?: string | null,
+  ) => {
     const next = applyExpertStatus(expert, status, scheduledAt);
     setExpert(next);
 
@@ -83,20 +92,26 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
       setSaving(true);
       setMessage(null);
       try {
-        const updated = await updateExpertApi(expert.id, getExpertStatusPatch(next));
+        const updated = await updateExpertApi(
+          expert.id,
+          getExpertStatusPatch(next),
+        );
         setExpert(updated);
         setDirty(false);
         setMessage(
-          status === "disabled"
-            ? "Expert disabled."
-            : status === "published"
-              ? "Expert published."
-              : "Status saved.",
+          status === 'disabled'
+            ? 'Expert disabled.'
+            : status === 'published'
+              ? 'Expert published.'
+              : 'Status saved.',
         );
         router.refresh();
       } catch (error) {
         setDirty(true);
-        const detail = error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+        const detail =
+          error instanceof Error
+            ? error.message
+            : 'Failed to save status. Try Save draft.';
         setMessage(detail);
       } finally {
         setSaving(false);
@@ -112,7 +127,11 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
   const expertStatus = resolveExpertStatus(expert);
   const previewable = isExpertPreviewable(expert);
 
-  const updateParagraph = (key: "introParagraphs" | "bioParagraphs", index: number, value: string) => {
+  const updateParagraph = (
+    key: 'introParagraphs' | 'bioParagraphs',
+    index: number,
+    value: string,
+  ) => {
     setExpert((prev) => {
       const next = [...prev[key]];
       next[index] = value;
@@ -121,12 +140,15 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
     setDirty(true);
   };
 
-  const addParagraph = (key: "introParagraphs" | "bioParagraphs") => {
-    setExpert((prev) => ({ ...prev, [key]: [...prev[key], ""] }));
+  const addParagraph = (key: 'introParagraphs' | 'bioParagraphs') => {
+    setExpert((prev) => ({ ...prev, [key]: [...prev[key], ''] }));
     setDirty(true);
   };
 
-  const removeParagraph = (key: "introParagraphs" | "bioParagraphs", index: number) => {
+  const removeParagraph = (
+    key: 'introParagraphs' | 'bioParagraphs',
+    index: number,
+  ) => {
     setExpert((prev) => ({
       ...prev,
       [key]: prev[key].filter((_, i) => i !== index),
@@ -138,12 +160,16 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
     <div className="editorSections">
       <div className="editorPageHeader">
         <div>
-          <h1 className="cardTitle">{expert.name || "Untitled expert"}</h1>
-          <p className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}>
-            {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
+          <h1 className="cardTitle">{expert.name || 'Untitled expert'}</h1>
+          <p className={`statusBar ${dirty && !message ? 'statusDirty' : ''}`}>
+            {message
+              ? message
+              : dirty
+                ? 'Unsaved changes'
+                : 'All changes saved'}
           </p>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
           {expert.id && expert.slug ? (
             previewable ? (
               <Link
@@ -168,7 +194,12 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
               </button>
             )
           ) : null}
-          <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+          <button
+            type="button"
+            className="btn btnSecondary"
+            onClick={saveDraft}
+            disabled={saving}
+          >
             Save draft
           </button>
           <button
@@ -215,7 +246,7 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
                   value={expert.slug}
                   onChange={(e) => {
                     setAutoSlug(false);
-                    update("slug", e.target.value);
+                    update('slug', e.target.value);
                   }}
                   placeholder="expert-slug"
                 />
@@ -225,7 +256,7 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
                 <input
                   className="fieldInput"
                   value={expert.role}
-                  onChange={(e) => update("role", e.target.value)}
+                  onChange={(e) => update('role', e.target.value)}
                   placeholder="e.g. Paediatric sleep consultant"
                 />
               </div>
@@ -236,24 +267,28 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
                   type="number"
                   min={0}
                   value={expert.sort_order}
-                  onChange={(e) => update("sort_order", Number(e.target.value) || 0)}
+                  onChange={(e) =>
+                    update('sort_order', Number(e.target.value) || 0)
+                  }
                 />
               </div>
-              <div className="field" style={{ gridColumn: "1 / -1" }}>
+              <div className="field" style={{ gridColumn: '1 / -1' }}>
                 <label className="fieldLabel">Profile image</label>
                 <ImageField
                   value={expert.image}
                   alt={expert.name}
                   showAlt={false}
-                  onChange={(src) => update("image", src)}
+                  onChange={(src) => update('image', src)}
                 />
               </div>
-              <div className="field" style={{ gridColumn: "1 / -1" }}>
-                <label className="fieldLabel">Source URL (topic link fallback)</label>
+              <div className="field" style={{ gridColumn: '1 / -1' }}>
+                <label className="fieldLabel">
+                  Source URL (topic link fallback)
+                </label>
                 <input
                   className="fieldInput"
                   value={expert.sourceUrl}
-                  onChange={(e) => update("sourceUrl", e.target.value)}
+                  onChange={(e) => update('sourceUrl', e.target.value)}
                   placeholder="https://..."
                 />
               </div>
@@ -264,21 +299,30 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
             <h2 className="cardSectionTitle">Intro paragraphs</h2>
             <div className="nestedList">
               {expert.introParagraphs.map((paragraph, index) => (
-                <div key={`intro-${index}`} className={`nestedCard ${editorStyles.paragraphCard}`}>
+                <div
+                  key={`intro-${index}`}
+                  className={`nestedCard ${editorStyles.paragraphCard}`}
+                >
                   <div className="field">
                     <label className="fieldLabel">Paragraph {index + 1}</label>
                     <textarea
                       className="fieldTextarea"
                       rows={3}
                       value={paragraph}
-                      onChange={(e) => updateParagraph("introParagraphs", index, e.target.value)}
+                      onChange={(e) =>
+                        updateParagraph(
+                          'introParagraphs',
+                          index,
+                          e.target.value,
+                        )
+                      }
                     />
                   </div>
                   <div className="nestedCardAction">
                     <button
                       type="button"
                       className="btn btnGhost"
-                      onClick={() => removeParagraph("introParagraphs", index)}
+                      onClick={() => removeParagraph('introParagraphs', index)}
                       disabled={expert.introParagraphs.length <= 1}
                     >
                       Remove
@@ -286,7 +330,11 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
                   </div>
                 </div>
               ))}
-              <button type="button" className="btn btnSecondary nestedAddBtn" onClick={() => addParagraph("introParagraphs")}>
+              <button
+                type="button"
+                className="btn btnSecondary nestedAddBtn"
+                onClick={() => addParagraph('introParagraphs')}
+              >
                 + Add intro paragraph
               </button>
             </div>
@@ -296,28 +344,37 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
             <h2 className="cardSectionTitle">Bio paragraphs</h2>
             <div className="nestedList">
               {expert.bioParagraphs.map((paragraph, index) => (
-                <div key={`bio-${index}`} className={`nestedCard ${editorStyles.paragraphCard}`}>
+                <div
+                  key={`bio-${index}`}
+                  className={`nestedCard ${editorStyles.paragraphCard}`}
+                >
                   <div className="field">
                     <label className="fieldLabel">Paragraph {index + 1}</label>
                     <textarea
                       className="fieldTextarea"
                       rows={3}
                       value={paragraph}
-                      onChange={(e) => updateParagraph("bioParagraphs", index, e.target.value)}
+                      onChange={(e) =>
+                        updateParagraph('bioParagraphs', index, e.target.value)
+                      }
                     />
                   </div>
                   <div className="nestedCardAction">
                     <button
                       type="button"
                       className="btn btnGhost"
-                      onClick={() => removeParagraph("bioParagraphs", index)}
+                      onClick={() => removeParagraph('bioParagraphs', index)}
                     >
                       Remove
                     </button>
                   </div>
                 </div>
               ))}
-              <button type="button" className="btn btnSecondary nestedAddBtn" onClick={() => addParagraph("bioParagraphs")}>
+              <button
+                type="button"
+                className="btn btnSecondary nestedAddBtn"
+                onClick={() => addParagraph('bioParagraphs')}
+              >
                 + Add bio paragraph
               </button>
             </div>
@@ -330,7 +387,7 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
                 <label className="fieldLabel">Label</label>
                 <input
                   className="fieldInput"
-                  value={expert.socialLink?.label ?? ""}
+                  value={expert.socialLink?.label ?? ''}
                   onChange={(e) => {
                     const label = e.target.value;
                     setExpert((prev) => ({
@@ -338,7 +395,7 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
                       socialLink:
                         !label && !prev.socialLink?.href
                           ? null
-                          : { label, href: prev.socialLink?.href ?? "" },
+                          : { label, href: prev.socialLink?.href ?? '' },
                     }));
                     setDirty(true);
                   }}
@@ -348,7 +405,7 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
                 <label className="fieldLabel">URL</label>
                 <input
                   className="fieldInput"
-                  value={expert.socialLink?.href ?? ""}
+                  value={expert.socialLink?.href ?? ''}
                   onChange={(e) => {
                     const href = e.target.value;
                     setExpert((prev) => ({
@@ -356,7 +413,7 @@ export function ExpertEditor({ initialExpert, isNew }: ExpertEditorProps) {
                       socialLink:
                         !href && !prev.socialLink?.label
                           ? null
-                          : { label: prev.socialLink?.label ?? "", href },
+                          : { label: prev.socialLink?.label ?? '', href },
                     }));
                     setDirty(true);
                   }}

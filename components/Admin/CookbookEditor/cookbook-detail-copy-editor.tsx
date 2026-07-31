@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useState } from "react";
-import { CookbookHighlightsEditor } from "@/components/Admin/CookbookEditor/cookbook-highlights-editor";
+import { useCallback, useRef, useState } from 'react';
+import { CookbookHighlightsEditor } from '@/components/Admin/CookbookEditor/cookbook-highlights-editor';
 import {
   addHighlightPhrase,
   resolveHighlightPhrase,
-} from "@/lib/cookbooks/highlight-text";
-import styles from "./cookbook-editor.module.css";
+} from '@/lib/cookbooks/highlight-text';
+import styles from './cookbook-editor.module.css';
 
 type CookbookDetailCopyEditorProps = {
   detailBody: string;
@@ -16,13 +16,13 @@ type CookbookDetailCopyEditorProps = {
 };
 
 function toParagraphs(value: string): string[] {
-  if (value === "") return [""];
-  return value.split("\n\n");
+  if (value === '') return [''];
+  return value.split('\n\n');
 }
 
 function fromParagraphs(paragraphs: string[]): string {
   // Keep empty trailing paragraphs while editing so "+ Paragraph" sticks.
-  return paragraphs.map((p) => p.replace(/\n+$/g, "").trimEnd()).join("\n\n");
+  return paragraphs.map((p) => p.replace(/\n+$/g, '').trimEnd()).join('\n\n');
 }
 
 export function CookbookDetailCopyEditor({
@@ -33,7 +33,7 @@ export function CookbookDetailCopyEditor({
 }: CookbookDetailCopyEditorProps) {
   const paragraphs = toParagraphs(detailBody);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [selectionText, setSelectionText] = useState("");
+  const [selectionText, setSelectionText] = useState('');
   const textareaRefs = useRef<Array<HTMLTextAreaElement | null>>([]);
 
   const updateParagraph = (index: number, next: string) => {
@@ -43,7 +43,7 @@ export function CookbookDetailCopyEditor({
   };
 
   const addParagraph = () => {
-    const updated = [...paragraphs, ""];
+    const updated = [...paragraphs, ''];
     onChangeBody(fromParagraphs(updated));
     setActiveIndex(updated.length - 1);
     requestAnimationFrame(() => {
@@ -53,7 +53,7 @@ export function CookbookDetailCopyEditor({
 
   const removeParagraph = (index: number) => {
     if (paragraphs.length <= 1) {
-      onChangeBody("");
+      onChangeBody('');
       return;
     }
     const updated = paragraphs.filter((_, i) => i !== index);
@@ -64,12 +64,12 @@ export function CookbookDetailCopyEditor({
   const syncSelection = useCallback((index: number) => {
     const el = textareaRefs.current[index];
     if (!el) {
-      setSelectionText("");
+      setSelectionText('');
       return;
     }
     const start = el.selectionStart;
     const end = el.selectionEnd;
-    setSelectionText(start === end ? "" : el.value.slice(start, end));
+    setSelectionText(start === end ? '' : el.value.slice(start, end));
   }, []);
 
   const boldSelection = useCallback(() => {
@@ -90,7 +90,8 @@ export function CookbookDetailCopyEditor({
         <div className={styles.sectionHeaderCol} style={{ marginBottom: 0 }}>
           <h2 className="cardSectionTitle">Detail copy</h2>
           <p className={styles.sectionHint}>
-            One box per paragraph. Select a phrase and press Ctrl/⌘+B to bold it.
+            One box per paragraph. Select a phrase and press Ctrl/⌘+B to bold
+            it.
           </p>
         </div>
         <button type="button" className="btn btnGhost" onClick={addParagraph}>
@@ -102,7 +103,9 @@ export function CookbookDetailCopyEditor({
         {paragraphs.map((paragraph, index) => (
           <div key={index} className={styles.detailParagraphRow}>
             <div className={styles.detailParagraphMeta}>
-              <span className={styles.detailParagraphLabel}>Paragraph {index + 1}</span>
+              <span className={styles.detailParagraphLabel}>
+                Paragraph {index + 1}
+              </span>
               <div className={styles.detailParagraphActions}>
                 {selectionText.trim() && activeIndex === index ? (
                   <button
@@ -145,20 +148,25 @@ export function CookbookDetailCopyEditor({
               onKeyUp={() => syncSelection(index)}
               onMouseUp={() => syncSelection(index)}
               onKeyDown={(e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "b") {
+                if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
                   e.preventDefault();
                   setActiveIndex(index);
                   // Selection is current before state updates; read from the element.
                   const el = e.currentTarget;
-                  const selected = el.value.slice(el.selectionStart, el.selectionEnd);
+                  const selected = el.value.slice(
+                    el.selectionStart,
+                    el.selectionEnd,
+                  );
                   const phrase = resolveHighlightPhrase(detailBody, selected);
                   if (!phrase) return;
-                  onChangeHighlights(addHighlightPhrase(detailBodyHighlights, phrase));
+                  onChangeHighlights(
+                    addHighlightPhrase(detailBodyHighlights, phrase),
+                  );
                 }
               }}
               placeholder={
                 index === 0
-                  ? "Opening paragraph for the book detail page…"
+                  ? 'Opening paragraph for the book detail page…'
                   : `Paragraph ${index + 1}`
               }
             />

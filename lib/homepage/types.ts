@@ -1,15 +1,16 @@
-export type HomepageStatus = "draft" | "published" | "scheduled" | "private" | "disabled";
+export type HomepageStatus =
+  'draft' | 'published' | 'scheduled' | 'private' | 'disabled';
 
 export type HomepageSectionType =
-  | "hero"
-  | "recipe_finder"
-  | "latest_recipes"
-  | "recipe_app"
-  | "expert_ranges"
-  | "cookbooks"
-  | "collabs"
-  | "partners"
-  | "instagram";
+  | 'hero'
+  | 'recipe_finder'
+  | 'latest_recipes'
+  | 'recipe_app'
+  | 'expert_ranges'
+  | 'cookbooks'
+  | 'collabs'
+  | 'partners'
+  | 'instagram';
 
 export type HomepageHeroSlide = {
   id: string;
@@ -74,7 +75,7 @@ export type HomepageInstagramPost = {
   id: string;
   href: string;
   image: string;
-  kind: "image" | "video" | "carousel";
+  kind: 'image' | 'video' | 'carousel';
 };
 
 export type HeroSectionData = {
@@ -138,15 +139,15 @@ export type InstagramSectionData = {
 };
 
 export type HomepageSection =
-  | { id: string; type: "hero"; data: HeroSectionData }
-  | { id: string; type: "recipe_finder"; data: RecipeFinderSectionData }
-  | { id: string; type: "latest_recipes"; data: LatestRecipesSectionData }
-  | { id: string; type: "recipe_app"; data: RecipeAppSectionData }
-  | { id: string; type: "expert_ranges"; data: ExpertRangesSectionData }
-  | { id: string; type: "cookbooks"; data: CookbooksSectionData }
-  | { id: string; type: "collabs"; data: CollabsSectionData }
-  | { id: string; type: "partners"; data: PartnersSectionData }
-  | { id: string; type: "instagram"; data: InstagramSectionData };
+  | { id: string; type: 'hero'; data: HeroSectionData }
+  | { id: string; type: 'recipe_finder'; data: RecipeFinderSectionData }
+  | { id: string; type: 'latest_recipes'; data: LatestRecipesSectionData }
+  | { id: string; type: 'recipe_app'; data: RecipeAppSectionData }
+  | { id: string; type: 'expert_ranges'; data: ExpertRangesSectionData }
+  | { id: string; type: 'cookbooks'; data: CookbooksSectionData }
+  | { id: string; type: 'collabs'; data: CollabsSectionData }
+  | { id: string; type: 'partners'; data: PartnersSectionData }
+  | { id: string; type: 'instagram'; data: InstagramSectionData };
 
 export type HomepageDocument = {
   id: string;
@@ -164,18 +165,20 @@ export type HomepageStore = {
 };
 
 export const HOMEPAGE_SECTION_LABELS: Record<HomepageSectionType, string> = {
-  hero: "Hero carousel",
-  recipe_finder: "Search recipes",
-  latest_recipes: "Latest recipes",
-  recipe_app: "Recipe app promo",
-  expert_ranges: "Expert ranges",
-  cookbooks: "Bestselling cookbooks",
-  collabs: "Collabs",
-  partners: "Partner with us",
-  instagram: "Instagram",
+  hero: 'Hero carousel',
+  recipe_finder: 'Search recipes',
+  latest_recipes: 'Latest recipes',
+  recipe_app: 'Recipe app promo',
+  expert_ranges: 'Expert ranges',
+  cookbooks: 'Bestselling cookbooks',
+  collabs: 'Collabs',
+  partners: 'Partner with us',
+  instagram: 'Instagram',
 };
 
-export const LOCKED_HOMEPAGE_SECTION_TYPES: HomepageSectionType[] = ["recipe_finder"];
+export const LOCKED_HOMEPAGE_SECTION_TYPES: HomepageSectionType[] = [
+  'recipe_finder',
+];
 
 export function isHomepageSectionLocked(type: HomepageSectionType): boolean {
   return LOCKED_HOMEPAGE_SECTION_TYPES.includes(type);

@@ -1,6 +1,13 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   KeyboardSensor,
   PointerSensor,
@@ -8,24 +15,33 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { ExpandCollapseAllButtons } from "@/components/Admin/BlockEditor/expand-collapse-all-buttons";
-import { StableDndContext } from "@/components/Admin/BlockEditor/stable-dnd-context";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { tablewareProducts, type TablewareProduct } from "@/data/tableware-page";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import relatedStyles from "@/components/Admin/BlockEditor/related-articles-fields.module.css";
-import styles from "./product-editor.module.css";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { ExpandCollapseAllButtons } from '@/components/Admin/BlockEditor/expand-collapse-all-buttons';
+import { StableDndContext } from '@/components/Admin/BlockEditor/stable-dnd-context';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import {
+  tablewareProducts,
+  type TablewareProduct,
+} from '@/data/tableware-page';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import relatedStyles from '@/components/Admin/BlockEditor/related-articles-fields.module.css';
+import styles from './product-editor.module.css';
 
-function RemoveButton({ onClick, label }: { onClick: () => void; label: string }) {
+function RemoveButton({
+  onClick,
+  label,
+}: {
+  onClick: () => void;
+  label: string;
+}) {
   return (
     <button
       type="button"
@@ -52,15 +68,17 @@ function useStableItemIds(length: number) {
   );
 
   useEffect(() => {
-    setItemIds((prev) => {
-      if (prev.length === length) return prev;
-      if (prev.length < length) {
-        return [
-          ...prev,
-          ...Array.from({ length: length - prev.length }, () => createId()),
-        ];
-      }
-      return prev.slice(0, length);
+    queueMicrotask(() => {
+      setItemIds((prev) => {
+        if (prev.length === length) return prev;
+        if (prev.length < length) {
+          return [
+            ...prev,
+            ...Array.from({ length: length - prev.length }, () => createId()),
+          ];
+        }
+        return prev.slice(0, length);
+      });
     });
   }, [length, createId]);
 
@@ -70,7 +88,9 @@ function useStableItemIds(length: number) {
 function useListSensors() {
   return useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 }
 
@@ -87,7 +107,14 @@ function SortableTextRow({
   onChange: (value: string) => void;
   onRemove: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id,
   });
 
@@ -156,17 +183,24 @@ export function SortableTextList({
           className="btn btnGhost"
           onClick={() => {
             setItemIds((prev) => [...prev, createId()]);
-            onChange([...items, ""]);
+            onChange([...items, '']);
           }}
         >
           {addLabel}
         </button>
       </div>
       {items.length === 0 ? (
-        <p className={styles.sectionHint}>{emptyHint ?? "No items yet."}</p>
+        <p className={styles.sectionHint}>{emptyHint ?? 'No items yet.'}</p>
       ) : (
-        <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
+        <StableDndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={itemIds}
+            strategy={verticalListSortingStrategy}
+          >
             <div className={styles.listStack}>
               {items.map((item, index) => {
                 const id = itemIds[index] ?? `${itemLabel}-${index}`;
@@ -213,7 +247,14 @@ function SortableCareIconRow({
   onChange: (icon: { src: string; label: string }) => void;
   onRemove: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id,
   });
   const title = icon.label.trim() || `Care icon ${index + 1}`;
@@ -222,7 +263,7 @@ function SortableCareIconRow({
     <div
       ref={setNodeRef}
       data-editor-item={id}
-      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ""}`}
+      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ''}`}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -257,20 +298,22 @@ function SortableCareIconRow({
             <span className={styles.careIconThumbPlaceholder} aria-hidden />
           )}
           <span className={styles.accordionEditorTitle}>{title}</span>
-          <span className={styles.accordionEditorMeta}>{icon.src ? "Image set" : "No image"}</span>
+          <span className={styles.accordionEditorMeta}>
+            {icon.src ? 'Image set' : 'No image'}
+          </span>
         </button>
         <div className={styles.accordionEditorHeaderActions}>
           <button
             type="button"
             className={blockStyles.iconBtn}
             aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
-            title={expanded ? "Collapse" : "Expand"}
+            title={expanded ? 'Collapse' : 'Expand'}
             onClick={(e) => {
               e.stopPropagation();
               onToggle();
             }}
           >
-            {expanded ? "▲" : "▼"}
+            {expanded ? '▲' : '▼'}
           </button>
           <RemoveButton label={`Remove ${title}`} onClick={onRemove} />
         </div>
@@ -308,10 +351,13 @@ export function SortableGalleryEditor({
   const sensors = useListSensors();
 
   useEffect(() => {
-    setExpandedIds((prev) => {
-      const next = new Set([...prev].filter((id) => itemIds.includes(id)));
-      if (next.size === prev.size && [...next].every((id) => prev.has(id))) return prev;
-      return next;
+    queueMicrotask(() => {
+      setExpandedIds((prev) => {
+        const next = new Set([...prev].filter((id) => itemIds.includes(id)));
+        if (next.size === prev.size && [...next].every((id) => prev.has(id)))
+          return prev;
+        return next;
+      });
     });
   }, [itemIds]);
 
@@ -339,7 +385,9 @@ export function SortableGalleryEditor({
       <div className={styles.sectionHeader}>
         <div className={styles.sectionHeaderCol} style={{ marginBottom: 0 }}>
           <h3 className={styles.subSectionTitle}>Gallery — {label}</h3>
-          <p className={styles.sectionHint}>Images for this colour. Drag to reorder.</p>
+          <p className={styles.sectionHint}>
+            Images for this colour. Drag to reorder.
+          </p>
         </div>
         <div className={styles.accordionEditorToolbar}>
           {gallery.length > 0 ? (
@@ -356,7 +404,7 @@ export function SortableGalleryEditor({
               const id = createId();
               setItemIds((prev) => [...prev, id]);
               setExpandedIds((prev) => new Set(prev).add(id));
-              onChange([...gallery, { src: "", alt: "" }]);
+              onChange([...gallery, { src: '', alt: '' }]);
             }}
           >
             + Image
@@ -366,7 +414,7 @@ export function SortableGalleryEditor({
 
       {gallery.length === 0 ? (
         <p className={styles.sectionHint}>
-          {emptyHint ?? "No images for this colour yet."}
+          {emptyHint ?? 'No images for this colour yet.'}
         </p>
       ) : (
         <StableDndContext
@@ -375,7 +423,10 @@ export function SortableGalleryEditor({
           onDragStart={() => setExpandedIds(new Set())}
           onDragEnd={handleDragEnd}
         >
-          <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={itemIds}
+            strategy={verticalListSortingStrategy}
+          >
             <div className={styles.accordionEditorList}>
               {gallery.map((image, index) => {
                 const id = itemIds[index] ?? `gallery-${index}`;
@@ -433,7 +484,14 @@ function SortableGalleryImageRow({
   onChange: (image: { src: string; alt: string }) => void;
   onRemove: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id,
   });
 
@@ -441,7 +499,7 @@ function SortableGalleryImageRow({
     <div
       ref={setNodeRef}
       data-editor-item={id}
-      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ""}`}
+      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ''}`}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -477,7 +535,7 @@ function SortableGalleryImageRow({
           )}
           <span className={styles.accordionEditorTitle}>{title}</span>
           <span className={styles.accordionEditorMeta}>
-            {image.src ? `Image ${index + 1}` : "No image"}
+            {image.src ? `Image ${index + 1}` : 'No image'}
           </span>
         </button>
         <div className={styles.accordionEditorHeaderActions}>
@@ -485,13 +543,13 @@ function SortableGalleryImageRow({
             type="button"
             className={blockStyles.iconBtn}
             aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
-            title={expanded ? "Collapse" : "Expand"}
+            title={expanded ? 'Collapse' : 'Expand'}
             onClick={(e) => {
               e.stopPropagation();
               onToggle();
             }}
           >
-            {expanded ? "▲" : "▼"}
+            {expanded ? '▲' : '▼'}
           </button>
           <RemoveButton label={`Remove ${title}`} onClick={onRemove} />
         </div>
@@ -528,10 +586,13 @@ export function SortableCareIconsEditor({
   const sensors = useListSensors();
 
   useEffect(() => {
-    setExpandedIds((prev) => {
-      const next = new Set([...prev].filter((id) => itemIds.includes(id)));
-      if (next.size === prev.size && [...next].every((id) => prev.has(id))) return prev;
-      return next;
+    queueMicrotask(() => {
+      setExpandedIds((prev) => {
+        const next = new Set([...prev].filter((id) => itemIds.includes(id)));
+        if (next.size === prev.size && [...next].every((id) => prev.has(id)))
+          return prev;
+        return next;
+      });
     });
   }, [itemIds]);
 
@@ -559,7 +620,9 @@ export function SortableCareIconsEditor({
       <div className={styles.sectionHeader}>
         <div className={styles.sectionHeaderCol} style={{ marginBottom: 0 }}>
           <h2 className="cardSectionTitle">Care</h2>
-          <p className={styles.sectionHint}>Care icons under “Looking after me”. Drag to reorder.</p>
+          <p className={styles.sectionHint}>
+            Care icons under “Looking after me”. Drag to reorder.
+          </p>
         </div>
         <div className={styles.accordionEditorToolbar}>
           {careIcons.length > 0 ? (
@@ -576,7 +639,7 @@ export function SortableCareIconsEditor({
               const id = createId();
               setItemIds((prev) => [...prev, id]);
               setExpandedIds((prev) => new Set(prev).add(id));
-              onIconsChange([...careIcons, { src: "", label: "" }]);
+              onIconsChange([...careIcons, { src: '', label: '' }]);
             }}
           >
             + Icon
@@ -604,7 +667,10 @@ export function SortableCareIconsEditor({
             onDragStart={() => setExpandedIds(new Set())}
             onDragEnd={handleDragEnd}
           >
-            <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
+            <SortableContext
+              items={itemIds}
+              strategy={verticalListSortingStrategy}
+            >
               <div className={styles.accordionEditorList}>
                 {careIcons.map((icon, index) => {
                   const id = itemIds[index] ?? `care-${index}`;
@@ -623,7 +689,9 @@ export function SortableCareIconsEditor({
                       }}
                       onRemove={() => {
                         onIconsChange(careIcons.filter((_, i) => i !== index));
-                        setItemIds((prev) => prev.filter((_, i) => i !== index));
+                        setItemIds((prev) =>
+                          prev.filter((_, i) => i !== index),
+                        );
                         setExpandedIds((prev) => {
                           const next = new Set(prev);
                           next.delete(id);
@@ -649,7 +717,14 @@ function SortableCompleteSetRow({
   product: TablewareProduct;
   onRemove: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: product.slug,
   });
 
@@ -673,7 +748,11 @@ function SortableCompleteSetRow({
         ⠿
       </span>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={product.defaultImage} alt="" className={relatedStyles.thumbnail} />
+      <img
+        src={product.defaultImage}
+        alt=""
+        className={relatedStyles.thumbnail}
+      />
       <div className={relatedStyles.selectedCopy}>
         <strong>{product.title}</strong>
         <span>{product.href}</span>
@@ -702,15 +781,23 @@ export function CompleteSetPicker({
   onChange: (slugs: string[]) => void;
 }) {
   const catalog = useMemo(() => {
-    const excludeFamily = excludeSlug?.replace(/-(soft-sage|warm-stone|blushberry)$/, "") ?? excludeSlug;
+    const excludeFamily =
+      excludeSlug?.replace(/-(soft-sage|warm-stone|blushberry)$/, '') ??
+      excludeSlug;
     return tablewareProducts.filter((product) => {
       if (!excludeSlug) return true;
-      const productFamily = product.slug.replace(/-(soft-sage|warm-stone|blushberry)$/, "");
+      const productFamily = product.slug.replace(
+        /-(soft-sage|warm-stone|blushberry)$/,
+        '',
+      );
       return product.slug !== excludeSlug && productFamily !== excludeFamily;
     });
   }, [excludeSlug]);
 
-  const bySlug = useMemo(() => new Map(catalog.map((product) => [product.slug, product])), [catalog]);
+  const bySlug = useMemo(
+    () => new Map(catalog.map((product) => [product.slug, product])),
+    [catalog],
+  );
 
   const selected = slugs
     .map((slug) => bySlug.get(slug))
@@ -737,7 +824,8 @@ export function CompleteSetPicker({
       <div className={styles.sectionHeaderCol}>
         <h2 className="cardSectionTitle">Complete your set</h2>
         <p className={styles.sectionHint}>
-          Choose Grow products for the “Complete your set” carousel. Drag to reorder.
+          Choose Grow products for the “Complete your set” carousel. Drag to
+          reorder.
         </p>
       </div>
       <div className="cardForm">
@@ -745,11 +833,15 @@ export function CompleteSetPicker({
           <label className="fieldLabel">Selected products</label>
           <p className={relatedStyles.helpText}>
             {selected.length > 0
-              ? `${selected.length} product${selected.length === 1 ? "" : "s"} in the carousel.`
-              : "No products selected yet."}
+              ? `${selected.length} product${selected.length === 1 ? '' : 's'} in the carousel.`
+              : 'No products selected yet.'}
           </p>
           {selected.length > 0 ? (
-            <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <StableDndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
               <SortableContext
                 items={selected.map((product) => product.slug)}
                 strategy={verticalListSortingStrategy}
@@ -759,7 +851,9 @@ export function CompleteSetPicker({
                     <SortableCompleteSetRow
                       key={product.slug}
                       product={product}
-                      onRemove={() => onChange(slugs.filter((slug) => slug !== product.slug))}
+                      onRemove={() =>
+                        onChange(slugs.filter((slug) => slug !== product.slug))
+                      }
                     />
                   ))}
                 </div>
@@ -777,7 +871,9 @@ export function CompleteSetPicker({
                       type="button"
                       className={styles.chipRemove}
                       aria-label={`Remove ${slug}`}
-                      onClick={() => onChange(slugs.filter((item) => item !== slug))}
+                      onClick={() =>
+                        onChange(slugs.filter((item) => item !== slug))
+                      }
                     >
                       ×
                     </button>
@@ -790,13 +886,19 @@ export function CompleteSetPicker({
         <div className="field">
           <label className="fieldLabel">Add products</label>
           {available.length === 0 ? (
-            <p className={relatedStyles.helpText}>All Grow products are already selected.</p>
+            <p className={relatedStyles.helpText}>
+              All Grow products are already selected.
+            </p>
           ) : (
             <div className={relatedStyles.availableList}>
               {available.map((product) => (
                 <div key={product.slug} className={relatedStyles.availableRow}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={product.defaultImage} alt="" className={relatedStyles.thumbnail} />
+                  <img
+                    src={product.defaultImage}
+                    alt=""
+                    className={relatedStyles.thumbnail}
+                  />
                   <div className={relatedStyles.selectedCopy}>
                     <strong>{product.title}</strong>
                     <span>{product.href}</span>

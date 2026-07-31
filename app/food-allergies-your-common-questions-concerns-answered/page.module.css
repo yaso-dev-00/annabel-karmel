@@ -152,7 +152,6 @@
   color: var(--hover-color);
 }
 
-
 .relatedTitle {
   margin: 0;
   font-family: var(--font-display);
@@ -221,4 +220,3 @@
     margin-top: 25px;
   }
 }
-

@@ -1,1 +1,1 @@
-export * from "./recipe-finder-select";
+export * from './recipe-finder-select';

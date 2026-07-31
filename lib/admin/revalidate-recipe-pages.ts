@@ -1,6 +1,6 @@
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from 'next/cache';
 
-export const RECIPES_CACHE_TAG = "recipes";
+export const RECIPES_CACHE_TAG = 'recipes';
 
 export function recipeIdTag(id: string): string {
   return `recipe:${id}`;
@@ -29,11 +29,11 @@ export function revalidateRecipeTags(recipe?: RevalidateRecipe): void {
 export function revalidateRecipePages(recipe?: RevalidateRecipe): void {
   revalidateRecipeTags(recipe);
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/recipes");
-  revalidatePath("/admin/recipes/categories");
-  revalidatePath("/admin/recipes/taxonomies");
-  revalidatePath("/admin", "layout");
+  revalidatePath('/admin');
+  revalidatePath('/admin/recipes');
+  revalidatePath('/admin/recipes/categories');
+  revalidatePath('/admin/recipes/taxonomies');
+  revalidatePath('/admin', 'layout');
 
   if (recipe?.id) {
     revalidatePath(`/admin/recipes/${recipe.id}/edit`);

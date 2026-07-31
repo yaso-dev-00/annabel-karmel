@@ -1,7 +1,7 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   bookPromo,
   cookingWithKidsIntro,
@@ -11,13 +11,13 @@ import {
   foodSchoolParagraphs,
   type CookingSection,
   type CookingTextLink,
-} from "@/data/cooking-with-kids-page";
-import type { Metadata } from "next";
-import Link from "next/link";
-import styles from "./page.module.css";
+} from '@/data/cooking-with-kids-page';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 function isTextLink(part: string | CookingTextLink): part is CookingTextLink {
-  return typeof part === "object";
+  return typeof part === 'object';
 }
 
 function SectionBody({ section }: { section: CookingSection }) {
@@ -113,10 +113,15 @@ export default function CookingWithKidsPage() {
                   {index === 0 ? (
                     <>
                       {"Annabel's brand new "}
-                      <Link href={bookPromo.bookHref} className={styles.bookLink}>
+                      <Link
+                        href={bookPromo.bookHref}
+                        className={styles.bookLink}
+                      >
                         <strong>{bookPromo.bookTitle}</strong>
                       </Link>
-                      {" is packed full of advice, top tips and over 100 simple and delicious recipes which the whole family can enjoy together – from 15 minute meals to healthy fast food favourites, cooking with the kids, lunchbox snacks and more."}
+                      {
+                        ' is packed full of advice, top tips and over 100 simple and delicious recipes which the whole family can enjoy together – from 15 minute meals to healthy fast food favourites, cooking with the kids, lunchbox snacks and more.'
+                      }
                     </>
                   ) : (
                     paragraph

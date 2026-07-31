@@ -1,1 +1,1 @@
-export * from "./site-newsletter-bar";
+export * from './site-newsletter-bar';

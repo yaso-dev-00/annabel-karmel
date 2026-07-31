@@ -1,1 +1,1 @@
-export * from "./section-background-image";
+export * from './section-background-image';

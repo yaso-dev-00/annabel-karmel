@@ -1,21 +1,21 @@
-import { ArticleRecipeCarousel } from "@/components/SharedCarousels/ArticleRecipeCarousel";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { ArticleRecipeCarousel } from '@/components/SharedCarousels/ArticleRecipeCarousel';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   toddlerSnackingIntroSections,
   toddlerSnackingRelatedArticles,
   toddlerSnackingSections,
   type ToddlerSnackingSection,
-} from "@/data/toddler-snacking-page";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+} from '@/data/toddler-snacking-page';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Toddler Snacks | Healthy Food Ideas | Annabel Karmel",
+  title: 'Toddler Snacks | Healthy Food Ideas | Annabel Karmel',
   description:
-    "Healthy toddler snack ideas including fruit and veg, carbohydrates, protein, healthy fats and sweet treats. Tips on when and how to offer snacks to toddlers.",
+    'Healthy toddler snack ideas including fruit and veg, carbohydrates, protein, healthy fats and sweet treats. Tips on when and how to offer snacks to toddlers.',
 };
 
 function SnackingSection({ section }: { section: ToddlerSnackingSection }) {

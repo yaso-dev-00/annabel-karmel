@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useId, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { newsletterPopupContent } from "@/data/promo-banners";
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { newsletterPopupContent } from '@/data/promo-banners';
 
 type NewsletterModalProps = {
   isOpen: boolean;
@@ -12,9 +12,18 @@ type NewsletterModalProps = {
 export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
   const titleId = useId();
   const emailRef = useRef<HTMLInputElement>(null);
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<
+    'idle' | 'loading' | 'success' | 'error'
+  >('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleClose = useCallback(() => {
+    setEmail('');
+    setStatus('idle');
+    setErrorMessage('');
+    onClose();
+  }, [onClose]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -22,30 +31,22 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
     }
 
     const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
     emailRef.current?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
+      if (event.key === 'Escape') {
+        handleClose();
       }
     };
 
-    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener('keydown', onKeyDown);
     };
-  }, [isOpen, onClose]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setEmail("");
-      setStatus("idle");
-      setErrorMessage("");
-    }
-  }, [isOpen]);
+  }, [isOpen, handleClose]);
 
   if (!isOpen) {
     return null;
@@ -53,27 +54,29 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus("loading");
-    setErrorMessage("");
+    setStatus('loading');
+    setErrorMessage('');
 
     try {
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
-      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      const data = (await response.json().catch(() => null)) as {
+        error?: string;
+      } | null;
 
       if (!response.ok) {
-        setStatus("error");
+        setStatus('error');
         setErrorMessage(data?.error ?? newsletterPopupContent.errorMessage);
         return;
       }
 
-      setStatus("success");
+      setStatus('success');
     } catch {
-      setStatus("error");
+      setStatus('error');
       setErrorMessage(newsletterPopupContent.errorMessage);
     }
   };
@@ -84,7 +87,7 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
         type="button"
         className="newsletter-modal-scrim"
         aria-label="Close newsletter popup"
-        onClick={onClose}
+        onClick={handleClose}
       />
       <div
         className="newsletter-modal-panel"
@@ -96,7 +99,7 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
           type="button"
           className="newsletter-modal-close"
           aria-label="Close newsletter popup"
-          onClick={onClose}
+          onClick={handleClose}
         >
           <span aria-hidden>×</span>
         </button>
@@ -105,9 +108,11 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
           {newsletterPopupContent.title}
         </h2>
 
-        <p className="newsletter-modal-subtitle">{newsletterPopupContent.subtitle}</p>
+        <p className="newsletter-modal-subtitle">
+          {newsletterPopupContent.subtitle}
+        </p>
 
-        {status === "success" ? (
+        {status === 'success' ? (
           <p className="newsletter-modal-success" role="status">
             {newsletterPopupContent.successMessage}
           </p>
@@ -126,14 +131,16 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
                 required
                 placeholder={newsletterPopupContent.emailPlaceholder}
                 value={email}
-                disabled={status === "loading"}
+                disabled={status === 'loading'}
                 onChange={(event) => setEmail(event.target.value)}
               />
-              <button type="submit" disabled={status === "loading"}>
-                {status === "loading" ? "Signing up…" : newsletterPopupContent.submitLabel}
+              <button type="submit" disabled={status === 'loading'}>
+                {status === 'loading'
+                  ? 'Signing up…'
+                  : newsletterPopupContent.submitLabel}
               </button>
             </div>
-            {status === "error" && errorMessage ? (
+            {status === 'error' && errorMessage ? (
               <p className="newsletter-modal-error" role="alert">
                 {errorMessage}
               </p>
@@ -141,7 +148,9 @@ export function NewsletterModal({ isOpen, onClose }: NewsletterModalProps) {
           </form>
         )}
 
-        <p className="newsletter-modal-legal">{newsletterPopupContent.legalText}</p>
+        <p className="newsletter-modal-legal">
+          {newsletterPopupContent.legalText}
+        </p>
       </div>
     </div>,
     document.body,

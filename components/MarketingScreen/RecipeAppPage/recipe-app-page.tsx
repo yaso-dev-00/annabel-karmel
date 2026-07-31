@@ -1,13 +1,13 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RecipeAppFeaturesScroll } from "@/components/MarketingScreen/RecipeAppFeaturesScroll";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RecipeAppFeaturesScroll } from '@/components/MarketingScreen/RecipeAppFeaturesScroll';
 import {
   RecipeAppCategoryCarousel,
   RecipeAppDiscoverFeatures,
   RecipeAppTestimonialCarousel,
-} from "@/components/MarketingScreen/RecipeAppCarousels";
-import { RecipeAppPricingSection } from "@/components/MarketingScreen/RecipeAppPricing";
+} from '@/components/MarketingScreen/RecipeAppCarousels';
+import { RecipeAppPricingSection } from '@/components/MarketingScreen/RecipeAppPricing';
 import {
   recipeAppAssets,
   recipeAppAwards,
@@ -17,13 +17,26 @@ import {
   recipeAppLinks,
   recipeAppQuote,
   recipeAppWeaning,
-} from "@/data/recipe-app-page";
-import styles from "./recipe-app-page.module.css";
+} from '@/data/recipe-app-page';
+import styles from './recipe-app-page.module.css';
 
 function HeroCheckIcon() {
   return (
-    <svg className="mt-1 h-9 w-9 shrink-0" width="36" height="37" viewBox="0 0 36 37" fill="none" aria-hidden="true">
-      <path d="M30 9.5L13.5 26L6 18.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      className="mt-1 h-9 w-9 shrink-0"
+      width="36"
+      height="37"
+      viewBox="0 0 36 37"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M30 9.5L13.5 26L6 18.5"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -54,10 +67,20 @@ function StoreBadges({ className }: { className?: string }) {
   return (
     <div className={className}>
       <a href={recipeAppLinks.appStore} aria-label="Download on the App Store">
-        <Image src={recipeAppAssets.appStoreBadge} alt="" width={152} height={50} />
+        <Image
+          src={recipeAppAssets.appStoreBadge}
+          alt=""
+          width={152}
+          height={50}
+        />
       </a>
       <a href={recipeAppLinks.playStore} aria-label="Get it on Google Play">
-        <Image src={recipeAppAssets.googlePlayBadge} alt="" width={152} height={50} />
+        <Image
+          src={recipeAppAssets.googlePlayBadge}
+          alt=""
+          width={152}
+          height={50}
+        />
       </a>
     </div>
   );
@@ -66,7 +89,10 @@ function StoreBadges({ className }: { className?: string }) {
 export function RecipeAppPageContent() {
   return (
     <main className={styles.page}>
-      <section className={styles.heroDesktop} aria-labelledby="recipe-app-hero-heading">
+      <section
+        className={styles.heroDesktop}
+        aria-labelledby="recipe-app-hero-heading"
+      >
         <div className={styles.heroDesktopInner}>
           <div className={styles.heroDesktopContent}>
             <div className={styles.heroCopy}>
@@ -93,7 +119,10 @@ export function RecipeAppPageContent() {
         </div>
       </section>
 
-      <section className={styles.heroMobile} aria-labelledby="recipe-app-hero-mobile-heading">
+      <section
+        className={styles.heroMobile}
+        aria-labelledby="recipe-app-hero-mobile-heading"
+      >
         <div className={styles.heroMobileInner}>
           <p className={styles.heroEyebrow}>{recipeAppHero.eyebrow}</p>
           <h1 id="recipe-app-hero-mobile-heading" className={styles.heroTitle}>
@@ -116,7 +145,10 @@ export function RecipeAppPageContent() {
         </div>
       </section>
 
-      <section className={styles.introSection} aria-labelledby="recipe-app-intro-heading">
+      <section
+        className={styles.introSection}
+        aria-labelledby="recipe-app-intro-heading"
+      >
         <div className={styles.sectionShell}>
           <h2 id="recipe-app-intro-heading" className={styles.introTitle}>
             {recipeAppIntro.title}
@@ -137,7 +169,10 @@ export function RecipeAppPageContent() {
         </div>
       </section>
 
-      <section className={styles.joinSection} aria-labelledby="recipe-app-join-heading">
+      <section
+        className={styles.joinSection}
+        aria-labelledby="recipe-app-join-heading"
+      >
         <div className={styles.joinShell}>
           <div className={styles.joinMobileCollageTop} aria-hidden="true">
             <Image
@@ -201,12 +236,19 @@ export function RecipeAppPageContent() {
         </div>
       </section>
 
-      <section className={styles.quoteSection} aria-labelledby="recipe-app-quote-heading">
+      <section
+        className={styles.quoteSection}
+        aria-labelledby="recipe-app-quote-heading"
+      >
         <div className={styles.sectionShell}>
           <div className={styles.quoteCard}>
             <div className={styles.quoteGrid}>
               <div className={styles.quoteCopy}>
-                <svg className={styles.quoteIcon} viewBox="0 0 512 512" aria-hidden="true">
+                <svg
+                  className={styles.quoteIcon}
+                  viewBox="0 0 512 512"
+                  aria-hidden="true"
+                >
                   <path d="M464 256h-80v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8c-88.4 0-160 71.6-160 160v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48zm-288 0H96v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8C71.6 32 0 103.6 0 192v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48z" />
                 </svg>
                 <h2 id="recipe-app-quote-heading" className="sr-only">
@@ -232,14 +274,23 @@ export function RecipeAppPageContent() {
 
       <RecipeAppFeaturesScroll />
 
-      <section className={styles.categoriesSection} aria-labelledby="recipe-app-categories-heading">
-        <h2 id="recipe-app-categories-heading" className={styles.categoriesHeading}>
+      <section
+        className={styles.categoriesSection}
+        aria-labelledby="recipe-app-categories-heading"
+      >
+        <h2
+          id="recipe-app-categories-heading"
+          className={styles.categoriesHeading}
+        >
           Recipes that grow with your family
         </h2>
         <RecipeAppCategoryCarousel />
       </section>
 
-      <section className={styles.weaningSection} aria-labelledby="recipe-app-weaning-heading">
+      <section
+        className={styles.weaningSection}
+        aria-labelledby="recipe-app-weaning-heading"
+      >
         <div className={styles.sectionShell}>
           <div className={styles.weaningIntroDesktop}>
             <h2 className={styles.weaningTitle}>

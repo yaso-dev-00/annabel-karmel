@@ -1,11 +1,18 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import styles from "./related-articles-carousel.module.css";
+import Link from 'next/link';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import styles from './related-articles-carousel.module.css';
 
 const NAV_BUTTON_CLASS =
-  "grid h-8 w-8 cursor-pointer place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] transition-colors hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11";
+  'grid h-8 w-8 cursor-pointer place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] transition-colors hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11';
 
 export type RelatedArticleItem = {
   href: string;
@@ -25,7 +32,7 @@ function eventTargetElement(target: EventTarget | null): Element | null {
 }
 
 function isLinkTarget(target: EventTarget | null): boolean {
-  return Boolean(eventTargetElement(target)?.closest("a[href]"));
+  return Boolean(eventTargetElement(target)?.closest('a[href]'));
 }
 
 function perViewFromWidth(width: number) {
@@ -34,7 +41,9 @@ function perViewFromWidth(width: number) {
   return 5;
 }
 
-export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps) {
+export function RelatedArticlesCarousel({
+  items,
+}: RelatedArticlesCarouselProps) {
   const [perView, setPerView] = useState(5);
   const [page, setPage] = useState(0);
   const pointerStartX = useRef<number | null>(null);
@@ -46,17 +55,17 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
   const measureNavPosition = useCallback(() => {
     const stage = stageRef.current;
     if (!stage) return;
-    const image = stage.querySelector<HTMLElement>("[data-related-thumb]");
+    const image = stage.querySelector<HTMLElement>('[data-related-thumb]');
     if (!image || image.offsetWidth <= 0) return;
-    stage.style.setProperty("--nav-center-y", `${image.offsetHeight / 2}px`);
-    stage.dataset.navReady = "";
+    stage.style.setProperty('--nav-center-y', `${image.offsetHeight / 2}px`);
+    stage.dataset.navReady = '';
   }, []);
 
   useEffect(() => {
     const onResize = () => setPerView(perViewFromWidth(window.innerWidth));
     onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   const pages = useMemo(() => {
@@ -69,11 +78,8 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
     return windows;
   }, [items, perView]);
 
-  useEffect(() => {
-    if (page > pages.length - 1) {
-      setPage(Math.max(0, pages.length - 1));
-    }
-  }, [page, pages.length]);
+  const maxPage = Math.max(0, pages.length - 1);
+  const displayPage = Math.min(page, maxPage);
 
   useLayoutEffect(() => {
     measureNavPosition();
@@ -81,9 +87,9 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
 
   useEffect(() => {
     const stage = stageRef.current;
-    if (!stage || typeof ResizeObserver === "undefined") {
-      window.addEventListener("resize", measureNavPosition);
-      return () => window.removeEventListener("resize", measureNavPosition);
+    if (!stage || typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', measureNavPosition);
+      return () => window.removeEventListener('resize', measureNavPosition);
     }
     const ro = new ResizeObserver(measureNavPosition);
     ro.observe(stage);
@@ -128,7 +134,8 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
 
-    if (pointerStartX.current === null || pointerCurrentX.current === null) return;
+    if (pointerStartX.current === null || pointerCurrentX.current === null)
+      return;
 
     const deltaX = pointerCurrentX.current - pointerStartX.current;
     const swipeThreshold = 24;
@@ -157,10 +164,13 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
       >
         <div
           className="flex transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${page * 100}%)` }}
+          style={{ transform: `translateX(-${displayPage * 100}%)` }}
         >
           {pages.map((chunk, pageIndex) => (
-            <div key={`page-${pageIndex}`} className="w-full shrink-0 grow-0 basis-full">
+            <div
+              key={`page-${pageIndex}`}
+              className="w-full shrink-0 grow-0 basis-full"
+            >
               <div className="grid grid-cols-1 gap-4 min-[700px]:grid-cols-2 min-[1024px]:grid-cols-5">
                 {chunk.map((article) => (
                   <article key={article.title} className="block">
@@ -182,7 +192,7 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
                       </div>
                     )}
                     <h3
-                      style={{ fontFamily: "var(--font-body)" }}
+                      style={{ fontFamily: 'var(--font-body)' }}
                       className="mt-7 text-center text-[20px] font-semibold leading-[1.22] tracking-[0.01em] text-[#3f3f3f]"
                     >
                       <Link
@@ -207,7 +217,11 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
         disabled={!canCycle}
         className={`${styles.navButton} left-1 min-[700px]:left-3 ${NAV_BUTTON_CLASS}`}
       >
-        <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden
+          className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]"
+        >
           <path
             d="M14.5 5.5L8 12l6.5 6.5"
             fill="none"
@@ -225,7 +239,11 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
         disabled={!canCycle}
         className={`${styles.navButton} right-1 min-[700px]:right-3 ${NAV_BUTTON_CLASS}`}
       >
-        <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden
+          className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]"
+        >
           <path
             d="M9.5 5.5L16 12l-6.5 6.5"
             fill="none"
@@ -245,7 +263,7 @@ export function RelatedArticlesCarousel({ items }: RelatedArticlesCarouselProps)
             aria-label={`Go to related articles page ${i + 1}`}
             onClick={() => setPage(i)}
             className={`h-[6px] w-[6px] rounded-full transition-colors ${
-              i === page ? "bg-[#222]" : "bg-[#c7c7c7]"
+              i === displayPage ? 'bg-[#222]' : 'bg-[#c7c7c7]'
             }`}
           />
         ))}

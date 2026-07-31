@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { RecipeCookingInfoFields } from "@/components/Admin/RecipeEditor/recipe-cooking-info-fields";
+import { RecipeCookingInfoFields } from '@/components/Admin/RecipeEditor/recipe-cooking-info-fields';
 import {
   RECIPE_YIELD_TYPES,
   type Recipe,
   type RecipeDifficulty,
   type RecipeYieldType,
-} from "@/lib/recipes/types";
-import styles from "./recipe-editor.module.css";
+} from '@/lib/recipes/types';
+import styles from './recipe-editor.module.css';
 
 type RecipeAdditionalInfoFieldsProps = {
   prepTime: string;
@@ -26,8 +26,8 @@ export function RecipeAdditionalInfoFields({
   servings,
   difficulty,
   suitableForFreezing,
-  yieldType = "serves",
-  yieldValue = "",
+  yieldType = 'serves',
+  yieldValue = '',
   onChange,
 }: RecipeAdditionalInfoFieldsProps) {
   return (
@@ -49,7 +49,9 @@ export function RecipeAdditionalInfoFields({
             id="recipe-yield-type"
             className="fieldSelect"
             value={yieldType}
-            onChange={(e) => onChange("yield_type", e.target.value as RecipeYieldType)}
+            onChange={(e) =>
+              onChange('yield_type', e.target.value as RecipeYieldType)
+            }
           >
             {RECIPE_YIELD_TYPES.map((option) => (
               <option key={option.value} value={option.value}>
@@ -60,13 +62,16 @@ export function RecipeAdditionalInfoFields({
         </div>
         <div className="field">
           <label className="fieldLabel" htmlFor="recipe-yield-value">
-            Yield <span className={styles.requiredMark} aria-hidden>*</span>
+            Yield{' '}
+            <span className={styles.requiredMark} aria-hidden>
+              *
+            </span>
           </label>
           <input
             id="recipe-yield-value"
             className="fieldInput"
             value={yieldValue}
-            onChange={(e) => onChange("yield_value", e.target.value)}
+            onChange={(e) => onChange('yield_value', e.target.value)}
             placeholder="e.g. 20 cookies"
             aria-required="true"
           />

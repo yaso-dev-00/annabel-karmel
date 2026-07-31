@@ -1,1 +1,4 @@
-export { SiteAdCarousel, SiteAdPlacement } from "@/components/SiteLayout/SiteAdPlacement";
+export {
+  SiteAdCarousel,
+  SiteAdPlacement,
+} from '@/components/SiteLayout/SiteAdPlacement';

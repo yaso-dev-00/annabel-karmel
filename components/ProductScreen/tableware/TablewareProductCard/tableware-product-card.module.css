@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "Mundial";
-  src: url("/tableware/fonts/mundial-regular.otf") format("opentype");
+  font-family: 'Mundial';
+  src: url('/tableware/fonts/mundial-regular.otf') format('opentype');
   font-weight: 400 600;
   font-style: normal;
   font-display: swap;
@@ -96,7 +96,6 @@
   padding: 0;
   border: none;
   background: none;
-
 }
 
 @media (max-width: 767px) {

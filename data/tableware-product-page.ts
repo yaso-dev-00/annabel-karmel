@@ -1,7 +1,14 @@
-import type { TablewareProduct, TablewareSwatchColor } from "@/data/tableware-page";
-import { tablewareAssets, tablewareProductHref, tablewareProducts } from "@/data/tableware-page";
+import type {
+  TablewareProduct,
+  TablewareSwatchColor,
+} from '@/data/tableware-page';
+import {
+  tablewareAssets,
+  tablewareProductHref,
+  tablewareProducts,
+} from '@/data/tableware-page';
 
-import tablewareProductPagesJson from "@/data/tableware-product-pages.json";
+import tablewareProductPagesJson from '@/data/tableware-product-pages.json';
 
 export type TablewareGalleryImage = {
   src: string;
@@ -56,25 +63,28 @@ export type TablewareProductPageData = {
 
 export const tablewareProductSharedAssets = {
   growLogo: tablewareAssets.growLogo,
-  babyBuntingLogo: "/tableware/baby-bunting-logo.jpg",
+  babyBuntingLogo: '/tableware/baby-bunting-logo.jpg',
 } as const;
 
-const tablewareProductPages = tablewareProductPagesJson as Record<string, TablewareProductPageData>;
+const tablewareProductPages = tablewareProductPagesJson as Record<
+  string,
+  TablewareProductPageData
+>;
 
 export function tablewareSlugFromHref(href: string): string {
-  if (href.startsWith("/tableware/")) {
-    return href.replace(/^\/tableware\//, "").replace(/\/$/, "");
+  if (href.startsWith('/tableware/')) {
+    return href.replace(/^\/tableware\//, '').replace(/\/$/, '');
   }
 
-  return href.replace(/\/$/, "").split("/").filter(Boolean).pop() ?? href;
+  return href.replace(/\/$/, '').split('/').filter(Boolean).pop() ?? href;
 }
 
 export function tablewareLocalHref(hrefOrSlug: string): string {
-  if (hrefOrSlug.startsWith("/tableware/")) {
-    return hrefOrSlug.endsWith("/") ? hrefOrSlug : `${hrefOrSlug}/`;
+  if (hrefOrSlug.startsWith('/tableware/')) {
+    return hrefOrSlug.endsWith('/') ? hrefOrSlug : `${hrefOrSlug}/`;
   }
 
-  if (!hrefOrSlug.includes("/")) {
+  if (!hrefOrSlug.includes('/')) {
     return tablewareProductHref(hrefOrSlug);
   }
 
@@ -82,7 +92,9 @@ export function tablewareLocalHref(hrefOrSlug: string): string {
   return tablewareProductHref(slug);
 }
 
-export function getTablewareProductPageData(slug: string): TablewareProductPageData | undefined {
+export function getTablewareProductPageData(
+  slug: string,
+): TablewareProductPageData | undefined {
   return tablewareProductPages[slug];
 }
 
@@ -95,7 +107,9 @@ function findListingProduct(slug: string): TablewareProduct | undefined {
     (product) =>
       product.slug === slug ||
       tablewareSlugFromHref(product.href) === slug ||
-      product.swatches.some((swatch) => tablewareSlugFromHref(swatch.href) === slug),
+      product.swatches.some(
+        (swatch) => tablewareSlugFromHref(swatch.href) === slug,
+      ),
   );
 }
 
@@ -103,7 +117,9 @@ export function getCompleteSetProducts(
   slugs: string[],
   excludeSlug?: string,
 ): TablewareProduct[] {
-  const excludeFamily = excludeSlug?.replace(/-(soft-sage|warm-stone|blushberry)$/, "") ?? excludeSlug;
+  const excludeFamily =
+    excludeSlug?.replace(/-(soft-sage|warm-stone|blushberry)$/, '') ??
+    excludeSlug;
   const seen = new Set<string>();
 
   return slugs
@@ -114,7 +130,10 @@ export function getCompleteSetProducts(
 
       if (!excludeSlug) return true;
 
-      const productFamily = product.slug.replace(/-(soft-sage|warm-stone|blushberry)$/, "");
+      const productFamily = product.slug.replace(
+        /-(soft-sage|warm-stone|blushberry)$/,
+        '',
+      );
       return product.slug !== excludeSlug && productFamily !== excludeFamily;
     });
 }

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 import {
   addHighlightPhrase,
   highlightExistsInText,
   renderHighlightedText,
   resolveHighlightPhrase,
-} from "@/lib/cookbooks/highlight-text";
-import styles from "./cookbook-editor.module.css";
+} from '@/lib/cookbooks/highlight-text';
+import styles from './cookbook-editor.module.css';
 
 type CookbookHighlightsEditorProps = {
   highlights: string[];
@@ -26,18 +26,18 @@ type CookbookHighlightsEditorProps = {
 export function CookbookHighlightsEditor({
   highlights,
   onChange,
-  label = "Bold phrases",
+  label = 'Bold phrases',
   hint,
-  placeholder = "Phrase to bold in copy",
-  sourceText = "",
-  selectionText = "",
+  placeholder = 'Phrase to bold in copy',
+  sourceText = '',
+  selectionText = '',
   onBoldSelection,
 }: CookbookHighlightsEditorProps) {
-  const [draft, setDraft] = useState("");
+  const [draft, setDraft] = useState('');
 
   const previewParagraphs = useMemo(() => {
     if (!sourceText.trim()) return [];
-    return sourceText.split("\n\n").filter((p) => p.trim());
+    return sourceText.split('\n\n').filter((p) => p.trim());
   }, [sourceText]);
 
   const canBoldSelection = Boolean(onBoldSelection && selectionText.trim());
@@ -53,7 +53,7 @@ export function CookbookHighlightsEditor({
   const addFromDraft = () => {
     if (!draft.trim()) return;
     addPhrase(draft);
-    setDraft("");
+    setDraft('');
   };
 
   return (
@@ -65,7 +65,7 @@ export function CookbookHighlightsEditor({
         </div>
         {highlights.length > 0 ? (
           <span className={styles.boldPhrasesCount}>
-            {highlights.length} phrase{highlights.length === 1 ? "" : "s"}
+            {highlights.length} phrase{highlights.length === 1 ? '' : 's'}
           </span>
         ) : null}
       </div>
@@ -73,26 +73,38 @@ export function CookbookHighlightsEditor({
       <div className={styles.chipRow}>
         {highlights.length === 0 ? (
           <span className={styles.sectionHint}>
-            Select words in the copy and press <kbd className={styles.kbd}>Ctrl</kbd>+
+            Select words in the copy and press{' '}
+            <kbd className={styles.kbd}>Ctrl</kbd>+
             <kbd className={styles.kbd}>B</kbd>, or type a phrase below.
           </span>
         ) : (
           highlights.map((item) => {
-            const missing = sourceText.length > 0 && !highlightExistsInText(sourceText, item);
+            const missing =
+              sourceText.length > 0 && !highlightExistsInText(sourceText, item);
             return (
               <span
                 key={item}
-                className={`${styles.chip}${missing ? ` ${styles.chipMissing}` : ""}`}
-                title={missing ? "Not found in copy — won’t bold anything" : "Bold on the live page"}
+                className={`${styles.chip}${missing ? ` ${styles.chipMissing}` : ''}`}
+                title={
+                  missing
+                    ? 'Not found in copy — won’t bold anything'
+                    : 'Bold on the live page'
+                }
               >
                 <strong>{item}</strong>
-                {missing ? <span className={styles.chipBadge}>missing</span> : null}
+                {missing ? (
+                  <span className={styles.chipBadge}>missing</span>
+                ) : null}
                 <button
                   type="button"
                   className={styles.chipRemove}
                   aria-label={`Remove ${item}`}
                   onClick={() =>
-                    onChange(highlights.filter((h) => h.toLowerCase() !== item.toLowerCase()))
+                    onChange(
+                      highlights.filter(
+                        (h) => h.toLowerCase() !== item.toLowerCase(),
+                      ),
+                    )
                   }
                 >
                   ×
@@ -106,11 +118,11 @@ export function CookbookHighlightsEditor({
       <div className={styles.highlightAdd}>
         <input
           className="fieldInput"
-          style={{ flex: "1 1 220px", maxWidth: 360 }}
+          style={{ flex: '1 1 220px', maxWidth: 360 }}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === 'Enter') {
               e.preventDefault();
               addFromDraft();
             }
@@ -129,16 +141,18 @@ export function CookbookHighlightsEditor({
         {onBoldSelection ? (
           <button
             type="button"
-            className={`btn ${canBoldSelection ? "btnPrimary" : "btnGhost"}`}
+            className={`btn ${canBoldSelection ? 'btnPrimary' : 'btnGhost'}`}
             onClick={onBoldSelection}
             disabled={!canBoldSelection}
             title={
               canBoldSelection
                 ? `Bold “${selectionText.trim()}”`
-                : "Select text in the copy first"
+                : 'Select text in the copy first'
             }
           >
-            {canBoldSelection ? `Bold “${truncate(selectionText.trim(), 28)}”` : "Bold selection"}
+            {canBoldSelection
+              ? `Bold “${truncate(selectionText.trim(), 28)}”`
+              : 'Bold selection'}
           </button>
         ) : null}
       </div>

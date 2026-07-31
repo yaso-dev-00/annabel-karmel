@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import styles from "./block-editor.module.css";
+import styles from './block-editor.module.css';
 
 type ExpandCollapseAllButtonsProps = {
   label: string;

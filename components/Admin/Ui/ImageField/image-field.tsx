@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { MediaLibraryModal } from "@/components/Admin/Ui/MediaLibraryModal";
-import styles from "./image-field.module.css";
+import { useState } from 'react';
+import { MediaLibraryModal } from '@/components/Admin/Ui/MediaLibraryModal';
+import styles from './image-field.module.css';
 
 type ImageFieldProps = {
   value: string;
@@ -15,10 +15,10 @@ type ImageFieldProps = {
 
 export function ImageField({
   value,
-  alt = "",
+  alt = '',
   onChange,
   onAltChange,
-  altLabel = "Alt text",
+  altLabel = 'Alt text',
   showAlt = true,
 }: ImageFieldProps) {
   const [open, setOpen] = useState(false);
@@ -28,17 +28,25 @@ export function ImageField({
       {value ? (
         <div className={styles.preview}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={value} alt={alt || "Preview"} className={styles.thumbnail} />
+          <img
+            src={value}
+            alt={alt || 'Preview'}
+            className={styles.thumbnail}
+          />
           <div className={styles.previewActions}>
             <span className={styles.previewUrl}>{value}</span>
             <div className={styles.actionRow}>
-              <button type="button" className={styles.selectBtn} onClick={() => setOpen(true)}>
+              <button
+                type="button"
+                className={styles.selectBtn}
+                onClick={() => setOpen(true)}
+              >
                 Replace
               </button>
               <button
                 type="button"
                 className={styles.removeBtn}
-                onClick={() => onChange("", alt)}
+                onClick={() => onChange('', alt)}
               >
                 Remove
               </button>
@@ -46,7 +54,11 @@ export function ImageField({
           </div>
         </div>
       ) : (
-        <button type="button" className={styles.addBtn} onClick={() => setOpen(true)}>
+        <button
+          type="button"
+          className={styles.addBtn}
+          onClick={() => setOpen(true)}
+        >
           <span className={styles.addBtnIcon} aria-hidden>
             +
           </span>

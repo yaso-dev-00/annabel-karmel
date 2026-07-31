@@ -1,1 +1,1 @@
-export * from "./childcare-app-page";
+export * from './childcare-app-page';

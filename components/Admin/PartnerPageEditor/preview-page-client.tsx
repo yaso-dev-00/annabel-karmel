@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { PartnerPageShell } from "@/components/ContentBlocks/partner-page-shell";
-import { PreviewViewport } from "@/components/Admin/BlockEditor/preview-viewport";
-import type { PartnerPage } from "@/lib/content-blocks/types";
-import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
+import { PartnerPageShell } from '@/components/ContentBlocks/partner-page-shell';
+import { PreviewViewport } from '@/components/Admin/BlockEditor/preview-viewport';
+import type { PartnerPage } from '@/lib/content-blocks/types';
+import styles from '@/components/Admin/BlockEditor/block-editor.module.css';
 
 type PreviewPageClientProps = {
   partner: PartnerPage;

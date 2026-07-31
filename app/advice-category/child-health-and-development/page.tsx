@@ -1,15 +1,15 @@
-import { AdviceCategoryListing } from "@/components/ArticleScreen/AdviceCategoryListing";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { AdviceCategoryListing } from '@/components/ArticleScreen/AdviceCategoryListing';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   childHealthDevelopmentArticles,
   childHealthDevelopmentIntro,
-} from "@/data/child-health-development-listing";
-import type { Metadata } from "next";
+} from '@/data/child-health-development-listing';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Child Development, Health & Learning | Annabel Karmel",
+  title: 'Child Development, Health & Learning | Annabel Karmel',
   description: childHealthDevelopmentIntro,
 };
 

@@ -41,7 +41,7 @@
 .relatedTitle {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 40.0px;
+  font-size: 40px;
   line-height: 1.2;
   font-weight: 500;
   color: #3a3a3a;
@@ -61,8 +61,7 @@
   .cardExcerpt,
   .relatedTitle,
   .relatedText {
-   
-    padding: 0px 10.0px !important;
+    padding: 0px 10px !important;
   }
 
   .relatedText {

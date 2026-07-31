@@ -1,1 +1,1 @@
-export { FontFamilyField } from "./font-family-field";
+export { FontFamilyField } from './font-family-field';

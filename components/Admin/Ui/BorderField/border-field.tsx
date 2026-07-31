@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { CssLengthInput } from "@/components/Admin/Ui/CssLengthInput";
-import { ColorField } from "@/components/Admin/Ui/ColorField";
-import type { BlockSettings } from "@/lib/content-blocks/types";
-import { hasIndividualBorder } from "@/lib/content-blocks/border";
-import { DS_BORDER_PRESETS } from "@/lib/design-system/color-presets";
-import { DS_COLORS } from "@/lib/design-system/tokens";
-import styles from "../PaddingField/padding-field.module.css";
+import { useState } from 'react';
+import { CssLengthInput } from '@/components/Admin/Ui/CssLengthInput';
+import { ColorField } from '@/components/Admin/Ui/ColorField';
+import type { BlockSettings } from '@/lib/content-blocks/types';
+import { hasIndividualBorder } from '@/lib/content-blocks/border';
+import { DS_BORDER_PRESETS } from '@/lib/design-system/color-presets';
+import { DS_COLORS } from '@/lib/design-system/tokens';
+import styles from '../PaddingField/padding-field.module.css';
 
 type BorderFieldProps = {
   settings: BlockSettings;
@@ -15,13 +15,17 @@ type BorderFieldProps = {
   inputClassName?: string;
 };
 
-export function BorderField({ settings, onChange, inputClassName }: BorderFieldProps) {
-  const [mode, setMode] = useState<"unified" | "sides">(() =>
-    hasIndividualBorder(settings) ? "sides" : "unified",
+export function BorderField({
+  settings,
+  onChange,
+  inputClassName,
+}: BorderFieldProps) {
+  const [mode, setMode] = useState<'unified' | 'sides'>(() =>
+    hasIndividualBorder(settings) ? 'sides' : 'unified',
   );
 
   const switchToUnified = () => {
-    setMode("unified");
+    setMode('unified');
     onChange({
       border_width: settings.border_width,
       border_top: undefined,
@@ -32,8 +36,8 @@ export function BorderField({ settings, onChange, inputClassName }: BorderFieldP
   };
 
   const switchToSides = () => {
-    setMode("sides");
-    const fallback = settings.border_width?.trim() || "1";
+    setMode('sides');
+    const fallback = settings.border_width?.trim() || '1';
     onChange({
       border_width: undefined,
       border_top: settings.border_top ?? fallback,
@@ -43,21 +47,23 @@ export function BorderField({ settings, onChange, inputClassName }: BorderFieldP
     });
   };
 
-  const unifiedClass = inputClassName ? `${styles.unifiedInput} ${inputClassName}` : styles.unifiedInput;
+  const unifiedClass = inputClassName
+    ? `${styles.unifiedInput} ${inputClassName}`
+    : styles.unifiedInput;
 
   return (
     <div className={styles.root}>
       <div className={styles.modeRow}>
         <button
           type="button"
-          className={`${styles.modeBtn} ${mode === "unified" ? styles.modeBtnActive : ""}`}
+          className={`${styles.modeBtn} ${mode === 'unified' ? styles.modeBtnActive : ''}`}
           onClick={switchToUnified}
         >
           All sides
         </button>
         <button
           type="button"
-          className={`${styles.modeBtn} ${mode === "sides" ? styles.modeBtnActive : ""}`}
+          className={`${styles.modeBtn} ${mode === 'sides' ? styles.modeBtnActive : ''}`}
           onClick={switchToSides}
         >
           Per side
@@ -71,10 +77,11 @@ export function BorderField({ settings, onChange, inputClassName }: BorderFieldP
         <select
           id="border-style"
           className={unifiedClass}
-          value={settings.border_style ?? ""}
+          value={settings.border_style ?? ''}
           onChange={(e) =>
             onChange({
-              border_style: (e.target.value || undefined) as BlockSettings["border_style"],
+              border_style: (e.target.value ||
+                undefined) as BlockSettings['border_style'],
             })
           }
         >
@@ -95,7 +102,7 @@ export function BorderField({ settings, onChange, inputClassName }: BorderFieldP
         compact
       />
 
-      {mode === "unified" ? (
+      {mode === 'unified' ? (
         <div className={styles.fieldRow}>
           <label className={styles.sideLabel} htmlFor="border-width">
             Width
@@ -112,10 +119,10 @@ export function BorderField({ settings, onChange, inputClassName }: BorderFieldP
         <div className={styles.sidesGrid}>
           {(
             [
-              { side: "top", className: styles.sideTop },
-              { side: "left", className: styles.sideLeft },
-              { side: "right", className: styles.sideRight },
-              { side: "bottom", className: styles.sideBottom },
+              { side: 'top', className: styles.sideTop },
+              { side: 'left', className: styles.sideLeft },
+              { side: 'right', className: styles.sideRight },
+              { side: 'bottom', className: styles.sideBottom },
             ] as const
           ).map(({ side, className }) => {
             const key = `border_${side}` as const;

@@ -1,4 +1,5 @@
-export type CookbookStatus = "draft" | "published" | "scheduled" | "private" | "disabled";
+export type CookbookStatus =
+  'draft' | 'published' | 'scheduled' | 'private' | 'disabled';
 
 export type CookbookCarouselImage = {
   id?: string;

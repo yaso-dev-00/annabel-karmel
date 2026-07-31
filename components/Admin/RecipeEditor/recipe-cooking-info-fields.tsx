@@ -1,12 +1,16 @@
-"use client";
+'use client';
 
 import {
   formatRecipeTime,
   parseRecipeTime,
   type RecipeTimeUnit,
-} from "@/lib/recipes/recipe-cooking-field-format";
-import { RECIPE_DIFFICULTIES, type Recipe, type RecipeDifficulty } from "@/lib/recipes/types";
-import styles from "./recipe-editor.module.css";
+} from '@/lib/recipes/recipe-cooking-field-format';
+import {
+  RECIPE_DIFFICULTIES,
+  type Recipe,
+  type RecipeDifficulty,
+} from '@/lib/recipes/types';
+import styles from './recipe-editor.module.css';
 
 type RecipeCookingInfoFieldsProps = {
   prepTime: string;
@@ -55,7 +59,9 @@ function TimeField({
         <select
           className={styles.quantityBarUnit}
           value={parsed.unit}
-          onChange={(e) => update(parsed.amount, e.target.value as RecipeTimeUnit)}
+          onChange={(e) =>
+            update(parsed.amount, e.target.value as RecipeTimeUnit)
+          }
           aria-label={`${label} unit`}
         >
           <option value="mins">mins</option>
@@ -106,15 +112,18 @@ export function RecipeCookingInfoFields({
           id="recipe-prep-time"
           label="Prep time"
           value={prepTime}
-          onChange={(next) => onChange("prep_time", next)}
+          onChange={(next) => onChange('prep_time', next)}
         />
         <TimeField
           id="recipe-cook-time"
           label="Cook time"
           value={cookTime}
-          onChange={(next) => onChange("cook_time", next)}
+          onChange={(next) => onChange('cook_time', next)}
         />
-        <ServingsField value={servings} onChange={(next) => onChange("servings", next)} />
+        <ServingsField
+          value={servings}
+          onChange={(next) => onChange('servings', next)}
+        />
         <div className="field">
           <label className="fieldLabel" htmlFor="recipe-difficulty">
             Difficulty
@@ -123,7 +132,9 @@ export function RecipeCookingInfoFields({
             id="recipe-difficulty"
             className="fieldSelect"
             value={difficulty}
-            onChange={(e) => onChange("difficulty", e.target.value as RecipeDifficulty)}
+            onChange={(e) =>
+              onChange('difficulty', e.target.value as RecipeDifficulty)
+            }
           >
             {RECIPE_DIFFICULTIES.map((option) => (
               <option key={option.value} value={option.value}>
@@ -139,7 +150,9 @@ export function RecipeCookingInfoFields({
           <input
             type="checkbox"
             checked={suitableForFreezing}
-            onChange={(e) => onChange("suitable_for_freezing", e.target.checked)}
+            onChange={(e) =>
+              onChange('suitable_for_freezing', e.target.checked)
+            }
           />
           <span>Suitable for freezing</span>
         </label>

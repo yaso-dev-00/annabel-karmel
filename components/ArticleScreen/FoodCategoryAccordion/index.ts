@@ -1,1 +1,1 @@
-export * from "./food-category-accordion";
+export * from './food-category-accordion';

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import type { RecipeIngredientSection } from "@/lib/recipes/types";
-import styles from "./recipe-editor.module.css";
+import type { RecipeIngredientSection } from '@/lib/recipes/types';
+import styles from './recipe-editor.module.css';
 
-const EMPTY_SECTION: RecipeIngredientSection = { title: "", items: [] };
+const EMPTY_SECTION: RecipeIngredientSection = { title: '', items: [] };
 
 type RecipeIngredientsEditorProps = {
   sections: RecipeIngredientSection[];
@@ -14,7 +14,9 @@ type RecipeIngredientsEditorProps = {
   heading?: string;
 };
 
-function ensureSections(sections: RecipeIngredientSection[]): RecipeIngredientSection[] {
+function ensureSections(
+  sections: RecipeIngredientSection[],
+): RecipeIngredientSection[] {
   return sections.length > 0 ? sections : [{ ...EMPTY_SECTION, items: [] }];
 }
 
@@ -26,8 +28,15 @@ export function RecipeIngredientsEditor({
 }: RecipeIngredientsEditorProps) {
   const list = ensureSections(sections);
 
-  const updateSection = (index: number, patch: Partial<RecipeIngredientSection>) => {
-    onChange(list.map((section, i) => (i === index ? { ...section, ...patch } : section)));
+  const updateSection = (
+    index: number,
+    patch: Partial<RecipeIngredientSection>,
+  ) => {
+    onChange(
+      list.map((section, i) =>
+        i === index ? { ...section, ...patch } : section,
+      ),
+    );
   };
 
   const setItemsFromText = (index: number, text: string) => {
@@ -45,13 +54,18 @@ export function RecipeIngredientsEditor({
 
   return (
     <div className={styles.ingredientLocaleColumn}>
-      {heading ? <h3 className={styles.ingredientLocaleHeading}>{heading}</h3> : null}
+      {heading ? (
+        <h3 className={styles.ingredientLocaleHeading}>{heading}</h3>
+      ) : null}
       <div className={styles.stack}>
         {list.map((section, index) => {
           const titleId = `${idPrefix}-ingredient-section-${index}-title`;
           const itemsId = `${idPrefix}-ingredient-section-${index}-items`;
           return (
-            <div key={`${idPrefix}-section-${index}`} className={styles.ingredientSectionRow}>
+            <div
+              key={`${idPrefix}-section-${index}`}
+              className={styles.ingredientSectionRow}
+            >
               <div className={styles.stepNumber} aria-hidden>
                 {index + 1}
               </div>
@@ -64,22 +78,31 @@ export function RecipeIngredientsEditor({
                     id={titleId}
                     className="fieldInput"
                     value={section.title}
-                    onChange={(e) => updateSection(index, { title: e.target.value })}
+                    onChange={(e) =>
+                      updateSection(index, { title: e.target.value })
+                    }
                     placeholder="e.g. For the sauce"
                   />
                 </div>
                 <div className="field">
                   <label className="fieldLabel" htmlFor={itemsId}>
-                    Ingredients <span className={styles.requiredMark} aria-hidden>*</span>
+                    Ingredients{' '}
+                    <span className={styles.requiredMark} aria-hidden>
+                      *
+                    </span>
                   </label>
-                  <p className={styles.sectionHint}>Add ingredients, one per line</p>
+                  <p className={styles.sectionHint}>
+                    Add ingredients, one per line
+                  </p>
                   <textarea
                     id={itemsId}
                     className="fieldTextarea"
                     rows={8}
-                    value={section.items.join("\n")}
+                    value={section.items.join('\n')}
                     onChange={(e) => setItemsFromText(index, e.target.value)}
-                    placeholder={"1 ripe banana\n2 tbsp peanut butter\n30g oats"}
+                    placeholder={
+                      '1 ripe banana\n2 tbsp peanut butter\n30g oats'
+                    }
                     aria-required="true"
                   />
                 </div>
@@ -111,7 +134,7 @@ export function RecipeIngredientsEditor({
 }
 
 export function emptyIngredientSections(): RecipeIngredientSection[] {
-  return [{ title: "", items: [] }];
+  return [{ title: '', items: [] }];
 }
 
 export function cloneIngredientSections(
@@ -123,7 +146,9 @@ export function cloneIngredientSections(
   }));
 }
 
-export function countIngredientLines(sections: RecipeIngredientSection[]): number {
+export function countIngredientLines(
+  sections: RecipeIngredientSection[],
+): number {
   return sections.reduce(
     (sum, section) => sum + section.items.filter((line) => line.trim()).length,
     0,

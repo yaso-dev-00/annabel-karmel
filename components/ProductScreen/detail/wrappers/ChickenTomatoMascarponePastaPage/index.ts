@@ -1,1 +1,1 @@
-export * from "./chicken-tomato-mascarpone-pasta-page";
+export * from './chicken-tomato-mascarpone-pasta-page';

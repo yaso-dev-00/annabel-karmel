@@ -1,23 +1,30 @@
-"use client";
+'use client';
 
-import type { CookbookBuyLink } from "@/lib/cookbooks/types";
-import styles from "./cookbook-editor.module.css";
+import type { CookbookBuyLink } from '@/lib/cookbooks/types';
+import styles from './cookbook-editor.module.css';
 
 type CookbookBuyLinksEditorProps = {
   buyLinks: CookbookBuyLink[];
   onChange: (buyLinks: CookbookBuyLink[]) => void;
 };
 
-export function CookbookBuyLinksEditor({ buyLinks, onChange }: CookbookBuyLinksEditorProps) {
+export function CookbookBuyLinksEditor({
+  buyLinks,
+  onChange,
+}: CookbookBuyLinksEditorProps) {
   const updateLink = (index: number, patch: Partial<CookbookBuyLink>) => {
-    onChange(buyLinks.map((link, i) => (i === index ? { ...link, ...patch } : link)));
+    onChange(
+      buyLinks.map((link, i) => (i === index ? { ...link, ...patch } : link)),
+    );
   };
 
   return (
     <div className="card">
       <div className={styles.sectionHeaderCol}>
         <h2 className="cardSectionTitle">Buy links</h2>
-        <p className={styles.sectionHint}>Retailer URLs used for Buy Now buttons</p>
+        <p className={styles.sectionHint}>
+          Retailer URLs used for Buy Now buttons
+        </p>
       </div>
       <div className={styles.stack}>
         {buyLinks.map((link, index) => (
@@ -49,7 +56,7 @@ export function CookbookBuyLinksEditor({ buyLinks, onChange }: CookbookBuyLinksE
       <button
         type="button"
         className={`btn btnGhost ${styles.addRowBtn}`}
-        onClick={() => onChange([...buyLinks, { retailer: "", url: "" }])}
+        onClick={() => onChange([...buyLinks, { retailer: '', url: '' }])}
       >
         + Add retailer
       </button>

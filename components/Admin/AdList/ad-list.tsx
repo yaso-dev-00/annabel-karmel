@@ -1,25 +1,28 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminListToolbar } from "@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AdminListToolbar } from '@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar';
 import {
   AD_STATUS_LABELS,
   AD_STATUSES,
   getAdStatusBadgeClass,
   isAdDisabled,
   resolveAdStatus,
-} from "@/lib/admin/ad-status";
-import { formatAdminListDate, matchesAdminListSearch } from "@/lib/admin/format-admin-list";
-import type { AdPlacementId, SiteAd } from "@/lib/ads/types";
+} from '@/lib/admin/ad-status';
+import {
+  formatAdminListDate,
+  matchesAdminListSearch,
+} from '@/lib/admin/format-admin-list';
+import type { AdPlacementId, SiteAd } from '@/lib/ads/types';
 
 type AdListProps = {
   ads: SiteAd[];
 };
 
 const PLACEMENT_LABELS: Record<AdPlacementId, string> = {
-  header: "Header",
-  footer: "Footer",
+  header: 'Header',
+  footer: 'Footer',
 };
 
 function AdStatusBadge({ ad }: { ad: SiteAd }) {
@@ -44,10 +47,10 @@ function ClickableTableRow({
 
   return (
     <tr
-      className={`tableRowClickable${className ? ` ${className}` : ""}`}
+      className={`tableRowClickable${className ? ` ${className}` : ''}`}
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -61,12 +64,12 @@ function ClickableTableRow({
 }
 
 export function AdList({ ads }: AdListProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const statusOptions = useMemo(
     () => [
-      { value: "all", label: "All statuses" },
+      { value: 'all', label: 'All statuses' },
       ...AD_STATUSES.map((status) => ({
         value: status,
         label: AD_STATUS_LABELS[status],
@@ -78,7 +81,7 @@ export function AdList({ ads }: AdListProps) {
   const filteredAds = useMemo(() => {
     return ads.filter((ad) => {
       const status = resolveAdStatus(ad);
-      const matchesStatus = statusFilter === "all" || status === statusFilter;
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
       const matchesSearch = matchesAdminListSearch(
         searchQuery,
         ad.title,
@@ -121,13 +124,13 @@ export function AdList({ ads }: AdListProps) {
               const isDisabled = isAdDisabled(ad);
               const placementLabel = ad.placements
                 .map((placement) => PLACEMENT_LABELS[placement])
-                .join(", ");
+                .join(', ');
 
               return (
                 <ClickableTableRow
                   key={ad.id}
                   href={`/admin/ads/${ad.id}/edit`}
-                  className={isDisabled ? "tableRowDisabled" : undefined}
+                  className={isDisabled ? 'tableRowDisabled' : undefined}
                 >
                   <td>
                     {ad.image ? (
@@ -138,26 +141,30 @@ export function AdList({ ads }: AdListProps) {
                         width={96}
                         height={26}
                         style={{
-                          display: "block",
+                          display: 'block',
                           width: 96,
                           height: 26,
-                          objectFit: "cover",
+                          objectFit: 'cover',
                           borderRadius: 4,
-                          background: "#f3f1f2",
+                          background: '#f3f1f2',
                         }}
                       />
                     ) : (
-                      <span style={{ color: "#9a9498" }}>—</span>
+                      <span style={{ color: '#9a9498' }}>—</span>
                     )}
                   </td>
                   <td className="tableTitleCell">
                     <span className="tableTitleMain">{ad.title}</span>
-                    {ad.href ? <span className="tableTitlePath">{ad.href}</span> : null}
+                    {ad.href ? (
+                      <span className="tableTitlePath">{ad.href}</span>
+                    ) : null}
                     {isDisabled ? (
-                      <span className="tableRowDisabledNote">Hidden from site</span>
+                      <span className="tableRowDisabledNote">
+                        Hidden from site
+                      </span>
                     ) : null}
                   </td>
-                  <td>{placementLabel || "—"}</td>
+                  <td>{placementLabel || '—'}</td>
                   <td>
                     <AdStatusBadge ad={ad} />
                   </td>

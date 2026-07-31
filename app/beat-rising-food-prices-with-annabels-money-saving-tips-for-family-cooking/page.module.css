@@ -75,12 +75,11 @@
   .ctaHeading,
   .relatedTitle,
   .relatedText {
-   
     padding: 0 10px;
   }
-.sectionHeading {
-  text-align: center;
-}
+  .sectionHeading {
+    text-align: center;
+  }
 
   .relatedText {
     font-size: 17px;

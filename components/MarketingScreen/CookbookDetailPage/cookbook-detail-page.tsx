@@ -1,13 +1,13 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties } from 'react';
 
-import { BookImageCarousel } from "@/components/SharedCarousels/BookImageCarousel";
-import { ourBooksAssets } from "@/data/our-books-page";
-import type { CookbookPageData } from "@/lib/cookbooks";
-import { renderHighlightedText } from "@/lib/cookbooks/highlight-text";
-import styles from "./cookbook-detail-page.module.css";
+import { BookImageCarousel } from '@/components/SharedCarousels/BookImageCarousel';
+import { ourBooksAssets } from '@/data/our-books-page';
+import type { CookbookPageData } from '@/lib/cookbooks';
+import { renderHighlightedText } from '@/lib/cookbooks/highlight-text';
+import styles from './cookbook-detail-page.module.css';
 
 function DetailBody({ cookbook }: { cookbook: CookbookPageData }) {
-  const paragraphs = cookbook.detailBody.split("\n\n");
+  const paragraphs = cookbook.detailBody.split('\n\n');
 
   return (
     <>
@@ -24,9 +24,11 @@ type CookbookDetailPageContentProps = {
   cookbook: CookbookPageData;
 };
 
-export function CookbookDetailPageContent({ cookbook }: CookbookDetailPageContentProps) {
+export function CookbookDetailPageContent({
+  cookbook,
+}: CookbookDetailPageContentProps) {
   const pageStyle = {
-    "--wood-bg": `url(${ourBooksAssets.woodBackground})`,
+    '--wood-bg': `url(${ourBooksAssets.woodBackground})`,
   } as CSSProperties;
 
   return (

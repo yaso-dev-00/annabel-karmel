@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 export type KidsKitchenRecipeItem = {
   title: string;
@@ -19,8 +19,12 @@ function perViewFromWidth(width: number) {
   return 5;
 }
 
-export function GetKidsKitchenRecipeCarousel({ items }: GetKidsKitchenRecipeCarouselProps) {
-  const [perView, setPerView] = useState(() => (typeof window === "undefined" ? 5 : perViewFromWidth(window.innerWidth)));
+export function GetKidsKitchenRecipeCarousel({
+  items,
+}: GetKidsKitchenRecipeCarouselProps) {
+  const [perView, setPerView] = useState(() =>
+    typeof window === 'undefined' ? 5 : perViewFromWidth(window.innerWidth),
+  );
   const [index, setIndex] = useState(0);
   const [step, setStep] = useState(0);
   const pointerStartX = useRef<number | null>(null);
@@ -32,33 +36,28 @@ export function GetKidsKitchenRecipeCarousel({ items }: GetKidsKitchenRecipeCaro
   useEffect(() => {
     const onResize = () => setPerView(perViewFromWidth(window.innerWidth));
     onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   const maxIndex = Math.max(0, items.length - perView);
   const canCycle = maxIndex > 0;
-
-  useEffect(() => {
-    if (index > maxIndex) {
-      setIndex(maxIndex);
-    }
-  }, [index, maxIndex]);
+  const displayIndex = Math.min(index, maxIndex);
 
   useEffect(() => {
     const updateStep = () => {
       const track = trackRef.current;
       if (!track) return;
-      const firstCard = track.querySelector<HTMLElement>(".kids-kitchen-card");
+      const firstCard = track.querySelector<HTMLElement>('.kids-kitchen-card');
       if (!firstCard) return;
       const styles = window.getComputedStyle(track);
-      const gap = Number.parseFloat(styles.columnGap || styles.gap || "0") || 0;
+      const gap = Number.parseFloat(styles.columnGap || styles.gap || '0') || 0;
       setStep(firstCard.offsetWidth + gap);
     };
 
     updateStep();
-    window.addEventListener("resize", updateStep);
-    return () => window.removeEventListener("resize", updateStep);
+    window.addEventListener('resize', updateStep);
+    return () => window.removeEventListener('resize', updateStep);
   }, [perView, items.length]);
 
   const goPrev = () => {
@@ -97,7 +96,8 @@ export function GetKidsKitchenRecipeCarousel({ items }: GetKidsKitchenRecipeCaro
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
 
-    if (pointerStartX.current === null || pointerCurrentX.current === null) return;
+    if (pointerStartX.current === null || pointerCurrentX.current === null)
+      return;
 
     const deltaX = pointerCurrentX.current - pointerStartX.current;
     const swipeThreshold = 24;
@@ -133,13 +133,15 @@ export function GetKidsKitchenRecipeCarousel({ items }: GetKidsKitchenRecipeCaro
         <div
           ref={trackRef}
           className="flex gap-[18px] transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${index * step}px)` }}
+          style={{ transform: `translateX(-${displayIndex * step}px)` }}
         >
           {items.map((recipe) => (
             <section
               key={recipe.title}
               className="kids-kitchen-card shrink-0 overflow-hidden rounded-[14px] bg-white pb-[14px] shadow-[0_8px_24px_rgba(58,58,58,0.08)]"
-              style={{ width: `calc((100% - ${(perView - 1) * 18}px) / ${perView})` }}
+              style={{
+                width: `calc((100% - ${(perView - 1) * 18}px) / ${perView})`,
+              }}
               onClickCapture={onCardClickCapture}
             >
               <a href={recipe.href} target="_blank" rel="noopener">
@@ -151,8 +153,16 @@ export function GetKidsKitchenRecipeCarousel({ items }: GetKidsKitchenRecipeCaro
                 />
               </a>
               <div className="min-h-[70px] px-[14px] pt-[12px] text-center">
-                <h3 className="m-0 text-[20px] leading-[1.32] font-semibold text-[#3a3a3a]" style={{ fontFamily: "var(--font-body)" }}>
-                  <a href={recipe.href} target="_blank" rel="noopener" className="text-inherit no-underline hover:text-(--hover-color)">
+                <h3
+                  className="m-0 text-[20px] leading-[1.32] font-semibold text-[#3a3a3a]"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                >
+                  <a
+                    href={recipe.href}
+                    target="_blank"
+                    rel="noopener"
+                    className="text-inherit no-underline hover:text-(--hover-color)"
+                  >
                     {recipe.title}
                   </a>
                 </h3>
@@ -170,7 +180,14 @@ export function GetKidsKitchenRecipeCarousel({ items }: GetKidsKitchenRecipeCaro
         disabled={!canCycle}
       >
         <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden>
-          <path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M14.5 5.5L8 12l6.5 6.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
       <button
@@ -181,7 +198,14 @@ export function GetKidsKitchenRecipeCarousel({ items }: GetKidsKitchenRecipeCaro
         disabled={!canCycle}
       >
         <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden>
-          <path d="M9.5 5.5L16 12l-6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M9.5 5.5L16 12l-6.5 6.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
 
@@ -192,7 +216,7 @@ export function GetKidsKitchenRecipeCarousel({ items }: GetKidsKitchenRecipeCaro
             type="button"
             aria-label={`Go to recipes page ${i + 1}`}
             onClick={() => setIndex(i)}
-            className={`h-[6px] w-[6px] rounded-full transition-colors ${i === index ? "bg-[#222]" : "bg-[#c7c7c7]"}`}
+            className={`h-[6px] w-[6px] rounded-full transition-colors ${i === displayIndex ? 'bg-[#222]' : 'bg-[#c7c7c7]'}`}
           />
         ))}
       </div>

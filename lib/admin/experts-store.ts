@@ -1,8 +1,14 @@
-import seedStore from "@/data/cms/experts.seed.json";
-import { isExpertPublic } from "@/lib/admin/expert-status";
-import { readExpertsCmsStoreRaw, writeExpertsCmsStoreRaw } from "@/lib/admin/experts-cms-store-io";
-import { sanitizeExpert, sanitizeExpertsStore } from "@/lib/experts/sanitize-expert";
-import type { Expert, ExpertsStore } from "@/lib/experts/types";
+import seedStore from '@/data/cms/experts.seed.json';
+import { isExpertPublic } from '@/lib/admin/expert-status';
+import {
+  readExpertsCmsStoreRaw,
+  writeExpertsCmsStoreRaw,
+} from '@/lib/admin/experts-cms-store-io';
+import {
+  sanitizeExpert,
+  sanitizeExpertsStore,
+} from '@/lib/experts/sanitize-expert';
+import type { Expert, ExpertsStore } from '@/lib/experts/types';
 
 async function readStore(): Promise<ExpertsStore> {
   let raw: string;
@@ -33,7 +39,10 @@ function sortExperts(experts: Expert[]): Expert[] {
   });
 }
 
-export async function getExpertsListing(): Promise<{ intro: string; experts: Expert[] }> {
+export async function getExpertsListing(): Promise<{
+  intro: string;
+  experts: Expert[];
+}> {
   const store = await readStore();
   return {
     intro: store.intro,
@@ -53,7 +62,7 @@ export async function getExpertsIntro(): Promise<string> {
 
 export async function updateExpertsIntro(intro: string): Promise<string> {
   const store = await readStore();
-  store.intro = typeof intro === "string" ? intro.trim() : "";
+  store.intro = typeof intro === 'string' ? intro.trim() : '';
   await writeStore(store);
   return store.intro;
 }
@@ -63,7 +72,9 @@ export async function getExpertById(id: string): Promise<Expert | null> {
   return store.experts.find((expert) => expert.id === id) ?? null;
 }
 
-export async function getPublishedExpertBySlug(slug: string): Promise<Expert | null> {
+export async function getPublishedExpertBySlug(
+  slug: string,
+): Promise<Expert | null> {
   const store = await readStore();
   const expert = store.experts.find((item) => item.slug === slug);
   if (!expert || !isExpertPublic(expert)) return null;
@@ -80,7 +91,11 @@ export async function getPublishedExperts(): Promise<Expert[]> {
   return sortExperts(store.experts.filter(isExpertPublic));
 }
 
-function assertUniqueSlug(store: ExpertsStore, slug: string, excludeId?: string): void {
+function assertUniqueSlug(
+  store: ExpertsStore,
+  slug: string,
+  excludeId?: string,
+): void {
   const conflict = store.experts.find(
     (expert) => expert.slug === slug && expert.id !== excludeId,
   );
@@ -90,7 +105,7 @@ function assertUniqueSlug(store: ExpertsStore, slug: string, excludeId?: string)
 }
 
 export async function createExpert(
-  input: Omit<Expert, "id" | "created_at" | "updated_at">,
+  input: Omit<Expert, 'id' | 'created_at' | 'updated_at'>,
 ): Promise<Expert> {
   const store = await readStore();
   assertUniqueSlug(store, input.slug.trim());
@@ -110,7 +125,7 @@ export async function createExpert(
 
 export async function updateExpert(
   id: string,
-  input: Partial<Omit<Expert, "id" | "created_at">>,
+  input: Partial<Omit<Expert, 'id' | 'created_at'>>,
 ): Promise<Expert | null> {
   const store = await readStore();
   const index = store.experts.findIndex((expert) => expert.id === id);

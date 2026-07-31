@@ -1,10 +1,10 @@
-import { createDefaultHomepageDocument } from "@/lib/homepage/create-default-homepage";
+import { createDefaultHomepageDocument } from '@/lib/homepage/create-default-homepage';
 import type {
   HomepageDocument,
   HomepageSection,
   HomepageSectionType,
   RecipeAppSectionData,
-} from "@/lib/homepage/types";
+} from '@/lib/homepage/types';
 import type {
   AppSectionContent,
   CollabCard,
@@ -13,7 +13,7 @@ import type {
   HeroSlide,
   InstagramPostCard,
   RecipeCard,
-} from "@/data/site-content";
+} from '@/data/site-content';
 
 export type ResolvedHomePageContent = {
   sectionOrder: HomepageSectionType[];
@@ -87,37 +87,42 @@ export function resolveHomePageContent(
   const defaults = createDefaultHomepageDocument();
   const defaultByType = sectionMap(defaults.sections);
 
-  const hero = (byType.get("hero") ?? defaultByType.get("hero"))!;
-  const latest = (byType.get("latest_recipes") ?? defaultByType.get("latest_recipes"))!;
-  const app = (byType.get("recipe_app") ?? defaultByType.get("recipe_app"))!;
-  const expert = (byType.get("expert_ranges") ?? defaultByType.get("expert_ranges"))!;
-  const books = (byType.get("cookbooks") ?? defaultByType.get("cookbooks"))!;
-  const collabs = (byType.get("collabs") ?? defaultByType.get("collabs"))!;
-  const partners = (byType.get("partners") ?? defaultByType.get("partners"))!;
-  const instagram = (byType.get("instagram") ?? defaultByType.get("instagram"))!;
+  const hero = (byType.get('hero') ?? defaultByType.get('hero'))!;
+  const latest = (byType.get('latest_recipes') ??
+    defaultByType.get('latest_recipes'))!;
+  const app = (byType.get('recipe_app') ?? defaultByType.get('recipe_app'))!;
+  const expert = (byType.get('expert_ranges') ??
+    defaultByType.get('expert_ranges'))!;
+  const books = (byType.get('cookbooks') ?? defaultByType.get('cookbooks'))!;
+  const collabs = (byType.get('collabs') ?? defaultByType.get('collabs'))!;
+  const partners = (byType.get('partners') ?? defaultByType.get('partners'))!;
+  const instagram = (byType.get('instagram') ??
+    defaultByType.get('instagram'))!;
 
   if (
-    hero.type !== "hero" ||
-    latest.type !== "latest_recipes" ||
-    app.type !== "recipe_app" ||
-    expert.type !== "expert_ranges" ||
-    books.type !== "cookbooks" ||
-    collabs.type !== "collabs" ||
-    partners.type !== "partners" ||
-    instagram.type !== "instagram"
+    hero.type !== 'hero' ||
+    latest.type !== 'latest_recipes' ||
+    app.type !== 'recipe_app' ||
+    expert.type !== 'expert_ranges' ||
+    books.type !== 'cookbooks' ||
+    collabs.type !== 'collabs' ||
+    partners.type !== 'partners' ||
+    instagram.type !== 'instagram'
   ) {
-    throw new Error("Invalid homepage section payload");
+    throw new Error('Invalid homepage section payload');
   }
 
   return {
     sectionOrder: doc.sections.map((section) => section.type),
-    heroSlides: hero.data.slides.map(({ title, subtitle, cta, href, image }) => ({
-      title,
-      subtitle,
-      cta,
-      href,
-      image,
-    })),
+    heroSlides: hero.data.slides.map(
+      ({ title, subtitle, cta, href, image }) => ({
+        title,
+        subtitle,
+        cta,
+        href,
+        image,
+      }),
+    ),
     latestRecipes: {
       heading: latest.data.heading,
       subtitle: latest.data.subtitle,
@@ -134,38 +139,58 @@ export function resolveHomePageContent(
     expertRanges: {
       heading: expert.data.heading,
       body: expert.data.body,
-      awardLogos: expert.data.awardLogos.map((logo) => logo.src).filter(Boolean),
-      cards: expert.data.cards.map(({ title, image, href }) => ({ title, image, href })),
+      awardLogos: expert.data.awardLogos
+        .map((logo) => logo.src)
+        .filter(Boolean),
+      cards: expert.data.cards.map(({ title, image, href }) => ({
+        title,
+        image,
+        href,
+      })),
     },
     cookbooks: {
       heading: books.data.heading,
       body: books.data.body,
       ctaLabel: books.data.ctaLabel,
       ctaHref: books.data.ctaHref,
-      books: books.data.books.map(({ title, image, href }) => ({ title, image, href })),
+      books: books.data.books.map(({ title, image, href }) => ({
+        title,
+        image,
+        href,
+      })),
     },
     collabs: {
       heading: collabs.data.heading,
-      cards: collabs.data.cards.map(({ title, subtitle, href, logoImage, cardImage }) => ({
-        title,
-        subtitle,
-        href,
-        logoImage: logoImage || undefined,
-        cardImage,
-      })),
+      cards: collabs.data.cards.map(
+        ({ title, subtitle, href, logoImage, cardImage }) => ({
+          title,
+          subtitle,
+          href,
+          logoImage: logoImage || undefined,
+          cardImage,
+        }),
+      ),
     },
     partners: {
       heading: partners.data.heading,
       body: partners.data.body,
       ctaLabel: partners.data.ctaLabel,
       ctaHref: partners.data.ctaHref,
-      logos: partners.data.logos.map(({ name, image, href }) => ({ name, image, href })),
+      logos: partners.data.logos.map(({ name, image, href }) => ({
+        name,
+        image,
+        href,
+      })),
     },
     instagram: {
       title: instagram.data.title,
       titleAccent: instagram.data.titleAccent,
       description: instagram.data.description,
-      posts: instagram.data.posts.map(({ href, image, kind }) => ({ href, image, kind })),
+      posts: instagram.data.posts.map(({ href, image, kind }) => ({
+        href,
+        image,
+        kind,
+      })),
     },
   };
 }

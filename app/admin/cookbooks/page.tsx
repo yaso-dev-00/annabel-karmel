@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { AdminShell } from "@/components/Admin/AdminShell";
-import { CookbookList } from "@/components/Admin/CookbookList/cookbook-list";
-import { getAllCookbooks } from "@/lib/admin/cookbooks-store";
+import Link from 'next/link';
+import { AdminShell } from '@/components/Admin/AdminShell';
+import { CookbookList } from '@/components/Admin/CookbookList/cookbook-list';
+import { getAllCookbooks } from '@/lib/admin/cookbooks-store';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function AdminCookbooksListPage() {

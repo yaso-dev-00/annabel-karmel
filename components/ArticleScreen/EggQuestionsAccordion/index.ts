@@ -1,1 +1,1 @@
-export * from "./egg-questions-accordion";
+export * from './egg-questions-accordion';

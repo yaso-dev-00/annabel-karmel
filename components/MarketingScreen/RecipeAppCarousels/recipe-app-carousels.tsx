@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 import {
   AnimatePresence,
   motion,
   useAnimationFrame,
   useMotionValue,
   useMotionValueEvent,
-} from "framer-motion";
+} from 'framer-motion';
 import {
   useCallback,
   useEffect,
@@ -15,7 +15,7 @@ import {
   useState,
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
-} from "react";
+} from 'react';
 
 import {
   recipeAppCategories,
@@ -23,9 +23,13 @@ import {
   recipeAppLinks,
   recipeAppTestimonials,
   recipeAppAssets,
-} from "@/data/recipe-app-page";
-import { CAROUSEL_SLIDE, CAROUSEL_DRAG_RELEASE, useSnapCarousel } from "@/components/hooks/useSnapCarousel";
-import styles from "@/components/MarketingScreen/RecipeAppPage/recipe-app-page.module.css";
+} from '@/data/recipe-app-page';
+import {
+  CAROUSEL_SLIDE,
+  CAROUSEL_DRAG_RELEASE,
+  useSnapCarousel,
+} from '@/components/hooks/useSnapCarousel';
+import styles from '@/components/MarketingScreen/RecipeAppPage/recipe-app-page.module.css';
 
 const RECIPE_MARQUEE_DURATION_MS = 50_000;
 const RECIPE_AUTO_RESUME_MS = 8_000;
@@ -54,7 +58,7 @@ function CarouselArrow({
   className,
   disabled = false,
 }: {
-  direction: "prev" | "next";
+  direction: 'prev' | 'next';
   onNavigate: () => void;
   className?: string;
   disabled?: boolean;
@@ -65,11 +69,17 @@ function CarouselArrow({
       className={className}
       onClick={onNavigate}
       disabled={disabled}
-      aria-label={direction === "prev" ? "Previous slide" : "Next slide"}
+      aria-label={direction === 'prev' ? 'Previous slide' : 'Next slide'}
     >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
         <path
-          d={direction === "prev" ? "M15 6L9 12L15 18" : "M9 6L15 12L9 18"}
+          d={direction === 'prev' ? 'M15 6L9 12L15 18' : 'M9 6L15 12L9 18'}
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
@@ -95,7 +105,9 @@ export function RecipeAppCategoryCarousel() {
   const autoResumeTimer = useRef<number | null>(null);
 
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [remainingCount, setRemainingCount] = useState(recipeAppCategories.length);
+  const [remainingCount, setRemainingCount] = useState(
+    recipeAppCategories.length,
+  );
 
   const measureLoop = useCallback(() => {
     const track = trackRef.current;
@@ -119,7 +131,7 @@ export function RecipeAppCategoryCarousel() {
     );
   }, []);
 
-  useMotionValueEvent(x, "change", updateProgress);
+  useMotionValueEvent(x, 'change', updateProgress);
 
   useEffect(() => {
     measureLoop();
@@ -129,16 +141,16 @@ export function RecipeAppCategoryCarousel() {
     }
 
     const observer =
-      typeof ResizeObserver !== "undefined"
+      typeof ResizeObserver !== 'undefined'
         ? new ResizeObserver(measureLoop)
         : null;
 
     observer?.observe(track);
-    window.addEventListener("resize", measureLoop);
+    window.addEventListener('resize', measureLoop);
 
     return () => {
       observer?.disconnect();
-      window.removeEventListener("resize", measureLoop);
+      window.removeEventListener('resize', measureLoop);
     };
   }, [measureLoop]);
 
@@ -170,7 +182,10 @@ export function RecipeAppCategoryCarousel() {
   }, []);
 
   const setInteracting = useCallback((active: boolean) => {
-    carouselRef.current?.classList.toggle(styles.recipeCarouselInteracting, active);
+    carouselRef.current?.classList.toggle(
+      styles.recipeCarouselInteracting,
+      active,
+    );
   }, []);
 
   const handlePointerDown = useCallback(
@@ -200,11 +215,7 @@ export function RecipeAppCategoryCarousel() {
       const deltaX = event.clientX - pointerStartX.current;
       const deltaY = event.clientY - pointerStartY.current;
 
-      if (
-        !isDragging.current &&
-        Math.abs(deltaX) < 2 &&
-        Math.abs(deltaY) < 2
-      ) {
+      if (!isDragging.current && Math.abs(deltaX) < 2 && Math.abs(deltaY) < 2) {
         return;
       }
 
@@ -262,10 +273,12 @@ export function RecipeAppCategoryCarousel() {
       }
     };
 
-    carousel.addEventListener("touchmove", blockTouchScrollWhileDragging, { passive: false });
+    carousel.addEventListener('touchmove', blockTouchScrollWhileDragging, {
+      passive: false,
+    });
 
     return () => {
-      carousel.removeEventListener("touchmove", blockTouchScrollWhileDragging);
+      carousel.removeEventListener('touchmove', blockTouchScrollWhileDragging);
       if (autoResumeTimer.current !== null) {
         window.clearTimeout(autoResumeTimer.current);
       }
@@ -308,7 +321,9 @@ export function RecipeAppCategoryCarousel() {
                 onDragStart={(event) => event.preventDefault()}
                 onLoad={index === 0 ? measureLoop : undefined}
               />
-              <figcaption className={styles.recipeLabel}>{item.label}</figcaption>
+              <figcaption className={styles.recipeLabel}>
+                {item.label}
+              </figcaption>
             </figure>
           ))}
         </motion.div>
@@ -325,7 +340,8 @@ export function RecipeAppCategoryCarousel() {
           />
         </div>
         <p className={styles.recipeCarouselIndicatorText}>
-          {remainingCount} more {remainingCount === 1 ? "category" : "categories"} to explore
+          {remainingCount} more{' '}
+          {remainingCount === 1 ? 'category' : 'categories'} to explore
         </p>
       </div>
     </div>
@@ -355,31 +371,47 @@ function StarRating({ className }: { className?: string }) {
 }
 
 export function RecipeAppTestimonialCarousel() {
-  const carousel = useSnapCarousel({
+  const {
+    carouselRef,
+    trackRef,
+    x,
+    index,
+    isAtStart,
+    isAtEnd,
+    measure,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnd,
+    handleCardClickCapture,
+    animateToIndex,
+  } = useSnapCarousel({
     itemCount: recipeAppTestimonials.length,
-    cardSelector: "[data-testimonial-slide]",
-    controlsSelector: ".recipe-testimonial-controls",
+    cardSelector: '[data-testimonial-slide]',
+    controlsSelector: '.recipe-testimonial-controls',
     dragThreshold: 8,
     touchDragThreshold: 2,
     dragReleaseTransition: CAROUSEL_DRAG_RELEASE,
   });
 
   useEffect(() => {
-    carousel.measure();
-  }, [carousel.measure]);
-
-  const isAtStart = carousel.isAtStart;
-  const isAtEnd = carousel.isAtEnd;
+    measure();
+  }, [measure]);
 
   return (
-    <section className={styles.testimonialsSection} aria-labelledby="recipe-app-testimonials-heading">
+    <section
+      className={styles.testimonialsSection}
+      aria-labelledby="recipe-app-testimonials-heading"
+    >
       <div
         className={styles.testimonialsSectionBg}
         aria-hidden="true"
         style={{ backgroundImage: `url(${recipeAppAssets.customersBg})` }}
       />
       <div className={styles.testimonialsHeaderInner}>
-        <h2 id="recipe-app-testimonials-heading" className={styles.testimonialsHeading}>
+        <h2
+          id="recipe-app-testimonials-heading"
+          className={styles.testimonialsHeading}
+        >
           What our customers are saying
         </h2>
         <div className={styles.testimonialsRatingRow}>
@@ -390,24 +422,24 @@ export function RecipeAppTestimonialCarousel() {
 
       <div className={styles.testimonialCarouselWrap}>
         <div
-          ref={carousel.carouselRef}
+          ref={carouselRef}
           className={styles.testimonialCarouselStage}
-          onPointerDownCapture={carousel.handlePointerDown}
-          onPointerMoveCapture={carousel.handlePointerMove}
-          onPointerUpCapture={carousel.handlePointerEnd}
-          onPointerCancelCapture={carousel.handlePointerEnd}
+          onPointerDownCapture={handlePointerDown}
+          onPointerMoveCapture={handlePointerMove}
+          onPointerUpCapture={handlePointerEnd}
+          onPointerCancelCapture={handlePointerEnd}
         >
           <motion.div
-            ref={carousel.trackRef}
+            ref={trackRef}
             className={styles.testimonialTrack}
-            style={{ x: carousel.x }}
+            style={{ x }}
           >
             {recipeAppTestimonials.map((item) => (
               <article
                 key={item.name}
                 data-testimonial-slide
                 className={styles.testimonialCard}
-                onClickCapture={carousel.handleCardClickCapture}
+                onClickCapture={handleCardClickCapture}
               >
                 <svg
                   className={styles.testimonialQuoteIcon}
@@ -419,7 +451,9 @@ export function RecipeAppTestimonialCarousel() {
                     fill="currentColor"
                   />
                 </svg>
-                <blockquote className={styles.testimonialQuote}>{item.quote}</blockquote>
+                <blockquote className={styles.testimonialQuote}>
+                  {item.quote}
+                </blockquote>
                 <cite className={styles.testimonialName}>{item.name}</cite>
               </article>
             ))}
@@ -432,7 +466,7 @@ export function RecipeAppTestimonialCarousel() {
             disabled={isAtStart}
             onNavigate={() => {
               if (!isAtStart) {
-                carousel.animateToIndex(carousel.index - 1, CAROUSEL_SLIDE);
+                animateToIndex(index - 1, CAROUSEL_SLIDE);
               }
             }}
             className={`${styles.testimonialArrow} ${styles.testimonialArrowPrev} recipe-testimonial-controls`}
@@ -442,7 +476,7 @@ export function RecipeAppTestimonialCarousel() {
             disabled={isAtEnd}
             onNavigate={() => {
               if (!isAtEnd) {
-                carousel.animateToIndex(carousel.index + 1, CAROUSEL_SLIDE);
+                animateToIndex(index + 1, CAROUSEL_SLIDE);
               }
             }}
             className={`${styles.testimonialArrow} ${styles.testimonialArrowNext} recipe-testimonial-controls`}
@@ -454,7 +488,7 @@ export function RecipeAppTestimonialCarousel() {
 }
 
 const DISCOVER_CYCLE_MS = 5000;
-const MOBILE_TABS_QUERY = "(max-width: 767px)";
+const MOBILE_TABS_QUERY = '(max-width: 767px)';
 
 function getCenteredTabIndex(
   tabList: HTMLDivElement,
@@ -491,7 +525,8 @@ export function RecipeAppDiscoverFeatures() {
   const isProgrammaticScrollRef = useRef(false);
   const programmaticScrollTimerRef = useRef<number | null>(null);
   const scrollSyncTimerRef = useRef<number | null>(null);
-  const active = recipeAppDiscoverFeatures[activeIndex] ?? recipeAppDiscoverFeatures[0];
+  const active =
+    recipeAppDiscoverFeatures[activeIndex] ?? recipeAppDiscoverFeatures[0];
 
   const setTabRef = useCallback(
     (index: number) => (node: HTMLButtonElement | null) => {
@@ -500,19 +535,23 @@ export function RecipeAppDiscoverFeatures() {
     [],
   );
 
-  const activateFeature = useCallback((index: number, source: "click" | "auto" | "scroll") => {
-    if (source === "scroll") {
-      skipCenterScrollRef.current = true;
-    }
+  const activateFeature = useCallback(
+    (index: number, source: 'click' | 'auto' | 'scroll') => {
+      if (source === 'scroll') {
+        skipCenterScrollRef.current = true;
+      }
 
-    activeIndexRef.current = index;
-    setActiveIndex(index);
-    setProgressKey((current) => current + 1);
-  }, []);
+      activeIndexRef.current = index;
+      setActiveIndex(index);
+      setProgressKey((current) => current + 1);
+    },
+    [],
+  );
 
   const advanceFeature = useCallback(() => {
-    const nextIndex = (activeIndexRef.current + 1) % recipeAppDiscoverFeatures.length;
-    activateFeature(nextIndex, "auto");
+    const nextIndex =
+      (activeIndexRef.current + 1) % recipeAppDiscoverFeatures.length;
+    activateFeature(nextIndex, 'auto');
   }, [activateFeature]);
 
   useEffect(() => {
@@ -545,8 +584,7 @@ export function RecipeAppDiscoverFeatures() {
     const listRect = tabList.getBoundingClientRect();
     const tabRect = tab.getBoundingClientRect();
     const tabLeft = tabRect.left - listRect.left + tabList.scrollLeft;
-    const targetScrollLeft =
-      tabLeft - listRect.width / 2 + tabRect.width / 2;
+    const targetScrollLeft = tabLeft - listRect.width / 2 + tabRect.width / 2;
 
     isProgrammaticScrollRef.current = true;
     if (programmaticScrollTimerRef.current !== null) {
@@ -559,7 +597,7 @@ export function RecipeAppDiscoverFeatures() {
 
     tabList.scrollTo({
       left: Math.max(0, targetScrollLeft),
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   }, [activeIndex]);
 
@@ -580,7 +618,7 @@ export function RecipeAppDiscoverFeatures() {
 
       const centeredIndex = getCenteredTabIndex(tabList, tabRefs.current);
       if (centeredIndex !== activeIndexRef.current) {
-        activateFeature(centeredIndex, "scroll");
+        activateFeature(centeredIndex, 'scroll');
       }
     };
 
@@ -607,12 +645,12 @@ export function RecipeAppDiscoverFeatures() {
       syncActiveFromScroll();
     };
 
-    tabList.addEventListener("scroll", handleScroll, { passive: true });
-    tabList.addEventListener("scrollend", handleScrollEnd, { passive: true });
+    tabList.addEventListener('scroll', handleScroll, { passive: true });
+    tabList.addEventListener('scrollend', handleScrollEnd, { passive: true });
 
     return () => {
-      tabList.removeEventListener("scroll", handleScroll);
-      tabList.removeEventListener("scrollend", handleScrollEnd);
+      tabList.removeEventListener('scroll', handleScroll);
+      tabList.removeEventListener('scrollend', handleScrollEnd);
       if (scrollSyncTimerRef.current !== null) {
         window.clearTimeout(scrollSyncTimerRef.current);
       }
@@ -624,7 +662,7 @@ export function RecipeAppDiscoverFeatures() {
 
   const selectFeature = useCallback(
     (index: number) => {
-      activateFeature(index, "click");
+      activateFeature(index, 'click');
     },
     [activateFeature],
   );
@@ -637,7 +675,10 @@ export function RecipeAppDiscoverFeatures() {
       <div className={styles.discoverGrid}>
         <div className={styles.discoverContent}>
           <p className={styles.discoverEyebrow}>MORE RESOURCES</p>
-          <h2 id="recipe-app-discover-heading" className={styles.discoverHeading}>
+          <h2
+            id="recipe-app-discover-heading"
+            className={styles.discoverHeading}
+          >
             Discover more app features
           </h2>
 
@@ -655,7 +696,7 @@ export function RecipeAppDiscoverFeatures() {
                 role="tab"
                 aria-selected={activeIndex === index}
                 className={`${styles.discoverTab} ${
-                  activeIndex === index ? styles.discoverTabActive : ""
+                  activeIndex === index ? styles.discoverTabActive : ''
                 }`}
                 onClick={() => selectFeature(index)}
               >
@@ -674,16 +715,36 @@ export function RecipeAppDiscoverFeatures() {
           </div>
 
           <div className={styles.discoverStoreBadges}>
-            <a href={recipeAppLinks.appStore} aria-label="Download on the App Store">
-              <Image src={recipeAppAssets.appStoreBadge} alt="" width={152} height={50} />
+            <a
+              href={recipeAppLinks.appStore}
+              aria-label="Download on the App Store"
+            >
+              <Image
+                src={recipeAppAssets.appStoreBadge}
+                alt=""
+                width={152}
+                height={50}
+              />
             </a>
-            <a href={recipeAppLinks.playStore} aria-label="Get it on Google Play">
-              <Image src={recipeAppAssets.googlePlayBadge} alt="" width={152} height={50} />
+            <a
+              href={recipeAppLinks.playStore}
+              aria-label="Get it on Google Play"
+            >
+              <Image
+                src={recipeAppAssets.googlePlayBadge}
+                alt=""
+                width={152}
+                height={50}
+              />
             </a>
           </div>
         </div>
 
-        <div className={styles.discoverPanel} role="tabpanel" aria-label={active.label}>
+        <div
+          className={styles.discoverPanel}
+          role="tabpanel"
+          aria-label={active.label}
+        >
           <p className="sr-only" aria-live="polite">
             {active.label}: {active.body}
           </p>
@@ -715,7 +776,7 @@ export function RecipeAppDiscoverFeatures() {
                     className={styles.discoverCallout}
                     style={
                       {
-                        "--discover-callout-bg": `url(${recipeAppAssets.discoverCallout})`,
+                        '--discover-callout-bg': `url(${recipeAppAssets.discoverCallout})`,
                       } as CSSProperties
                     }
                   >
@@ -729,11 +790,24 @@ export function RecipeAppDiscoverFeatures() {
       </div>
 
       <div className={styles.discoverStoreBadgesMobile}>
-        <a href={recipeAppLinks.appStore} aria-label="Download on the App Store">
-          <Image src={recipeAppAssets.appStoreBadge} alt="" width={152} height={50} />
+        <a
+          href={recipeAppLinks.appStore}
+          aria-label="Download on the App Store"
+        >
+          <Image
+            src={recipeAppAssets.appStoreBadge}
+            alt=""
+            width={152}
+            height={50}
+          />
         </a>
         <a href={recipeAppLinks.playStore} aria-label="Get it on Google Play">
-          <Image src={recipeAppAssets.googlePlayBadge} alt="" width={152} height={50} />
+          <Image
+            src={recipeAppAssets.googlePlayBadge}
+            alt=""
+            width={152}
+            height={50}
+          />
         </a>
       </div>
     </section>

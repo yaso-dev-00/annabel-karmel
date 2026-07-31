@@ -1,64 +1,62 @@
-import type { Metadata } from "next";
-import { Geist_Mono, Montserrat, Playfair_Display } from "next/font/google";
-import localFont from "next/font/local";
-import { SiteNavProgress } from "@/components/SiteLayout/SiteNavProgress";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Geist_Mono, Montserrat, Playfair_Display } from 'next/font/google';
+import localFont from 'next/font/local';
+import { SiteNavProgress } from '@/components/SiteLayout/SiteNavProgress';
+import './globals.css';
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 // Same "pequena-pequena" font the live annabelkarmel.com site self-hosts
 const pequena = localFont({
   src: [
-    { path: "./fonts/pequena-pequena.woff2" },
-    { path: "./fonts/pequena-pequena.woff" },
+    { path: './fonts/pequena-pequena.woff2' },
+    { path: './fonts/pequena-pequena.woff' },
   ],
-  variable: "--font-pequena",
-  display: "swap",
+  variable: '--font-pequena',
+  display: 'swap',
 });
 
 const cutesy = localFont({
-  src: [
-    { path: "./fonts/cutesy.woff2" },
-    { path: "./fonts/cutesy.woff" },
-  ],
-  variable: "--font-cutesy",
-  display: "swap",
+  src: [{ path: './fonts/cutesy.woff2' }, { path: './fonts/cutesy.woff' }],
+  variable: '--font-cutesy',
+  display: 'swap',
 });
 
 const tastyJoke = localFont({
   src: [
-    { path: "./fonts/tasty-joke.woff2" },
-    { path: "./fonts/tasty-joke.woff" },
+    { path: './fonts/tasty-joke.woff2' },
+    { path: './fonts/tasty-joke.woff' },
   ],
-  variable: "--font-tasty-joke",
-  display: "swap",
+  variable: '--font-tasty-joke',
+  display: 'swap',
 });
 
 const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  variable: '--font-montserrat',
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
+  variable: '--font-playfair',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
 });
 
 export const metadata: Metadata = {
-  title: "Annabel Karmel",
-  description: "Nutritious recipes, expert advice, and family meal inspiration.",
+  title: 'Annabel Karmel',
+  description:
+    'Nutritious recipes, expert advice, and family meal inspiration.',
   icons: {
     icon: [
-      { url: "/brand/favicon.png", sizes: "32x32", type: "image/png" },
-      { url: "/brand/apple-icon.png", sizes: "192x192", type: "image/png" },
+      { url: '/brand/favicon.png', sizes: '32x32', type: 'image/png' },
+      { url: '/brand/apple-icon.png', sizes: '192x192', type: 'image/png' },
     ],
-    apple: "/brand/apple-icon.png",
+    apple: '/brand/apple-icon.png',
   },
 };
 

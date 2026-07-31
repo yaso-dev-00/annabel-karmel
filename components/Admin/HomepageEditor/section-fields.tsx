@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   closestCenter,
@@ -8,19 +8,19 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { useEffect, useState, type ReactNode } from "react";
-import { StableDndContext } from "@/components/Admin/BlockEditor/stable-dnd-context";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { useEffect, useState, type ReactNode } from 'react';
+import { StableDndContext } from '@/components/Admin/BlockEditor/stable-dnd-context';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
 import type {
   CollabsSectionData,
   CookbooksSectionData,
@@ -31,14 +31,20 @@ import type {
   LatestRecipesSectionData,
   PartnersSectionData,
   RecipeAppSectionData,
-} from "@/lib/homepage/types";
-import styles from "./homepage-editor.module.css";
+} from '@/lib/homepage/types';
+import styles from './homepage-editor.module.css';
 
 function newId(prefix: string): string {
   return `${prefix}-${crypto.randomUUID().slice(0, 8)}`;
 }
 
-function RemoveItemButton({ label, onClick }: { label: string; onClick: () => void }) {
+function RemoveItemButton({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
   return (
     <button
       type="button"
@@ -118,14 +124,21 @@ function SortableItemCard({
   onRemove: () => void;
   children: ReactNode;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id,
   });
 
   return (
     <div
       ref={setNodeRef}
-      className={`${styles.itemCard}${expanded ? ` ${styles.itemCardOpen}` : ""}`}
+      className={`${styles.itemCard}${expanded ? ` ${styles.itemCardOpen}` : ''}`}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -199,15 +212,19 @@ function SortableItemList<T extends { id: string }>({
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
   const ids = items.map((item) => item.id);
   // One item open at a time — clearer than section-style expand-all.
   const [openId, setOpenId] = useState<string | null>(null);
 
   useEffect(() => {
-    setOpenId((prev) => (prev && ids.includes(prev) ? prev : null));
-  }, [ids.join("|")]);
+    queueMicrotask(() => {
+      setOpenId((prev) => (prev && ids.includes(prev) ? prev : null));
+    });
+  }, [ids.join('|')]);
 
   const toggle = (id: string) => {
     setOpenId((prev) => (prev === id ? null : id));
@@ -282,18 +299,23 @@ type SectionFieldsProps = {
   onChange: (section: HomepageSection) => void;
 };
 
-export function HomepageSectionFields({ section, onChange }: SectionFieldsProps) {
-  if (section.type === "recipe_finder") {
+export function HomepageSectionFields({
+  section,
+  onChange,
+}: SectionFieldsProps) {
+  if (section.type === 'recipe_finder') {
     return (
       <p className={styles.lockedBody}>
-        Default search recipes — not editable. Finder options stay linked to the site recipe taxonomy.
+        Default search recipes — not editable. Finder options stay linked to the
+        site recipe taxonomy.
       </p>
     );
   }
 
-  if (section.type === "hero") {
+  if (section.type === 'hero') {
     const data = section.data;
-    const updateData = (next: HeroSectionData) => onChange({ ...section, data: next });
+    const updateData = (next: HeroSectionData) =>
+      onChange({ ...section, data: next });
     return (
       <div className={styles.itemList}>
         {data.slides.map((slide, index) => (
@@ -312,7 +334,11 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                 <RemoveItemButton
                   label={`Remove slide ${index + 1}`}
                   onClick={() =>
-                    updateData({ slides: data.slides.filter((item) => item.id !== slide.id) })
+                    updateData({
+                      slides: data.slides.filter(
+                        (item) => item.id !== slide.id,
+                      ),
+                    })
                   }
                 />
               </div>
@@ -326,7 +352,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   onChange={(e) =>
                     updateData({
                       slides: data.slides.map((item) =>
-                        item.id === slide.id ? { ...item, title: e.target.value } : item,
+                        item.id === slide.id
+                          ? { ...item, title: e.target.value }
+                          : item,
                       ),
                     })
                   }
@@ -340,7 +368,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   onChange={(e) =>
                     updateData({
                       slides: data.slides.map((item) =>
-                        item.id === slide.id ? { ...item, subtitle: e.target.value } : item,
+                        item.id === slide.id
+                          ? { ...item, subtitle: e.target.value }
+                          : item,
                       ),
                     })
                   }
@@ -354,7 +384,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   onChange={(e) =>
                     updateData({
                       slides: data.slides.map((item) =>
-                        item.id === slide.id ? { ...item, cta: e.target.value } : item,
+                        item.id === slide.id
+                          ? { ...item, cta: e.target.value }
+                          : item,
                       ),
                     })
                   }
@@ -368,7 +400,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   onChange={(e) =>
                     updateData({
                       slides: data.slides.map((item) =>
-                        item.id === slide.id ? { ...item, href: e.target.value } : item,
+                        item.id === slide.id
+                          ? { ...item, href: e.target.value }
+                          : item,
                       ),
                     })
                   }
@@ -400,12 +434,12 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                 slides: [
                   ...data.slides,
                   {
-                    id: newId("hero-slide"),
-                    title: "New slide",
-                    subtitle: "",
-                    cta: "Discover",
-                    href: "/",
-                    image: "",
+                    id: newId('hero-slide'),
+                    title: 'New slide',
+                    subtitle: '',
+                    cta: 'Discover',
+                    href: '/',
+                    image: '',
                   },
                 ],
               })
@@ -418,9 +452,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
     );
   }
 
-  if (section.type === "latest_recipes") {
+  if (section.type === 'latest_recipes') {
     const data = section.data;
-    const updateData = (next: LatestRecipesSectionData) => onChange({ ...section, data: next });
+    const updateData = (next: LatestRecipesSectionData) =>
+      onChange({ ...section, data: next });
     return (
       <>
         <div className={styles.fieldGrid}>
@@ -437,7 +472,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             <input
               className="fieldInput"
               value={data.subtitle}
-              onChange={(e) => updateData({ ...data, subtitle: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, subtitle: e.target.value })
+              }
             />
           </div>
           <div className="field">
@@ -445,7 +482,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             <input
               className="fieldInput"
               value={data.ctaLabel}
-              onChange={(e) => updateData({ ...data, ctaLabel: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, ctaLabel: e.target.value })
+              }
             />
           </div>
           <div className="field">
@@ -467,72 +506,78 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
               recipes: data.recipes.filter((item) => item.id !== recipe.id),
             })
           }
-          getTitle={(recipe) => recipe.title.trim() || "Untitled recipe"}
-          getMeta={(recipe) => recipe.duration.trim() || "No duration"}
+          getTitle={(recipe) => recipe.title.trim() || 'Untitled recipe'}
+          getMeta={(recipe) => recipe.duration.trim() || 'No duration'}
           getThumb={(recipe) => recipe.image.trim() || undefined}
           renderFields={(recipe) => (
-              <div className={styles.fieldGrid}>
-                <div className={`field ${styles.fieldFull}`}>
-                  <label className="fieldLabel">Title</label>
-                  <input
-                    className="fieldInput"
-                    value={recipe.title}
-                    onChange={(e) =>
-                      updateData({
-                        ...data,
-                        recipes: data.recipes.map((item) =>
-                          item.id === recipe.id ? { ...item, title: e.target.value } : item,
-                        ),
-                      })
-                    }
-                  />
-                </div>
-                <div className="field">
-                  <label className="fieldLabel">Duration</label>
-                  <input
-                    className="fieldInput"
-                    value={recipe.duration}
-                    onChange={(e) =>
-                      updateData({
-                        ...data,
-                        recipes: data.recipes.map((item) =>
-                          item.id === recipe.id ? { ...item, duration: e.target.value } : item,
-                        ),
-                      })
-                    }
-                  />
-                </div>
-                <div className="field">
-                  <label className="fieldLabel">Link URL</label>
-                  <input
-                    className="fieldInput"
-                    value={recipe.href}
-                    onChange={(e) =>
-                      updateData({
-                        ...data,
-                        recipes: data.recipes.map((item) =>
-                          item.id === recipe.id ? { ...item, href: e.target.value } : item,
-                        ),
-                      })
-                    }
-                  />
-                </div>
-                <div className={`field ${styles.fieldFull}`}>
-                  <label className="fieldLabel">Image</label>
-                  <ImageField
-                    value={recipe.image}
-                    showAlt={false}
-                    onChange={(src) =>
-                      updateData({
-                        ...data,
-                        recipes: data.recipes.map((item) =>
-                          item.id === recipe.id ? { ...item, image: src } : item,
-                        ),
-                      })
-                    }
-                  />
-                </div>
+            <div className={styles.fieldGrid}>
+              <div className={`field ${styles.fieldFull}`}>
+                <label className="fieldLabel">Title</label>
+                <input
+                  className="fieldInput"
+                  value={recipe.title}
+                  onChange={(e) =>
+                    updateData({
+                      ...data,
+                      recipes: data.recipes.map((item) =>
+                        item.id === recipe.id
+                          ? { ...item, title: e.target.value }
+                          : item,
+                      ),
+                    })
+                  }
+                />
               </div>
+              <div className="field">
+                <label className="fieldLabel">Duration</label>
+                <input
+                  className="fieldInput"
+                  value={recipe.duration}
+                  onChange={(e) =>
+                    updateData({
+                      ...data,
+                      recipes: data.recipes.map((item) =>
+                        item.id === recipe.id
+                          ? { ...item, duration: e.target.value }
+                          : item,
+                      ),
+                    })
+                  }
+                />
+              </div>
+              <div className="field">
+                <label className="fieldLabel">Link URL</label>
+                <input
+                  className="fieldInput"
+                  value={recipe.href}
+                  onChange={(e) =>
+                    updateData({
+                      ...data,
+                      recipes: data.recipes.map((item) =>
+                        item.id === recipe.id
+                          ? { ...item, href: e.target.value }
+                          : item,
+                      ),
+                    })
+                  }
+                />
+              </div>
+              <div className={`field ${styles.fieldFull}`}>
+                <label className="fieldLabel">Image</label>
+                <ImageField
+                  value={recipe.image}
+                  showAlt={false}
+                  onChange={(src) =>
+                    updateData({
+                      ...data,
+                      recipes: data.recipes.map((item) =>
+                        item.id === recipe.id ? { ...item, image: src } : item,
+                      ),
+                    })
+                  }
+                />
+              </div>
+            </div>
           )}
         />
         <div className={styles.addRow}>
@@ -545,11 +590,11 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                 recipes: [
                   ...data.recipes,
                   {
-                    id: newId("latest-recipe"),
-                    title: "New recipe",
-                    duration: "20 mins",
-                    href: "/recipes",
-                    image: "",
+                    id: newId('latest-recipe'),
+                    title: 'New recipe',
+                    duration: '20 mins',
+                    href: '/recipes',
+                    image: '',
                   },
                 ],
               })
@@ -562,9 +607,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
     );
   }
 
-  if (section.type === "recipe_app") {
+  if (section.type === 'recipe_app') {
     const data = section.data;
-    const updateData = (next: RecipeAppSectionData) => onChange({ ...section, data: next });
+    const updateData = (next: RecipeAppSectionData) =>
+      onChange({ ...section, data: next });
     return (
       <>
         <div className={styles.fieldGrid}>
@@ -581,7 +627,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             <input
               className="fieldInput"
               value={data.ctaLabel}
-              onChange={(e) => updateData({ ...data, ctaLabel: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, ctaLabel: e.target.value })
+              }
             />
           </div>
           <div className="field">
@@ -597,7 +645,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             <input
               className="fieldInput"
               value={data.appStoreHref}
-              onChange={(e) => updateData({ ...data, appStoreHref: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, appStoreHref: e.target.value })
+              }
             />
           </div>
           <div className="field">
@@ -605,7 +655,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             <input
               className="fieldInput"
               value={data.playStoreHref}
-              onChange={(e) => updateData({ ...data, playStoreHref: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, playStoreHref: e.target.value })
+              }
             />
           </div>
           <div className={`field ${styles.fieldFull}`}>
@@ -629,7 +681,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                     onClick={() =>
                       updateData({
                         ...data,
-                        bullets: data.bullets.filter((item) => item.id !== bullet.id),
+                        bullets: data.bullets.filter(
+                          (item) => item.id !== bullet.id,
+                        ),
                       })
                     }
                   />
@@ -645,7 +699,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         bullets: data.bullets.map((item) =>
-                          item.id === bullet.id ? { ...item, lead: e.target.value } : item,
+                          item.id === bullet.id
+                            ? { ...item, lead: e.target.value }
+                            : item,
                         ),
                       })
                     }
@@ -660,7 +716,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         bullets: data.bullets.map((item) =>
-                          item.id === bullet.id ? { ...item, text: e.target.value } : item,
+                          item.id === bullet.id
+                            ? { ...item, text: e.target.value }
+                            : item,
                         ),
                       })
                     }
@@ -676,7 +734,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
               onClick={() =>
                 updateData({
                   ...data,
-                  bullets: [...data.bullets, { id: newId("app-bullet"), lead: "", text: "" }],
+                  bullets: [
+                    ...data.bullets,
+                    { id: newId('app-bullet'), lead: '', text: '' },
+                  ],
                 })
               }
             >
@@ -695,7 +756,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   onClick={() =>
                     updateData({
                       ...data,
-                      awards: data.awards.filter((item) => item.id !== award.id),
+                      awards: data.awards.filter(
+                        (item) => item.id !== award.id,
+                      ),
                     })
                   }
                 />
@@ -707,7 +770,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   updateData({
                     ...data,
                     awards: data.awards.map((item) =>
-                      item.id === award.id ? { ...item, src, alt: alt ?? item.alt } : item,
+                      item.id === award.id
+                        ? { ...item, src, alt: alt ?? item.alt }
+                        : item,
                     ),
                   })
                 }
@@ -729,7 +794,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
               onClick={() =>
                 updateData({
                   ...data,
-                  awards: [...data.awards, { id: newId("app-award"), src: "", alt: "" }],
+                  awards: [
+                    ...data.awards,
+                    { id: newId('app-award'), src: '', alt: '' },
+                  ],
                 })
               }
             >
@@ -741,9 +809,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
     );
   }
 
-  if (section.type === "expert_ranges") {
+  if (section.type === 'expert_ranges') {
     const data = section.data;
-    const updateData = (next: ExpertRangesSectionData) => onChange({ ...section, data: next });
+    const updateData = (next: ExpertRangesSectionData) =>
+      onChange({ ...section, data: next });
     return (
       <>
         <div className={styles.fieldGrid}>
@@ -776,7 +845,7 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             })
           }
           getTitle={(_logo, index) => `Logo ${index + 1}`}
-          getMeta={(logo) => (logo.src.trim() ? "Image set" : "No image")}
+          getMeta={(logo) => (logo.src.trim() ? 'Image set' : 'No image')}
           getThumb={(logo) => logo.src.trim() || undefined}
           renderFields={(logo) => (
             <ImageField
@@ -800,7 +869,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             onClick={() =>
               updateData({
                 ...data,
-                awardLogos: [...data.awardLogos, { id: newId("award-logo"), src: "", alt: "" }],
+                awardLogos: [
+                  ...data.awardLogos,
+                  { id: newId('award-logo'), src: '', alt: '' },
+                ],
               })
             }
           >
@@ -833,7 +905,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         cards: data.cards.map((item) =>
-                          item.id === card.id ? { ...item, title: e.target.value } : item,
+                          item.id === card.id
+                            ? { ...item, title: e.target.value }
+                            : item,
                         ),
                       })
                     }
@@ -848,7 +922,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         cards: data.cards.map((item) =>
-                          item.id === card.id ? { ...item, href: e.target.value } : item,
+                          item.id === card.id
+                            ? { ...item, href: e.target.value }
+                            : item,
                         ),
                       })
                     }
@@ -881,7 +957,12 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   ...data,
                   cards: [
                     ...data.cards,
-                    { id: newId("expert-card"), title: "New range", image: "", href: "/" },
+                    {
+                      id: newId('expert-card'),
+                      title: 'New range',
+                      image: '',
+                      href: '/',
+                    },
                   ],
                 })
               }
@@ -894,9 +975,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
     );
   }
 
-  if (section.type === "cookbooks") {
+  if (section.type === 'cookbooks') {
     const data = section.data;
-    const updateData = (next: CookbooksSectionData) => onChange({ ...section, data: next });
+    const updateData = (next: CookbooksSectionData) =>
+      onChange({ ...section, data: next });
     return (
       <>
         <div className={styles.fieldGrid}>
@@ -922,7 +1004,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             <input
               className="fieldInput"
               value={data.ctaLabel}
-              onChange={(e) => updateData({ ...data, ctaLabel: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, ctaLabel: e.target.value })
+              }
             />
           </div>
           <div className="field">
@@ -944,57 +1028,61 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
               books: data.books.filter((item) => item.id !== book.id),
             })
           }
-          getTitle={(book) => book.title.trim() || "Untitled cookbook"}
-          getMeta={(book) => (book.href.trim() ? book.href : "No link")}
+          getTitle={(book) => book.title.trim() || 'Untitled cookbook'}
+          getMeta={(book) => (book.href.trim() ? book.href : 'No link')}
           getThumb={(book) => book.image.trim() || undefined}
           renderFields={(book) => (
-              <div className={styles.fieldGrid}>
-                <div className="field">
-                  <label className="fieldLabel">Title</label>
-                  <input
-                    className="fieldInput"
-                    value={book.title}
-                    onChange={(e) =>
-                      updateData({
-                        ...data,
-                        books: data.books.map((item) =>
-                          item.id === book.id ? { ...item, title: e.target.value } : item,
-                        ),
-                      })
-                    }
-                  />
-                </div>
-                <div className="field">
-                  <label className="fieldLabel">Link URL</label>
-                  <input
-                    className="fieldInput"
-                    value={book.href}
-                    onChange={(e) =>
-                      updateData({
-                        ...data,
-                        books: data.books.map((item) =>
-                          item.id === book.id ? { ...item, href: e.target.value } : item,
-                        ),
-                      })
-                    }
-                  />
-                </div>
-                <div className={`field ${styles.fieldFull}`}>
-                  <label className="fieldLabel">Image</label>
-                  <ImageField
-                    value={book.image}
-                    showAlt={false}
-                    onChange={(src) =>
-                      updateData({
-                        ...data,
-                        books: data.books.map((item) =>
-                          item.id === book.id ? { ...item, image: src } : item,
-                        ),
-                      })
-                    }
-                  />
-                </div>
+            <div className={styles.fieldGrid}>
+              <div className="field">
+                <label className="fieldLabel">Title</label>
+                <input
+                  className="fieldInput"
+                  value={book.title}
+                  onChange={(e) =>
+                    updateData({
+                      ...data,
+                      books: data.books.map((item) =>
+                        item.id === book.id
+                          ? { ...item, title: e.target.value }
+                          : item,
+                      ),
+                    })
+                  }
+                />
               </div>
+              <div className="field">
+                <label className="fieldLabel">Link URL</label>
+                <input
+                  className="fieldInput"
+                  value={book.href}
+                  onChange={(e) =>
+                    updateData({
+                      ...data,
+                      books: data.books.map((item) =>
+                        item.id === book.id
+                          ? { ...item, href: e.target.value }
+                          : item,
+                      ),
+                    })
+                  }
+                />
+              </div>
+              <div className={`field ${styles.fieldFull}`}>
+                <label className="fieldLabel">Image</label>
+                <ImageField
+                  value={book.image}
+                  showAlt={false}
+                  onChange={(src) =>
+                    updateData({
+                      ...data,
+                      books: data.books.map((item) =>
+                        item.id === book.id ? { ...item, image: src } : item,
+                      ),
+                    })
+                  }
+                />
+              </div>
+            </div>
           )}
         />
         <div className={styles.addRow}>
@@ -1006,7 +1094,12 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                 ...data,
                 books: [
                   ...data.books,
-                  { id: newId("cookbook"), title: "New cookbook", image: "", href: "/" },
+                  {
+                    id: newId('cookbook'),
+                    title: 'New cookbook',
+                    image: '',
+                    href: '/',
+                  },
                 ],
               })
             }
@@ -1018,9 +1111,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
     );
   }
 
-  if (section.type === "collabs") {
+  if (section.type === 'collabs') {
     const data = section.data;
-    const updateData = (next: CollabsSectionData) => onChange({ ...section, data: next });
+    const updateData = (next: CollabsSectionData) =>
+      onChange({ ...section, data: next });
     return (
       <>
         <div className="field">
@@ -1056,7 +1150,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         cards: data.cards.map((item) =>
-                          item.id === card.id ? { ...item, title: e.target.value } : item,
+                          item.id === card.id
+                            ? { ...item, title: e.target.value }
+                            : item,
                         ),
                       })
                     }
@@ -1071,7 +1167,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         cards: data.cards.map((item) =>
-                          item.id === card.id ? { ...item, href: e.target.value } : item,
+                          item.id === card.id
+                            ? { ...item, href: e.target.value }
+                            : item,
                         ),
                       })
                     }
@@ -1086,7 +1184,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         cards: data.cards.map((item) =>
-                          item.id === card.id ? { ...item, subtitle: e.target.value } : item,
+                          item.id === card.id
+                            ? { ...item, subtitle: e.target.value }
+                            : item,
                         ),
                       })
                     }
@@ -1101,7 +1201,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         cards: data.cards.map((item) =>
-                          item.id === card.id ? { ...item, logoImage: src } : item,
+                          item.id === card.id
+                            ? { ...item, logoImage: src }
+                            : item,
                         ),
                       })
                     }
@@ -1116,7 +1218,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         cards: data.cards.map((item) =>
-                          item.id === card.id ? { ...item, cardImage: src } : item,
+                          item.id === card.id
+                            ? { ...item, cardImage: src }
+                            : item,
                         ),
                       })
                     }
@@ -1135,12 +1239,12 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   cards: [
                     ...data.cards,
                     {
-                      id: newId("collab"),
-                      title: "New collab",
-                      subtitle: "",
-                      href: "/",
-                      logoImage: "",
-                      cardImage: "",
+                      id: newId('collab'),
+                      title: 'New collab',
+                      subtitle: '',
+                      href: '/',
+                      logoImage: '',
+                      cardImage: '',
                     },
                   ],
                 })
@@ -1154,9 +1258,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
     );
   }
 
-  if (section.type === "partners") {
+  if (section.type === 'partners') {
     const data = section.data;
-    const updateData = (next: PartnersSectionData) => onChange({ ...section, data: next });
+    const updateData = (next: PartnersSectionData) =>
+      onChange({ ...section, data: next });
     return (
       <>
         <div className={styles.fieldGrid}>
@@ -1182,7 +1287,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             <input
               className="fieldInput"
               value={data.ctaLabel}
-              onChange={(e) => updateData({ ...data, ctaLabel: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, ctaLabel: e.target.value })
+              }
             />
           </div>
           <div className="field">
@@ -1204,8 +1311,8 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
               logos: data.logos.filter((item) => item.id !== logo.id),
             })
           }
-          getTitle={(logo) => logo.name.trim() || "Untitled partner"}
-          getMeta={(logo) => (logo.href.trim() ? logo.href : "No link")}
+          getTitle={(logo) => logo.name.trim() || 'Untitled partner'}
+          getMeta={(logo) => (logo.href.trim() ? logo.href : 'No link')}
           getThumb={(logo) => logo.image.trim() || undefined}
           renderFields={(logo) => (
             <div className={styles.fieldGrid}>
@@ -1218,7 +1325,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                     updateData({
                       ...data,
                       logos: data.logos.map((item) =>
-                        item.id === logo.id ? { ...item, name: e.target.value } : item,
+                        item.id === logo.id
+                          ? { ...item, name: e.target.value }
+                          : item,
                       ),
                     })
                   }
@@ -1233,7 +1342,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                     updateData({
                       ...data,
                       logos: data.logos.map((item) =>
-                        item.id === logo.id ? { ...item, href: e.target.value } : item,
+                        item.id === logo.id
+                          ? { ...item, href: e.target.value }
+                          : item,
                       ),
                     })
                   }
@@ -1266,7 +1377,12 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                 ...data,
                 logos: [
                   ...data.logos,
-                  { id: newId("partner"), name: "New partner", image: "", href: "/" },
+                  {
+                    id: newId('partner'),
+                    name: 'New partner',
+                    image: '',
+                    href: '/',
+                  },
                 ],
               })
             }
@@ -1278,9 +1394,10 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
     );
   }
 
-  if (section.type === "instagram") {
+  if (section.type === 'instagram') {
     const data = section.data;
-    const updateData = (next: InstagramSectionData) => onChange({ ...section, data: next });
+    const updateData = (next: InstagramSectionData) =>
+      onChange({ ...section, data: next });
     return (
       <>
         <div className={styles.fieldGrid}>
@@ -1297,7 +1414,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
             <input
               className="fieldInput"
               value={data.titleAccent}
-              onChange={(e) => updateData({ ...data, titleAccent: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, titleAccent: e.target.value })
+              }
             />
           </div>
           <div className={`field ${styles.fieldFull}`}>
@@ -1306,7 +1425,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
               className="fieldInput"
               rows={2}
               value={data.description}
-              onChange={(e) => updateData({ ...data, description: e.target.value })}
+              onChange={(e) =>
+                updateData({ ...data, description: e.target.value })
+              }
             />
           </div>
         </div>
@@ -1335,7 +1456,9 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                       updateData({
                         ...data,
                         posts: data.posts.map((item) =>
-                          item.id === post.id ? { ...item, href: e.target.value } : item,
+                          item.id === post.id
+                            ? { ...item, href: e.target.value }
+                            : item,
                         ),
                       })
                     }
@@ -1353,7 +1476,8 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                           item.id === post.id
                             ? {
                                 ...item,
-                                kind: e.target.value as "image" | "video" | "carousel",
+                                kind: e.target.value as
+                                  'image' | 'video' | 'carousel',
                               }
                             : item,
                         ),
@@ -1392,7 +1516,12 @@ export function HomepageSectionFields({ section, onChange }: SectionFieldsProps)
                   ...data,
                   posts: [
                     ...data.posts,
-                    { id: newId("instagram"), href: "/", image: "", kind: "image" },
+                    {
+                      id: newId('instagram'),
+                      href: '/',
+                      image: '',
+                      kind: 'image',
+                    },
                   ],
                 })
               }

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   KeyboardSensor,
   PointerSensor,
@@ -8,21 +8,21 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { ExpandCollapseAllButtons } from "@/components/Admin/BlockEditor/expand-collapse-all-buttons";
-import { StableDndContext } from "@/components/Admin/BlockEditor/stable-dnd-context";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import type { CookbookCarouselImage } from "@/lib/cookbooks/types";
-import styles from "./cookbook-editor.module.css";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { ExpandCollapseAllButtons } from '@/components/Admin/BlockEditor/expand-collapse-all-buttons';
+import { StableDndContext } from '@/components/Admin/BlockEditor/stable-dnd-context';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import type { CookbookCarouselImage } from '@/lib/cookbooks/types';
+import styles from './cookbook-editor.module.css';
 
 type CarouselImageWithId = CookbookCarouselImage & { id: string };
 
@@ -36,7 +36,7 @@ function ensureImageId(image: CookbookCarouselImage): CarouselImageWithId {
 function imageSummary(image: CookbookCarouselImage, index: number): string {
   if (image.alt?.trim()) return image.alt.trim();
   if (image.src?.trim()) {
-    const parts = image.src.split("/");
+    const parts = image.src.split('/');
     return parts[parts.length - 1] || `Image ${index + 1}`;
   }
   return `Untitled image ${index + 1}`;
@@ -61,14 +61,21 @@ function SortableCarouselCard({
   onRemove,
   canRemove,
 }: SortableCarouselCardProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: image.id,
   });
 
   return (
     <div
       ref={setNodeRef}
-      className={`${styles.carouselCard}${expanded ? ` ${styles.carouselCardExpanded}` : ""}`}
+      className={`${styles.carouselCard}${expanded ? ` ${styles.carouselCardExpanded}` : ''}`}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -91,22 +98,28 @@ function SortableCarouselCard({
           ⠿
         </span>
         <div className={styles.carouselThumb}>
-          {image.src ? <img src={image.src} alt="" /> : <span className={styles.carouselThumbEmpty}>—</span>}
+          {image.src ? (
+            <img src={image.src} alt="" />
+          ) : (
+            <span className={styles.carouselThumbEmpty}>—</span>
+          )}
         </div>
         <span className={styles.carouselIndex}>Image {index + 1}</span>
-        <span className={styles.carouselSummary}>{imageSummary(image, index)}</span>
+        <span className={styles.carouselSummary}>
+          {imageSummary(image, index)}
+        </span>
         <div className={styles.carouselHeaderActions}>
           <button
             type="button"
             className={blockStyles.iconBtn}
-            aria-label={expanded ? "Collapse image" : "Expand image"}
-            title={expanded ? "Collapse" : "Expand"}
+            aria-label={expanded ? 'Collapse image' : 'Expand image'}
+            title={expanded ? 'Collapse' : 'Expand'}
             onClick={(e) => {
               e.stopPropagation();
               onToggle();
             }}
           >
-            {expanded ? "▲" : "▼"}
+            {expanded ? '▲' : '▼'}
           </button>
           <button
             type="button"
@@ -148,9 +161,12 @@ type CookbookCarouselEditorProps = {
   onChange: (images: CookbookCarouselImage[]) => void;
 };
 
-export function CookbookCarouselEditor({ images, onChange }: CookbookCarouselEditorProps) {
+export function CookbookCarouselEditor({
+  images,
+  onChange,
+}: CookbookCarouselEditorProps) {
   const normalized = useMemo(() => images.map(ensureImageId), [images]);
-  const idsKey = normalized.map((image) => image.id).join("|");
+  const idsKey = normalized.map((image) => image.id).join('|');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
   const knownIdsRef = useRef(new Set<string>());
 
@@ -172,7 +188,9 @@ export function CookbookCarouselEditor({ images, onChange }: CookbookCarouselEdi
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const patchImages = useCallback(
@@ -201,7 +219,7 @@ export function CookbookCarouselEditor({ images, onChange }: CookbookCarouselEdi
   };
 
   const addImage = () => {
-    const created = ensureImageId({ src: "", alt: "" });
+    const created = ensureImageId({ src: '', alt: '' });
     setExpandedIds((prev) => new Set(prev).add(created.id));
     patchImages([...normalized, created]);
   };
@@ -214,14 +232,16 @@ export function CookbookCarouselEditor({ images, onChange }: CookbookCarouselEdi
             Carousel images
           </h2>
           <p className={styles.sectionHint}>
-            {normalized.length} image{normalized.length === 1 ? "" : "s"} · drag to reorder ·
-            expand to edit
+            {normalized.length} image{normalized.length === 1 ? '' : 's'} · drag
+            to reorder · expand to edit
           </p>
         </div>
         {normalized.length > 0 ? (
           <ExpandCollapseAllButtons
             label="Carousel images"
-            onExpandAll={() => setExpandedIds(new Set(normalized.map((image) => image.id)))}
+            onExpandAll={() =>
+              setExpandedIds(new Set(normalized.map((image) => image.id)))
+            }
             onCollapseAll={() => setExpandedIds(new Set())}
           />
         ) : null}
@@ -261,7 +281,11 @@ export function CookbookCarouselEditor({ images, onChange }: CookbookCarouselEdi
           </SortableContext>
         </StableDndContext>
 
-        <button type="button" className={`btn btnGhost ${styles.addRowBtn}`} onClick={addImage}>
+        <button
+          type="button"
+          className={`btn btnGhost ${styles.addRowBtn}`}
+          onClick={addImage}
+        >
           + Add image
         </button>
       </div>

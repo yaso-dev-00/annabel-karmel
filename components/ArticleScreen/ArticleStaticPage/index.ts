@@ -1,1 +1,1 @@
-export * from "./article-static-page";
+export * from './article-static-page';

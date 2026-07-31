@@ -48,6 +48,7 @@ public/CursorUserSetup-*.exe
 /tmp/
 /tmp-*.html
 route-urls.txt
+/scripts/
 
 # scraped full recipe pages (not used at runtime; re-run scripts/fetch-recipe-details.mjs locally)
 /data/recipe-details/
@@ -62,3 +63,8 @@ route-urls.txt
 # CMS uploaded images (directory kept via .gitkeep)
 /public/cms-uploads/*
 !/public/cms-uploads/.gitkeep
+
+# scratch css/json left at the repo root
+/temp-*.css
+/tmp-*.json
+

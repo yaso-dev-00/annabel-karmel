@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import styles from "@/app/development-milestones-toddlers-expect/page.module.css";
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import styles from '@/app/development-milestones-toddlers-expect/page.module.css';
 
 export type DevelopmentAccordionItem = {
   title: string;
@@ -15,8 +15,12 @@ type DevelopmentMilestonesAccordionProps = {
   items: DevelopmentAccordionItem[];
 };
 
-export function DevelopmentMilestonesAccordion({ items }: DevelopmentMilestonesAccordionProps) {
-  const [openTitle, setOpenTitle] = useState<string | null>(() => items[0]?.title ?? null);
+export function DevelopmentMilestonesAccordion({
+  items,
+}: DevelopmentMilestonesAccordionProps) {
+  const [openTitle, setOpenTitle] = useState<string | null>(
+    () => items[0]?.title ?? null,
+  );
 
   const toggle = (title: string) => {
     setOpenTitle((current) => (current === title ? null : title));
@@ -32,10 +36,10 @@ export function DevelopmentMilestonesAccordion({ items }: DevelopmentMilestonesA
             <button
               type="button"
               onClick={() => toggle(item.title)}
-              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ""}`}
+              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ''}`}
             >
               <span aria-hidden="true" className={styles.marker}>
-                {isOpen ? "-" : "+"}
+                {isOpen ? '-' : '+'}
               </span>
               {item.title}
             </button>
@@ -45,20 +49,29 @@ export function DevelopmentMilestonesAccordion({ items }: DevelopmentMilestonesA
                 <motion.div
                   key={item.title}
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
+                  animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
+                  transition={{ duration: 0.7, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
                 >
                   <div className={styles.accordionBody}>
                     {item.points ? (
                       <ul className={styles.accordionList}>
                         {item.points.map((point) => (
-                          <li key={point} className="text-[16px]! md:text-[20px]!">{point}</li>
+                          <li
+                            key={point}
+                            className="text-[16px]! md:text-[20px]!"
+                          >
+                            {point}
+                          </li>
                         ))}
                       </ul>
                     ) : (
-                      <p className={`${styles.accordionText} text-[16px]! md:text-[20px]!`}>{item.text}</p>
+                      <p
+                        className={`${styles.accordionText} text-[16px]! md:text-[20px]!`}
+                      >
+                        {item.text}
+                      </p>
                     )}
                   </div>
                 </motion.div>

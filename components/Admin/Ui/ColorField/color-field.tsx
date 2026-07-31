@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useId, useRef } from "react";
-import styles from "./color-field.module.css";
+import { useId, useRef } from 'react';
+import styles from './color-field.module.css';
 
 export type ColorPreset = {
   value: string;
@@ -25,7 +25,7 @@ function normalizeHex(color: string): string {
 }
 
 function isLightColor(hex: string): boolean {
-  const value = hex.replace("#", "");
+  const value = hex.replace('#', '');
   if (value.length !== 6) return true;
   const r = parseInt(value.slice(0, 2), 16);
   const g = parseInt(value.slice(2, 4), 16);
@@ -35,13 +35,16 @@ function isLightColor(hex: string): boolean {
 }
 
 function resolveColor(value: string | undefined, defaultColor: string): string {
-  if (value?.startsWith("#")) return value;
+  if (value?.startsWith('#')) return value;
   return defaultColor;
 }
 
-function matchesPreset(value: string | undefined, presetValue: string): boolean {
+function matchesPreset(
+  value: string | undefined,
+  presetValue: string,
+): boolean {
   if (!presetValue) return !value;
-  return normalizeHex(value ?? "") === normalizeHex(presetValue);
+  return normalizeHex(value ?? '') === normalizeHex(presetValue);
 }
 
 function findActivePreset(
@@ -92,7 +95,7 @@ export function ColorField({
   const openPicker = () => pickerRef.current?.click();
 
   return (
-    <div className={`field ${compact ? styles.compact : ""}`}>
+    <div className={`field ${compact ? styles.compact : ''}`}>
       <div className={styles.fieldHeader}>
         <span className="fieldLabel">{label}</span>
         {allowDefault ? (
@@ -112,13 +115,14 @@ export function ColorField({
           const active = matchesPreset(displayValue, preset.value);
           const isNonePreset = !preset.value;
           const swatchColor = preset.value || defaultColor;
-          const showCheck = active && (!isLightColor(swatchColor) || isNonePreset);
+          const showCheck =
+            active && (!isLightColor(swatchColor) || isNonePreset);
 
           return (
             <button
-              key={preset.value || "default"}
+              key={preset.value || 'default'}
               type="button"
-              className={`${styles.presetBtn} ${isNonePreset ? styles.presetBtnNone : ""} ${active ? styles.presetBtnActive : ""}`}
+              className={`${styles.presetBtn} ${isNonePreset ? styles.presetBtnNone : ''} ${active ? styles.presetBtnActive : ''}`}
               style={isNonePreset ? undefined : { background: swatchColor }}
               title={preset.label}
               aria-label={preset.label}
@@ -131,13 +135,15 @@ export function ColorField({
         })}
         <button
           type="button"
-          className={`${styles.customBtn} ${isCustom ? styles.customBtnActive : ""}`}
+          className={`${styles.customBtn} ${isCustom ? styles.customBtnActive : ''}`}
           style={isCustom ? { background: resolved } : undefined}
-          title={isCustom ? `Custom: ${resolved.toUpperCase()}` : "Custom color"}
+          title={
+            isCustom ? `Custom: ${resolved.toUpperCase()}` : 'Custom color'
+          }
           aria-label="Custom color"
           onClick={openPicker}
         >
-          {isCustom ? null : "+"}
+          {isCustom ? null : '+'}
         </button>
       </div>
 
@@ -146,7 +152,7 @@ export function ColorField({
         id={pickerId}
         type="color"
         className={styles.hiddenPicker}
-        value={resolved.startsWith("#") ? resolved : defaultColor}
+        value={resolved.startsWith('#') ? resolved : defaultColor}
         onChange={(e) => onChange(e.target.value)}
         tabIndex={-1}
         aria-hidden

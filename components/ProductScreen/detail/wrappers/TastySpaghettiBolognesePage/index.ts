@@ -1,1 +1,1 @@
-export * from "./tasty-spaghetti-bolognese-page";
+export * from './tasty-spaghetti-bolognese-page';

@@ -1,53 +1,37 @@
-import { ArticleRecipeCarousel } from "@/components/SharedCarousels/ArticleRecipeCarousel";
+import { ArticleRecipeCarousel } from '@/components/SharedCarousels/ArticleRecipeCarousel';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
 
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
 
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
 
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 
 import {
-
   introductionToFingerFoodsContentImage,
-
   introductionToFingerFoodsRecipes,
-
   introductionToFingerFoodsRelatedArticles,
+} from '@/data/introduction-to-finger-foods-page';
 
-} from "@/data/introduction-to-finger-foods-page";
-
-import styles from "./page.module.css";
-
-
+import styles from './page.module.css';
 
 export default function IntroductionToFingerFoodsPage() {
-
   return (
-
     <>
-
       <SiteHeader />
 
       <main className="overflow-x-hidden bg-white">
-
         <article className="mx-auto w-full max-w-[1150px] px-[8px] pb-[10px] pt-[20px] md:px-[14px] md:pt-[28px]">
-
           <p className={styles.intro}>
-
-            Quite often babies are determined to feed themselves before they have the hand-eye coordination required to
-
-            use a spoon. And let&apos;s face it, most of the food in the early stages is going to miss their mouths –
-
-            but practice makes perfect!
-
+            Quite often babies are determined to feed themselves before they
+            have the hand-eye coordination required to use a spoon. And
+            let&apos;s face it, most of the food in the early stages is going to
+            miss their mouths – but practice makes perfect!
           </p>
 
-
-
           <div className="my-[28px]">
-{/* 
+            {/* 
             <img
 
               src={introductionToFingerFoodsContentImage}
@@ -57,92 +41,67 @@ export default function IntroductionToFingerFoodsPage() {
               className="mx-auto h-auto w-full max-w-[900px]"
 
             /> */}
-
           </div>
 
-
-
-          <h2 className={styles.sectionTitle}>How to introduce finger foods?</h2>
+          <h2 className={styles.sectionTitle}>
+            How to introduce finger foods?
+          </h2>
 
           <p className={styles.bodyText}>
-
-            When most babies start to wean they have few, if any, teeth, so it&apos;s a good idea to start{" "}
-
+            When most babies start to wean they have few, if any, teeth, so
+            it&apos;s a good idea to start{' '}
             <a href="/baby-finger-foods" className={styles.link}>
-
               with soft finger foods
-
-            </a>{" "}
-
-            such as soft ripe fruits like bananas, steamed vegetables, cooked pasta and toast. Soft finger foods are much
-
-            less of a choking hazard than hard foods. But as your baby gets older, you can start to move on to harder
-
-            foods such as oat cakes, raw vegetables, dried fruits, pieces of chicken and fish, wafer thin meat rolled in
-
-            to cigar shapes, mini sandwiches and much more.
-
+            </a>{' '}
+            such as soft ripe fruits like bananas, steamed vegetables, cooked
+            pasta and toast. Soft finger foods are much less of a choking hazard
+            than hard foods. But as your baby gets older, you can start to move
+            on to harder foods such as oat cakes, raw vegetables, dried fruits,
+            pieces of chicken and fish, wafer thin meat rolled in to cigar
+            shapes, mini sandwiches and much more.
           </p>
 
           <p className={styles.bodyText}>
-
-            This style of weaning is called Baby-Led Weaning and you can find out all about it{" "}
-
+            This style of weaning is called Baby-Led Weaning and you can find
+            out all about it{' '}
             <a
-
               href="/baby-led-weaning"
 
               className={styles.link}
-
             >
-
               here…
-
             </a>
-
           </p>
 
-<div className="mt-[70px]">
+          <div className="mt-[70px]">
+            <ArticleRecipeCarousel
+              items={introductionToFingerFoodsRecipes}
 
-          <ArticleRecipeCarousel
+              className="mt-[40px]"
 
-            items={introductionToFingerFoodsRecipes}
-
-            className="mt-[40px]"
-
-            perDesktopView={5}
-
-          />
-</div>
-
-
-          <div className="mt-[70px] text-center">
-
-            <h2 className={styles.relatedTitle}>Related Articles</h2>
-
-            <p className={styles.relatedText}>Some more articles you might enjoy...</p>
-
+              perDesktopView={5}
+            />
           </div>
 
+          <div className="mt-[70px] text-center">
+            <h2 className={styles.relatedTitle}>Related Articles</h2>
+
+            <p className={styles.relatedText}>
+              Some more articles you might enjoy...
+            </p>
+          </div>
         </article>
 
-
-
         <div className="mb-[90px] px-[8px] md:px-[14px]">
-
-          <RelatedArticlesCarousel items={introductionToFingerFoodsRelatedArticles} />
-
+          <RelatedArticlesCarousel
+            items={introductionToFingerFoodsRelatedArticles}
+          />
         </div>
 
         <InstagramShareSection />
-
       </main>
 
       <SiteFooter />
-
     </>
-
   );
-
 }
-

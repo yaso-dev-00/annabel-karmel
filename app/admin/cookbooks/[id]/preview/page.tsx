@@ -1,8 +1,8 @@
-import { CookbookPreviewPageClient } from "@/components/Admin/CookbookEditor/preview-page-client";
-import { DisabledArticlePreview } from "@/components/Admin/AdviceArticleEditor/disabled-article-preview";
-import { getCookbookById } from "@/lib/admin/cookbooks-store";
-import { isCookbookDisabled } from "@/lib/admin/cookbook-status";
-import { notFound } from "next/navigation";
+import { CookbookPreviewPageClient } from '@/components/Admin/CookbookEditor/preview-page-client';
+import { DisabledArticlePreview } from '@/components/Admin/AdviceArticleEditor/disabled-article-preview';
+import { getCookbookById } from '@/lib/admin/cookbooks-store';
+import { isCookbookDisabled } from '@/lib/admin/cookbook-status';
+import { notFound } from 'next/navigation';
 
 type PageProps = { params: Promise<{ id: string }> };
 

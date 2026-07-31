@@ -1,8 +1,17 @@
-"use client";
+'use client';
 
-import { useCallback } from "react";
-import { createBlock, createBlockId, normalizeBlockOrder } from "@/lib/content-blocks/defaults";
-import type { BlockSettings, BlockType, ContentBlock, MaxWidthPreset } from "@/lib/content-blocks/types";
+import { useCallback } from 'react';
+import {
+  createBlock,
+  createBlockId,
+  normalizeBlockOrder,
+} from '@/lib/content-blocks/defaults';
+import type {
+  BlockSettings,
+  BlockType,
+  ContentBlock,
+  MaxWidthPreset,
+} from '@/lib/content-blocks/types';
 
 export function useBlockEditor(
   blocks: ContentBlock[],
@@ -16,9 +25,10 @@ export function useBlockEditor(
   );
 
   const addBlock = useCallback(
-    (type: BlockType, position: "start" | "end" = "end") => {
-      const block = createBlock(type, position === "start" ? 0 : blocks.length);
-      const next = position === "start" ? [block, ...blocks] : [...blocks, block];
+    (type: BlockType, position: 'start' | 'end' = 'end') => {
+      const block = createBlock(type, position === 'start' ? 0 : blocks.length);
+      const next =
+        position === 'start' ? [block, ...blocks] : [...blocks, block];
       onChange(normalizeBlockOrder(next));
       return block.id;
     },
@@ -37,11 +47,11 @@ export function useBlockEditor(
       const index = blocks.findIndex((b) => b.id === id);
       if (index === -1) return;
       const source = blocks[index];
-      const copy: ContentBlock = {
+      const copy = {
         ...source,
         id: createBlockId(),
-        data: JSON.parse(JSON.stringify(source.data)),
-      };
+        data: structuredClone(source.data),
+      } as ContentBlock;
       const next = [...blocks];
       next.splice(index + 1, 0, copy);
       onChange(normalizeBlockOrder(next));
@@ -50,10 +60,12 @@ export function useBlockEditor(
   );
 
   const updateBlock = useCallback(
-    (id: string, data: ContentBlock["data"]) => {
+    (id: string, data: ContentBlock['data']) => {
       onChange(
         normalizeBlockOrder(
-          blocks.map((b) => (b.id === id ? ({ ...b, data } as ContentBlock) : b)),
+          blocks.map((b) =>
+            b.id === id ? ({ ...b, data } as ContentBlock) : b,
+          ),
         ),
       );
     },
@@ -91,11 +103,14 @@ export function useBlockEditor(
               }
             }
             const hasSettings = Object.keys(merged).length > 0;
-            let nextBlock = { ...b, settings: hasSettings ? merged : undefined } as ContentBlock;
+            let nextBlock = {
+              ...b,
+              settings: hasSettings ? merged : undefined,
+            } as ContentBlock;
             if (
-              b.type === "hero" &&
-              "background_color" in settingsPatch &&
-              "background_color" in b.data
+              b.type === 'hero' &&
+              'background_color' in settingsPatch &&
+              'background_color' in b.data
             ) {
               const { background_color: _legacy, ...heroData } = b.data;
               nextBlock = { ...nextBlock, data: heroData } as ContentBlock;
@@ -109,12 +124,17 @@ export function useBlockEditor(
   );
 
   const updateTwoColumnColumnSettings = useCallback(
-    (id: string, column: "left" | "right", settingsPatch: Partial<BlockSettings>) => {
-      const settingsKey = column === "left" ? "left_settings" : "right_settings";
+    (
+      id: string,
+      column: 'left' | 'right',
+      settingsPatch: Partial<BlockSettings>,
+    ) => {
+      const settingsKey =
+        column === 'left' ? 'left_settings' : 'right_settings';
       onChange(
         normalizeBlockOrder(
           blocks.map((b) => {
-            if (b.id !== id || b.type !== "two_column") return b;
+            if (b.id !== id || b.type !== 'two_column') return b;
             const merged: BlockSettings = { ...(b.data[settingsKey] ?? {}) };
             for (const [key, val] of Object.entries(settingsPatch) as [
               keyof BlockSettings,

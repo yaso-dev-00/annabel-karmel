@@ -1,23 +1,23 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { ListingPaginationScroll } from "@/components/ArticleScreen/ListingPaginationScroll";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { Suspense } from "react";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { ListingPaginationScroll } from '@/components/ArticleScreen/ListingPaginationScroll';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { Suspense } from 'react';
 import {
   nutritionAllergiesPageOne,
   nutritionAllergiesPageTwo,
   type NutritionAllergiesListingArticle,
-} from "@/data/nutrition-allergies-listing";
-import { enrichListingArticle } from "@/data/resolve-article-listing";
-import Link from "next/link";
-import styles from "./page.module.css";
+} from '@/data/nutrition-allergies-listing';
+import { enrichListingArticle } from '@/data/resolve-article-listing';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 type AllergiesPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-const AK_UPLOADS = "https://www.annabelkarmel.com/wp-content/uploads";
-const ANNABEL_ORIGIN = "https://www.annabelkarmel.com";
+const AK_UPLOADS = 'https://www.annabelkarmel.com/wp-content/uploads';
+const ANNABEL_ORIGIN = 'https://www.annabelkarmel.com';
 
 function listingImageSrc(src: string): string {
   if (!src.startsWith(ANNABEL_ORIGIN)) {
@@ -27,33 +27,38 @@ function listingImageSrc(src: string): string {
 }
 
 const featuredExperts = {
-  title: "Meet our experts",
+  title: 'Meet our experts',
   description:
     "We've partnered with top UK experts to give you the latest first-hand advice on all those important areas in raising happy, healthy babies, children & parents! From allergies to breast and bottle feeding, sleep to post-natal care and wellness, we've got your questions and concerns covered.",
-  ctaLabel: "Read more",
-  ctaHref: "/meet-our-experts",
+  ctaLabel: 'Read more',
+  ctaHref: '/meet-our-experts',
   image: `${AK_UPLOADS}/2021/08/Experts-1-optimized.jpg`,
 };
 
-const curatedPageArticles: Record<number, NutritionAllergiesListingArticle[]> = {
-  1: nutritionAllergiesPageOne,
-  2: nutritionAllergiesPageTwo,
-};
+const curatedPageArticles: Record<number, NutritionAllergiesListingArticle[]> =
+  {
+    1: nutritionAllergiesPageOne,
+    2: nutritionAllergiesPageTwo,
+  };
 
 const totalPages = 2;
-const basePath = "/category/nutrition/nutrition-allergies";
+const basePath = '/category/nutrition/nutrition-allergies';
 
-export default async function AllergiesNutritionPage({ searchParams }: AllergiesPageProps) {
+export default async function AllergiesNutritionPage({
+  searchParams,
+}: AllergiesPageProps) {
   const resolvedSearchParams = (await searchParams) ?? {};
   const rawPageParam = Array.isArray(resolvedSearchParams.page)
     ? resolvedSearchParams.page[0]
     : resolvedSearchParams.page;
-  const requestedPage = Number.parseInt(rawPageParam ?? "1", 10);
+  const requestedPage = Number.parseInt(rawPageParam ?? '1', 10);
   const currentPage = Number.isFinite(requestedPage)
     ? Math.min(Math.max(requestedPage, 1), totalPages)
     : 1;
 
-  const visibleArticles = (curatedPageArticles[currentPage] ?? []).map(enrichListingArticle);
+  const visibleArticles = (curatedPageArticles[currentPage] ?? []).map(
+    enrichListingArticle,
+  );
   const prevPage = currentPage > 1 ? currentPage - 1 : null;
   const nextPage = currentPage < totalPages ? currentPage + 1 : null;
 
@@ -72,8 +77,9 @@ export default async function AllergiesNutritionPage({ searchParams }: Allergies
             Allergies
           </h1>
           <p className="mx-auto mt-6 max-w-[760px] [font-family:var(--font-montserrat)] text-[19px] leading-[1.55] text-[#514a52] md:text-[20px]">
-            Expert advice on food allergies, intolerances, and introducing allergens — to help you confidently navigate
-            mealtimes and keep your child safe and thriving.
+            Expert advice on food allergies, intolerances, and introducing
+            allergens — to help you confidently navigate mealtimes and keep your
+            child safe and thriving.
           </p>
         </section>
 
@@ -105,40 +111,49 @@ export default async function AllergiesNutritionPage({ searchParams }: Allergies
 
         <section className="mx-auto w-full max-w-[1200px] px-4 pb-16 pt-8 sm:px-6 lg:px-8">
           <div id="articles-list" className="scroll-mt-[120px]">
-          {visibleArticles.length > 0 ? (
-            <ul className="grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3">
-              {visibleArticles.map((article) => (
-                <li key={article.href} className="flex">
-                  <article className={styles.card}>
-                    <Link href={article.href} className={styles.cardImageWrap} aria-label={article.title}>
-                      <img
-                        src={listingImageSrc(article.heroImage)}
-                        alt={article.heroAlt}
-                        className={styles.cardImage}
-                        loading="lazy"
-                      />
-                    </Link>
-                    <div className={styles.cardBody}>
-                      <p className={styles.cardCategory}>{article.category}</p>
-                      <h2 className={styles.cardTitle}>
-                        <Link href={article.href}>{article.title}</Link>
-                      </h2>
-                      <p className={styles.cardExcerpt}>{article.excerpt}</p>
-                      <div className={styles.cardCta}>
-                        <Link href={article.href} className={styles.cardButton}>
-                          Read More
-                        </Link>
+            {visibleArticles.length > 0 ? (
+              <ul className="grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3">
+                {visibleArticles.map((article) => (
+                  <li key={article.href} className="flex">
+                    <article className={styles.card}>
+                      <Link
+                        href={article.href}
+                        className={styles.cardImageWrap}
+                        aria-label={article.title}
+                      >
+                        <img
+                          src={listingImageSrc(article.heroImage)}
+                          alt={article.heroAlt}
+                          className={styles.cardImage}
+                          loading="lazy"
+                        />
+                      </Link>
+                      <div className={styles.cardBody}>
+                        <p className={styles.cardCategory}>
+                          {article.category}
+                        </p>
+                        <h2 className={styles.cardTitle}>
+                          <Link href={article.href}>{article.title}</Link>
+                        </h2>
+                        <p className={styles.cardExcerpt}>{article.excerpt}</p>
+                        <div className={styles.cardCta}>
+                          <Link
+                            href={article.href}
+                            className={styles.cardButton}
+                          >
+                            Read More
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  </article>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="mx-auto max-w-[640px] py-16 text-center [font-family:var(--font-montserrat)] text-[18px] leading-[1.55] text-[#514a52]">
-              More Allergies articles for this page are coming soon.
-            </div>
-          )}
+                    </article>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="mx-auto max-w-[640px] py-16 text-center [font-family:var(--font-montserrat)] text-[18px] leading-[1.55] text-[#514a52]">
+                More Allergies articles for this page are coming soon.
+              </div>
+            )}
           </div>
 
           <nav className={styles.pagination} aria-label="Allergies pagination">

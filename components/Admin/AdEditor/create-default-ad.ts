@@ -1,18 +1,18 @@
-import type { SiteAd } from "@/lib/ads/types";
+import type { SiteAd } from '@/lib/ads/types';
 
 export function createDefaultAd(): SiteAd {
   const now = new Date().toISOString();
   return {
-    id: "",
-    title: "Untitled advertisement",
-    image: "",
-    href: "",
-    ariaLabel: "",
+    id: '',
+    title: 'Untitled advertisement',
+    image: '',
+    href: '',
+    ariaLabel: '',
     width: 728,
     height: 200,
-    placements: ["header", "footer"],
+    placements: ['header', 'footer'],
     sortOrder: 0,
-    status: "draft",
+    status: 'draft',
     scheduled_at: null,
     published_at: null,
     created_at: now,

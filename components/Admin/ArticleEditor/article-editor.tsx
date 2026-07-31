@@ -1,9 +1,12 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import { createArticleApi, updateArticleApi } from "@/lib/admin/articles-client";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import {
+  createArticleApi,
+  updateArticleApi,
+} from '@/lib/admin/articles-client';
 import {
   applyArticleStatus,
   buildArticleSavePayload,
@@ -12,19 +15,19 @@ import {
   isArticlePreviewable,
   isArticlePublic,
   resolveArticleStatus,
-} from "@/lib/admin/article-status";
-import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { MaxWidthField } from "@/components/Admin/Ui/MaxWidthField";
+} from '@/lib/admin/article-status';
+import { ArticleStatusField } from '@/components/Admin/Ui/ArticleStatusField';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import { MaxWidthField } from '@/components/Admin/Ui/MaxWidthField';
 import {
   BlockEditorCanvas,
   BlockEditorLivePreview,
   BlockEditorRoot,
-} from "@/components/Admin/BlockEditor/block-editor";
-import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import type { Article, ArticleStatus } from "@/lib/content-blocks/types";
-import { SAMPLE_SITE_ARTICLE_ID } from "@/lib/content-blocks/types";
-import { ARTICLE_CATEGORY_OPTIONS } from "@/lib/content-blocks/article-categories";
+} from '@/components/Admin/BlockEditor/block-editor';
+import styles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import type { Article, ArticleStatus } from '@/lib/content-blocks/types';
+import { SAMPLE_SITE_ARTICLE_ID } from '@/lib/content-blocks/types';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/lib/content-blocks/article-categories';
 
 type ArticleEditorProps = {
   initialArticle: Article;
@@ -38,10 +41,13 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
   const [dirty, setDirty] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const update = useCallback(<K extends keyof Article>(key: K, value: Article[K]) => {
-    setArticle((prev) => ({ ...prev, [key]: value }));
-    setDirty(true);
-  }, []);
+  const update = useCallback(
+    <K extends keyof Article>(key: K, value: Article[K]) => {
+      setArticle((prev) => ({ ...prev, [key]: value }));
+      setDirty(true);
+    },
+    [],
+  );
 
   const save = async (publish = false) => {
     setSaving(true);
@@ -52,25 +58,31 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
         const created = await createArticleApi(payload);
         setArticle(created);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.replace(`/admin/articles/${created.id}/edit`);
         router.refresh();
       } else {
         const updated = await updateArticleApi(article.id, payload);
         setArticle(updated);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.refresh();
       }
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Save failed. Please try again.';
       setMessage(detail);
     } finally {
       setSaving(false);
     }
   };
 
-  const handleStatusChange = async (status: ArticleStatus, scheduledAt?: string | null) => {
+  const handleStatusChange = async (
+    status: ArticleStatus,
+    scheduledAt?: string | null,
+  ) => {
     const next = applyArticleStatus(article, status, scheduledAt);
     setArticle(next);
 
@@ -78,20 +90,26 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
       setSaving(true);
       setMessage(null);
       try {
-        const updated = await updateArticleApi(article.id, getArticleStatusPatch(next));
+        const updated = await updateArticleApi(
+          article.id,
+          getArticleStatusPatch(next),
+        );
         setArticle(updated);
         setDirty(false);
         setMessage(
-          status === "disabled"
-            ? "Article disabled."
-            : status === "published"
-              ? "Article published."
-              : "Status saved.",
+          status === 'disabled'
+            ? 'Article disabled.'
+            : status === 'published'
+              ? 'Article published.'
+              : 'Status saved.',
         );
         router.refresh();
       } catch (error) {
         setDirty(true);
-        const detail = error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+        const detail =
+          error instanceof Error
+            ? error.message
+            : 'Failed to save status. Try Save draft.';
         setMessage(detail);
       } finally {
         setSaving(false);
@@ -110,8 +128,8 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
   return (
     <BlockEditorRoot
       blocks={article.content_blocks}
-      onChange={(blocks) => update("content_blocks", blocks)}
-      contentMaxWidth={article.content_max_width ?? "default"}
+      onChange={(blocks) => update('content_blocks', blocks)}
+      contentMaxWidth={article.content_max_width ?? 'default'}
       contentMaxWidthCustom={article.content_max_width_custom}
       excludeArticleSlug={article.slug || undefined}
       editorContext="article"
@@ -119,12 +137,18 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
       <div className="editorSections">
         <div className="editorPageHeader">
           <div>
-            <h1 className="cardTitle">{article.title || "Untitled"}</h1>
-            <p className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}>
-              {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
+            <h1 className="cardTitle">{article.title || 'Untitled'}</h1>
+            <p
+              className={`statusBar ${dirty && !message ? 'statusDirty' : ''}`}
+            >
+              {message
+                ? message
+                : dirty
+                  ? 'Unsaved changes'
+                  : 'All changes saved'}
             </p>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             {article.id && article.slug ? (
               previewable ? (
                 <Link
@@ -149,7 +173,12 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                 </button>
               )
             ) : null}
-            <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+            <button
+              type="button"
+              className="btn btnSecondary"
+              onClick={saveDraft}
+              disabled={saving}
+            >
               Save draft
             </button>
             <button
@@ -178,7 +207,7 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                   <input
                     className="fieldInput"
                     value={article.title}
-                    onChange={(e) => update("title", e.target.value)}
+                    onChange={(e) => update('title', e.target.value)}
                   />
                 </div>
                 <div className="field">
@@ -186,7 +215,7 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                   <input
                     className="fieldInput"
                     value={article.slug}
-                    onChange={(e) => update("slug", e.target.value)}
+                    onChange={(e) => update('slug', e.target.value)}
                     placeholder="my-article-slug"
                   />
                 </div>
@@ -195,7 +224,7 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                   <select
                     className="fieldSelect"
                     value={article.category_slug}
-                    onChange={(e) => update("category_slug", e.target.value)}
+                    onChange={(e) => update('category_slug', e.target.value)}
                   >
                     {ARTICLE_CATEGORY_OPTIONS.map((c) => (
                       <option key={c.value} value={c.value}>
@@ -210,7 +239,7 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                   </label>
                   <MaxWidthField
                     id="content-max-width"
-                    preset={article.content_max_width ?? "default"}
+                    preset={article.content_max_width ?? 'default'}
                     customValue={article.content_max_width_custom}
                     selectClassName="fieldSelect"
                     inputClassName="fieldInput"
@@ -220,21 +249,23 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                         ...prev,
                         content_max_width: preset,
                         content_max_width_custom:
-                          preset === "custom" ? prev.content_max_width_custom : undefined,
+                          preset === 'custom'
+                            ? prev.content_max_width_custom
+                            : undefined,
                       }));
                       setDirty(true);
                     }}
                     onCustomChange={(value) => {
                       setArticle((prev) => ({
                         ...prev,
-                        content_max_width: "custom",
+                        content_max_width: 'custom',
                         content_max_width_custom: value,
                       }));
                       setDirty(true);
                     }}
                   />
                 </div>
-                <div className="field" style={{ gridColumn: "1 / -1" }}>
+                <div className="field" style={{ gridColumn: '1 / -1' }}>
                   <label className="fieldLabel">Listing image</label>
                   <ImageField
                     value={article.listing_image}
@@ -247,7 +278,9 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                       }));
                       setDirty(true);
                     }}
-                    onAltChange={(altVal) => update("listing_image_alt", altVal)}
+                    onAltChange={(altVal) =>
+                      update('listing_image_alt', altVal)
+                    }
                   />
                 </div>
                 <div className="field">
@@ -255,7 +288,9 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                     <input
                       type="checkbox"
                       checked={article.show_instagram_share}
-                      onChange={(e) => update("show_instagram_share", e.target.checked)}
+                      onChange={(e) =>
+                        update('show_instagram_share', e.target.checked)
+                      }
                     />
                     <span>Show Instagram share section</span>
                   </label>
@@ -271,7 +306,7 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                   <input
                     className="fieldInput"
                     value={article.seo_title}
-                    onChange={(e) => update("seo_title", e.target.value)}
+                    onChange={(e) => update('seo_title', e.target.value)}
                   />
                 </div>
                 <div className="field">
@@ -279,7 +314,7 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
                   <textarea
                     className="fieldTextarea"
                     value={article.seo_description}
-                    onChange={(e) => update("seo_description", e.target.value)}
+                    onChange={(e) => update('seo_description', e.target.value)}
                     rows={3}
                   />
                 </div>
@@ -291,11 +326,11 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
               <div className="cardForm">
                 {article.content_blocks.length === 0 && isNew ? (
                   <p className="mutedNote">
-                    Start adding blocks below, or{" "}
+                    Start adding blocks below, or{' '}
                     <Link
                       href={`/admin/articles/${SAMPLE_SITE_ARTICLE_ID}/edit`}
                       className="inlineLink"
-                      style={{ color: "#b34769" }}
+                      style={{ color: '#b34769' }}
                     >
                       view the sample article
                     </Link>
@@ -307,14 +342,27 @@ export function ArticleEditor({ initialArticle, isNew }: ArticleEditorProps) {
             </div>
           </div>
 
-          <aside className={styles.editorPreviewColumn} aria-label="Live preview">
+          <aside
+            className={styles.editorPreviewColumn}
+            aria-label="Live preview"
+          >
             <BlockEditorLivePreview
               fullscreenActions={
                 <>
-                  <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+                  <button
+                    type="button"
+                    className="btn btnSecondary"
+                    onClick={saveDraft}
+                    disabled={saving}
+                  >
                     Save draft
                   </button>
-                  <button type="button" className="btn btnPrimary" onClick={publish} disabled={saving}>
+                  <button
+                    type="button"
+                    className="btn btnPrimary"
+                    onClick={publish}
+                    disabled={saving}
+                  >
                     Publish
                   </button>
                 </>

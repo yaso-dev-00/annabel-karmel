@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export function AdminSidebarLogo() {
   return (
@@ -10,7 +10,7 @@ export function AdminSidebarLogo() {
         width={88}
         height={43}
         className="sidebarLogoImage"
-        style={{ height: "auto" }}
+        style={{ height: 'auto' }}
         priority
       />
     </Link>

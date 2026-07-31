@@ -1,7 +1,7 @@
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import styles from "./article-static-page.module.css";
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import styles from './article-static-page.module.css';
 
 type ArticleSection = {
   title: string;
@@ -23,7 +23,11 @@ export function ArticleStaticPage(props: ArticleStaticPageProps) {
       <SiteHeader />
       <main className={styles.page}>
         <div className={styles.hero}>
-          <img src={props.heroImage} alt={props.heroAlt} className={styles.heroImage} />
+          <img
+            src={props.heroImage}
+            alt={props.heroAlt}
+            className={styles.heroImage}
+          />
         </div>
         <article className={styles.content}>
           <p className={styles.eyebrow}>{props.category}</p>

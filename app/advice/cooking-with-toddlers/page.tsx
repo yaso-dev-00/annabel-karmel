@@ -1,20 +1,20 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   cookingWithToddlersBanner,
   cookingWithToddlersIntro,
   cookingWithToddlersRelatedArticles,
   cookingWithToddlersSections,
-} from "@/data/cooking-with-toddlers-page";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+} from '@/data/cooking-with-toddlers-page';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Cooking with Toddlers | Child Health & Learning | Annabel Karmel",
+  title: 'Cooking with Toddlers | Child Health & Learning | Annabel Karmel',
   description:
-    "Get toddlers involved in the kitchen to build healthy eating habits, teach invaluable skills, and make simple meals together from scratch.",
+    'Get toddlers involved in the kitchen to build healthy eating habits, teach invaluable skills, and make simple meals together from scratch.',
 };
 
 export default function CookingWithToddlersPage() {

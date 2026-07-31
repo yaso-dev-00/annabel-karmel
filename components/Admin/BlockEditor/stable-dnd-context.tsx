@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useId } from "react";
-import { DndContext, type DndContextProps } from "@dnd-kit/core";
+import { useId } from 'react';
+import { DndContext, type DndContextProps } from '@dnd-kit/core';
 
 /**
  * DndContext with a stable React `useId()` so aria-describedby IDs stay consistent

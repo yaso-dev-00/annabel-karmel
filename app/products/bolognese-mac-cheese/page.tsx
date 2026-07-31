@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import { AustraliaFrozenProductPageContent } from "@/components/ProductScreen/detail/AustraliaFrozenProductPage";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { getAustraliaFrozenProductData } from "@/data/australia-frozen-products";
+import { AustraliaFrozenProductPageContent } from '@/components/ProductScreen/detail/AustraliaFrozenProductPage';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { getAustraliaFrozenProductData } from '@/data/australia-frozen-products';
 
-const data = getAustraliaFrozenProductData("bolognese-mac-cheese")!;
+const data = getAustraliaFrozenProductData('bolognese-mac-cheese')!;
 
 export const metadata: Metadata = {
   title: `${data.title} | Annabel Karmel`,

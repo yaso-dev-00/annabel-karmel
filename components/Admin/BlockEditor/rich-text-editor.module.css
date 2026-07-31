@@ -69,7 +69,8 @@
   color: #3f3841;
 }
 
-.richToolbar button:not(.toolbarBtn):not(.richSwatch):not(.richCustomColorBtn):hover {
+.richToolbar
+  button:not(.toolbarBtn):not(.richSwatch):not(.richCustomColorBtn):hover {
   border-color: #e9c6ce;
   background: #fff5f8;
 }
@@ -208,14 +209,14 @@
   border-radius: 2px;
 }
 
-.richEditor [style*="text-align: center"] {
+.richEditor [style*='text-align: center'] {
   text-align: center;
 }
 
-.richEditor [style*="text-align: right"] {
+.richEditor [style*='text-align: right'] {
   text-align: right;
 }
 
-.richEditor [style*="text-align: justify"] {
+.richEditor [style*='text-align: justify'] {
   text-align: justify;
 }

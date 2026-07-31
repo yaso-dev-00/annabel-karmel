@@ -1,12 +1,12 @@
-export const ADMIN_SESSION_COOKIE = "ak-admin-session";
+export const ADMIN_SESSION_COOKIE = 'ak-admin-session';
 
 /** @deprecated Prefer ADMIN_SESSION_COOKIE — kept for clearing old localStorage sessions. */
-export const ADMIN_SESSION_KEY = "ak-admin-session";
+export const ADMIN_SESSION_KEY = 'ak-admin-session';
 
 export const DEMO_ADMIN = {
-  email: "admin@annabelkarmel.com",
-  password: "admin123",
-  name: "Admin",
+  email: 'admin@annabelkarmel.com',
+  password: 'admin123',
+  name: 'Admin',
 } as const;
 
 export type AdminSession = {
@@ -26,7 +26,7 @@ let cachedSession: AdminSession | null = null;
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
 function canUseDom(): boolean {
-  return typeof window !== "undefined" && typeof document !== "undefined";
+  return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
 
 function notifySessionListeners(): void {
@@ -40,7 +40,7 @@ function parseSession(raw: string | null): AdminSession | null {
     if (!parsed.email || !parsed.loggedInAt) return null;
     return {
       email: parsed.email,
-      name: parsed.name ?? "Admin",
+      name: parsed.name ?? 'Admin',
       loggedInAt: parsed.loggedInAt,
     };
   } catch {
@@ -51,7 +51,7 @@ function parseSession(raw: string | null): AdminSession | null {
 function readSessionCookieRaw(): string | null {
   if (!canUseDom()) return null;
   const prefix = `${ADMIN_SESSION_COOKIE}=`;
-  const parts = document.cookie.split("; ");
+  const parts = document.cookie.split('; ');
   for (const part of parts) {
     if (part.startsWith(prefix)) {
       return decodeURIComponent(part.slice(prefix.length));
@@ -64,10 +64,10 @@ function writeSessionCookie(raw: string): void {
   if (!canUseDom()) return;
   document.cookie = [
     `${ADMIN_SESSION_COOKIE}=${encodeURIComponent(raw)}`,
-    "Path=/",
-    "SameSite=Lax",
+    'Path=/',
+    'SameSite=Lax',
     `Max-Age=${SESSION_MAX_AGE_SECONDS}`,
-  ].join("; ");
+  ].join('; ');
 }
 
 function clearSessionCookie(): void {
@@ -90,9 +90,13 @@ export function subscribeAdminSession(listener: SessionListener): () => void {
   };
 }
 
-export function validateAdminCredentials(email: string, password: string): boolean {
+export function validateAdminCredentials(
+  email: string,
+  password: string,
+): boolean {
   return (
-    email.trim().toLowerCase() === DEMO_ADMIN.email && password === DEMO_ADMIN.password
+    email.trim().toLowerCase() === DEMO_ADMIN.email &&
+    password === DEMO_ADMIN.password
   );
 }
 
@@ -136,8 +140,8 @@ export function clearAdminSession(): void {
 
 /** Safe post-login redirect within /admin (blocks open redirects). */
 export function getSafeAdminNextPath(next: string | null | undefined): string {
-  if (!next) return "/admin";
-  if (!next.startsWith("/admin")) return "/admin";
-  if (next.startsWith("/admin/login")) return "/admin";
+  if (!next) return '/admin';
+  if (!next.startsWith('/admin')) return '/admin';
+  if (next.startsWith('/admin/login')) return '/admin';
   return next;
 }

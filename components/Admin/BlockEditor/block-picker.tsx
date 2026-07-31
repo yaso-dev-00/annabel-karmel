@@ -1,10 +1,16 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { BLOCK_CATEGORIES, BLOCK_REGISTRY } from "@/lib/content-blocks/registry";
-import { isBlockAllowedInEditor, type ContentEditorContext } from "@/lib/content-blocks/block-context";
-import type { BlockType } from "@/lib/content-blocks/types";
-import styles from "./block-editor.module.css";
+import { useMemo, useState } from 'react';
+import {
+  BLOCK_CATEGORIES,
+  BLOCK_REGISTRY,
+} from '@/lib/content-blocks/registry';
+import {
+  isBlockAllowedInEditor,
+  type ContentEditorContext,
+} from '@/lib/content-blocks/block-context';
+import type { BlockType } from '@/lib/content-blocks/types';
+import styles from './block-editor.module.css';
 
 type BlockPickerProps = {
   onSelect: (type: BlockType) => void;
@@ -12,9 +18,13 @@ type BlockPickerProps = {
   editorContext?: ContentEditorContext;
 };
 
-export function BlockPicker({ onSelect, onClose, editorContext = "competition" }: BlockPickerProps) {
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState<string>("all");
+export function BlockPicker({
+  onSelect,
+  onClose,
+  editorContext = 'competition',
+}: BlockPickerProps) {
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState<string>('all');
 
   const filtered = useMemo(() => {
     return BLOCK_REGISTRY.filter((entry) => {
@@ -24,17 +34,27 @@ export function BlockPicker({ onSelect, onClose, editorContext = "competition" }
         entry.label.toLowerCase().includes(search.toLowerCase()) ||
         entry.description.toLowerCase().includes(search.toLowerCase()) ||
         entry.type.includes(search.toLowerCase());
-      const matchesCategory = category === "all" || entry.category === category;
+      const matchesCategory = category === 'all' || entry.category === category;
       return matchesSearch && matchesCategory;
     });
   }, [search, category, editorContext]);
 
   return (
     <div className={styles.pickerOverlay} onClick={onClose} role="presentation">
-      <div className={styles.pickerPanel} onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Add block">
+      <div
+        className={styles.pickerPanel}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-label="Add block"
+      >
         <div className={styles.pickerHeader}>
           <h2 className={styles.pickerTitle}>Add block</h2>
-          <button type="button" className={styles.pickerClose} onClick={onClose} aria-label="Close">
+          <button
+            type="button"
+            className={styles.pickerClose}
+            onClick={onClose}
+            aria-label="Close"
+          >
             ×
           </button>
         </div>
@@ -48,8 +68,8 @@ export function BlockPicker({ onSelect, onClose, editorContext = "competition" }
         <div className={styles.pickerTabs}>
           <button
             type="button"
-            className={`${styles.pickerTab} ${category === "all" ? styles.pickerTabActive : ""}`}
-            onClick={() => setCategory("all")}
+            className={`${styles.pickerTab} ${category === 'all' ? styles.pickerTabActive : ''}`}
+            onClick={() => setCategory('all')}
           >
             All
           </button>
@@ -57,7 +77,7 @@ export function BlockPicker({ onSelect, onClose, editorContext = "competition" }
             <button
               key={cat.id}
               type="button"
-              className={`${styles.pickerTab} ${category === cat.id ? styles.pickerTabActive : ""}`}
+              className={`${styles.pickerTab} ${category === cat.id ? styles.pickerTabActive : ''}`}
               onClick={() => setCategory(cat.id)}
             >
               {cat.label}

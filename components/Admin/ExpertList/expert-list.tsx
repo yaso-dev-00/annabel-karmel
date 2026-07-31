@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminListToolbar } from "@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AdminListToolbar } from '@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar';
 import {
   EXPERT_STATUS_LABELS,
   EXPERT_STATUSES,
   getExpertStatusBadgeClass,
   isExpertDisabled,
   resolveExpertStatus,
-} from "@/lib/admin/expert-status";
-import { updateExpertsIntroApi } from "@/lib/admin/experts-client";
+} from '@/lib/admin/expert-status';
+import { updateExpertsIntroApi } from '@/lib/admin/experts-client';
 import {
   formatAdminListDate,
   matchesAdminListSearch,
-} from "@/lib/admin/format-admin-list";
-import type { Expert } from "@/lib/experts/types";
+} from '@/lib/admin/format-admin-list';
+import type { Expert } from '@/lib/experts/types';
 
 type ExpertListProps = {
   experts: Expert[];
@@ -44,10 +44,10 @@ function ClickableTableRow({
 
   return (
     <tr
-      className={`tableRowClickable${className ? ` ${className}` : ""}`}
+      className={`tableRowClickable${className ? ` ${className}` : ''}`}
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -62,8 +62,8 @@ function ClickableTableRow({
 
 export function ExpertList({ experts, intro: initialIntro }: ExpertListProps) {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   const [intro, setIntro] = useState(initialIntro);
   const [introDirty, setIntroDirty] = useState(false);
   const [savingIntro, setSavingIntro] = useState(false);
@@ -71,7 +71,7 @@ export function ExpertList({ experts, intro: initialIntro }: ExpertListProps) {
 
   const statusOptions = useMemo(
     () => [
-      { value: "all", label: "All statuses" },
+      { value: 'all', label: 'All statuses' },
       ...EXPERT_STATUSES.map((status) => ({
         value: status,
         label: EXPERT_STATUS_LABELS[status],
@@ -83,7 +83,7 @@ export function ExpertList({ experts, intro: initialIntro }: ExpertListProps) {
   const filteredExperts = useMemo(() => {
     return experts.filter((expert) => {
       const status = resolveExpertStatus(expert);
-      const matchesStatus = statusFilter === "all" || status === statusFilter;
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
       const matchesSearch = matchesAdminListSearch(
         searchQuery,
         expert.name,
@@ -101,17 +101,19 @@ export function ExpertList({ experts, intro: initialIntro }: ExpertListProps) {
       const saved = await updateExpertsIntroApi(intro);
       setIntro(saved);
       setIntroDirty(false);
-      setIntroMessage("Listing intro saved.");
+      setIntroMessage('Listing intro saved.');
       router.refresh();
     } catch (error) {
-      setIntroMessage(error instanceof Error ? error.message : "Failed to save intro.");
+      setIntroMessage(
+        error instanceof Error ? error.message : 'Failed to save intro.',
+      );
     } finally {
       setSavingIntro(false);
     }
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div className="card">
         <h2 className="cardSectionTitle">Listing page intro</h2>
         <p className="cardDesc">Shown at the top of /meet-our-experts.</p>
@@ -131,17 +133,28 @@ export function ExpertList({ experts, intro: initialIntro }: ExpertListProps) {
             }}
           />
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            marginTop: 8,
+          }}
+        >
           <button
             type="button"
             className="btn btnPrimary"
             onClick={saveIntro}
             disabled={savingIntro || !introDirty}
           >
-            {savingIntro ? "Saving…" : "Save intro"}
+            {savingIntro ? 'Saving…' : 'Save intro'}
           </button>
-          {introMessage ? <span className="statusBar">{introMessage}</span> : null}
-          {introDirty && !introMessage ? <span className="statusBar statusDirty">Unsaved intro changes</span> : null}
+          {introMessage ? (
+            <span className="statusBar">{introMessage}</span>
+          ) : null}
+          {introDirty && !introMessage ? (
+            <span className="statusBar statusDirty">Unsaved intro changes</span>
+          ) : null}
         </div>
       </div>
 
@@ -179,19 +192,23 @@ export function ExpertList({ experts, intro: initialIntro }: ExpertListProps) {
                   <ClickableTableRow
                     key={expert.id}
                     href={`/admin/experts/${expert.id}/edit`}
-                    className={isDisabled ? "tableRowDisabled" : undefined}
+                    className={isDisabled ? 'tableRowDisabled' : undefined}
                   >
                     <td className="tableTitleCell">
                       <span className="tableTitleMain">{expert.name}</span>
-                      <span className="tableTitlePath">/experts/{expert.slug}</span>
+                      <span className="tableTitlePath">
+                        /experts/{expert.slug}
+                      </span>
                       {isDisabled ? (
-                        <span className="tableRowDisabledNote">Hidden from site</span>
+                        <span className="tableRowDisabledNote">
+                          Hidden from site
+                        </span>
                       ) : null}
                     </td>
                     <td>
                       <ExpertStatusBadge expert={expert} />
                     </td>
-                    <td>{expert.role || "—"}</td>
+                    <td>{expert.role || '—'}</td>
                     <td>{expert.sort_order}</td>
                     <td>{formatAdminListDate(expert.updated_at)}</td>
                   </ClickableTableRow>

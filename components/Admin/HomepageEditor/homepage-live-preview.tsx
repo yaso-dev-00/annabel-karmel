@@ -1,16 +1,19 @@
-"use client";
+'use client';
 
 import {
   PreviewViewport,
   type PreviewViewportHandle,
-} from "@/components/Admin/BlockEditor/preview-viewport";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import type { HomepageDocument, HomepageSectionType } from "@/lib/homepage/types";
+} from '@/components/Admin/BlockEditor/preview-viewport';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import type {
+  HomepageDocument,
+  HomepageSectionType,
+} from '@/lib/homepage/types';
 import {
   HOMEPAGE_PREVIEW_MESSAGE,
   HOMEPAGE_PREVIEW_READY_MESSAGE,
-} from "@/lib/homepage/preview-messages";
-import { writeHomepagePreviewDocument } from "@/lib/homepage/preview-session";
+} from '@/lib/homepage/preview-messages';
+import { writeHomepagePreviewDocument } from '@/lib/homepage/preview-session';
 import {
   forwardRef,
   useDeferredValue,
@@ -18,10 +21,10 @@ import {
   useLayoutEffect,
   useRef,
   type ReactNode,
-} from "react";
-import "./homepage-preview-layout.css";
+} from 'react';
+import './homepage-preview-layout.css';
 
-const FRAME_SRC = "/homepage-preview-frame";
+const FRAME_SRC = '/homepage-preview-frame';
 const SCROLL_RETRY_MS = [0, 80, 200, 400, 700, 1200];
 
 type HomepageLivePreviewProps = {
@@ -40,7 +43,9 @@ function scrollIframeToSection(
   const doc = iframe?.contentDocument;
   if (!iframe || !win || !doc) return false;
 
-  const el = doc.querySelector<HTMLElement>(`[data-homepage-section="${sectionType}"]`);
+  const el = doc.querySelector<HTMLElement>(
+    `[data-homepage-section="${sectionType}"]`,
+  );
   if (!el) return false;
 
   // Absolute Y of the section inside the iframe document.
@@ -54,21 +59,26 @@ function scrollIframeToSection(
   // Brief highlight so the jump is obvious in the phone frame.
   const prevOutline = el.style.outline;
   const prevOffset = el.style.outlineOffset;
-  el.style.outline = "2px solid #c45c6a";
-  el.style.outlineOffset = "4px";
+  el.style.outline = '2px solid #c45c6a';
+  el.style.outlineOffset = '4px';
   window.setTimeout(() => {
     el.style.outline = prevOutline;
     el.style.outlineOffset = prevOffset;
   }, 1200);
 
   // If the iframe itself sits in a scrollable preview panel, keep the frame in view.
-  const scroller = iframe.closest("[data-preview-scroll]") as HTMLElement | null;
+  const scroller = iframe.closest(
+    '[data-preview-scroll]',
+  ) as HTMLElement | null;
   if (scroller) {
     const iframeTop = iframe.getBoundingClientRect().top;
     const scrollerTop = scroller.getBoundingClientRect().top;
     const outerTarget = scroller.scrollTop + (iframeTop - scrollerTop) - 8;
-    if (iframeTop < scrollerTop || iframeTop > scrollerTop + scroller.clientHeight * 0.5) {
-      scroller.scrollTo({ top: Math.max(0, outerTarget), behavior: "smooth" });
+    if (
+      iframeTop < scrollerTop ||
+      iframeTop > scrollerTop + scroller.clientHeight * 0.5
+    ) {
+      scroller.scrollTo({ top: Math.max(0, outerTarget), behavior: 'smooth' });
     }
   }
 
@@ -89,7 +99,9 @@ function HomepagePreviewFrame({
   const postTimerRef = useRef<number | undefined>(undefined);
   const scrollTimersRef = useRef<number[]>([]);
 
-  deferredRef.current = deferred;
+  useLayoutEffect(() => {
+    deferredRef.current = deferred;
+  }, [deferred]);
 
   const clearScrollTimers = () => {
     for (const id of scrollTimersRef.current) window.clearTimeout(id);
@@ -100,7 +112,10 @@ function HomepagePreviewFrame({
     writeHomepagePreviewDocument(doc);
     const frame = iframeRef.current?.contentWindow;
     if (!frame) return;
-    frame.postMessage({ type: HOMEPAGE_PREVIEW_MESSAGE, document: doc }, window.location.origin);
+    frame.postMessage(
+      { type: HOMEPAGE_PREVIEW_MESSAGE, document: doc },
+      window.location.origin,
+    );
   };
 
   const scrollToSection = (sectionType: HomepageSectionType) => {
@@ -123,11 +138,11 @@ function HomepagePreviewFrame({
 
   // Prefetch the heavy homepage chunk + frame route while the editor loads.
   useEffect(() => {
-    void import("@/components/HomeScreen/HomePage");
-    const link = globalThis.document.createElement("link");
-    link.rel = "prefetch";
+    void import('@/components/HomeScreen/HomePage');
+    const link = globalThis.document.createElement('link');
+    link.rel = 'prefetch';
     link.href = FRAME_SRC;
-    link.as = "document";
+    link.as = 'document';
     globalThis.document.head.appendChild(link);
     return () => {
       link.remove();
@@ -142,8 +157,8 @@ function HomepagePreviewFrame({
       readyRef.current = true;
       postDocument(deferredRef.current);
     };
-    window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
   }, []);
 
   useEffect(() => {
@@ -180,25 +195,26 @@ function HomepagePreviewFrame({
   );
 }
 
-export const HomepageLivePreview = forwardRef<PreviewViewportHandle, HomepageLivePreviewProps>(
-  function HomepageLivePreview(
-    { document, focusRequest, fullscreenActions, className, defaultFullscreen },
-    ref,
-  ) {
-    return (
-      <PreviewViewport
-        ref={ref}
-        className={className ?? blockStyles.previewPanelDocked}
-        bodyClassName={`${blockStyles.previewBodyFlush} homepagePreviewBody`}
-        fullscreenActions={fullscreenActions}
-        defaultFullscreen={defaultFullscreen}
-        dockedViewport="mobile"
-        dockedWidth={390}
-        viewportWidthOverrides={{ mobile: 390 }}
-        title="Live preview"
-      >
-        <HomepagePreviewFrame document={document} focusRequest={focusRequest} />
-      </PreviewViewport>
-    );
-  },
-);
+export const HomepageLivePreview = forwardRef<
+  PreviewViewportHandle,
+  HomepageLivePreviewProps
+>(function HomepageLivePreview(
+  { document, focusRequest, fullscreenActions, className, defaultFullscreen },
+  ref,
+) {
+  return (
+    <PreviewViewport
+      ref={ref}
+      className={className ?? blockStyles.previewPanelDocked}
+      bodyClassName={`${blockStyles.previewBodyFlush} homepagePreviewBody`}
+      fullscreenActions={fullscreenActions}
+      defaultFullscreen={defaultFullscreen}
+      dockedViewport="mobile"
+      dockedWidth={390}
+      viewportWidthOverrides={{ mobile: 390 }}
+      title="Live preview"
+    >
+      <HomepagePreviewFrame document={document} focusRequest={focusRequest} />
+    </PreviewViewport>
+  );
+});

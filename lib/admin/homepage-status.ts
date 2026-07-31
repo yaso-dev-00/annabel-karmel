@@ -1,5 +1,8 @@
-import type { AdviceArticle, AdviceArticleStatus } from "@/lib/content-blocks/types";
-import type { HomepageDocument, HomepageStatus } from "@/lib/homepage/types";
+import type {
+  AdviceArticle,
+  AdviceArticleStatus,
+} from '@/lib/content-blocks/types';
+import type { HomepageDocument, HomepageStatus } from '@/lib/homepage/types';
 import {
   ADVICE_ARTICLE_STATUS_HINTS,
   ADVICE_ARTICLE_STATUS_LABELS,
@@ -13,7 +16,7 @@ import {
   isAdviceArticlePublic,
   normalizeAdviceArticle,
   resolveAdviceArticleStatus,
-} from "@/lib/admin/advice-article-status";
+} from '@/lib/admin/advice-article-status';
 
 export const HOMEPAGE_STATUSES = ADVICE_ARTICLE_STATUSES;
 export const HOMEPAGE_STATUS_LABELS = ADVICE_ARTICLE_STATUS_LABELS;
@@ -31,15 +34,18 @@ export function buildHomepageSavePayload(
   doc: HomepageDocument,
   options?: { publish?: boolean },
 ): HomepageDocument {
-  return buildAdviceArticleSavePayload(asAdvice(doc), options) as unknown as HomepageDocument;
+  return buildAdviceArticleSavePayload(
+    asAdvice(doc),
+    options,
+  ) as unknown as HomepageDocument;
 }
 
 export function getHomepageStatusPatch(
   doc: HomepageDocument,
-): Pick<HomepageDocument, "status" | "published_at" | "scheduled_at"> {
+): Pick<HomepageDocument, 'status' | 'published_at' | 'scheduled_at'> {
   return getAdviceArticleStatusPatch(asAdvice(doc)) as Pick<
     HomepageDocument,
-    "status" | "published_at" | "scheduled_at"
+    'status' | 'published_at' | 'scheduled_at'
   >;
 }
 

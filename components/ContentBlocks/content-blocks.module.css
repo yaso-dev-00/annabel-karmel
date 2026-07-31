@@ -426,7 +426,9 @@
   margin-bottom: 0;
 }
 
-.twoColumnBlockCustomPadding .twoColumnCol > :where(.body, .blockProse, .list, .orderedList) {
+.twoColumnBlockCustomPadding
+  .twoColumnCol
+  > :where(.body, .blockProse, .list, .orderedList) {
   margin: 0;
 }
 
@@ -479,11 +481,13 @@
   margin-top: 30px;
 }
 
-.blockWrapper + .blockWrapper.blockWrapperSpacingCompact:not(.blockWrapperHasMargin) {
+.blockWrapper
+  + .blockWrapper.blockWrapperSpacingCompact:not(.blockWrapperHasMargin) {
   margin-top: 20px;
 }
 
-.blockWrapper + .blockWrapper.blockWrapperSpacingLoose:not(.blockWrapperHasMargin) {
+.blockWrapper
+  + .blockWrapper.blockWrapperSpacingLoose:not(.blockWrapperHasMargin) {
   margin-top: 60px;
 }
 
@@ -504,7 +508,10 @@
 
 @container cms-content (max-width: 1023px) {
   .blockWrapperResponsiveFontSize {
-    --block-fs-current: var(--block-font-size-tablet, var(--block-font-size-mobile));
+    --block-fs-current: var(
+      --block-font-size-tablet,
+      var(--block-font-size-mobile)
+    );
     font-size: var(--block-fs-current);
   }
 }
@@ -516,29 +523,32 @@
   }
 }
 
-.blockWrapperResponsiveFontSize :where(
-  .body,
-  .bodyBold,
-  .lead,
-  .pullQuote,
-  .sectionTitle,
-  .pageTitle,
-  .subTitle,
-  .list,
-  .orderedList,
-  .blockProse,
-  .caption,
-  .heroHeadline,
-  .heroSubheadline,
-  .calloutTitle,
-  .relatedIntro,
-  .table,
-  .banner
-) {
+.blockWrapperResponsiveFontSize
+  :where(
+    .body,
+    .bodyBold,
+    .lead,
+    .pullQuote,
+    .sectionTitle,
+    .pageTitle,
+    .subTitle,
+    .list,
+    .orderedList,
+    .blockProse,
+    .caption,
+    .heroHeadline,
+    .heroSubheadline,
+    .calloutTitle,
+    .relatedIntro,
+    .table,
+    .banner
+  ) {
   font-size: inherit !important;
 }
 
-.blockWrapperResponsiveFontSize .blockProse :where(p, li, span, a, strong, em, mark, h1, h2, h3, h4, h5, h6) {
+.blockWrapperResponsiveFontSize
+  .blockProse
+  :where(p, li, span, a, strong, em, mark, h1, h2, h3, h4, h5, h6) {
   font-size: inherit !important;
 }
 
@@ -550,87 +560,93 @@
   line-height: var(--block-line-height);
 }
 
-.blockWrapperFontWeight :where(
-  .body,
-  .bodyBold,
-  .lead,
-  .pullQuote,
-  .sectionTitle,
-  .pageTitle,
-  .subTitle,
-  .list,
-  .orderedList,
-  .blockProse,
-  .caption,
-  .heroHeadline,
-  .heroSubheadline,
-  .calloutTitle,
-  .relatedIntro,
-  .table,
-  .banner,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  li,
-  span,
-  a,
-  strong,
-  em,
-  mark,
-  td,
-  th,
-  label
-) {
+.blockWrapperFontWeight
+  :where(
+    .body,
+    .bodyBold,
+    .lead,
+    .pullQuote,
+    .sectionTitle,
+    .pageTitle,
+    .subTitle,
+    .list,
+    .orderedList,
+    .blockProse,
+    .caption,
+    .heroHeadline,
+    .heroSubheadline,
+    .calloutTitle,
+    .relatedIntro,
+    .table,
+    .banner,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    li,
+    span,
+    a,
+    strong,
+    em,
+    mark,
+    td,
+    th,
+    label
+  ) {
   font-weight: inherit !important;
 }
 
-.blockWrapperFontWeight .blockProse :where(p, li, span, a, strong, em, mark, h1, h2, h3, h4, h5, h6) {
+.blockWrapperFontWeight
+  .blockProse
+  :where(p, li, span, a, strong, em, mark, h1, h2, h3, h4, h5, h6) {
   font-weight: inherit !important;
 }
 
-.blockWrapperLineHeight :where(
-  .body,
-  .bodyBold,
-  .lead,
-  .pullQuote,
-  .sectionTitle,
-  .pageTitle,
-  .subTitle,
-  .list,
-  .orderedList,
-  .blockProse,
-  .caption,
-  .heroHeadline,
-  .heroSubheadline,
-  .calloutTitle,
-  .relatedIntro,
-  .table,
-  .banner,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  li,
-  span,
-  a,
-  strong,
-  em,
-  mark,
-  td,
-  th,
-  label
-) {
+.blockWrapperLineHeight
+  :where(
+    .body,
+    .bodyBold,
+    .lead,
+    .pullQuote,
+    .sectionTitle,
+    .pageTitle,
+    .subTitle,
+    .list,
+    .orderedList,
+    .blockProse,
+    .caption,
+    .heroHeadline,
+    .heroSubheadline,
+    .calloutTitle,
+    .relatedIntro,
+    .table,
+    .banner,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    li,
+    span,
+    a,
+    strong,
+    em,
+    mark,
+    td,
+    th,
+    label
+  ) {
   line-height: inherit !important;
 }
 
-.blockWrapperLineHeight .blockProse :where(p, li, span, a, strong, em, mark, h1, h2, h3, h4, h5, h6) {
+.blockWrapperLineHeight
+  .blockProse
+  :where(p, li, span, a, strong, em, mark, h1, h2, h3, h4, h5, h6) {
   line-height: inherit !important;
 }
 
@@ -639,7 +655,9 @@
   margin: 0;
 }
 
-.blockWrapperCustomPadding .twoColumnCol > :where(.body, .blockProse, .list, .orderedList) {
+.blockWrapperCustomPadding
+  .twoColumnCol
+  > :where(.body, .blockProse, .list, .orderedList) {
   margin: 0;
 }
 
@@ -770,7 +788,8 @@
 }
 
 /* Zero margins on direct prose children so flex `gap` is the only spacing. */
-.blockProseParagraphGap > :where(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote) {
+.blockProseParagraphGap
+  > :where(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote) {
   margin: 0 !important;
 }
 
@@ -779,7 +798,9 @@
 }
 
 /* Wrapper fallback only when prose itself is not already using flex gap. */
-.blockWrapperParagraphGap .blockProse:not(.blockProseParagraphGap) > :where(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote) {
+.blockWrapperParagraphGap
+  .blockProse:not(.blockProseParagraphGap)
+  > :where(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote) {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -1038,7 +1059,7 @@
 }
 
 .relatedLinkArrow::after {
-  content: " →";
+  content: ' →';
   font-weight: 600;
 }
 
@@ -1139,14 +1160,20 @@
 @container cms-content (min-width: 768px) {
   .imageStackGrid,
   .cmsResponsiveGrid {
-    grid-template-columns: repeat(var(--cms-grid-cols-tablet, 2), minmax(0, 1fr));
+    grid-template-columns: repeat(
+      var(--cms-grid-cols-tablet, 2),
+      minmax(0, 1fr)
+    );
   }
 }
 
 @container cms-content (min-width: 1024px) {
   .imageStackGrid,
   .cmsResponsiveGrid {
-    grid-template-columns: repeat(var(--cms-grid-cols-desktop, 3), minmax(0, 1fr));
+    grid-template-columns: repeat(
+      var(--cms-grid-cols-desktop, 3),
+      minmax(0, 1fr)
+    );
   }
 }
 

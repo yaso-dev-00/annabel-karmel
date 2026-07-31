@@ -1,8 +1,8 @@
-import { AdminShell } from "@/components/Admin/AdminShell";
-import { HomepageEditor } from "@/components/Admin/HomepageEditor/homepage-editor";
-import { getHomepageDocument } from "@/lib/admin/homepage-store";
+import { AdminShell } from '@/components/Admin/AdminShell';
+import { HomepageEditor } from '@/components/Admin/HomepageEditor/homepage-editor';
+import { getHomepageDocument } from '@/lib/admin/homepage-store';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function AdminHomepagePage() {

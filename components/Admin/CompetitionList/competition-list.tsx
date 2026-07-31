@@ -1,17 +1,20 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminListToolbar } from "@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AdminListToolbar } from '@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar';
 import {
   COMPETITION_STATUS_LABELS,
   COMPETITION_STATUSES,
   getCompetitionStatusBadgeClass,
   isCompetitionDisabled,
   resolveCompetitionStatus,
-} from "@/lib/admin/competition-status";
-import { formatAdminListDate, matchesAdminListSearch } from "@/lib/admin/format-admin-list";
-import type { Competition } from "@/lib/content-blocks/types";
+} from '@/lib/admin/competition-status';
+import {
+  formatAdminListDate,
+  matchesAdminListSearch,
+} from '@/lib/admin/format-admin-list';
+import type { Competition } from '@/lib/content-blocks/types';
 
 type CompetitionListProps = {
   competitions: Competition[];
@@ -39,10 +42,10 @@ function ClickableTableRow({
 
   return (
     <tr
-      className={`tableRowClickable${className ? ` ${className}` : ""}`}
+      className={`tableRowClickable${className ? ` ${className}` : ''}`}
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -56,12 +59,12 @@ function ClickableTableRow({
 }
 
 export function CompetitionList({ competitions }: CompetitionListProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const statusOptions = useMemo(
     () => [
-      { value: "all", label: "All statuses" },
+      { value: 'all', label: 'All statuses' },
       ...COMPETITION_STATUSES.map((status) => ({
         value: status,
         label: COMPETITION_STATUS_LABELS[status],
@@ -73,7 +76,7 @@ export function CompetitionList({ competitions }: CompetitionListProps) {
   const filteredCompetitions = useMemo(() => {
     return competitions.filter((competition) => {
       const status = resolveCompetitionStatus(competition);
-      const matchesStatus = statusFilter === "all" || status === statusFilter;
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
       const matchesSearch = matchesAdminListSearch(
         searchQuery,
         competition.title,
@@ -117,13 +120,17 @@ export function CompetitionList({ competitions }: CompetitionListProps) {
                 <ClickableTableRow
                   key={competition.id}
                   href={`/admin/competitions/${competition.id}/edit`}
-                  className={isDisabled ? "tableRowDisabled" : undefined}
+                  className={isDisabled ? 'tableRowDisabled' : undefined}
                 >
                   <td className="tableTitleCell">
                     <span className="tableTitleMain">{competition.title}</span>
-                    <span className="tableTitlePath">/competitions/{competition.slug}</span>
+                    <span className="tableTitlePath">
+                      /competitions/{competition.slug}
+                    </span>
                     {isDisabled ? (
-                      <span className="tableRowDisabledNote">Hidden from site</span>
+                      <span className="tableRowDisabledNote">
+                        Hidden from site
+                      </span>
                     ) : null}
                   </td>
                   <td>
@@ -132,7 +139,7 @@ export function CompetitionList({ competitions }: CompetitionListProps) {
                   <td>
                     {competition.closes_at
                       ? formatAdminListDate(competition.closes_at)
-                      : "—"}
+                      : '—'}
                   </td>
                   <td>{formatAdminListDate(competition.updated_at)}</td>
                 </ClickableTableRow>

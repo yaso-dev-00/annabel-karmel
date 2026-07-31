@@ -1,11 +1,11 @@
-import Link from "next/link";
+import Link from 'next/link';
 import {
   formatDashboardDate,
   formatDashboardDateTime,
   getDashboardStatusLabel,
   type DashboardSummary,
-} from "@/lib/admin/dashboard-summary";
-import styles from "./admin-dashboard.module.css";
+} from '@/lib/admin/dashboard-summary';
+import styles from './admin-dashboard.module.css';
 
 type AdminDashboardProps = {
   summary: DashboardSummary;
@@ -13,14 +13,16 @@ type AdminDashboardProps = {
 
 function publishedBreakdownLabel(summary: DashboardSummary): string {
   const parts: string[] = [];
-  const { advice, article, competition, partner, expert } = summary.publishedBreakdown;
+  const { advice, article, competition, partner, expert } =
+    summary.publishedBreakdown;
   if (advice) parts.push(`${advice} advice`);
-  if (article) parts.push(`${article} article${article === 1 ? "" : "s"}`);
-  if (competition) parts.push(`${competition} competition${competition === 1 ? "" : "s"}`);
-  if (partner) parts.push(`${partner} partner${partner === 1 ? "" : "s"}`);
-  if (expert) parts.push(`${expert} expert${expert === 1 ? "" : "s"}`);
-  if (parts.length === 0) return "Nothing published in the last 7 days";
-  return parts.join(" · ");
+  if (article) parts.push(`${article} article${article === 1 ? '' : 's'}`);
+  if (competition)
+    parts.push(`${competition} competition${competition === 1 ? '' : 's'}`);
+  if (partner) parts.push(`${partner} partner${partner === 1 ? '' : 's'}`);
+  if (expert) parts.push(`${expert} expert${expert === 1 ? '' : 's'}`);
+  if (parts.length === 0) return 'Nothing published in the last 7 days';
+  return parts.join(' · ');
 }
 
 const AVATAR_ACCENTS = [
@@ -32,15 +34,17 @@ const AVATAR_ACCENTS = [
   styles.accent5,
 ] as const;
 
-function statusClass(status: DashboardSummary["recent"][number]["status"]): string {
+function statusClass(
+  status: DashboardSummary['recent'][number]['status'],
+): string {
   switch (status) {
-    case "published":
+    case 'published':
       return styles.statusPublished;
-    case "scheduled":
+    case 'scheduled':
       return styles.statusScheduled;
-    case "private":
+    case 'private':
       return styles.statusPrivate;
-    case "disabled":
+    case 'disabled':
       return styles.statusDisabled;
     default:
       return styles.statusDraft;
@@ -49,11 +53,13 @@ function statusClass(status: DashboardSummary["recent"][number]["status"]): stri
 
 export function AdminDashboard({ summary }: AdminDashboardProps) {
   const draftBadge =
-    summary.draftsThisWeek > 0 ? `+${summary.draftsThisWeek} this week` : "steady";
-  const scheduledBadge = summary.scheduled > 0 ? "on track" : "clear";
+    summary.draftsThisWeek > 0
+      ? `+${summary.draftsThisWeek} this week`
+      : 'steady';
+  const scheduledBadge = summary.scheduled > 0 ? 'on track' : 'clear';
   const nextScheduledLabel = summary.nextScheduled
     ? `Next: ${summary.nextScheduled.title} · ${formatDashboardDateTime(summary.nextScheduled.at)}`
-    : "No upcoming schedules";
+    : 'No upcoming schedules';
 
   return (
     <div className={styles.root}>
@@ -61,13 +67,15 @@ export function AdminDashboard({ summary }: AdminDashboardProps) {
         <article className={styles.kpiCard}>
           <div className={styles.kpiHeader}>
             <p className={styles.kpiLabel}>Pending drafts</p>
-            <span className={`${styles.kpiChip} ${styles.kpiChipMuted}`}>{draftBadge}</span>
+            <span className={`${styles.kpiChip} ${styles.kpiChipMuted}`}>
+              {draftBadge}
+            </span>
           </div>
           <p className={styles.kpiValue}>{summary.drafts}</p>
           <p className={styles.kpiHint}>
             {summary.drafts === 0
-              ? "No drafts waiting"
-              : `${summary.drafts} item${summary.drafts === 1 ? "" : "s"} still in draft`}
+              ? 'No drafts waiting'
+              : `${summary.drafts} item${summary.drafts === 1 ? '' : 's'} still in draft`}
           </p>
         </article>
 
@@ -85,7 +93,10 @@ export function AdminDashboard({ summary }: AdminDashboardProps) {
           <p className={styles.kpiValue}>{summary.scheduled}</p>
           <p className={styles.kpiHint}>
             {summary.nextScheduled ? (
-              <Link href={summary.nextScheduled.href} className={styles.kpiHintLink}>
+              <Link
+                href={summary.nextScheduled.href}
+                className={styles.kpiHintLink}
+              >
                 {nextScheduledLabel}
               </Link>
             ) : (
@@ -112,7 +123,9 @@ export function AdminDashboard({ summary }: AdminDashboardProps) {
         </div>
 
         {summary.recent.length === 0 ? (
-          <p className={styles.empty}>No content yet — create an advice article to get started.</p>
+          <p className={styles.empty}>
+            No content yet — create an advice article to get started.
+          </p>
         ) : (
           <ul className={styles.recentList}>
             {summary.recent.map((item) => (
@@ -131,7 +144,9 @@ export function AdminDashboard({ summary }: AdminDashboardProps) {
                     </span>
                   </span>
                 </Link>
-                <span className={`${styles.status} ${statusClass(item.status)}`}>
+                <span
+                  className={`${styles.status} ${statusClass(item.status)}`}
+                >
                   {getDashboardStatusLabel(item.status)}
                 </span>
                 <time className={styles.recentDate} dateTime={item.updatedAt}>

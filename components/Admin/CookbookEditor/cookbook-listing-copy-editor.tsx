@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useState } from "react";
-import { CookbookHighlightsEditor } from "@/components/Admin/CookbookEditor/cookbook-highlights-editor";
+import { useCallback, useRef, useState } from 'react';
+import { CookbookHighlightsEditor } from '@/components/Admin/CookbookEditor/cookbook-highlights-editor';
 import {
   addHighlightPhrase,
   resolveHighlightPhrase,
-} from "@/lib/cookbooks/highlight-text";
-import styles from "./cookbook-editor.module.css";
+} from '@/lib/cookbooks/highlight-text';
+import styles from './cookbook-editor.module.css';
 
 type CookbookListingCopyEditorProps = {
   body: string;
@@ -22,17 +22,17 @@ export function CookbookListingCopyEditor({
   onChangeHighlights,
 }: CookbookListingCopyEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [selectionText, setSelectionText] = useState("");
+  const [selectionText, setSelectionText] = useState('');
 
   const syncSelection = useCallback(() => {
     const el = textareaRef.current;
     if (!el) {
-      setSelectionText("");
+      setSelectionText('');
       return;
     }
     const start = el.selectionStart;
     const end = el.selectionEnd;
-    setSelectionText(start === end ? "" : el.value.slice(start, end));
+    setSelectionText(start === end ? '' : el.value.slice(start, end));
   }, []);
 
   const boldSelection = useCallback(() => {
@@ -64,10 +64,13 @@ export function CookbookListingCopyEditor({
             onKeyUp={syncSelection}
             onMouseUp={syncSelection}
             onKeyDown={(e) => {
-              if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "b") {
+              if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
                 e.preventDefault();
                 const el = e.currentTarget;
-                const selected = el.value.slice(el.selectionStart, el.selectionEnd);
+                const selected = el.value.slice(
+                  el.selectionStart,
+                  el.selectionEnd,
+                );
                 const phrase = resolveHighlightPhrase(body, selected);
                 if (!phrase) return;
                 onChangeHighlights(addHighlightPhrase(bodyHighlights, phrase));

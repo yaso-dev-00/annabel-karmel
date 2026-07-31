@@ -1,9 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { NEWSLETTER_BAR_STORAGE_KEY, newsletterBarContent } from "@/data/promo-banners";
+import { useEffect, useState } from 'react';
+import {
+  NEWSLETTER_BAR_STORAGE_KEY,
+  newsletterBarContent,
+} from '@/data/promo-banners';
 
-function NewsletterMailIcon({ className = "" }: { className?: string }) {
+function NewsletterMailIcon({ className = '' }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -39,22 +42,22 @@ type SiteNewsletterBarProps = {
 };
 
 export function SiteNewsletterBar({ onOpenModal }: SiteNewsletterBarProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.localStorage.getItem(NEWSLETTER_BAR_STORAGE_KEY) !== 'true';
+  });
 
   useEffect(() => {
-    const dismissed = window.localStorage.getItem(NEWSLETTER_BAR_STORAGE_KEY) === "true";
-    setIsVisible(!dismissed);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.dataset.newsletterBar = isVisible ? "visible" : "hidden";
+    document.documentElement.dataset.newsletterBar = isVisible
+      ? 'visible'
+      : 'hidden';
     return () => {
       delete document.documentElement.dataset.newsletterBar;
     };
   }, [isVisible]);
 
   const dismiss = () => {
-    window.localStorage.setItem(NEWSLETTER_BAR_STORAGE_KEY, "true");
+    window.localStorage.setItem(NEWSLETTER_BAR_STORAGE_KEY, 'true');
     setIsVisible(false);
   };
 
@@ -86,7 +89,14 @@ export function SiteNewsletterBar({ onOpenModal }: SiteNewsletterBarProps) {
           aria-label="Close newsletter banner"
           onClick={dismiss}
         >
-          <img src={newsletterBarContent.closeIconUrl} alt="" aria-hidden width={14} height={14} className="h-3.5 w-3.5 object-contain" />
+          <img
+            src={newsletterBarContent.closeIconUrl}
+            alt=""
+            aria-hidden
+            width={14}
+            height={14}
+            className="h-3.5 w-3.5 object-contain"
+          />
         </button>
       </div>
     </div>

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useId, useRef, type KeyboardEvent, type ReactNode } from "react";
-import styles from "./recipe-editor.module.css";
+import { useId, useRef, type KeyboardEvent, type ReactNode } from 'react';
+import styles from './recipe-editor.module.css';
 
-export type RecipeLocale = "uk" | "us";
+export type RecipeLocale = 'uk' | 'us';
 
 type RecipeLocaleTabsProps = {
   locale: RecipeLocale;
@@ -22,17 +22,17 @@ const LOCALE_LABELS: Record<
   RecipeLocale,
   { code: string; name: string; hint: string }
 > = {
-  uk: { code: "UK", name: "United Kingdom", hint: "Metric · UK spelling" },
-  us: { code: "US", name: "United States", hint: "US measures · spelling" },
+  uk: { code: 'UK', name: 'United Kingdom', hint: 'Metric · UK spelling' },
+  us: { code: 'US', name: 'United States', hint: 'US measures · spelling' },
 };
 
 export function RecipeLocaleTabs({
   locale,
   onLocaleChange,
   onCopyUkToUs,
-  copyLabel = "Copy UK → US",
+  copyLabel = 'Copy UK → US',
   children,
-  label = "Locale",
+  label = 'Locale',
   ukMeta,
   usMeta,
 }: RecipeLocaleTabsProps) {
@@ -44,28 +44,28 @@ export function RecipeLocaleTabs({
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (
-      event.key !== "ArrowLeft" &&
-      event.key !== "ArrowRight" &&
-      event.key !== "Home" &&
-      event.key !== "End"
+      event.key !== 'ArrowLeft' &&
+      event.key !== 'ArrowRight' &&
+      event.key !== 'Home' &&
+      event.key !== 'End'
     ) {
       return;
     }
     event.preventDefault();
     const next: RecipeLocale =
-      event.key === "Home"
-        ? "uk"
-        : event.key === "End"
-          ? "us"
-          : event.key === "ArrowLeft"
-            ? locale === "us"
-              ? "uk"
-              : "us"
-            : locale === "uk"
-              ? "us"
-              : "uk";
+      event.key === 'Home'
+        ? 'uk'
+        : event.key === 'End'
+          ? 'us'
+          : event.key === 'ArrowLeft'
+            ? locale === 'us'
+              ? 'uk'
+              : 'us'
+            : locale === 'uk'
+              ? 'us'
+              : 'uk';
     onLocaleChange(next);
-    const target = next === "uk" ? ukTabId : usTabId;
+    const target = next === 'uk' ? ukTabId : usTabId;
     requestAnimationFrame(() => {
       document.getElementById(target)?.focus();
     });
@@ -82,7 +82,7 @@ export function RecipeLocaleTabs({
         aria-selected={active}
         aria-controls={panelId}
         tabIndex={active ? 0 : -1}
-        className={`${styles.localeTab}${active ? ` ${styles.localeTabActive}` : ""}`}
+        className={`${styles.localeTab}${active ? ` ${styles.localeTabActive}` : ''}`}
         onClick={() => onLocaleChange(value)}
       >
         <span className={styles.localeTabCode}>{labels.code}</span>
@@ -102,11 +102,15 @@ export function RecipeLocaleTabs({
           aria-label={label}
           onKeyDown={onKeyDown}
         >
-          {renderTab("uk", ukTabId, ukMeta)}
-          {renderTab("us", usTabId, usMeta)}
+          {renderTab('uk', ukTabId, ukMeta)}
+          {renderTab('us', usTabId, usMeta)}
         </div>
         {onCopyUkToUs ? (
-          <button type="button" className={styles.localeCopyBtn} onClick={onCopyUkToUs}>
+          <button
+            type="button"
+            className={styles.localeCopyBtn}
+            onClick={onCopyUkToUs}
+          >
             <span className={styles.localeCopyIcon} aria-hidden>
               ⇄
             </span>
@@ -117,7 +121,7 @@ export function RecipeLocaleTabs({
       <div
         role="tabpanel"
         id={panelId}
-        aria-labelledby={locale === "uk" ? ukTabId : usTabId}
+        aria-labelledby={locale === 'uk' ? ukTabId : usTabId}
         className={styles.localePanel}
       >
         {children}

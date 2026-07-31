@@ -1,1 +1,1 @@
-export * from "./frozen-meals-page";
+export * from './frozen-meals-page';

@@ -1,21 +1,22 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
-import { RecipeDetailPage } from "@/components/RecipeScreen/RecipeDetailPage";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import type { RecipeDetail } from "@/data/recipe-detail";
-import { recipeDetailDemoContent } from "@/data/recipe-detail-demo";
-import { getRecipePage } from "@/lib/recipe-detail";
+import { RecipeDetailPage } from '@/components/RecipeScreen/RecipeDetailPage';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import type { RecipeDetail } from '@/data/recipe-detail';
+import { recipeDetailDemoContent } from '@/data/recipe-detail-demo';
+import { getRecipePage } from '@/lib/recipe-detail';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.annabelkarmel.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.annabelkarmel.com';
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
@@ -23,7 +24,11 @@ export async function generateStaticParams() {
 }
 
 /** Live site still uses static listing stub + demo body until CMS goes live. */
-function demoRecipeDetail(title: string, slug: string, href: string): RecipeDetail {
+function demoRecipeDetail(
+  title: string,
+  slug: string,
+  href: string,
+): RecipeDetail {
   const demo = recipeDetailDemoContent;
   return {
     slug,
@@ -44,11 +49,13 @@ function demoRecipeDetail(title: string, slug: string, href: string): RecipeDeta
   };
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipePage(slug);
   if (!recipe) {
-    return { title: "Recipe | Annabel Karmel" };
+    return { title: 'Recipe | Annabel Karmel' };
   }
   return {
     title: `${recipe.title} | Annabel Karmel`,

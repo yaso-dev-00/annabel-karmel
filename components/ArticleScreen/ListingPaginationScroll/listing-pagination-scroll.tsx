@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 type ListingPaginationScrollProps = {
   anchorId?: string;
@@ -11,9 +11,11 @@ type ListingPaginationScrollProps = {
  * After ?page changes, scroll to the article card grid. Next.js can restore a
  * stale scroll position (e.g. near the footer) when returning from a shorter page.
  */
-export function ListingPaginationScroll({ anchorId = "articles-list" }: ListingPaginationScrollProps) {
+export function ListingPaginationScroll({
+  anchorId = 'articles-list',
+}: ListingPaginationScrollProps) {
   const searchParams = useSearchParams();
-  const page = searchParams.get("page") ?? "1";
+  const page = searchParams.get('page') ?? '1';
   const previousPageRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export function ListingPaginationScroll({ anchorId = "articles-list" }: ListingP
     const scrollToCards = () => {
       const target = document.getElementById(anchorId);
       if (!target) return;
-      target.scrollIntoView({ block: "start" });
+      target.scrollIntoView({ block: 'start' });
     };
 
     const frame = requestAnimationFrame(() => {

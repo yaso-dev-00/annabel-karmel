@@ -1,11 +1,14 @@
-"use client";
+'use client';
 
-import type { CSSProperties } from "react";
-import { motion } from "framer-motion";
-import { useCallback, useEffect, useRef } from "react";
+import type { CSSProperties } from 'react';
+import { motion } from 'framer-motion';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { CAROUSEL_SLIDE, useSnapCarousel } from "@/components/hooks/useSnapCarousel";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import {
+  CAROUSEL_SLIDE,
+  useSnapCarousel,
+} from '@/components/hooks/useSnapCarousel';
 import {
   australiaFrozenAssets,
   australiaFrozenCarouselSlides,
@@ -19,8 +22,8 @@ import {
   australiaFrozenRetailers,
   australiaFrozenWhereToBuy,
   type AustraliaFrozenProduct,
-} from "@/data/australia-frozen-page";
-import styles from "./australia-frozen-page.module.css";
+} from '@/data/australia-frozen-page';
+import styles from './australia-frozen-page.module.css';
 
 type PromiseItem = (typeof australiaFrozenPromise.items)[number];
 
@@ -33,7 +36,7 @@ function CheckIcon() {
 }
 
 function PromiseItemText({ item }: { item: PromiseItem }) {
-  if (typeof item === "string") {
+  if (typeof item === 'string') {
     return <span>{item}</span>;
   }
 
@@ -49,27 +52,53 @@ function PromiseItemText({ item }: { item: PromiseItem }) {
   );
 }
 
-function CarouselChevron({ direction }: { direction: "prev" | "next" }) {
-  if (direction === "prev") {
+function CarouselChevron({ direction }: { direction: 'prev' | 'next' }) {
+  if (direction === 'prev') {
     return (
       <svg aria-hidden viewBox="0 0 24 24" className={styles.carouselArrowIcon}>
-        <path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M14.5 5.5 8 12l6.5 6.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.25"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     );
   }
 
   return (
     <svg aria-hidden viewBox="0 0 24 24" className={styles.carouselArrowIcon}>
-      <path d="M9.5 5.5 16 12l-6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M9.5 5.5 16 12l-6.5 6.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
 function LifestyleCarousel() {
-  const carousel = useSnapCarousel({
+  const {
+    carouselRef,
+    trackRef,
+    x,
+    index,
+    indexRef,
+    measure,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnd,
+    handleCardClickCapture,
+    animateToIndex,
+  } = useSnapCarousel({
     itemCount: australiaFrozenCarouselSlides.length,
-    cardSelector: ".aus-frozen-slide",
-    controlsSelector: "button",
+    cardSelector: '.aus-frozen-slide',
+    controlsSelector: 'button',
     centerSingleSlide: true,
     dragThreshold: 2,
     touchDragThreshold: 1,
@@ -77,30 +106,31 @@ function LifestyleCarousel() {
     touchMomentumFactor: 0.3,
   });
 
-  const indexRef = useRef(0);
-  const animateToIndexRef = useRef(carousel.animateToIndex);
+  const animateToIndexRef = useRef(animateToIndex);
 
-  indexRef.current = carousel.index;
-  animateToIndexRef.current = carousel.animateToIndex;
+  useLayoutEffect(() => {
+    animateToIndexRef.current = animateToIndex;
+  }, [animateToIndex]);
 
   const goTo = useCallback(
     (next: number) => {
       const total = australiaFrozenCarouselSlides.length;
       const wrapped = ((next % total) + total) % total;
-      if (wrapped === carousel.index) return;
-      carousel.animateToIndex(wrapped, CAROUSEL_SLIDE);
+      if (wrapped === index) return;
+      animateToIndex(wrapped, CAROUSEL_SLIDE);
     },
-    [carousel],
+    [animateToIndex, index],
   );
 
   useEffect(() => {
-    carousel.measure();
-  }, [carousel.measure]);
+    measure();
+  }, [measure]);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
       const current = indexRef.current;
-      const next = current >= australiaFrozenCarouselSlides.length - 1 ? 0 : current + 1;
+      const next =
+        current >= australiaFrozenCarouselSlides.length - 1 ? 0 : current + 1;
       animateToIndexRef.current(next, CAROUSEL_SLIDE);
     }, 5000);
     return () => window.clearInterval(timer);
@@ -108,29 +138,34 @@ function LifestyleCarousel() {
 
   return (
     <div
-      ref={carousel.carouselRef}
+      ref={carouselRef}
       className={styles.carouselViewport}
-      onPointerDownCapture={carousel.handlePointerDown}
-      onPointerMoveCapture={carousel.handlePointerMove}
-      onPointerUpCapture={carousel.handlePointerEnd}
-      onPointerCancelCapture={carousel.handlePointerEnd}
+      onPointerDownCapture={handlePointerDown}
+      onPointerMoveCapture={handlePointerMove}
+      onPointerUpCapture={handlePointerEnd}
+      onPointerCancelCapture={handlePointerEnd}
     >
-      <motion.div ref={carousel.trackRef} className={styles.carouselTrack} style={{ x: carousel.x }} initial={false}>
+      <motion.div
+        ref={trackRef}
+        className={styles.carouselTrack}
+        style={{ x }}
+        initial={false}
+      >
         {australiaFrozenCarouselSlides.map((slide, slideIndex) => (
           <div
             key={slide.src}
             className={`aus-frozen-slide ${styles.carouselSlide}`}
-            onClickCapture={carousel.handleCardClickCapture}
+            onClickCapture={handleCardClickCapture}
           >
             <img
               src={slide.src}
               alt={slide.alt}
               className={styles.carouselImage}
-              loading={slideIndex === 0 ? "eager" : "lazy"}
+              loading={slideIndex === 0 ? 'eager' : 'lazy'}
               decoding="async"
               draggable={false}
               onDragStart={(event) => event.preventDefault()}
-              onLoad={carousel.measure}
+              onLoad={measure}
             />
           </div>
         ))}
@@ -142,7 +177,7 @@ function LifestyleCarousel() {
         aria-label="Previous slide"
         onPointerDown={(event) => {
           event.stopPropagation();
-          goTo(carousel.index - 1);
+          goTo(index - 1);
         }}
       >
         <CarouselChevron direction="prev" />
@@ -153,16 +188,18 @@ function LifestyleCarousel() {
         aria-label="Next slide"
         onPointerDown={(event) => {
           event.stopPropagation();
-          goTo(carousel.index + 1);
+          goTo(index + 1);
         }}
       >
         <CarouselChevron direction="next" />
       </button>
 
       <p className={styles.slideCounter} aria-live="polite">
-        <span className={styles.slideCounterCurrent}>{carousel.index + 1}</span>
+        <span className={styles.slideCounterCurrent}>{index + 1}</span>
         <span className={styles.slideCounterDivider}>/</span>
-        <span className={styles.slideCounterTotal}>{australiaFrozenCarouselSlides.length}</span>
+        <span className={styles.slideCounterTotal}>
+          {australiaFrozenCarouselSlides.length}
+        </span>
       </p>
     </div>
   );
@@ -202,7 +239,11 @@ function RetailerLogos() {
           <img
             src={retailer.src}
             alt={retailer.alt}
-            className={retailer.alt === "IGA" ? styles.retailerLogoIga : styles.retailerLogo}
+            className={
+              retailer.alt === 'IGA'
+                ? styles.retailerLogoIga
+                : styles.retailerLogo
+            }
             loading="lazy"
             decoding="async"
           />
@@ -214,10 +255,10 @@ function RetailerLogos() {
 
 export function AustraliaFrozenPageContent() {
   const pageStyle = {
-    "--wood-bg": `url(${australiaFrozenAssets.woodBg})`,
-    "--promise-bg": `url(${australiaFrozenAssets.promiseBg})`,
-    "--annabel-bg": `url(${australiaFrozenAssets.annabelAus})`,
-    "--buy-bg": `url(${australiaFrozenAssets.buyBg})`,
+    '--wood-bg': `url(${australiaFrozenAssets.woodBg})`,
+    '--promise-bg': `url(${australiaFrozenAssets.promiseBg})`,
+    '--annabel-bg': `url(${australiaFrozenAssets.annabelAus})`,
+    '--buy-bg': `url(${australiaFrozenAssets.buyBg})`,
   } as CSSProperties;
 
   return (
@@ -235,13 +276,17 @@ export function AustraliaFrozenPageContent() {
       <section className={styles.woodBand} aria-label="Expert meals in minutes">
         <div className={styles.pageContainer}>
           <div className={`${styles.splitGrid} ${styles.expertMealsRow}`}>
-            <div className={`${styles.splitTile} ${styles.tileMint} order-2 md:order-1`}>
+            <div
+              className={`${styles.splitTile} ${styles.tileMint} order-2 md:order-1`}
+            >
               <h2 className={styles.heading}>
                 {australiaFrozenExpertMeals.headingLine1}
                 <br />
                 {australiaFrozenExpertMeals.headingLine2}
               </h2>
-              <p className={styles.bodyCopy}>{australiaFrozenExpertMeals.body}</p>
+              <p className={styles.bodyCopy}>
+                {australiaFrozenExpertMeals.body}
+              </p>
               <img
                 src={australiaFrozenAssets.signature}
                 alt="Annabel Karmel signature"
@@ -252,14 +297,19 @@ export function AustraliaFrozenPageContent() {
                 decoding="async"
               />
             </div>
-            <div className={`${styles.splitTile} ${styles.tilePink} order-1 md:order-2`}>
+            <div
+              className={`${styles.splitTile} ${styles.tilePink} order-1 md:order-2`}
+            >
               <LifestyleCarousel />
             </div>
           </div>
         </div>
       </section>
 
-      <section className={styles.woodBand} aria-labelledby="aus-frozen-promise-heading">
+      <section
+        className={styles.woodBand}
+        aria-labelledby="aus-frozen-promise-heading"
+      >
         <div className={styles.pageContainer}>
           <div className={styles.splitGrid}>
             <div className={`${styles.splitTile} ${styles.tilePromise}`}>
@@ -268,7 +318,10 @@ export function AustraliaFrozenPageContent() {
               </h2>
               <ul className={styles.promiseList}>
                 {australiaFrozenPromise.items.map((item) => (
-                  <li key={typeof item === "string" ? item : item.lines.join("-")} className={styles.promiseItem}>
+                  <li
+                    key={typeof item === 'string' ? item : item.lines.join('-')}
+                    className={styles.promiseItem}
+                  >
                     <CheckIcon />
                     <PromiseItemText item={item} />
                   </li>
@@ -278,7 +331,7 @@ export function AustraliaFrozenPageContent() {
             <div className={`${styles.goodnessTile} px-[20px] md:px-[60px]!`}>
               <h2 className={styles.heading}>
                 <br />
-                {australiaFrozenGoodness.headingLine1}{" "}
+                {australiaFrozenGoodness.headingLine1}{' '}
                 {australiaFrozenGoodness.headingLine2}
               </h2>
               <p className={styles.bodyCopy}>{australiaFrozenGoodness.body}</p>
@@ -300,7 +353,9 @@ export function AustraliaFrozenPageContent() {
       <section className={styles.woodBand} aria-label="New for 2024">
         <div className={styles.pageContainer}>
           <div className={styles.splitGrid}>
-            <div className={`${styles.splitTile} ${styles.tileYellow} order-2 md:order-1`}>
+            <div
+              className={`${styles.splitTile} ${styles.tileYellow} order-2 md:order-1`}
+            >
               <h2 className={styles.heading}>{australiaFrozenNew.heading}</h2>
               <p className={styles.bodyCopy}>{australiaFrozenNew.body}</p>
             </div>
@@ -313,25 +368,28 @@ export function AustraliaFrozenPageContent() {
         </div>
       </section>
 
-      <section className={` ${styles.rangeSection}`} aria-labelledby="aus-frozen-range-heading">
+      <section
+        className={` ${styles.rangeSection}`}
+        aria-labelledby="aus-frozen-range-heading"
+      >
         <div className={styles.pageContainerPadded}>
           <h2 id="aus-frozen-range-heading" className={styles.heading}>
             {australiaFrozenRange.heading}
           </h2>
-          <p className={styles.rangeSubtitle}>{australiaFrozenRange.subtitle}</p>
+          <p className={styles.rangeSubtitle}>
+            {australiaFrozenRange.subtitle}
+          </p>
           <RetailerLogos />
         </div>
       </section>
 
-    
-        <div className={styles.pageContainerPadded}>
-          <div className={styles.productGrid}>
-            {australiaFrozenProducts.map((product) => (
-              <ProductCard key={product.title} product={product} />
-            ))}
-          </div>
+      <div className={styles.pageContainerPadded}>
+        <div className={styles.productGrid}>
+          {australiaFrozenProducts.map((product) => (
+            <ProductCard key={product.title} product={product} />
+          ))}
         </div>
-     
+      </div>
 
       <section aria-labelledby="aus-frozen-buy-heading">
         <div className={styles.pageContainer}>
@@ -341,7 +399,9 @@ export function AustraliaFrozenPageContent() {
               role="img"
               aria-label="Annabel Karmel Little Meals range"
             />
-            <div className={`${styles.splitTile} ${styles.tileBuyCopy} order-1 md:order-2`}>
+            <div
+              className={`${styles.splitTile} ${styles.tileBuyCopy} order-1 md:order-2`}
+            >
               <h2 id="aus-frozen-buy-heading" className={styles.heading}>
                 {australiaFrozenWhereToBuy.heading}
               </h2>
@@ -355,11 +415,9 @@ export function AustraliaFrozenPageContent() {
         </div>
       </section>
 
-      
-        <div className={styles.pageContainerPadded}>
-          <RetailerLogos />
-        </div>
-     
+      <div className={styles.pageContainerPadded}>
+        <RetailerLogos />
+      </div>
 
       <InstagramShareSection className="bg-white pb-10 pt-10 md:pb-16 md:pt-18" />
     </main>

@@ -45,11 +45,9 @@
   line-height: 1.3;
   color: #4e434b;
 }
-.link :hover{
+.link :hover {
   color: var(--hover-color) !important;
-  
 }
-
 
 @media (max-width: 900px) {
   .title,
@@ -57,11 +55,8 @@
   .list li,
   .relatedTitle,
   .relatedText {
-  
     padding: 0 10px;
   }
-
- 
 
   .relatedText {
     font-size: 17px;

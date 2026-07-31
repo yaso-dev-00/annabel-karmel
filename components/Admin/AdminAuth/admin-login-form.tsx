@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FormEvent, useState } from 'react';
 import {
   getSafeAdminNextPath,
   setAdminSession,
   validateAdminCredentials,
-} from "@/lib/admin/auth-session";
-import styles from "./admin-login-form.module.css";
+} from '@/lib/admin/auth-session';
+import styles from './admin-login-form.module.css';
 
 export function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -25,13 +25,13 @@ export function AdminLoginForm() {
     setSubmitting(true);
 
     if (!validateAdminCredentials(email, password)) {
-      setError("Invalid email or password.");
+      setError('Invalid email or password.');
       setSubmitting(false);
       return;
     }
 
     setAdminSession(email);
-    const next = getSafeAdminNextPath(searchParams.get("next"));
+    const next = getSafeAdminNextPath(searchParams.get('next'));
     router.replace(next);
   };
 
@@ -46,7 +46,7 @@ export function AdminLoginForm() {
               width={100}
               height={49}
               priority
-              style={{ height: "auto" }}
+              style={{ height: 'auto' }}
             />
           </Link>
         </div>
@@ -91,7 +91,7 @@ export function AdminLoginForm() {
             className={`btn btnPrimary ${styles.submit}`}
             disabled={submitting}
           >
-            {submitting ? "Signing in…" : "Sign in"}
+            {submitting ? 'Signing in…' : 'Sign in'}
           </button>
         </form>
       </div>

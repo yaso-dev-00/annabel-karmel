@@ -1,1 +1,1 @@
-export * from "./about-annabel-karmel-page";
+export * from './about-annabel-karmel-page';

@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   computeResizedDimensions,
   formatPx,
   getHandleCursor,
   type ResizeDimensions,
   type ResizeHandle,
-} from "@/lib/admin/resize-utils";
-import styles from "./preview-resize-overlay.module.css";
+} from '@/lib/admin/resize-utils';
+import styles from './preview-resize-overlay.module.css';
 
 const HANDLE_POSITION_CLASS: Record<ResizeHandle, string> = {
   n: styles.handleN,
@@ -22,7 +22,17 @@ const HANDLE_POSITION_CLASS: Record<ResizeHandle, string> = {
 };
 
 function handleAffectsHeight(handle: ResizeHandle): boolean {
-  return handle === "n" || handle === "s" || handle.length === 2;
+  return handle === 'n' || handle === 's' || handle.length === 2;
+}
+
+function setBodyDragStyles(cursor: string) {
+  document.body.style.setProperty('cursor', cursor);
+  document.body.style.setProperty('user-select', 'none');
+}
+
+function clearBodyDragStyles() {
+  document.body.style.removeProperty('cursor');
+  document.body.style.removeProperty('user-select');
 }
 
 type PreviewResizeOverlayProps = {
@@ -30,7 +40,7 @@ type PreviewResizeOverlayProps = {
   targetSelector?: string;
   handles: ResizeHandle[];
   label: string;
-  variant?: "section" | "image";
+  variant?: 'section' | 'image';
   minWidth?: number;
   minHeight?: number;
   onResizeLive?: (dims: ResizeDimensions) => void;
@@ -41,7 +51,7 @@ function getTargetElement(
   container: HTMLElement,
   targetSelector?: string,
 ): HTMLElement | null {
-  if (!targetSelector || targetSelector === ":scope") {
+  if (!targetSelector || targetSelector === ':scope') {
     return container;
   }
   const matches = container.querySelectorAll<HTMLElement>(targetSelector);
@@ -53,7 +63,7 @@ function getTargetElement(
     const rect = el.getBoundingClientRect();
     if (rect.width > 0 && rect.height > 0) {
       const style = window.getComputedStyle(el);
-      if (style.display !== "none" && style.visibility !== "hidden") {
+      if (style.display !== 'none' && style.visibility !== 'hidden') {
         return el;
       }
     }
@@ -63,18 +73,21 @@ function getTargetElement(
 
 export function PreviewResizeOverlay({
   containerRef,
-  targetSelector = ":scope",
+  targetSelector = ':scope',
   handles,
   label,
-  variant = "section",
+  variant = 'section',
   minWidth = 120,
   minHeight = 60,
   onResizeLive,
   onResizeEnd,
 }: PreviewResizeOverlayProps) {
-  const [box, setBox] = useState<{ top: number; left: number; width: number; height: number } | null>(
-    null,
-  );
+  const [box, setBox] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  } | null>(null);
   const [liveDims, setLiveDims] = useState<ResizeDimensions | null>(null);
   const dragRef = useRef<{
     handle: ResizeHandle;
@@ -111,30 +124,34 @@ export function PreviewResizeOverlay({
     const target = getTargetElement(container, targetSelector);
     if (target && target !== container) observer.observe(target);
 
-    window.addEventListener("scroll", syncOverlay, true);
-    window.addEventListener("resize", syncOverlay);
+    window.addEventListener('scroll', syncOverlay, true);
+    window.addEventListener('resize', syncOverlay);
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", syncOverlay, true);
-      window.removeEventListener("resize", syncOverlay);
+      window.removeEventListener('scroll', syncOverlay, true);
+      window.removeEventListener('resize', syncOverlay);
     };
   }, [containerRef, targetSelector, syncOverlay]);
 
-  const applyLiveSize = (target: HTMLElement, handle: ResizeHandle, dims: ResizeDimensions) => {
-    if (variant === "section") {
-      target.style.width = "100%";
+  const applyLiveSize = (
+    target: HTMLElement,
+    handle: ResizeHandle,
+    dims: ResizeDimensions,
+  ) => {
+    if (variant === 'section') {
+      target.style.width = '100%';
       target.style.maxWidth = formatPx(dims.width);
       if (handleAffectsHeight(handle)) {
         target.style.minHeight = formatPx(dims.height);
       }
     } else {
-      target.style.width = "100%";
+      target.style.width = '100%';
       target.style.maxWidth = formatPx(dims.width);
       if (handleAffectsHeight(handle)) {
         target.style.height = formatPx(dims.height);
       }
-      target.style.objectFit = "cover";
+      target.style.objectFit = 'cover';
     }
   };
 
@@ -148,7 +165,8 @@ export function PreviewResizeOverlay({
     if (!target) return;
 
     const rect = target.getBoundingClientRect();
-    const parent = container.closest("[data-preview-frame]") ?? container.parentElement;
+    const parent =
+      container.closest('[data-preview-frame]') ?? container.parentElement;
     const maxWidth = parent?.clientWidth ?? rect.width;
     const maxHeight = Math.max(rect.height * 3, 1200);
 
@@ -205,26 +223,27 @@ export function PreviewResizeOverlay({
       onResizeEnd(dims, drag.handle);
       dragRef.current = null;
       setLiveDims(null);
-      document.removeEventListener("pointermove", onMove);
-      document.removeEventListener("pointerup", onUp);
-      document.body.style.cursor = "";
-      document.body.style.userSelect = "";
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      clearBodyDragStyles();
     };
 
-    document.body.style.cursor = getHandleCursor(handle);
-    document.body.style.userSelect = "none";
-    document.addEventListener("pointermove", onMove);
-    document.addEventListener("pointerup", onUp);
+    setBodyDragStyles(getHandleCursor(handle));
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
   };
 
   if (!box) return null;
 
-  const displayDims = liveDims ?? { width: Math.round(box.width), height: Math.round(box.height) };
-  const isImage = variant === "image";
+  const displayDims = liveDims ?? {
+    width: Math.round(box.width),
+    height: Math.round(box.height),
+  };
+  const isImage = variant === 'image';
 
   return (
     <div
-      className={`${styles.overlay} ${isImage ? styles.overlayImage : ""}`}
+      className={`${styles.overlay} ${isImage ? styles.overlayImage : ''}`}
       style={{
         top: box.top,
         left: box.left,
@@ -232,8 +251,12 @@ export function PreviewResizeOverlay({
         height: box.height,
       }}
     >
-      <span className={`${styles.label} ${isImage ? styles.labelImage : ""}`}>{label}</span>
-      <span className={`${styles.sizeBadge} ${isImage ? styles.sizeBadgeImage : ""}`}>
+      <span className={`${styles.label} ${isImage ? styles.labelImage : ''}`}>
+        {label}
+      </span>
+      <span
+        className={`${styles.sizeBadge} ${isImage ? styles.sizeBadgeImage : ''}`}
+      >
         {displayDims.width} × {displayDims.height}
       </span>
 
@@ -242,38 +265,38 @@ export function PreviewResizeOverlay({
           key={handle}
           type="button"
           aria-label={`Resize ${handle}`}
-          className={`${styles.handle} ${HANDLE_POSITION_CLASS[handle]} ${isImage ? styles.handleImage : ""}`}
+          className={`${styles.handle} ${HANDLE_POSITION_CLASS[handle]} ${isImage ? styles.handleImage : ''}`}
           style={{ cursor: getHandleCursor(handle) }}
           onPointerDown={(e) => startDrag(handle, e)}
         />
       ))}
 
-      {handles.includes("n") ? (
+      {handles.includes('n') ? (
         <div
           className={`${styles.edgeHandle} ${styles.edgeN}`}
-          style={{ cursor: "ns-resize" }}
-          onPointerDown={(e) => startDrag("n", e)}
+          style={{ cursor: 'ns-resize' }}
+          onPointerDown={(e) => startDrag('n', e)}
         />
       ) : null}
-      {handles.includes("s") ? (
+      {handles.includes('s') ? (
         <div
           className={`${styles.edgeHandle} ${styles.edgeS}`}
-          style={{ cursor: "ns-resize" }}
-          onPointerDown={(e) => startDrag("s", e)}
+          style={{ cursor: 'ns-resize' }}
+          onPointerDown={(e) => startDrag('s', e)}
         />
       ) : null}
-      {handles.includes("e") ? (
+      {handles.includes('e') ? (
         <div
           className={`${styles.edgeHandle} ${styles.edgeE}`}
-          style={{ cursor: "ew-resize" }}
-          onPointerDown={(e) => startDrag("e", e)}
+          style={{ cursor: 'ew-resize' }}
+          onPointerDown={(e) => startDrag('e', e)}
         />
       ) : null}
-      {handles.includes("w") ? (
+      {handles.includes('w') ? (
         <div
           className={`${styles.edgeHandle} ${styles.edgeW}`}
-          style={{ cursor: "ew-resize" }}
-          onPointerDown={(e) => startDrag("w", e)}
+          style={{ cursor: 'ew-resize' }}
+          onPointerDown={(e) => startDrag('w', e)}
         />
       ) : null}
     </div>

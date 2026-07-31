@@ -1,8 +1,8 @@
-import { RecipePreviewPageClient } from "@/components/Admin/RecipeEditor/preview-page-client";
-import { DisabledArticlePreview } from "@/components/Admin/AdviceArticleEditor/disabled-article-preview";
-import { getRecipeById } from "@/lib/admin/recipes-store";
-import { isRecipeDisabled } from "@/lib/admin/recipe-status";
-import { notFound } from "next/navigation";
+import { RecipePreviewPageClient } from '@/components/Admin/RecipeEditor/preview-page-client';
+import { DisabledArticlePreview } from '@/components/Admin/AdviceArticleEditor/disabled-article-preview';
+import { getRecipeById } from '@/lib/admin/recipes-store';
+import { isRecipeDisabled } from '@/lib/admin/recipe-status';
+import { notFound } from 'next/navigation';
 
 type PageProps = { params: Promise<{ id: string }> };
 

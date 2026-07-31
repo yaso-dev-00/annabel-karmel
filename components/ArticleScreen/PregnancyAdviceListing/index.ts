@@ -1,1 +1,1 @@
-export * from "./pregnancy-advice-listing";
+export * from './pregnancy-advice-listing';

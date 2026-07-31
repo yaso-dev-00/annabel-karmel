@@ -93,7 +93,9 @@
   background: #fff;
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 
 .pickerCard:hover {
@@ -259,7 +261,9 @@
     box-shadow: 0 0 0 2px rgba(179, 71, 105, 0.15);
   }
   40% {
-    box-shadow: 0 0 0 3px #b34769, 0 8px 24px rgba(179, 71, 105, 0.25);
+    box-shadow:
+      0 0 0 3px #b34769,
+      0 8px 24px rgba(179, 71, 105, 0.25);
   }
 }
 
@@ -522,7 +526,11 @@
   top: 72px;
   z-index: 25;
   padding: 8px 0 5px;
-  background: linear-gradient(#fff 70%, rgba(255, 255, 255, 0.94) 88%, transparent);
+  background: linear-gradient(
+    #fff 70%,
+    rgba(255, 255, 255, 0.94) 88%,
+    transparent
+  );
 }
 
 .canvasToolbar {
@@ -902,7 +910,7 @@
   touch-action: pan-y;
 }
 
-.previewScroll:has([data-cms-interactive="true"]) {
+.previewScroll:has([data-cms-interactive='true']) {
   touch-action: pan-x pan-y;
 }
 

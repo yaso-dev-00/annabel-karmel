@@ -1,9 +1,9 @@
-import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import type { ArticleCategorySlug } from "@/lib/content-blocks/article-categories";
+import type { RelatedArticleItem } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import type { ArticleCategorySlug } from '@/lib/content-blocks/article-categories';
 import {
   SAMPLE_SITE_ARTICLE_SLUG,
   SHOWCASE_SITE_ARTICLE_SLUG,
-} from "@/lib/content-blocks/types";
+} from '@/lib/content-blocks/types';
 
 export type ArticleCategoryArticleOption = {
   slug: string;
@@ -18,7 +18,9 @@ type CategoryArticleSource = {
   image: string;
 };
 
-function toCategoryArticleOption(article: CategoryArticleSource): ArticleCategoryArticleOption {
+function toCategoryArticleOption(
+  article: CategoryArticleSource,
+): ArticleCategoryArticleOption {
   return {
     slug: article.slug,
     title: article.title,
@@ -27,7 +29,9 @@ function toCategoryArticleOption(article: CategoryArticleSource): ArticleCategor
   };
 }
 
-function toRelatedArticleItem(article: ArticleCategoryArticleOption): RelatedArticleItem {
+function toRelatedArticleItem(
+  article: ArticleCategoryArticleOption,
+): RelatedArticleItem {
   return {
     href: article.href,
     title: article.title,
@@ -35,64 +39,71 @@ function toRelatedArticleItem(article: ArticleCategoryArticleOption): RelatedArt
   };
 }
 
-const PLACEHOLDER_IMAGE = "/advice-category/child-health-and-development/toddler-snacking.jpg";
+const PLACEHOLDER_IMAGE =
+  '/advice-category/child-health-and-development/toddler-snacking.jpg';
 
-const CATEGORY_ARTICLE_SOURCES: Record<ArticleCategorySlug, CategoryArticleSource[]> = {
-  "baby-nutrition": [
+const CATEGORY_ARTICLE_SOURCES: Record<
+  ArticleCategorySlug,
+  CategoryArticleSource[]
+> = {
+  'baby-nutrition': [
     {
       slug: SAMPLE_SITE_ARTICLE_SLUG,
-      title: "Sample Article",
+      title: 'Sample Article',
       image: PLACEHOLDER_IMAGE,
     },
     {
-      slug: "first-foods-guide",
-      title: "First Foods Guide",
+      slug: 'first-foods-guide',
+      title: 'First Foods Guide',
       image: PLACEHOLDER_IMAGE,
     },
     {
-      slug: "purees-vs-finger-foods",
-      title: "Purees vs Finger Foods",
+      slug: 'purees-vs-finger-foods',
+      title: 'Purees vs Finger Foods',
       image: PLACEHOLDER_IMAGE,
     },
   ],
-  "toddler-child": [
+  'toddler-child': [
     {
       slug: SHOWCASE_SITE_ARTICLE_SLUG,
-      title: "Articles Block Showcase",
+      title: 'Articles Block Showcase',
       image: PLACEHOLDER_IMAGE,
     },
     {
-      slug: "toddler-snacking-ideas",
-      title: "Toddler Snacking Ideas",
+      slug: 'toddler-snacking-ideas',
+      title: 'Toddler Snacking Ideas',
       image: PLACEHOLDER_IMAGE,
     },
     {
-      slug: "cooking-with-kids",
-      title: "Cooking with Kids",
+      slug: 'cooking-with-kids',
+      title: 'Cooking with Kids',
       image: PLACEHOLDER_IMAGE,
     },
   ],
   allergies: [
     {
-      slug: "introducing-allergens",
-      title: "Introducing Allergens",
+      slug: 'introducing-allergens',
+      title: 'Introducing Allergens',
       image: PLACEHOLDER_IMAGE,
     },
     {
-      slug: "nut-free-lunchbox",
-      title: "Nut-Free Lunchbox Ideas",
+      slug: 'nut-free-lunchbox',
+      title: 'Nut-Free Lunchbox Ideas',
       image: PLACEHOLDER_IMAGE,
     },
     {
-      slug: "allergy-safe-baking",
-      title: "Allergy-Safe Baking",
+      slug: 'allergy-safe-baking',
+      title: 'Allergy-Safe Baking',
       image: PLACEHOLDER_IMAGE,
     },
   ],
 };
 
-export function getArticleCategoryArticleOptions(categorySlug: string): ArticleCategoryArticleOption[] {
-  const articles = CATEGORY_ARTICLE_SOURCES[categorySlug as ArticleCategorySlug];
+export function getArticleCategoryArticleOptions(
+  categorySlug: string,
+): ArticleCategoryArticleOption[] {
+  const articles =
+    CATEGORY_ARTICLE_SOURCES[categorySlug as ArticleCategorySlug];
   if (!articles) return [];
   return articles.map(toCategoryArticleOption);
 }

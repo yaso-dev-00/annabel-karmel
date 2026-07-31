@@ -5,34 +5,38 @@ import {
   type RecipeTaxonomy,
   type RecipeTaxonomyGroup,
   type RecipeTaxonomyKind,
-} from "@/data/recipe-taxonomies";
+} from '@/data/recipe-taxonomies';
 import {
   readRecipeCategoriesCmsStoreRaw,
   writeRecipeCategoriesCmsStoreRaw,
-} from "@/lib/admin/recipe-categories-cms-store-io";
+} from '@/lib/admin/recipe-categories-cms-store-io';
 
 const KIND_SET = new Set<string>(RECIPE_TAXONOMY_KINDS);
 
-function trimString(value: unknown, fallback = ""): string {
-  return typeof value === "string" ? value.trim() : fallback;
+function trimString(value: unknown, fallback = ''): string {
+  return typeof value === 'string' ? value.trim() : fallback;
 }
 
 function slugify(label: string): string {
   return label
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
-function sanitizeTerm(raw: unknown, kind: RecipeTaxonomyKind): RecipeTaxonomy | null {
-  if (!raw || typeof raw !== "object") return null;
+function sanitizeTerm(
+  raw: unknown,
+  kind: RecipeTaxonomyKind,
+): RecipeTaxonomy | null {
+  if (!raw || typeof raw !== 'object') return null;
   const input = raw as Record<string, unknown>;
   const label = trimString(input.label);
   const slug = trimString(input.slug) || slugify(label);
   if (!label || !slug) return null;
   const path = trimString(input.path) || `/${kind}/${slug}`;
-  const sourceUrl = trimString(input.sourceUrl) || `https://www.annabelkarmel.com${path}/`;
+  const sourceUrl =
+    trimString(input.sourceUrl) || `https://www.annabelkarmel.com${path}/`;
   const icon = trimString(input.icon);
   const iconActive = trimString(input.iconActive);
   return {
@@ -47,7 +51,7 @@ function sanitizeTerm(raw: unknown, kind: RecipeTaxonomyKind): RecipeTaxonomy | 
 }
 
 function sanitizeGroup(raw: unknown): RecipeTaxonomyGroup | null {
-  if (!raw || typeof raw !== "object") return null;
+  if (!raw || typeof raw !== 'object') return null;
   const input = raw as Record<string, unknown>;
   const kind = trimString(input.kind) as RecipeTaxonomyKind;
   if (!KIND_SET.has(kind)) return null;
@@ -62,8 +66,10 @@ function sanitizeGroup(raw: unknown): RecipeTaxonomyGroup | null {
   return { id, label, kind, terms };
 }
 
-export function sanitizeRecipeCategoriesStore(raw: unknown): RecipeCategoriesStore {
-  if (!raw || typeof raw !== "object") {
+export function sanitizeRecipeCategoriesStore(
+  raw: unknown,
+): RecipeCategoriesStore {
+  if (!raw || typeof raw !== 'object') {
     return defaultRecipeCategoriesStore();
   }
   const input = raw as Record<string, unknown>;

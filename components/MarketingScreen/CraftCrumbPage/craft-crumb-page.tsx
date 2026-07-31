@@ -1,6 +1,6 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
 import {
   craftCrumbAssets,
   craftCrumbCta,
@@ -8,8 +8,8 @@ import {
   craftCrumbLinks,
   craftCrumbProducts,
   type CraftCrumbProduct,
-} from "@/data/craft-crumb-page";
-import styles from "./craft-crumb-page.module.css";
+} from '@/data/craft-crumb-page';
+import styles from './craft-crumb-page.module.css';
 
 function FullBleedImageLink({
   href,
@@ -36,14 +36,25 @@ function FullBleedImageLink({
         width={1920}
         height={1080}
         decoding="async"
-        fetchPriority={priority ? "high" : undefined}
+        fetchPriority={priority ? 'high' : undefined}
       />
     </a>
   );
 }
 
-function CraftCrumbProductRow({ product, index }: { product: CraftCrumbProduct; index: number }) {
-  const textPaddingTop = index === 0 ? "md:pt-[100px]" : index === 1 ? "md:pt-[85px]" : "md:pt-[30px]";
+function CraftCrumbProductRow({
+  product,
+  index,
+}: {
+  product: CraftCrumbProduct;
+  index: number;
+}) {
+  const textPaddingTop =
+    index === 0
+      ? 'md:pt-[100px]'
+      : index === 1
+        ? 'md:pt-[85px]'
+        : 'md:pt-[30px]';
 
   return (
     <section
@@ -52,11 +63,18 @@ function CraftCrumbProductRow({ product, index }: { product: CraftCrumbProduct; 
     >
       <div
         className={`${styles.inner} grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-12 ${
-          product.reverse ? "md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1" : ""
+          product.reverse
+            ? 'md:[&>*:first-child]:order-2 md:[&>*:last-child]:order-1'
+            : ''
         }`}
       >
         <div className="flex justify-center">
-          <a href={product.href} target="_blank" rel="noreferrer" className="block">
+          <a
+            href={product.href}
+            target="_blank"
+            rel="noreferrer"
+            className="block"
+          >
             <img
               src={product.image}
               alt={product.imageAlt}
@@ -70,7 +88,10 @@ function CraftCrumbProductRow({ product, index }: { product: CraftCrumbProduct; 
         </div>
 
         <div className={`text-center md:text-left ${textPaddingTop}`}>
-          <h2 id={`craft-crumb-product-${product.slug}`} className={styles.productHeading}>
+          <h2
+            id={`craft-crumb-product-${product.slug}`}
+            className={styles.productHeading}
+          >
             <a
               href={product.href}
               target="_blank"
@@ -90,15 +111,17 @@ function CraftCrumbProductRow({ product, index }: { product: CraftCrumbProduct; 
 export function CraftCrumbPageContent() {
   return (
     <main className="bg-white text-[#3d3d3d]">
-      <section className={styles.fullBleed} aria-label="Craft & Crumb bake and craft kits">
+      <section
+        className={styles.fullBleed}
+        aria-label="Craft & Crumb bake and craft kits"
+      >
         <div className="max-w-[1100px] mx-auto mb-5">
-        <FullBleedImageLink
-          href={craftCrumbLinks.tescoSearch}
-          src={craftCrumbAssets.titleBanner}
-          alt="Say hello to our new bake and craft kits"
-          priority
-          
-        />
+          <FullBleedImageLink
+            href={craftCrumbLinks.tescoSearch}
+            src={craftCrumbAssets.titleBanner}
+            alt="Say hello to our new bake and craft kits"
+            priority
+          />
         </div>
         <FullBleedImageLink
           href={craftCrumbLinks.tescoSearch}
@@ -133,7 +156,11 @@ export function CraftCrumbPageContent() {
 
       <div className="bg-white pb-4 md:pb-8">
         {craftCrumbProducts.map((product, index) => (
-          <CraftCrumbProductRow key={product.slug} product={product} index={index} />
+          <CraftCrumbProductRow
+            key={product.slug}
+            product={product}
+            index={index}
+          />
         ))}
       </div>
 

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useId, useState, type ReactNode } from "react";
-import styles from "./recipe-editor.module.css";
+import { useId, useState, type ReactNode } from 'react';
+import styles from './recipe-editor.module.css';
 
 type RecipeCollapsibleSectionProps = {
   title: string;
@@ -37,11 +37,13 @@ export function RecipeCollapsibleSection({
       >
         <span className={styles.collapsibleHeaderText}>
           <span className={styles.collapsibleTitle}>{title}</span>
-          {meta ? <span className={styles.sectionMetaInline}>{meta}</span> : null}
+          {meta ? (
+            <span className={styles.sectionMetaInline}>{meta}</span>
+          ) : null}
           {hint ? <span className={styles.collapsibleHint}>{hint}</span> : null}
         </span>
         <span className={styles.collapsibleChevron} aria-hidden>
-          {open ? "▾" : "▸"}
+          {open ? '▾' : '▸'}
         </span>
       </button>
       {open ? (

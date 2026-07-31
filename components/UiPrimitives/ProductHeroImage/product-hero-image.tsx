@@ -1,8 +1,8 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import type { ProductHeroDimensions } from "@/data/chilled-product-page";
-import { normalizeCmsImageSrc } from "@/lib/content-blocks/image-src";
-import styles from "./product-hero-image.module.css";
+import type { ProductHeroDimensions } from '@/data/chilled-product-page';
+import { normalizeCmsImageSrc } from '@/lib/content-blocks/image-src';
+import styles from './product-hero-image.module.css';
 
 type ProductHeroImageProps = ProductHeroDimensions & {
   desktopSrc: string;

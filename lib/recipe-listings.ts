@@ -1,15 +1,15 @@
-import { readFile } from "fs/promises";
-import path from "path";
+import { readFile } from 'fs/promises';
+import path from 'path';
 import {
   listingDataKey,
   type RecipeListingItem,
   type RecipeTaxonomy,
   type RecipeTaxonomyKind,
-} from "@/data/recipe-taxonomies";
+} from '@/data/recipe-taxonomies';
 
 export type { RecipeListingItem };
 
-const LISTINGS_DIR = path.join(process.cwd(), "data", "recipe-listings");
+const LISTINGS_DIR = path.join(process.cwd(), 'data', 'recipe-listings');
 
 export async function getRecipeListing(
   kind: RecipeTaxonomyKind,
@@ -17,7 +17,7 @@ export async function getRecipeListing(
 ): Promise<RecipeListingItem[] | null> {
   const filePath = path.join(LISTINGS_DIR, `${kind}-${slug}.json`);
   try {
-    const raw = await readFile(filePath, "utf8");
+    const raw = await readFile(filePath, 'utf8');
     const data = JSON.parse(raw) as RecipeListingItem[];
     return Array.isArray(data) ? data : null;
   } catch {

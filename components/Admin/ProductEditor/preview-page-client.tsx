@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { ProductLivePreview } from "@/components/Admin/ProductEditor/product-live-preview";
-import type { Product } from "@/lib/products/types";
-import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
+import { ProductLivePreview } from '@/components/Admin/ProductEditor/product-live-preview';
+import type { Product } from '@/lib/products/types';
+import styles from '@/components/Admin/BlockEditor/block-editor.module.css';
 
 type PreviewPageClientProps = {
   product: Product;

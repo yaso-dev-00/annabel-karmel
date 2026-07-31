@@ -13,10 +13,8 @@
 } */
 
 .partnerLinkText a:hover {
-  color:red
-  
+  color: red;
 }
-
 
 .partnerLine {
   margin: 8px 0 14px;
@@ -49,18 +47,17 @@
 }
 
 .introText a {
-   display: none ;
+  display: none;
 }
 
- .introText a:hover {
-  color:red !important;
+.introText a:hover {
+  color: red !important;
   display: none;
-  
 }
 .recipeTitle {
   margin: 0 0 14px;
   font-family: var(--font-display);
-  font-size:40px;
+  font-size: 40px;
   line-height: 1.15;
   font-weight: 550;
   color: #3a3a3a;

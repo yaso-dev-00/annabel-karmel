@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import { useSnapCarousel } from "@/components/hooks/useSnapCarousel";
-import shared from "@/components/ProductScreen/shared/product-category-shared.module.css";
-import styles from "./ways-to-serve-carousel.module.css";
+import { useSnapCarousel } from '@/components/hooks/useSnapCarousel';
+import shared from '@/components/ProductScreen/shared/product-category-shared.module.css';
+import styles from './ways-to-serve-carousel.module.css';
 
 export type WaysToServeItem = {
   title: string;
@@ -20,10 +20,17 @@ type WaysToServeCarouselProps = {
   headingId?: string;
 };
 
-function CarouselNavIcon({ direction }: { direction: "prev" | "next" }) {
-  if (direction === "prev") {
+function CarouselNavIcon({ direction }: { direction: 'prev' | 'next' }) {
+  if (direction === 'prev') {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none" aria-hidden>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="42"
+        height="41"
+        viewBox="0 0 42 41"
+        fill="none"
+        aria-hidden
+      >
         <g clipPath="url(#ways-prev-clip-0)">
           <path
             d="M6.05686 10.4186C10.246 3.6248 18.1251 -0.824808 26.2103 0.130231C30.0631 0.586044 33.7204 2.11628 36.5421 4.80775C39.5266 7.65116 41.046 11.8078 41.6755 15.8015C42.3375 20.0558 42.0553 24.4946 40.1886 28.4233C38.5933 31.7659 36.0103 34.6744 32.9282 36.7256C26.1886 41.1969 17.5173 41.7829 10.2894 38.0822C2.51887 34.1101 -1.69198 24.8961 0.630501 16.4419C0.977787 15.1721 2.19329 14.4341 3.47391 14.293C4.26616 14.2062 6.27391 14.5535 5.91577 15.8341C4.24445 21.9333 6.11112 28.7488 10.9948 32.8837C15.3685 36.5845 22.0646 38.0605 27.3933 35.6512C33.091 33.0682 36.5204 27.5225 36.7158 21.3256C36.9328 14.7597 34.3499 7.27132 27.7948 4.69922C21.2398 2.12713 14.5762 5.05736 11.0491 10.7659C10.3437 11.9054 9.01965 12.5566 7.67391 12.4481C6.74057 12.3721 5.34058 11.5473 6.046 10.4078L6.05686 10.4186Z"
@@ -38,10 +45,20 @@ function CarouselNavIcon({ direction }: { direction: "prev" | "next" }) {
         </g>
         <defs>
           <clipPath id="ways-prev-clip-0">
-            <rect width="42" height="40.5132" fill="white" transform="matrix(-1 0 0 1 42 0)" />
+            <rect
+              width="42"
+              height="40.5132"
+              fill="white"
+              transform="matrix(-1 0 0 1 42 0)"
+            />
           </clipPath>
           <clipPath id="ways-prev-clip-1">
-            <rect width="23.876" height="20.6202" fill="white" transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 30.0625 32.5581)" />
+            <rect
+              width="23.876"
+              height="20.6202"
+              fill="white"
+              transform="matrix(4.37114e-08 -1 -1 -4.37114e-08 30.0625 32.5581)"
+            />
           </clipPath>
         </defs>
       </svg>
@@ -49,7 +66,14 @@ function CarouselNavIcon({ direction }: { direction: "prev" | "next" }) {
   }
 
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="41" viewBox="0 0 42 41" fill="none" aria-hidden>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="42"
+      height="41"
+      viewBox="0 0 42 41"
+      fill="none"
+      aria-hidden
+    >
       <g clipPath="url(#ways-next-clip-0)">
         <path
           d="M35.9431 10.4186C31.754 3.6248 23.8749 -0.824808 15.7897 0.130231C11.9369 0.586044 8.27958 2.11628 5.45787 4.80775C2.47338 7.65116 0.953997 11.8078 0.324539 15.8015C-0.337476 20.0558 -0.0553058 24.4946 1.81136 28.4233C3.40671 31.7659 5.98966 34.6744 9.07183 36.7256C15.8114 41.1969 24.4827 41.7829 31.7106 38.0822C39.4811 34.1101 43.692 24.8961 41.3695 16.4419C41.0222 15.1721 39.8067 14.4341 38.5261 14.293C37.7338 14.2062 35.7261 14.5535 36.0842 15.8341C37.7555 21.9333 35.8889 28.7488 31.0052 32.8837C26.6315 36.5845 19.9354 38.0605 14.6067 35.6512C8.90904 33.0682 5.47958 27.5225 5.28423 21.3256C5.06717 14.7597 7.65012 7.27132 14.2052 4.69922C20.7602 2.12713 27.4238 5.05736 30.9509 10.7659C31.6563 11.9054 32.9804 12.5566 34.3261 12.4481C35.2594 12.3721 36.6594 11.5473 35.954 10.4078L35.9431 10.4186Z"
@@ -67,7 +91,12 @@ function CarouselNavIcon({ direction }: { direction: "prev" | "next" }) {
           <rect width="42" height="40.5132" fill="white" />
         </clipPath>
         <clipPath id="ways-next-clip-1">
-          <rect width="23.876" height="20.6202" fill="white" transform="translate(11.9375 32.5581) rotate(-90)" />
+          <rect
+            width="23.876"
+            height="20.6202"
+            fill="white"
+            transform="translate(11.9375 32.5581) rotate(-90)"
+          />
         </clipPath>
       </defs>
     </svg>
@@ -76,15 +105,27 @@ function CarouselNavIcon({ direction }: { direction: "prev" | "next" }) {
 
 export function WaysToServeCarousel({
   items: rawItems,
-  heading = "3 WAYS TO SERVE",
-  headingId = "ways-to-serve-heading",
+  heading = '3 WAYS TO SERVE',
+  headingId = 'ways-to-serve-heading',
 }: WaysToServeCarouselProps) {
   const items = rawItems.filter((item) => item.image.trim().length > 0);
   const [navOffset, setNavOffset] = useState(0);
-  const carousel = useSnapCarousel({
+  const {
+    carouselRef,
+    trackRef,
+    x,
+    index,
+    maxIndex,
+    measure,
+    handleNavigation,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnd,
+    handleCardClickCapture,
+  } = useSnapCarousel({
     itemCount: items.length,
-    cardSelector: ".ways-to-serve-card",
-    controlsSelector: "button",
+    cardSelector: '.ways-to-serve-card',
+    controlsSelector: 'button',
     dragThreshold: 10,
     touchDragThreshold: 4,
     rubberBandFactor: 0.28,
@@ -92,24 +133,26 @@ export function WaysToServeCarousel({
   });
 
   useEffect(() => {
-    carousel.measure();
-  }, [carousel.measure, items.length]);
+    measure();
+  }, [measure, items.length]);
 
   useEffect(() => {
     const updateNavOffset = () => {
-      const track = carousel.trackRef.current;
+      const track = trackRef.current;
       if (!track) return;
-      const firstImage = track.querySelector<HTMLElement>(".ways-to-serve-card-image");
+      const firstImage = track.querySelector<HTMLElement>(
+        '.ways-to-serve-card-image',
+      );
       if (!firstImage) return;
       setNavOffset(Math.max(0, firstImage.offsetHeight / 2 - 26));
     };
 
     updateNavOffset();
-    window.addEventListener("resize", updateNavOffset);
-    return () => window.removeEventListener("resize", updateNavOffset);
-  }, [items.length]);
+    window.addEventListener('resize', updateNavOffset);
+    return () => window.removeEventListener('resize', updateNavOffset);
+  }, [items.length, trackRef]);
 
-  const canCycle = carousel.maxIndex > 0;
+  const canCycle = maxIndex > 0;
 
   if (items.length === 0) return null;
 
@@ -132,10 +175,10 @@ export function WaysToServeCarousel({
               aria-label="Previous recipes"
               className={`${styles.navButton} ${styles.navButtonPrev}`}
               style={{ marginTop: navOffset }}
-              disabled={carousel.index <= 0}
+              disabled={index <= 0}
               onPointerDown={(event) => {
                 event.stopPropagation();
-                carousel.handleNavigation(-1);
+                handleNavigation(-1);
               }}
             >
               <CarouselNavIcon direction="prev" />
@@ -143,32 +186,34 @@ export function WaysToServeCarousel({
           ) : null}
 
           <div
-            ref={carousel.carouselRef}
-            className={`${styles.carouselViewport}${canCycle ? "" : ` ${styles.carouselViewportStatic}`}`}
-            onPointerDownCapture={canCycle ? carousel.handlePointerDown : undefined}
-            onPointerMoveCapture={canCycle ? carousel.handlePointerMove : undefined}
-            onPointerUpCapture={canCycle ? carousel.handlePointerEnd : undefined}
-            onPointerCancelCapture={canCycle ? carousel.handlePointerEnd : undefined}
+            ref={carouselRef}
+            className={`${styles.carouselViewport}${canCycle ? '' : ` ${styles.carouselViewportStatic}`}`}
+            onPointerDownCapture={canCycle ? handlePointerDown : undefined}
+            onPointerMoveCapture={canCycle ? handlePointerMove : undefined}
+            onPointerUpCapture={canCycle ? handlePointerEnd : undefined}
+            onPointerCancelCapture={canCycle ? handlePointerEnd : undefined}
           >
             <motion.div
-              ref={carousel.trackRef}
+              ref={trackRef}
               className={styles.carouselTrack}
-              style={canCycle ? { x: carousel.x } : undefined}
+              style={canCycle ? { x } : undefined}
               initial={false}
             >
               {items.map((recipe, recipeIndex) => (
                 <article
                   key={recipe.title}
                   className={`ways-to-serve-card ${styles.waysToServeCard}`}
-                  onClickCapture={canCycle ? carousel.handleCardClickCapture : undefined}
+                  onClickCapture={canCycle ? handleCardClickCapture : undefined}
                 >
-                  <div className={`${styles.cardImageLink} ways-to-serve-card-image`}>
+                  <div
+                    className={`${styles.cardImageLink} ways-to-serve-card-image`}
+                  >
                     <img
                       src={recipe.image}
                       alt={recipe.title}
                       className={styles.cardImage}
                       draggable={false}
-                      onLoad={recipeIndex === 0 ? carousel.measure : undefined}
+                      onLoad={recipeIndex === 0 ? measure : undefined}
                     />
                   </div>
                   <h3 className={styles.cardTitle}>
@@ -185,10 +230,10 @@ export function WaysToServeCarousel({
               aria-label="Next recipes"
               className={`${styles.navButton} ${styles.navButtonNext}`}
               style={{ marginTop: navOffset }}
-              disabled={carousel.index >= carousel.maxIndex}
+              disabled={index >= maxIndex}
               onPointerDown={(event) => {
                 event.stopPropagation();
-                carousel.handleNavigation(1);
+                handleNavigation(1);
               }}
             >
               <CarouselNavIcon direction="next" />

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 type FallbackImageProps = {
   src: string;
@@ -10,9 +10,16 @@ type FallbackImageProps = {
   className?: string;
 };
 
-const DEFAULT_FINAL_FALLBACK = "/articles/introducing-allergenic-foods/hero.jpg";
+const DEFAULT_FINAL_FALLBACK =
+  '/articles/introducing-allergenic-foods/hero.jpg';
 
-export function FallbackImage({ src, fallbackSrc, finalFallbackSrc = DEFAULT_FINAL_FALLBACK, alt, className }: FallbackImageProps) {
+export function FallbackImage({
+  src,
+  fallbackSrc,
+  finalFallbackSrc = DEFAULT_FINAL_FALLBACK,
+  alt,
+  className,
+}: FallbackImageProps) {
   const [currentSrc, setCurrentSrc] = useState(src);
 
   return (

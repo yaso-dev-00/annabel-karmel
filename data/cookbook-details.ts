@@ -4,93 +4,96 @@ export type CookbookDetailContent = {
 };
 
 export const cookbookDetailsBySlug: Record<string, CookbookDetailContent> = {
-  "finger-foods": {
+  'finger-foods': {
     detailBody: [
       "With self-feeding such a big part of baby's weaning journey, Annabel has dedicated her new book entirely to fabulous finger foods!",
       "Whether you are spoon feeding or baby-led weaning, finger foods provide a window of opportunity to put your little one's fine motor skills to practice, help them gain independence and enjoy a world of nutritious goodness.",
-      "Filled with practical advice on how to safely serve finger foods to your baby at each age and stage, Finger Foods for Babies & Toddlers is also filled with over 100 nutritious, simple recipes to take them into toddlerhood and beyond. Discover new and exciting dishes which are sure to become future family favourites – from Cottage Pie Bites to Tofu & Veggie Lucky Stars and Kiwi & Apple Freeze Pops.",
-      "With air-fryer friendly recipes and key nutritional information, Finger Foods for Babies & Toddlers contains everything you need to make simple meals and snacks to nurture independent eaters.",
-    ].join("\n\n"),
-    detailBodyHighlights: ["Finger Foods for Babies & Toddlers"],
+      'Filled with practical advice on how to safely serve finger foods to your baby at each age and stage, Finger Foods for Babies & Toddlers is also filled with over 100 nutritious, simple recipes to take them into toddlerhood and beyond. Discover new and exciting dishes which are sure to become future family favourites – from Cottage Pie Bites to Tofu & Veggie Lucky Stars and Kiwi & Apple Freeze Pops.',
+      'With air-fryer friendly recipes and key nutritional information, Finger Foods for Babies & Toddlers contains everything you need to make simple meals and snacks to nurture independent eaters.',
+    ].join('\n\n'),
+    detailBodyHighlights: ['Finger Foods for Babies & Toddlers'],
   },
-  "weaning-2": {
+  'weaning-2': {
     detailBody: [
       "Fresh from Annabel's kitchen is the new edition of her bestselling cookbook, Weaning.",
-      "For over three decades, Annabel has supported millions of families through their weaning journeys, and the very latest edition of Weaning is packed with everything you need to know.",
+      'For over three decades, Annabel has supported millions of families through their weaning journeys, and the very latest edition of Weaning is packed with everything you need to know.',
       "Filled with expert guidance, over 60 nourishing stage-specific recipes and comprehensive nutrition and allergy advice, you can be sure your baby is getting exactly what their growing body needs. From momentous first tastes to successful self-feeding, Weaning will guide you through every stage of your baby's wonderful weaning journey, and lay the foundation for a lifetime of happy, healthy eating.",
-    ].join("\n\n"),
-    detailBodyHighlights: ["Weaning"],
+    ].join('\n\n'),
+    detailBodyHighlights: ['Weaning'],
   },
-  "new-complete-baby-toddler-meal-planner-25th-anniversary-edition": {
+  'new-complete-baby-toddler-meal-planner-25th-anniversary-edition': {
     detailBody: [
-      "The No.1 bestselling weaning bible for babies and toddlers – over 5 million copies sold worldwide!",
-      "Annabel celebrates the 30th anniversary of her most trusted cookbook with this special, fully updated and extended edition which now includes NEW finger food guidance and even more recipes to raise healthy, happy babies.",
-      "This go-to guide also includes essential advice, simple meal planners and a handy pull-out guide to step-by-step weaning. You will find everything you need to give your baby the best start in life, here, in this book.",
-    ].join("\n\n"),
+      'The No.1 bestselling weaning bible for babies and toddlers – over 5 million copies sold worldwide!',
+      'Annabel celebrates the 30th anniversary of her most trusted cookbook with this special, fully updated and extended edition which now includes NEW finger food guidance and even more recipes to raise healthy, happy babies.',
+      'This go-to guide also includes essential advice, simple meal planners and a handy pull-out guide to step-by-step weaning. You will find everything you need to give your baby the best start in life, here, in this book.',
+    ].join('\n\n'),
     detailBodyHighlights: [
-      "The No.1 bestselling weaning bible for babies and toddlers – over 5 million copies sold worldwide!",
+      'The No.1 bestselling weaning bible for babies and toddlers – over 5 million copies sold worldwide!',
     ],
   },
-  "my-first-cookbook": {
+  'my-first-cookbook': {
     detailBody: [
       "Inspire a love of food and cooking with Annabel's brand-new cookbook!",
       "Based on a lifetime's experience creating child-friendly recipes, Annabel has put together the perfect introduction to cooking for budding chefs.",
       "My First Cookbook is jam-packed with fun, easy-to-make recipes including Monster Pizzas, Sticky Chicken and Teddy Bear Pasta, plus lots of tempting, easy-to-make treats like Banana and Blueberry Loaf Cake and Oreo Brownies. On the way, children will get to practice all kinds of hands-on kitchen skills such as mixing, rolling, stirring, squeezing, cutting and measuring. You won't believe how satisfying they'll find cracking eggs and kneading dough! Each recipe is easy to follow, beautifully photographed, and features fun illustrations from Kate Greenaway Award-nominated artist Alex Willmore.",
-    ].join("\n\n"),
-    detailBodyHighlights: ["My First Cookbook"],
+    ].join('\n\n'),
+    detailBodyHighlights: ['My First Cookbook'],
   },
-  "where-does-my-food-come-from": {
+  'where-does-my-food-come-from': {
     detailBody: [
-      "Where Does My Food Come From? is a fully illustrated non-fiction picture book that lets readers discover how their favourite foods are grown and made – with exclusive recipes from Annabel for each one.",
+      'Where Does My Food Come From? is a fully illustrated non-fiction picture book that lets readers discover how their favourite foods are grown and made – with exclusive recipes from Annabel for each one.',
       "Images from renowned children's artist Alex Willmore make each food cheekily spring to life on the page, telling the story of its creation to the reader. Find out how eggs, cheese, tomatoes, pasta, strawberries, honey and chocolate are grown and made, and enjoy the fun, step-by-step food activities in each section too. Best of all, Annabel includes two fantastic, child-friendly recipes for each food. They're perfect for getting kids to create and eat wonderful meals with their favourite food – and for getting fussy eaters to try new foods too.",
-    ].join("\n\n"),
-    detailBodyHighlights: ["Where Does My Food Come From?"],
+    ].join('\n\n'),
+    detailBodyHighlights: ['Where Does My Food Come From?'],
   },
-  "fun-fast-easy-childrens-cookbook": {
+  'fun-fast-easy-childrens-cookbook': {
     detailBody: [
       "Did you know that cooking actually encourages fussy eaters to eat, as they're more likely to dig into something they've prepared?",
       "Instil a love of cooking to last a lifetime with Annabel's Fun, Fast and Easy Children's Cookbook. This is the ultimate kitchen companion for young children and their parents, turning mealtimes into the most fun part of the day, no matter how picky your child!",
-      "This book is guaranteed to be loved by both little ones and adults alike and provides the perfect opportunity to cook up delicious recipes and memories to treasure for a lifetime. Adults will love the emphasis on fresh, wholesome ingredients and clear, simple instructions and little ones will love preparing and savouring the delicious dishes, all the while learning a host of skills along the way. From learning how to make their very first omelette, to discovering how to tell whether an egg is fresh without breaking it, and even how to peel bananas like a monkey, your little foodie will have their foundations for cooking set for life.",
+      'This book is guaranteed to be loved by both little ones and adults alike and provides the perfect opportunity to cook up delicious recipes and memories to treasure for a lifetime. Adults will love the emphasis on fresh, wholesome ingredients and clear, simple instructions and little ones will love preparing and savouring the delicious dishes, all the while learning a host of skills along the way. From learning how to make their very first omelette, to discovering how to tell whether an egg is fresh without breaking it, and even how to peel bananas like a monkey, your little foodie will have their foundations for cooking set for life.',
       "Plus, with recipes including everything from sizzling stir-fries, orzo pasta jars and nutritious noodle pots, there's something for even the pickiest eater.",
-      "With a mix of great recipes and foodie fun, this is the perfect cookbook for young families everywhere, and a must-have in any household with little ones!",
-    ].join("\n\n"),
+      'With a mix of great recipes and foodie fun, this is the perfect cookbook for young families everywhere, and a must-have in any household with little ones!',
+    ].join('\n\n'),
     detailBodyHighlights: ["Fun, Fast and Easy Children's Cookbook"],
   },
-  "weaning-made-simple": {
+  'weaning-made-simple': {
     detailBody: [
-      "An exciting journey of food discovery awaits your baby, yet this can often feel like an overwhelming and confusing time.",
+      'An exciting journey of food discovery awaits your baby, yet this can often feel like an overwhelming and confusing time.',
       "With Weaning Made Simple, it's easy to find the right approach for your little one – and for you. Packed with the latest advice and one hundred nutritious recipes, this is the must-have essential guide to feeding your baby, from the UK's no. 1 children's cookery author and weaning expert.",
-      "Weaning Made Simple features helpful lists and guides, meal planners, portion guidance, actual-size finger food illustrations and easy-to-follow information on everything from starting out and reducing milk feeds, to critical nutrients, allergies and special diets.",
-      "From purees and finger foods to joining-in family mealtimes, this book gives you everything you need to know to introduce your baby to a lifetime of happy, healthy eating.",
-    ].join("\n\n"),
-    detailBodyHighlights: ["Weaning Made Simple"],
+      'Weaning Made Simple features helpful lists and guides, meal planners, portion guidance, actual-size finger food illustrations and easy-to-follow information on everything from starting out and reducing milk feeds, to critical nutrients, allergies and special diets.',
+      'From purees and finger foods to joining-in family mealtimes, this book gives you everything you need to know to introduce your baby to a lifetime of happy, healthy eating.',
+    ].join('\n\n'),
+    detailBodyHighlights: ['Weaning Made Simple'],
   },
-  "real-foods-kids-will-love": {
+  'real-foods-kids-will-love': {
     detailBody: [
       "Annabel brings you a mouth-watering batch of never-before-seen family recipes featuring delicious ingredients with serious nutritional credentials. With beautiful photographs and fresh design, this is an essential book for every modern parent. Chapters range from Fifteen Minute Meals to Healthy 'Fast Food', via Holiday Cooking with Kids and Lunchbox Snacks, and fresh, easy and modern dishes include Quinoa Chicken Fingers, Crispy Baked Cod, The Best Buttermilk Pancakes and Carrot Cake Balls.",
-      "The chapters are designed to make choosing a fuss-free dish simple. Many recipes include swap-outs to cater for those with food allergies, intolerances or particularly fussy eaters! There is a huge range of meat-free and vegan meal options as well as recipes including meat and fish.",
+      'The chapters are designed to make choosing a fuss-free dish simple. Many recipes include swap-outs to cater for those with food allergies, intolerances or particularly fussy eaters! There is a huge range of meat-free and vegan meal options as well as recipes including meat and fish.',
       "Real Food Kids Will Love offers everything today's parents are looking for once their babies are ready to start joining in with the family mealtimes. Each dish is designed to be enjoyed by the whole family, while remaining simple, healthy, and not too salty or sugary for young children.",
-    ].join("\n\n"),
-    detailBodyHighlights: ["Real Food Kids Will Love"],
+    ].join('\n\n'),
+    detailBodyHighlights: ['Real Food Kids Will Love'],
   },
-  "baby-led-weaning-recipe-book": {
+  'baby-led-weaning-recipe-book': {
     detailBody: [
       "Championing a flexible approach to feeding, Annabel's Baby-Led Weaning Recipe Book makes for the ideal stand-alone guide for those wanting to explore baby-led weaning (BLW) exclusively. Or for those wanting to introduce BLW alongside spoon-feeding purees, it can be used as a companion cookbook to Annabel's New Complete Baby & Toddler Meal Planner which is filled with her famous puree recipes.",
       "This delicious, nutritious collection of 120 family friendly recipes is paired with useful advice and essential tips to equip parents with the power to choose what's best for their baby. Whilst purees provide an obvious bridge between liquid and solid foods, self-feeding offers a prime opportunity for babies to discover their natural abilities to explore a wide variety of tastes and textures, encouraging independence and good eating habits.",
-      "Many families find that incorporating a mix of both works best for their baby. Whether you are choosing exclusive BLW or combining with spoon-feeding, this book is the ultimate companion for exploring self-feeding safely.",
-    ].join("\n\n"),
-    detailBodyHighlights: ["Baby-Led Weaning Recipe Book", "New Complete Baby & Toddler Meal Planner"],
+      'Many families find that incorporating a mix of both works best for their baby. Whether you are choosing exclusive BLW or combining with spoon-feeding, this book is the ultimate companion for exploring self-feeding safely.',
+    ].join('\n\n'),
+    detailBodyHighlights: [
+      'Baby-Led Weaning Recipe Book',
+      'New Complete Baby & Toddler Meal Planner',
+    ],
   },
-  "annabels-family-cookbook": {
+  'annabels-family-cookbook': {
     detailBody: [
       "Bestselling children's cookery writer and mum of three, Annabel knows how tricky it can be to find food the whole family can enjoy together. Too often, busy parents have to make one meal for the kids and then another for adults. In her beautiful new cookbook, Annabel offers no-fuss, tasty recipes for all mealtimes that will get everyone around the table at the same time – whether they be 2 years old or twenty.",
       "Weeknights can be busy, so Annabel includes both her favourite 'fast' recipes, which take no more than 30 minutes to prep and cook, as well as lots of her easy-to-make 'everyday' ideas and 'light meals, snacks and lunchboxes' – all simple recipes using few, easy-to-find ingredients but packed with flavour.",
       "For families, weekends might be more relaxed but they are still action-packed. Annabel offers her foolproof 'prep ahead' recipes, which can be stored in your freezer or fridge as well as her 'weekend' dishes, which are ideal for leisurely brunches, big family Sunday lunches or a relaxed supper with friends.",
       "Try Annabel's delicious granola and simple pancakes or her mouth-watering Veggie Fusilli, which will tempt even the fussiest little eaters. Annabel's Steak with Tarragon and Mushroom Sauce, Moroccan Lamb Tagine and Squash and Pea and Sage Risotto are dinner-party winners, while her Chocolate and Coffee Cake is perfect for afternoon tea. Annabel has included many of her best-loved favourites here too, such as Chicken Karmel, Nasi Goreng and Best-ever Banana Cake.",
-    ].join("\n\n"),
+    ].join('\n\n'),
     detailBodyHighlights: [],
   },
-  "babys-first-year-journal": {
+  'babys-first-year-journal': {
     detailBody: [
       "They grow up so quickly! Keep a journal of the first twelve months for you to look back on and to show your little one when they're older.",
       "This book helps you to record and store all those special memories of your baby's first precious year, with ideas and spaces for things like milestones and what the world was like during the first year of their life.",
@@ -98,7 +101,7 @@ export const cookbookDetailsBySlug: Record<string, CookbookDetailContent> = {
       "When they're older your child can learn what the world was during their first year, so don't forget to write down who is currently the president, your favourite contemporary music artist, and the prices of stamps and milk.",
       "There's plenty of space to let them know all the details of their first year that were special and memorable. You can include what your baby learns, their new experiences and favourite toy! There will be lots of firsts for baby, and you will want to recall them all, like the first time they smiled, learned to kiss or call you mama or papa. There are pockets for photographs so you can capture their first steps and remember them forever.",
       "Annabel also provides information on your baby's development and helpful advice to encourage new achievements. She has included five delicious recipes for various stages, and for that special milestone – a birthday cake!",
-    ].join("\n\n"),
+    ].join('\n\n'),
     detailBodyHighlights: [],
   },
 };

@@ -1,8 +1,8 @@
-import { ProductPreviewPageClient } from "@/components/Admin/ProductEditor/preview-page-client";
-import { DisabledArticlePreview } from "@/components/Admin/AdviceArticleEditor/disabled-article-preview";
-import { getProductById } from "@/lib/admin/products-store";
-import { isProductDisabled } from "@/lib/admin/product-status";
-import { notFound } from "next/navigation";
+import { ProductPreviewPageClient } from '@/components/Admin/ProductEditor/preview-page-client';
+import { DisabledArticlePreview } from '@/components/Admin/AdviceArticleEditor/disabled-article-preview';
+import { getProductById } from '@/lib/admin/products-store';
+import { isProductDisabled } from '@/lib/admin/product-status';
+import { notFound } from 'next/navigation';
 
 type PageProps = { params: Promise<{ id: string }> };
 

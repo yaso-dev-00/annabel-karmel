@@ -1,9 +1,12 @@
-import Image from "next/image";
-import type { CSSProperties, ReactNode } from "react";
+import Image from 'next/image';
+import type { CSSProperties, ReactNode } from 'react';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { EmpowerExpertCarousel, EmpowerRecipeCarousel } from "@/components/MarketingScreen/EmpowerCarousels";
-import { EmpowerFormSelect } from "@/components/MarketingScreen/EmpowerFormSelect";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import {
+  EmpowerExpertCarousel,
+  EmpowerRecipeCarousel,
+} from '@/components/MarketingScreen/EmpowerCarousels';
+import { EmpowerFormSelect } from '@/components/MarketingScreen/EmpowerFormSelect';
 import {
   empowerAssets,
   empowerAwards,
@@ -13,20 +16,26 @@ import {
   empowerHowItWorksSteps,
   empowerParentSupportPoints,
   empowerStats,
-} from "@/data/empower-your-employees-page";
-import { empowerImageSizes } from "@/data/empower-image-sizes";
-import styles from "./empower-your-employees-page.module.css";
+} from '@/data/empower-your-employees-page';
+import { empowerImageSizes } from '@/data/empower-image-sizes';
+import styles from './empower-your-employees-page.module.css';
 
 const WAVE_PATH =
-  "M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z";
+  'M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z';
 
-function WaveDivider({ position }: { position: "top" | "bottom" }) {
+function WaveDivider({ position }: { position: 'top' | 'bottom' }) {
   return (
     <div
-      className={position === "top" ? styles.waveShapeTop : styles.waveShapeBottom}
+      className={
+        position === 'top' ? styles.waveShapeTop : styles.waveShapeBottom
+      }
       aria-hidden="true"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1000 100"
+        preserveAspectRatio="none"
+      >
         <path className={styles.waveFill} d={WAVE_PATH} />
       </svg>
     </div>
@@ -35,18 +44,51 @@ function WaveDivider({ position }: { position: "top" | "bottom" }) {
 
 function CheckIcon() {
   return (
-    <svg className="h-[35px] w-[35px] shrink-0" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-      <path d="M30 9L13.5 25.5L6 18" stroke="#494747" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg
+      className="h-[35px] w-[35px] shrink-0"
+      xmlns="http://www.w3.org/2000/svg"
+      width="36"
+      height="36"
+      viewBox="0 0 36 36"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M30 9L13.5 25.5L6 18"
+        stroke="#494747"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-function ArrowIcon({ stroke = "#6E9CA5" }: { stroke?: string }) {
+function ArrowIcon({ stroke = '#6E9CA5' }: { stroke?: string }) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none" aria-hidden="true">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="41"
+      height="41"
+      viewBox="0 0 41 41"
+      fill="none"
+      aria-hidden="true"
+    >
       <rect width="41" height="41" rx="16" fill="white" />
-      <path d="M13 20.5H27" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M20 13.5L27 20.5L20 27.5" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M13 20.5H27"
+        stroke={stroke}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M20 13.5L27 20.5L20 27.5"
+        stroke={stroke}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -54,19 +96,19 @@ function ArrowIcon({ stroke = "#6E9CA5" }: { stroke?: string }) {
 function EmpowerButton({
   href,
   label,
-  variant = "teal",
+  variant = 'teal',
   block = false,
 }: {
   href: string;
   label: string;
-  variant?: "teal" | "pink";
+  variant?: 'teal' | 'pink';
   block?: boolean;
 }) {
-  const stroke = variant === "pink" ? "#B34769" : "#6E9CA5";
+  const stroke = variant === 'pink' ? '#B34769' : '#6E9CA5';
   return (
     <a
       href={href}
-      className={`${styles.ctaButton} ${variant === "pink" ? styles.ctaButtonPink : ""} ${block ? styles.ctaButtonBlock : ""}`}
+      className={`${styles.ctaButton} ${variant === 'pink' ? styles.ctaButtonPink : ''} ${block ? styles.ctaButtonBlock : ''}`}
     >
       <span>{label}</span>
       <ArrowIcon stroke={stroke} />
@@ -79,7 +121,7 @@ function FillImage({
   alt,
   wrapperClassName,
   imageClassName,
-  sizes = "100vw",
+  sizes = '100vw',
   priority = false,
 }: {
   src: string;
@@ -90,7 +132,10 @@ function FillImage({
   priority?: boolean;
 }) {
   return (
-    <div className={wrapperClassName} aria-hidden={alt === "" ? true : undefined}>
+    <div
+      className={wrapperClassName}
+      aria-hidden={alt === '' ? true : undefined}
+    >
       <Image
         src={src}
         alt={alt}
@@ -114,8 +159,8 @@ function SplitSection({
   reverse = false,
   cta,
   children,
-  contentClassName = "",
-  imageClassName = "",
+  contentClassName = '',
+  imageClassName = '',
   imageSizes,
 }: {
   title: string;
@@ -133,7 +178,9 @@ function SplitSection({
 }) {
   return (
     <section className={styles.splitSection}>
-      <div className={`${styles.sectionShell} ${reverse ? styles.splitGridReverse : ""} ${styles.splitGrid}`}>
+      <div
+        className={`${styles.sectionShell} ${reverse ? styles.splitGridReverse : ''} ${styles.splitGrid}`}
+      >
         <div className={styles.splitMedia}>
           <Image
             src={image}
@@ -161,15 +208,17 @@ export function EmpowerYourEmployeesPageContent() {
   // } as CSSProperties;
 
   const formStyle = {
-    "--form-bg": `url(${empowerAssets.formBg})`,
+    '--form-bg': `url(${empowerAssets.formBg})`,
   } as CSSProperties;
 
   return (
     <main className={styles.page}>
-      <section className={styles.heroShell} aria-labelledby="empower-hero-heading">
+      <section
+        className={styles.heroShell}
+        aria-labelledby="empower-hero-heading"
+      >
         <div
           className={`${styles.sectionShell} px-0 md:px-5 ${styles.heroCard}`}
-          
         >
           <FillImage
             src={empowerAssets.heroDesktop}
@@ -181,10 +230,11 @@ export function EmpowerYourEmployeesPageContent() {
           />
           <div className={styles.heroCopy}>
             <h1 id="empower-hero-heading" className={styles.heroHeading}>
-              Empower your employees with Annabel Karmel&apos;s essential recipe app
+              Empower your employees with Annabel Karmel&apos;s essential recipe
+              app
             </h1>
             <div className={styles.sectionCta}>
-            <EmpowerButton href="#request-a-demo" label="Request a demo" />
+              <EmpowerButton href="#request-a-demo" label="Request a demo" />
             </div>
           </div>
           <div className={styles.heroImageWrap}>
@@ -201,7 +251,10 @@ export function EmpowerYourEmployeesPageContent() {
         </div>
       </section>
 
-      <section className={styles.awardsSection} aria-label="Awards and recognition">
+      <section
+        className={styles.awardsSection}
+        aria-label="Awards and recognition"
+      >
         <div className={styles.awardsGrid}>
           {empowerAwards.map((award) => (
             <Image
@@ -231,7 +284,10 @@ export function EmpowerYourEmployeesPageContent() {
         }
       />
 
-      <section className={styles.childcareSection} aria-labelledby="empower-childcare-heading">
+      <section
+        className={styles.childcareSection}
+        aria-labelledby="empower-childcare-heading"
+      >
         <div className={styles.childcareCard}>
           <FillImage
             src={empowerAssets.childcareProvider}
@@ -241,24 +297,28 @@ export function EmpowerYourEmployeesPageContent() {
             sizes={empowerImageSizes.fullWidthCard}
           />
           <div className={styles.childcareCardContent}>
-          <h2 id="empower-childcare-heading" className={styles.splitHeading}>
-            Are you a nanny agency or childcare provider?
-          </h2>
-          <p className={styles.body18}>
-            Discover how Annabel Karmel&apos;s expert recipe app can provide everyday support to your caregivers.
-          </p>
-          <div className={styles.sectionCta}>
-          <EmpowerButton
-            href="/annabel-karmels-app-for-childcare/"
-            label="Learn more"
-            variant="pink"
-          />
-          </div>
+            <h2 id="empower-childcare-heading" className={styles.splitHeading}>
+              Are you a nanny agency or childcare provider?
+            </h2>
+            <p className={styles.body18}>
+              Discover how Annabel Karmel&apos;s expert recipe app can provide
+              everyday support to your caregivers.
+            </p>
+            <div className={styles.sectionCta}>
+              <EmpowerButton
+                href="/annabel-karmels-app-for-childcare/"
+                label="Learn more"
+                variant="pink"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className={styles.vectorSection} aria-labelledby="empower-tools-heading">
+      <section
+        className={styles.vectorSection}
+        aria-labelledby="empower-tools-heading"
+      >
         <FillImage
           src={empowerAssets.vectorBg}
           alt=""
@@ -276,7 +336,11 @@ export function EmpowerYourEmployeesPageContent() {
           imageClassName={styles.toolsImage}
           cta={
             <div className={styles.sectionCta}>
-              <EmpowerButton href="#request-a-demo" label="Request a demo" block />
+              <EmpowerButton
+                href="#request-a-demo"
+                label="Request a demo"
+                block
+              />
             </div>
           }
         >
@@ -291,15 +355,27 @@ export function EmpowerYourEmployeesPageContent() {
         </SplitSection>
       </section>
 
-      <section className={styles.recipesSection} aria-labelledby="empower-recipes-heading">
-        <h2 id="empower-recipes-heading" className={`${styles.displayHeading} ${styles.recipesHeading}`}>
+      <section
+        className={styles.recipesSection}
+        aria-labelledby="empower-recipes-heading"
+      >
+        <h2
+          id="empower-recipes-heading"
+          className={`${styles.displayHeading} ${styles.recipesHeading}`}
+        >
           Recipes that grow with your family
         </h2>
         <EmpowerRecipeCarousel />
       </section>
 
-      <section className={styles.expertSection} aria-labelledby="empower-expert-heading">
-        <h2 id="empower-expert-heading" className={`${styles.displayHeading} ${styles.expertHeading}`}>
+      <section
+        className={styles.expertSection}
+        aria-labelledby="empower-expert-heading"
+      >
+        <h2
+          id="empower-expert-heading"
+          className={`${styles.displayHeading} ${styles.expertHeading}`}
+        >
           Expert support with real benefits
         </h2>
         <div className={styles.expertCarouselWrap}>
@@ -310,16 +386,22 @@ export function EmpowerYourEmployeesPageContent() {
         </div>
       </section>
 
-      <section className={styles.parentSection} aria-labelledby="empower-parent-heading">
-        <div className={`${styles.sectionShell} ${styles.parentPanel} pl-[0px]! md:pl-[30px]! pb-0! pr-0! `}>
+      <section
+        className={styles.parentSection}
+        aria-labelledby="empower-parent-heading"
+      >
+        <div
+          className={`${styles.sectionShell} ${styles.parentPanel} pl-[0px]! md:pl-[30px]! pb-0! pr-0! `}
+        >
           <div className={styles.parentGrid}>
             <div className={styles.parentContent}>
               <h2 id="empower-parent-heading" className={styles.splitHeading}>
                 Supporting parent employees with babies
               </h2>
               <p className={styles.body18}>
-                Annabel Karmel&apos;s app is the leading resource for safe and easy weaning, making it an ideal resource
-                for your employees with infants, and those on maternity and paternity leave.
+                Annabel Karmel&apos;s app is the leading resource for safe and
+                easy weaning, making it an ideal resource for your employees
+                with infants, and those on maternity and paternity leave.
               </p>
               <ul className={`m-0 w-full list-none p-0 ${styles.parentList}`}>
                 {empowerParentSupportPoints.map((item) => (
@@ -330,7 +412,12 @@ export function EmpowerYourEmployeesPageContent() {
                 ))}
               </ul>
               <div className={styles.sectionCta}>
-              <EmpowerButton href="#request-a-demo" label="Find out more" block /></div>
+                <EmpowerButton
+                  href="#request-a-demo"
+                  label="Find out more"
+                  block
+                />
+              </div>
             </div>
             <div className={styles.parentImage}>
               <Image
@@ -346,16 +433,22 @@ export function EmpowerYourEmployeesPageContent() {
         </div>
       </section>
 
-      <section className={styles.statsSection} aria-labelledby="empower-stats-heading">
+      <section
+        className={styles.statsSection}
+        aria-labelledby="empower-stats-heading"
+      >
         <WaveDivider position="top" />
-        <h2 id="empower-stats-heading" className={`${styles.displayHeading} ${styles.statsHeading}`}>
+        <h2
+          id="empower-stats-heading"
+          className={`${styles.displayHeading} ${styles.statsHeading}`}
+        >
           How the app is encouraging healthier eating habits
         </h2>
         <div className={styles.statsGrid}>
           {empowerStats.map((stat) => (
             <article
               key={stat.label}
-              className={`${styles.statCard} ${stat.centerOnMobile ? styles.statCardCenterMobile : ""}`}
+              className={`${styles.statCard} ${stat.centerOnMobile ? styles.statCardCenterMobile : ''}`}
             >
               <Image
                 src={stat.icon}
@@ -365,7 +458,10 @@ export function EmpowerYourEmployeesPageContent() {
                 className={styles.statIcon}
                 sizes={empowerImageSizes.statIcon}
               />
-              <p className={styles.statValue} style={{ color: stat.valueColor }}>
+              <p
+                className={styles.statValue}
+                style={{ color: stat.valueColor }}
+              >
                 {stat.value}
               </p>
               <p className={styles.statLabel}>{stat.label}</p>
@@ -376,7 +472,10 @@ export function EmpowerYourEmployeesPageContent() {
         <WaveDivider position="bottom" />
       </section>
 
-      <section className={styles.howSection} aria-labelledby="empower-how-heading">
+      <section
+        className={styles.howSection}
+        aria-labelledby="empower-how-heading"
+      >
         <div className={styles.howGrid}>
           <div className={styles.howImage}>
             <Image
@@ -414,7 +513,11 @@ export function EmpowerYourEmployeesPageContent() {
               ))}
             </ol>
             <div className={styles.howCta}>
-              <EmpowerButton href="#request-a-demo" label="Request a demo" block />
+              <EmpowerButton
+                href="#request-a-demo"
+                label="Request a demo"
+                block
+              />
             </div>
           </div>
         </div>
@@ -428,8 +531,8 @@ export function EmpowerYourEmployeesPageContent() {
       >
         <div className={styles.formCard}>
           <h2 id="empower-form-heading" className={styles.formHeading}>
-            Complete this form to request a demo and learn more about how Annabel Karmel&apos;s expert recipe app can
-            support your employees
+            Complete this form to request a demo and learn more about how
+            Annabel Karmel&apos;s expert recipe app can support your employees
           </h2>
           <form className={styles.formGrid} action="#request-a-demo">
             <EmpowerFormSelect
@@ -441,7 +544,13 @@ export function EmpowerYourEmployeesPageContent() {
             />
 
             <div className={styles.formGridTwo}>
-              <input className={styles.formField} type="text" name="company" placeholder="Company name*" required />
+              <input
+                className={styles.formField}
+                type="text"
+                name="company"
+                placeholder="Company name*"
+                required
+              />
               <EmpowerFormSelect
                 name="company_size"
                 options={empowerCompanySizeOptions}
@@ -452,28 +561,67 @@ export function EmpowerYourEmployeesPageContent() {
             </div>
 
             <div className={styles.formGridTwo}>
-              <input className={styles.formField} type="text" name="first_name" placeholder="First name*" required />
-              <input className={styles.formField} type="text" name="last_name" placeholder="Last name*" required />
+              <input
+                className={styles.formField}
+                type="text"
+                name="first_name"
+                placeholder="First name*"
+                required
+              />
+              <input
+                className={styles.formField}
+                type="text"
+                name="last_name"
+                placeholder="Last name*"
+                required
+              />
             </div>
 
-            <input className={styles.formField} type="text" name="job_title" placeholder="Job title*" required />
+            <input
+              className={styles.formField}
+              type="text"
+              name="job_title"
+              placeholder="Job title*"
+              required
+            />
 
             <div className={styles.formGridTwo}>
-              <input className={styles.formField} type="email" name="email" placeholder="Business email*" required />
-              <input className={styles.formField} type="tel" name="phone" placeholder="Contact number" />
+              <input
+                className={styles.formField}
+                type="email"
+                name="email"
+                placeholder="Business email*"
+                required
+              />
+              <input
+                className={styles.formField}
+                type="tel"
+                name="phone"
+                placeholder="Contact number"
+              />
             </div>
 
-            <textarea className={styles.formTextarea} name="message" placeholder="Message..." rows={4} />
+            <textarea
+              className={styles.formTextarea}
+              name="message"
+              placeholder="Message..."
+              rows={4}
+            />
 
             <p className={styles.formDisclaimer}>
-              By submitting this form, you agree that we may use the data you provide to contact you with information
-              related to your request/submission and Annabel Karmel&apos;s products and marketing. You can unsubscribe from
-              these communications at any time by clicking the unsubscribe link in the email. Your data will be used
-              subject to Annabel Karmel&apos;s privacy policy.
+              By submitting this form, you agree that we may use the data you
+              provide to contact you with information related to your
+              request/submission and Annabel Karmel&apos;s products and
+              marketing. You can unsubscribe from these communications at any
+              time by clicking the unsubscribe link in the email. Your data will
+              be used subject to Annabel Karmel&apos;s privacy policy.
             </p>
 
             <div className={`${styles.formActions} ${styles.sectionCta}`}>
-              <button type="submit" className={`${styles.ctaButton} ${styles.formSubmit}`}>
+              <button
+                type="submit"
+                className={`${styles.ctaButton} ${styles.formSubmit}`}
+              >
                 <span>Submit</span>
                 <ArrowIcon />
               </button>
@@ -482,8 +630,8 @@ export function EmpowerYourEmployeesPageContent() {
         </div>
         <WaveDivider position="bottom" />
       </section>
-   <div className={styles.instagramWrap}>
-      <InstagramShareSection  />
+      <div className={styles.instagramWrap}>
+        <InstagramShareSection />
       </div>
     </main>
   );

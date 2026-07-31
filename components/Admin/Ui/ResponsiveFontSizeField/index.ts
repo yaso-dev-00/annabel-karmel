@@ -1,1 +1,1 @@
-export { ResponsiveFontSizeField } from "./responsive-font-size-field";
+export { ResponsiveFontSizeField } from './responsive-font-size-field';

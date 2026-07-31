@@ -1,5 +1,5 @@
 export const cookiePolicyPage = {
-  title: "Cookie Policy",
+  title: 'Cookie Policy',
   html: `<p><strong>This policy outlines how this website sets cookies on your computer. By continuing to view this website you agree to the following;</strong></p>
 <h4>What Are Cookies?</h4>
 <p>Cookies are small files created by most websites to help improve your web experience. They are either stored in the memory (session cookies) or on the hard drive (persistent cookies) of your computer or other device.</p>

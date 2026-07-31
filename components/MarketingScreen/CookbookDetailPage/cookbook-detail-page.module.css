@@ -33,7 +33,7 @@
   margin: 0;
   padding: 2rem 0 1.5rem;
   text-align: center;
-  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
   font-size: 28px;
   font-weight: 600;
   line-height: 1.2;
@@ -85,7 +85,6 @@
 }
 
 .carouselPanel {
- 
   padding: 1.5rem 0 1.75rem;
   width: 100%;
   min-width: 0;
@@ -112,7 +111,9 @@
   letter-spacing: 0.08em;
   text-decoration: none;
   text-transform: uppercase;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 @media (min-width: 768px) {
@@ -151,7 +152,7 @@
 
 .bodyCopy {
   margin: 0 0 1.25rem;
-  font-family: var(--font-montserrat), "mont-light", Montserrat, sans-serif;
+  font-family: var(--font-montserrat), 'mont-light', Montserrat, sans-serif;
   font-size: 18px;
   font-weight: 300;
   line-height: 1.5;
@@ -172,13 +173,13 @@
 }
 
 .bodyCopy strong {
-  font-family: var(--font-montserrat), "mont-bold", Montserrat, sans-serif;
+  font-family: var(--font-montserrat), 'mont-bold', Montserrat, sans-serif;
   font-weight: 700;
 }
 
 .suitableFor {
   margin: 0;
-  font-family: var(--font-montserrat), "mont-light", Montserrat, sans-serif;
+  font-family: var(--font-montserrat), 'mont-light', Montserrat, sans-serif;
   font-size: 18px;
   font-weight: 300;
   line-height: 1.4;
@@ -192,7 +193,7 @@
 }
 
 .suitableFor strong {
-  font-family: var(--font-montserrat), "mont-bold", Montserrat, sans-serif;
+  font-family: var(--font-montserrat), 'mont-bold', Montserrat, sans-serif;
   font-weight: 600;
 }
 

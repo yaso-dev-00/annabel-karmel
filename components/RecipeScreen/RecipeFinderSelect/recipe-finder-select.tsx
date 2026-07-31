@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useId, useRef, useState } from "react";
-import type { RecipeFinderOption } from "@/data/recipe-finder-options";
-import styles from "@/components/RecipeScreen/RecipeFinder/recipe-finder.module.css";
+import { useEffect, useId, useRef, useState } from 'react';
+import type { RecipeFinderOption } from '@/data/recipe-finder-options';
+import styles from '@/components/RecipeScreen/RecipeFinder/recipe-finder.module.css';
 
 type RecipeFinderSelectProps = {
   id: string;
@@ -16,7 +16,7 @@ type RecipeFinderSelectProps = {
   onChange: (value: string) => void;
 };
 
-const MOBILE_QUERY = "(max-width: 720px)";
+const MOBILE_QUERY = '(max-width: 720px)';
 
 export function RecipeFinderSelect({
   id,
@@ -37,8 +37,8 @@ export function RecipeFinderSelect({
     const media = window.matchMedia(MOBILE_QUERY);
     const update = () => setIsMobile(media.matches);
     update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
   }, []);
 
   useEffect(() => {
@@ -50,11 +50,11 @@ export function RecipeFinderSelect({
       }
     };
 
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("touchstart", handlePointerDown);
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('touchstart', handlePointerDown);
     return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('touchstart', handlePointerDown);
     };
   }, [isMobile, isOpen, onClose]);
 
@@ -95,15 +95,20 @@ export function RecipeFinderSelect({
         <span className={styles.customSelectValue}>{selectedLabel}</span>
       </button>
       {isOpen ? (
-        <ul id={listId} className={styles.customSelectList} role="listbox" aria-label={ariaLabel}>
+        <ul
+          id={listId}
+          className={styles.customSelectList}
+          role="listbox"
+          aria-label={ariaLabel}
+        >
           <li role="presentation">
             <button
               type="button"
               role="option"
-              aria-selected={value === ""}
-              className={`${styles.customSelectOption} ${value === "" ? styles.customSelectOptionSelected : ""}`}
+              aria-selected={value === ''}
+              className={`${styles.customSelectOption} ${value === '' ? styles.customSelectOptionSelected : ''}`}
               onClick={() => {
-                onChange("");
+                onChange('');
                 onClose();
               }}
             >
@@ -116,7 +121,7 @@ export function RecipeFinderSelect({
                 type="button"
                 role="option"
                 aria-selected={value === option.slug}
-                className={`${styles.customSelectOption} ${value === option.slug ? styles.customSelectOptionSelected : ""}`}
+                className={`${styles.customSelectOption} ${value === option.slug ? styles.customSelectOptionSelected : ''}`}
                 onClick={() => {
                   onChange(option.slug);
                   onClose();

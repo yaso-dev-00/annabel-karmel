@@ -1,15 +1,18 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useRef, useState } from "react";
-import type { PreviewViewportHandle } from "@/components/Admin/BlockEditor/preview-viewport";
-import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
-import { CookbookBuyLinksEditor } from "@/components/Admin/CookbookEditor/cookbook-buy-links-editor";
-import { CookbookCarouselEditor } from "@/components/Admin/CookbookEditor/cookbook-carousel-editor";
-import { CookbookDetailCopyEditor } from "@/components/Admin/CookbookEditor/cookbook-detail-copy-editor";
-import { CookbookListingCopyEditor } from "@/components/Admin/CookbookEditor/cookbook-listing-copy-editor";
-import { CookbookLivePreview } from "@/components/Admin/CookbookEditor/cookbook-live-preview";
-import { createCookbookApi, updateCookbookApi } from "@/lib/admin/cookbooks-client";
+import { useRouter } from 'next/navigation';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import type { PreviewViewportHandle } from '@/components/Admin/BlockEditor/preview-viewport';
+import { ArticleStatusField } from '@/components/Admin/Ui/ArticleStatusField';
+import { CookbookBuyLinksEditor } from '@/components/Admin/CookbookEditor/cookbook-buy-links-editor';
+import { CookbookCarouselEditor } from '@/components/Admin/CookbookEditor/cookbook-carousel-editor';
+import { CookbookDetailCopyEditor } from '@/components/Admin/CookbookEditor/cookbook-detail-copy-editor';
+import { CookbookListingCopyEditor } from '@/components/Admin/CookbookEditor/cookbook-listing-copy-editor';
+import { CookbookLivePreview } from '@/components/Admin/CookbookEditor/cookbook-live-preview';
+import {
+  createCookbookApi,
+  updateCookbookApi,
+} from '@/lib/admin/cookbooks-client';
 import {
   applyCookbookStatus,
   buildCookbookSavePayload,
@@ -17,11 +20,11 @@ import {
   isCookbookDisabled,
   isCookbookPreviewable,
   resolveCookbookStatus,
-} from "@/lib/admin/cookbook-status";
-import { validateCookbookForPublish } from "@/lib/cookbooks/sanitize-cookbook";
-import type { Cookbook, CookbookStatus } from "@/lib/cookbooks/types";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import styles from "./cookbook-editor.module.css";
+} from '@/lib/admin/cookbook-status';
+import { validateCookbookForPublish } from '@/lib/cookbooks/sanitize-cookbook';
+import type { Cookbook, CookbookStatus } from '@/lib/cookbooks/types';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import styles from './cookbook-editor.module.css';
 
 type CookbookEditorProps = {
   initialCookbook: Cookbook;
@@ -32,11 +35,14 @@ function slugifyTitle(title: string): string {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
-export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) {
+export function CookbookEditor({
+  initialCookbook,
+  isNew,
+}: CookbookEditorProps) {
   const router = useRouter();
   const previewRef = useRef<PreviewViewportHandle>(null);
   const [cookbook, setCookbook] = useState(initialCookbook);
@@ -46,10 +52,13 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
   const [autoSlug, setAutoSlug] = useState(isNew && !initialCookbook.slug);
   const [editingSlug, setEditingSlug] = useState(false);
 
-  const update = useCallback(<K extends keyof Cookbook>(key: K, value: Cookbook[K]) => {
-    setCookbook((prev) => ({ ...prev, [key]: value }));
-    setDirty(true);
-  }, []);
+  const update = useCallback(
+    <K extends keyof Cookbook>(key: K, value: Cookbook[K]) => {
+      setCookbook((prev) => ({ ...prev, [key]: value }));
+      setDirty(true);
+    },
+    [],
+  );
 
   const save = async (publish = false) => {
     setSaving(true);
@@ -69,25 +78,31 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
         const created = await createCookbookApi(payload);
         setCookbook(created);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.replace(`/admin/cookbooks/${created.id}/edit`);
         router.refresh();
       } else {
         const updated = await updateCookbookApi(cookbook.id, payload);
         setCookbook(updated);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.refresh();
       }
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Save failed. Please try again.';
       setMessage(detail);
     } finally {
       setSaving(false);
     }
   };
 
-  const handleStatusChange = async (status: CookbookStatus, scheduledAt?: string | null) => {
+  const handleStatusChange = async (
+    status: CookbookStatus,
+    scheduledAt?: string | null,
+  ) => {
     const next = applyCookbookStatus(cookbook, status, scheduledAt);
     setCookbook(next);
 
@@ -95,21 +110,26 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
       setSaving(true);
       setMessage(null);
       try {
-        const updated = await updateCookbookApi(cookbook.id, getCookbookStatusPatch(next));
+        const updated = await updateCookbookApi(
+          cookbook.id,
+          getCookbookStatusPatch(next),
+        );
         setCookbook(updated);
         setDirty(false);
         setMessage(
-          status === "disabled"
-            ? "Cookbook disabled."
-            : status === "published"
-              ? "Cookbook published."
-              : "Status saved.",
+          status === 'disabled'
+            ? 'Cookbook disabled.'
+            : status === 'published'
+              ? 'Cookbook published.'
+              : 'Status saved.',
         );
         router.refresh();
       } catch (error) {
         setDirty(true);
         const detail =
-          error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+          error instanceof Error
+            ? error.message
+            : 'Failed to save status. Try Save draft.';
         setMessage(detail);
       } finally {
         setSaving(false);
@@ -152,10 +172,15 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
         </div>
         <div className={styles.slugField}>
           <div className={styles.slugFieldHeader}>
-            <label className={styles.slugFieldLabel} htmlFor={editingSlug ? "cookbook-slug" : undefined}>
+            <label
+              className={styles.slugFieldLabel}
+              htmlFor={editingSlug ? 'cookbook-slug' : undefined}
+            >
               Page URL
             </label>
-            {autoSlug ? <span className={styles.slugAutoHint}>Synced from title</span> : null}
+            {autoSlug ? (
+              <span className={styles.slugAutoHint}>Synced from title</span>
+            ) : null}
           </div>
 
           {editingSlug ? (
@@ -167,11 +192,11 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                 value={cookbook.slug}
                 onChange={(e) => {
                   setAutoSlug(false);
-                  update("slug", e.target.value);
+                  update('slug', e.target.value);
                 }}
                 onBlur={() => setEditingSlug(false)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === "Escape") {
+                  if (e.key === 'Enter' || e.key === 'Escape') {
                     e.preventDefault();
                     setEditingSlug(false);
                   }
@@ -191,7 +216,9 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
           ) : (
             <div className={styles.slugBar}>
               <span className={styles.slugPrefix}>/apps-books/</span>
-              <span className={styles.slugValue}>{cookbook.slug || "your-book-slug"}</span>
+              <span className={styles.slugValue}>
+                {cookbook.slug || 'your-book-slug'}
+              </span>
               <button
                 type="button"
                 className={styles.slugEditBtn}
@@ -214,12 +241,16 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
     <div className="editorSections">
       <div className="editorPageHeader">
         <div>
-          <h1 className="cardTitle">{cookbook.title || "Untitled"}</h1>
-          <p className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}>
-            {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
+          <h1 className="cardTitle">{cookbook.title || 'Untitled'}</h1>
+          <p className={`statusBar ${dirty && !message ? 'statusDirty' : ''}`}>
+            {message
+              ? message
+              : dirty
+                ? 'Unsaved changes'
+                : 'All changes saved'}
           </p>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
           {previewable ? (
             <button
               type="button"
@@ -238,7 +269,12 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
               Preview
             </button>
           )}
-          <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+          <button
+            type="button"
+            className="btn btnSecondary"
+            onClick={saveDraft}
+            disabled={saving}
+          >
             Save draft
           </button>
           <button
@@ -276,7 +312,7 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                   id="cookbook-subtitle"
                   className="fieldInput"
                   value={cookbook.subtitle}
-                  onChange={(e) => update("subtitle", e.target.value)}
+                  onChange={(e) => update('subtitle', e.target.value)}
                 />
               </div>
               <div className="metaGrid">
@@ -288,10 +324,10 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                     id="cookbook-year"
                     className="fieldInput"
                     type="number"
-                    value={cookbook.year ?? ""}
+                    value={cookbook.year ?? ''}
                     onChange={(e) => {
                       const value = e.target.value.trim();
-                      update("year", value ? Number(value) : null);
+                      update('year', value ? Number(value) : null);
                     }}
                     placeholder="2018"
                   />
@@ -304,7 +340,7 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                     id="cookbook-badge"
                     className="fieldInput"
                     value={cookbook.badge}
-                    onChange={(e) => update("badge", e.target.value)}
+                    onChange={(e) => update('badge', e.target.value)}
                     placeholder="Bestseller"
                   />
                 </div>
@@ -317,7 +353,7 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                   id="cookbook-suitable"
                   className="fieldInput"
                   value={cookbook.suitableFor}
-                  onChange={(e) => update("suitableFor", e.target.value)}
+                  onChange={(e) => update('suitableFor', e.target.value)}
                   placeholder="babies 6 months+ and toddlers"
                 />
               </div>
@@ -328,8 +364,10 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
             <CookbookListingCopyEditor
               body={cookbook.body}
               bodyHighlights={cookbook.bodyHighlights}
-              onChangeBody={(body) => update("body", body)}
-              onChangeHighlights={(bodyHighlights) => update("bodyHighlights", bodyHighlights)}
+              onChangeBody={(body) => update('body', body)}
+              onChangeHighlights={(bodyHighlights) =>
+                update('bodyHighlights', bodyHighlights)
+              }
             />
           </div>
 
@@ -337,27 +375,31 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
             <CookbookDetailCopyEditor
               detailBody={cookbook.detailBody}
               detailBodyHighlights={cookbook.detailBodyHighlights}
-              onChangeBody={(detailBody) => update("detailBody", detailBody)}
+              onChangeBody={(detailBody) => update('detailBody', detailBody)}
               onChangeHighlights={(detailBodyHighlights) =>
-                update("detailBodyHighlights", detailBodyHighlights)
+                update('detailBodyHighlights', detailBodyHighlights)
               }
             />
           </div>
 
           <CookbookBuyLinksEditor
             buyLinks={cookbook.buyLinks}
-            onChange={(buyLinks) => update("buyLinks", buyLinks)}
+            onChange={(buyLinks) => update('buyLinks', buyLinks)}
           />
 
           <CookbookCarouselEditor
             images={cookbook.carouselImages}
-            onChange={(carouselImages) => update("carouselImages", carouselImages)}
+            onChange={(carouselImages) =>
+              update('carouselImages', carouselImages)
+            }
           />
 
           <div className="card">
             <div className={styles.sectionHeaderCol}>
               <h2 className="cardSectionTitle">SEO</h2>
-              <p className={styles.sectionHint}>How this cookbook appears in search results</p>
+              <p className={styles.sectionHint}>
+                How this cookbook appears in search results
+              </p>
             </div>
             <div className="cardForm">
               <div className="field">
@@ -366,7 +408,7 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                     SEO title
                   </label>
                   <span
-                    className={`${styles.charCount} ${seoTitleLen > 60 ? styles.charCountWarn : ""}`}
+                    className={`${styles.charCount} ${seoTitleLen > 60 ? styles.charCountWarn : ''}`}
                   >
                     {seoTitleLen}/60
                   </span>
@@ -375,7 +417,7 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                   id="seo-title"
                   className="fieldInput"
                   value={cookbook.seo_title}
-                  onChange={(e) => update("seo_title", e.target.value)}
+                  onChange={(e) => update('seo_title', e.target.value)}
                 />
               </div>
               <div className="field">
@@ -384,7 +426,7 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                     Meta description
                   </label>
                   <span
-                    className={`${styles.charCount} ${seoDescLen > 160 ? styles.charCountWarn : ""}`}
+                    className={`${styles.charCount} ${seoDescLen > 160 ? styles.charCountWarn : ''}`}
                   >
                     {seoDescLen}/160
                   </span>
@@ -394,14 +436,17 @@ export function CookbookEditor({ initialCookbook, isNew }: CookbookEditorProps) 
                   className="fieldTextarea"
                   rows={3}
                   value={cookbook.seo_description}
-                  onChange={(e) => update("seo_description", e.target.value)}
+                  onChange={(e) => update('seo_description', e.target.value)}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <aside className={blockStyles.editorPreviewColumn} aria-label="Live preview">
+        <aside
+          className={blockStyles.editorPreviewColumn}
+          aria-label="Live preview"
+        >
           <CookbookLivePreview
             ref={previewRef}
             cookbook={cookbook}

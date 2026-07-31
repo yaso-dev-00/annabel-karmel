@@ -78,7 +78,6 @@
 
 .link {
   color: #3f3841;
- 
 }
 
 .link:hover {
@@ -148,10 +147,7 @@
     padding: 0 10px;
   }
 
- 
-
-  
-  .accordionSummary{
+  .accordionSummary {
     font-size: 20px;
   }
 

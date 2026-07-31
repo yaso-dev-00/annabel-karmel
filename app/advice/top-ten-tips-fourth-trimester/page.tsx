@@ -1,20 +1,21 @@
-import { EggQuestionsAccordion } from "@/components/ArticleScreen/EggQuestionsAccordion";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { EggQuestionsAccordion } from '@/components/ArticleScreen/EggQuestionsAccordion';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   fourthTrimesterAccordionItems,
   fourthTrimesterRelatedArticles,
-} from "@/data/fourth-trimester-page";
-import type { Metadata } from "next";
-import Link from "next/link";
-import styles from "./page.module.css";
+} from '@/data/fourth-trimester-page';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Top ten tips for the fourth trimester | Postnatal Care | Annabel Karmel",
+  title:
+    'Top ten tips for the fourth trimester | Postnatal Care | Annabel Karmel',
   description:
-    "Becky and Alexis share their top self-care tips for new mums during the fourth trimester — from slowing down to planning some you time.",
+    'Becky and Alexis share their top self-care tips for new mums during the fourth trimester — from slowing down to planning some you time.',
 };
 
 export default function FourthTrimesterPage() {
@@ -24,13 +25,17 @@ export default function FourthTrimesterPage() {
       <main className="bg-white">
         <article className="mx-auto w-full max-w-[1200px] px-[8px] pb-[10px] pt-[16px] sm:px-[12px] md:mt-[40px] md:px-[14px] md:pt-[20px]">
           <p className={styles.intro}>
-            Becky and Alexis share some of their top self-care tips for new mums during the 4<sup>th</sup> trimester:
+            Becky and Alexis share some of their top self-care tips for new mums
+            during the 4<sup>th</sup> trimester:
           </p>
 
-          <EggQuestionsAccordion items={fourthTrimesterAccordionItems} numbered />
+          <EggQuestionsAccordion
+            items={fourthTrimesterAccordionItems}
+            numbered
+          />
 
           <p className={styles.excerpt}>
-            Excerpt from{" "}
+            Excerpt from{' '}
             <Link
               href="https://www.amazon.co.uk/Little-Book-Self-Care-New-Mums/dp/1785041827"
               className={styles.excerptLink}
@@ -38,7 +43,7 @@ export default function FourthTrimesterPage() {
               rel="noreferrer"
             >
               <strong>The Little Book of Self Care for New Mums</strong>
-            </Link>{" "}
+            </Link>{' '}
             by Beccy Hands &amp; Alexis Stickland (Vermillion, £12.99).
           </p>
 

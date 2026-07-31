@@ -32,7 +32,7 @@
 
 .heading {
   margin: 0 0 0.95rem;
-  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
   font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   font-weight: 500;
   line-height: 1.15;
@@ -41,7 +41,7 @@
 
 .subheading {
   margin: 0;
-  font-family: var(--font-montserrat), "mont-light", Montserrat, sans-serif;
+  font-family: var(--font-montserrat), 'mont-light', Montserrat, sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: 1.45;
@@ -101,12 +101,16 @@
   bottom: 0;
   left: 0;
   padding: 1.25rem 1rem 1rem;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.62) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.62) 100%
+  );
 }
 
 .tileTitle {
   margin: 0;
-  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   font-weight: 500;
   line-height: 1.15;

@@ -30,13 +30,13 @@
 }
 
 .inlineLink:hover {
-  color:  var(--hover-color);
+  color: var(--hover-color);
 }
 
 .contentImage {
   display: block;
   width: 100%;
-   max-width: 800px; 
+  max-width: 800px;
   height: auto;
   margin: 40px auto 0;
 }
@@ -57,7 +57,7 @@
 }
 
 .dashItem::before {
-  content: "– ";
+  content: '– ';
 }
 
 .dashItem + .dashItem {
@@ -128,8 +128,6 @@
   .dashList {
     padding: 0 10px;
   }
-
-  
 
   .bulletList {
     padding-left: 50px;

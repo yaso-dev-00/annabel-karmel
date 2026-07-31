@@ -1,1 +1,1 @@
-export * from "./newsletter-modal";
+export * from './newsletter-modal';

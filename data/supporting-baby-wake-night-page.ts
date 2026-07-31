@@ -1,28 +1,28 @@
-import { babySleepAdviceRelatedArticles } from "@/data/baby-sleep-advice-listing";
-import type { SleepAdviceSection } from "@/components/ArticleScreen/SleepAdviceArticlePage";
+import { babySleepAdviceRelatedArticles } from '@/data/baby-sleep-advice-listing';
+import type { SleepAdviceSection } from '@/components/ArticleScreen/SleepAdviceArticlePage';
 
-export const articleSlug = "supporting-baby-wake-night";
+export const articleSlug = 'supporting-baby-wake-night';
 export const articlePath = `/articles/${articleSlug}`;
 
 export const supportingBabyWakeNightSections: SleepAdviceSection[] = [
   {
-    title: "How to Support Your Baby When They Wake at Night",
+    title: 'How to Support Your Baby When They Wake at Night',
     paragraphs: [
       "Meeting your baby's needs at night is never the wrong thing to do. There are so many reasons why a baby may need your support, and responding to their cues isn't about spoiling them, or pandering to them unnecessarily. If they are crying, it's about meeting their needs – even if you can't fathom out why!",
       "Babies, newborns in particular, need to get to know that the world around them is safe and trustworthy, and they learn a sense of security and comfort when you respond to them. My approach always meets them at their point of need. And yes, you can still get a settled night's sleep. Here's how.",
-      "When your baby is asking for support at night, usually by crying out for you, meet their needs straight away, but I recommend a technique called \"rolling-up your response\".",
+      'When your baby is asking for support at night, usually by crying out for you, meet their needs straight away, but I recommend a technique called "rolling-up your response".',
       "There are various levels of response you can give your baby if they wake, and adopting the following process enables you to support them at a level they need to be able to drift of. That could be as simple as a short and sweet calming voice (then off you scamper back to bed), or it could escalate to a full feed if your baby isn't settling.",
       "The point of following this is that you are only in their sleep space only as long as they need you to be. They may be awake and asking for support but it doesn't necessarily mean they want to be picked-up or fed.",
-      "If your baby wakes at night, here are my steps to rolling-up your response:",
+      'If your baby wakes at night, here are my steps to rolling-up your response:',
     ],
     image: `${articlePath}/night-waking.jpg`,
-    imageAlt: "Baby waking at night",
+    imageAlt: 'Baby waking at night',
     ordered: true,
     listItems: [
       "Go to them straight away but very calmly. Try not to fling open the door or stomp on in. This is likely to further awaken them, and before you know it, they're ready for playtime (or mega meltdown!).",
       "Make eye contact with them if you can. When parents' and babies' eyes meet, an emotional connection is established. And that connection is extra important when your baby is feeling lonely and in need of some simple reassurance. I don't believe in no eye contact; if you've made moves to enter their sleep space, then show them that you are there to support them.",
       "Offer your baby some calming and soothing verbal reassurance. It's believed that stone age mothers would talk to their baby as they gathered food to stop them crying and alert predators. The soothing tone of a parent's voice is quite magical in terms of the comfort it can bring.",
-      "If they do not settle by this point, offer a light touch. Gently stroking their head or patting their bum can help induce sleep if that is what they are used to.",
+      'If they do not settle by this point, offer a light touch. Gently stroking their head or patting their bum can help induce sleep if that is what they are used to.',
       "If this isn't working, pick them up and settle them back to sleep in your arms.",
       "If all the above aren't working then offer them a feed.",
     ],
@@ -34,4 +34,5 @@ export const supportingBabyWakeNightSections: SleepAdviceSection[] = [
   },
 ];
 
-export const supportingBabyWakeNightRelatedArticles = babySleepAdviceRelatedArticles(articleSlug);
+export const supportingBabyWakeNightRelatedArticles =
+  babySleepAdviceRelatedArticles(articleSlug);

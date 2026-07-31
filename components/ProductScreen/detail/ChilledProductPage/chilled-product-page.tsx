@@ -1,24 +1,34 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { ProductHeroImage } from "@/components/UiPrimitives/ProductHeroImage";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { ProductHeroImage } from '@/components/UiPrimitives/ProductHeroImage';
 import {
   SectionBackgroundImage,
   SingleSectionBackgroundImage,
-} from "@/components/UiPrimitives/SectionBackgroundImage";
-import { CAROUSEL_SLIDE, useSnapCarousel } from "@/components/hooks/useSnapCarousel";
+} from '@/components/UiPrimitives/SectionBackgroundImage';
+import {
+  CAROUSEL_SLIDE,
+  useSnapCarousel,
+} from '@/components/hooks/useSnapCarousel';
 import type {
   ChilledProductAccordionItem,
   ChilledProductPageData,
-} from "@/data/chilled-product-page";
-import styles from "./chilled-product-page.module.css";
+} from '@/data/chilled-product-page';
+import styles from './chilled-product-page.module.css';
 
-const PREPARE_LABELS = ["Microwave (800W):", "Microwave:", "Oven:"] as const;
+const PREPARE_LABELS = ['Microwave (800W):', 'Microwave:', 'Oven:'] as const;
 
 function renderInlineBold(text: string) {
   const parts = text.split(/\*\*(.+?)\*\*/g);
@@ -34,10 +44,10 @@ function renderInlineBold(text: string) {
 
 function renderAccordionParagraph(paragraph: string) {
   if (
-    paragraph.startsWith("Made in a nut") ||
-    paragraph.startsWith("Caution:") ||
-    paragraph === "190°C / Fan 170°C / Gas 5" ||
-    paragraph.startsWith("190°C / Fan 170°C / Gas 5")
+    paragraph.startsWith('Made in a nut') ||
+    paragraph.startsWith('Caution:') ||
+    paragraph === '190°C / Fan 170°C / Gas 5' ||
+    paragraph.startsWith('190°C / Fan 170°C / Gas 5')
   ) {
     return <strong>{paragraph.trim()}</strong>;
   }
@@ -61,7 +71,7 @@ function AccordionChevron({ open }: { open: boolean }) {
   return (
     <svg
       aria-hidden
-      className={`${styles.accordionChevron}${open ? ` ${styles.accordionChevronOpen}` : ""}`}
+      className={`${styles.accordionChevron}${open ? ` ${styles.accordionChevronOpen}` : ''}`}
       width="13"
       height="17"
       viewBox="0 0 13 17"
@@ -88,7 +98,7 @@ function ProductAccordionItem({
     <div className={styles.accordionItem}>
       <button
         type="button"
-        className={`${styles.accordionSummary}${open ? ` ${styles.accordionSummaryOpen}` : ""}`}
+        className={`${styles.accordionSummary}${open ? ` ${styles.accordionSummaryOpen}` : ''}`}
         aria-expanded={open}
         onClick={onToggle}
       >
@@ -160,41 +170,53 @@ function ProductCarousel({
   arrowLeft,
   arrowRight,
 }: {
-  slides: ChilledProductPageData["carousel"];
+  slides: ChilledProductPageData['carousel'];
   arrowLeft: string;
   arrowRight: string;
 }) {
   const visibleSlides = slides.filter((slide) => slide.src.trim().length > 0);
-  const carousel = useSnapCarousel({
+  const {
+    carouselRef,
+    trackRef,
+    x,
+    index,
+    indexRef,
+    measure,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnd,
+    handleCardClickCapture,
+    animateToIndex,
+  } = useSnapCarousel({
     itemCount: visibleSlides.length,
-    cardSelector: ".chilled-product-carousel-slide",
-    controlsSelector: "button",
+    cardSelector: '.chilled-product-carousel-slide',
+    controlsSelector: 'button',
     dragThreshold: 2,
     touchDragThreshold: 1,
     rubberBandFactor: 0.35,
     touchMomentumFactor: 0.3,
   });
 
-  const indexRef = useRef(0);
-  const animateToIndexRef = useRef(carousel.animateToIndex);
+  const animateToIndexRef = useRef(animateToIndex);
 
-  indexRef.current = carousel.index;
-  animateToIndexRef.current = carousel.animateToIndex;
+  useLayoutEffect(() => {
+    animateToIndexRef.current = animateToIndex;
+  }, [animateToIndex]);
 
   const goTo = useCallback(
     (next: number) => {
       const total = visibleSlides.length;
       if (total <= 0) return;
       const wrapped = ((next % total) + total) % total;
-      if (wrapped === carousel.index) return;
-      carousel.animateToIndex(wrapped, CAROUSEL_SLIDE);
+      if (wrapped === index) return;
+      animateToIndex(wrapped, CAROUSEL_SLIDE);
     },
-    [carousel, visibleSlides.length],
+    [animateToIndex, index, visibleSlides.length],
   );
 
   useEffect(() => {
-    carousel.measure();
-  }, [carousel.measure, visibleSlides.length]);
+    measure();
+  }, [measure, visibleSlides.length]);
 
   useEffect(() => {
     if (visibleSlides.length <= 1) return;
@@ -212,36 +234,36 @@ function ProductCarousel({
     <div className={styles.carouselStage}>
       <div className={styles.carouselFrame}>
         <div
-          ref={carousel.carouselRef}
+          ref={carouselRef}
           className={styles.carouselViewport}
           aria-live="polite"
-          onPointerDownCapture={carousel.handlePointerDown}
-          onPointerMoveCapture={carousel.handlePointerMove}
-          onPointerUpCapture={carousel.handlePointerEnd}
-          onPointerCancelCapture={carousel.handlePointerEnd}
+          onPointerDownCapture={handlePointerDown}
+          onPointerMoveCapture={handlePointerMove}
+          onPointerUpCapture={handlePointerEnd}
+          onPointerCancelCapture={handlePointerEnd}
         >
           <motion.div
-            ref={carousel.trackRef}
+            ref={trackRef}
             className={styles.carouselTrack}
-            style={{ x: carousel.x }}
+            style={{ x }}
             initial={false}
           >
             {visibleSlides.map((slide, slideIndex) => (
               <div
                 key={`${slide.src}-${slideIndex}`}
                 className={`chilled-product-carousel-slide ${styles.carouselSlideItem}`}
-                aria-hidden={slideIndex !== carousel.index}
-                onClickCapture={carousel.handleCardClickCapture}
+                aria-hidden={slideIndex !== index}
+                onClickCapture={handleCardClickCapture}
               >
                 <img
                   src={slide.src}
                   alt={slide.alt}
                   className={styles.carouselSlide}
-                  loading={slideIndex === 0 ? "eager" : "lazy"}
+                  loading={slideIndex === 0 ? 'eager' : 'lazy'}
                   decoding="async"
                   draggable={false}
                   onDragStart={(event) => event.preventDefault()}
-                  onLoad={carousel.measure}
+                  onLoad={measure}
                 />
               </div>
             ))}
@@ -255,7 +277,7 @@ function ProductCarousel({
         aria-label="Previous image"
         onPointerDown={(event) => {
           event.stopPropagation();
-          goTo(carousel.index - 1);
+          goTo(index - 1);
         }}
       >
         <img src={arrowLeft} alt="" className={styles.carouselArrowIcon} />
@@ -266,7 +288,7 @@ function ProductCarousel({
         aria-label="Next image"
         onPointerDown={(event) => {
           event.stopPropagation();
-          goTo(carousel.index + 1);
+          goTo(index + 1);
         }}
       >
         <img src={arrowRight} alt="" className={styles.carouselArrowIcon} />
@@ -277,9 +299,9 @@ function ProductCarousel({
           <button
             key={item.src}
             type="button"
-            className={`${styles.carouselDot}${dotIndex === carousel.index ? ` ${styles.carouselDotActive}` : ""}`}
+            className={`${styles.carouselDot}${dotIndex === index ? ` ${styles.carouselDotActive}` : ''}`}
             aria-label={`Show image ${dotIndex + 1}`}
-            aria-current={dotIndex === carousel.index ? "true" : undefined}
+            aria-current={dotIndex === index ? 'true' : undefined}
             onClick={() => goTo(dotIndex)}
           />
         ))}
@@ -290,8 +312,16 @@ function ProductCarousel({
 
 function WaveShapeBottom() {
   return (
-    <div className={styles.shapeBottom} aria-hidden="true" data-negative="false">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+    <div
+      className={styles.shapeBottom}
+      aria-hidden="true"
+      data-negative="false"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1000 100"
+        preserveAspectRatio="none"
+      >
         <path
           className={styles.shapeFill}
           d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"
@@ -301,19 +331,19 @@ function WaveShapeBottom() {
   );
 }
 
-const RETAILER_FALLBACK_COLOR = "#00843d";
+const RETAILER_FALLBACK_COLOR = '#00843d';
 
 function productThemeStyle(data: ChilledProductPageData): CSSProperties {
   return {
-    "--section-fallback": data.theme.detailColor,
-    "--accordion-bg": data.theme.accordionBg,
-    "--discover-btn-bg": data.theme.discoverButtonBg,
-    "--discover-btn-color": data.theme.discoverButtonColor,
+    '--section-fallback': data.theme.detailColor,
+    '--accordion-bg': data.theme.accordionBg,
+    '--discover-btn-bg': data.theme.discoverButtonBg,
+    '--discover-btn-color': data.theme.discoverButtonColor,
   } as CSSProperties;
 }
 
 function ProductHeading({ id, title }: { id: string; title: string }) {
-  const lines = title.split("\n");
+  const lines = title.split('\n');
 
   return (
     <h1 id={id} className={styles.pageHeading}>
@@ -327,13 +357,22 @@ function ProductHeading({ id, title }: { id: string; title: string }) {
   );
 }
 
-export function ChilledProductPageContent({ data }: { data: ChilledProductPageData }) {
+export function ChilledProductPageContent({
+  data,
+}: {
+  data: ChilledProductPageData;
+}) {
   const badgeGridClass =
-    data.badges.length >= 6 ? `${styles.badgeGrid} ${styles.badgeGrid6}` : styles.badgeGrid;
+    data.badges.length >= 6
+      ? `${styles.badgeGrid} ${styles.badgeGrid6}`
+      : styles.badgeGrid;
 
   return (
     <main className={styles.page}>
-      <section className={`${styles.fullBleed} leading-0`} aria-label={data.heroAlt}>
+      <section
+        className={`${styles.fullBleed} leading-0`}
+        aria-label={data.heroAlt}
+      >
         <ProductHeroImage
           desktopSrc={data.assets.heroDesktop}
           mobileSrc={data.assets.heroMobile}
@@ -360,7 +399,9 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
           desktopPosition="top center"
           mobilePosition="top center"
         />
-        <div className={`${styles.sectionContent} ${styles.inner} ${styles.detailInner}`}>
+        <div
+          className={`${styles.sectionContent} ${styles.inner} ${styles.detailInner}`}
+        >
           <header className={styles.detailHeader}>
             <ProductHeading id={data.headingId} title={data.hero.title} />
             <p className={styles.detailIntro}>{data.hero.intro}</p>
@@ -380,10 +421,15 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
                 {data.badges
                   .filter((badge) => badge.src.trim())
                   .map((badge) => (
-                  <li key={badge.src}>
-                    <img src={badge.src} alt={badge.alt} className={styles.badgeImage} loading="lazy" />
-                  </li>
-                ))}
+                    <li key={badge.src}>
+                      <img
+                        src={badge.src}
+                        alt={badge.alt}
+                        className={styles.badgeImage}
+                        loading="lazy"
+                      />
+                    </li>
+                  ))}
               </ul>
 
               <p className={styles.description}>{data.description}</p>
@@ -406,7 +452,10 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
         />
         <div className={`${styles.sectionContent} ${styles.inner}`}>
           <div className={styles.retailerRow}>
-            <h2 id={`${data.slug}-retailer-heading`} className={styles.sectionHeading}>
+            <h2
+              id={`${data.slug}-retailer-heading`}
+              className={styles.sectionHeading}
+            >
               {data.retailer.heading}
             </h2>
             <a href={data.retailer.logoHref} target="_blank" rel="noreferrer">
@@ -433,10 +482,12 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
           fit="cover"
           position="top center"
           unoptimized={true}
-        
         />
         <div className={`${styles.sectionContent} ${styles.inner}`}>
-          <h2 id={`${data.slug}-why-not-try-heading`} className={styles.sectionHeading}>
+          <h2
+            id={`${data.slug}-why-not-try-heading`}
+            className={styles.sectionHeading}
+          >
             Why not try
           </h2>
           <div className={styles.relatedGrid}>
@@ -445,25 +496,25 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
               const imageHeight = product.height ?? 753;
 
               return (
-              <article key={product.href} className={styles.relatedCard}>
-                <Link
-                  href={product.href}
-                  className={styles.relatedImageLink}
-                  style={{ aspectRatio: `${imageWidth} / ${imageHeight}` }}
-                >
-                  <Image
-                    src={product.image}
-                    alt=""
-                    width={imageWidth}
-                    height={imageHeight}
-                    className={styles.relatedImage}
-                    sizes="(min-width: 768px) 360px, 100vw"
-                  />
-                </Link>
-                <Link href={product.href} className={styles.discoverButton}>
-                  discover
-                </Link>
-              </article>
+                <article key={product.href} className={styles.relatedCard}>
+                  <Link
+                    href={product.href}
+                    className={styles.relatedImageLink}
+                    style={{ aspectRatio: `${imageWidth} / ${imageHeight}` }}
+                  >
+                    <Image
+                      src={product.image}
+                      alt=""
+                      width={imageWidth}
+                      height={imageHeight}
+                      className={styles.relatedImage}
+                      sizes="(min-width: 768px) 360px, 100vw"
+                    />
+                  </Link>
+                  <Link href={product.href} className={styles.discoverButton}>
+                    discover
+                  </Link>
+                </article>
               );
             })}
           </div>
@@ -471,7 +522,9 @@ export function ChilledProductPageContent({ data }: { data: ChilledProductPageDa
         <WaveShapeBottom />
       </section>
 
-      <InstagramShareSection className={`${styles.fullBleed} bg-white pt-[90px] pb-10 md:pb-16`} />
+      <InstagramShareSection
+        className={`${styles.fullBleed} bg-white pt-[90px] pb-10 md:pb-16`}
+      />
     </main>
   );
 }

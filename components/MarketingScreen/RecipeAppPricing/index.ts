@@ -1,1 +1,1 @@
-export * from "./recipe-app-pricing";
+export * from './recipe-app-pricing';

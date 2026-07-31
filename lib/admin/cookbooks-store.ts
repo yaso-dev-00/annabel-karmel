@@ -1,11 +1,14 @@
-import seedStore from "@/data/cms/cookbooks.seed.json";
-import { isCookbookPublic } from "@/lib/admin/cookbook-status";
+import seedStore from '@/data/cms/cookbooks.seed.json';
+import { isCookbookPublic } from '@/lib/admin/cookbook-status';
 import {
   readCookbooksCmsStoreRaw,
   writeCookbooksCmsStoreRaw,
-} from "@/lib/admin/cookbooks-cms-store-io";
-import { sanitizeCookbook, sanitizeCookbooksStore } from "@/lib/cookbooks/sanitize-cookbook";
-import type { Cookbook, CookbooksStore } from "@/lib/cookbooks/types";
+} from '@/lib/admin/cookbooks-cms-store-io';
+import {
+  sanitizeCookbook,
+  sanitizeCookbooksStore,
+} from '@/lib/cookbooks/sanitize-cookbook';
+import type { Cookbook, CookbooksStore } from '@/lib/cookbooks/types';
 
 async function readStore(): Promise<CookbooksStore> {
   let raw: string;
@@ -39,19 +42,27 @@ export async function getCookbookById(id: string): Promise<Cookbook | null> {
   return store.cookbooks.find((cookbook) => cookbook.id === id) ?? null;
 }
 
-export async function getPublishedCookbookBySlug(slug: string): Promise<Cookbook | null> {
+export async function getPublishedCookbookBySlug(
+  slug: string,
+): Promise<Cookbook | null> {
   const store = await readStore();
   const cookbook = store.cookbooks.find((item) => item.slug === slug);
   if (!cookbook || !isCookbookPublic(cookbook)) return null;
   return cookbook;
 }
 
-export async function getCookbookBySlug(slug: string): Promise<Cookbook | null> {
+export async function getCookbookBySlug(
+  slug: string,
+): Promise<Cookbook | null> {
   const store = await readStore();
   return store.cookbooks.find((item) => item.slug === slug) ?? null;
 }
 
-function assertUniqueSlug(store: CookbooksStore, slug: string, excludeId?: string): void {
+function assertUniqueSlug(
+  store: CookbooksStore,
+  slug: string,
+  excludeId?: string,
+): void {
   const conflict = store.cookbooks.find(
     (cookbook) => cookbook.slug === slug && cookbook.id !== excludeId,
   );
@@ -61,7 +72,7 @@ function assertUniqueSlug(store: CookbooksStore, slug: string, excludeId?: strin
 }
 
 export async function createCookbook(
-  input: Omit<Cookbook, "id" | "created_at" | "updated_at">,
+  input: Omit<Cookbook, 'id' | 'created_at' | 'updated_at'>,
 ): Promise<Cookbook> {
   const store = await readStore();
   assertUniqueSlug(store, input.slug.trim());
@@ -81,7 +92,7 @@ export async function createCookbook(
 
 export async function updateCookbook(
   id: string,
-  input: Partial<Omit<Cookbook, "id" | "created_at">>,
+  input: Partial<Omit<Cookbook, 'id' | 'created_at'>>,
 ): Promise<Cookbook | null> {
   const store = await readStore();
   const index = store.cookbooks.findIndex((cookbook) => cookbook.id === id);

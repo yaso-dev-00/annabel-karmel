@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
-import { FallbackImage } from "@/components/UiPrimitives/FallbackImage";
-import styles from "@/app/food-allergies-your-common-questions-concerns-answered/page.module.css";
+import { AnimatePresence, motion } from 'framer-motion';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { FallbackImage } from '@/components/UiPrimitives/FallbackImage';
+import styles from '@/app/food-allergies-your-common-questions-concerns-answered/page.module.css';
 
 export type FoodAllergiesFaqItem = {
   question: string;
@@ -18,7 +18,7 @@ type FoodAllergiesFaqAccordionProps = {
 
 const PANEL_TRANSITION = {
   height: { duration: 0.45, ease: [0.4, 0, 0.2, 1] as const },
-  opacity: { duration: 0.35, ease: "easeOut" as const },
+  opacity: { duration: 0.35, ease: 'easeOut' as const },
 };
 
 function AnimatedAccordionPanel({ children }: { children: React.ReactNode }) {
@@ -44,18 +44,22 @@ function AnimatedAccordionPanel({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
       initial={{ height: 0, opacity: 0 }}
-      animate={{ height: height > 0 ? height : "auto", opacity: 1 }}
+      animate={{ height: height > 0 ? height : 'auto', opacity: 1 }}
       exit={{ height: 0, opacity: 0 }}
       transition={PANEL_TRANSITION}
-      style={{ overflow: "hidden" }}
+      style={{ overflow: 'hidden' }}
     >
       <div ref={innerRef}>{children}</div>
     </motion.div>
   );
 }
 
-export function FoodAllergiesFaqAccordion({ items }: FoodAllergiesFaqAccordionProps) {
-  const [openQuestion, setOpenQuestion] = useState<string | null>(items[0]?.question ?? null);
+export function FoodAllergiesFaqAccordion({
+  items,
+}: FoodAllergiesFaqAccordionProps) {
+  const [openQuestion, setOpenQuestion] = useState<string | null>(
+    items[0]?.question ?? null,
+  );
 
   const toggle = (question: string) => {
     setOpenQuestion((current) => (current === question ? null : question));
@@ -71,10 +75,10 @@ export function FoodAllergiesFaqAccordion({ items }: FoodAllergiesFaqAccordionPr
             <button
               type="button"
               onClick={() => toggle(item.question)}
-              className={`${styles.summary}${isOpen ? ` ${styles.summaryOpen}` : ""}`}
+              className={`${styles.summary}${isOpen ? ` ${styles.summaryOpen}` : ''}`}
             >
               <span aria-hidden="true" className={styles.summaryMarker}>
-                {isOpen ? "−" : "+"}
+                {isOpen ? '−' : '+'}
               </span>
               {item.question}
             </button>

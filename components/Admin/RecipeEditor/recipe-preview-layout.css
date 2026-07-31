@@ -4,29 +4,29 @@
  * the docked/fullscreen preview when Mobile (or Tablet) is selected.
  */
 
-[data-preview-viewport="mobile"] .md\:grid-cols-2,
-[data-preview-viewport="tablet"] .md\:grid-cols-2 {
+[data-preview-viewport='mobile'] .md\:grid-cols-2,
+[data-preview-viewport='tablet'] .md\:grid-cols-2 {
   grid-template-columns: minmax(0, 1fr) !important;
 }
 
-[data-preview-viewport="mobile"] .md\:flex-row,
-[data-preview-viewport="tablet"] .md\:flex-row {
+[data-preview-viewport='mobile'] .md\:flex-row,
+[data-preview-viewport='tablet'] .md\:flex-row {
   flex-direction: column !important;
 }
 
-[data-preview-viewport="mobile"] .md\:gap-x-12,
-[data-preview-viewport="tablet"] .md\:gap-x-12 {
+[data-preview-viewport='mobile'] .md\:gap-x-12,
+[data-preview-viewport='tablet'] .md\:gap-x-12 {
   column-gap: 2rem !important;
 }
 
-[data-preview-viewport="mobile"] .md\:px-3\.5,
-[data-preview-viewport="tablet"] .md\:px-3\.5 {
+[data-preview-viewport='mobile'] .md\:px-3\.5,
+[data-preview-viewport='tablet'] .md\:px-3\.5 {
   padding-left: 0.875rem !important;
   padding-right: 0.875rem !important;
 }
 
-[data-preview-viewport="mobile"] .max-md\:mx-auto,
-[data-preview-viewport="mobile"] .max-md\:max-w-\[520px\] {
+[data-preview-viewport='mobile'] .max-md\:mx-auto,
+[data-preview-viewport='mobile'] .max-md\:max-w-\[520px\] {
   margin-left: auto !important;
   margin-right: auto !important;
   max-width: 100% !important;

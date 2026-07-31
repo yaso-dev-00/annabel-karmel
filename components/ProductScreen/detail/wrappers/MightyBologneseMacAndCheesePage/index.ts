@@ -1,1 +1,1 @@
-export * from "./mighty-bolognese-mac-and-cheese-page";
+export * from './mighty-bolognese-mac-and-cheese-page';

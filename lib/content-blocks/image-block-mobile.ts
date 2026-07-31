@@ -1,8 +1,10 @@
-import type { CSSProperties } from "react";
-import type { ImageBlockData } from "./types";
+import type { CSSProperties } from 'react';
+import type { ImageBlockData } from './types';
 
 /** Resolved mobile image path (supports legacy fallback_src). */
-export function resolveImageBlockMobileSrc(data: ImageBlockData): string | undefined {
+export function resolveImageBlockMobileSrc(
+  data: ImageBlockData,
+): string | undefined {
   const mobile = data.mobile_src?.trim() || data.fallback_src?.trim();
   return mobile || undefined;
 }
@@ -24,19 +26,24 @@ export function imageBlockHasMobileSwap(data: ImageBlockData): boolean {
   return Boolean(desktop && mobile && mobile !== desktop);
 }
 
-export type ImageResizeBreakpoint = "mobile" | "tablet" | "desktop";
+export type ImageResizeBreakpoint = 'mobile' | 'tablet' | 'desktop';
 
 /** Map preview-frame / viewport width to the resize target breakpoint. */
-export function resolveImageResizeBreakpoint(width: number): ImageResizeBreakpoint {
-  if (width <= 767) return "mobile";
-  if (width <= 1023) return "tablet";
-  return "desktop";
+export function resolveImageResizeBreakpoint(
+  width: number,
+): ImageResizeBreakpoint {
+  if (width <= 767) return 'mobile';
+  if (width <= 1023) return 'tablet';
+  return 'desktop';
 }
 
-export function resolvePreviewImageBreakpoint(element: HTMLElement | null): ImageResizeBreakpoint {
-  const frame = element?.closest("[data-preview-frame]") as HTMLElement | null;
+export function resolvePreviewImageBreakpoint(
+  element: HTMLElement | null,
+): ImageResizeBreakpoint {
+  const frame = element?.closest('[data-preview-frame]') as HTMLElement | null;
   const width =
-    frame?.clientWidth ?? (typeof window !== "undefined" ? window.innerWidth : 1280);
+    frame?.clientWidth ??
+    (typeof window !== 'undefined' ? window.innerWidth : 1280);
   return resolveImageResizeBreakpoint(width);
 }
 
@@ -45,7 +52,10 @@ function parsePx(value?: string): number {
   return parseFloat(value);
 }
 
-function sizeStyleFromDims(width?: string, height?: string): CSSProperties | undefined {
+function sizeStyleFromDims(
+  width?: string,
+  height?: string,
+): CSSProperties | undefined {
   const w = width?.trim();
   const h = height?.trim();
   if (!w && !h) return undefined;
@@ -53,29 +63,33 @@ function sizeStyleFromDims(width?: string, height?: string): CSSProperties | und
   const widthPx = parsePx(w);
   const heightPx = parsePx(h);
   const style: CSSProperties = {
-    width: "100%",
-    maxWidth: w ?? "100%",
-    height: "auto",
+    width: '100%',
+    maxWidth: w ?? '100%',
+    height: 'auto',
   };
 
   if (widthPx > 0 && heightPx > 0) {
     style.aspectRatio = `${widthPx} / ${heightPx}`;
-    style.objectFit = "cover";
+    style.objectFit = 'cover';
   } else if (h) {
     style.height = h;
-    style.objectFit = "cover";
+    style.objectFit = 'cover';
   }
 
   return style;
 }
 
 /** Desktop image style — used on the desktop `<img>` (and tablet via aspect scaling). */
-export function getImageBlockDesktopStyle(data: ImageBlockData): CSSProperties | undefined {
+export function getImageBlockDesktopStyle(
+  data: ImageBlockData,
+): CSSProperties | undefined {
   return sizeStyleFromDims(data.width, data.height);
 }
 
 /** Mobile image style — only for the mobile `<img>` when swap is on. */
-export function getImageBlockMobileStyle(data: ImageBlockData): CSSProperties | undefined {
+export function getImageBlockMobileStyle(
+  data: ImageBlockData,
+): CSSProperties | undefined {
   return sizeStyleFromDims(data.mobile_width, data.mobile_height);
 }
 
@@ -83,7 +97,9 @@ export function getImageBlockMobileStyle(data: ImageBlockData): CSSProperties | 
  * CSS variables for a single-image block so mobile can override size without
  * replacing desktop width/height fields. Applied on the `<img>`.
  */
-export function getImageBlockSharedSizeVars(data: ImageBlockData): CSSProperties | undefined {
+export function getImageBlockSharedSizeVars(
+  data: ImageBlockData,
+): CSSProperties | undefined {
   const desktopW = data.width?.trim();
   const desktopH = data.height?.trim();
   const mobileW = data.mobile_width?.trim();
@@ -93,18 +109,18 @@ export function getImageBlockSharedSizeVars(data: ImageBlockData): CSSProperties
   const style: CSSProperties = {};
   const record = style as Record<string, string>;
 
-  if (desktopW) record["--img-max-w"] = desktopW;
+  if (desktopW) record['--img-max-w'] = desktopW;
   const dw = parsePx(desktopW);
   const dh = parsePx(desktopH);
   if (dw > 0 && dh > 0) {
-    record["--img-ar"] = `${dw} / ${dh}`;
+    record['--img-ar'] = `${dw} / ${dh}`;
   }
 
-  if (mobileW) record["--img-mobile-max-w"] = mobileW;
+  if (mobileW) record['--img-mobile-max-w'] = mobileW;
   const mw = parsePx(mobileW);
   const mh = parsePx(mobileH);
   if (mw > 0 && mh > 0) {
-    record["--img-mobile-ar"] = `${mw} / ${mh}`;
+    record['--img-mobile-ar'] = `${mw} / ${mh}`;
   }
 
   return style;
@@ -113,8 +129,8 @@ export function getImageBlockSharedSizeVars(data: ImageBlockData): CSSProperties
 export function imageBlockHasCustomSize(data: ImageBlockData): boolean {
   return Boolean(
     data.width?.trim() ||
-      data.height?.trim() ||
-      data.mobile_width?.trim() ||
-      data.mobile_height?.trim(),
+    data.height?.trim() ||
+    data.mobile_width?.trim() ||
+    data.mobile_height?.trim(),
   );
 }

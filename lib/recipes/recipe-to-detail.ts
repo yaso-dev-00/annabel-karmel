@@ -1,8 +1,10 @@
-import type { RecipeDetail, RecipeTaxonomyLink } from "@/data/recipe-detail";
-import { getTaxonomy } from "@/data/recipe-taxonomies";
-import type { Recipe, RecipeIngredientSection } from "@/lib/recipes/types";
+import type { RecipeDetail, RecipeTaxonomyLink } from '@/data/recipe-detail';
+import { getTaxonomy } from '@/data/recipe-taxonomies';
+import type { Recipe, RecipeIngredientSection } from '@/lib/recipes/types';
 
-function flattenIngredientSections(sections: RecipeIngredientSection[]): string[] {
+function flattenIngredientSections(
+  sections: RecipeIngredientSection[],
+): string[] {
   const lines: string[] = [];
   for (const section of sections) {
     const title = section.title.trim();
@@ -17,7 +19,7 @@ function flattenIngredientSections(sections: RecipeIngredientSection[]): string[
 
 function taxonomyLinks(
   recipe: Recipe,
-  kind: "recipe-category" | "meal-time" | "allergen",
+  kind: 'recipe-category' | 'meal-time' | 'allergen',
 ): RecipeTaxonomyLink[] {
   return recipe.taxonomies
     .filter((ref) => ref.kind === kind && !ref.hidden)
@@ -29,9 +31,9 @@ function taxonomyLinks(
 }
 
 export function recipeToDetail(recipe: Recipe): RecipeDetail {
-  const ages = taxonomyLinks(recipe, "recipe-category");
-  const allergens = taxonomyLinks(recipe, "allergen");
-  const mealTimes = taxonomyLinks(recipe, "meal-time");
+  const ages = taxonomyLinks(recipe, 'recipe-category');
+  const allergens = taxonomyLinks(recipe, 'allergen');
+  const mealTimes = taxonomyLinks(recipe, 'meal-time');
   const breadcrumbCategory = allergens[0] ?? ages[0] ?? mealTimes[0];
 
   return {

@@ -1,11 +1,14 @@
-import seedStore from "@/data/cms/products.seed.json";
-import { isProductPublic } from "@/lib/admin/product-status";
+import seedStore from '@/data/cms/products.seed.json';
+import { isProductPublic } from '@/lib/admin/product-status';
 import {
   readProductsCmsStoreRaw,
   writeProductsCmsStoreRaw,
-} from "@/lib/admin/products-cms-store-io";
-import { sanitizeProduct, sanitizeProductsStore } from "@/lib/products/sanitize-product";
-import type { Product, ProductsStore } from "@/lib/products/types";
+} from '@/lib/admin/products-cms-store-io';
+import {
+  sanitizeProduct,
+  sanitizeProductsStore,
+} from '@/lib/products/sanitize-product';
+import type { Product, ProductsStore } from '@/lib/products/types';
 
 async function readStore(): Promise<ProductsStore> {
   let raw: string;
@@ -39,7 +42,9 @@ export async function getProductById(id: string): Promise<Product | null> {
   return store.products.find((product) => product.id === id) ?? null;
 }
 
-export async function getPublishedProductBySlug(slug: string): Promise<Product | null> {
+export async function getPublishedProductBySlug(
+  slug: string,
+): Promise<Product | null> {
   const store = await readStore();
   const product = store.products.find((item) => item.slug === slug);
   if (!product || !isProductPublic(product)) return null;
@@ -51,7 +56,11 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return store.products.find((item) => item.slug === slug) ?? null;
 }
 
-function assertUniqueSlug(store: ProductsStore, slug: string, excludeId?: string): void {
+function assertUniqueSlug(
+  store: ProductsStore,
+  slug: string,
+  excludeId?: string,
+): void {
   const conflict = store.products.find(
     (product) => product.slug === slug && product.id !== excludeId,
   );
@@ -61,7 +70,7 @@ function assertUniqueSlug(store: ProductsStore, slug: string, excludeId?: string
 }
 
 export async function createProduct(
-  input: Omit<Product, "id" | "created_at" | "updated_at">,
+  input: Omit<Product, 'id' | 'created_at' | 'updated_at'>,
 ): Promise<Product> {
   const store = await readStore();
   assertUniqueSlug(store, input.slug.trim());
@@ -81,7 +90,7 @@ export async function createProduct(
 
 export async function updateProduct(
   id: string,
-  input: Partial<Omit<Product, "id" | "created_at">>,
+  input: Partial<Omit<Product, 'id' | 'created_at'>>,
 ): Promise<Product | null> {
   const store = await readStore();
   const index = store.products.findIndex((product) => product.id === id);

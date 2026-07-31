@@ -2,36 +2,23 @@
 
    One-off styles live in the component as Tailwind classes. */
 
-
-
 .page {
-
   overflow: hidden;
-
 }
-
-
 
 /* Full viewport-width section — used by every section */
 
 .fullBleed {
-
   position: relative;
 
   width: 100%;
 
   max-width: 100%;
-
- 
-
 }
-
-
 
 /* Centered content column — used by every section */
 
 .inner {
-
   margin-inline: auto;
 
   width: 100%;
@@ -39,60 +26,38 @@
   max-width: 1200px;
 
   padding-inline: 1rem;
-
 }
 
 .sectionContent {
-
   position: relative;
 
   z-index: 1;
-
 }
-
-
 
 @media (min-width: 640px) {
-
   .inner {
-
     padding-inline: 1.5rem;
-
   }
-
 }
-
-
 
 @media (min-width: 1280px) {
-
   .inner {
-
     padding-inline: 2rem;
-
   }
-
 }
-
-
 
 /* Brand display font — used by all text on the page */
 
 .pequena {
-
   font-family: var(--font-pequena), sans-serif;
 
   font-weight: 400;
-
 }
-
-
 
 /* Big white centered heading — used by intro, promise and tesco sections */
 
 .sectionHeading {
-
-  margin: 0 ;
+  margin: 0;
 
   color: #fff;
 
@@ -105,15 +70,11 @@
   line-height: 1.03;
 
   text-align: center;
-
 }
-
-
 
 /* Intro — waves scale with viewport width so curves stay aligned on desktop */
 
 .introSection {
-
   position: relative;
 
   color: #8486d2;
@@ -125,91 +86,59 @@
   padding: 115px 0 100px;
 
   min-height: calc(100vw * 1285 / 2160);
-
 }
-
-
 
 @media (max-width: 1350px) {
-
   .introSection {
-
     margin-top: -20px;
-
   }
-
 }
 
-
-
 @media (max-width: 767px) {
-
   .introSection {
-
     min-height: 0;
 
     margin-top: -20px;
 
     padding: 40px 10px 70px;
-
   }
-
 }
-
-
 
 /* Promise — same width-locked wave scaling as intro */
 
 .promiseSection {
-
   position: relative;
 
   color: #eb3d8a;
-
- 
 
   margin-top: -30px;
 
   padding: 100px 0;
 
   min-height: calc(100vw * 728 / 2160);
-
 }
 
-
-
 @media (max-width: 767px) {
-
   .promiseSection {
-
     background-size: cover;
 
     min-height: 0;
 
     padding: 80px 0 80px;
-
   }
-
 }
-
-
 
 /* Frozen aisle — clip decorative overflow from wave + rotated photos */
 
 .frozenSection {
-
   position: relative;
 
   overflow-x: clip;
-
 }
-
-
 
 /* Bottom wave divider — frozen aisle section (matches Elementor shape_divider_bottom) */
 
 .shapeBottom {
-
   position: absolute;
 
   bottom: -1px;
@@ -231,13 +160,9 @@
   /* Elementor flips bottom waves when data-negative="false" */
 
   transform: rotate(180deg);
-
 }
 
-
-
 .shapeBottom svg {
-
   position: relative;
 
   left: 50%;
@@ -251,35 +176,21 @@
   height: 30px;
 
   transform: translateX(-50%);
-
 }
-
-
 
 .shapeFill {
-
   fill: #fff;
-
 }
-
-
 
 @media (max-width: 767px) {
-
   .shapeBottom svg {
-
     height: 15px;
-
   }
-
 }
-
-
 
 /* Product cards — text overlay scales down on mobile/tablet */
 
 .productCard {
-
   position: relative;
 
   margin-inline: auto;
@@ -287,38 +198,21 @@
   width: 100%;
 
   padding: 0 10px;
-
 }
-
-
 
 @media (min-width: 640px) {
-
   .productCard {
-
     max-width: 620px;
-
   }
- 
-
 }
-
-
 
 @media (min-width: 1024px) {
-
   .productCard {
-
     max-width: 550px;
-
   }
-
 }
 
-
-
 .productCardOverlay {
-
   pointer-events: none;
 
   position: absolute;
@@ -332,13 +226,9 @@
   padding: 0 30px;
 
   padding-top: 20px;
-
 }
 
-
-
 .productCardTitle {
-
   margin: 0;
 
   color: #fff;
@@ -352,13 +242,9 @@
   line-height: 1.1;
 
   text-align: center;
-
 }
 
-
-
 .productCardDescription {
-
   margin: 0.75rem auto 0;
 
   max-width: 92%;
@@ -374,7 +260,6 @@
   line-height: 1.35;
 
   text-align: center;
-
 }
 
 @media (min-width: 570px) {
@@ -387,51 +272,28 @@
 }
 
 @media (min-width: 768px) {
-
   .productCardTitle {
-
     font-size: 46px;
-
   }
 
-  
-
-
-
   .productCardDescription {
-
     margin-top: 1rem;
 
     font-size: 28px;
-
   }
-
 }
-
-
 
 @media (min-width: 1024px) {
-
   .productCardTitle {
-
     font-size: 48px;
-
   }
-
-
 
   .productCardDescription {
-
     font-size: 24px;
-
   }
-
 }
 
-
-
 .productCardButton {
-
   position: absolute;
 
   inset-inline: 0;
@@ -443,61 +305,33 @@
   text-align: center;
 
   transform: translateY(50%);
-
 }
-
-
 
 .productCardButton a {
-
   pointer-events: auto;
-
 }
-
-
 
 /* Tesco — compact stacked layout on mobile/tablet */
 
 .tescoSection {
-
   position: relative;
 
-  
-
   padding: 40px 0 80px;
-
 }
-
-
 
 @media (min-width: 768px) {
-
   .tescoSection {
-
     padding: 60px 0 100px;
-
-
-
   }
-
 }
-
-
 
 @media (min-width: 1024px) {
-
   .tescoSection {
-
     padding: 130px 0 170px;
-
   }
-
 }
 
-
-
 .tescoHeading {
-
   margin: 0;
 
   color: #fff;
@@ -511,31 +345,16 @@
   line-height: 1.03;
 
   text-align: center;
-
 }
-
-
 
 @media (min-width: 768px) {
-
   .tescoHeading {
-
     font-size: 48px;
-
   }
-
 }
-
-
 
 @media (min-width: 1024px) {
-
   .tescoHeading {
-
     font-size: 64px;
-
   }
-
 }
-
-

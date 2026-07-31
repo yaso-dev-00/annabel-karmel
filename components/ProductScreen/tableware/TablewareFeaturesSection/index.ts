@@ -1,1 +1,1 @@
-export * from "./tableware-features-section";
+export * from './tableware-features-section';

@@ -1,12 +1,15 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { AdviceCategoryListing } from "@/components/ArticleScreen/AdviceCategoryListing";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { pregnancyTipsArticles, pregnancyTipsIntro } from "@/data/pregnancy-advice-listings";
-import type { Metadata } from "next";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { AdviceCategoryListing } from '@/components/ArticleScreen/AdviceCategoryListing';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import {
+  pregnancyTipsArticles,
+  pregnancyTipsIntro,
+} from '@/data/pregnancy-advice-listings';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Pregnancy Tips & Advice | Annabel Karmel",
+  title: 'Pregnancy Tips & Advice | Annabel Karmel',
   description: pregnancyTipsIntro,
 };
 

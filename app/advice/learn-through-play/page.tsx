@@ -1,7 +1,7 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   edxEducationPromo,
   learnThroughPlayActivitiesIntro,
@@ -11,15 +11,15 @@ import {
   learnThroughPlayLead,
   learnThroughPlayRelatedArticles,
   learnThroughPlaySections,
-} from "@/data/learn-through-play-page";
-import type { Metadata } from "next";
-import Link from "next/link";
-import styles from "./page.module.css";
+} from '@/data/learn-through-play-page';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Learning through play | Child Development | Annabel Karmel",
+  title: 'Learning through play | Child Development | Annabel Karmel',
   description:
-    "Seven simple learn-through-play activities for toddlers including messy play, play dough, open-ended toys, singing, story time, and more.",
+    'Seven simple learn-through-play activities for toddlers including messy play, play dough, open-ended toys, singing, story time, and more.',
 };
 
 export default function LearnThroughPlayPage() {
@@ -45,7 +45,9 @@ export default function LearnThroughPlayPage() {
             loading="lazy"
           />
 
-          <p className={styles.activitiesIntro}>{learnThroughPlayActivitiesIntro}</p>
+          <p className={styles.activitiesIntro}>
+            {learnThroughPlayActivitiesIntro}
+          </p>
 
           {learnThroughPlaySections.map((section) => (
             <section key={section.title}>
@@ -82,7 +84,9 @@ export default function LearnThroughPlayPage() {
               className={styles.promoImage}
               loading="lazy"
             />
-            <p className={styles.promoDescription}>{edxEducationPromo.description}</p>
+            <p className={styles.promoDescription}>
+              {edxEducationPromo.description}
+            </p>
             <div className="mt-[30px] flex justify-center">
               <Link
                 href={edxEducationPromo.shopHref}
@@ -99,7 +103,9 @@ export default function LearnThroughPlayPage() {
                 />
               </Link>
             </div>
-            <p className={`${styles.body} mt-[30px]! flex flex-col md:flex-row items-center justify-center gap-[10px]`}>
+            <p
+              className={`${styles.body} mt-[30px]! flex flex-col md:flex-row items-center justify-center gap-[10px]`}
+            >
               <Link
                 href={edxEducationPromo.instagramHref}
                 className={styles.promoLink}

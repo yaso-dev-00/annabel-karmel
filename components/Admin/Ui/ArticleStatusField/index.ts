@@ -1,1 +1,1 @@
-export { ArticleStatusField } from "./article-status-field";
+export { ArticleStatusField } from './article-status-field';

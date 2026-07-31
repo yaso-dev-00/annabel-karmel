@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   forwardRef,
@@ -7,9 +7,10 @@ import {
   useImperativeHandle,
   useState,
   type ReactNode,
-} from "react";
-import { createPortal } from "react-dom";
-import styles from "./block-editor.module.css";
+} from 'react';
+import { createPortal } from 'react-dom';
+import { useIsClient } from '@/lib/use-is-client';
+import styles from './block-editor.module.css';
 
 export type PreviewViewportHandle = {
   openFullscreen: () => void;
@@ -17,38 +18,38 @@ export type PreviewViewportHandle = {
 };
 
 export type PreviewViewportKey =
-  | "mobile"
-  | "tablet"
-  | "landscape_tablet"
-  | "desktop"
-  | "large_desktop";
+  'mobile' | 'tablet' | 'landscape_tablet' | 'desktop' | 'large_desktop';
 
 export const PREVIEW_VIEWPORTS: {
   key: PreviewViewportKey;
   label: string;
   width: number;
 }[] = [
-  { key: "mobile", label: "Mobile", width: 375 },
-  { key: "tablet", label: "Tablet", width: 768 },
-  { key: "landscape_tablet", label: "Landscape", width: 1024 },
-  { key: "desktop", label: "Desktop", width: 1280 },
-  { key: "large_desktop", label: "Large", width: 1440 },
+  { key: 'mobile', label: 'Mobile', width: 375 },
+  { key: 'tablet', label: 'Tablet', width: 768 },
+  { key: 'landscape_tablet', label: 'Landscape', width: 1024 },
+  { key: 'desktop', label: 'Desktop', width: 1280 },
+  { key: 'large_desktop', label: 'Large', width: 1440 },
 ];
 
-const STORAGE_KEY = "admin-preview-viewport";
-const DEFAULT_VIEWPORT: PreviewViewportKey = "desktop";
+const STORAGE_KEY = 'admin-preview-viewport';
+const DEFAULT_VIEWPORT: PreviewViewportKey = 'desktop';
 
 function readStoredViewport(): PreviewViewportKey {
   try {
-    const stored = sessionStorage.getItem(STORAGE_KEY) as PreviewViewportKey | null;
-    if (stored && PREVIEW_VIEWPORTS.some((v) => v.key === stored)) return stored;
+    const stored = sessionStorage.getItem(
+      STORAGE_KEY,
+    ) as PreviewViewportKey | null;
+    if (stored && PREVIEW_VIEWPORTS.some((v) => v.key === stored))
+      return stored;
   } catch {
     // sessionStorage unavailable
   }
   return DEFAULT_VIEWPORT;
 }
 
-type PreviewStyleToolbarSlot = ReactNode | ((ctx: { isFullscreen: boolean }) => ReactNode);
+type PreviewStyleToolbarSlot =
+  ReactNode | ((ctx: { isFullscreen: boolean }) => ReactNode);
 
 type PreviewViewportProps = {
   children: ReactNode;
@@ -78,45 +79,42 @@ type PreviewViewportProps = {
   viewportWidthOverrides?: Partial<Record<PreviewViewportKey, number>>;
 };
 
-export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewportProps>(
-  function PreviewViewport(
-    {
-      children,
-      className,
-      bodyClassName,
-      title = "Live preview",
-      styleToolbar,
-      fullscreenActions,
-      blockMaxWidthLabel,
-      selectedBlockId,
-      defaultFullscreen = false,
-      dockedViewport,
-      dockedWidth,
-      viewportWidthOverrides,
-    },
-    ref,
-  ) {
+export const PreviewViewport = forwardRef<
+  PreviewViewportHandle,
+  PreviewViewportProps
+>(function PreviewViewport(
+  {
+    children,
+    className,
+    bodyClassName,
+    title = 'Live preview',
+    styleToolbar,
+    fullscreenActions,
+    blockMaxWidthLabel,
+    selectedBlockId,
+    defaultFullscreen = false,
+    dockedViewport,
+    dockedWidth,
+    viewportWidthOverrides,
+  },
+  ref,
+) {
   const [viewport, setViewport] = useState<PreviewViewportKey>(
-    dockedViewport ?? DEFAULT_VIEWPORT,
+    () => dockedViewport ?? readStoredViewport(),
   );
   const [isFullscreen, setIsFullscreen] = useState(defaultFullscreen);
   const [styleSidebarOpen, setStyleSidebarOpen] = useState(true);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsClient();
 
   useEffect(() => {
-    setViewport(dockedViewport ?? readStoredViewport());
-    setMounted(true);
+    queueMicrotask(() => {
+      setViewport(dockedViewport ?? readStoredViewport());
+    });
   }, [dockedViewport]);
 
   useEffect(() => {
-    if (isFullscreen) {
-      setStyleSidebarOpen(true);
-    }
-  }, [isFullscreen]);
-
-  useEffect(() => {
     if (isFullscreen && selectedBlockId) {
-      setStyleSidebarOpen(true);
+      queueMicrotask(() => setStyleSidebarOpen(true));
     }
   }, [isFullscreen, selectedBlockId]);
 
@@ -126,7 +124,7 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
     const scrollY = window.scrollY;
     const html = document.documentElement;
     const body = document.body;
-    const adminRoot = document.querySelector(".adminRoot");
+    const adminRoot = document.querySelector('.adminRoot');
     const savedHtmlOverflow = html.style.overflow;
     const savedBody = {
       overflow: body.style.overflow,
@@ -137,28 +135,28 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
       width: body.style.width,
     };
 
-    html.style.overflow = "hidden";
-    body.classList.add("admin-preview-fullscreen");
-    body.style.overflow = "hidden";
-    body.style.position = "fixed";
+    html.style.overflow = 'hidden';
+    body.classList.add('admin-preview-fullscreen');
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
     body.style.top = `-${scrollY}px`;
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
+    body.style.left = '0';
+    body.style.right = '0';
+    body.style.width = '100%';
 
     if (adminRoot instanceof HTMLElement) {
-      adminRoot.setAttribute("inert", "");
-      adminRoot.setAttribute("aria-hidden", "true");
+      adminRoot.setAttribute('inert', '');
+      adminRoot.setAttribute('aria-hidden', 'true');
     }
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsFullscreen(false);
+      if (event.key === 'Escape') setIsFullscreen(false);
     };
-    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
 
     return () => {
       html.style.overflow = savedHtmlOverflow;
-      body.classList.remove("admin-preview-fullscreen");
+      body.classList.remove('admin-preview-fullscreen');
       body.style.overflow = savedBody.overflow;
       body.style.position = savedBody.position;
       body.style.top = savedBody.top;
@@ -168,11 +166,11 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
       window.scrollTo(0, scrollY);
 
       if (adminRoot instanceof HTMLElement) {
-        adminRoot.removeAttribute("inert");
-        adminRoot.removeAttribute("aria-hidden");
+        adminRoot.removeAttribute('inert');
+        adminRoot.removeAttribute('aria-hidden');
       }
 
-      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener('keydown', onKeyDown);
     };
   }, [isFullscreen]);
 
@@ -223,7 +221,7 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
   const dockedClass = !isFullscreen ? className : undefined;
 
   const styleToolbarContent = styleToolbar
-    ? typeof styleToolbar === "function"
+    ? typeof styleToolbar === 'function'
       ? styleToolbar({ isFullscreen })
       : styleToolbar
     : null;
@@ -233,28 +231,36 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
       <span>{title}</span>
       <div className={styles.previewHeaderActions}>
         {isFullscreen && fullscreenActions ? (
-          <div className={styles.previewFullscreenActions}>{fullscreenActions}</div>
+          <div className={styles.previewFullscreenActions}>
+            {fullscreenActions}
+          </div>
         ) : null}
         <button
           type="button"
           className={styles.previewFullscreenBtn}
           onClick={toggleFullscreen}
-          aria-label={isFullscreen ? "Exit fullscreen preview" : "Open fullscreen preview"}
-          title={isFullscreen ? "Exit fullscreen (Esc)" : "Fullscreen"}
+          aria-label={
+            isFullscreen ? 'Exit fullscreen preview' : 'Open fullscreen preview'
+          }
+          title={isFullscreen ? 'Exit fullscreen (Esc)' : 'Fullscreen'}
         >
-          {isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+          {isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
         </button>
       </div>
     </div>
   );
 
   const previewToolbar = showViewportToolbar ? (
-    <div className={styles.previewToolbar} role="toolbar" aria-label="Preview device size">
+    <div
+      className={styles.previewToolbar}
+      role="toolbar"
+      aria-label="Preview device size"
+    >
       {viewports.map((v) => (
         <button
           key={v.key}
           type="button"
-          className={`${styles.previewViewportBtn} ${activeViewport === v.key ? styles.previewViewportBtnActive : ""}`}
+          className={`${styles.previewViewportBtn} ${activeViewport === v.key ? styles.previewViewportBtnActive : ''}`}
           onClick={() => select(v.key)}
           title={`${v.label} (${v.width}px)`}
         >
@@ -263,9 +269,14 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
         </button>
       ))}
       {isFullscreen && blockMaxWidthLabel ? (
-        <div className={styles.previewBlockMaxWidth} title="Selected block max width">
+        <div
+          className={styles.previewBlockMaxWidth}
+          title="Selected block max width"
+        >
           <span className={styles.previewBlockMaxWidthLabel}>Block max</span>
-          <span className={styles.previewBlockMaxWidthValue}>{blockMaxWidthLabel}</span>
+          <span className={styles.previewBlockMaxWidthValue}>
+            {blockMaxWidthLabel}
+          </span>
         </div>
       ) : null}
     </div>
@@ -276,12 +287,14 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
       <div
         className={styles.previewFrame}
         data-preview-frame="true"
-        data-preview-fullscreen={isFullscreen ? "true" : "false"}
+        data-preview-fullscreen={isFullscreen ? 'true' : 'false'}
         data-preview-viewport={activeViewport}
         data-preview-width={String(width)}
-        style={{ "--preview-width": `${width}px` } as React.CSSProperties}
+        style={{ '--preview-width': `${width}px` } as React.CSSProperties}
       >
-        <div className={`${styles.previewBody}${bodyClassName ? ` ${bodyClassName}` : ""}`}>
+        <div
+          className={`${styles.previewBody}${bodyClassName ? ` ${bodyClassName}` : ''}`}
+        >
           {children}
         </div>
       </div>
@@ -291,7 +304,7 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
   const styleSidebar =
     isFullscreen && styleToolbarContent ? (
       <aside
-        className={`${styles.previewStyleSidebar} ${styleSidebarOpen ? "" : styles.previewStyleSidebarCollapsed}`}
+        className={`${styles.previewStyleSidebar} ${styleSidebarOpen ? '' : styles.previewStyleSidebarCollapsed}`}
         aria-label="Block layout"
       >
         <button
@@ -299,18 +312,24 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
           className={styles.previewStyleSidebarToggle}
           onClick={() => setStyleSidebarOpen((open) => !open)}
           aria-expanded={styleSidebarOpen}
-          aria-label={styleSidebarOpen ? "Collapse layout panel" : "Expand layout panel"}
-          title={styleSidebarOpen ? "Collapse layout panel" : "Layout"}
+          aria-label={
+            styleSidebarOpen ? 'Collapse layout panel' : 'Expand layout panel'
+          }
+          title={styleSidebarOpen ? 'Collapse layout panel' : 'Layout'}
         >
           <span className={styles.previewStyleSidebarToggleIcon} aria-hidden>
-            {styleSidebarOpen ? "›" : "‹"}
+            {styleSidebarOpen ? '›' : '‹'}
           </span>
           {styleSidebarOpen ? (
-            <span className={styles.previewStyleSidebarToggleLabel}>Layout</span>
+            <span className={styles.previewStyleSidebarToggleLabel}>
+              Layout
+            </span>
           ) : null}
         </button>
         {styleSidebarOpen ? (
-          <div className={styles.previewStyleSidebarContent}>{styleToolbarContent}</div>
+          <div className={styles.previewStyleSidebarContent}>
+            {styleToolbarContent}
+          </div>
         ) : null}
       </aside>
     ) : null;
@@ -322,7 +341,7 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
 
   const panel = (
     <div
-      className={`${styles.previewPanel} ${isFullscreen ? styles.previewFullscreenPanel : ""} ${dockedClass ?? ""}`}
+      className={`${styles.previewPanel} ${isFullscreen ? styles.previewFullscreenPanel : ''} ${dockedClass ?? ''}`}
     >
       {isFullscreen ? (
         <div className={styles.previewFullscreenBody}>
@@ -345,7 +364,10 @@ export const PreviewViewport = forwardRef<PreviewViewportHandle, PreviewViewport
   );
 
   if (mounted && isFullscreen) {
-    return createPortal(<div className={styles.previewFullscreenRoot}>{panel}</div>, document.body);
+    return createPortal(
+      <div className={styles.previewFullscreenRoot}>{panel}</div>,
+      document.body,
+    );
   }
 
   return panel;

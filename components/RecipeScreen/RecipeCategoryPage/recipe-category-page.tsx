@@ -1,13 +1,16 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RecipeFinder } from "@/components/RecipeScreen/RecipeFinder";
-import { RecipeListingGrid } from "@/components/RecipeScreen/RecipeListingGrid";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import type { RecipeListingItem, RecipeTaxonomy } from "@/data/recipe-taxonomies";
-import { buildPaginationHref } from "@/lib/recipe-search-url";
-import type { RecipeSearchFilters } from "@/lib/recipe-search";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RecipeFinder } from '@/components/RecipeScreen/RecipeFinder';
+import { RecipeListingGrid } from '@/components/RecipeScreen/RecipeListingGrid';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import type {
+  RecipeListingItem,
+  RecipeTaxonomy,
+} from '@/data/recipe-taxonomies';
+import { buildPaginationHref } from '@/lib/recipe-search-url';
+import type { RecipeSearchFilters } from '@/lib/recipe-search';
 
 type RecipeCategoryPageProps = {
   taxonomy: RecipeTaxonomy;
@@ -21,10 +24,10 @@ type RecipeCategoryPageProps = {
 };
 
 const pageLinkClass =
-  "inline-flex min-w-10 items-center justify-center rounded border border-[#e8dde1] px-3.5 py-2 font-[family-name:var(--font-body)] text-base text-[#3a3a3a] no-underline hover:border-[var(--hover-color)] hover:text-[var(--hover-color)]";
+  'inline-flex min-w-10 items-center justify-center rounded border border-[#e8dde1] px-3.5 py-2 font-[family-name:var(--font-body)] text-base text-[#3a3a3a] no-underline hover:border-[var(--hover-color)] hover:text-[var(--hover-color)]';
 
 const pageLinkActiveClass =
-  "border-[#efcfd8] bg-[#fff4f7] font-semibold text-[#b34769] hover:border-[#efcfd8] hover:text-[#b34769]";
+  'border-[#efcfd8] bg-[#fff4f7] font-semibold text-[#b34769] hover:border-[#efcfd8] hover:text-[#b34769]';
 
 export function RecipeCategoryPage({
   taxonomy,
@@ -56,17 +59,25 @@ export function RecipeCategoryPage({
             </p>
           )}
           {totalPages > 1 ? (
-            <nav className="mt-[60px] flex flex-wrap justify-center gap-3" aria-label="Recipe pages">
+            <nav
+              className="mt-[60px] flex flex-wrap justify-center gap-3"
+              aria-label="Recipe pages"
+            >
               {Array.from({ length: totalPages }, (_, i) => {
                 const n = i + 1;
-                const href = buildPaginationHref(basePath, filters, n, useQueryPagination);
+                const href = buildPaginationHref(
+                  basePath,
+                  filters,
+                  n,
+                  useQueryPagination,
+                );
                 const isActive = n === currentPage;
                 return (
                   <Link
                     key={n}
                     href={href}
-                    className={`${pageLinkClass} ${isActive ? pageLinkActiveClass : ""}`}
-                    aria-current={isActive ? "page" : undefined}
+                    className={`${pageLinkClass} ${isActive ? pageLinkActiveClass : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     {n}
                   </Link>
@@ -82,4 +93,4 @@ export function RecipeCategoryPage({
   );
 }
 
-export { RECIPE_PAGE_SIZE as PAGE_SIZE } from "@/lib/recipe-search";
+export { RECIPE_PAGE_SIZE as PAGE_SIZE } from '@/lib/recipe-search';

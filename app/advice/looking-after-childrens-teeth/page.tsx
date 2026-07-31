@@ -1,7 +1,7 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   articlePath,
   helenClintBio,
@@ -11,10 +11,10 @@ import {
   lookingAfterTeethSections,
   type LookingAfterTeethSection,
   type TeethTextLink,
-} from "@/data/looking-after-childrens-teeth-page";
-import type { Metadata } from "next";
-import Link from "next/link";
-import styles from "./page.module.css";
+} from '@/data/looking-after-childrens-teeth-page';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
   title: "Looking after your children's teeth | Annabel Karmel",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 function isTextLink(part: string | TeethTextLink): part is TeethTextLink {
-  return typeof part === "object";
+  return typeof part === 'object';
 }
 
 function RichParagraph({
@@ -41,8 +41,10 @@ function RichParagraph({
             key={part.label}
             href={part.href}
             className={styles.inlineLink}
-            target={part.href.startsWith("tel:") ? undefined : "_blank"}
-            rel={part.href.startsWith("tel:") ? undefined : "noopener noreferrer"}
+            target={part.href.startsWith('tel:') ? undefined : '_blank'}
+            rel={
+              part.href.startsWith('tel:') ? undefined : 'noopener noreferrer'
+            }
           >
             {part.label}
           </Link>
@@ -68,7 +70,12 @@ function SectionImage({ section }: { section: LookingAfterTeethSection }) {
 
   if (section.imageHref) {
     return (
-      <Link href={section.imageHref} className={styles.imageLink} target="_blank" rel="noopener noreferrer">
+      <Link
+        href={section.imageHref}
+        className={styles.imageLink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {image}
       </Link>
     );
@@ -95,12 +102,22 @@ export default function LookingAfterChildrensTeethPage() {
                 </p>
               ))}
               {section.bodyParts ? (
-                <RichParagraph parts={section.bodyParts} className={styles.body} />
+                <RichParagraph
+                  parts={section.bodyParts}
+                  className={styles.body}
+                />
               ) : null}
-              {section.footnote ? <p className={styles.footnote}>{section.footnote}</p> : null}
-              {section.caption ? <p className={styles.caption}>{section.caption}</p> : null}
+              {section.footnote ? (
+                <p className={styles.footnote}>{section.footnote}</p>
+              ) : null}
+              {section.caption ? (
+                <p className={styles.caption}>{section.caption}</p>
+              ) : null}
               {section.nhsNoteParts ? (
-                <RichParagraph parts={section.nhsNoteParts} className={styles.nhsNote} />
+                <RichParagraph
+                  parts={section.nhsNoteParts}
+                  className={styles.nhsNote}
+                />
               ) : null}
             </section>
           ))}
@@ -114,15 +131,22 @@ export default function LookingAfterChildrensTeethPage() {
               className={styles.authorPhoto}
               loading="lazy"
             />
-            <h3 className={styles.authorTitle}>Article written by Helen Clint</h3>
+            <h3 className={styles.authorTitle}>
+              Article written by Helen Clint
+            </h3>
             {helenClintBio.map((paragraph) => (
               <p key={paragraph} className={styles.authorBody}>
                 {paragraph}
               </p>
             ))}
             <p className={styles.authorFollow}>
-              Follow Helen on Instagram{" "}
-              <Link href={helenClintInstagramUrl} className={styles.inlineLink} target="_blank" rel="noopener noreferrer">
+              Follow Helen on Instagram{' '}
+              <Link
+                href={helenClintInstagramUrl}
+                className={styles.inlineLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 @dentalmummy
               </Link>
             </p>

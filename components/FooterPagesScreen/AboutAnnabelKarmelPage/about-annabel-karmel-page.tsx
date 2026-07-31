@@ -1,12 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { aboutAnnabelKarmelPage } from "@/data/about-annabel-karmel-page";
-import styles from "./about-annabel-karmel-page.module.css";
+import { aboutAnnabelKarmelPage } from '@/data/about-annabel-karmel-page';
+import styles from './about-annabel-karmel-page.module.css';
 
 type BodyBlock =
-  | { type: "text"; text: string }
-  | { type: "html"; html: string };
+  { type: 'text'; text: string } | { type: 'html'; html: string };
 
 type Section = (typeof aboutAnnabelKarmelPage.sections)[number];
 
@@ -24,7 +23,7 @@ function BodyBlocks({ blocks }: { blocks: BodyBlock[] }) {
   return (
     <>
       {blocks.map((block, index) =>
-        block.type === "html" ? (
+        block.type === 'html' ? (
           <p
             key={index}
             className={styles.sectionBody}
@@ -60,7 +59,13 @@ function FeatureImage({
       className={styles.featureImageCover}
     />
   ) : (
-    <Image src={src} alt={alt} width={1024} height={1024} className={styles.featureImage} />
+    <Image
+      src={src}
+      alt={alt}
+      width={1024}
+      height={1024}
+      className={styles.featureImage}
+    />
   );
 
   if (!href) {
@@ -77,16 +82,16 @@ function FeatureImage({
 }
 
 function SplitTealSection({ section }: { section: Section }) {
-  if (section.layout !== "split-teal") return null;
+  if (section.layout !== 'split-teal') return null;
 
   const blocks: BodyBlock[] = section.body.map((item) =>
-    typeof item === "string" ? { type: "text", text: item } : item,
+    typeof item === 'string' ? { type: 'text', text: item } : item,
   );
 
   return (
     <section
       className={`${styles.splitSection} ${styles.splitTeal} ${
-        section.reverseMobile ? styles.splitReverseMobile : ""
+        section.reverseMobile ? styles.splitReverseMobile : ''
       }`}
     >
       <div className={styles.splitInner}>
@@ -116,7 +121,7 @@ function SplitTealSection({ section }: { section: Section }) {
         <div className={styles.splitMedia}>
           <FeatureImage
             src={section.image!}
-            alt={section.imageAlt ?? ""}
+            alt={section.imageAlt ?? ''}
             href={section.imageHref}
             cover
           />
@@ -127,9 +132,12 @@ function SplitTealSection({ section }: { section: Section }) {
 }
 
 function SplitAppSection({ section }: { section: Section }) {
-  if (section.layout !== "split-app") return null;
+  if (section.layout !== 'split-app') return null;
 
-  const blocks: BodyBlock[] = section.body.map((text) => ({ type: "text", text }));
+  const blocks: BodyBlock[] = section.body.map((text) => ({
+    type: 'text',
+    text,
+  }));
 
   return (
     <section className={`${styles.splitSection} ${styles.splitApp}`}>
@@ -137,7 +145,7 @@ function SplitAppSection({ section }: { section: Section }) {
         <div className={`${styles.splitMedia} ${styles.splitAppMedia}`}>
           <FeatureImage
             src={section.image!}
-            alt={section.imageAlt ?? ""}
+            alt={section.imageAlt ?? ''}
             href={section.imageHref}
             cover
           />
@@ -158,7 +166,7 @@ function SplitAppSection({ section }: { section: Section }) {
 }
 
 function CenteredSection({ section }: { section: Section }) {
-  if (section.layout !== "centered") return null;
+  if (section.layout !== 'centered') return null;
 
   return (
     <section className={styles.centeredSection}>
@@ -180,18 +188,27 @@ function CenteredSection({ section }: { section: Section }) {
 }
 
 function PartnershipsSection({ section }: { section: Section }) {
-  if (section.layout !== "partnerships") return null;
+  if (section.layout !== 'partnerships') return null;
 
   return (
     <section className={styles.partnershipsSection}>
       <div className={styles.partnershipsInner}>
         <h2 className={styles.sectionHeading}>{section.heading}</h2>
         {section.mobileImage ? (
-          <img src={section.mobileImage} alt="" className={styles.partnershipMobileImage} />
+          <img
+            src={section.mobileImage}
+            alt=""
+            className={styles.partnershipMobileImage}
+          />
         ) : null}
         <div className={styles.partnershipGrid}>
           {section.images?.map((src) => (
-            <img key={src} src={src} alt="" className={styles.partnershipImage} />
+            <img
+              key={src}
+              src={src}
+              alt=""
+              className={styles.partnershipImage}
+            />
           ))}
         </div>
         {section.body.map((paragraph) => (
@@ -211,13 +228,13 @@ function PartnershipsSection({ section }: { section: Section }) {
 
 function AboutSection({ section }: { section: Section }) {
   switch (section.layout) {
-    case "split-teal":
+    case 'split-teal':
       return <SplitTealSection section={section} />;
-    case "split-app":
+    case 'split-app':
       return <SplitAppSection section={section} />;
-    case "centered":
+    case 'centered':
       return <CenteredSection section={section} />;
-    case "partnerships":
+    case 'partnerships':
       return <PartnershipsSection section={section} />;
     default:
       return null;
@@ -229,7 +246,9 @@ export function AboutAnnabelKarmelPageContent() {
     <main className={styles.page}>
       <section className={styles.heroSection}>
         <div className={styles.heroShell}>
-          <h1 className={styles.heroHeading}>{aboutAnnabelKarmelPage.heroHeading}</h1>
+          <h1 className={styles.heroHeading}>
+            {aboutAnnabelKarmelPage.heroHeading}
+          </h1>
           <Image
             src={aboutAnnabelKarmelPage.heroImage}
             alt="Annabel Karmel"

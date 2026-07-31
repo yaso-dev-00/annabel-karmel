@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import styles from "@/app/eggs-questions-answered/page.module.css";
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import styles from '@/app/eggs-questions-answered/page.module.css';
 
 export type EggQuestionItem = {
   title: string;
@@ -19,8 +19,13 @@ type EggQuestionsAccordionProps = {
   numbered?: boolean;
 };
 
-export function EggQuestionsAccordion({ items, numbered = false }: EggQuestionsAccordionProps) {
-  const [openTitle, setOpenTitle] = useState<string | null>(() => items[0]?.title ?? null);
+export function EggQuestionsAccordion({
+  items,
+  numbered = false,
+}: EggQuestionsAccordionProps) {
+  const [openTitle, setOpenTitle] = useState<string | null>(
+    () => items[0]?.title ?? null,
+  );
 
   const toggle = (title: string) => {
     setOpenTitle((current) => (current === title ? null : title));
@@ -37,10 +42,10 @@ export function EggQuestionsAccordion({ items, numbered = false }: EggQuestionsA
             <button
               type="button"
               onClick={() => toggle(item.title)}
-              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ""}`}
+              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ''}`}
             >
               <span aria-hidden="true" className={styles.accordionMarker}>
-                {isOpen ? "−" : "+"}
+                {isOpen ? '−' : '+'}
               </span>
               {label}
             </button>
@@ -50,44 +55,57 @@ export function EggQuestionsAccordion({ items, numbered = false }: EggQuestionsA
                 <motion.div
                   key={item.title}
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
+                  animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.45, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
+                  transition={{ duration: 0.45, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
                 >
                   <div className={styles.accordionBody}>
-                    {item.subsections
-                      ? item.subsections.map((section) => (
-                          <div key={section.heading}>
-                            <p className={`${styles.accordionBodyText} ${styles.accordionSubheading}`}>
-                              <strong>{section.heading}</strong>
-                            </p>
-                            <p className={styles.accordionBodyText}>{section.body}</p>
-                          </div>
-                        ))
-                      : (
-                          <>
-                            {item.paragraphs?.map((paragraph) => (
-                              <p key={paragraph} className={styles.accordionBodyText}>
-                                {paragraph}
-                              </p>
+                    {item.subsections ? (
+                      item.subsections.map((section) => (
+                        <div key={section.heading}>
+                          <p
+                            className={`${styles.accordionBodyText} ${styles.accordionSubheading}`}
+                          >
+                            <strong>{section.heading}</strong>
+                          </p>
+                          <p className={styles.accordionBodyText}>
+                            {section.body}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <>
+                        {item.paragraphs?.map((paragraph) => (
+                          <p
+                            key={paragraph}
+                            className={styles.accordionBodyText}
+                          >
+                            {paragraph}
+                          </p>
+                        ))}
+                        {item.listItems ? (
+                          <ul className={styles.accordionList}>
+                            {item.listItems.map((listItem) => (
+                              <li
+                                key={listItem}
+                                className={styles.accordionListItem}
+                              >
+                                {listItem}
+                              </li>
                             ))}
-                            {item.listItems ? (
-                              <ul className={styles.accordionList}>
-                                {item.listItems.map((listItem) => (
-                                  <li key={listItem} className={styles.accordionListItem}>
-                                    {listItem}
-                                  </li>
-                                ))}
-                              </ul>
-                            ) : null}
-                            {item.closingParagraphs?.map((paragraph) => (
-                              <p key={paragraph} className={styles.accordionBodyText}>
-                                {paragraph}
-                              </p>
-                            ))}
-                          </>
-                        )}
+                          </ul>
+                        ) : null}
+                        {item.closingParagraphs?.map((paragraph) => (
+                          <p
+                            key={paragraph}
+                            className={styles.accordionBodyText}
+                          >
+                            {paragraph}
+                          </p>
+                        ))}
+                      </>
+                    )}
                   </div>
                 </motion.div>
               ) : null}

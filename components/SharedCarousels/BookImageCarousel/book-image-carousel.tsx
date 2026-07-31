@@ -1,13 +1,16 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useCallback, useEffect } from "react";
+import { motion } from 'framer-motion';
+import { useCallback, useEffect } from 'react';
 
-import { CAROUSEL_SLIDE, useSnapCarousel } from "@/components/hooks/useSnapCarousel";
-import styles from "./book-image-carousel.module.css";
+import {
+  CAROUSEL_SLIDE,
+  useSnapCarousel,
+} from '@/components/hooks/useSnapCarousel';
+import styles from './book-image-carousel.module.css';
 
-const ARROW_LEFT = "/our-books/arrow-left.svg";
-const ARROW_RIGHT = "/our-books/arrow-right.svg";
+const ARROW_LEFT = '/our-books/arrow-left.svg';
+const ARROW_RIGHT = '/our-books/arrow-right.svg';
 
 type BookImageCarouselProps = {
   images: { src: string; alt: string }[];
@@ -15,11 +18,26 @@ type BookImageCarouselProps = {
   showMobileTitle?: boolean;
 };
 
-export function BookImageCarousel({ images, title, showMobileTitle = true }: BookImageCarouselProps) {
-  const carousel = useSnapCarousel({
+export function BookImageCarousel({
+  images,
+  title,
+  showMobileTitle = true,
+}: BookImageCarouselProps) {
+  const {
+    carouselRef,
+    trackRef,
+    x,
+    index,
+    measure,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnd,
+    handleCardClickCapture,
+    animateToIndex,
+  } = useSnapCarousel({
     itemCount: images.length,
-    cardSelector: ".book-carousel-slide",
-    controlsSelector: "button",
+    cardSelector: '.book-carousel-slide',
+    controlsSelector: 'button',
     centerSingleSlide: true,
     dragThreshold: 2,
     touchDragThreshold: 1,
@@ -28,22 +46,22 @@ export function BookImageCarousel({ images, title, showMobileTitle = true }: Boo
   });
 
   useEffect(() => {
-    carousel.measure();
-  }, [carousel.measure, images.length]);
+    measure();
+  }, [measure, images.length]);
 
   const goTo = useCallback(
     (next: number) => {
       const clamped = Math.max(0, Math.min(images.length - 1, next));
-      if (clamped === carousel.index) {
+      if (clamped === index) {
         return;
       }
-      carousel.animateToIndex(clamped, CAROUSEL_SLIDE);
+      animateToIndex(clamped, CAROUSEL_SLIDE);
     },
-    [carousel, images.length],
+    [animateToIndex, images.length, index],
   );
 
-  const isAtStart = carousel.index <= 0;
-  const isAtEnd = carousel.index >= images.length - 1;
+  const isAtStart = index <= 0;
+  const isAtEnd = index >= images.length - 1;
 
   if (images.length === 0) return null;
 
@@ -52,35 +70,35 @@ export function BookImageCarousel({ images, title, showMobileTitle = true }: Boo
       {showMobileTitle ? <h3 className={styles.mobileTitle}>{title}</h3> : null}
 
       <div
-        ref={carousel.carouselRef}
+        ref={carouselRef}
         className={styles.viewport}
-        onPointerDownCapture={carousel.handlePointerDown}
-        onPointerMoveCapture={carousel.handlePointerMove}
-        onPointerUpCapture={carousel.handlePointerEnd}
-        onPointerCancelCapture={carousel.handlePointerEnd}
+        onPointerDownCapture={handlePointerDown}
+        onPointerMoveCapture={handlePointerMove}
+        onPointerUpCapture={handlePointerEnd}
+        onPointerCancelCapture={handlePointerEnd}
       >
         <motion.div
-          ref={carousel.trackRef}
+          ref={trackRef}
           className={styles.track}
-          style={{ x: carousel.x }}
+          style={{ x }}
           initial={false}
         >
           {images.map((image, slideIndex) => (
             <div
               key={`${image.src}-${slideIndex}`}
               className={`book-carousel-slide ${styles.slide}`}
-              aria-hidden={slideIndex !== carousel.index}
-              onClickCapture={carousel.handleCardClickCapture}
+              aria-hidden={slideIndex !== index}
+              onClickCapture={handleCardClickCapture}
             >
               <img
                 src={image.src}
                 alt={image.alt}
                 className={styles.image}
-                loading={slideIndex === 0 ? "eager" : "lazy"}
+                loading={slideIndex === 0 ? 'eager' : 'lazy'}
                 decoding="async"
                 draggable={false}
                 onDragStart={(event) => event.preventDefault()}
-                onLoad={carousel.measure}
+                onLoad={measure}
               />
             </div>
           ))}
@@ -88,38 +106,52 @@ export function BookImageCarousel({ images, title, showMobileTitle = true }: Boo
 
         <button
           type="button"
-          className={`${styles.arrow} ${styles.arrowPrev} ${isAtStart ? styles.arrowDisabled : ""}`}
+          className={`${styles.arrow} ${styles.arrowPrev} ${isAtStart ? styles.arrowDisabled : ''}`}
           aria-label="Previous image"
           disabled={isAtStart}
           onPointerDown={(event) => {
             event.stopPropagation();
             if (!isAtStart) {
-              goTo(carousel.index - 1);
+              goTo(index - 1);
             }
           }}
         >
-          <img src={ARROW_LEFT} alt="" className={styles.arrowIcon} width={39} height={38} draggable={false} />
+          <img
+            src={ARROW_LEFT}
+            alt=""
+            className={styles.arrowIcon}
+            width={39}
+            height={38}
+            draggable={false}
+          />
         </button>
 
         <p className={styles.slideCounter} aria-live="polite">
-          <span className={styles.slideCounterCurrent}>{carousel.index + 1}</span>
+          <span className={styles.slideCounterCurrent}>{index + 1}</span>
           <span className={styles.slideCounterDivider}>/</span>
           <span className={styles.slideCounterTotal}>{images.length}</span>
         </p>
 
         <button
           type="button"
-          className={`${styles.arrow} ${styles.arrowNext} ${isAtEnd ? styles.arrowDisabled : ""}`}
+          className={`${styles.arrow} ${styles.arrowNext} ${isAtEnd ? styles.arrowDisabled : ''}`}
           aria-label="Next image"
           disabled={isAtEnd}
           onPointerDown={(event) => {
             event.stopPropagation();
             if (!isAtEnd) {
-              goTo(carousel.index + 1);
+              goTo(index + 1);
             }
           }}
         >
-          <img src={ARROW_RIGHT} alt="" className={styles.arrowIcon} width={39} height={38} draggable={false} />
+          <img
+            src={ARROW_RIGHT}
+            alt=""
+            className={styles.arrowIcon}
+            width={39}
+            height={38}
+            draggable={false}
+          />
         </button>
       </div>
     </div>

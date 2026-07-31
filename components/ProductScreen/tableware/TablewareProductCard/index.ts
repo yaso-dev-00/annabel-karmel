@@ -1,1 +1,1 @@
-export * from "./tableware-product-card";
+export * from './tableware-product-card';

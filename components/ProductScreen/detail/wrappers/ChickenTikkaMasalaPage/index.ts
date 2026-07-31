@@ -1,1 +1,1 @@
-export * from "./chicken-tikka-masala-page";
+export * from './chicken-tikka-masala-page';

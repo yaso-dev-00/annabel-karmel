@@ -1,5 +1,5 @@
 export const termsConditionsPage = {
-  title: "Terms & Conditions",
+  title: 'Terms & Conditions',
   html: `<p><strong>Your use of the Website is conditional on Your acceptance of these terms and conditions</strong></p>
 <p>The AnnabelKarmel.com website (and any related website) (“Website”) is designed as a community for like-minded people with an interest in the well-being of babies, infants, children and young adults, especially as regards healthy eating. The Website site is operated by Annabel Karmel Group Holdings Limited (“AK”, “We”, “Us”, “Our”), and use of the Website is strictly conditional on your agreement to these Terms and Conditions and to the Proper Use Conditions, which are set out in the “Privacy Statement and Proper Use Conditions”, (collectively, the “General Terms and Conditions”).</p>
 <h4>Privacy</h4>

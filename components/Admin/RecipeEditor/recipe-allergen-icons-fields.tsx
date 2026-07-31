@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import styles from "./recipe-editor.module.css";
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import styles from './recipe-editor.module.css';
 
 type RecipeAllergenIconsFieldsProps = {
   icon?: string;
@@ -11,8 +11,8 @@ type RecipeAllergenIconsFieldsProps = {
 };
 
 export function RecipeAllergenIconsFields({
-  icon = "",
-  iconActive = "",
+  icon = '',
+  iconActive = '',
   onIconChange,
   onIconActiveChange,
 }: RecipeAllergenIconsFieldsProps) {
@@ -24,7 +24,11 @@ export function RecipeAllergenIconsFields({
       </div>
       <div className={styles.allergenIconRow}>
         <span className={styles.allergenIconLabel}>Hover / Active Icon</span>
-        <ImageField value={iconActive} showAlt={false} onChange={onIconActiveChange} />
+        <ImageField
+          value={iconActive}
+          showAlt={false}
+          onChange={onIconActiveChange}
+        />
       </div>
     </div>
   );

@@ -1,1 +1,1 @@
-export * from "./craft-crumb-page";
+export * from './craft-crumb-page';

@@ -38,7 +38,7 @@
   text-align: center;
 }
 
-@media(max-width: 768px) {
+@media (max-width: 768px) {
   .introBody {
     margin-bottom: 20px;
   }
@@ -56,18 +56,16 @@
 }
 
 .splitTeal {
-  
   max-width: 80%;
   margin: auto;
 }
 
 .splitApp {
-   
   max-width: 80%;
   margin: auto;
 }
 
-@media(max-width: 1200px) {
+@media (max-width: 1200px) {
   .splitTeal {
     max-width: 100%;
     padding: 0 15px;
@@ -75,7 +73,6 @@
   .splitApp {
     max-width: 100%;
     padding: 0 15px;
-    
   }
 }
 
@@ -157,7 +154,7 @@
   height: 100px;
   object-fit: contain;
 }
-@media(max-width: 768px) {
+@media (max-width: 768px) {
   .awardLogo {
     height: 90px;
   }
@@ -198,7 +195,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width:max-content;
+  max-width: max-content;
   min-height: 48px;
   padding: 14px 24px;
   border-radius: 0;
@@ -213,7 +210,7 @@
 }
 
 .ctaTeal {
-  background: #9FD2D8;
+  background: #9fd2d8;
   color: #3a3a3a;
 }
 
@@ -221,7 +218,6 @@
   text-transform: none;
   letter-spacing: normal;
   font-weight: 400;
-  
 }
 
 .ctaGrey {

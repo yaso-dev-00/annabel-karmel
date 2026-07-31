@@ -1,18 +1,18 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { getRelatedArticles } from "@/data/related-articles";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { getRelatedArticles } from '@/data/related-articles';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Statistics on baby-led weaning | Annabel Karmel",
+  title: 'Statistics on baby-led weaning | Annabel Karmel',
   description:
     "Discover what UK families say about baby-led weaning with highlights from Annabel Karmel's nationwide weaning survey.",
 };
 
-const relatedArticles = getRelatedArticles("/statistics-baby-led-weaning");
+const relatedArticles = getRelatedArticles('/statistics-baby-led-weaning');
 
 export default function StatisticsBabyLedWeaningPage() {
   return (
@@ -20,14 +20,18 @@ export default function StatisticsBabyLedWeaningPage() {
       <SiteHeader />
       <main className="overflow-x-hidden bg-white">
         <article className="mx-auto w-full max-w-[1200px] mt-[20px] px-[8px] pb-[10px] pt-[20px] md:px-[14px] md:pt-[28px]">
-          <h1 className={styles.title}>Discover what UK families say about baby-led weaning</h1>
+          <h1 className={styles.title}>
+            Discover what UK families say about baby-led weaning
+          </h1>
 
           <p className={styles.body}>
-            We had a huge response to our nationwide baby-led weaning survey, and it&apos;s safe to say that parents
-            have very similar worries when it comes to weaning!
+            We had a huge response to our nationwide baby-led weaning survey,
+            and it&apos;s safe to say that parents have very similar worries
+            when it comes to weaning!
           </p>
           <p className={styles.body}>
-            If you&apos;re still undecided about which weaning route to take, here are our poll highlights.
+            If you&apos;re still undecided about which weaning route to take,
+            here are our poll highlights.
           </p>
 
           <img
@@ -40,7 +44,9 @@ export default function StatisticsBabyLedWeaningPage() {
 
           <div className="mt-[70px] text-center">
             <h2 className={styles.relatedTitle}>Related Articles</h2>
-            <p className={styles.relatedText}>Some more articles you might enjoy...</p>
+            <p className={styles.relatedText}>
+              Some more articles you might enjoy...
+            </p>
           </div>
         </article>
 

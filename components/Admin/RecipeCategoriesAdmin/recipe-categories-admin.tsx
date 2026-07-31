@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 import {
   KeyboardSensor,
   PointerSensor,
@@ -8,20 +8,23 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { StableDndContext } from "@/components/Admin/BlockEditor/stable-dnd-context";
-import { ConfirmModal } from "@/components/Admin/Ui/ConfirmModal";
-import type { RecipeTaxonomy, RecipeTaxonomyGroup } from "@/data/recipe-taxonomies";
-import { saveCategoryGroupsApi } from "@/lib/admin/recipe-categories-client";
-import styles from "./recipe-categories-admin.module.css";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { StableDndContext } from '@/components/Admin/BlockEditor/stable-dnd-context';
+import { ConfirmModal } from '@/components/Admin/Ui/ConfirmModal';
+import type {
+  RecipeTaxonomy,
+  RecipeTaxonomyGroup,
+} from '@/data/recipe-taxonomies';
+import { saveCategoryGroupsApi } from '@/lib/admin/recipe-categories-client';
+import styles from './recipe-categories-admin.module.css';
 
 type RecipeCategoriesAdminProps = {
   initialGroups: RecipeTaxonomyGroup[];
@@ -31,8 +34,8 @@ function slugify(label: string): string {
   return label
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 function SortableTermRow({
@@ -46,7 +49,14 @@ function SortableTermRow({
   onRemove: () => void;
   busy: boolean;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: term.slug,
   });
   const [label, setLabel] = useState(term.label);
@@ -55,7 +65,7 @@ function SortableTermRow({
   return (
     <li
       ref={setNodeRef}
-      className={`${styles.termRow}${isDragging ? ` ${styles.termRowDragging}` : ""}`}
+      className={`${styles.termRow}${isDragging ? ` ${styles.termRowDragging}` : ''}`}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -117,13 +127,15 @@ function SortableTermRow({
   );
 }
 
-export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminProps) {
+export function RecipeCategoriesAdmin({
+  initialGroups,
+}: RecipeCategoriesAdminProps) {
   const [groups, setGroups] = useState(initialGroups);
-  const [groupId, setGroupId] = useState(initialGroups[0]?.id ?? "");
+  const [groupId, setGroupId] = useState(initialGroups[0]?.id ?? '');
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [newLabel, setNewLabel] = useState("");
+  const [newLabel, setNewLabel] = useState('');
   const [removeSlug, setRemoveSlug] = useState<string | null>(null);
 
   const selectedGroup = useMemo(
@@ -133,10 +145,15 @@ export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminPr
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
-  const persist = async (nextGroups: RecipeTaxonomyGroup[], successMessage: string) => {
+  const persist = async (
+    nextGroups: RecipeTaxonomyGroup[],
+    successMessage: string,
+  ) => {
     const previous = groups;
     setGroups(nextGroups);
     setBusy(true);
@@ -148,13 +165,18 @@ export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminPr
       setMessage(successMessage);
     } catch (err) {
       setGroups(previous);
-      setError(err instanceof Error ? err.message : "Failed to save categories");
+      setError(
+        err instanceof Error ? err.message : 'Failed to save categories',
+      );
     } finally {
       setBusy(false);
     }
   };
 
-  const patchSelectedTerms = (terms: RecipeTaxonomy[], successMessage: string) => {
+  const patchSelectedTerms = (
+    terms: RecipeTaxonomy[],
+    successMessage: string,
+  ) => {
     if (!selectedGroup) return;
     const nextGroups = groups.map((group) =>
       group.id === selectedGroup.id ? { ...group, terms } : group,
@@ -166,10 +188,17 @@ export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminPr
     if (!selectedGroup || busy) return;
     const { active, over } = event;
     if (!over || active.id === over.id) return;
-    const oldIndex = selectedGroup.terms.findIndex((term) => term.slug === active.id);
-    const newIndex = selectedGroup.terms.findIndex((term) => term.slug === over.id);
+    const oldIndex = selectedGroup.terms.findIndex(
+      (term) => term.slug === active.id,
+    );
+    const newIndex = selectedGroup.terms.findIndex(
+      (term) => term.slug === over.id,
+    );
     if (oldIndex < 0 || newIndex < 0) return;
-    patchSelectedTerms(arrayMove(selectedGroup.terms, oldIndex, newIndex), "Order saved.");
+    patchSelectedTerms(
+      arrayMove(selectedGroup.terms, oldIndex, newIndex),
+      'Order saved.',
+    );
   };
 
   const updateTerm = (slug: string, patch: Partial<RecipeTaxonomy>) => {
@@ -177,7 +206,7 @@ export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminPr
     const next = selectedGroup.terms.map((term) =>
       term.slug === slug ? { ...term, ...patch } : term,
     );
-    patchSelectedTerms(next, "Category updated.");
+    patchSelectedTerms(next, 'Category updated.');
   };
 
   const addTerm = () => {
@@ -199,15 +228,15 @@ export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminPr
       path: `/${selectedGroup.kind}/${slug}`,
       sourceUrl: `https://www.annabelkarmel.com/${selectedGroup.kind}/${slug}/`,
     };
-    setNewLabel("");
-    patchSelectedTerms([...selectedGroup.terms, term], "Category added.");
+    setNewLabel('');
+    patchSelectedTerms([...selectedGroup.terms, term], 'Category added.');
   };
 
   const confirmRemove = () => {
     if (!selectedGroup || !removeSlug) return;
     const next = selectedGroup.terms.filter((term) => term.slug !== removeSlug);
     setRemoveSlug(null);
-    patchSelectedTerms(next, "Category removed.");
+    patchSelectedTerms(next, 'Category removed.');
   };
 
   return (
@@ -219,7 +248,7 @@ export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminPr
             type="button"
             role="tab"
             aria-selected={selectedGroup?.id === group.id}
-            className={`${styles.tab}${selectedGroup?.id === group.id ? ` ${styles.tabActive}` : ""}`}
+            className={`${styles.tab}${selectedGroup?.id === group.id ? ` ${styles.tabActive}` : ''}`}
             onClick={() => {
               setGroupId(group.id);
               setError(null);
@@ -251,7 +280,8 @@ export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminPr
               <h2 className={styles.panelTitle}>{selectedGroup.label}</h2>
               <p className={styles.panelHint}>
                 {selectedGroup.terms.length} categor
-                {selectedGroup.terms.length === 1 ? "y" : "ies"} · drag to reorder
+                {selectedGroup.terms.length === 1 ? 'y' : 'ies'} · drag to
+                reorder
               </p>
             </div>
             <form
@@ -261,7 +291,10 @@ export function RecipeCategoriesAdmin({ initialGroups }: RecipeCategoriesAdminPr
                 addTerm();
               }}
             >
-              <label className={styles.visuallyHidden} htmlFor="new-category-label">
+              <label
+                className={styles.visuallyHidden}
+                htmlFor="new-category-label"
+              >
                 New category label
               </label>
               <input

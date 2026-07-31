@@ -1,22 +1,20 @@
-"use client";
+'use client';
 
 import {
   HOMEPAGE_PREVIEW_MESSAGE,
   HOMEPAGE_PREVIEW_READY_MESSAGE,
-} from "@/lib/homepage/preview-messages";
-import { readHomepagePreviewDocument } from "@/lib/homepage/preview-session";
-import type { HomepageDocument } from "@/lib/homepage/types";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { HomePageContent } from "@/components/HomeScreen/HomePage";
-import "./preview-frame.css";
+} from '@/lib/homepage/preview-messages';
+import { readHomepagePreviewDocument } from '@/lib/homepage/preview-session';
+import type { HomepageDocument } from '@/lib/homepage/types';
+import { useEffect, useState } from 'react';
+import { HomePageContent } from '@/components/HomeScreen/HomePage';
+import './preview-frame.css';
 
 export default function HomepagePreviewFramePage() {
-  const [document, setDocument] = useState<HomepageDocument | null>(null);
-
-  useLayoutEffect(() => {
-    const seeded = readHomepagePreviewDocument();
-    if (seeded) setDocument(seeded);
-  }, []);
+  const [document, setDocument] = useState<HomepageDocument | null>(() => {
+    if (typeof window === 'undefined') return null;
+    return readHomepagePreviewDocument();
+  });
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
@@ -37,20 +35,23 @@ export default function HomepagePreviewFramePage() {
         });
       }
     };
-    window.addEventListener("message", onMessage);
-    window.parent.postMessage({ type: HOMEPAGE_PREVIEW_READY_MESSAGE }, window.location.origin);
-    return () => window.removeEventListener("message", onMessage);
+    window.addEventListener('message', onMessage);
+    window.parent.postMessage(
+      { type: HOMEPAGE_PREVIEW_READY_MESSAGE },
+      window.location.origin,
+    );
+    return () => window.removeEventListener('message', onMessage);
   }, []);
 
   if (!document) {
     return (
       <div
         style={{
-          minHeight: "100vh",
-          display: "grid",
-          placeItems: "center",
-          fontFamily: "system-ui, sans-serif",
-          color: "#8a8588",
+          minHeight: '100vh',
+          display: 'grid',
+          placeItems: 'center',
+          fontFamily: 'system-ui, sans-serif',
+          color: '#8a8588',
           fontSize: 14,
         }}
       >

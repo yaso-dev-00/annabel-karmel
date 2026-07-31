@@ -1,22 +1,22 @@
-import { EggQuestionsAccordion } from "@/components/ArticleScreen/EggQuestionsAccordion";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { EggQuestionsAccordion } from '@/components/ArticleScreen/EggQuestionsAccordion';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   motherBoxUrl,
   whatToBuyAccordionItems,
   whatToBuyIntro,
   whatToBuyRelatedArticles,
-} from "@/data/what-to-buy-page";
-import type { Metadata } from "next";
-import Link from "next/link";
-import styles from "./page.module.css";
+} from '@/data/what-to-buy-page';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "What to buy | Your Pregnancy | Annabel Karmel",
+  title: 'What to buy | Your Pregnancy | Annabel Karmel',
   description:
-    "Baby essentials to get you started — car seat, cot, pushchair, bouncer, feeding equipment, and baby clothes.",
+    'Baby essentials to get you started — car seat, cot, pushchair, bouncer, feeding equipment, and baby clothes.',
 };
 
 export default function WhatToBuyPage() {
@@ -31,12 +31,18 @@ export default function WhatToBuyPage() {
 
           <p className={styles.attribution}>
             <strong>
-              Alexis and Beccy are the duo behind{" "}
-              <Link href={motherBoxUrl} className={styles.attributionLink} target="_blank" rel="noreferrer">
+              Alexis and Beccy are the duo behind{' '}
+              <Link
+                href={motherBoxUrl}
+                className={styles.attributionLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 The Mother Box
-              </Link>{" "}
-              – a complete package of pregnancy, birth and postnatal gifts, courses and workshops carefully created to
-              nurture, heal and empower new mums.
+              </Link>{' '}
+              – a complete package of pregnancy, birth and postnatal gifts,
+              courses and workshops carefully created to nurture, heal and
+              empower new mums.
             </strong>
           </p>
 

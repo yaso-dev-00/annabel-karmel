@@ -20,12 +20,12 @@
 }
 
 /* Fullscreen only — PreviewViewport sets data-preview-fullscreen on the frame. */
-[data-preview-fullscreen="true"] .homepagePreviewBody {
+[data-preview-fullscreen='true'] .homepagePreviewBody {
   height: calc(100vh - 72px);
   min-height: calc(100vh - 72px);
 }
 
-[data-preview-fullscreen="true"] .homepagePreviewIframe {
+[data-preview-fullscreen='true'] .homepagePreviewIframe {
   min-height: 100%;
   height: 100%;
 }

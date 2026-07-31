@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from 'react';
 import {
   KeyboardSensor,
   PointerSensor,
@@ -8,27 +8,30 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { ADVICE_CATEGORY_OPTIONS, getAdviceCategoryLabel } from "@/lib/content-blocks/advice-categories";
-import { getAdviceCategoryArticleOptions } from "@/lib/content-blocks/advice-category-articles";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import {
+  ADVICE_CATEGORY_OPTIONS,
+  getAdviceCategoryLabel,
+} from '@/lib/content-blocks/advice-categories';
+import { getAdviceCategoryArticleOptions } from '@/lib/content-blocks/advice-category-articles';
 import {
   ARTICLE_CATEGORY_OPTIONS,
   getArticleCategoryLabel,
-} from "@/lib/content-blocks/article-categories";
-import { getArticleCategoryArticleOptions } from "@/lib/content-blocks/article-category-articles";
-import type { RelatedArticlesCatalog } from "@/lib/content-blocks/resolve-related-articles-block";
-import type { RelatedArticlesBlockData } from "@/lib/content-blocks/types";
-import editorStyles from "./block-editor.module.css";
-import styles from "./related-articles-fields.module.css";
-import { StableDndContext } from "./stable-dnd-context";
+} from '@/lib/content-blocks/article-categories';
+import { getArticleCategoryArticleOptions } from '@/lib/content-blocks/article-category-articles';
+import type { RelatedArticlesCatalog } from '@/lib/content-blocks/resolve-related-articles-block';
+import type { RelatedArticlesBlockData } from '@/lib/content-blocks/types';
+import editorStyles from './block-editor.module.css';
+import styles from './related-articles-fields.module.css';
+import { StableDndContext } from './stable-dnd-context';
 
 type RelatedArticlesFieldsProps = {
   data: RelatedArticlesBlockData;
@@ -50,7 +53,14 @@ function SortableArticleRow({
   article: CategoryArticle;
   onRemove: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: article.slug,
   });
 
@@ -100,12 +110,16 @@ function SortableArticleRow({
 export function RelatedArticlesFields({
   data,
   onChange,
-  catalog = "advice",
+  catalog = 'advice',
 }: RelatedArticlesFieldsProps) {
-  const categoryOptions = catalog === "article" ? ARTICLE_CATEGORY_OPTIONS : ADVICE_CATEGORY_OPTIONS;
-  const getCategoryLabel = catalog === "article" ? getArticleCategoryLabel : getAdviceCategoryLabel;
+  const categoryOptions =
+    catalog === 'article' ? ARTICLE_CATEGORY_OPTIONS : ADVICE_CATEGORY_OPTIONS;
+  const getCategoryLabel =
+    catalog === 'article' ? getArticleCategoryLabel : getAdviceCategoryLabel;
   const getCategoryArticles =
-    catalog === "article" ? getArticleCategoryArticleOptions : getAdviceCategoryArticleOptions;
+    catalog === 'article'
+      ? getArticleCategoryArticleOptions
+      : getAdviceCategoryArticleOptions;
 
   const categoryArticles = useMemo(
     () => getCategoryArticles(data.category_slug),
@@ -123,16 +137,21 @@ export function RelatedArticlesFields({
 
   const selectedArticles = data.article_slugs
     .map((slug) => articlesBySlug.get(slug))
-    .filter((article): article is NonNullable<typeof article> => Boolean(article));
+    .filter((article): article is NonNullable<typeof article> =>
+      Boolean(article),
+    );
 
   const availableArticles = categoryArticles.filter(
     (article) => !data.article_slugs.includes(article.slug),
   );
 
-  const patch = (next: Partial<RelatedArticlesBlockData>) => onChange({ ...data, ...next });
+  const patch = (next: Partial<RelatedArticlesBlockData>) =>
+    onChange({ ...data, ...next });
 
   useEffect(() => {
-    const valid = categoryOptions.some((option) => option.value === data.category_slug);
+    const valid = categoryOptions.some(
+      (option) => option.value === data.category_slug,
+    );
     if (!valid && categoryOptions[0]) {
       patch({ category_slug: categoryOptions[0].value });
     }
@@ -142,7 +161,9 @@ export function RelatedArticlesFields({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -156,11 +177,17 @@ export function RelatedArticlesFields({
     const newIndex = categorySlugsInOrder.indexOf(String(over.id));
     if (oldIndex < 0 || newIndex < 0) return;
 
-    const reorderedCategorySlugs = arrayMove(categorySlugsInOrder, oldIndex, newIndex);
+    const reorderedCategorySlugs = arrayMove(
+      categorySlugsInOrder,
+      oldIndex,
+      newIndex,
+    );
     const otherCategorySlugs = data.article_slugs.filter(
       (slug) => !currentCategorySlugSet.has(slug),
     );
-    patch({ article_slugs: [...reorderedCategorySlugs, ...otherCategorySlugs] });
+    patch({
+      article_slugs: [...reorderedCategorySlugs, ...otherCategorySlugs],
+    });
   };
 
   const addArticle = (slug: string) => {
@@ -169,7 +196,9 @@ export function RelatedArticlesFields({
   };
 
   const removeArticle = (slug: string) => {
-    patch({ article_slugs: data.article_slugs.filter((item) => item !== slug) });
+    patch({
+      article_slugs: data.article_slugs.filter((item) => item !== slug),
+    });
   };
 
   const handleCategoryChange = (categorySlug: string) => {
@@ -190,7 +219,7 @@ export function RelatedArticlesFields({
         <label className="fieldLabel">Subtitle</label>
         <input
           className="fieldInput"
-          value={data.subtitle ?? ""}
+          value={data.subtitle ?? ''}
           onChange={(event) => patch({ subtitle: event.target.value })}
           placeholder="Some more articles you might enjoy..."
         />
@@ -214,11 +243,15 @@ export function RelatedArticlesFields({
         <label className="fieldLabel">Selected articles</label>
         <p className={styles.helpText}>
           {selectedArticles.length > 0
-            ? `Showing ${selectedArticles.length} chosen article${selectedArticles.length === 1 ? "" : "s"} from ${getCategoryLabel(data.category_slug)}. Drag to reorder.`
+            ? `Showing ${selectedArticles.length} chosen article${selectedArticles.length === 1 ? '' : 's'} from ${getCategoryLabel(data.category_slug)}. Drag to reorder.`
             : `No articles selected — the carousel will show all default articles from ${getCategoryLabel(data.category_slug)}.`}
         </p>
         {selectedArticles.length > 0 ? (
-          <StableDndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <StableDndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
             <SortableContext
               items={selectedArticles.map((article) => article.slug)}
               strategy={verticalListSortingStrategy}
@@ -240,14 +273,20 @@ export function RelatedArticlesFields({
       <div className="field">
         <label className="fieldLabel">Add articles from category</label>
         {availableArticles.length === 0 ? (
-          <p className={styles.helpText}>All articles from this category are already selected.</p>
+          <p className={styles.helpText}>
+            All articles from this category are already selected.
+          </p>
         ) : (
           <div className={styles.availableList}>
             {availableArticles.map((article) => (
               <div key={article.slug} className={styles.availableRow}>
                 {article.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={article.image} alt="" className={styles.thumbnail} />
+                  <img
+                    src={article.image}
+                    alt=""
+                    className={styles.thumbnail}
+                  />
                 ) : (
                   <div className={styles.thumbnailPlaceholder} aria-hidden />
                 )}

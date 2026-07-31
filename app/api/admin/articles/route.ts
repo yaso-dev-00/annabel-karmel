@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
-import { createArticle, getAllArticles } from "@/lib/admin/articles-store";
-import { revalidateArticlePages } from "@/lib/admin/revalidate-article-pages";
-import type { Article } from "@/lib/content-blocks/types";
+import { NextResponse } from 'next/server';
+import { createArticle, getAllArticles } from '@/lib/admin/articles-store';
+import { revalidateArticlePages } from '@/lib/admin/revalidate-article-pages';
+import type { Article } from '@/lib/content-blocks/types';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-const NO_STORE_HEADERS = { "Cache-Control": "no-store, max-age=0" };
+const NO_STORE_HEADERS = { 'Cache-Control': 'no-store, max-age=0' };
 
 export async function GET() {
   const articles = await getAllArticles();
@@ -14,12 +14,22 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as Omit<Article, "id" | "created_at" | "updated_at">;
+    const body = (await request.json()) as Omit<
+      Article,
+      'id' | 'created_at' | 'updated_at'
+    >;
     const article = await createArticle(body);
     revalidateArticlePages(article);
-    return NextResponse.json(article, { status: 201, headers: NO_STORE_HEADERS });
+    return NextResponse.json(article, {
+      status: 201,
+      headers: NO_STORE_HEADERS,
+    });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Failed to create article";
-    return NextResponse.json({ error: message }, { status: 500, headers: NO_STORE_HEADERS });
+    const message =
+      error instanceof Error ? error.message : 'Failed to create article';
+    return NextResponse.json(
+      { error: message },
+      { status: 500, headers: NO_STORE_HEADERS },
+    );
   }
 }

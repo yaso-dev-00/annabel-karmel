@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 import {
   animate,
   motion,
   useAnimationFrame,
   useMotionValue,
   useMotionValueEvent,
-} from "framer-motion";
+} from 'framer-motion';
 import {
   useCallback,
   useEffect,
@@ -18,18 +18,18 @@ import {
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
   type MouseEvent as ReactMouseEvent,
-} from "react";
+} from 'react';
 
 import {
   childcareExpertBenefits,
   childcareRecipeCategories,
-} from "@/data/childcare-app-page";
-import { childcareImageSizes } from "@/data/childcare-image-sizes";
+} from '@/data/childcare-app-page';
+import { childcareImageSizes } from '@/data/childcare-image-sizes';
 import {
   CAROUSEL_SLIDE,
   CAROUSEL_SPRING,
-} from "@/components/hooks/useSnapCarousel";
-import styles from "@/components/MarketingScreen/ChildcareAppPage/childcare-app-page.module.css";
+} from '@/components/hooks/useSnapCarousel';
+import styles from '@/components/MarketingScreen/ChildcareAppPage/childcare-app-page.module.css';
 
 const EXPERT_GAP_PX = 20;
 const DESKTOP_BREAKPOINT = 768;
@@ -109,7 +109,7 @@ function ExpertCarouselArrow({
   direction,
   onNavigate,
 }: {
-  direction: "prev" | "next";
+  direction: 'prev' | 'next';
   onNavigate: () => void;
 }) {
   const maskId = useId();
@@ -120,14 +120,24 @@ function ExpertCarouselArrow({
       className={`${styles.expertCarouselControl} empower-expert-controls`}
       onPointerDown={(event) => event.stopPropagation()}
       onClick={onNavigate}
-      aria-label={direction === "prev" ? "Previous benefit" : "Next benefit"}
+      aria-label={direction === 'prev' ? 'Previous benefit' : 'Next benefit'}
     >
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 40 40"
+        fill="none"
+        aria-hidden="true"
+      >
         <defs>
           <mask id={maskId}>
             <rect width="40" height="40" fill="white" />
             <path
-              d={direction === "prev" ? "M23.5 11.5L14.5 20L23.5 28.5" : "M16.5 11.5L25.5 20L16.5 28.5"}
+              d={
+                direction === 'prev'
+                  ? 'M23.5 11.5L14.5 20L23.5 28.5'
+                  : 'M16.5 11.5L25.5 20L16.5 28.5'
+              }
               stroke="black"
               strokeWidth="5.5"
               strokeLinecap="round"
@@ -156,7 +166,9 @@ export function ChildcareRecipeCarousel() {
   const autoResumeTimer = useRef<number | null>(null);
 
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [remainingCount, setRemainingCount] = useState(childcareRecipeCategories.length);
+  const [remainingCount, setRemainingCount] = useState(
+    childcareRecipeCategories.length,
+  );
 
   const measureLoop = useCallback(() => {
     const track = trackRef.current;
@@ -176,11 +188,14 @@ export function ChildcareRecipeCarousel() {
     const normalized = (Math.abs(offset) % loopWidth) / loopWidth;
     setScrollProgress(normalized);
     setRemainingCount(
-      Math.max(0, Math.ceil((1 - normalized) * childcareRecipeCategories.length)),
+      Math.max(
+        0,
+        Math.ceil((1 - normalized) * childcareRecipeCategories.length),
+      ),
     );
   }, []);
 
-  useMotionValueEvent(x, "change", updateProgress);
+  useMotionValueEvent(x, 'change', updateProgress);
 
   useEffect(() => {
     measureLoop();
@@ -190,16 +205,16 @@ export function ChildcareRecipeCarousel() {
     }
 
     const observer =
-      typeof ResizeObserver !== "undefined"
+      typeof ResizeObserver !== 'undefined'
         ? new ResizeObserver(measureLoop)
         : null;
 
     observer?.observe(track);
-    window.addEventListener("resize", measureLoop);
+    window.addEventListener('resize', measureLoop);
 
     return () => {
       observer?.disconnect();
-      window.removeEventListener("resize", measureLoop);
+      window.removeEventListener('resize', measureLoop);
     };
   }, [measureLoop]);
 
@@ -231,7 +246,7 @@ export function ChildcareRecipeCarousel() {
   }, []);
 
   const setInteracting = useCallback((active: boolean) => {
-    carouselRef.current?.classList.toggle("is-carousel-interacting", active);
+    carouselRef.current?.classList.toggle('is-carousel-interacting', active);
   }, []);
 
   const handlePointerDown = useCallback(
@@ -261,11 +276,7 @@ export function ChildcareRecipeCarousel() {
       const deltaX = event.clientX - pointerStartX.current;
       const deltaY = event.clientY - pointerStartY.current;
 
-      if (
-        !isDragging.current &&
-        Math.abs(deltaX) < 2 &&
-        Math.abs(deltaY) < 2
-      ) {
+      if (!isDragging.current && Math.abs(deltaX) < 2 && Math.abs(deltaY) < 2) {
         return;
       }
 
@@ -323,10 +334,12 @@ export function ChildcareRecipeCarousel() {
       }
     };
 
-    carousel.addEventListener("touchmove", blockTouchScrollWhileDragging, { passive: false });
+    carousel.addEventListener('touchmove', blockTouchScrollWhileDragging, {
+      passive: false,
+    });
 
     return () => {
-      carousel.removeEventListener("touchmove", blockTouchScrollWhileDragging);
+      carousel.removeEventListener('touchmove', blockTouchScrollWhileDragging);
       if (autoResumeTimer.current !== null) {
         window.clearTimeout(autoResumeTimer.current);
       }
@@ -368,7 +381,9 @@ export function ChildcareRecipeCarousel() {
                 draggable={false}
                 onDragStart={(event) => event.preventDefault()}
               />
-              <figcaption className={styles.recipeLabel}>{item.label}</figcaption>
+              <figcaption className={styles.recipeLabel}>
+                {item.label}
+              </figcaption>
             </figure>
           ))}
         </motion.div>
@@ -385,7 +400,8 @@ export function ChildcareRecipeCarousel() {
           />
         </div>
         <p className={styles.recipeCarouselIndicatorText}>
-          {remainingCount} more {remainingCount === 1 ? "category" : "categories"} to explore
+          {remainingCount} more{' '}
+          {remainingCount === 1 ? 'category' : 'categories'} to explore
         </p>
       </div>
     </div>
@@ -404,7 +420,9 @@ export function ChildcareExpertCarousel() {
 
   const [isMobile, setIsMobile] = useState(false);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
-  const [cardWidth, setCardWidth] = useState(() => getExpertCardWidth(1200, 1200));
+  const [cardWidth, setCardWidth] = useState(() =>
+    getExpertCardWidth(1200, 1200),
+  );
 
   const carouselRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -426,7 +444,7 @@ export function ChildcareExpertCarousel() {
   const getViewportWidth = useCallback(() => {
     const windowWidth = window.innerWidth;
     return windowWidth < DESKTOP_BREAKPOINT
-      ? carouselRef.current?.clientWidth ?? windowWidth
+      ? (carouselRef.current?.clientWidth ?? windowWidth)
       : windowWidth;
   }, []);
 
@@ -524,8 +542,7 @@ export function ChildcareExpertCarousel() {
     (
       nextPhysical: number,
       transition:
-        | typeof CAROUSEL_SLIDE
-        | typeof CAROUSEL_SPRING = CAROUSEL_SLIDE,
+        typeof CAROUSEL_SLIDE | typeof CAROUSEL_SPRING = CAROUSEL_SLIDE,
       velocity = 0,
     ) => {
       const clampedTarget = Math.max(
@@ -538,7 +555,7 @@ export function ChildcareExpertCarousel() {
       animationRef.current?.stop();
 
       const motionTransition =
-        "type" in transition
+        'type' in transition
           ? { ...transition, velocity }
           : {
               duration: transition.duration,
@@ -586,7 +603,9 @@ export function ChildcareExpertCarousel() {
 
         if (
           distance < nearestDistance - 0.5 ||
-          (Math.abs(distance - nearestDistance) <= 0.5 && inMiddle && !nearestInMiddle)
+          (Math.abs(distance - nearestDistance) <= 0.5 &&
+            inMiddle &&
+            !nearestInMiddle)
         ) {
           nearestDistance = distance;
           nearest = index;
@@ -617,18 +636,18 @@ export function ChildcareExpertCarousel() {
     };
 
     updateMobile();
-    window.addEventListener("resize", updateMobile);
-    return () => window.removeEventListener("resize", updateMobile);
+    window.addEventListener('resize', updateMobile);
+    return () => window.removeEventListener('resize', updateMobile);
   }, []);
 
   useEffect(() => {
     measureCardWidth();
-    window.addEventListener("resize", measureCardWidth);
+    window.addEventListener('resize', measureCardWidth);
 
     const viewport = carouselRef.current;
     const track = trackRef.current;
     const observer =
-      typeof ResizeObserver !== "undefined" && (viewport || track)
+      typeof ResizeObserver !== 'undefined' && (viewport || track)
         ? new ResizeObserver(measureCardWidth)
         : null;
 
@@ -640,7 +659,7 @@ export function ChildcareExpertCarousel() {
     }
 
     return () => {
-      window.removeEventListener("resize", measureCardWidth);
+      window.removeEventListener('resize', measureCardWidth);
       observer?.disconnect();
     };
   }, [isMobile, measureCardWidth]);
@@ -654,7 +673,7 @@ export function ChildcareExpertCarousel() {
     syncPhysicalPosition(physicalIndexRef.current);
   }, [cardWidth, isMobile, measureLoopWidth, syncPhysicalPosition]);
 
-  useMotionValueEvent(x, "change", (latest) => {
+  useMotionValueEvent(x, 'change', (latest) => {
     if (animationRef.current || isDragging.current) {
       return;
     }
@@ -675,12 +694,16 @@ export function ChildcareExpertCarousel() {
   }, [advanceOne, autoScrollEnabled]);
 
   const setInteracting = useCallback((active: boolean) => {
-    carouselRef.current?.classList.toggle("is-carousel-interacting", active);
+    carouselRef.current?.classList.toggle('is-carousel-interacting', active);
   }, []);
 
   const handlePointerDown = useCallback(
     (event: ReactPointerEvent<HTMLDivElement>) => {
-      if ((event.target as HTMLElement).closest(".empower-expert-controls, button")) {
+      if (
+        (event.target as HTMLElement).closest(
+          '.empower-expert-controls, button',
+        )
+      ) {
         return;
       }
 
@@ -714,7 +737,7 @@ export function ChildcareExpertCarousel() {
       const deltaX = event.clientX - pointerStartX.current;
       const deltaY = event.clientY - pointerStartY.current;
       const moveThreshold =
-        event.pointerType === "touch"
+        event.pointerType === 'touch'
           ? EXPERT_TOUCH_DRAG_THRESHOLD
           : EXPERT_DRAG_THRESHOLD;
 
@@ -734,7 +757,7 @@ export function ChildcareExpertCarousel() {
         }
 
         isDragging.current = true;
-        if (event.pointerType === "touch") {
+        if (event.pointerType === 'touch') {
           touchHorizontalIntent.current = true;
         }
         setInteracting(true);
@@ -744,7 +767,8 @@ export function ChildcareExpertCarousel() {
       const lastSample = lastPointerSample.current;
       const elapsed = now - lastSample.t;
       if (elapsed > 0 && elapsed < 80) {
-        velocityXRef.current = ((event.clientX - lastSample.x) / elapsed) * 1000;
+        velocityXRef.current =
+          ((event.clientX - lastSample.x) / elapsed) * 1000;
       }
       lastPointerSample.current = { x: event.clientX, t: now };
 
@@ -766,7 +790,7 @@ export function ChildcareExpertCarousel() {
 
       const wasDragging = isDragging.current;
       const releaseVelocity = velocityXRef.current;
-      const wasTouch = event.pointerType === "touch";
+      const wasTouch = event.pointerType === 'touch';
 
       activePointerId.current = null;
       pointerStartX.current = null;
@@ -799,12 +823,15 @@ export function ChildcareExpertCarousel() {
     [animateToPhysicalIndex, findNearestPhysicalIndex, setInteracting, x],
   );
 
-  const handleCardClickCapture = useCallback((event: ReactMouseEvent<HTMLElement>) => {
-    if (isDragging.current || blockClickRef.current) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  }, []);
+  const handleCardClickCapture = useCallback(
+    (event: ReactMouseEvent<HTMLElement>) => {
+      if (isDragging.current || blockClickRef.current) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -821,8 +848,11 @@ export function ChildcareExpertCarousel() {
       }
     };
 
-    carousel.addEventListener("touchmove", blockTouchScrollWhileDragging, { passive: false });
-    return () => carousel.removeEventListener("touchmove", blockTouchScrollWhileDragging);
+    carousel.addEventListener('touchmove', blockTouchScrollWhileDragging, {
+      passive: false,
+    });
+    return () =>
+      carousel.removeEventListener('touchmove', blockTouchScrollWhileDragging);
   }, []);
 
   const goPrev = useCallback(() => {
@@ -838,7 +868,7 @@ export function ChildcareExpertCarousel() {
   }, [animateToPhysicalIndex, syncToRebasedIndex]);
 
   const carouselStyle = {
-    "--expert-card-width": `${cardWidth}px`,
+    '--expert-card-width': `${cardWidth}px`,
   } as CSSProperties;
 
   return (

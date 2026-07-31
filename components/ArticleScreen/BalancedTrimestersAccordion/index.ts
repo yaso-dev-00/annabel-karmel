@@ -1,1 +1,1 @@
-export * from "./balanced-trimesters-accordion";
+export * from './balanced-trimesters-accordion';

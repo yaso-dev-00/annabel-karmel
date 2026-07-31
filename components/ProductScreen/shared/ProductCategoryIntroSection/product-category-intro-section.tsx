@@ -1,8 +1,8 @@
-import Image from "next/image";
-import type { ReactNode } from "react";
+import Image from 'next/image';
+import type { ReactNode } from 'react';
 
-import { SectionBackgroundImage } from "@/components/UiPrimitives/SectionBackgroundImage";
-import shared from "@/components/ProductScreen/shared/product-category-shared.module.css";
+import { SectionBackgroundImage } from '@/components/UiPrimitives/SectionBackgroundImage';
+import shared from '@/components/ProductScreen/shared/product-category-shared.module.css';
 
 export type ProductCategoryIntroSectionProps = {
   id: string;
@@ -13,7 +13,7 @@ export type ProductCategoryIntroSectionProps = {
   introBg: string;
   introBgMobile?: string;
   /** Text colour theme — light uses dark green copy on pale bg; dark uses white copy. */
-  theme?: "light" | "dark";
+  theme?: 'light' | 'dark';
   footer?: ReactNode;
   className?: string;
 };
@@ -23,18 +23,18 @@ export function ProductCategoryIntroSection({
   heading,
   body,
   signatureSrc,
-  signatureAlt = "Annabel Karmel",
+  signatureAlt = 'Annabel Karmel',
   introBg,
   introBgMobile,
-  theme = "light",
+  theme = 'light',
   footer,
-  className = "",
+  className = '',
 }: ProductCategoryIntroSectionProps) {
-  const isSignatureSvg = signatureSrc.endsWith(".svg");
+  const isSignatureSvg = signatureSrc.endsWith('.svg');
 
   return (
     <section
-      className={`${shared.fullBleed} ${shared.introSection} ${theme === "light" ? shared.introSectionLight : shared.introSectionDark} ${className}`}
+      className={`${shared.fullBleed} ${shared.introSection} ${theme === 'light' ? shared.introSectionLight : shared.introSectionDark} ${className}`}
       aria-labelledby={id}
     >
       <SectionBackgroundImage
@@ -42,10 +42,12 @@ export function ProductCategoryIntroSection({
         mobileSrc={introBgMobile ?? introBg}
         priority
         unoptimized={true}
-      
       />
       <div className={`${shared.sectionContent} ${shared.inner} pt-10 md:pt-0`}>
-        <h1 id={id} className={`${shared.introHeading} text-[32px] sm:text-[40px]`}>
+        <h1
+          id={id}
+          className={`${shared.introHeading} text-[32px] sm:text-[40px]`}
+        >
           {heading}
         </h1>
         <p

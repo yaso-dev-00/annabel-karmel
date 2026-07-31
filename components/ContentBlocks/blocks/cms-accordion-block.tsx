@@ -1,12 +1,18 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import { useState, type CSSProperties, type ReactNode } from "react";
-import type { AccordionBlockData, BlockSettings } from "@/lib/content-blocks/types";
-import { getProseParagraphGapStyle, hasParagraphGap } from "@/lib/content-blocks/block-prose";
-import { resolveImageSrc } from "@/lib/content-blocks/image-src";
-import styles from "../content-blocks.module.css";
+import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
+import { useState, type CSSProperties, type ReactNode } from 'react';
+import type {
+  AccordionBlockData,
+  BlockSettings,
+} from '@/lib/content-blocks/types';
+import {
+  getProseParagraphGapStyle,
+  hasParagraphGap,
+} from '@/lib/content-blocks/block-prose';
+import { resolveImageSrc } from '@/lib/content-blocks/image-src';
+import styles from '../content-blocks.module.css';
 
 type CmsAccordionProps = {
   data: AccordionBlockData;
@@ -14,23 +20,34 @@ type CmsAccordionProps = {
   paragraphGapSettings?: BlockSettings;
 };
 
-export function CmsAccordionBlock({ data, style, paragraphGapSettings }: CmsAccordionProps) {
+export function CmsAccordionBlock({
+  data,
+  style,
+  paragraphGapSettings,
+}: CmsAccordionProps) {
   const defaultTitle = (() => {
-    if (data.default_open === "none") return null;
-    if (data.default_open === "first") return data.panels[0]?.title ?? null;
+    if (data.default_open === 'none') return null;
+    if (data.default_open === 'first') return data.panels[0]?.title ?? null;
     const panelId = data.default_open.panel_id;
     return data.panels.find((p) => p.id === panelId)?.title ?? null;
   })();
 
   const [openTitle, setOpenTitle] = useState<string | null>(defaultTitle);
-  const proseGapClass = hasParagraphGap(paragraphGapSettings) ? styles.blockProseParagraphGap : "";
+  const proseGapClass = hasParagraphGap(paragraphGapSettings)
+    ? styles.blockProseParagraphGap
+    : '';
   const proseGapStyle = getProseParagraphGapStyle(paragraphGapSettings);
 
   return (
-    <div className={`${styles.accordion} border border-[#d7d7d7] bg-white`} style={style}>
+    <div
+      className={`${styles.accordion} border border-[#d7d7d7] bg-white`}
+      style={style}
+    >
       {data.panels.map((panel, index) => {
         const isOpen = openTitle === panel.title;
-        const title = data.numbered_titles ? `${index + 1}. ${panel.title}` : panel.title;
+        const title = data.numbered_titles
+          ? `${index + 1}. ${panel.title}`
+          : panel.title;
 
         return (
           <div key={panel.id}>
@@ -40,7 +57,7 @@ export function CmsAccordionBlock({ data, style, paragraphGapSettings }: CmsAcco
               className={`${styles.accordionSummary} flex w-full cursor-pointer items-start gap-3 border-b border-[#d7d7d7] px-5 py-4 text-left font-semibold text-[#3d3d3d]`}
             >
               <span aria-hidden="true" className="text-[#b34769]">
-                {isOpen ? "−" : "+"}
+                {isOpen ? '−' : '+'}
               </span>
               {title}
             </button>
@@ -49,17 +66,17 @@ export function CmsAccordionBlock({ data, style, paragraphGapSettings }: CmsAcco
                 <motion.div
                   key={panel.id}
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
+                  animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
+                  transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
                 >
                   <div className="px-5 py-4 text-[18px] leading-relaxed text-[#3f3841]">
                     {resolveImageSrc(panel.image?.src) ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={resolveImageSrc(panel.image?.src)!}
-                        alt={panel.image?.alt ?? ""}
+                        alt={panel.image?.alt ?? ''}
                         className="mx-auto mb-4 max-w-[500px] w-full"
                       />
                     ) : null}
@@ -84,9 +101,9 @@ export function CmsAccordionBlock({ data, style, paragraphGapSettings }: CmsAcco
                       <div key={sub.id} className="mt-4">
                         <h4
                           className={
-                            sub.heading_variant === "display"
+                            sub.heading_variant === 'display'
                               ? styles.subTitle
-                              : "font-bold text-[16px] mt-3"
+                              : 'font-bold text-[16px] mt-3'
                           }
                         >
                           {sub.heading}
@@ -114,7 +131,9 @@ export function CmsAccordionBlock({ data, style, paragraphGapSettings }: CmsAcco
                       <div
                         className={`mt-4 ${styles.blockProse} ${proseGapClass}`.trim()}
                         style={proseGapStyle}
-                        dangerouslySetInnerHTML={{ __html: panel.closing_paragraphs }}
+                        dangerouslySetInnerHTML={{
+                          __html: panel.closing_paragraphs,
+                        }}
                       />
                     ) : null}
                   </div>
@@ -131,11 +150,17 @@ export function CmsAccordionBlock({ data, style, paragraphGapSettings }: CmsAcco
 function prefixIsDuplicateSignOff(text: string, preset: string) {
   const normalized = text.trim().toLowerCase();
   if (!normalized) return false;
-  if (preset === "milk_making_mama") {
-    return /milkmakingmama/.test(normalized) && /visit|for more advice/.test(normalized);
+  if (preset === 'milk_making_mama') {
+    return (
+      /milkmakingmama/.test(normalized) &&
+      /visit|for more advice/.test(normalized)
+    );
   }
-  if (preset === "mother_box") {
-    return /mother_box|the_mother_box/.test(normalized) && /visit|instagram|support/.test(normalized);
+  if (preset === 'mother_box') {
+    return (
+      /mother_box|the_mother_box/.test(normalized) &&
+      /visit|instagram|support/.test(normalized)
+    );
   }
   return false;
 }
@@ -157,18 +182,23 @@ export function CmsExpertAttributionBlock({
   style?: CSSProperties;
   previewMode?: boolean;
 }) {
-  const prefixText = prefix?.trim() ?? "";
-  const showPrefix = prefixText.length > 0 && !prefixIsDuplicateSignOff(prefixText, preset);
-  const linkProps = previewMode ? { "data-cms-interactive": "true" as const } : {};
+  const prefixText = prefix?.trim() ?? '';
+  const showPrefix =
+    prefixText.length > 0 && !prefixIsDuplicateSignOff(prefixText, preset);
+  const linkProps = previewMode
+    ? { 'data-cms-interactive': 'true' as const }
+    : {};
 
   let body: ReactNode = null;
 
-  if (preset === "milk_making_mama") {
+  if (preset === 'milk_making_mama') {
     body = (
       <>
-        {showPrefix ? <p className={styles.expertSignOffBody}>{prefixText}</p> : null}
+        {showPrefix ? (
+          <p className={styles.expertSignOffBody}>{prefixText}</p>
+        ) : null}
         <p className={styles.expertSignOffBody}>
-          Visit{" "}
+          Visit{' '}
           <Link
             href="https://www.instagram.com/milkmakingmama/"
             className={styles.inlineLink}
@@ -176,17 +206,19 @@ export function CmsExpertAttributionBlock({
             rel="noreferrer"
           >
             @milkmakingmama
-          </Link>{" "}
+          </Link>{' '}
           for more advice and support.
         </p>
       </>
     );
-  } else if (preset === "kerry_secker") {
+  } else if (preset === 'kerry_secker') {
     body = (
       <>
-        {showPrefix ? <p className={styles.expertSignOffBody}>{prefixText}</p> : null}
+        {showPrefix ? (
+          <p className={styles.expertSignOffBody}>{prefixText}</p>
+        ) : null}
         <p className={`${styles.expertSignOffBody} ${styles.bodyBold}`}>
-          For more sleep advice visit{" "}
+          For more sleep advice visit{' '}
           <Link
             href="https://www.careitout.com/"
             className={styles.inlineLink}
@@ -199,12 +231,14 @@ export function CmsExpertAttributionBlock({
         </p>
       </>
     );
-  } else if (preset === "mother_box") {
+  } else if (preset === 'mother_box') {
     body = (
       <>
-        {showPrefix ? <p className={styles.expertSignOffBody}>{prefixText}</p> : null}
+        {showPrefix ? (
+          <p className={styles.expertSignOffBody}>{prefixText}</p>
+        ) : null}
         <p className={styles.expertSignOffBody}>
-          For lots more support and advice, visit{" "}
+          For lots more support and advice, visit{' '}
           <Link
             href="https://www.instagram.com/the_mother_box/"
             className={styles.inlineLink}
@@ -212,7 +246,7 @@ export function CmsExpertAttributionBlock({
             rel="noreferrer"
           >
             @the_mother_box
-          </Link>{" "}
+          </Link>{' '}
           on Instagram.
         </p>
       </>
@@ -220,7 +254,9 @@ export function CmsExpertAttributionBlock({
   } else {
     body = (
       <>
-        {showPrefix ? <p className={styles.expertSignOffBody}>{prefixText}</p> : null}
+        {showPrefix ? (
+          <p className={styles.expertSignOffBody}>{prefixText}</p>
+        ) : null}
         {name ? <p className={styles.expertSignOffTitle}>{name}</p> : null}
         {bio_paragraphs?.map((p) => (
           <p key={p} className={styles.expertSignOffBody}>
@@ -232,11 +268,11 @@ export function CmsExpertAttributionBlock({
             {links.map((link, index) => (
               <Link
                 key={`expert-link-${index}`}
-                href={link.href || "#"}
+                href={link.href || '#'}
                 className={styles.inlineLink}
                 {...linkProps}
               >
-                {link.label || "Link"}
+                {link.label || 'Link'}
               </Link>
             ))}
           </div>

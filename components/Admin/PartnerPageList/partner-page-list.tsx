@@ -1,17 +1,20 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminListToolbar } from "@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AdminListToolbar } from '@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar';
 import {
   PARTNER_PAGE_STATUS_LABELS,
   PARTNER_PAGE_STATUSES,
   getPartnerPageStatusBadgeClass,
   isPartnerPageDisabled,
   resolvePartnerPageStatus,
-} from "@/lib/admin/partner-page-status";
-import { formatAdminListDate, matchesAdminListSearch } from "@/lib/admin/format-admin-list";
-import type { PartnerPage } from "@/lib/content-blocks/types";
+} from '@/lib/admin/partner-page-status';
+import {
+  formatAdminListDate,
+  matchesAdminListSearch,
+} from '@/lib/admin/format-admin-list';
+import type { PartnerPage } from '@/lib/content-blocks/types';
 
 type PartnerPageListProps = {
   partners: PartnerPage[];
@@ -39,10 +42,10 @@ function ClickableTableRow({
 
   return (
     <tr
-      className={`tableRowClickable${className ? ` ${className}` : ""}`}
+      className={`tableRowClickable${className ? ` ${className}` : ''}`}
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -56,12 +59,12 @@ function ClickableTableRow({
 }
 
 export function PartnerPageList({ partners }: PartnerPageListProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const statusOptions = useMemo(
     () => [
-      { value: "all", label: "All statuses" },
+      { value: 'all', label: 'All statuses' },
       ...PARTNER_PAGE_STATUSES.map((status) => ({
         value: status,
         label: PARTNER_PAGE_STATUS_LABELS[status],
@@ -73,8 +76,12 @@ export function PartnerPageList({ partners }: PartnerPageListProps) {
   const filteredPartners = useMemo(() => {
     return partners.filter((partner) => {
       const status = resolvePartnerPageStatus(partner);
-      const matchesStatus = statusFilter === "all" || status === statusFilter;
-      const matchesSearch = matchesAdminListSearch(searchQuery, partner.title, partner.slug);
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
+      const matchesSearch = matchesAdminListSearch(
+        searchQuery,
+        partner.title,
+        partner.slug,
+      );
       return matchesStatus && matchesSearch;
     });
   }, [partners, searchQuery, statusFilter]);
@@ -112,13 +119,15 @@ export function PartnerPageList({ partners }: PartnerPageListProps) {
                 <ClickableTableRow
                   key={partner.id}
                   href={`/admin/partners/${partner.id}/edit`}
-                  className={isDisabled ? "tableRowDisabled" : undefined}
+                  className={isDisabled ? 'tableRowDisabled' : undefined}
                 >
                   <td className="tableTitleCell">
                     <span className="tableTitleMain">{partner.title}</span>
                     <span className="tableTitlePath">/{partner.slug}</span>
                     {isDisabled ? (
-                      <span className="tableRowDisabledNote">Hidden from site</span>
+                      <span className="tableRowDisabledNote">
+                        Hidden from site
+                      </span>
                     ) : null}
                   </td>
                   <td>

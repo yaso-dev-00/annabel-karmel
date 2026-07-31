@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminListToolbar } from "@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AdminListToolbar } from '@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar';
 import {
   ARTICLE_STATUS_LABELS,
   ARTICLE_STATUSES,
   getArticleStatusBadgeClass,
   isArticleDisabled,
   resolveArticleStatus,
-} from "@/lib/admin/article-status";
+} from '@/lib/admin/article-status';
 import {
   formatAdminListDate,
   humanizeSlug,
   matchesAdminListSearch,
-} from "@/lib/admin/format-admin-list";
-import type { Article } from "@/lib/content-blocks/types";
-import { SAMPLE_SITE_ARTICLE_SLUG } from "@/lib/content-blocks/types";
-import { getArticleCategoryLabel } from "@/lib/content-blocks/article-categories";
+} from '@/lib/admin/format-admin-list';
+import type { Article } from '@/lib/content-blocks/types';
+import { SAMPLE_SITE_ARTICLE_SLUG } from '@/lib/content-blocks/types';
+import { getArticleCategoryLabel } from '@/lib/content-blocks/article-categories';
 
 type ArticleListProps = {
   articles: Article[];
@@ -45,10 +45,10 @@ function ClickableTableRow({
 
   return (
     <tr
-      className={`tableRowClickable${className ? ` ${className}` : ""}`}
+      className={`tableRowClickable${className ? ` ${className}` : ''}`}
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -62,12 +62,12 @@ function ClickableTableRow({
 }
 
 export function ArticleList({ articles }: ArticleListProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const statusOptions = useMemo(
     () => [
-      { value: "all", label: "All statuses" },
+      { value: 'all', label: 'All statuses' },
       ...ARTICLE_STATUSES.map((status) => ({
         value: status,
         label: ARTICLE_STATUS_LABELS[status],
@@ -77,13 +77,21 @@ export function ArticleList({ articles }: ArticleListProps) {
   );
 
   const filteredArticles = useMemo(() => {
-    const sample = articles.find((article) => article.slug === SAMPLE_SITE_ARTICLE_SLUG);
-    const rest = articles.filter((article) => article.slug !== SAMPLE_SITE_ARTICLE_SLUG);
+    const sample = articles.find(
+      (article) => article.slug === SAMPLE_SITE_ARTICLE_SLUG,
+    );
+    const rest = articles.filter(
+      (article) => article.slug !== SAMPLE_SITE_ARTICLE_SLUG,
+    );
 
     const matchesFilters = (article: Article) => {
       const status = resolveArticleStatus(article);
-      const matchesStatus = statusFilter === "all" || status === statusFilter;
-      const matchesSearch = matchesAdminListSearch(searchQuery, article.title, article.slug);
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
+      const matchesSearch = matchesAdminListSearch(
+        searchQuery,
+        article.title,
+        article.slug,
+      );
       return matchesStatus && matchesSearch;
     };
 
@@ -128,22 +136,31 @@ export function ArticleList({ articles }: ArticleListProps) {
                 <ClickableTableRow
                   key={article.id}
                   href={`/admin/articles/${article.id}/edit`}
-                  className={isDisabled ? "tableRowDisabled" : undefined}
+                  className={isDisabled ? 'tableRowDisabled' : undefined}
                 >
                   <td className="tableTitleCell">
                     <span className="tableTitleMain">
                       {article.title}
-                      {isSample ? <span className="badge badgeSample">Sample</span> : null}
+                      {isSample ? (
+                        <span className="badge badgeSample">Sample</span>
+                      ) : null}
                     </span>
-                    <span className="tableTitlePath">/articles/{article.slug}</span>
+                    <span className="tableTitlePath">
+                      /articles/{article.slug}
+                    </span>
                     {isDisabled ? (
-                      <span className="tableRowDisabledNote">Hidden from site</span>
+                      <span className="tableRowDisabledNote">
+                        Hidden from site
+                      </span>
                     ) : null}
                   </td>
                   <td>
                     <ArticleStatusBadge article={article} />
                   </td>
-                  <td>{getArticleCategoryLabel(article.category_slug) || humanizeSlug(article.category_slug)}</td>
+                  <td>
+                    {getArticleCategoryLabel(article.category_slug) ||
+                      humanizeSlug(article.category_slug)}
+                  </td>
                   <td>{formatAdminListDate(article.updated_at)}</td>
                 </ClickableTableRow>
               );

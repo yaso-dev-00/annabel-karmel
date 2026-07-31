@@ -1,10 +1,17 @@
-"use client";
+'use client';
 
-import { motion, useReducedMotion } from "framer-motion";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { resolveImageSrc } from "@/lib/content-blocks/image-src";
-import { ArticleRecipeCarouselPreview } from "./article-recipe-carousel-preview";
-import styles from "./article-recipe-carousel.module.css";
+import { motion, useReducedMotion } from 'framer-motion';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { resolveImageSrc } from '@/lib/content-blocks/image-src';
+import { ArticleRecipeCarouselPreview } from './article-recipe-carousel-preview';
+import styles from './article-recipe-carousel.module.css';
 
 function RecipeLockIcon() {
   return <span className={styles.lockGlyph} aria-hidden />;
@@ -34,7 +41,7 @@ type ArticleRecipeCarouselProps = {
 
 const SLIDE_TRANSITION = { duration: 0.32, ease: [0.4, 0, 0.2, 1] as const };
 
-type PeekMode = "none" | "center" | "start";
+type PeekMode = 'none' | 'center' | 'start';
 
 type CarouselLayout = {
   perView: number;
@@ -43,30 +50,47 @@ type CarouselLayout = {
   peekMode: PeekMode;
 };
 
-function getCarouselLayout(width: number, compact: boolean, perDesktopView: number): CarouselLayout {
+function getCarouselLayout(
+  width: number,
+  compact: boolean,
+  perDesktopView: number,
+): CarouselLayout {
   if (compact) {
-    if (width < 700) return { perView: 1, slots: 1.2, peek: true, peekMode: "start" };
-    if (width < 900) return { perView: 2, slots: 2, peek: false, peekMode: "none" };
+    if (width < 700)
+      return { perView: 1, slots: 1.2, peek: true, peekMode: 'start' };
+    if (width < 900)
+      return { perView: 2, slots: 2, peek: false, peekMode: 'none' };
     return {
       perView: perDesktopView,
       slots: perDesktopView === 3 ? 4 : perDesktopView,
       peek: perDesktopView === 3,
-      peekMode: perDesktopView === 3 ? "center" : "none",
+      peekMode: perDesktopView === 3 ? 'center' : 'none',
     };
   }
-  if (width < 700) return { perView: 1, slots: 1, peek: false, peekMode: "none" };
-  if (width < 900) return { perView: 2, slots: 2, peek: false, peekMode: "none" };
-  return { perView: perDesktopView, slots: perDesktopView, peek: false, peekMode: "none" };
+  if (width < 700)
+    return { perView: 1, slots: 1, peek: false, peekMode: 'none' };
+  if (width < 900)
+    return { perView: 2, slots: 2, peek: false, peekMode: 'none' };
+  return {
+    perView: perDesktopView,
+    slots: perDesktopView,
+    peek: false,
+    peekMode: 'none',
+  };
 }
 
-function getCardWidth(viewportWidth: number, layout: CarouselLayout, gap: number) {
+function getCardWidth(
+  viewportWidth: number,
+  layout: CarouselLayout,
+  gap: number,
+) {
   const { slots, peek, peekMode } = layout;
 
-  if (layout.peekMode === "start" && slots > 1 && slots < 2) {
+  if (layout.peekMode === 'start' && slots > 1 && slots < 2) {
     return (viewportWidth - gap) / slots;
   }
 
-  if (peek && peekMode === "center") {
+  if (peek && peekMode === 'center') {
     return (viewportWidth - slots * gap) / slots;
   }
 
@@ -76,8 +100,8 @@ function getCardWidth(viewportWidth: number, layout: CarouselLayout, gap: number
 
 function getPeekOffset(step: number, layout: CarouselLayout) {
   if (!layout.peek || step <= 0) return 0;
-  if (layout.peekMode === "start") return 0;
-  if (layout.peekMode === "center") return step / 2;
+  if (layout.peekMode === 'start') return 0;
+  if (layout.peekMode === 'center') return step / 2;
   return 0;
 }
 
@@ -94,7 +118,7 @@ function readLayoutWidth(viewport: HTMLDivElement | null) {
   if (viewport && viewport.clientWidth > 0) {
     return viewport.clientWidth;
   }
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     return window.innerWidth;
   }
   return 1280;
@@ -108,12 +132,12 @@ function eventTargetElement(target: EventTarget | null): Element | null {
 }
 
 function isLinkTarget(target: EventTarget | null): boolean {
-  return Boolean(eventTargetElement(target)?.closest("a[href]"));
+  return Boolean(eventTargetElement(target)?.closest('a[href]'));
 }
 
 export function ArticleRecipeCarousel({
   items,
-  className = "mt-[60px]",
+  className = 'mt-[60px]',
   perDesktopView = 5,
   loop = true,
   autoplayMs = 0,
@@ -146,12 +170,12 @@ export function ArticleRecipeCarousel({
 
 function ArticleRecipeCarouselLive({
   items,
-  className = "mt-[60px]",
+  className = 'mt-[60px]',
   perDesktopView = 5,
   loop = true,
   autoplayMs = 0,
   compact = false,
-}: Omit<ArticleRecipeCarouselProps, "embedded">) {
+}: Omit<ArticleRecipeCarouselProps, 'embedded'>) {
   const prefersReducedMotion = useReducedMotion();
   const viewportRef = useRef<HTMLDivElement | null>(null);
 
@@ -162,7 +186,6 @@ function ArticleRecipeCarouselLive({
   const [step, setStep] = useState(0);
   const [cardWidthPx, setCardWidthPx] = useState<number | null>(null);
   const [position, setPosition] = useState(0);
-  const [activeDot, setActiveDot] = useState(0);
   const [instant, setInstant] = useState(false);
 
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -187,14 +210,16 @@ function ArticleRecipeCarouselLive({
     (index: number) => {
       if (items.length === 0) return;
       if (useLoop) {
-        const dot = (((index - loopStart) % items.length) + items.length) % items.length;
-        setActiveDot(dot);
-      } else {
-        setActiveDot(Math.min(index, Math.max(0, items.length - 1)));
+        const dot =
+          (((index - loopStart) % items.length) + items.length) % items.length;
+        return dot;
       }
+      return Math.min(index, Math.max(0, items.length - 1));
     },
     [items.length, loopStart, useLoop],
   );
+
+  const activeDot = useMemo(() => updateDot(position), [updateDot, position]);
 
   const gap = compact ? 10 : 14;
 
@@ -210,9 +235,13 @@ function ArticleRecipeCarouselLive({
     if (!viewport || viewport.clientWidth <= 0) return;
 
     const viewportWidth = viewport.clientWidth;
-    const activeLayout = getCarouselLayout(viewportWidth, compact, perDesktopView);
+    const activeLayout = getCarouselLayout(
+      viewportWidth,
+      compact,
+      perDesktopView,
+    );
 
-    const firstCard = track?.querySelector<HTMLElement>(".article-recipe-card");
+    const firstCard = track?.querySelector<HTMLElement>('.article-recipe-card');
     const cardWidth =
       firstCard && firstCard.offsetWidth > 0
         ? firstCard.offsetWidth
@@ -232,36 +261,39 @@ function ArticleRecipeCarouselLive({
     setStep(cardWidth + gap);
 
     if (stage) {
-      stage.style.setProperty("--card-width", `${cardWidth}px`);
-      stage.style.setProperty("--nav-center-y", `${(cardWidth * 3) / 8}px`);
-      stage.dataset.navReady = "";
+      stage.style.setProperty('--card-width', `${cardWidth}px`);
+      stage.style.setProperty('--nav-center-y', `${(cardWidth * 3) / 8}px`);
+      stage.dataset.navReady = '';
     }
   }, [compact, gap, perDesktopView]);
 
   useLayoutEffect(() => {
     const start = useLoop ? loopStart : 0;
-    setPosition(start);
-    updateDot(start);
+    queueMicrotask(() => setPosition(start));
     measureStep();
-  }, [items.length, useLoop, loopStart, measureStep, updateDot, perView, trackItems.length, layout]);
-
-  useEffect(() => {
-    updateDot(position);
-  }, [position, updateDot]);
+  }, [
+    items.length,
+    useLoop,
+    loopStart,
+    measureStep,
+    perView,
+    trackItems.length,
+    layout,
+  ]);
 
   useEffect(() => {
     syncLayoutFromViewport();
     const onResize = () => syncLayoutFromViewport();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, [syncLayoutFromViewport]);
 
   useEffect(() => {
     measureStep();
     const viewport = viewportRef.current;
-    if (!viewport || typeof ResizeObserver === "undefined") {
-      window.addEventListener("resize", measureStep);
-      return () => window.removeEventListener("resize", measureStep);
+    if (!viewport || typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', measureStep);
+      return () => window.removeEventListener('resize', measureStep);
     }
     const ro = new ResizeObserver(measureStep);
     ro.observe(viewport);
@@ -281,7 +313,8 @@ function ArticleRecipeCarouselLive({
       setPosition(loopStart + ((position - loopStart) % items.length));
     } else if (position < loopStart) {
       setInstant(true);
-      const offset = ((position - loopStart) % items.length + items.length) % items.length;
+      const offset =
+        (((position - loopStart) % items.length) + items.length) % items.length;
       setPosition(loopStart + offset);
     }
   }, [items.length, loopStart, position, useLoop]);
@@ -297,7 +330,8 @@ function ArticleRecipeCarouselLive({
   }, [canCycle]);
 
   useEffect(() => {
-    if (!canCycle || !autoplayMs || autoplayMs <= 0 || prefersReducedMotion) return;
+    if (!canCycle || !autoplayMs || autoplayMs <= 0 || prefersReducedMotion)
+      return;
     const id = window.setInterval(() => {
       if (!pausedRef.current) goNext();
     }, autoplayMs);
@@ -319,9 +353,14 @@ function ArticleRecipeCarouselLive({
   };
 
   const onPointerMove: React.PointerEventHandler<HTMLDivElement> = (event) => {
-    if (activePointerId.current !== event.pointerId || pointerStartX.current === null) return;
+    if (
+      activePointerId.current !== event.pointerId ||
+      pointerStartX.current === null
+    )
+      return;
     pointerCurrentX.current = event.clientX;
-    if (Math.abs(pointerCurrentX.current - pointerStartX.current) > 8) isDragging.current = true;
+    if (Math.abs(pointerCurrentX.current - pointerStartX.current) > 8)
+      isDragging.current = true;
   };
 
   const onPointerEnd: React.PointerEventHandler<HTMLDivElement> = (event) => {
@@ -329,7 +368,8 @@ function ArticleRecipeCarouselLive({
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
-    if (pointerStartX.current === null || pointerCurrentX.current === null) return;
+    if (pointerStartX.current === null || pointerCurrentX.current === null)
+      return;
 
     const deltaX = pointerCurrentX.current - pointerStartX.current;
     if (deltaX > 24 && canCycle) goPrev();
@@ -359,17 +399,19 @@ function ArticleRecipeCarouselLive({
 
   const peekOffset = getPeekOffset(step, layout);
   const x = step > 0 ? -position * step + peekOffset : 0;
-  const cardStyle = cardWidthPx ? { width: cardWidthPx } : { width: "85vw", maxWidth: 320 };
+  const cardStyle = cardWidthPx
+    ? { width: cardWidthPx }
+    : { width: '85vw', maxWidth: 320 };
 
   const bleedClass =
-    "relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] px-[8px] md:px-[14px]";
+    'relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen max-w-[100vw] px-[8px] md:px-[14px]';
   const wrapperClass = `${bleedClass} ${className}`;
 
   return (
     <motion.div className={wrapperClass} initial={false}>
       <div
         ref={stageRef}
-        className={`${styles.carouselStage} ${compact ? styles.carouselStageCompact : ""} ${peekLayout ? styles.carouselStagePeek : ""}`}
+        className={`${styles.carouselStage} ${compact ? styles.carouselStageCompact : ''} ${peekLayout ? styles.carouselStagePeek : ''}`}
       >
         <motion.div
           ref={viewportRef}
@@ -387,9 +429,13 @@ function ArticleRecipeCarouselLive({
         >
           <motion.div
             ref={trackRef}
-            className={compact ? "flex gap-[10px]" : "flex gap-[14px]"}
+            className={compact ? 'flex gap-[10px]' : 'flex gap-[14px]'}
             animate={{ x }}
-            transition={instant || prefersReducedMotion ? { duration: 0 } : SLIDE_TRANSITION}
+            transition={
+              instant || prefersReducedMotion
+                ? { duration: 0 }
+                : SLIDE_TRANSITION
+            }
             onAnimationComplete={normalizeLoop}
           >
             {trackItems.map((recipe, i) => {
@@ -397,7 +443,7 @@ function ArticleRecipeCarouselLive({
               return (
                 <motion.section
                   key={`${recipe.title}-${i}`}
-                  className={`article-recipe-card shrink-0 overflow-visible rounded-[12px] bg-white shadow-[0_6px_18px_rgba(58,58,58,0.08)] ${compact ? "pb-[6px]" : "pb-[10px]"}`}
+                  className={`article-recipe-card shrink-0 overflow-visible rounded-[12px] bg-white shadow-[0_6px_18px_rgba(58,58,58,0.08)] ${compact ? 'pb-[6px]' : 'pb-[10px]'}`}
                   style={cardStyle}
                   onClickCapture={onCardClickCapture}
                   whileHover={prefersReducedMotion ? undefined : { y: -2 }}
@@ -409,13 +455,16 @@ function ArticleRecipeCarouselLive({
                         <img
                           src={imageSrc}
                           alt={recipe.title}
-                          loading={i < perView + 2 ? "eager" : "lazy"}
+                          loading={i < perView + 2 ? 'eager' : 'lazy'}
                           decoding="async"
                           className="block aspect-4/3 w-full object-cover"
                           draggable={false}
                         />
                       ) : (
-                        <div className="block aspect-4/3 w-full bg-[#f6e9ef]" aria-hidden />
+                        <div
+                          className="block aspect-4/3 w-full bg-[#f6e9ef]"
+                          aria-hidden
+                        />
                       )}
                     </a>
                     <div className={styles.iconRow}>
@@ -431,15 +480,15 @@ function ArticleRecipeCarouselLive({
                     </div>
                   </div>
                   <motion.div
-                    className={`px-[8px] text-center ${compact ? "min-h-[44px] pt-[10px]" : "min-h-[52px] pt-[15px] px-[10px]"}`}
+                    className={`px-[8px] text-center ${compact ? 'min-h-[44px] pt-[10px]' : 'min-h-[52px] pt-[15px] px-[10px]'}`}
                   >
                     <h3
                       className={`m-0 mt-[10px] font-semibold text-[#3a3a3a] ${
                         compact
-                          ? "text-[15px] leading-[1.25] min-[700px]:text-[17px] min-[900px]:text-[20px]"
-                          : "text-[16px] leading-[1.3] min-[700px]:text-[18px] min-[900px]:text-[20px]"
+                          ? 'text-[15px] leading-[1.25] min-[700px]:text-[17px] min-[900px]:text-[20px]'
+                          : 'text-[16px] leading-[1.3] min-[700px]:text-[18px] min-[900px]:text-[20px]'
                       }`}
-                      style={{ fontFamily: "var(--font-body)" }}
+                      style={{ fontFamily: 'var(--font-body)' }}
                     >
                       <a
                         href={recipe.href}
@@ -462,8 +511,19 @@ function ArticleRecipeCarouselLive({
           disabled={!canCycle}
           className={`${styles.navButton} cursor-pointer left-1 grid h-8 w-8 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:left-3 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11`}
         >
-          <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
-            <path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden
+            className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]"
+          >
+            <path
+              d="M14.5 5.5L8 12l6.5 6.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
         <button
@@ -473,8 +533,19 @@ function ArticleRecipeCarouselLive({
           disabled={!canCycle}
           className={`${styles.navButton} cursor-pointer right-1 grid h-8 w-8 place-items-center rounded-full border border-[#efcfd8] bg-[#fff4f7] text-[#b34769] shadow-[0_6px_16px_rgba(179,71,105,0.2)] hover:bg-[#ffe8ef] disabled:cursor-not-allowed disabled:opacity-40 min-[700px]:right-3 min-[700px]:h-10 min-[700px]:w-10 min-[700px]:shadow-[0_8px_20px_rgba(179,71,105,0.22)] min-[900px]:h-11 min-[900px]:w-11`}
         >
-          <svg viewBox="0 0 24 24" aria-hidden className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]">
-            <path d="M9.5 5.5L16 12l-6.5 6.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden
+            className="h-[14px] w-[14px] min-[700px]:h-[17px] min-[700px]:w-[17px] min-[900px]:h-[19px] min-[900px]:w-[19px]"
+          >
+            <path
+              d="M9.5 5.5L16 12l-6.5 6.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
       </div>
@@ -491,7 +562,7 @@ function ArticleRecipeCarouselLive({
               type="button"
               aria-label={`Go to recipe ${i + 1}`}
               onClick={() => goToDot(i)}
-              className={`h-[6px] w-[6px] rounded-full ${i === activeDot ? "bg-[#222]" : "bg-[#c7c7c7]"}`}
+              className={`h-[6px] w-[6px] rounded-full ${i === activeDot ? 'bg-[#222]' : 'bg-[#c7c7c7]'}`}
               animate={i === activeDot ? { scale: 1.35 } : { scale: 1 }}
               transition={{ duration: 0.2 }}
             />

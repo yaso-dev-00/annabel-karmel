@@ -1,16 +1,25 @@
-import type { CSSProperties } from "react";
-import { createBlockId } from "@/lib/content-blocks/defaults";
-import { createFormRow, createFormSection } from "./defaults";
-import type { CustomFormSchema, FormField, FormFieldOption, FormRow, FormSection } from "./types";
+import type { CSSProperties } from 'react';
+import { createBlockId } from '@/lib/content-blocks/defaults';
+import { createFormRow, createFormSection } from './defaults';
+import type {
+  CustomFormSchema,
+  FormField,
+  FormFieldOption,
+  FormRow,
+  FormSection,
+} from './types';
 
-export function isInteractiveChoiceField(type: FormField["type"]): boolean {
-  return type === "checkbox" || type === "radio" || type === "select";
+export function isInteractiveChoiceField(type: FormField['type']): boolean {
+  return type === 'checkbox' || type === 'radio' || type === 'select';
 }
 
-export function patchCheckboxDisplayLabel(field: FormField, label: string): Partial<FormField> {
+export function patchCheckboxDisplayLabel(
+  field: FormField,
+  label: string,
+): Partial<FormField> {
   const options = field.options?.length
     ? field.options.map((opt, index) => (index === 0 ? { ...opt, label } : opt))
-    : [{ id: createBlockId(), label, value: "yes" }];
+    : [{ id: createBlockId(), label, value: 'yes' }];
   return { label, options };
 }
 
@@ -19,14 +28,16 @@ export function patchFormFieldOptions(
   options: FormFieldOption[],
 ): Partial<FormField> {
   const patch: Partial<FormField> = { options };
-  if (field.type === "checkbox" && options.length === 1) {
+  if (field.type === 'checkbox' && options.length === 1) {
     patch.label = options[0].label;
   }
   return patch;
 }
 
 export function getAllFormFields(schema: CustomFormSchema): FormField[] {
-  return schema.sections.flatMap((section) => section.rows.flatMap((row) => row.fields));
+  return schema.sections.flatMap((section) =>
+    section.rows.flatMap((row) => row.fields),
+  );
 }
 
 export function findFormField(
@@ -61,7 +72,10 @@ export function updateFormField(
   };
 }
 
-export function removeFormField(schema: CustomFormSchema, fieldId: string): CustomFormSchema {
+export function removeFormField(
+  schema: CustomFormSchema,
+  fieldId: string,
+): CustomFormSchema {
   return {
     ...schema,
     sections: schema.sections.map((section) => ({
@@ -161,8 +175,12 @@ export function reorderSections(
   activeId: string,
   overId: string,
 ): CustomFormSchema {
-  const oldIndex = schema.sections.findIndex((section) => section.id === activeId);
-  const newIndex = schema.sections.findIndex((section) => section.id === overId);
+  const oldIndex = schema.sections.findIndex(
+    (section) => section.id === activeId,
+  );
+  const newIndex = schema.sections.findIndex(
+    (section) => section.id === overId,
+  );
   if (oldIndex < 0 || newIndex < 0 || oldIndex === newIndex) return schema;
 
   const sections = [...schema.sections];
@@ -206,23 +224,37 @@ export function updateRow(
   };
 }
 
-export function addSection(schema: CustomFormSchema, section: FormSection): CustomFormSchema {
+export function addSection(
+  schema: CustomFormSchema,
+  section: FormSection,
+): CustomFormSchema {
   return { ...schema, sections: [...schema.sections, section] };
 }
 
-export function removeSection(schema: CustomFormSchema, sectionId: string): CustomFormSchema {
-  const sections = schema.sections.filter((section) => section.id !== sectionId);
+export function removeSection(
+  schema: CustomFormSchema,
+  sectionId: string,
+): CustomFormSchema {
+  const sections = schema.sections.filter(
+    (section) => section.id !== sectionId,
+  );
   return {
     ...schema,
     sections: sections.length > 0 ? sections : [createFormSection()],
   };
 }
 
-export function addRow(schema: CustomFormSchema, sectionId: string, row: FormRow): CustomFormSchema {
+export function addRow(
+  schema: CustomFormSchema,
+  sectionId: string,
+  row: FormRow,
+): CustomFormSchema {
   return {
     ...schema,
     sections: schema.sections.map((section) =>
-      section.id === sectionId ? { ...section, rows: [...section.rows, row] } : section,
+      section.id === sectionId
+        ? { ...section, rows: [...section.rows, row] }
+        : section,
     ),
   };
 }
@@ -242,7 +274,7 @@ export function removeRow(
   };
 }
 
-export function fieldStyleToCss(style?: FormField["style"]): CSSProperties {
+export function fieldStyleToCss(style?: FormField['style']): CSSProperties {
   if (!style) return {};
   const css: CSSProperties = {};
   if (style.width) css.width = style.width;

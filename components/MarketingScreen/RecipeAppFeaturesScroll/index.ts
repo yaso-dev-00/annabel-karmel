@@ -1,1 +1,1 @@
-export * from "./recipe-app-features-scroll";
+export * from './recipe-app-features-scroll';

@@ -40,7 +40,7 @@
 
 .bodyText a:hover,
 .partner a:hover {
-   color: #e98c9a !important;
+  color: #e98c9a !important;
 }
 
 .sectionTitle {
@@ -64,17 +64,16 @@
 .cta {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 22.0px;
+  font-size: 22px;
   line-height: 1.35;
   font-weight: 700;
   color: #3a3a3a;
 }
 
-
 .relatedTitle {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 40.0px;
+  font-size: 40px;
   line-height: 1.2;
   font-weight: 500;
   color: #3a3a3a;
@@ -108,7 +107,7 @@
     line-height: 1.25;
   }
   .bodyText,
-  .cta{
+  .cta {
     padding: 0px 12px !important;
   }
 

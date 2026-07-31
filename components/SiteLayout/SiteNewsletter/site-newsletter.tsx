@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { NewsletterModal } from "@/components/SiteLayout/NewsletterModal";
-import { SiteNewsletterBar } from "@/components/SiteLayout/SiteNewsletterBar";
+import { useState } from 'react';
+import { NewsletterModal } from '@/components/SiteLayout/NewsletterModal';
+import { SiteNewsletterBar } from '@/components/SiteLayout/SiteNewsletterBar';
 
 export function SiteNewsletter() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,7 +10,10 @@ export function SiteNewsletter() {
   return (
     <>
       <SiteNewsletterBar onOpenModal={() => setIsModalOpen(true)} />
-      <NewsletterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <NewsletterModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 }

@@ -1,8 +1,14 @@
-"use client";
+'use client';
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from 'react';
 
-import styles from "@/components/FooterPagesScreen/ContactPage/contact-page.module.css";
+import styles from '@/components/FooterPagesScreen/ContactPage/contact-page.module.css';
 
 type ContactSelectProps = {
   name: string;
@@ -39,18 +45,18 @@ export function ContactSelect({
     }
 
     function handleKeyDown(event: globalThis.KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setOpen(false);
         setActiveIndex(-1);
       }
     }
 
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [open]);
 
@@ -61,31 +67,34 @@ export function ContactSelect({
   }
 
   function handleTriggerKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
-    if (event.key === "Enter" || event.key === " ") {
+    if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       setOpen((current) => !current);
       return;
     }
 
-    if (event.key === "ArrowDown") {
+    if (event.key === 'ArrowDown') {
       event.preventDefault();
       setOpen(true);
       setActiveIndex(0);
     }
   }
 
-  function handleOptionKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>, index: number) {
-    if (event.key === "ArrowDown") {
+  function handleOptionKeyDown(
+    event: ReactKeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) {
+    if (event.key === 'ArrowDown') {
       event.preventDefault();
       setActiveIndex((current) => Math.min(current + 1, options.length - 1));
     }
 
-    if (event.key === "ArrowUp") {
+    if (event.key === 'ArrowUp') {
       event.preventDefault();
       setActiveIndex((current) => Math.max(current - 1, 0));
     }
 
-    if (event.key === "Enter" || event.key === " ") {
+    if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       selectOption(options[index]);
     }
@@ -94,16 +103,16 @@ export function ContactSelect({
   return (
     <div
       ref={rootRef}
-      className={`${styles.selectWrap} ${open ? styles.selectWrapOpen : ""} ${
-        hasError ? styles.selectWrapError : ""
+      className={`${styles.selectWrap} ${open ? styles.selectWrapOpen : ''} ${
+        hasError ? styles.selectWrapError : ''
       }`}
     >
       <input type="hidden" name={name} value={value} />
 
       <button
         type="button"
-        className={`${styles.selectTrigger} ${!value ? styles.selectPlaceholder : ""} ${
-          hasError ? styles.selectError : ""
+        className={`${styles.selectTrigger} ${!value ? styles.selectPlaceholder : ''} ${
+          hasError ? styles.selectError : ''
         }`}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -123,7 +132,7 @@ export function ContactSelect({
                 role="option"
                 aria-selected={value === option}
                 className={`${styles.selectOption} ${
-                  activeIndex === index ? styles.selectOptionActive : ""
+                  activeIndex === index ? styles.selectOptionActive : ''
                 }`}
                 onMouseEnter={() => setActiveIndex(index)}
                 onClick={() => selectOption(option)}

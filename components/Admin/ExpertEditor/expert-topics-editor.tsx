@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   KeyboardSensor,
   PointerSensor,
@@ -8,21 +8,21 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { ExpandCollapseAllButtons } from "@/components/Admin/BlockEditor/expand-collapse-all-buttons";
-import { StableDndContext } from "@/components/Admin/BlockEditor/stable-dnd-context";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import type { ExpertTopic } from "@/lib/experts/types";
-import styles from "./expert-editor.module.css";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { ExpandCollapseAllButtons } from '@/components/Admin/BlockEditor/expand-collapse-all-buttons';
+import { StableDndContext } from '@/components/Admin/BlockEditor/stable-dnd-context';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import type { ExpertTopic } from '@/lib/experts/types';
+import styles from './expert-editor.module.css';
 
 function ensureTopicId(topic: ExpertTopic): ExpertTopic & { id: string } {
   return {
@@ -54,7 +54,14 @@ function SortableTopicCard({
   onChange,
   onRemove,
 }: SortableTopicCardProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: topic.id,
   });
 
@@ -84,19 +91,21 @@ function SortableTopicCard({
           ⠿
         </span>
         <span className={styles.topicIndex}>Topic {index + 1}</span>
-        <span className={styles.topicSummary}>{topicSummary(topic, index)}</span>
+        <span className={styles.topicSummary}>
+          {topicSummary(topic, index)}
+        </span>
         <div className={styles.topicHeaderActions}>
           <button
             type="button"
             className={blockStyles.iconBtn}
-            aria-label={expanded ? "Collapse topic" : "Expand topic"}
-            title={expanded ? "Collapse" : "Expand"}
+            aria-label={expanded ? 'Collapse topic' : 'Expand topic'}
+            title={expanded ? 'Collapse' : 'Expand'}
             onClick={(e) => {
               e.stopPropagation();
               onToggle();
             }}
           >
-            {expanded ? "▲" : "▼"}
+            {expanded ? '▲' : '▼'}
           </button>
           <button
             type="button"
@@ -127,7 +136,7 @@ function SortableTopicCard({
             <label className="fieldLabel">Link href</label>
             <input
               className="fieldInput"
-              value={topic.href ?? ""}
+              value={topic.href ?? ''}
               onChange={(e) =>
                 onChange({
                   href: e.target.value || undefined,
@@ -139,7 +148,7 @@ function SortableTopicCard({
           <div className="field">
             <label className="fieldLabel">Topic image</label>
             <ImageField
-              value={topic.image ?? ""}
+              value={topic.image ?? ''}
               alt={topic.title}
               showAlt={false}
               onChange={(src) =>
@@ -160,9 +169,12 @@ type ExpertTopicsEditorProps = {
   onChange: (topics: ExpertTopic[]) => void;
 };
 
-export function ExpertTopicsEditor({ topics, onChange }: ExpertTopicsEditorProps) {
+export function ExpertTopicsEditor({
+  topics,
+  onChange,
+}: ExpertTopicsEditorProps) {
   const normalized = useMemo(() => topics.map(ensureTopicId), [topics]);
-  const idsKey = normalized.map((topic) => topic.id).join("|");
+  const idsKey = normalized.map((topic) => topic.id).join('|');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
   const knownIdsRef = useRef(new Set<string>());
 
@@ -182,7 +194,9 @@ export function ExpertTopicsEditor({ topics, onChange }: ExpertTopicsEditorProps
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const patchTopics = useCallback(
@@ -211,7 +225,7 @@ export function ExpertTopicsEditor({ topics, onChange }: ExpertTopicsEditorProps
   };
 
   const addTopic = () => {
-    const created = ensureTopicId({ title: "" });
+    const created = ensureTopicId({ title: '' });
     setExpandedIds((prev) => new Set(prev).add(created.id));
     patchTopics([...normalized, created]);
   };
@@ -225,12 +239,16 @@ export function ExpertTopicsEditor({ topics, onChange }: ExpertTopicsEditorProps
         {normalized.length > 0 ? (
           <ExpandCollapseAllButtons
             label="Article topics"
-            onExpandAll={() => setExpandedIds(new Set(normalized.map((topic) => topic.id)))}
+            onExpandAll={() =>
+              setExpandedIds(new Set(normalized.map((topic) => topic.id)))
+            }
             onCollapseAll={() => setExpandedIds(new Set())}
           />
         ) : null}
       </div>
-      <p className={styles.topicsHint}>Drag to reorder. Collapse topics to keep the form tidy.</p>
+      <p className={styles.topicsHint}>
+        Drag to reorder. Collapse topics to keep the form tidy.
+      </p>
 
       <div className="nestedList">
         <StableDndContext
@@ -239,7 +257,10 @@ export function ExpertTopicsEditor({ topics, onChange }: ExpertTopicsEditorProps
           onDragStart={() => setExpandedIds(new Set())}
           onDragEnd={handleDragEnd}
         >
-          <SortableContext items={normalized.map((topic) => topic.id)} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={normalized.map((topic) => topic.id)}
+            strategy={verticalListSortingStrategy}
+          >
             {normalized.map((topic, index) => (
               <SortableTopicCard
                 key={topic.id}
@@ -249,16 +270,24 @@ export function ExpertTopicsEditor({ topics, onChange }: ExpertTopicsEditorProps
                 onToggle={() => toggle(topic.id)}
                 onChange={(patch) =>
                   patchTopics(
-                    normalized.map((item) => (item.id === topic.id ? { ...item, ...patch } : item)),
+                    normalized.map((item) =>
+                      item.id === topic.id ? { ...item, ...patch } : item,
+                    ),
                   )
                 }
-                onRemove={() => patchTopics(normalized.filter((item) => item.id !== topic.id))}
+                onRemove={() =>
+                  patchTopics(normalized.filter((item) => item.id !== topic.id))
+                }
               />
             ))}
           </SortableContext>
         </StableDndContext>
 
-        <button type="button" className="btn btnSecondary nestedAddBtn" onClick={addTopic}>
+        <button
+          type="button"
+          className="btn btnSecondary nestedAddBtn"
+          onClick={addTopic}
+        >
           + Add article topic
         </button>
       </div>

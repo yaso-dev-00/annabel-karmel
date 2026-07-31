@@ -1,14 +1,14 @@
-import { AdviceCategoryListing } from "@/components/ArticleScreen/AdviceCategoryListing";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { breastfeedingAdviceListingArticles } from "@/data/breastfeeding-advice-listing";
-import type { Metadata } from "next";
+import { AdviceCategoryListing } from '@/components/ArticleScreen/AdviceCategoryListing';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { breastfeedingAdviceListingArticles } from '@/data/breastfeeding-advice-listing';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Breastfeeding Tips & Advice | Annabel Karmel",
+  title: 'Breastfeeding Tips & Advice | Annabel Karmel',
   description:
-    "Breastfeeding tips and advice from Annabel Karmel, covering breastmilk storage, pumping, latching, feeding patterns, engorgement, reflux and more.",
+    'Breastfeeding tips and advice from Annabel Karmel, covering breastmilk storage, pumping, latching, feeding patterns, engorgement, reflux and more.',
 };
 
 export default function BreastfeedingAdviceCategoryPage() {
@@ -23,7 +23,9 @@ export default function BreastfeedingAdviceCategoryPage() {
         </section>
 
         <section className="mx-auto w-full max-w-[1120px] px-4 pb-16 sm:px-6 lg:px-8">
-          <AdviceCategoryListing articles={breastfeedingAdviceListingArticles} />
+          <AdviceCategoryListing
+            articles={breastfeedingAdviceListingArticles}
+          />
         </section>
 
         <div className="mt-[90px]">

@@ -1,41 +1,42 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { RecipeAdditionalInfoFields } from "@/components/Admin/RecipeEditor/recipe-additional-info-fields";
-import { RecipeAllergenIconsFields } from "@/components/Admin/RecipeEditor/recipe-allergen-icons-fields";
-import { RecipeCategoriesEditor } from "@/components/Admin/RecipeEditor/recipe-categories-editor";
-import { RecipeCollapsibleSection } from "@/components/Admin/RecipeEditor/recipe-collapsible-section";
-import { RecipeGalleryField } from "@/components/Admin/RecipeEditor/recipe-gallery-field";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import { ArticleStatusField } from '@/components/Admin/Ui/ArticleStatusField';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import { RecipeAdditionalInfoFields } from '@/components/Admin/RecipeEditor/recipe-additional-info-fields';
+import { RecipeAllergenIconsFields } from '@/components/Admin/RecipeEditor/recipe-allergen-icons-fields';
+import { RecipeCategoriesEditor } from '@/components/Admin/RecipeEditor/recipe-categories-editor';
+import { RecipeCollapsibleSection } from '@/components/Admin/RecipeEditor/recipe-collapsible-section';
+import { RecipeGalleryField } from '@/components/Admin/RecipeEditor/recipe-gallery-field';
 import {
   cloneIngredientSections,
   countIngredientLines,
   emptyIngredientSections,
   RecipeIngredientsEditor,
-} from "@/components/Admin/RecipeEditor/recipe-ingredients-editor";
+} from '@/components/Admin/RecipeEditor/recipe-ingredients-editor';
 import {
   RecipeLocaleTabs,
   type RecipeLocale,
-} from "@/components/Admin/RecipeEditor/recipe-locale-tabs";
-import { RecipeMethodEditor, cloneSteps, countMethodSteps } from "@/components/Admin/RecipeEditor/recipe-method-editor";
+} from '@/components/Admin/RecipeEditor/recipe-locale-tabs';
+import {
+  RecipeMethodEditor,
+  cloneSteps,
+  countMethodSteps,
+} from '@/components/Admin/RecipeEditor/recipe-method-editor';
 import {
   RecipeRelationPicker,
   type RelationCatalogItem,
-} from "@/components/Admin/RecipeEditor/recipe-relation-picker";
-import { RecipeRichTextField } from "@/components/Admin/RecipeEditor/recipe-rich-text-field";
-import { RecipeSchemaFields } from "@/components/Admin/RecipeEditor/recipe-schema-fields";
-import { RecipeSponsorFields } from "@/components/Admin/RecipeEditor/recipe-sponsor-fields";
-import { RecipeVideoField } from "@/components/Admin/RecipeEditor/recipe-video-field";
-import {
-  getRecipeAuthorById,
-  RECIPE_AUTHORS,
-} from "@/data/recipe-authors";
-import type { RecipeTaxonomyGroup } from "@/data/recipe-taxonomies";
-import type { AdviceArticleStatus } from "@/lib/content-blocks/types";
-import { createRecipeApi, updateRecipeApi } from "@/lib/admin/recipes-client";
+} from '@/components/Admin/RecipeEditor/recipe-relation-picker';
+import { RecipeRichTextField } from '@/components/Admin/RecipeEditor/recipe-rich-text-field';
+import { RecipeSchemaFields } from '@/components/Admin/RecipeEditor/recipe-schema-fields';
+import { RecipeSponsorFields } from '@/components/Admin/RecipeEditor/recipe-sponsor-fields';
+import { RecipeVideoField } from '@/components/Admin/RecipeEditor/recipe-video-field';
+import { getRecipeAuthorById, RECIPE_AUTHORS } from '@/data/recipe-authors';
+import type { RecipeTaxonomyGroup } from '@/data/recipe-taxonomies';
+import type { AdviceArticleStatus } from '@/lib/content-blocks/types';
+import { createRecipeApi, updateRecipeApi } from '@/lib/admin/recipes-client';
 import {
   applyRecipeStatus,
   buildRecipeSavePayload,
@@ -47,15 +48,15 @@ import {
   RECIPE_STATUSES,
   resolveRecipeStatus,
   recipeStatusDateMeta,
-} from "@/lib/admin/recipe-status";
-import { validateRecipeForPublish } from "@/lib/recipes/sanitize-recipe";
+} from '@/lib/admin/recipe-status';
+import { validateRecipeForPublish } from '@/lib/recipes/sanitize-recipe';
 import {
   RECIPE_VISIBILITIES,
   type Recipe,
   type RecipeStatus,
   type RecipeVisibility,
-} from "@/lib/recipes/types";
-import styles from "./recipe-editor.module.css";
+} from '@/lib/recipes/types';
+import styles from './recipe-editor.module.css';
 
 type RecipeEditorProps = {
   initialRecipe: Recipe;
@@ -69,8 +70,8 @@ function slugifyTitle(title: string): string {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 export function RecipeEditor({
@@ -87,15 +88,19 @@ export function RecipeEditor({
   const [message, setMessage] = useState<string | null>(null);
   const [autoSlug, setAutoSlug] = useState(isNew && !initialRecipe.slug);
   const [editingSlug, setEditingSlug] = useState(false);
-  const [ingredientsLocale, setIngredientsLocale] = useState<RecipeLocale>("uk");
-  const [methodLocale, setMethodLocale] = useState<RecipeLocale>("uk");
-  const [infoLocale, setInfoLocale] = useState<RecipeLocale>("uk");
+  const [ingredientsLocale, setIngredientsLocale] =
+    useState<RecipeLocale>('uk');
+  const [methodLocale, setMethodLocale] = useState<RecipeLocale>('uk');
+  const [infoLocale, setInfoLocale] = useState<RecipeLocale>('uk');
   const [editingVisibility, setEditingVisibility] = useState(false);
 
-  const update = useCallback(<K extends keyof Recipe>(key: K, value: Recipe[K]) => {
-    setRecipe((prev) => ({ ...prev, [key]: value }));
-    setDirty(true);
-  }, []);
+  const update = useCallback(
+    <K extends keyof Recipe>(key: K, value: Recipe[K]) => {
+      setRecipe((prev) => ({ ...prev, [key]: value }));
+      setDirty(true);
+    },
+    [],
+  );
 
   const save = async (publish = false) => {
     setSaving(true);
@@ -115,18 +120,21 @@ export function RecipeEditor({
         const created = await createRecipeApi(payload);
         setRecipe(created);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.replace(`/admin/recipes/${created.id}/edit`);
         router.refresh();
       } else {
         const updated = await updateRecipeApi(recipe.id, payload);
         setRecipe(updated);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.refresh();
       }
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Save failed. Please try again.';
       setMessage(detail);
     } finally {
       setSaving(false);
@@ -138,7 +146,7 @@ export function RecipeEditor({
     scheduledAt?: string | null,
   ) => {
     const recipeStatusNext: RecipeStatus =
-      status === "private" ? "draft" : (status as RecipeStatus);
+      status === 'private' ? 'draft' : (status as RecipeStatus);
     const next = applyRecipeStatus(recipe, recipeStatusNext, scheduledAt);
     setRecipe(next);
 
@@ -146,21 +154,26 @@ export function RecipeEditor({
       setSaving(true);
       setMessage(null);
       try {
-        const updated = await updateRecipeApi(recipe.id, getRecipeStatusPatch(next));
+        const updated = await updateRecipeApi(
+          recipe.id,
+          getRecipeStatusPatch(next),
+        );
         setRecipe(updated);
         setDirty(false);
         setMessage(
-          recipeStatusNext === "disabled"
-            ? "Recipe disabled."
-            : recipeStatusNext === "published"
-              ? "Recipe published."
-              : "Status saved.",
+          recipeStatusNext === 'disabled'
+            ? 'Recipe disabled.'
+            : recipeStatusNext === 'published'
+              ? 'Recipe published.'
+              : 'Status saved.',
         );
         router.refresh();
       } catch (error) {
         setDirty(true);
         const detail =
-          error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+          error instanceof Error
+            ? error.message
+            : 'Failed to save status. Try Save draft.';
         setMessage(detail);
       } finally {
         setSaving(false);
@@ -176,20 +189,21 @@ export function RecipeEditor({
   const recipeStatus = resolveRecipeStatus(recipe);
   const previewable = isRecipePreviewable(recipe);
   const dateMeta = recipeStatusDateMeta(recipe);
-  const visibility = recipe.visibility ?? "both";
+  const visibility = recipe.visibility ?? 'both';
   const visibilityLabel =
-    RECIPE_VISIBILITIES.find((item) => item.value === visibility)?.label ?? "Both";
+    RECIPE_VISIBILITIES.find((item) => item.value === visibility)?.label ??
+    'Both';
 
   const formatStatusDateTime = (iso: string | null) => {
-    if (!iso) return "—";
+    if (!iso) return '—';
     const date = new Date(iso);
-    if (Number.isNaN(date.getTime())) return "—";
-    return date.toLocaleString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    if (Number.isNaN(date.getTime())) return '—';
+    return date.toLocaleString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
@@ -209,10 +223,10 @@ export function RecipeEditor({
     ? selectedAuthor.name
         .split(/\s+/)
         .map((part) => part[0])
-        .join("")
+        .join('')
         .slice(0, 2)
         .toUpperCase()
-    : "?";
+    : '?';
 
   const headerActions = (
     <div className={styles.headerActions}>
@@ -236,7 +250,12 @@ export function RecipeEditor({
           </button>
         )
       ) : null}
-      <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+      <button
+        type="button"
+        className="btn btnSecondary"
+        onClick={saveDraft}
+        disabled={saving}
+      >
         Save draft
       </button>
       <button
@@ -254,13 +273,17 @@ export function RecipeEditor({
     <div className="editorSections">
       <div className="editorPageHeader">
         <div>
-          <h1 className="cardTitle">{recipe.title || "Untitled"}</h1>
+          <h1 className="cardTitle">{recipe.title || 'Untitled'}</h1>
           <p
-            className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}
+            className={`statusBar ${dirty && !message ? 'statusDirty' : ''}`}
             role="status"
             aria-live="polite"
           >
-            {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
+            {message
+              ? message
+              : dirty
+                ? 'Unsaved changes'
+                : 'All changes saved'}
           </p>
         </div>
         {headerActions}
@@ -268,7 +291,11 @@ export function RecipeEditor({
 
       <div className={styles.recipeLayout}>
         <div className={styles.recipeMain}>
-          <RecipeCollapsibleSection title="Basics" defaultOpen id="section-basics">
+          <RecipeCollapsibleSection
+            title="Basics"
+            defaultOpen
+            id="section-basics"
+          >
             <div className="cardForm">
               <div className="field">
                 <label className="fieldLabel" htmlFor="recipe-title">
@@ -294,11 +321,15 @@ export function RecipeEditor({
                 <div className={styles.slugFieldHeader}>
                   <label
                     className={styles.slugFieldLabel}
-                    htmlFor={editingSlug ? "recipe-slug" : undefined}
+                    htmlFor={editingSlug ? 'recipe-slug' : undefined}
                   >
                     Page URL
                   </label>
-                  {autoSlug ? <span className={styles.slugAutoHint}>Synced from title</span> : null}
+                  {autoSlug ? (
+                    <span className={styles.slugAutoHint}>
+                      Synced from title
+                    </span>
+                  ) : null}
                 </div>
 
                 {editingSlug ? (
@@ -310,11 +341,11 @@ export function RecipeEditor({
                       value={recipe.slug}
                       onChange={(e) => {
                         setAutoSlug(false);
-                        update("slug", e.target.value);
+                        update('slug', e.target.value);
                       }}
                       onBlur={() => setEditingSlug(false)}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === "Escape") {
+                        if (e.key === 'Enter' || e.key === 'Escape') {
                           e.preventDefault();
                           setEditingSlug(false);
                         }
@@ -334,7 +365,9 @@ export function RecipeEditor({
                 ) : (
                   <div className={styles.slugBar}>
                     <span className={styles.slugPrefix}>/recipes/</span>
-                    <span className={styles.slugValue}>{recipe.slug || "your-recipe-slug"}</span>
+                    <span className={styles.slugValue}>
+                      {recipe.slug || 'your-recipe-slug'}
+                    </span>
                     <button
                       type="button"
                       className={styles.slugEditBtn}
@@ -358,7 +391,7 @@ export function RecipeEditor({
                   className="fieldTextarea"
                   rows={4}
                   value={recipe.description}
-                  onChange={(e) => update("description", e.target.value)}
+                  onChange={(e) => update('description', e.target.value)}
                   placeholder="Intro copy shown under the title on the recipe page"
                 />
               </div>
@@ -378,21 +411,32 @@ export function RecipeEditor({
               ukMeta={`${Math.max(ukIngredients.length, 1)} sections · ${ukIngredientCount} lines`}
               usMeta={`${Math.max(usIngredients.length, 1)} sections · ${usIngredientCount} lines`}
               onCopyUkToUs={() => {
-                update("ingredients_us", cloneIngredientSections(ukIngredients));
-                setIngredientsLocale("us");
+                update(
+                  'ingredients_us',
+                  cloneIngredientSections(ukIngredients),
+                );
+                setIngredientsLocale('us');
               }}
             >
-              {ingredientsLocale === "uk" ? (
+              {ingredientsLocale === 'uk' ? (
                 <RecipeIngredientsEditor
                   idPrefix="uk"
-                  sections={ukIngredients.length > 0 ? ukIngredients : emptyIngredientSections()}
-                  onChange={(sections) => update("ingredients", sections)}
+                  sections={
+                    ukIngredients.length > 0
+                      ? ukIngredients
+                      : emptyIngredientSections()
+                  }
+                  onChange={(sections) => update('ingredients', sections)}
                 />
               ) : (
                 <RecipeIngredientsEditor
                   idPrefix="us"
-                  sections={usIngredients.length > 0 ? usIngredients : emptyIngredientSections()}
-                  onChange={(sections) => update("ingredients_us", sections)}
+                  sections={
+                    usIngredients.length > 0
+                      ? usIngredients
+                      : emptyIngredientSections()
+                  }
+                  onChange={(sections) => update('ingredients_us', sections)}
                 />
               )}
             </RecipeLocaleTabs>
@@ -411,27 +455,31 @@ export function RecipeEditor({
               ukMeta={`${ukMethodCount} steps`}
               usMeta={`${usMethodCount} steps`}
               onCopyUkToUs={() => {
-                update("method_us", cloneSteps(ukMethod));
-                setMethodLocale("us");
+                update('method_us', cloneSteps(ukMethod));
+                setMethodLocale('us');
               }}
             >
-              {methodLocale === "uk" ? (
+              {methodLocale === 'uk' ? (
                 <RecipeMethodEditor
                   idPrefix="uk"
-                  steps={ukMethod.length > 0 ? ukMethod : [{ text: "" }]}
-                  onChange={(method) => update("method", method)}
+                  steps={ukMethod.length > 0 ? ukMethod : [{ text: '' }]}
+                  onChange={(method) => update('method', method)}
                 />
               ) : (
                 <RecipeMethodEditor
                   idPrefix="us"
-                  steps={usMethod.length > 0 ? usMethod : [{ text: "" }]}
-                  onChange={(method) => update("method_us", method)}
+                  steps={usMethod.length > 0 ? usMethod : [{ text: '' }]}
+                  onChange={(method) => update('method_us', method)}
                 />
               )}
             </RecipeLocaleTabs>
           </RecipeCollapsibleSection>
 
-          <RecipeCollapsibleSection title="Info" defaultOpen={false} id="section-info">
+          <RecipeCollapsibleSection
+            title="Info"
+            defaultOpen={false}
+            id="section-info"
+          >
             <RecipeLocaleTabs
               label="Info locale"
               locale={infoLocale}
@@ -439,24 +487,24 @@ export function RecipeEditor({
               ukMeta="Storage & tips"
               usMeta="Storage & tips"
               onCopyUkToUs={() => {
-                update("info_us", recipe.info_uk ?? "");
-                setInfoLocale("us");
+                update('info_us', recipe.info_uk ?? '');
+                setInfoLocale('us');
               }}
             >
-              {infoLocale === "uk" ? (
+              {infoLocale === 'uk' ? (
                 <RecipeRichTextField
                   id="info-uk"
                   label="Info"
-                  value={recipe.info_uk ?? ""}
-                  onChange={(html) => update("info_uk", html)}
+                  value={recipe.info_uk ?? ''}
+                  onChange={(html) => update('info_uk', html)}
                   placeholder="How to store, freeze, defrost…"
                 />
               ) : (
                 <RecipeRichTextField
                   id="info-us"
                   label="Info"
-                  value={recipe.info_us ?? ""}
-                  onChange={(html) => update("info_us", html)}
+                  value={recipe.info_us ?? ''}
+                  onChange={(html) => update('info_us', html)}
                   placeholder="How to store, freeze, defrost…"
                 />
               )}
@@ -488,17 +536,23 @@ export function RecipeEditor({
             <RecipeAllergenIconsFields
               icon={recipe.allergen_icon}
               iconActive={recipe.allergen_icon_active}
-              onIconChange={(src) => update("allergen_icon", src || undefined)}
-              onIconActiveChange={(src) => update("allergen_icon_active", src || undefined)}
+              onIconChange={(src) => update('allergen_icon', src || undefined)}
+              onIconActiveChange={(src) =>
+                update('allergen_icon_active', src || undefined)
+              }
             />
           </RecipeCollapsibleSection>
 
-          <RecipeCollapsibleSection title="Video" defaultOpen={false} id="section-video">
+          <RecipeCollapsibleSection
+            title="Video"
+            defaultOpen={false}
+            id="section-video"
+          >
             <RecipeVideoField
               video={recipe.video}
               vimeoEmbed={recipe.vimeo_embed}
-              onVideoChange={(video) => update("video", video)}
-              onVimeoEmbedChange={(embed) => update("vimeo_embed", embed)}
+              onVideoChange={(video) => update('video', video)}
+              onVimeoEmbedChange={(embed) => update('vimeo_embed', embed)}
             />
           </RecipeCollapsibleSection>
 
@@ -510,7 +564,9 @@ export function RecipeEditor({
           >
             <RecipeGalleryField
               images={recipe.additional_images ?? []}
-              onChange={(additional_images) => update("additional_images", additional_images)}
+              onChange={(additional_images) =>
+                update('additional_images', additional_images)
+              }
             />
           </RecipeCollapsibleSection>
 
@@ -526,7 +582,7 @@ export function RecipeEditor({
                 selectedIds={recipe.related_recipes ?? []}
                 catalog={recipeCatalog}
                 excludeId={recipe.id || undefined}
-                onChange={(ids) => update("related_recipes", ids)}
+                onChange={(ids) => update('related_recipes', ids)}
                 emptyLabel="No related recipes selected"
               />
               <RecipeRelationPicker
@@ -535,7 +591,7 @@ export function RecipeEditor({
                 selectedIds={recipe.book_related_recipes ?? []}
                 catalog={recipeCatalog}
                 excludeId={recipe.id || undefined}
-                onChange={(ids) => update("book_related_recipes", ids)}
+                onChange={(ids) => update('book_related_recipes', ids)}
                 emptyLabel="No book-related recipes selected"
               />
             </div>
@@ -551,15 +607,19 @@ export function RecipeEditor({
               label="Apps & Books"
               selectedIds={recipe.apps_and_books ?? []}
               catalog={cookbookCatalog}
-              onChange={(ids) => update("apps_and_books", ids)}
+              onChange={(ids) => update('apps_and_books', ids)}
               emptyLabel="No apps or books selected"
             />
           </RecipeCollapsibleSection>
 
-          <RecipeCollapsibleSection title="Schema Data" defaultOpen={false} id="section-schema">
+          <RecipeCollapsibleSection
+            title="Schema Data"
+            defaultOpen={false}
+            id="section-schema"
+          >
             <RecipeSchemaFields
               schema={recipe.schema}
-              onChange={(schema) => update("schema", schema)}
+              onChange={(schema) => update('schema', schema)}
             />
           </RecipeCollapsibleSection>
 
@@ -570,7 +630,7 @@ export function RecipeEditor({
           >
             <RecipeSponsorFields
               sponsor={recipe.sponsor}
-              onChange={(sponsor) => update("sponsor", sponsor)}
+              onChange={(sponsor) => update('sponsor', sponsor)}
             />
           </RecipeCollapsibleSection>
 
@@ -588,8 +648,8 @@ export function RecipeEditor({
                 <input
                   id="recipe-title-us"
                   className="fieldInput"
-                  value={recipe.title_us ?? ""}
-                  onChange={(e) => update("title_us", e.target.value)}
+                  value={recipe.title_us ?? ''}
+                  onChange={(e) => update('title_us', e.target.value)}
                 />
               </div>
               <div className="field">
@@ -600,15 +660,15 @@ export function RecipeEditor({
                   id="recipe-description-us"
                   className="fieldTextarea"
                   rows={3}
-                  value={recipe.description_us ?? ""}
-                  onChange={(e) => update("description_us", e.target.value)}
+                  value={recipe.description_us ?? ''}
+                  onChange={(e) => update('description_us', e.target.value)}
                 />
               </div>
               <RecipeRichTextField
                 id="recipe-content-us"
                 label="Recipe Content US"
-                value={recipe.content_us ?? ""}
-                onChange={(html) => update("content_us", html)}
+                value={recipe.content_us ?? ''}
+                onChange={(html) => update('content_us', html)}
                 placeholder="US recipe body content…"
               />
             </div>
@@ -616,17 +676,19 @@ export function RecipeEditor({
 
           <div className="card">
             <h2 className="cardSectionTitle">Nutrition Categories</h2>
-            <p className={styles.sectionHint}>Category image for nutrition listings</p>
+            <p className={styles.sectionHint}>
+              Category image for nutrition listings
+            </p>
             <ImageField
-              value={recipe.nutrition_category_image ?? ""}
+              value={recipe.nutrition_category_image ?? ''}
               showAlt={false}
-              onChange={(src) => update("nutrition_category_image", src)}
+              onChange={(src) => update('nutrition_category_image', src)}
             />
             {recipe.nutrition_category_image ? (
               <button
                 type="button"
                 className={`btn btnGhost ${styles.removeImageBtn}`}
-                onClick={() => update("nutrition_category_image", "")}
+                onClick={() => update('nutrition_category_image', '')}
               >
                 Remove
               </button>
@@ -636,7 +698,9 @@ export function RecipeEditor({
           <div className="card">
             <div className={styles.sectionHeaderCol}>
               <h2 className="cardSectionTitle">SEO</h2>
-              <p className={styles.sectionHint}>How this recipe appears in search results</p>
+              <p className={styles.sectionHint}>
+                How this recipe appears in search results
+              </p>
             </div>
             <div className="cardForm">
               <div className="field">
@@ -645,7 +709,7 @@ export function RecipeEditor({
                     SEO title
                   </label>
                   <span
-                    className={`${styles.charCount} ${seoTitleLen > 60 ? styles.charCountWarn : ""}`}
+                    className={`${styles.charCount} ${seoTitleLen > 60 ? styles.charCountWarn : ''}`}
                   >
                     {seoTitleLen}/60
                   </span>
@@ -654,7 +718,7 @@ export function RecipeEditor({
                   id="seo-title"
                   className="fieldInput"
                   value={recipe.seo_title}
-                  onChange={(e) => update("seo_title", e.target.value)}
+                  onChange={(e) => update('seo_title', e.target.value)}
                 />
               </div>
               <div className="field">
@@ -663,7 +727,7 @@ export function RecipeEditor({
                     Meta description
                   </label>
                   <span
-                    className={`${styles.charCount} ${seoDescLen > 160 ? styles.charCountWarn : ""}`}
+                    className={`${styles.charCount} ${seoDescLen > 160 ? styles.charCountWarn : ''}`}
                   >
                     {seoDescLen}/160
                   </span>
@@ -673,7 +737,7 @@ export function RecipeEditor({
                   className="fieldTextarea"
                   rows={3}
                   value={recipe.seo_description}
-                  onChange={(e) => update("seo_description", e.target.value)}
+                  onChange={(e) => update('seo_description', e.target.value)}
                 />
               </div>
             </div>
@@ -691,17 +755,28 @@ export function RecipeEditor({
                 <div className={styles.publishMetaBody}>
                   {editingVisibility ? (
                     <fieldset className={styles.visibilityFieldset}>
-                      <legend className={styles.visibilityLegend}>Visibility</legend>
-                      <div className={styles.visibilityOptions} role="radiogroup">
+                      <legend className={styles.visibilityLegend}>
+                        Visibility
+                      </legend>
+                      <div
+                        className={styles.visibilityOptions}
+                        role="radiogroup"
+                      >
                         {RECIPE_VISIBILITIES.map((option) => (
-                          <label key={option.value} className={styles.visibilityOption}>
+                          <label
+                            key={option.value}
+                            className={styles.visibilityOption}
+                          >
                             <input
                               type="radio"
                               name="recipe-visibility"
                               value={option.value}
                               checked={visibility === option.value}
                               onChange={() => {
-                                update("visibility", option.value as RecipeVisibility);
+                                update(
+                                  'visibility',
+                                  option.value as RecipeVisibility,
+                                );
                                 setEditingVisibility(false);
                               }}
                             />
@@ -719,7 +794,7 @@ export function RecipeEditor({
                     </fieldset>
                   ) : (
                     <p className={styles.publishMetaText}>
-                      Visibility: <strong>{visibilityLabel}</strong>{" "}
+                      Visibility: <strong>{visibilityLabel}</strong>{' '}
                       <button
                         type="button"
                         className={styles.publishMetaEdit}
@@ -736,7 +811,8 @@ export function RecipeEditor({
                   📅
                 </span>
                 <p className={styles.publishMetaText}>
-                  {dateMeta.label}: <strong>{formatStatusDateTime(dateMeta.iso)}</strong>
+                  {dateMeta.label}:{' '}
+                  <strong>{formatStatusDateTime(dateMeta.iso)}</strong>
                 </p>
               </div>
             </div>
@@ -753,29 +829,36 @@ export function RecipeEditor({
             />
           </div>
 
-          <section className={styles.metaCard} aria-labelledby="app-featured-heading">
+          <section
+            className={styles.metaCard}
+            aria-labelledby="app-featured-heading"
+          >
             <div className={styles.metaCardHeader}>
               <div>
                 <h2 id="app-featured-heading" className={styles.metaCardTitle}>
                   App Featured
                 </h2>
-                <p className={styles.metaCardSubtitle}>Promote this recipe in the app</p>
+                <p className={styles.metaCardSubtitle}>
+                  Promote this recipe in the app
+                </p>
               </div>
               <span
-                className={`${styles.featuredStatus}${recipe.app_exclusive ? ` ${styles.featuredStatusOn}` : ""}`}
+                className={`${styles.featuredStatus}${recipe.app_exclusive ? ` ${styles.featuredStatusOn}` : ''}`}
               >
-                {recipe.app_exclusive ? "Featured" : "Not featured"}
+                {recipe.app_exclusive ? 'Featured' : 'Not featured'}
               </span>
             </div>
             <button
               type="button"
               role="switch"
               aria-checked={recipe.app_exclusive}
-              className={`${styles.featuredToggle}${recipe.app_exclusive ? ` ${styles.featuredToggleOn}` : ""}`}
-              onClick={() => update("app_exclusive", !recipe.app_exclusive)}
+              className={`${styles.featuredToggle}${recipe.app_exclusive ? ` ${styles.featuredToggleOn}` : ''}`}
+              onClick={() => update('app_exclusive', !recipe.app_exclusive)}
             >
               <span className={styles.featuredToggleCopy}>
-                <span className={styles.featuredToggleLabel}>Featured Recipe</span>
+                <span className={styles.featuredToggleLabel}>
+                  Featured Recipe
+                </span>
                 <span className={styles.featuredToggleHint}>
                   Show this recipe as featured in the app
                 </span>
@@ -786,41 +869,51 @@ export function RecipeEditor({
             </button>
           </section>
 
-          <section className={styles.metaCard} aria-labelledby="recipe-author-heading">
+          <section
+            className={styles.metaCard}
+            aria-labelledby="recipe-author-heading"
+          >
             <div className={styles.metaCardHeader}>
               <div>
                 <h2 id="recipe-author-heading" className={styles.metaCardTitle}>
                   Author
                 </h2>
-                <p className={styles.metaCardSubtitle}>Who owns this recipe in the CMS</p>
+                <p className={styles.metaCardSubtitle}>
+                  Who owns this recipe in the CMS
+                </p>
               </div>
             </div>
             <div className={styles.authorPicker}>
               <div className={styles.authorPreview}>
                 <span
-                  className={`${styles.authorAvatar}${selectedAuthor ? ` ${styles.authorAvatarFilled}` : ""}`}
+                  className={`${styles.authorAvatar}${selectedAuthor ? ` ${styles.authorAvatarFilled}` : ''}`}
                   aria-hidden
                 >
                   {authorInitials}
                 </span>
                 <div className={styles.authorPreviewCopy}>
                   <span className={styles.authorPreviewName}>
-                    {selectedAuthor?.name ?? "No author selected"}
+                    {selectedAuthor?.name ?? 'No author selected'}
                   </span>
                   <span className={styles.authorPreviewEmail}>
-                    {selectedAuthor?.email ?? "Choose someone from the list"}
+                    {selectedAuthor?.email ?? 'Choose someone from the list'}
                   </span>
                 </div>
               </div>
-              <label className={styles.authorSelectLabel} htmlFor="recipe-author">
+              <label
+                className={styles.authorSelectLabel}
+                htmlFor="recipe-author"
+              >
                 Assign author
               </label>
               <div className={styles.authorSelectWrap}>
                 <select
                   id="recipe-author"
                   className={styles.authorSelect}
-                  value={recipe.author_id ?? ""}
-                  onChange={(e) => update("author_id", e.target.value || undefined)}
+                  value={recipe.author_id ?? ''}
+                  onChange={(e) =>
+                    update('author_id', e.target.value || undefined)
+                  }
                 >
                   <option value="">Select author…</option>
                   {RECIPE_AUTHORS.map((author) => (
@@ -846,7 +939,7 @@ export function RecipeEditor({
                 }));
                 setDirty(true);
               }}
-              onAltChange={(altVal) => update("featured_image_alt", altVal)}
+              onAltChange={(altVal) => update('featured_image_alt', altVal)}
             />
             {recipe.featured_image ? (
               <button
@@ -855,8 +948,8 @@ export function RecipeEditor({
                 onClick={() => {
                   setRecipe((prev) => ({
                     ...prev,
-                    featured_image: "",
-                    featured_image_alt: "",
+                    featured_image: '',
+                    featured_image_alt: '',
                   }));
                   setDirty(true);
                 }}
@@ -872,7 +965,7 @@ export function RecipeEditor({
               embedded
               groups={categoryGroups}
               taxonomies={recipe.taxonomies}
-              onChange={(taxonomies) => update("taxonomies", taxonomies)}
+              onChange={(taxonomies) => update('taxonomies', taxonomies)}
             />
           </div>
         </aside>

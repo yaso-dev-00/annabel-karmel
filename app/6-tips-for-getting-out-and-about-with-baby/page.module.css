@@ -23,26 +23,25 @@
 }
 
 @media (max-width: 900px) {
-   .lead{
+  .lead {
     text-align: center;
-   }
-   .bodyText{
+  }
+  .bodyText {
     text-align: center;
-   }
-   .sectionHeading{
+  }
+  .sectionHeading {
     text-align: center;
-   }
-   .productTitle{
+  }
+  .productTitle {
     text-align: center;
-   }
-   .productBody{
+  }
+  .productBody {
     text-align: center;
-   }
-   .productBodyNoGap{
+  }
+  .productBodyNoGap {
     text-align: center;
-   }
-  
-} 
+  }
+}
 .lead {
   margin: 0 0 28px;
   font-family: var(--font-body);
@@ -54,7 +53,7 @@
 .sectionHeading {
   margin: 0 0 20px;
   font-family: var(--font-display);
-  font-size:40px;
+  font-size: 40px;
   line-height: 1.13;
   font-weight: 450;
   margin-top: 50px;

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useLayoutEffect, useRef, useState } from "react";
-import styles from "@/app/dairy-free-diet-cows-milk-protein-allergy/page.module.css";
+import { AnimatePresence, motion } from 'framer-motion';
+import { useLayoutEffect, useRef, useState } from 'react';
+import styles from '@/app/dairy-free-diet-cows-milk-protein-allergy/page.module.css';
 
 export type DairyFaqItem = {
   question: string;
@@ -55,7 +55,7 @@ export function DairyFreeFaqAccordion({ items }: DairyFreeFaqAccordionProps) {
     const delta = nextTop - previousButtonTopRef.current;
 
     if (Math.abs(delta) > 1) {
-      window.scrollBy({ top: delta, left: 0, behavior: "auto" });
+      window.scrollBy({ top: delta, left: 0, behavior: 'auto' });
     }
 
     toggledButtonRef.current = null;
@@ -71,9 +71,9 @@ export function DairyFreeFaqAccordion({ items }: DairyFreeFaqAccordionProps) {
             <button
               type="button"
               onClick={(event) => onToggle(item.question, event.currentTarget)}
-              className={`${styles.faqSummary}${isOpen ? ` ${styles.faqSummaryOpen}` : ""}`}
+              className={`${styles.faqSummary}${isOpen ? ` ${styles.faqSummaryOpen}` : ''}`}
             >
-              <span className={styles.faqMarker}>{isOpen ? "-" : "+"}</span>
+              <span className={styles.faqMarker}>{isOpen ? '-' : '+'}</span>
               {item.question}
             </button>
 
@@ -82,14 +82,14 @@ export function DairyFreeFaqAccordion({ items }: DairyFreeFaqAccordionProps) {
                 <motion.div
                   key={item.question}
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
+                  animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
+                  transition={{ duration: 0.7, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
                 >
                   <div className={styles.faqBody}>
                     {item.paragraphs?.map((paragraph) => {
-                      if (typeof paragraph === "string") {
+                      if (typeof paragraph === 'string') {
                         return (
                           <p key={paragraph} className={styles.faqText}>
                             {paragraph}
@@ -97,10 +97,15 @@ export function DairyFreeFaqAccordion({ items }: DairyFreeFaqAccordionProps) {
                         );
                       }
 
-                      if ("heading" in paragraph) {
+                      if ('heading' in paragraph) {
                         return (
-                          <div key={`${paragraph.heading}-${paragraph.text}`} className={styles.faqSection}>
-                            <h4 className={styles.faqSubheading}>{paragraph.heading}</h4>
+                          <div
+                            key={`${paragraph.heading}-${paragraph.text}`}
+                            className={styles.faqSection}
+                          >
+                            <h4 className={styles.faqSubheading}>
+                              {paragraph.heading}
+                            </h4>
                             <p className={styles.faqText}>{paragraph.text}</p>
                           </div>
                         );
@@ -109,12 +114,16 @@ export function DairyFreeFaqAccordion({ items }: DairyFreeFaqAccordionProps) {
                       return (
                         <p
                           key={paragraph.segments
-                            .map((segment) => (typeof segment === "string" ? segment : `${segment.label}-${segment.href}`))
-                            .join("|")}
+                            .map((segment) =>
+                              typeof segment === 'string'
+                                ? segment
+                                : `${segment.label}-${segment.href}`,
+                            )
+                            .join('|')}
                           className={styles.faqText}
                         >
                           {paragraph.segments.map((segment) =>
-                            typeof segment === "string" ? (
+                            typeof segment === 'string' ? (
                               segment
                             ) : (
                               <a
@@ -134,13 +143,18 @@ export function DairyFreeFaqAccordion({ items }: DairyFreeFaqAccordionProps) {
                     {item.bullets ? (
                       <ul className={styles.faqList}>
                         {item.bullets.map((bullet) => {
-                          if (typeof bullet === "string") {
+                          if (typeof bullet === 'string') {
                             return <li key={bullet}>{bullet}</li>;
                           }
 
                           return (
                             <li key={bullet.href}>
-                              <a href={bullet.href} target="_blank" rel="noopener" className={styles.link}>
+                              <a
+                                href={bullet.href}
+                                target="_blank"
+                                rel="noopener"
+                                className={styles.link}
+                              >
                                 {bullet.label}
                               </a>
                             </li>

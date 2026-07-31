@@ -1,14 +1,14 @@
-import { AdviceCategoryListing } from "@/components/ArticleScreen/AdviceCategoryListing";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { bottleFeedingListingArticles } from "@/data/bottle-feeding-listing";
-import type { Metadata } from "next";
+import { AdviceCategoryListing } from '@/components/ArticleScreen/AdviceCategoryListing';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import { bottleFeedingListingArticles } from '@/data/bottle-feeding-listing';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Bottle Feeding Tips | Annabel Karmel",
+  title: 'Bottle Feeding Tips | Annabel Karmel',
   description:
-    "Bottle feeding tips and advice from Annabel Karmel, covering paced and responsive bottle feeding, sterilising bottles, and choosing and preparing formula milk.",
+    'Bottle feeding tips and advice from Annabel Karmel, covering paced and responsive bottle feeding, sterilising bottles, and choosing and preparing formula milk.',
 };
 
 export default function BottleFeedingTipsCategoryPage() {

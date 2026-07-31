@@ -1,10 +1,10 @@
-import Link from "next/link";
-import type { ReactNode } from "react";
-import type { Expert } from "@/lib/experts/types";
-import styles from "./expert-profile-shell.module.css";
+import Link from 'next/link';
+import type { ReactNode } from 'react';
+import type { Expert } from '@/lib/experts/types';
+import styles from './expert-profile-shell.module.css';
 
 function isInternalHref(href: string): boolean {
-  return href.startsWith("/");
+  return href.startsWith('/');
 }
 
 function ExpertTopicLink({
@@ -44,7 +44,11 @@ export function ExpertProfileShell({ expert }: ExpertProfileShellProps) {
             {expert.name} - {expert.role}
           </h1>
           {expert.image ? (
-            <img src={expert.image} alt={expert.name} className={styles.portrait} />
+            <img
+              src={expert.image}
+              alt={expert.name}
+              className={styles.portrait}
+            />
           ) : null}
           <div className={styles.body}>
             {expert.introParagraphs.map((paragraph) => (
@@ -73,8 +77,14 @@ export function ExpertProfileShell({ expert }: ExpertProfileShellProps) {
             const topicHref = topic.href ?? expert.sourceUrl;
 
             return (
-              <article key={`${topic.title}-${topicHref}`} className={styles.topic}>
-                <ExpertTopicLink href={topicHref} className={styles.topicImageLink}>
+              <article
+                key={`${topic.title}-${topicHref}`}
+                className={styles.topic}
+              >
+                <ExpertTopicLink
+                  href={topicHref}
+                  className={styles.topicImageLink}
+                >
                   <img
                     src={topic.image ?? expert.image}
                     alt={topic.title}
@@ -83,7 +93,9 @@ export function ExpertProfileShell({ expert }: ExpertProfileShellProps) {
                 </ExpertTopicLink>
                 <div className={styles.topicCopy}>
                   <h3 className={styles.topicTitle}>
-                    <ExpertTopicLink href={topicHref}>{topic.title}</ExpertTopicLink>
+                    <ExpertTopicLink href={topicHref}>
+                      {topic.title}
+                    </ExpertTopicLink>
                   </h3>
                   <ExpertTopicLink href={topicHref} className={styles.readMore}>
                     Read More

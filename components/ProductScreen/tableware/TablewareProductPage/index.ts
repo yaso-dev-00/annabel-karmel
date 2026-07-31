@@ -1,1 +1,1 @@
-export * from "./tableware-product-page";
+export * from './tableware-product-page';

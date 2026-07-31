@@ -103,7 +103,6 @@
 
 .link {
   color: #3f3841;
-  
 }
 .link:hover {
   color: var(--hover-color) !important;

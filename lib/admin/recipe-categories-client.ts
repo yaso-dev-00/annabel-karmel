@@ -1,29 +1,50 @@
-import type { RecipeTaxonomyGroup } from "@/data/recipe-taxonomies";
+import type { RecipeTaxonomyGroup } from '@/data/recipe-taxonomies';
 
-async function parseJson(response: Response) {
-  const data = await response.json().catch(() => ({}));
+type CategoryGroupsResponse = {
+  groups?: RecipeTaxonomyGroup[];
+  error?: string;
+};
+
+function isCategoryGroupsResponse(
+  value: unknown,
+): value is CategoryGroupsResponse {
+  return typeof value === 'object' && value !== null;
+}
+
+async function parseJson(response: Response): Promise<CategoryGroupsResponse> {
+  const data: unknown = await response.json().catch(() => ({}));
+  const payload = isCategoryGroupsResponse(data) ? data : {};
   if (!response.ok) {
     const message =
-      typeof data?.error === "string" ? data.error : `Request failed (${response.status})`;
+      typeof payload.error === 'string'
+        ? payload.error
+        : `Request failed (${response.status})`;
     throw new Error(message);
   }
-  return data;
+  return payload;
+}
+
+function readGroups(payload: CategoryGroupsResponse): RecipeTaxonomyGroup[] {
+  return Array.isArray(payload.groups) ? payload.groups : [];
 }
 
 export async function fetchCategoryGroups(): Promise<RecipeTaxonomyGroup[]> {
-  const response = await fetch("/api/admin/recipe-categories", { cache: "no-store" });
+  const response = await fetch('/api/admin/recipe-categories', {
+    cache: 'no-store',
+  });
   const data = await parseJson(response);
-  return Array.isArray(data.groups) ? data.groups : [];
+  return readGroups(data);
 }
 
 export async function saveCategoryGroupsApi(
   groups: RecipeTaxonomyGroup[],
 ): Promise<RecipeTaxonomyGroup[]> {
-  const response = await fetch("/api/admin/recipe-categories", {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
+  const response = await fetch('/api/admin/recipe-categories', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ groups }),
   });
   const data = await parseJson(response);
-  return Array.isArray(data.groups) ? data.groups : groups;
+  const saved = readGroups(data);
+  return saved.length > 0 ? saved : groups;
 }

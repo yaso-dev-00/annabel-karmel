@@ -1,4 +1,4 @@
-const assetBase = "/product-category/frozen-meals";
+const assetBase = '/product-category/frozen-meals';
 
 export const frozenMealsAssets = {
   heroVideo: `${assetBase}/hero-video.mp4`,
@@ -6,7 +6,7 @@ export const frozenMealsAssets = {
   heroMobile: `${assetBase}/hero-mobile.png`,
   introBg: `${assetBase}/intro-bg.png`,
   introBgMobile: `${assetBase}/intro-bg-mobile.png`,
-  signature: "/product-category/chilled-meals/signature.svg",
+  signature: '/product-category/chilled-meals/signature.svg',
   awardLogos: `${assetBase}/award-logos.png`,
   promiseBg: `${assetBase}/promise-bg.png`,
   retailersBg: `${assetBase}/retailers-bg.png`,
@@ -22,12 +22,18 @@ export const frozenMealsIntro = {
 export const frozenMealsPromise = {
   heading: "Annabel's expert promise",
   icons: [
-    { src: `${assetBase}/promise-low-salt.png`, alt: "Low in salt" },
-    { src: `${assetBase}/promise-veggies.png`, alt: "Packed with veggies" },
-    { src: `${assetBase}/promise-no-sugar.png`, alt: "No added sugar" },
-    { src: `${assetBase}/promise-no-artificials.png`, alt: "No artificials" },
-    { src: `${assetBase}/promise-ready-5-mins.png`, alt: "Ready in 5 mins from frozen" },
-    { src: `${assetBase}/promise-approved-by-kids.png`, alt: "Approved by kids" },
+    { src: `${assetBase}/promise-low-salt.png`, alt: 'Low in salt' },
+    { src: `${assetBase}/promise-veggies.png`, alt: 'Packed with veggies' },
+    { src: `${assetBase}/promise-no-sugar.png`, alt: 'No added sugar' },
+    { src: `${assetBase}/promise-no-artificials.png`, alt: 'No artificials' },
+    {
+      src: `${assetBase}/promise-ready-5-mins.png`,
+      alt: 'Ready in 5 mins from frozen',
+    },
+    {
+      src: `${assetBase}/promise-approved-by-kids.png`,
+      alt: 'Approved by kids',
+    },
   ],
 };
 
@@ -40,57 +46,57 @@ export type FrozenMealsProduct = {
 
 export const frozenMealsProducts: FrozenMealsProduct[] = [
   {
-    title: "chicken tikka\nwith fluffy rice",
+    title: 'chicken tikka\nwith fluffy rice',
     description:
-      "Tender chicken in a creamy coconut sauce with butternut squash, tomato and a hint of mango chutney.",
+      'Tender chicken in a creamy coconut sauce with butternut squash, tomato and a hint of mango chutney.',
     image: `${assetBase}/product-chicken-tikka.png`,
-    href: "/products/chicken-tikka-masala/",
+    href: '/products/chicken-tikka-masala/',
   },
   {
-    title: "spaghetti bolognese\nwith hidden veggies",
+    title: 'spaghetti bolognese\nwith hidden veggies',
     description:
       "Packed with hidden veg, it's a slurp-worthy spag bol kids will love – and made without dairy.",
     image: `${assetBase}/product-spaghetti-bolognese.png`,
-    href: "/products/tasty-spaghetti-bolognese/",
+    href: '/products/tasty-spaghetti-bolognese/',
   },
   {
-    title: "bolognese mac &\ncheese with veggies",
+    title: 'bolognese mac &\ncheese with veggies',
     description:
       "Creamy mac meets yummy Bolognese in this hearty, veggie-filled dish. It's the tastiest teatime mash-up!",
     image: `${assetBase}/product-bolognese-mac.png`,
-    href: "/products/mighty-bolognese-mac-and-cheese/",
+    href: '/products/mighty-bolognese-mac-and-cheese/',
   },
   {
-    title: "chicken pasta with\ntomato & mascarpone",
+    title: 'chicken pasta with\ntomato & mascarpone',
     description:
-      "Chunky pasta, tender chicken & a veggie-packed tomato and mascarpone sauce – always a dinner winner.",
+      'Chunky pasta, tender chicken & a veggie-packed tomato and mascarpone sauce – always a dinner winner.',
     image: `${assetBase}/product-chicken-pasta.png`,
-    href: "/products/chicken-tomato-mascarpone-pasta/",
+    href: '/products/chicken-tomato-mascarpone-pasta/',
   },
 ];
 
 export const frozenMealsRetailers = {
-  heading: "Discover in the freezer aisle",
+  heading: 'Discover in the freezer aisle',
   logos: [
     {
       src: `${assetBase}/logo-tesco.png`,
-      alt: "Tesco",
-      href: "https://www.tesco.com/groceries/en-GB/search?query=annabel+karmel&sortBy=relevance&facetsArgs=category%3AFrozen+Food&count=24",
+      alt: 'Tesco',
+      href: 'https://www.tesco.com/groceries/en-GB/search?query=annabel+karmel&sortBy=relevance&facetsArgs=category%3AFrozen+Food&count=24',
     },
     {
       src: `${assetBase}/logo-asda.png`,
-      alt: "ASDA",
-      href: "https://groceries.asda.com/search/annabel%20karmel",
+      alt: 'ASDA',
+      href: 'https://groceries.asda.com/search/annabel%20karmel',
     },
     {
       src: `${assetBase}/logo-ocado.png`,
-      alt: "Ocado",
-      href: "https://www.ocado.com/search?entry=annabel%20karmel&filters=annabel-karmel-15198",
+      alt: 'Ocado',
+      href: 'https://www.ocado.com/search?entry=annabel%20karmel&filters=annabel-karmel-15198',
     },
   ],
 };
 
 export const frozenMealsChilledCta = {
-  heading: "Annabel is in the\nchilled aisle too!",
-  href: "/product-category/chilled-meals",
+  heading: 'Annabel is in the\nchilled aisle too!',
+  href: '/product-category/chilled-meals',
 };

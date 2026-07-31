@@ -1,13 +1,15 @@
-import Link from "next/link";
-import { AdminShell } from "@/components/Admin/AdminShell";
-import { ProductList } from "@/components/Admin/ProductList/product-list";
-import { getAllProducts } from "@/lib/admin/products-store";
+import Link from 'next/link';
+import { AdminShell } from '@/components/Admin/AdminShell';
+import { ProductList } from '@/components/Admin/ProductList/product-list';
+import { getAllProducts } from '@/lib/admin/products-store';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function AdminGrowProductsListPage() {
-  const products = (await getAllProducts()).filter((p) => p.category === "tableware");
+  const products = (await getAllProducts()).filter(
+    (p) => p.category === 'tableware',
+  );
 
   return (
     <AdminShell
@@ -19,7 +21,11 @@ export default async function AdminGrowProductsListPage() {
         </Link>
       }
     >
-      <ProductList products={products} section="grow" listPath="/admin/grow-products" />
+      <ProductList
+        products={products}
+        section="grow"
+        listPath="/admin/grow-products"
+      />
     </AdminShell>
   );
 }

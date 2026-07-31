@@ -1,5 +1,8 @@
-import type { AdviceArticle, AdviceArticleStatus } from "@/lib/content-blocks/types";
-import type { Expert, ExpertStatus } from "@/lib/experts/types";
+import type {
+  AdviceArticle,
+  AdviceArticleStatus,
+} from '@/lib/content-blocks/types';
+import type { Expert, ExpertStatus } from '@/lib/experts/types';
 import {
   ADVICE_ARTICLE_STATUS_HINTS,
   ADVICE_ARTICLE_STATUS_LABELS,
@@ -13,7 +16,7 @@ import {
   isAdviceArticlePublic,
   normalizeAdviceArticle,
   resolveAdviceArticleStatus,
-} from "@/lib/admin/advice-article-status";
+} from '@/lib/admin/advice-article-status';
 
 export const EXPERT_STATUSES = ADVICE_ARTICLE_STATUSES;
 export const EXPERT_STATUS_LABELS = ADVICE_ARTICLE_STATUS_LABELS;
@@ -27,16 +30,22 @@ export function resolveExpertStatus(expert: Expert): ExpertStatus {
   return resolveAdviceArticleStatus(asAdvice(expert)) as ExpertStatus;
 }
 
-export function buildExpertSavePayload(expert: Expert, options?: { publish?: boolean }): Expert {
-  return buildAdviceArticleSavePayload(asAdvice(expert), options) as unknown as Expert;
+export function buildExpertSavePayload(
+  expert: Expert,
+  options?: { publish?: boolean },
+): Expert {
+  return buildAdviceArticleSavePayload(
+    asAdvice(expert),
+    options,
+  ) as unknown as Expert;
 }
 
 export function getExpertStatusPatch(
   expert: Expert,
-): Pick<Expert, "status" | "published_at" | "scheduled_at"> {
+): Pick<Expert, 'status' | 'published_at' | 'scheduled_at'> {
   return getAdviceArticleStatusPatch(asAdvice(expert)) as Pick<
     Expert,
-    "status" | "published_at" | "scheduled_at"
+    'status' | 'published_at' | 'scheduled_at'
   >;
 }
 

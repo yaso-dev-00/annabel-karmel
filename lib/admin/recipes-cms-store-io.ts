@@ -1,25 +1,27 @@
-import { del, get, list, put } from "@vercel/blob";
-import { promises as fs } from "fs";
-import path from "path";
-import seedStore from "@/data/cms/recipes.seed.json";
+import { del, get, list, put } from '@vercel/blob';
+import { promises as fs } from 'fs';
+import path from 'path';
+import seedStore from '@/data/cms/recipes.seed.json';
 
-const LEGACY_BLOB_PATHNAME = "cms/recipes.json";
-const VERSIONED_PREFIX = "cms/recipes/v";
+const LEGACY_BLOB_PATHNAME = 'cms/recipes.json';
+const VERSIONED_PREFIX = 'cms/recipes/v';
 const MAX_VERSIONS = 12;
 
-const CMS_DIR = path.join(process.cwd(), "data", "cms");
-const LOCAL_RUNTIME_FILE = path.join(CMS_DIR, "recipes.json");
-const SEED_FILE = path.join(CMS_DIR, "recipes.seed.json");
+const CMS_DIR = path.join(process.cwd(), 'data', 'cms');
+const LOCAL_RUNTIME_FILE = path.join(CMS_DIR, 'recipes.json');
+const SEED_FILE = path.join(CMS_DIR, 'recipes.seed.json');
 const BUNDLED_SEED_RAW = JSON.stringify(seedStore);
 
-export function useBlobRecipesCmsStore(): boolean {
+export function isBlobRecipesCmsStoreEnabled(): boolean {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
 
 function getBlobAuthOptions(): { token: string; storeId?: string } {
   const token = process.env.BLOB_READ_WRITE_TOKEN;
   if (!token) {
-    throw new Error("BLOB_READ_WRITE_TOKEN is required for CMS persistence on Vercel.");
+    throw new Error(
+      'BLOB_READ_WRITE_TOKEN is required for CMS persistence on Vercel.',
+    );
   }
   const options: { token: string; storeId?: string } = { token };
   if (process.env.BLOB_STORE_ID) {
@@ -30,20 +32,22 @@ function getBlobAuthOptions(): { token: string; storeId?: string } {
 
 async function readSeedRaw(): Promise<string> {
   try {
-    return await fs.readFile(SEED_FILE, "utf8");
+    return await fs.readFile(SEED_FILE, 'utf8');
   } catch {
     return BUNDLED_SEED_RAW;
   }
 }
 
-async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string> {
+async function streamToText(
+  stream: ReadableStream<Uint8Array>,
+): Promise<string> {
   return new Response(stream).text();
 }
 
 async function readBlobAtPathname(pathname: string): Promise<string | null> {
   try {
     const result = await get(pathname, {
-      access: "public",
+      access: 'public',
       useCache: false,
       ...getBlobAuthOptions(),
     });
@@ -67,7 +71,11 @@ async function listRecipesStoreBlobs() {
 
 async function readLatestVersionedBlob(): Promise<string | null> {
   const auth = getBlobAuthOptions();
-  const { blobs } = await list({ prefix: VERSIONED_PREFIX, limit: MAX_VERSIONS + 4, ...auth });
+  const { blobs } = await list({
+    prefix: VERSIONED_PREFIX,
+    limit: MAX_VERSIONS + 4,
+    ...auth,
+  });
   if (!blobs.length) return null;
 
   const latest = blobs.reduce((current, candidate) =>
@@ -78,7 +86,7 @@ async function readLatestVersionedBlob(): Promise<string | null> {
 }
 
 async function readBlobRaw(): Promise<string | null> {
-  if (!useBlobRecipesCmsStore()) return null;
+  if (!isBlobRecipesCmsStoreEnabled()) return null;
 
   const versioned = await readLatestVersionedBlob();
   if (versioned) return versioned;
@@ -88,10 +96,16 @@ async function readBlobRaw(): Promise<string | null> {
 
 async function pruneOldVersions(): Promise<void> {
   const auth = getBlobAuthOptions();
-  const { blobs } = await list({ prefix: VERSIONED_PREFIX, limit: MAX_VERSIONS + 20, ...auth });
+  const { blobs } = await list({
+    prefix: VERSIONED_PREFIX,
+    limit: MAX_VERSIONS + 20,
+    ...auth,
+  });
   if (blobs.length <= MAX_VERSIONS) return;
 
-  const sorted = blobs.slice().sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
+  const sorted = blobs
+    .slice()
+    .sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
   const stale = sorted.slice(MAX_VERSIONS);
   if (!stale.length) return;
 
@@ -102,9 +116,9 @@ async function pruneOldVersions(): Promise<void> {
 }
 
 async function writeBlobRaw(raw: string): Promise<void> {
-  if (!useBlobRecipesCmsStore()) {
+  if (!isBlobRecipesCmsStoreEnabled()) {
     throw new Error(
-      "CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.",
+      'CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.',
     );
   }
 
@@ -112,8 +126,8 @@ async function writeBlobRaw(raw: string): Promise<void> {
   const pathname = `${VERSIONED_PREFIX}${Date.now()}.json`;
 
   await put(pathname, raw, {
-    access: "public",
-    contentType: "application/json",
+    access: 'public',
+    contentType: 'application/json',
     addRandomSuffix: false,
     ...auth,
   });
@@ -122,13 +136,13 @@ async function writeBlobRaw(raw: string): Promise<void> {
 }
 
 async function blobStoreHasData(): Promise<boolean> {
-  if (!useBlobRecipesCmsStore()) return false;
+  if (!isBlobRecipesCmsStoreEnabled()) return false;
   const blobs = await listRecipesStoreBlobs();
   return blobs.length > 0;
 }
 
 export async function readRecipesCmsStoreRaw(): Promise<string> {
-  if (useBlobRecipesCmsStore()) {
+  if (isBlobRecipesCmsStoreEnabled()) {
     let blobRaw = await readBlobRaw();
     if (blobRaw) return blobRaw;
 
@@ -143,7 +157,7 @@ export async function readRecipesCmsStoreRaw(): Promise<string> {
 
   if (!process.env.VERCEL) {
     try {
-      return await fs.readFile(LOCAL_RUNTIME_FILE, "utf8");
+      return await fs.readFile(LOCAL_RUNTIME_FILE, 'utf8');
     } catch {
       // Fall back to seed below.
     }
@@ -153,17 +167,17 @@ export async function readRecipesCmsStoreRaw(): Promise<string> {
 }
 
 export async function writeRecipesCmsStoreRaw(raw: string): Promise<void> {
-  if (useBlobRecipesCmsStore()) {
+  if (isBlobRecipesCmsStoreEnabled()) {
     await writeBlobRaw(raw);
     return;
   }
 
   if (process.env.VERCEL) {
     throw new Error(
-      "CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.",
+      'CMS persistence on Vercel requires BLOB_READ_WRITE_TOKEN. Add it in Vercel Environment Variables, then redeploy.',
     );
   }
 
   await fs.mkdir(CMS_DIR, { recursive: true });
-  await fs.writeFile(LOCAL_RUNTIME_FILE, raw, "utf8");
+  await fs.writeFile(LOCAL_RUNTIME_FILE, raw, 'utf8');
 }

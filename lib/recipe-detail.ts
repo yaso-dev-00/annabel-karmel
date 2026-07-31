@@ -1,4 +1,4 @@
-import { getRecipeListingStub } from "@/lib/recipe-index";
+import { getRecipeListingStub } from '@/lib/recipe-index';
 
 export type RecipePageData = {
   slug: string;
@@ -6,13 +6,15 @@ export type RecipePageData = {
   href: string;
 };
 
-export async function getRecipePage(slug: string): Promise<RecipePageData | null> {
+export async function getRecipePage(
+  slug: string,
+): Promise<RecipePageData | null> {
   const stub = await getRecipeListingStub(slug);
   if (!stub) return null;
 
   return {
     slug,
     title: stub.title,
-    href: stub.href.startsWith("/") ? stub.href : `/recipes/${slug}`,
+    href: stub.href.startsWith('/') ? stub.href : `/recipes/${slug}`,
   };
 }

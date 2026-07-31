@@ -1,18 +1,25 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   fetchMediaLibrary,
   type CmsMediaItem,
-} from "@/lib/admin/fetch-media-library";
-import { uploadImage } from "@/lib/admin/upload-image";
-import { normalizeCmsImageSrc } from "@/lib/content-blocks/image-src";
-import styles from "./media-library-modal.module.css";
+} from '@/lib/admin/fetch-media-library';
+import { uploadImage } from '@/lib/admin/upload-image';
+import { normalizeCmsImageSrc } from '@/lib/content-blocks/image-src';
+import styles from './media-library-modal.module.css';
 
 const MAX_BYTES = 5 * 1024 * 1024;
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
-type MediaTab = "upload" | "library" | "url";
+type MediaTab = 'upload' | 'library' | 'url';
 
 type MediaLibraryModalProps = {
   open: boolean;
@@ -23,18 +30,18 @@ type MediaLibraryModalProps = {
 };
 
 function formatBytes(size: number | null): string {
-  if (size == null || size <= 0) return "—";
+  if (size == null || size <= 0) return '—';
   if (size < 1024) return `${size} B`;
   if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 function formatDate(value: string | null): string {
-  if (!value) return "—";
+  if (!value) return '—';
   try {
     return new Date(value).toLocaleString(undefined, {
-      dateStyle: "medium",
-      timeStyle: "short",
+      dateStyle: 'medium',
+      timeStyle: 'short',
     });
   } catch {
     return value;
@@ -42,24 +49,24 @@ function formatDate(value: string | null): string {
 }
 
 function titleFromFilename(filename: string): string {
-  const base = filename.replace(/\.[^.]+$/, "");
-  return base.replace(/[-_]+/g, " ").trim() || filename;
+  const base = filename.replace(/\.[^.]+$/, '');
+  return base.replace(/[-_]+/g, ' ').trim() || filename;
 }
 
 export function MediaLibraryModal({
   open,
   onClose,
   onSelect,
-  initialUrl = "",
-  title = "Select Image",
+  initialUrl = '',
+  title = 'Select Image',
 }: MediaLibraryModalProps) {
   const titleId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [tab, setTab] = useState<MediaTab>("library");
+  const [tab, setTab] = useState<MediaTab>('library');
   const [items, setItems] = useState<CmsMediaItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [selectedUrl, setSelectedUrl] = useState(initialUrl);
   const [urlDraft, setUrlDraft] = useState(initialUrl);
   const [uploading, setUploading] = useState(false);
@@ -73,7 +80,7 @@ export function MediaLibraryModal({
       const next = await fetchMediaLibrary();
       setItems(next);
     } catch (err) {
-      setLoadError(err instanceof Error ? err.message : "Failed to load media");
+      setLoadError(err instanceof Error ? err.message : 'Failed to load media');
     } finally {
       setLoading(false);
     }
@@ -81,21 +88,23 @@ export function MediaLibraryModal({
 
   useEffect(() => {
     if (!open) return;
-    setTab("library");
-    setSearch("");
-    setSelectedUrl(initialUrl);
-    setUrlDraft(initialUrl);
-    setUploadError(null);
-    void loadLibrary();
+    queueMicrotask(() => {
+      setTab('library');
+      setSearch('');
+      setSelectedUrl(initialUrl);
+      setUrlDraft(initialUrl);
+      setUploadError(null);
+      void loadLibrary();
+    });
   }, [open, initialUrl, loadLibrary]);
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === 'Escape') onClose();
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [open, onClose]);
 
   const filtered = useMemo(() => {
@@ -117,22 +126,22 @@ export function MediaLibraryModal({
     async (file: File) => {
       setUploadError(null);
       if (!ALLOWED_TYPES.includes(file.type)) {
-        setUploadError("Use JPEG, PNG, WebP, or GIF.");
+        setUploadError('Use JPEG, PNG, WebP, or GIF.');
         return;
       }
       if (file.size > MAX_BYTES) {
-        setUploadError("Maximum file size is 5 MB.");
+        setUploadError('Maximum file size is 5 MB.');
         return;
       }
       setUploading(true);
       try {
         const url = await uploadImage(file);
         setSelectedUrl(url);
-        setTab("library");
+        setTab('library');
         await loadLibrary();
         setSelectedUrl(url);
       } catch (err) {
-        setUploadError(err instanceof Error ? err.message : "Upload failed");
+        setUploadError(err instanceof Error ? err.message : 'Upload failed');
       } finally {
         setUploading(false);
       }
@@ -141,7 +150,7 @@ export function MediaLibraryModal({
   );
 
   const confirmSelection = () => {
-    if (tab === "url") {
+    if (tab === 'url') {
       const next = normalizeCmsImageSrc(urlDraft.trim());
       if (!next) return;
       onSelect(next);
@@ -154,7 +163,9 @@ export function MediaLibraryModal({
   };
 
   const canSelect =
-    tab === "url" ? Boolean(normalizeCmsImageSrc(urlDraft.trim())) : Boolean(selectedUrl);
+    tab === 'url'
+      ? Boolean(normalizeCmsImageSrc(urlDraft.trim()))
+      : Boolean(selectedUrl);
 
   if (!open) return null;
 
@@ -171,7 +182,12 @@ export function MediaLibraryModal({
           <h2 id={titleId} className={styles.title}>
             {title}
           </h2>
-          <button type="button" className={styles.closeBtn} onClick={onClose} aria-label="Close">
+          <button
+            type="button"
+            className={styles.closeBtn}
+            onClick={onClose}
+            aria-label="Close"
+          >
             ×
           </button>
         </header>
@@ -180,37 +196,37 @@ export function MediaLibraryModal({
           <button
             type="button"
             role="tab"
-            aria-selected={tab === "upload"}
-            className={`${styles.tab}${tab === "upload" ? ` ${styles.tabActive}` : ""}`}
-            onClick={() => setTab("upload")}
+            aria-selected={tab === 'upload'}
+            className={`${styles.tab}${tab === 'upload' ? ` ${styles.tabActive}` : ''}`}
+            onClick={() => setTab('upload')}
           >
             Upload files
           </button>
           <button
             type="button"
             role="tab"
-            aria-selected={tab === "library"}
-            className={`${styles.tab}${tab === "library" ? ` ${styles.tabActive}` : ""}`}
-            onClick={() => setTab("library")}
+            aria-selected={tab === 'library'}
+            className={`${styles.tab}${tab === 'library' ? ` ${styles.tabActive}` : ''}`}
+            onClick={() => setTab('library')}
           >
             Media Library
           </button>
           <button
             type="button"
             role="tab"
-            aria-selected={tab === "url"}
-            className={`${styles.tab}${tab === "url" ? ` ${styles.tabActive}` : ""}`}
-            onClick={() => setTab("url")}
+            aria-selected={tab === 'url'}
+            className={`${styles.tab}${tab === 'url' ? ` ${styles.tabActive}` : ''}`}
+            onClick={() => setTab('url')}
           >
             From URL
           </button>
         </div>
 
         <div className={styles.body}>
-          {tab === "upload" ? (
+          {tab === 'upload' ? (
             <div className={styles.uploadPane}>
               <div
-                className={`${styles.dropZone}${dragging ? ` ${styles.dropZoneDragging}` : ""}`}
+                className={`${styles.dropZone}${dragging ? ` ${styles.dropZoneDragging}` : ''}`}
                 onDragOver={(e) => {
                   e.preventDefault();
                   setDragging(true);
@@ -224,17 +240,20 @@ export function MediaLibraryModal({
                 }}
                 onClick={() => inputRef.current?.click()}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
+                  if (e.key === 'Enter' || e.key === ' ')
+                    inputRef.current?.click();
                 }}
                 role="button"
                 tabIndex={0}
               >
                 <p className={styles.dropTitle}>
-                  {uploading ? "Uploading…" : "Drop files to upload"}
+                  {uploading ? 'Uploading…' : 'Drop files to upload'}
                 </p>
                 <p className={styles.dropHint}>or</p>
                 <span className={styles.browseBtn}>Select Files</span>
-                <p className={styles.dropMeta}>JPEG, PNG, WebP, GIF — max 5 MB</p>
+                <p className={styles.dropMeta}>
+                  JPEG, PNG, WebP, GIF — max 5 MB
+                </p>
               </div>
               <input
                 ref={inputRef}
@@ -244,14 +263,16 @@ export function MediaLibraryModal({
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) void handleFile(file);
-                  e.target.value = "";
+                  e.target.value = '';
                 }}
               />
-              {uploadError ? <p className={styles.error}>{uploadError}</p> : null}
+              {uploadError ? (
+                <p className={styles.error}>{uploadError}</p>
+              ) : null}
             </div>
           ) : null}
 
-          {tab === "library" ? (
+          {tab === 'library' ? (
             <div className={styles.libraryLayout}>
               <div className={styles.libraryMain}>
                 <div className={styles.toolbar}>
@@ -273,14 +294,16 @@ export function MediaLibraryModal({
                   </button>
                 </div>
 
-                {loading ? <p className={styles.status}>Loading media…</p> : null}
+                {loading ? (
+                  <p className={styles.status}>Loading media…</p>
+                ) : null}
                 {loadError ? <p className={styles.error}>{loadError}</p> : null}
 
                 {!loading && !loadError && filtered.length === 0 ? (
                   <p className={styles.status}>
                     {items.length === 0
-                      ? "No uploads yet. Switch to Upload files to add images."
-                      : "No media matches your search."}
+                      ? 'No uploads yet. Switch to Upload files to add images.'
+                      : 'No media matches your search.'}
                   </p>
                 ) : null}
 
@@ -291,7 +314,7 @@ export function MediaLibraryModal({
                       <button
                         key={item.url}
                         type="button"
-                        className={`${styles.card}${active ? ` ${styles.cardActive}` : ""}`}
+                        className={`${styles.card}${active ? ` ${styles.cardActive}` : ''}`}
                         onClick={() => setSelectedUrl(item.url)}
                         onDoubleClick={() => {
                           setSelectedUrl(item.url);
@@ -300,8 +323,14 @@ export function MediaLibraryModal({
                         }}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={item.url} alt="" className={styles.cardThumb} />
-                        <span className={styles.cardLabel}>{titleFromFilename(item.filename)}</span>
+                        <img
+                          src={item.url}
+                          alt=""
+                          className={styles.cardThumb}
+                        />
+                        <span className={styles.cardLabel}>
+                          {titleFromFilename(item.filename)}
+                        </span>
                       </button>
                     );
                   })}
@@ -321,7 +350,7 @@ export function MediaLibraryModal({
                     <dl className={styles.detailsList}>
                       <div>
                         <dt>File name</dt>
-                        <dd>{selected?.filename ?? "External / current"}</dd>
+                        <dd>{selected?.filename ?? 'External / current'}</dd>
                       </div>
                       <div>
                         <dt>Uploaded</dt>
@@ -333,18 +362,22 @@ export function MediaLibraryModal({
                       </div>
                       <div>
                         <dt>URL</dt>
-                        <dd className={styles.detailsUrl}>{selected?.url ?? selectedUrl}</dd>
+                        <dd className={styles.detailsUrl}>
+                          {selected?.url ?? selectedUrl}
+                        </dd>
                       </div>
                     </dl>
                   </>
                 ) : (
-                  <p className={styles.detailsEmpty}>Select an image to see details.</p>
+                  <p className={styles.detailsEmpty}>
+                    Select an image to see details.
+                  </p>
                 )}
               </aside>
             </div>
           ) : null}
 
-          {tab === "url" ? (
+          {tab === 'url' ? (
             <div className={styles.urlPane}>
               <label className={styles.urlLabel} htmlFor={`${titleId}-url`}>
                 Image URL
@@ -364,7 +397,9 @@ export function MediaLibraryModal({
                 <div className={styles.urlPreview}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={normalizeCmsImageSrc(urlDraft.trim()) || urlDraft.trim()}
+                    src={
+                      normalizeCmsImageSrc(urlDraft.trim()) || urlDraft.trim()
+                    }
                     alt=""
                     className={styles.detailsPreview}
                   />

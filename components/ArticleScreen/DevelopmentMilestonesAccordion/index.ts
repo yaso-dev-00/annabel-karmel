@@ -1,1 +1,1 @@
-export * from "./development-milestones-accordion";
+export * from './development-milestones-accordion';

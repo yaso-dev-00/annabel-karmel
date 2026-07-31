@@ -1,14 +1,18 @@
-import { FoodCategoryAccordion } from "@/components/ArticleScreen/FoodCategoryAccordion";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { schoolsAccordionItems, schoolsIntro, schoolsRelatedArticles } from "@/data/schools-page";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+import { FoodCategoryAccordion } from '@/components/ArticleScreen/FoodCategoryAccordion';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import {
+  schoolsAccordionItems,
+  schoolsIntro,
+  schoolsRelatedArticles,
+} from '@/data/schools-page';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Schools | Child Development, Health and Learning | Annabel Karmel",
+  title: 'Schools | Child Development, Health and Learning | Annabel Karmel',
   description:
     "Expert school advice from headteacher Karen Collett on choosing the right school, teacher relationships, school meals, phonics, and supporting your child's learning.",
 };
@@ -22,7 +26,10 @@ export default function SchoolsPage() {
           <p className={styles.intro}>{schoolsIntro}</p>
 
           <div className="mt-[28px]">
-            <FoodCategoryAccordion items={schoolsAccordionItems} defaultOpenTitle={null} />
+            <FoodCategoryAccordion
+              items={schoolsAccordionItems}
+              defaultOpenTitle={null}
+            />
           </div>
 
           <div className="mt-[90px] text-center">

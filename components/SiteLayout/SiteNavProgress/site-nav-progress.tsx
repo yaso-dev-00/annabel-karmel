@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { usePathname, useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { usePathname, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 
-type ProgressPhase = "idle" | "loading" | "completing";
+type ProgressPhase = 'idle' | 'loading' | 'completing';
 
 function SiteNavProgressInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [phase, setPhase] = useState<ProgressPhase>("idle");
+  const [phase, setPhase] = useState<ProgressPhase>('idle');
   const [animationKey, setAnimationKey] = useState(0);
   const isNavigatingRef = useRef(false);
   const hideTimerRef = useRef<number | undefined>(undefined);
-  const routeKeyRef = useRef("");
-  const isPreviewFrame = pathname === "/homepage-preview-frame";
+  const routeKeyRef = useRef('');
+  const isPreviewFrame = pathname === '/homepage-preview-frame';
 
   const start = useCallback(() => {
     window.clearTimeout(hideTimerRef.current);
     isNavigatingRef.current = true;
     setAnimationKey((key) => key + 1);
-    setPhase("loading");
+    setPhase('loading');
   }, []);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function SiteNavProgressInner() {
 
     const routeKey = `${pathname}?${searchParams.toString()}`;
 
-    if (routeKeyRef.current === "") {
+    if (routeKeyRef.current === '') {
       routeKeyRef.current = routeKey;
       return;
     }
@@ -43,8 +43,8 @@ function SiteNavProgressInner() {
     }
 
     isNavigatingRef.current = false;
-    setPhase("completing");
-    hideTimerRef.current = window.setTimeout(() => setPhase("idle"), 350);
+    setPhase('completing');
+    hideTimerRef.current = window.setTimeout(() => setPhase('idle'), 350);
   }, [pathname, searchParams, isPreviewFrame]);
 
   useEffect(() => {
@@ -59,23 +59,23 @@ function SiteNavProgressInner() {
         return;
       }
 
-      const anchor = (event.target as Element | null)?.closest("a");
+      const anchor = (event.target as Element | null)?.closest('a');
       if (!anchor) {
         return;
       }
 
-      const href = anchor.getAttribute("href");
+      const href = anchor.getAttribute('href');
       if (
         !href ||
-        href.startsWith("#") ||
-        href.startsWith("mailto:") ||
-        href.startsWith("tel:") ||
-        href.startsWith("javascript:")
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        href.startsWith('javascript:')
       ) {
         return;
       }
 
-      if (anchor.hasAttribute("download") || anchor.target === "_blank") {
+      if (anchor.hasAttribute('download') || anchor.target === '_blank') {
         return;
       }
 
@@ -99,15 +99,15 @@ function SiteNavProgressInner() {
       start();
     };
 
-    document.addEventListener("click", handleClick, true);
-    return () => document.removeEventListener("click", handleClick, true);
+    document.addEventListener('click', handleClick, true);
+    return () => document.removeEventListener('click', handleClick, true);
   }, [start, isPreviewFrame]);
 
   useEffect(() => {
     return () => window.clearTimeout(hideTimerRef.current);
   }, []);
 
-  if (isPreviewFrame || phase === "idle") {
+  if (isPreviewFrame || phase === 'idle') {
     return null;
   }
 

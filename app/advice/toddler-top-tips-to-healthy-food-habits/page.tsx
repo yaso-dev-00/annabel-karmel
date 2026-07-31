@@ -1,7 +1,7 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   gemmaExpertHref,
   toddlerTopTips,
@@ -12,19 +12,21 @@ import {
   toddlersTeensUrl,
   ttabLogoSrc,
   type ToddlerFoodTipLink,
-} from "@/data/toddler-top-tips-healthy-food-habits-page";
-import type { Metadata } from "next";
-import Link from "next/link";
-import styles from "./page.module.css";
+} from '@/data/toddler-top-tips-healthy-food-habits-page';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Toddler Top Tips to Healthy Food Habits | Annabel Karmel",
+  title: 'Toddler Top Tips to Healthy Food Habits | Annabel Karmel',
   description:
-    "Top tips from Annabel Karmel and ToddlersTeensAndBetween to help your little eater develop healthy mealtimes habits and a smoother food experience for all.",
+    'Top tips from Annabel Karmel and ToddlersTeensAndBetween to help your little eater develop healthy mealtimes habits and a smoother food experience for all.',
 };
 
-function isTipLink(part: string | ToddlerFoodTipLink): part is ToddlerFoodTipLink {
-  return typeof part === "object";
+function isTipLink(
+  part: string | ToddlerFoodTipLink,
+): part is ToddlerFoodTipLink {
+  return typeof part === 'object';
 }
 
 function TipBody({ tip }: { tip: (typeof toddlerTopTips)[number] }) {
@@ -50,7 +52,9 @@ function TipBody({ tip }: { tip: (typeof toddlerTopTips)[number] }) {
     );
   }
 
-  return <p className={`${styles.tipBody} mt-[30px]! pl-[30px]!`}>{tip.body}</p>;
+  return (
+    <p className={`${styles.tipBody} mt-[30px]! pl-[30px]!`}>{tip.body}</p>
+  );
 }
 
 export default function ToddlerTopTipsHealthyFoodHabitsPage() {
@@ -66,18 +70,24 @@ export default function ToddlerTopTipsHealthyFoodHabitsPage() {
           ))}
 
           <p className={styles.bodyText}>
-            {toddlerTopTipsLead.split("ToddlersTeensAndBetween")[0]}
-            <Link href={toddlersTeensUrl} className={styles.inlineLink} target="_blank" rel="noreferrer">
+            {toddlerTopTipsLead.split('ToddlersTeensAndBetween')[0]}
+            <Link
+              href={toddlersTeensUrl}
+              className={styles.inlineLink}
+              target="_blank"
+              rel="noreferrer"
+            >
               ToddlersTeensAndBetween
             </Link>
-            {toddlerTopTipsLead.split("ToddlersTeensAndBetween")[1]}
+            {toddlerTopTipsLead.split('ToddlersTeensAndBetween')[1]}
           </p>
 
           <ol className={styles.tipsList}>
             {toddlerTopTips.map((tip, index) => (
               <li key={tip.title} className={styles.tipItem}>
                 <p className={styles.tipBody}>
-                  {index + 1}. <strong className={styles.tipTitle}>{tip.title}</strong>
+                  {index + 1}.{' '}
+                  <strong className={styles.tipTitle}>{tip.title}</strong>
                 </p>
                 <TipBody tip={tip} />
               </li>
@@ -85,15 +95,20 @@ export default function ToddlerTopTipsHealthyFoodHabitsPage() {
           </ol>
 
           <p className={styles.closing}>
-            If you&apos;d like more support with the behaviour of your toddler, you can subscribe to Toddlers Teens and
-            Inbetweens&apos; course{" "}
-            <Link href={toddlersTeensCourseUrl} className={styles.closingLink} target="_blank" rel="noreferrer">
+            If you&apos;d like more support with the behaviour of your toddler,
+            you can subscribe to Toddlers Teens and Inbetweens&apos; course{' '}
+            <Link
+              href={toddlersTeensCourseUrl}
+              className={styles.closingLink}
+              target="_blank"
+              rel="noreferrer"
+            >
               <strong>HERE</strong>
-            </Link>{" "}
-            or be in touch with Toddler expert Gemma on the{" "}
+            </Link>{' '}
+            or be in touch with Toddler expert Gemma on the{' '}
             <Link href={gemmaExpertHref} className={styles.closingLink}>
               AK expert page
-            </Link>{" "}
+            </Link>{' '}
             and book in a bespoke Troubleshooting Guidance Call today!
           </p>
 

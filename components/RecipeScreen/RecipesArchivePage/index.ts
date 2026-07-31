@@ -1,1 +1,1 @@
-export { RecipesArchivePageContent } from "./recipes-archive-page";
+export { RecipesArchivePageContent } from './recipes-archive-page';

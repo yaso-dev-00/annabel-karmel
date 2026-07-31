@@ -1,9 +1,9 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import styles from "./section-background-image.module.css";
+import styles from './section-background-image.module.css';
 
-type ObjectFit = "cover" | "contain";
-type MobileLayout = "fill" | "fullWidth";
+type ObjectFit = 'cover' | 'contain';
+type MobileLayout = 'fill' | 'fullWidth';
 
 type SectionBackgroundImageProps = {
   desktopSrc: string;
@@ -24,13 +24,13 @@ type SectionBackgroundImageProps = {
 export function SectionBackgroundImage({
   desktopSrc,
   mobileSrc,
-  alt = "",
+  alt = '',
   priority = false,
-  desktopFit = "cover",
-  mobileFit = "cover",
-  desktopPosition = "top center",
-  mobilePosition = "top center",
-  mobileLayout = "fill",
+  desktopFit = 'cover',
+  mobileFit = 'cover',
+  desktopPosition = 'top center',
+  mobilePosition = 'top center',
+  mobileLayout = 'fill',
   mobileImageWidth = 880,
   mobileImageHeight = 10500,
   unoptimized = false,
@@ -54,7 +54,7 @@ export function SectionBackgroundImage({
         />
       ) : null}
       {mobile ? (
-        mobileLayout === "fullWidth" ? (
+        mobileLayout === 'fullWidth' ? (
           <div className={`${styles.mobileFullWidth} ${styles.mobileOnly}`}>
             <Image
               src={mobile}
@@ -86,10 +86,10 @@ export function SectionBackgroundImage({
 
 export function SingleSectionBackgroundImage({
   src,
-  alt = "",
+  alt = '',
   priority = false,
-  fit = "cover",
-  position = "center",
+  fit = 'cover',
+  position = 'center',
   unoptimized = false,
 }: {
   src: string;

@@ -1,8 +1,11 @@
-"use client";
+'use client';
 
-import type { RecipeTaxonomyGroup, RecipeTaxonomyKind } from "@/data/recipe-taxonomies";
-import type { RecipeTaxonomyRef } from "@/lib/recipes/types";
-import styles from "./recipe-editor.module.css";
+import type {
+  RecipeTaxonomyGroup,
+  RecipeTaxonomyKind,
+} from '@/data/recipe-taxonomies';
+import type { RecipeTaxonomyRef } from '@/lib/recipes/types';
+import styles from './recipe-editor.module.css';
 
 type RecipeCategoriesEditorProps = {
   taxonomies: RecipeTaxonomyRef[];
@@ -19,11 +22,17 @@ function stripPrimary(ref: RecipeTaxonomyRef): RecipeTaxonomyRef {
   return next;
 }
 
-function refsForKind(taxonomies: RecipeTaxonomyRef[], kind: RecipeTaxonomyKind) {
+function refsForKind(
+  taxonomies: RecipeTaxonomyRef[],
+  kind: RecipeTaxonomyKind,
+) {
   return taxonomies.filter((ref) => ref.kind === kind);
 }
 
-function ensurePrimary(list: RecipeTaxonomyRef[], kind: RecipeTaxonomyKind): RecipeTaxonomyRef[] {
+function ensurePrimary(
+  list: RecipeTaxonomyRef[],
+  kind: RecipeTaxonomyKind,
+): RecipeTaxonomyRef[] {
   const kindRefs = list.filter((ref) => ref.kind === kind);
   const others = list.filter((ref) => ref.kind !== kind);
   if (kindRefs.length <= 1) {
@@ -59,11 +68,15 @@ export function RecipeCategoriesEditor({
     taxonomies.some((ref) => ref.kind === kind && ref.slug === slug);
 
   const isPrimary = (kind: RecipeTaxonomyKind, slug: string) =>
-    taxonomies.some((ref) => ref.kind === kind && ref.slug === slug && ref.primary === true);
+    taxonomies.some(
+      (ref) => ref.kind === kind && ref.slug === slug && ref.primary === true,
+    );
 
   const toggle = (kind: RecipeTaxonomyKind, slug: string) => {
     if (isSelected(kind, slug)) {
-      const next = taxonomies.filter((ref) => !(ref.kind === kind && ref.slug === slug));
+      const next = taxonomies.filter(
+        (ref) => !(ref.kind === kind && ref.slug === slug),
+      );
       onChange(ensurePrimary(next, kind));
       return;
     }
@@ -87,7 +100,8 @@ export function RecipeCategoriesEditor({
         <div className={styles.sectionHeaderCol}>
           <h2 className="cardSectionTitle">Categories</h2>
           <p className={styles.sectionHint}>
-            Select categories for this recipe. With two or more in a group, choose a primary.
+            Select categories for this recipe. With two or more in a group,
+            choose a primary.
           </p>
         </div>
       ) : (

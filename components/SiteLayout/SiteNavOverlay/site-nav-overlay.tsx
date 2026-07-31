@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { megaMenus, type MegaMenu, type NavLink } from "@/data/site-content";
-import { isNavLinkActive } from "@/lib/nav-active";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { megaMenus, type MegaMenu, type NavLink } from '@/data/site-content';
+import { isNavLinkActive } from '@/lib/nav-active';
 
 const NAV_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -44,8 +44,8 @@ function OverlayLink({
   return (
     <Link
       href={href}
-      className={`nav-overlay-link ${active ? "is-active" : ""} ${className ?? ""}`}
-      aria-current={active ? "page" : undefined}
+      className={`nav-overlay-link ${active ? 'is-active' : ''} ${className ?? ''}`}
+      aria-current={active ? 'page' : undefined}
       onClick={onNavigate}
       onMouseEnter={onMouseEnter}
       onFocus={onFocus}
@@ -55,13 +55,21 @@ function OverlayLink({
   );
 }
 
-function MegaMenuContent({ menu, onClose }: { menu: MegaMenu; onClose: () => void }) {
+function MegaMenuContent({
+  menu,
+  onClose,
+}: {
+  menu: MegaMenu;
+  onClose: () => void;
+}) {
   const columnCount = menu.groups.length;
 
   return (
     <div
       className="nav-overlay-mega-grid"
-      style={{ gridTemplateColumns: `repeat(${columnCount}, minmax(0, max-content))` }}
+      style={{
+        gridTemplateColumns: `repeat(${columnCount}, minmax(0, max-content))`,
+      }}
     >
       {menu.groups.map((group) => (
         <section key={group.title} className="nav-overlay-column">
@@ -69,7 +77,11 @@ function MegaMenuContent({ menu, onClose }: { menu: MegaMenu; onClose: () => voi
           <ul>
             {group.links.map((link) => (
               <li key={link.label}>
-                <OverlayLink href={link.href} label={link.label} onNavigate={onClose} />
+                <OverlayLink
+                  href={link.href}
+                  label={link.label}
+                  onNavigate={onClose}
+                />
               </li>
             ))}
           </ul>
@@ -96,13 +108,17 @@ function DropdownMenuContent({
   const links = menu.groups.flatMap((group) => group.links);
 
   const activeNestedLink = links.find(
-    (link) => link.children?.length && activeNestedKey === nestedKey(menu.label, link.label),
+    (link) =>
+      link.children?.length &&
+      activeNestedKey === nestedKey(menu.label, link.label),
   );
 
   const renderPrimaryLink = (link: NavLink) => {
     const key = nestedKey(menu.label, link.label);
     const linkActive = isNavLinkActive(pathname, link.href);
-    const childActive = link.children?.some((child) => isNavLinkActive(pathname, child.href)) ?? false;
+    const childActive =
+      link.children?.some((child) => isNavLinkActive(pathname, child.href)) ??
+      false;
     const isNestedOpen = activeNestedKey === key;
 
     if (link.children?.length) {
@@ -110,8 +126,8 @@ function DropdownMenuContent({
         <li key={link.label}>
           <Link
             href={link.href}
-            className={`nav-overlay-link nav-overlay-nested-trigger ${linkActive || childActive || isNestedOpen ? "is-active" : ""}`}
-            aria-current={linkActive ? "page" : undefined}
+            className={`nav-overlay-link nav-overlay-nested-trigger ${linkActive || childActive || isNestedOpen ? 'is-active' : ''}`}
+            aria-current={linkActive ? 'page' : undefined}
             aria-expanded={isNestedOpen}
             onMouseEnter={() => onNestedChange(key)}
             onFocus={() => onNestedChange(key)}
@@ -145,7 +161,9 @@ function DropdownMenuContent({
       className="nav-overlay-dropdown"
       onMouseLeave={() => onNestedChange(null)}
     >
-      <ul className="nav-overlay-dropdown-primary">{links.map((link) => renderPrimaryLink(link))}</ul>
+      <ul className="nav-overlay-dropdown-primary">
+        {links.map((link) => renderPrimaryLink(link))}
+      </ul>
 
       <AnimatePresence mode="wait">
         {activeNestedLink?.children?.length ? (
@@ -155,7 +173,10 @@ function DropdownMenuContent({
             initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 24 }}
             animate={reducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
             exit={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 16 }}
-            transition={{ duration: reducedMotion ? 0.12 : 0.32, ease: NAV_EASE }}
+            transition={{
+              duration: reducedMotion ? 0.12 : 0.32,
+              ease: NAV_EASE,
+            }}
           >
             <p className="nav-overlay-nested-title">{activeNestedLink.label}</p>
             <ul>
@@ -170,7 +191,11 @@ function DropdownMenuContent({
                     ease: NAV_EASE,
                   }}
                 >
-                  <OverlayLink href={child.href} label={child.label} onNavigate={onClose} />
+                  <OverlayLink
+                    href={child.href}
+                    label={child.label}
+                    onNavigate={onClose}
+                  />
                 </motion.li>
               ))}
             </ul>
@@ -192,12 +217,17 @@ export function SiteNavOverlay({
   onOverlayLeave,
 }: SiteNavOverlayProps) {
   const reducedMotion = useReducedMotion();
-  const activeMenu = megaMenus.find((menu) => menu.label === activeMenuLabel) ?? null;
+  const activeMenu =
+    megaMenus.find((menu) => menu.label === activeMenuLabel) ?? null;
 
   return (
     <AnimatePresence>
       {activeMenu ? (
-        <div key="nav-overlay-root" className="nav-overlay-root" aria-hidden={false}>
+        <div
+          key="nav-overlay-root"
+          className="nav-overlay-root"
+          aria-hidden={false}
+        >
           <motion.button
             type="button"
             className="nav-overlay-scrim"
@@ -205,7 +235,10 @@ export function SiteNavOverlay({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: reducedMotion ? 0.12 : 0.28, ease: NAV_EASE }}
+            transition={{
+              duration: reducedMotion ? 0.12 : 0.28,
+              ease: NAV_EASE,
+            }}
             onClick={onClose}
           />
           <div
@@ -219,7 +252,7 @@ export function SiteNavOverlay({
             <div className="nav-overlay-inner">
               {megaMenus.map((menu) => {
                 const isActive = menu.label === activeMenu.label;
-                const menuIsDropdown = menu.layout === "dropdown";
+                const menuIsDropdown = menu.layout === 'dropdown';
 
                 return (
                   <div

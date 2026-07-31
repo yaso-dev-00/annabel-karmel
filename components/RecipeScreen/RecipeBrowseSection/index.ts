@@ -1,1 +1,1 @@
-export { RecipeBrowseSection } from "./recipe-browse-section";
+export { RecipeBrowseSection } from './recipe-browse-section';

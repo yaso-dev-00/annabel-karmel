@@ -1,1 +1,1 @@
-export * from "./site-nav-progress";
+export * from './site-nav-progress';

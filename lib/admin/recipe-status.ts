@@ -1,5 +1,8 @@
-import type { AdviceArticle, AdviceArticleStatus } from "@/lib/content-blocks/types";
-import type { Recipe, RecipeStatus } from "@/lib/recipes/types";
+import type {
+  AdviceArticle,
+  AdviceArticleStatus,
+} from '@/lib/content-blocks/types';
+import type { Recipe, RecipeStatus } from '@/lib/recipes/types';
 import {
   ADVICE_ARTICLE_STATUS_HINTS,
   ADVICE_ARTICLE_STATUS_LABELS,
@@ -11,14 +14,14 @@ import {
   isAdviceArticlePublic,
   normalizeAdviceArticle,
   resolveAdviceArticleStatus,
-} from "@/lib/admin/advice-article-status";
+} from '@/lib/admin/advice-article-status';
 
 /** Recipe statuses — Private is not offered for recipes. */
 export const RECIPE_STATUSES: RecipeStatus[] = [
-  "draft",
-  "published",
-  "scheduled",
-  "disabled",
+  'draft',
+  'published',
+  'scheduled',
+  'disabled',
 ];
 
 export const RECIPE_STATUS_LABELS: Record<RecipeStatus, string> = {
@@ -40,16 +43,16 @@ function asAdvice(recipe: Recipe): AdviceArticle {
 }
 
 function coerceRecipeStatus(status: string | undefined): RecipeStatus {
-  if (status === "private") return "draft";
+  if (status === 'private') return 'draft';
   if (
-    status === "draft" ||
-    status === "published" ||
-    status === "scheduled" ||
-    status === "disabled"
+    status === 'draft' ||
+    status === 'published' ||
+    status === 'scheduled' ||
+    status === 'disabled'
   ) {
     return status;
   }
-  return "draft";
+  return 'draft';
 }
 
 export function resolveRecipeStatus(recipe: Recipe): RecipeStatus {
@@ -57,25 +60,33 @@ export function resolveRecipeStatus(recipe: Recipe): RecipeStatus {
   return coerceRecipeStatus(resolved);
 }
 
-export function buildRecipeSavePayload(recipe: Recipe, options?: { publish?: boolean }): Recipe {
+export function buildRecipeSavePayload(
+  recipe: Recipe,
+  options?: { publish?: boolean },
+): Recipe {
   const withStatus: Recipe = {
     ...recipe,
     status: coerceRecipeStatus(recipe.status),
   };
-  return buildAdviceArticleSavePayload(asAdvice(withStatus), options) as unknown as Recipe;
+  return buildAdviceArticleSavePayload(
+    asAdvice(withStatus),
+    options,
+  ) as unknown as Recipe;
 }
 
 export function getRecipeStatusPatch(
   recipe: Recipe,
-): Pick<Recipe, "status" | "published_at" | "scheduled_at"> {
+): Pick<Recipe, 'status' | 'published_at' | 'scheduled_at'> {
   return getAdviceArticleStatusPatch(asAdvice(recipe)) as Pick<
     Recipe,
-    "status" | "published_at" | "scheduled_at"
+    'status' | 'published_at' | 'scheduled_at'
   >;
 }
 
 export function normalizeRecipe(recipe: Recipe): Recipe {
-  const normalized = normalizeAdviceArticle(asAdvice(recipe)) as unknown as Recipe;
+  const normalized = normalizeAdviceArticle(
+    asAdvice(recipe),
+  ) as unknown as Recipe;
   return {
     ...normalized,
     status: coerceRecipeStatus(normalized.status),
@@ -115,13 +126,13 @@ export function recipeStatusDateMeta(recipe: Recipe): {
   iso: string | null;
 } {
   switch (resolveRecipeStatus(recipe)) {
-    case "published":
-      return { label: "Published at", iso: recipe.published_at };
-    case "scheduled":
-      return { label: "Scheduled at", iso: recipe.scheduled_at ?? null };
-    case "disabled":
-      return { label: "Disabled at", iso: recipe.updated_at };
+    case 'published':
+      return { label: 'Published at', iso: recipe.published_at };
+    case 'scheduled':
+      return { label: 'Scheduled at', iso: recipe.scheduled_at ?? null };
+    case 'disabled':
+      return { label: 'Disabled at', iso: recipe.updated_at };
     default:
-      return { label: "Modified at", iso: recipe.updated_at };
+      return { label: 'Modified at', iso: recipe.updated_at };
   }
 }

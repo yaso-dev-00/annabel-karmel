@@ -1,1 +1,1 @@
-export { BlockVisibilityIcon } from "./block-visibility-icon";
+export { BlockVisibilityIcon } from './block-visibility-icon';

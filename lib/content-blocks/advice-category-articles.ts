@@ -1,11 +1,11 @@
-import type { RelatedArticleItem } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { babySleepAdviceArticles } from "@/data/baby-sleep-advice-listing";
-import { breastfeedingAdviceArticles } from "@/data/breastfeeding-advice-listing";
-import { bottleFeedingArticles } from "@/data/bottle-feeding-listing";
-import { childHealthDevelopmentArticles } from "@/data/child-health-development-listing";
-import { pregnancyTipsArticles } from "@/data/pregnancy-advice-listings";
-import { resolveListingHref } from "@/data/resolve-article-listing";
-import type { AdviceCategorySlug } from "@/lib/content-blocks/advice-categories";
+import type { RelatedArticleItem } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { babySleepAdviceArticles } from '@/data/baby-sleep-advice-listing';
+import { breastfeedingAdviceArticles } from '@/data/breastfeeding-advice-listing';
+import { bottleFeedingArticles } from '@/data/bottle-feeding-listing';
+import { childHealthDevelopmentArticles } from '@/data/child-health-development-listing';
+import { pregnancyTipsArticles } from '@/data/pregnancy-advice-listings';
+import { resolveListingHref } from '@/data/resolve-article-listing';
+import type { AdviceCategorySlug } from '@/lib/content-blocks/advice-categories';
 
 export type AdviceCategoryArticleOption = {
   slug: string;
@@ -20,7 +20,9 @@ type CategoryArticleSource = {
   image: string;
 };
 
-function toCategoryArticleOption(article: CategoryArticleSource): AdviceCategoryArticleOption {
+function toCategoryArticleOption(
+  article: CategoryArticleSource,
+): AdviceCategoryArticleOption {
   const href = resolveListingHref(`/advice/${article.slug}`);
   return {
     slug: article.slug,
@@ -30,7 +32,9 @@ function toCategoryArticleOption(article: CategoryArticleSource): AdviceCategory
   };
 }
 
-function toRelatedArticleItem(article: AdviceCategoryArticleOption): RelatedArticleItem {
+function toRelatedArticleItem(
+  article: AdviceCategoryArticleOption,
+): RelatedArticleItem {
   return {
     href: article.href,
     title: article.title,
@@ -38,23 +42,30 @@ function toRelatedArticleItem(article: AdviceCategoryArticleOption): RelatedArti
   };
 }
 
-const CATEGORY_ARTICLE_SOURCES: Record<AdviceCategorySlug, CategoryArticleSource[]> = {
-  "breastfeeding-advice": breastfeedingAdviceArticles,
-  "bottle-feeding-tips": bottleFeedingArticles,
-  "baby-sleep-advice": babySleepAdviceArticles,
-  "pregnancy-tips": pregnancyTipsArticles.map((article) => ({
-    slug: article.href.replace(/^\/advice\//, ""),
+const CATEGORY_ARTICLE_SOURCES: Record<
+  AdviceCategorySlug,
+  CategoryArticleSource[]
+> = {
+  'breastfeeding-advice': breastfeedingAdviceArticles,
+  'bottle-feeding-tips': bottleFeedingArticles,
+  'baby-sleep-advice': babySleepAdviceArticles,
+  'pregnancy-tips': pregnancyTipsArticles.map((article) => ({
+    slug: article.href.replace(/^\/advice\//, ''),
     title: article.title,
     image: article.image,
   })),
-  "child-health-and-development": childHealthDevelopmentArticles.map((article) => ({
-    slug: article.href.replace(/^\/advice\//, ""),
-    title: article.title,
-    image: article.image,
-  })),
+  'child-health-and-development': childHealthDevelopmentArticles.map(
+    (article) => ({
+      slug: article.href.replace(/^\/advice\//, ''),
+      title: article.title,
+      image: article.image,
+    }),
+  ),
 };
 
-export function getAdviceCategoryArticleOptions(categorySlug: string): AdviceCategoryArticleOption[] {
+export function getAdviceCategoryArticleOptions(
+  categorySlug: string,
+): AdviceCategoryArticleOption[] {
   const articles = CATEGORY_ARTICLE_SOURCES[categorySlug as AdviceCategorySlug];
   if (!articles) return [];
   return articles.map(toCategoryArticleOption);

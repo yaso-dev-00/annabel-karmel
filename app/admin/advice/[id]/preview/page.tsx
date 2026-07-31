@@ -1,8 +1,8 @@
-import { PreviewPageClient } from "@/components/Admin/AdviceArticleEditor/preview-page-client";
-import { DisabledArticlePreview } from "@/components/Admin/AdviceArticleEditor/disabled-article-preview";
-import { getAdviceArticleById } from "@/lib/admin/advice-articles-store";
-import { isAdviceArticleDisabled } from "@/lib/admin/advice-article-status";
-import { notFound } from "next/navigation";
+import { PreviewPageClient } from '@/components/Admin/AdviceArticleEditor/preview-page-client';
+import { DisabledArticlePreview } from '@/components/Admin/AdviceArticleEditor/disabled-article-preview';
+import { getAdviceArticleById } from '@/lib/admin/advice-articles-store';
+import { isAdviceArticleDisabled } from '@/lib/admin/advice-article-status';
+import { notFound } from 'next/navigation';
 
 type PageProps = { params: Promise<{ id: string }> };
 

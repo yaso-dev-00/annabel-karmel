@@ -1,12 +1,12 @@
-import type { RecipeTaxonomyKind } from "@/data/recipe-taxonomies";
-import type { RecipeSearchFilters } from "@/lib/recipe-search";
+import type { RecipeTaxonomyKind } from '@/data/recipe-taxonomies';
+import type { RecipeSearchFilters } from '@/lib/recipe-search';
 
 function pickParam(
   searchParams: Record<string, string | string[] | undefined>,
   key: string,
 ): string | undefined {
   const value = searchParams[key];
-  if (typeof value === "string") return value;
+  if (typeof value === 'string') return value;
   if (Array.isArray(value)) return value[0];
   return undefined;
 }
@@ -19,27 +19,27 @@ export function parseRecipeSearchParams(
 ): RecipeSearchFilters {
   const filters: RecipeSearchFilters = {};
 
-  if (primaryKind === "recipe-category") {
+  if (primaryKind === 'recipe-category') {
     filters.age = primarySlug;
-  } else if (primaryKind === "meal-time") {
+  } else if (primaryKind === 'meal-time') {
     filters.mealTime = primarySlug;
   } else {
     filters.freeFrom = primarySlug;
   }
 
-  const ageParam = pickParam(searchParams, "age");
-  const mealParam = pickParam(searchParams, "meal-time");
-  const freeParam = pickParam(searchParams, "free-from");
-  const q = pickParam(searchParams, "q");
-  const pageParam = pickParam(searchParams, "page");
+  const ageParam = pickParam(searchParams, 'age');
+  const mealParam = pickParam(searchParams, 'meal-time');
+  const freeParam = pickParam(searchParams, 'free-from');
+  const q = pickParam(searchParams, 'q');
+  const pageParam = pickParam(searchParams, 'page');
 
-  if (primaryKind !== "recipe-category" && ageParam) {
+  if (primaryKind !== 'recipe-category' && ageParam) {
     filters.age = ageParam;
   }
-  if (primaryKind !== "meal-time" && mealParam) {
+  if (primaryKind !== 'meal-time' && mealParam) {
     filters.mealTime = mealParam;
   }
-  if (primaryKind !== "allergen" && freeParam) {
+  if (primaryKind !== 'allergen' && freeParam) {
     filters.freeFrom = freeParam;
   }
   if (q) {
@@ -61,24 +61,24 @@ export function buildRecipeListingUrl(filters: RecipeSearchFilters): string {
   const { age, mealTime, freeFrom, q, page } = filters;
   const query = new URLSearchParams();
 
-  let base = "/recipe-category/family-recipes";
+  let base = '/recipe-category/family-recipes';
 
   if (age) {
     base = `/recipe-category/${age}`;
-    if (mealTime) query.set("meal-time", mealTime);
-    if (freeFrom) query.set("free-from", freeFrom);
+    if (mealTime) query.set('meal-time', mealTime);
+    if (freeFrom) query.set('free-from', freeFrom);
   } else if (mealTime) {
     base = `/meal-time/${mealTime}`;
-    if (freeFrom) query.set("free-from", freeFrom);
+    if (freeFrom) query.set('free-from', freeFrom);
   } else if (freeFrom) {
     base = `/allergen/${freeFrom}`;
   }
 
   if (q?.trim()) {
-    query.set("q", q.trim());
+    query.set('q', q.trim());
   }
   if (page && page > 1) {
-    query.set("page", String(page));
+    query.set('page', String(page));
   }
 
   const qs = query.toString();
@@ -100,9 +100,9 @@ export function buildPaginationHref(
 
 export function filtersToFinderValues(filters: RecipeSearchFilters) {
   return {
-    age: filters.age ?? "",
-    mealTime: filters.mealTime ?? "",
-    freeFrom: filters.freeFrom ?? "",
-    q: filters.q ?? "",
+    age: filters.age ?? '',
+    mealTime: filters.mealTime ?? '',
+    freeFrom: filters.freeFrom ?? '',
+    q: filters.q ?? '',
   };
 }

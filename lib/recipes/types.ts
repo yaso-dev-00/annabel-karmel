@@ -1,14 +1,14 @@
-import type { RecipeTaxonomyKind } from "@/data/recipe-taxonomies";
+import type { RecipeTaxonomyKind } from '@/data/recipe-taxonomies';
 
-export type RecipeStatus = "draft" | "published" | "scheduled" | "disabled";
+export type RecipeStatus = 'draft' | 'published' | 'scheduled' | 'disabled';
 
-export type RecipeVisibility = "mobile" | "desktop" | "both";
+export type RecipeVisibility = 'mobile' | 'desktop' | 'both';
 
-export type RecipeDifficulty = "easy" | "medium" | "involved";
+export type RecipeDifficulty = 'easy' | 'medium' | 'involved';
 
-export type RecipeYieldType = "serves" | "makes";
+export type RecipeYieldType = 'serves' | 'makes';
 
-export type RecipeVideoProvider = "youtube" | "vimeo" | "upload";
+export type RecipeVideoProvider = 'youtube' | 'vimeo' | 'upload';
 
 export type RecipeIngredient = {
   qty: string;
@@ -132,27 +132,38 @@ export type RecipesStore = {
   recipes: Recipe[];
 };
 
-export const RECIPE_INGREDIENT_UNITS = ["g", "ml", "tbsp", "tsp", "whole"] as const;
+export const RECIPE_INGREDIENT_UNITS = [
+  'g',
+  'ml',
+  'tbsp',
+  'tsp',
+  'whole',
+] as const;
 
-export const RECIPE_DIFFICULTIES: { value: RecipeDifficulty; label: string }[] = [
-  { value: "easy", label: "Easy" },
-  { value: "medium", label: "Medium" },
-  { value: "involved", label: "Involved" },
-];
+export const RECIPE_DIFFICULTIES: { value: RecipeDifficulty; label: string }[] =
+  [
+    { value: 'easy', label: 'Easy' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'involved', label: 'Involved' },
+  ];
 
 export const RECIPE_YIELD_TYPES: { value: RecipeYieldType; label: string }[] = [
-  { value: "serves", label: "Serves" },
-  { value: "makes", label: "Makes" },
+  { value: 'serves', label: 'Serves' },
+  { value: 'makes', label: 'Makes' },
 ];
 
-export const RECIPE_VIDEO_PROVIDERS: { value: RecipeVideoProvider; label: string }[] = [
-  { value: "youtube", label: "YouTube" },
-  { value: "vimeo", label: "Vimeo" },
-  { value: "upload", label: "Upload URL" },
+export const RECIPE_VIDEO_PROVIDERS: {
+  value: RecipeVideoProvider;
+  label: string;
+}[] = [
+  { value: 'youtube', label: 'YouTube' },
+  { value: 'vimeo', label: 'Vimeo' },
+  { value: 'upload', label: 'Upload URL' },
 ];
 
-export const RECIPE_VISIBILITIES: { value: RecipeVisibility; label: string }[] = [
-  { value: "mobile", label: "Mobile" },
-  { value: "desktop", label: "Desktop" },
-  { value: "both", label: "Both" },
-];
+export const RECIPE_VISIBILITIES: { value: RecipeVisibility; label: string }[] =
+  [
+    { value: 'mobile', label: 'Mobile' },
+    { value: 'desktop', label: 'Desktop' },
+    { value: 'both', label: 'Both' },
+  ];

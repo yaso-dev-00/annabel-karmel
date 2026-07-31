@@ -1,1 +1,1 @@
-export * from "./empower-form-select";
+export * from './empower-form-select';

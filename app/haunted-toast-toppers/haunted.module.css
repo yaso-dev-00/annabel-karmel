@@ -28,13 +28,12 @@
   color: var(--hover-color);
 }
 
- 
 .partnerLine a {
   display: inline-block;
   margin-left: 6px;
   vertical-align: middle;
-   margin-bottom: 30px;
-   margin-top: 20px;
+  margin-bottom: 30px;
+  margin-top: 20px;
 }
 
 .partnerLine img {
@@ -44,7 +43,7 @@
 
 .introText {
   margin: 0px auto 10px;
-  max-width:auto;
+  max-width: auto;
   text-align: center;
   font-family: var(--font-body);
   font-size: 22px;
@@ -130,22 +129,16 @@
 }
 
 @media (max-width: 900px) {
- 
- .recipeTitle
-  .introText {
-    
+  .recipeTitle .introText {
   }
 
   .blockHeading {
-    
   }
 
   .blockText,
   .methodList {
-    
   }
 
   .suitable {
-   
   }
 }

@@ -1,7 +1,10 @@
-"use client";
+'use client';
 
-import { DS_TYPOGRAPHY, type FontFamilyPreset } from "@/lib/design-system/tokens";
-import styles from "./font-family-field.module.css";
+import {
+  DS_TYPOGRAPHY,
+  type FontFamilyPreset,
+} from '@/lib/design-system/tokens';
+import styles from './font-family-field.module.css';
 
 type FontFamilyFieldProps = {
   value?: FontFamilyPreset;
@@ -17,7 +20,7 @@ export function FontFamilyField({ value, onChange }: FontFamilyFieldProps) {
         type="button"
         role="radio"
         aria-checked={!value}
-        className={`${styles.option} ${!value ? styles.optionActive : ""}`}
+        className={`${styles.option} ${!value ? styles.optionActive : ''}`}
         onClick={() => onChange(undefined)}
       >
         <span className={styles.sampleDefault}>Aa</span>
@@ -32,15 +35,18 @@ export function FontFamilyField({ value, onChange }: FontFamilyFieldProps) {
             type="button"
             role="radio"
             aria-checked={active}
-            className={`${styles.option} ${active ? styles.optionActive : ""}`}
+            className={`${styles.option} ${active ? styles.optionActive : ''}`}
             onClick={() => onChange(active ? undefined : preset.id)}
           >
-            <span className={styles.sample} style={{ fontFamily: preset.fontFamily }}>
+            <span
+              className={styles.sample}
+              style={{ fontFamily: preset.fontFamily }}
+            >
               {preset.sample}
             </span>
             <span className={styles.name}>{preset.label}</span>
             <span className={styles.hint}>
-              {preset.id === "primary" ? "Montserrat" : "Playfair Display"}
+              {preset.id === 'primary' ? 'Montserrat' : 'Playfair Display'}
             </span>
           </button>
         );

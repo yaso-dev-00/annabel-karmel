@@ -1,6 +1,6 @@
-import type { CSSProperties } from "react";
-import type { BlockSettings, ContentBlock } from "@/lib/content-blocks/types";
-import { normalizeCssLength } from "@/lib/content-blocks/css-length";
+import type { CSSProperties } from 'react';
+import type { BlockSettings, ContentBlock } from '@/lib/content-blocks/types';
+import { normalizeCssLength } from '@/lib/content-blocks/css-length';
 
 function imageSizeStyle(
   maxWidth?: string,
@@ -15,36 +15,37 @@ function imageSizeStyle(
   // Prefer aspect-ratio so desktop-tuned crops scale down on tablet/mobile.
   if (options?.responsiveAspect && widthPx > 0 && heightPx > 0) {
     return {
-      width: "100%",
-      maxWidth: "100%",
-      height: "auto",
+      width: '100%',
+      maxWidth: '100%',
+      height: 'auto',
       aspectRatio: `${widthPx} / ${heightPx}`,
-      objectFit: "cover",
+      objectFit: 'cover',
     };
   }
 
   return {
-    width: "100%",
-    maxWidth: maxWidth ?? "100%",
-    height: height || "auto",
-    objectFit: height ? "cover" : undefined,
+    width: '100%',
+    maxWidth: maxWidth ?? '100%',
+    height: height || 'auto',
+    objectFit: height ? 'cover' : undefined,
   };
 }
 
-export function getTwoColumnImageDisplayStyle(
-  image?: { width?: string; height?: string },
-): CSSProperties {
+export function getTwoColumnImageDisplayStyle(image?: {
+  width?: string;
+  height?: string;
+}): CSSProperties {
   if (image?.width || image?.height) {
     return {
-      display: "block",
+      display: 'block',
       ...imageSizeStyle(image.width, image.height, { responsiveAspect: true }),
     };
   }
   return {
-    display: "block",
-    width: "100%",
-    maxWidth: "100%",
-    height: "auto",
+    display: 'block',
+    width: '100%',
+    maxWidth: '100%',
+    height: 'auto',
   };
 }
 
@@ -60,19 +61,20 @@ export function getTwoColumnImageBleedStyle(
   return { margin: `-${normalized}` };
 }
 
-export function blockHasResizableImage(type: ContentBlock["type"]): boolean {  return (
-    type === "image" ||
-    type === "image_text" ||
-    type === "image_stack" ||
-    type === "hero" ||
-    type === "book_promo" ||
-    type === "author_bio" ||
-    type === "two_column"
+export function blockHasResizableImage(type: ContentBlock['type']): boolean {
+  return (
+    type === 'image' ||
+    type === 'image_text' ||
+    type === 'image_stack' ||
+    type === 'hero' ||
+    type === 'book_promo' ||
+    type === 'author_bio' ||
+    type === 'two_column'
   );
 }
 
 export function getImageStackImageIndices(block: ContentBlock): number[] {
-  if (block.type !== "image_stack") return [];
+  if (block.type !== 'image_stack') return [];
   return block.data.images
     .map((img, index) => (img.src?.trim() ? index : -1))
     .filter((index) => index >= 0);
@@ -81,19 +83,23 @@ export function getImageStackImageIndices(block: ContentBlock): number[] {
 /** Flat indices into left_blocks then right_blocks for two_column image mini-blocks with src. */
 export function getTwoColumnImageTargets(
   block: ContentBlock,
-): { column: "left" | "right"; index: number; flatIndex: number }[] {
-  if (block.type !== "two_column") return [];
-  const targets: { column: "left" | "right"; index: number; flatIndex: number }[] = [];
+): { column: 'left' | 'right'; index: number; flatIndex: number }[] {
+  if (block.type !== 'two_column') return [];
+  const targets: {
+    column: 'left' | 'right';
+    index: number;
+    flatIndex: number;
+  }[] = [];
   let flatIndex = 0;
   block.data.left_blocks.forEach((mini, index) => {
-    if (mini.type === "image" && mini.src?.trim()) {
-      targets.push({ column: "left", index, flatIndex });
+    if (mini.type === 'image' && mini.src?.trim()) {
+      targets.push({ column: 'left', index, flatIndex });
       flatIndex += 1;
     }
   });
   block.data.right_blocks.forEach((mini, index) => {
-    if (mini.type === "image" && mini.src?.trim()) {
-      targets.push({ column: "right", index, flatIndex });
+    if (mini.type === 'image' && mini.src?.trim()) {
+      targets.push({ column: 'right', index, flatIndex });
       flatIndex += 1;
     }
   });
@@ -102,19 +108,19 @@ export function getTwoColumnImageTargets(
 
 export function blockHasImageSource(block: ContentBlock): boolean {
   switch (block.type) {
-    case "image":
+    case 'image':
       return Boolean(block.data.src);
-    case "image_text":
+    case 'image_text':
       return Boolean(block.data.image_src);
-    case "image_stack":
+    case 'image_stack':
       return block.data.images.some((img) => Boolean(img.src?.trim()));
-    case "hero":
+    case 'hero':
       return Boolean(block.data.image_url);
-    case "book_promo":
+    case 'book_promo':
       return Boolean(block.data.cover_src);
-    case "author_bio":
+    case 'author_bio':
       return Boolean(block.data.photo_src);
-    case "two_column":
+    case 'two_column':
       return getTwoColumnImageTargets(block).length > 0;
     default:
       return false;
@@ -126,41 +132,47 @@ export function patchBlockImageDimensions(
   width: number,
   height: number,
   imageIndex = 0,
-  breakpoint: "mobile" | "tablet" | "desktop" = "desktop",
-): ContentBlock["data"] {
+  breakpoint: 'mobile' | 'tablet' | 'desktop' = 'desktop',
+): ContentBlock['data'] {
   const w = `${Math.round(width)}px`;
   const h = `${Math.round(height)}px`;
 
   switch (block.type) {
-    case "image": {
+    case 'image': {
       // Mobile preview resizes write mobile_* so desktop size stays intact.
-      if (breakpoint === "mobile") {
-        return { ...block.data, mobile_width: w, mobile_height: h, full_width: false };
+      if (breakpoint === 'mobile') {
+        return {
+          ...block.data,
+          mobile_width: w,
+          mobile_height: h,
+          full_width: false,
+        };
       }
       // Tablet + desktop share desktop fields; tablet display scales via aspect-ratio.
       return { ...block.data, width: w, height: h, full_width: false };
     }
-    case "image_text":
+    case 'image_text':
       return { ...block.data, image_width: w, image_height: h };
-    case "image_stack": {
+    case 'image_stack': {
       const images = block.data.images.map((img, index) =>
         index === imageIndex ? { ...img, width: w, height: h } : img,
       );
       return { ...block.data, images };
     }
-    case "hero":
+    case 'hero':
       return { ...block.data, image_width: w, image_height: h };
-    case "book_promo":
+    case 'book_promo':
       return { ...block.data, cover_width: w, cover_height: h };
-    case "author_bio":
+    case 'author_bio':
       return { ...block.data, photo_width: w, photo_height: h };
-    case "two_column": {
+    case 'two_column': {
       const targets = getTwoColumnImageTargets(block);
-      const target = targets.find((t) => t.flatIndex === imageIndex) ?? targets[imageIndex];
+      const target =
+        targets.find((t) => t.flatIndex === imageIndex) ?? targets[imageIndex];
       if (!target) return block.data;
-      const key = target.column === "left" ? "left_blocks" : "right_blocks";
+      const key = target.column === 'left' ? 'left_blocks' : 'right_blocks';
       const blocks = block.data[key].map((mini, index) => {
-        if (index !== target.index || mini.type !== "image") return mini;
+        if (index !== target.index || mini.type !== 'image') return mini;
         return { ...mini, width: w, height: h };
       });
       return { ...block.data, [key]: blocks };
@@ -181,18 +193,22 @@ export function getImageStackItemStyle(
   });
 }
 
-export function getImageInlineStyle(block: ContentBlock): CSSProperties | undefined {
+export function getImageInlineStyle(
+  block: ContentBlock,
+): CSSProperties | undefined {
   switch (block.type) {
-    case "image":
+    case 'image':
       // Prefer breakpoint-aware helpers from image-block-mobile in the renderer.
-      return imageSizeStyle(block.data.width, block.data.height, { responsiveAspect: true });
-    case "image_text":
+      return imageSizeStyle(block.data.width, block.data.height, {
+        responsiveAspect: true,
+      });
+    case 'image_text':
       return imageSizeStyle(block.data.image_width, block.data.image_height);
-    case "hero":
+    case 'hero':
       return imageSizeStyle(block.data.image_width, block.data.image_height);
-    case "book_promo":
+    case 'book_promo':
       return imageSizeStyle(block.data.cover_width, block.data.cover_height);
-    case "author_bio":
+    case 'author_bio':
       return imageSizeStyle(block.data.photo_width, block.data.photo_height);
     default:
       return undefined;

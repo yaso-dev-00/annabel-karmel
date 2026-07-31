@@ -1,13 +1,13 @@
-import type { WaysToServeItem } from "@/components/SharedCarousels/WaysToServeCarousel";
+import type { WaysToServeItem } from '@/components/SharedCarousels/WaysToServeCarousel';
 import type {
   ChilledProductAccordionItem,
   ChilledProductCarouselSlide,
   ChilledProductRelatedProduct,
   ChilledProductTheme,
-} from "./chilled-product-page";
+} from './chilled-product-page';
 
-export type { ChilledProductAccordionItem as PlantPoweredBitesAccordionItem } from "./chilled-product-page";
-export type { ChilledProductTheme as PlantPoweredBitesTheme } from "./chilled-product-page";
+export type { ChilledProductAccordionItem as PlantPoweredBitesAccordionItem } from './chilled-product-page';
+export type { ChilledProductTheme as PlantPoweredBitesTheme } from './chilled-product-page';
 
 export type PlantPoweredBitesCarouselSlide = ChilledProductCarouselSlide & {
   width: number;

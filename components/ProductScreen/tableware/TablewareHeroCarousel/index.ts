@@ -1,1 +1,1 @@
-export * from "./tableware-hero-carousel";
+export * from './tableware-hero-carousel';

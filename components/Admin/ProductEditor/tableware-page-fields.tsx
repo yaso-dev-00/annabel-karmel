@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { ColorField } from "@/components/Admin/Ui/ColorField";
-import type { TablewareSwatchColor } from "@/data/tableware-page";
-import type { TablewarePageContent } from "@/lib/products/types";
-import { makeTablewareVariantKey } from "@/lib/products/tableware-variants";
+import { useEffect, useState } from 'react';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import { ColorField } from '@/components/Admin/Ui/ColorField';
+import type { TablewareSwatchColor } from '@/data/tableware-page';
+import type { TablewarePageContent } from '@/lib/products/types';
+import { makeTablewareVariantKey } from '@/lib/products/tableware-variants';
 import {
   CompleteSetPicker,
   SortableCareIconsEditor,
   SortableGalleryEditor,
   SortableTextList,
-} from "@/components/Admin/ProductEditor/tableware-sortable-fields";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import styles from "./product-editor.module.css";
+} from '@/components/Admin/ProductEditor/tableware-sortable-fields';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import styles from './product-editor.module.css';
 
 type DistributorParts = {
   before: string;
@@ -24,39 +24,44 @@ type DistributorParts = {
 
 function escapeHtml(value: string): string {
   return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
 }
 
 function stripTags(value: string): string {
   return value
-    .replace(/<[^>]+>/g, "")
-    .replaceAll("&nbsp;", " ")
-    .replaceAll("&amp;", "&")
-    .replaceAll("&lt;", "<")
-    .replaceAll("&gt;", ">")
-    .replaceAll("&quot;", '"')
-    .replaceAll("&#39;", "'");
+    .replace(/<[^>]+>/g, '')
+    .replaceAll('&nbsp;', ' ')
+    .replaceAll('&amp;', '&')
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"')
+    .replaceAll('&#39;', "'");
 }
 
 function parseDistributorHtml(html: string): DistributorParts {
   const trimmed = html.trim();
-  if (!trimmed) return { before: "", linkText: "", linkHref: "", after: "" };
+  if (!trimmed) return { before: '', linkText: '', linkHref: '', after: '' };
 
   const match = trimmed.match(
     /^(.*?)<a\s+[^>]*href=["']([^"']*)["'][^>]*>([\s\S]*?)<\/a>([\s\S]*)$/i,
   );
   if (!match) {
-    return { before: stripTags(trimmed), linkText: "", linkHref: "", after: "" };
+    return {
+      before: stripTags(trimmed),
+      linkText: '',
+      linkHref: '',
+      after: '',
+    };
   }
 
   return {
-    before: stripTags(match[1] ?? ""),
-    linkHref: (match[2] ?? "").trim(),
-    linkText: stripTags(match[3] ?? ""),
-    after: stripTags(match[4] ?? ""),
+    before: stripTags(match[1] ?? ''),
+    linkHref: (match[2] ?? '').trim(),
+    linkText: stripTags(match[3] ?? ''),
+    after: stripTags(match[4] ?? ''),
   };
 }
 
@@ -84,9 +89,7 @@ function DistributorFields({
 
   useEffect(() => {
     if (composeDistributorHtml(parts) === value) return;
-    setParts(parseDistributorHtml(value));
-    // Only re-parse when the stored HTML changes from outside this editor.
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- parts intentionally omitted
+    queueMicrotask(() => setParts(parseDistributorHtml(value)));
   }, [value]);
 
   const update = (patch: Partial<DistributorParts>) => {
@@ -162,10 +165,14 @@ function DistributorFields({
   );
 }
 
-const COLOR_OPTIONS: { value: TablewareSwatchColor; label: string; hex: string }[] = [
-  { value: "soft-sage", label: "Soft Sage", hex: "#c3d2b6" },
-  { value: "warm-stone", label: "Warm Stone", hex: "#f8f0ec" },
-  { value: "blushberry", label: "Blushberry", hex: "#ca9591" },
+const COLOR_OPTIONS: {
+  value: TablewareSwatchColor;
+  label: string;
+  hex: string;
+}[] = [
+  { value: 'soft-sage', label: 'Soft Sage', hex: '#c3d2b6' },
+  { value: 'warm-stone', label: 'Warm Stone', hex: '#f8f0ec' },
+  { value: 'blushberry', label: 'Blushberry', hex: '#ca9591' },
 ];
 
 const HEX_PRESETS = COLOR_OPTIONS.map((option) => ({
@@ -175,15 +182,21 @@ const HEX_PRESETS = COLOR_OPTIONS.map((option) => ({
 
 function colorFromHex(hex: string): TablewareSwatchColor {
   const normalized = hex.trim().toLowerCase();
-  const match = COLOR_OPTIONS.find((option) => option.hex.toLowerCase() === normalized);
-  return match?.value ?? "soft-sage";
+  const match = COLOR_OPTIONS.find(
+    (option) => option.hex.toLowerCase() === normalized,
+  );
+  return match?.value ?? 'soft-sage';
 }
 
 function labelFromHex(hex: string, currentLabel: string): string {
   const normalized = hex.trim().toLowerCase();
-  const match = COLOR_OPTIONS.find((option) => option.hex.toLowerCase() === normalized);
+  const match = COLOR_OPTIONS.find(
+    (option) => option.hex.toLowerCase() === normalized,
+  );
   if (!match) return currentLabel;
-  const wasPresetLabel = COLOR_OPTIONS.some((option) => option.label === currentLabel.trim());
+  const wasPresetLabel = COLOR_OPTIONS.some(
+    (option) => option.label === currentLabel.trim(),
+  );
   if (!currentLabel.trim() || wasPresetLabel) return match.label;
   return currentLabel;
 }
@@ -195,7 +208,13 @@ type TablewareFieldsProps = {
   productSlug?: string;
 };
 
-function RemoveButton({ onClick, label }: { onClick: () => void; label: string }) {
+function RemoveButton({
+  onClick,
+  label,
+}: {
+  onClick: () => void;
+  label: string;
+}) {
   return (
     <button
       type="button"
@@ -211,9 +230,15 @@ function RemoveButton({ onClick, label }: { onClick: () => void; label: string }
 
 function scrollToEditorItem(itemId: string) {
   const run = () => {
-    const el = document.querySelector<HTMLElement>(`[data-editor-item="${itemId}"]`);
+    const el = document.querySelector<HTMLElement>(
+      `[data-editor-item="${itemId}"]`,
+    );
     if (!el) return false;
-    el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+    el.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'nearest',
+    });
     const focusable = el.querySelector<HTMLElement>(
       "input:not([type='hidden']):not([type='checkbox']):not([type='file']), textarea, select",
     );
@@ -235,10 +260,14 @@ export function TablewareFields({
 }: TablewareFieldsProps) {
   const [editingVariantIndex, setEditingVariantIndex] = useState(0);
 
-  const update = (patch: Partial<TablewarePageContent>) => onChange({ ...page, ...patch });
+  const update = (patch: Partial<TablewarePageContent>) =>
+    onChange({ ...page, ...patch });
 
   const variants = page.colorVariants;
-  const safeIndex = Math.min(editingVariantIndex, Math.max(variants.length - 1, 0));
+  const safeIndex = Math.min(
+    editingVariantIndex,
+    Math.max(variants.length - 1, 0),
+  );
   const activeVariant = variants[safeIndex];
 
   const selectVariant = (index: number) => {
@@ -247,7 +276,10 @@ export function TablewareFields({
     onPreviewVariantChange?.(makeTablewareVariantKey(index));
   };
 
-  const updateVariant = (index: number, patch: Partial<(typeof variants)[number]>) => {
+  const updateVariant = (
+    index: number,
+    patch: Partial<(typeof variants)[number]>,
+  ) => {
     const next = variants.slice();
     next[index] = { ...next[index]!, ...patch };
     update({ colorVariants: next });
@@ -259,162 +291,193 @@ export function TablewareFields({
         <div className={styles.sectionHeaderCol}>
           <h2 className="cardSectionTitle">Colour variants</h2>
           <p className={styles.sectionHint}>
-            Each colour variant has its own gallery, hex, and optional shop URL. Use{" "}
-            <strong>+ Colour</strong> to add another variant — preview switches with the tabs.
+            Each colour variant has its own gallery, hex, and optional shop URL.
+            Use <strong>+ Colour</strong> to add another variant — preview
+            switches with the tabs.
           </p>
         </div>
         <div className="cardForm">
           <div className={styles.variantBlock}>
-          <div className={styles.variantTabRow} role="tablist" aria-label="Colour variants">
-            {variants.map((variant, index) => (
-              <button
-                key={`${variant.color}-${index}`}
-                type="button"
-                role="tab"
-                aria-selected={index === safeIndex}
-                className={`${styles.variantTab}${index === safeIndex ? ` ${styles.variantTabActive}` : ""}`}
-                onClick={() => selectVariant(index)}
-              >
-                <span
-                  className={styles.variantTabSwatch}
-                  style={{ background: variant.hex || "#ddd" }}
-                  aria-hidden
-                />
-                {variant.label || COLOR_OPTIONS.find((o) => o.value === variant.color)?.label || "Colour"}
-                {variant.color === page.activeColor ? (
-                  <span className={styles.variantTabDefault}>Default</span>
-                ) : null}
-              </button>
-            ))}
-            <button
-              type="button"
-              className={styles.variantTabAdd}
-              title="Add another colour variant with its own gallery"
-              onClick={() => {
-                const unused = COLOR_OPTIONS.find(
-                  (option) => !variants.some((variant) => variant.color === option.value),
-                );
-                const option = unused ?? COLOR_OPTIONS[0]!;
-                const index = variants.length;
-                update({
-                  colorVariants: [
-                    ...variants,
-                    {
-                      slug: "",
-                      color: option.value,
-                      label: unused ? option.label : `${option.label} ${index + 1}`,
-                      hex: option.hex,
-                      gallery: [{ src: "", alt: "" }],
-                      shopHref: "",
-                    },
-                  ],
-                });
-                setEditingVariantIndex(index);
-                onPreviewVariantChange?.(makeTablewareVariantKey(index));
-                scrollToEditorItem("tw-variant-editor");
-              }}
+            <div
+              className={styles.variantTabRow}
+              role="tablist"
+              aria-label="Colour variants"
             >
-              + Colour
-            </button>
-          </div>
-
-          {activeVariant ? (
-            <div data-editor-item="tw-variant-editor" className={styles.variantEditor}>
-              <div className="metaGrid">
-                <div className="field">
-                  <label className="fieldLabel">Label</label>
-                  <input
-                    className="fieldInput"
-                    value={activeVariant.label}
-                    onChange={(e) => updateVariant(safeIndex, { label: e.target.value })}
-                    placeholder="e.g. Soft Sage"
+              {variants.map((variant, index) => (
+                <button
+                  key={`${variant.color}-${index}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === safeIndex}
+                  className={`${styles.variantTab}${index === safeIndex ? ` ${styles.variantTabActive}` : ''}`}
+                  onClick={() => selectVariant(index)}
+                >
+                  <span
+                    className={styles.variantTabSwatch}
+                    style={{ background: variant.hex || '#ddd' }}
+                    aria-hidden
                   />
-                </div>
-                <div className="field">
-                  <label className="fieldLabel">Variant slug</label>
-                  <input
-                    className="fieldInput"
-                    value={activeVariant.slug}
-                    onChange={(e) => updateVariant(safeIndex, { slug: e.target.value })}
-                    placeholder="catch-all-bib-set-soft-sage"
-                  />
-                </div>
-              </div>
-
-              <ColorField
-                label="Colour (hex)"
-                value={activeVariant.hex || undefined}
-                defaultColor="#c3d2b6"
-                presets={HEX_PRESETS}
-                allowDefault={false}
-                onChange={(hex) => {
-                  const nextHex = hex?.trim() || "#c3d2b6";
-                  const color = colorFromHex(nextHex);
-                  const wasActive = activeVariant.color === page.activeColor;
-                  const next = variants.slice();
-                  next[safeIndex] = {
-                    ...activeVariant,
-                    hex: nextHex,
-                    color,
-                    label: labelFromHex(nextHex, activeVariant.label),
-                  };
+                  {variant.label ||
+                    COLOR_OPTIONS.find((o) => o.value === variant.color)
+                      ?.label ||
+                    'Colour'}
+                  {variant.color === page.activeColor ? (
+                    <span className={styles.variantTabDefault}>Default</span>
+                  ) : null}
+                </button>
+              ))}
+              <button
+                type="button"
+                className={styles.variantTabAdd}
+                title="Add another colour variant with its own gallery"
+                onClick={() => {
+                  const unused = COLOR_OPTIONS.find(
+                    (option) =>
+                      !variants.some(
+                        (variant) => variant.color === option.value,
+                      ),
+                  );
+                  const option = unused ?? COLOR_OPTIONS[0]!;
+                  const index = variants.length;
                   update({
-                    colorVariants: next,
-                    ...(wasActive ? { activeColor: color } : {}),
+                    colorVariants: [
+                      ...variants,
+                      {
+                        slug: '',
+                        color: option.value,
+                        label: unused
+                          ? option.label
+                          : `${option.label} ${index + 1}`,
+                        hex: option.hex,
+                        gallery: [{ src: '', alt: '' }],
+                        shopHref: '',
+                      },
+                    ],
                   });
+                  setEditingVariantIndex(index);
+                  onPreviewVariantChange?.(makeTablewareVariantKey(index));
+                  scrollToEditorItem('tw-variant-editor');
                 }}
-              />
+              >
+                + Colour
+              </button>
+            </div>
 
-              <div className="field">
-                <label className="fieldLabel">Shop URL for this colour (optional)</label>
-                <input
-                  className="fieldInput"
-                  value={activeVariant.shopHref}
-                  onChange={(e) => updateVariant(safeIndex, { shopHref: e.target.value })}
-                  placeholder="Leave blank to use the default retailer shop URL"
+            {activeVariant ? (
+              <div
+                data-editor-item="tw-variant-editor"
+                className={styles.variantEditor}
+              >
+                <div className="metaGrid">
+                  <div className="field">
+                    <label className="fieldLabel">Label</label>
+                    <input
+                      className="fieldInput"
+                      value={activeVariant.label}
+                      onChange={(e) =>
+                        updateVariant(safeIndex, { label: e.target.value })
+                      }
+                      placeholder="e.g. Soft Sage"
+                    />
+                  </div>
+                  <div className="field">
+                    <label className="fieldLabel">Variant slug</label>
+                    <input
+                      className="fieldInput"
+                      value={activeVariant.slug}
+                      onChange={(e) =>
+                        updateVariant(safeIndex, { slug: e.target.value })
+                      }
+                      placeholder="catch-all-bib-set-soft-sage"
+                    />
+                  </div>
+                </div>
+
+                <ColorField
+                  label="Colour (hex)"
+                  value={activeVariant.hex || undefined}
+                  defaultColor="#c3d2b6"
+                  presets={HEX_PRESETS}
+                  allowDefault={false}
+                  onChange={(hex) => {
+                    const nextHex = hex?.trim() || '#c3d2b6';
+                    const color = colorFromHex(nextHex);
+                    const wasActive = activeVariant.color === page.activeColor;
+                    const next = variants.slice();
+                    next[safeIndex] = {
+                      ...activeVariant,
+                      hex: nextHex,
+                      color,
+                      label: labelFromHex(nextHex, activeVariant.label),
+                    };
+                    update({
+                      colorVariants: next,
+                      ...(wasActive ? { activeColor: color } : {}),
+                    });
+                  }}
+                />
+
+                <div className="field">
+                  <label className="fieldLabel">
+                    Shop URL for this colour (optional)
+                  </label>
+                  <input
+                    className="fieldInput"
+                    value={activeVariant.shopHref}
+                    onChange={(e) =>
+                      updateVariant(safeIndex, { shopHref: e.target.value })
+                    }
+                    placeholder="Leave blank to use the default retailer shop URL"
+                  />
+                </div>
+
+                <div className={styles.variantActions}>
+                  {activeVariant.color !== page.activeColor ? (
+                    <button
+                      type="button"
+                      className="btn btnGhost"
+                      onClick={() =>
+                        update({ activeColor: activeVariant.color })
+                      }
+                    >
+                      Set as default colour
+                    </button>
+                  ) : (
+                    <p className={styles.sectionHint}>
+                      This is the default colour for this product.
+                    </p>
+                  )}
+                  {variants.length > 1 ? (
+                    <button
+                      type="button"
+                      className="btn btnGhost"
+                      onClick={() => {
+                        const next = variants.filter((_, i) => i !== safeIndex);
+                        const nextActive =
+                          page.activeColor === activeVariant.color
+                            ? next[0]!.color
+                            : page.activeColor;
+                        update({
+                          colorVariants: next,
+                          activeColor: nextActive,
+                        });
+                        setEditingVariantIndex(Math.max(0, safeIndex - 1));
+                      }}
+                    >
+                      Remove colour
+                    </button>
+                  ) : null}
+                </div>
+
+                <SortableGalleryEditor
+                  key={`gallery-${safeIndex}-${activeVariant.color}`}
+                  label={activeVariant.label || 'Colour'}
+                  gallery={activeVariant.gallery}
+                  onChange={(gallery) => updateVariant(safeIndex, { gallery })}
+                  emptyHint="No images for this colour yet. Add images, or set a variant slug that matches a live Grow PDP to auto-fill on save."
                 />
               </div>
-
-              <div className={styles.variantActions}>
-                {activeVariant.color !== page.activeColor ? (
-                  <button
-                    type="button"
-                    className="btn btnGhost"
-                    onClick={() => update({ activeColor: activeVariant.color })}
-                  >
-                    Set as default colour
-                  </button>
-                ) : (
-                  <p className={styles.sectionHint}>This is the default colour for this product.</p>
-                )}
-                {variants.length > 1 ? (
-                  <button
-                    type="button"
-                    className="btn btnGhost"
-                    onClick={() => {
-                      const next = variants.filter((_, i) => i !== safeIndex);
-                      const nextActive =
-                        page.activeColor === activeVariant.color
-                          ? next[0]!.color
-                          : page.activeColor;
-                      update({ colorVariants: next, activeColor: nextActive });
-                      setEditingVariantIndex(Math.max(0, safeIndex - 1));
-                    }}
-                  >
-                    Remove colour
-                  </button>
-                ) : null}
-              </div>
-
-              <SortableGalleryEditor
-                key={`gallery-${safeIndex}-${activeVariant.color}`}
-                label={activeVariant.label || "Colour"}
-                gallery={activeVariant.gallery}
-                onChange={(gallery) => updateVariant(safeIndex, { gallery })}
-                emptyHint="No images for this colour yet. Add images, or set a variant slug that matches a live Grow PDP to auto-fill on save."
-              />
-            </div>
-          ) : null}
+            ) : null}
           </div>
         </div>
       </div>
@@ -423,14 +486,16 @@ export function TablewareFields({
         <div className={styles.sectionHeader}>
           <div className={styles.sectionHeaderCol} style={{ marginBottom: 0 }}>
             <h2 className="cardSectionTitle">Description</h2>
-            <p className={styles.sectionHint}>One box per paragraph on the product page.</p>
+            <p className={styles.sectionHint}>
+              One box per paragraph on the product page.
+            </p>
           </div>
           <button
             type="button"
             className="btn btnGhost"
             onClick={() => {
               const index = page.description.length;
-              update({ description: [...page.description, ""] });
+              update({ description: [...page.description, ''] });
               scrollToEditorItem(`tw-desc-${index}`);
             }}
           >
@@ -461,7 +526,7 @@ export function TablewareFields({
                   update({
                     description:
                       page.description.length <= 1
-                        ? [""]
+                        ? ['']
                         : page.description.filter((_, i) => i !== index),
                   })
                 }
@@ -475,7 +540,8 @@ export function TablewareFields({
         <div className={styles.sectionHeaderCol}>
           <h2 className="cardSectionTitle">Features</h2>
           <p className={styles.sectionHint}>
-            Two columns of benefit bullets under the description. Drag to reorder.
+            Two columns of benefit bullets under the description. Drag to
+            reorder.
           </p>
         </div>
         <div className="cardForm">
@@ -488,7 +554,9 @@ export function TablewareFields({
               className="fieldInput"
               value={page.features.heading}
               onChange={(e) =>
-                update({ features: { ...page.features, heading: e.target.value } })
+                update({
+                  features: { ...page.features, heading: e.target.value },
+                })
               }
             />
           </div>
@@ -527,7 +595,9 @@ export function TablewareFields({
               className="fieldInput"
               value={page.materials.heading}
               onChange={(e) =>
-                update({ materials: { ...page.materials, heading: e.target.value } })
+                update({
+                  materials: { ...page.materials, heading: e.target.value },
+                })
               }
             />
           </div>
@@ -536,7 +606,9 @@ export function TablewareFields({
             itemLabel="Materials"
             addLabel="+ Item"
             emptyHint="No materials yet."
-            onChange={(items) => update({ materials: { ...page.materials, items } })}
+            onChange={(items) =>
+              update({ materials: { ...page.materials, items } })
+            }
           />
           <SortableTextList
             items={page.dimensions.items}
@@ -558,7 +630,9 @@ export function TablewareFields({
       <div className="card">
         <div className={styles.sectionHeaderCol}>
           <h2 className="cardSectionTitle">Retailer</h2>
-          <p className={styles.sectionHint}>Shop CTA and retailer logo on the product page.</p>
+          <p className={styles.sectionHint}>
+            Shop CTA and retailer logo on the product page.
+          </p>
         </div>
         <div className="cardForm">
           <div className="field">
@@ -570,13 +644,17 @@ export function TablewareFields({
               className="fieldInput"
               value={page.retailer.label}
               onChange={(e) =>
-                update({ retailer: { ...page.retailer, label: e.target.value } })
+                update({
+                  retailer: { ...page.retailer, label: e.target.value },
+                })
               }
             />
           </div>
           <ImageField
             value={page.retailer.logo}
-            onChange={(logo) => update({ retailer: { ...page.retailer, logo } })}
+            onChange={(logo) =>
+              update({ retailer: { ...page.retailer, logo } })
+            }
             showAlt={false}
           />
           <div className="metaGrid">
@@ -589,7 +667,9 @@ export function TablewareFields({
                 className="fieldInput"
                 value={page.retailer.shopLabel}
                 onChange={(e) =>
-                  update({ retailer: { ...page.retailer, shopLabel: e.target.value } })
+                  update({
+                    retailer: { ...page.retailer, shopLabel: e.target.value },
+                  })
                 }
               />
             </div>
@@ -602,7 +682,9 @@ export function TablewareFields({
                 className="fieldInput"
                 value={page.retailer.shopHref}
                 onChange={(e) =>
-                  update({ retailer: { ...page.retailer, shopHref: e.target.value } })
+                  update({
+                    retailer: { ...page.retailer, shopHref: e.target.value },
+                  })
                 }
                 placeholder="https://"
               />
@@ -615,7 +697,8 @@ export function TablewareFields({
         <div className={styles.sectionHeaderCol}>
           <h2 className="cardSectionTitle">Distributor</h2>
           <p className={styles.sectionHint}>
-            Optional. Shown below the specs card. Add a link without writing HTML.
+            Optional. Shown below the specs card. Add a link without writing
+            HTML.
           </p>
         </div>
         <DistributorFields

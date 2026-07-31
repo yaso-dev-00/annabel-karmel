@@ -27,7 +27,7 @@
 }
 
 .woodSection {
-  background-image: url("/offers-page/hero-bg.jpg");
+  background-image: url('/offers-page/hero-bg.jpg');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;
@@ -45,7 +45,7 @@
 
 .heroTitle {
   margin: 0 auto;
-  
+
   color: #000;
   font-family: var(--font-playfair), Georgia, serif;
   font-size: 38px;
@@ -138,7 +138,7 @@
 
 @media (min-width: 768px) {
   .retailerBlock {
-   padding-top: 1.875rem;
+    padding-top: 1.875rem;
   }
 }
 .offerPriceLine {
@@ -186,7 +186,7 @@
 }
 
 .wasPrice del::before {
-  content: " ";
+  content: ' ';
   position: absolute;
   bottom: 0;
   left: 0;
@@ -229,7 +229,6 @@
 .shopButtonFrozen:hover {
   background-color: #e7f3f2;
 }
-
 
 @media (min-width: 768px) {
   .shopButton {
@@ -310,7 +309,7 @@
 .awardImageWrap {
   min-height: 400px;
   background-color: #fccad1;
-  background-image: url("/offers-page/award-child.jpg");
+  background-image: url('/offers-page/award-child.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -351,7 +350,9 @@
   line-height: 1.2;
   text-align: center;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
   transform: translateX(-50%);
 }
 

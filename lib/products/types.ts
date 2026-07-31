@@ -1,44 +1,51 @@
-import type { ChilledProductPageData } from "@/data/chilled-product-page";
-import type { FrozenProductPageData } from "@/data/frozen-product-page";
-import type { PlantPoweredBitesPageData } from "@/data/plant-powered-bites-product-page";
-import type { AustraliaFrozenProductPageData } from "@/data/australia-frozen-product-page";
+import type { ChilledProductPageData } from '@/data/chilled-product-page';
+import type { FrozenProductPageData } from '@/data/frozen-product-page';
+import type { PlantPoweredBitesPageData } from '@/data/plant-powered-bites-product-page';
+import type { AustraliaFrozenProductPageData } from '@/data/australia-frozen-product-page';
 import type {
   TablewareCareIcon,
   TablewareGalleryImage,
-} from "@/data/tableware-product-page";
-import type { TablewareSwatchColor } from "@/data/tableware-page";
+} from '@/data/tableware-product-page';
+import type { TablewareSwatchColor } from '@/data/tableware-page';
 
-export type ProductStatus = "draft" | "published" | "scheduled" | "private" | "disabled";
+export type ProductStatus =
+  'draft' | 'published' | 'scheduled' | 'private' | 'disabled';
 
 export type ProductCategory =
-  | "chilled-meals"
-  | "frozen-meals"
-  | "plant-powered-bites"
-  | "australia-frozen"
-  | "tableware";
+  | 'chilled-meals'
+  | 'frozen-meals'
+  | 'plant-powered-bites'
+  | 'australia-frozen'
+  | 'tableware';
 
 export const PRODUCT_CATEGORIES: { value: ProductCategory; label: string }[] = [
-  { value: "chilled-meals", label: "Chilled Meals" },
-  { value: "frozen-meals", label: "Frozen Meals" },
-  { value: "plant-powered-bites", label: "Plant Powered Bites" },
-  { value: "australia-frozen", label: "Little Meals" },
-  { value: "tableware", label: "Grow Products" },
+  { value: 'chilled-meals', label: 'Chilled Meals' },
+  { value: 'frozen-meals', label: 'Frozen Meals' },
+  { value: 'plant-powered-bites', label: 'Plant Powered Bites' },
+  { value: 'australia-frozen', label: 'Little Meals' },
+  { value: 'tableware', label: 'Grow Products' },
 ];
 
-export type ChilledProductPageContent = Omit<ChilledProductPageData, "slug"> & {
-  kind: "chilled-meals";
+export type ChilledProductPageContent = Omit<ChilledProductPageData, 'slug'> & {
+  kind: 'chilled-meals';
 };
 
-export type FrozenProductPageContent = Omit<FrozenProductPageData, "slug"> & {
-  kind: "frozen-meals";
+export type FrozenProductPageContent = Omit<FrozenProductPageData, 'slug'> & {
+  kind: 'frozen-meals';
 };
 
-export type PlantPoweredBitesPageContent = Omit<PlantPoweredBitesPageData, "slug"> & {
-  kind: "plant-powered-bites";
+export type PlantPoweredBitesPageContent = Omit<
+  PlantPoweredBitesPageData,
+  'slug'
+> & {
+  kind: 'plant-powered-bites';
 };
 
-export type AustraliaFrozenPageContent = Omit<AustraliaFrozenProductPageData, "slug" | "metaDescription"> & {
-  kind: "australia-frozen";
+export type AustraliaFrozenPageContent = Omit<
+  AustraliaFrozenProductPageData,
+  'slug' | 'metaDescription'
+> & {
+  kind: 'australia-frozen';
 };
 
 /** One colour option with its own PDP gallery (and optional shop URL). */
@@ -52,7 +59,7 @@ export type TablewareColorVariant = {
 };
 
 export type TablewarePageContent = {
-  kind: "tableware";
+  kind: 'tableware';
   /** Default colour shown for this product’s primary slug / editor preview. */
   activeColor: TablewareSwatchColor;
   colorVariants: TablewareColorVariant[];
@@ -107,5 +114,8 @@ export type ProductsStore = {
 };
 
 export function productCategoryLabel(category: ProductCategory): string {
-  return PRODUCT_CATEGORIES.find((item) => item.value === category)?.label ?? category;
+  return (
+    PRODUCT_CATEGORIES.find((item) => item.value === category)?.label ??
+    category
+  );
 }

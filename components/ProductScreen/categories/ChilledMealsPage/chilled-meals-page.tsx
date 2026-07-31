@@ -1,11 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
 import {
   SectionBackgroundImage,
   SingleSectionBackgroundImage,
-} from "@/components/UiPrimitives/SectionBackgroundImage";
+} from '@/components/UiPrimitives/SectionBackgroundImage';
 import {
   chilledMealsAssets,
   chilledMealsFrozenCta,
@@ -13,13 +13,21 @@ import {
   chilledMealsProducts,
   chilledMealsPromise,
   chilledMealsTesco,
-} from "@/data/chilled-meals-page";
-import styles from "./chilled-meals-page.module.css";
+} from '@/data/chilled-meals-page';
+import styles from './chilled-meals-page.module.css';
 
 function WaveShapeBottom() {
   return (
-    <div className={styles.shapeBottom} aria-hidden="true" data-negative="false">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+    <div
+      className={styles.shapeBottom}
+      aria-hidden="true"
+      data-negative="false"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1000 100"
+        preserveAspectRatio="none"
+      >
         <path
           className={styles.shapeFill}
           d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"
@@ -51,7 +59,7 @@ function ProductCard({
   image: string;
   href: string;
 }) {
-  const isSvg = image.endsWith(".svg");
+  const isSvg = image.endsWith('.svg');
 
   return (
     <div className={styles.productCard}>
@@ -61,7 +69,7 @@ function ProductCard({
           alt={title}
           width={825}
           height={1007}
-          
+
           className="block h-auto w-full"
           sizes="(min-width: 1024px) 550px, (min-width: 640px) 620px, 100vw"
         />
@@ -80,7 +88,10 @@ function ProductCard({
 export function ChilledMealsPageContent() {
   return (
     <main className={styles.page}>
-      <section className={`${styles.fullBleed} leading-0`} aria-label="Chilled meals hero">
+      <section
+        className={`${styles.fullBleed} leading-0`}
+        aria-label="Chilled meals hero"
+      >
         <Image
           src={chilledMealsAssets.heroDesktop}
           alt="Annabel Karmel chilled meals"
@@ -111,7 +122,10 @@ export function ChilledMealsPageContent() {
           priority
         />
         <div className={`${styles.sectionContent} ${styles.inner}`}>
-          <h1 id="chilled-meals-intro-heading" className={styles.sectionHeading}>
+          <h1
+            id="chilled-meals-intro-heading"
+            className={styles.sectionHeading}
+          >
             {chilledMealsIntro.heading}
           </h1>
           <p
@@ -144,9 +158,15 @@ export function ChilledMealsPageContent() {
         className={`${styles.fullBleed} ${styles.promiseSection}`}
         aria-labelledby="chilled-meals-promise-heading"
       >
-        <SectionBackgroundImage desktopSrc={chilledMealsAssets.promiseBg} unoptimized={true} />
+        <SectionBackgroundImage
+          desktopSrc={chilledMealsAssets.promiseBg}
+          unoptimized={true}
+        />
         <div className={`${styles.sectionContent} ${styles.inner}`}>
-          <h2 id="chilled-meals-promise-heading" className={styles.sectionHeading}>
+          <h2
+            id="chilled-meals-promise-heading"
+            className={styles.sectionHeading}
+          >
             {chilledMealsPromise.heading}
           </h2>
           <ul className="mt-6 grid list-none grid-cols-2  justify-items-center gap-x-5 gap-y-4 p-0 md:grid-cols-3 md:gap-x-6 md:gap-y-5 lg:grid-cols-5 lg:gap-6">
@@ -201,7 +221,10 @@ export function ChilledMealsPageContent() {
         <SectionBackgroundImage desktopSrc={chilledMealsAssets.tescoBg} />
         <div className={`${styles.sectionContent} ${styles.inner}`}>
           <div className="flex flex-col items-center gap-4 md:gap-5 lg:flex-row lg:justify-center lg:gap-12">
-            <h2 id="chilled-meals-tesco-heading" className={styles.tescoHeading}>
+            <h2
+              id="chilled-meals-tesco-heading"
+              className={styles.tescoHeading}
+            >
               {chilledMealsTesco.heading}
             </h2>
             <a

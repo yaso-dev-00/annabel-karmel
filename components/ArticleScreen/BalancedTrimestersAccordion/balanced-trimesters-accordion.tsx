@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import styles from "@/app/balanced-diet-throughout-trimesters/page.module.css";
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import styles from '@/app/balanced-diet-throughout-trimesters/page.module.css';
 
 export type TrimesterAccordionItem = {
   title: string;
@@ -24,8 +24,12 @@ type BalancedTrimestersAccordionProps = {
   items: TrimesterAccordionItem[];
 };
 
-export function BalancedTrimestersAccordion({ items }: BalancedTrimestersAccordionProps) {
-  const [openTitle, setOpenTitle] = useState<string | null>(() => items[0]?.title ?? null);
+export function BalancedTrimestersAccordion({
+  items,
+}: BalancedTrimestersAccordionProps) {
+  const [openTitle, setOpenTitle] = useState<string | null>(
+    () => items[0]?.title ?? null,
+  );
 
   const toggle = (title: string) => {
     setOpenTitle((current) => (current === title ? null : title));
@@ -41,10 +45,10 @@ export function BalancedTrimestersAccordion({ items }: BalancedTrimestersAccordi
             <button
               type="button"
               onClick={() => toggle(item.title)}
-              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ""}`}
+              className={`${styles.accordionSummary}${isOpen ? ` ${styles.accordionSummaryOpen}` : ''}`}
             >
               <span aria-hidden="true" className={styles.accordionMarker}>
-                {isOpen ? "-" : "+"}
+                {isOpen ? '-' : '+'}
               </span>
               {item.title}
             </button>
@@ -54,14 +58,14 @@ export function BalancedTrimestersAccordion({ items }: BalancedTrimestersAccordi
                 <motion.div
                   key={item.title}
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
+                  animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.45, ease: "easeInOut" }}
-                  style={{ overflow: "hidden" }}
+                  transition={{ duration: 0.45, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
                 >
                   <div className={styles.accordionBody}>
                     {item.paragraphs.map((paragraph) => {
-                      if (typeof paragraph === "string") {
+                      if (typeof paragraph === 'string') {
                         return (
                           <p key={paragraph} className={styles.body}>
                             {paragraph}
@@ -72,12 +76,16 @@ export function BalancedTrimestersAccordion({ items }: BalancedTrimestersAccordi
                       return (
                         <p
                           key={paragraph.segments
-                            .map((segment) => (typeof segment === "string" ? segment : `${segment.label}-${segment.href}`))
-                            .join("|")}
+                            .map((segment) =>
+                              typeof segment === 'string'
+                                ? segment
+                                : `${segment.label}-${segment.href}`,
+                            )
+                            .join('|')}
                           className={styles.body}
                         >
                           {paragraph.segments.map((segment) =>
-                            typeof segment === "string" ? (
+                            typeof segment === 'string' ? (
                               segment
                             ) : (
                               <a

@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import { MightyBologneseMacAndCheesePageContent } from "@/components/ProductScreen/detail/wrappers/MightyBologneseMacAndCheesePage";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { MightyBologneseMacAndCheesePageContent } from '@/components/ProductScreen/detail/wrappers/MightyBologneseMacAndCheesePage';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 
 export const metadata: Metadata = {
   title: "Bolognese Mac & Cheese | Frozen Kids' Meal | Annabel Karmel",

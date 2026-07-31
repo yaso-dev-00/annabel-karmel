@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { AdviceArticleShell } from "@/components/ContentBlocks/advice-article-shell";
-import { PreviewViewport } from "@/components/Admin/BlockEditor/preview-viewport";
-import type { AdviceArticle } from "@/lib/content-blocks/types";
-import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
+import { AdviceArticleShell } from '@/components/ContentBlocks/advice-article-shell';
+import { PreviewViewport } from '@/components/Admin/BlockEditor/preview-viewport';
+import type { AdviceArticle } from '@/lib/content-blocks/types';
+import styles from '@/components/Admin/BlockEditor/block-editor.module.css';
 
 type PreviewPageClientProps = {
   article: AdviceArticle;

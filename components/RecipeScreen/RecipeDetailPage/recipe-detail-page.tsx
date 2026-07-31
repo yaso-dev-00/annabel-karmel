@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 import {
   RecipeIconAges,
@@ -7,9 +7,9 @@ import {
   RecipeIconFreezing,
   RecipeIconPortions,
   RecipeIconPrep,
-} from "@/components/RecipeScreen/RecipeDetailIcons";
-import type { RecipeDetail, RecipeTaxonomyLink } from "@/data/recipe-detail";
-import styles from "./recipe-detail-page.module.css";
+} from '@/components/RecipeScreen/RecipeDetailIcons';
+import type { RecipeDetail, RecipeTaxonomyLink } from '@/data/recipe-detail';
+import styles from './recipe-detail-page.module.css';
 
 type RecipeDetailPageProps = {
   recipe: RecipeDetail;
@@ -17,9 +17,9 @@ type RecipeDetailPageProps = {
 };
 
 const shareButtonClass =
-  "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#e98c9a] text-white transition-colors duration-[180ms] ease-in-out hover:bg-[#d97a88] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-white";
+  'inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#e98c9a] text-white transition-colors duration-[180ms] ease-in-out hover:bg-[#d97a88] [&_svg]:h-5 [&_svg]:w-5 [&_svg]:fill-white';
 
-const metaIconClass = "h-7 w-7 shrink-0 object-contain";
+const metaIconClass = 'h-7 w-7 shrink-0 object-contain';
 
 function buildShareLinks(url: string, title: string) {
   const encodedUrl = encodeURIComponent(url);
@@ -56,12 +56,15 @@ export function RecipeDetailPage({ recipe, shareUrl }: RecipeDetailPageProps) {
           className="mb-6 font-[family-name:var(--font-montserrat)] text-sm text-[#636262]"
           aria-label="Breadcrumb"
         >
-          <Link href="/recipe-category/first-foods/" className={styles.breadcrumbLink}>
+          <Link
+            href="/recipe-category/first-foods/"
+            className={styles.breadcrumbLink}
+          >
             Recipes
           </Link>
           {breadcrumb ? (
             <>
-              {" > "}
+              {' > '}
               <Link href={breadcrumb.href} className={styles.breadcrumbLink}>
                 {breadcrumb.label}
               </Link>
@@ -226,7 +229,6 @@ export function RecipeDetailPage({ recipe, shareUrl }: RecipeDetailPageProps) {
           </section>
         </div>
       </div>
-
     </main>
   );
 }

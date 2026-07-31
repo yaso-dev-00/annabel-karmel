@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties } from 'react';
 import type {
   AnnouncementBannerBlockData,
   BlockSettings,
@@ -8,7 +8,7 @@ import type {
   MaxWidthPreset,
   NestedMiniBlockStyle,
   RichTextBlockData,
-} from "./types";
+} from './types';
 import {
   resolveAnnouncementBannerBackgroundColor,
   resolveCalloutBackgroundColor,
@@ -16,16 +16,20 @@ import {
   resolveHeroBackgroundColor,
   resolveRichTextBackgroundColor,
   usesIntrinsicBackgroundChildBox,
-} from "./block-background";
-import { resolveBlockMaxWidth, resolveMaxWidth } from "./max-width";
-import { applyBlockMarginStyle } from "./margin";
-import { applyBlockPaddingStyle, hasCustomPadding } from "./padding";
-import { normalizeCssLength } from "./css-length";
-import { applyBlockBorderStyle, hasCustomBorder } from "./border";
-import { applyResponsiveFontSizeStyle } from "./responsive-font-size";
-import { applyBlockTypographyStyle } from "./block-typography";
-import { applyParagraphGapStyle } from "./block-prose";
-import { resolveFontFamily, resolveRadius, resolveShadow } from "@/lib/design-system/tokens";
+} from './block-background';
+import { resolveBlockMaxWidth, resolveMaxWidth } from './max-width';
+import { applyBlockMarginStyle } from './margin';
+import { applyBlockPaddingStyle, hasCustomPadding } from './padding';
+import { normalizeCssLength } from './css-length';
+import { applyBlockBorderStyle, hasCustomBorder } from './border';
+import { applyResponsiveFontSizeStyle } from './responsive-font-size';
+import { applyBlockTypographyStyle } from './block-typography';
+import { applyParagraphGapStyle } from './block-prose';
+import {
+  resolveFontFamily,
+  resolveRadius,
+  resolveShadow,
+} from '@/lib/design-system/tokens';
 
 /** True when toolbar chrome should render on the inner visual box, not the wrapper. */
 export function hasBlockChrome(settings?: BlockSettings): boolean {
@@ -35,19 +39,19 @@ export function hasBlockChrome(settings?: BlockSettings): boolean {
     hasCustomPadding(settings) ||
     Boolean(settings.background_color?.trim()) ||
     Boolean(settings.border_radius) ||
-    Boolean(settings.box_shadow && settings.box_shadow !== "none")
+    Boolean(settings.box_shadow && settings.box_shadow !== 'none')
   );
 }
 
 /** CSS fallbacks when the editor has not set an explicit border radius. */
 export const INTRINSIC_DEFAULT_BORDER_RADIUS = {
-  callout: "12px",
-  partner_promo: "12px",
-  expert_attribution: "12px",
-  hero: "18px",
-  banner: "8px",
-  cta_button: "999px",
-  form_embed: "12px",
+  callout: '12px',
+  partner_promo: '12px',
+  expert_attribution: '12px',
+  hero: '18px',
+  banner: '8px',
+  cta_button: '999px',
+  form_embed: '12px',
 } as const;
 
 export type IntrinsicChildBoxOptions = {
@@ -60,7 +64,10 @@ export type IntrinsicChildBoxOptions = {
 function applyIntrinsicChromeStyle(
   style: CSSProperties,
   settings?: BlockSettings,
-  options?: Pick<IntrinsicChildBoxOptions, "defaultBorderRadius" | "clipOverflow">,
+  options?: Pick<
+    IntrinsicChildBoxOptions,
+    'defaultBorderRadius' | 'clipOverflow'
+  >,
 ): void {
   const radius = resolveRadius(settings?.border_radius);
   if (radius) {
@@ -77,26 +84,28 @@ function applyIntrinsicChromeStyle(
   applyBlockBorderStyle(style, settings);
 
   if (options?.clipOverflow !== false && style.borderRadius) {
-    style.overflow = "hidden";
+    style.overflow = 'hidden';
   }
 }
 
 /** Layout styles for a nested mini-block inside two-column layouts. */
-export function getNestedMiniBlockStyle(style?: NestedMiniBlockStyle): CSSProperties | undefined {
+export function getNestedMiniBlockStyle(
+  style?: NestedMiniBlockStyle,
+): CSSProperties | undefined {
   if (!style) return undefined;
   const css: CSSProperties = {};
   if (style.text_align) css.textAlign = style.text_align;
   if (style.max_width) {
     css.maxWidth = resolveMaxWidth(
       style.max_width,
-      style.max_width === "custom" ? style.max_width_custom : undefined,
+      style.max_width === 'custom' ? style.max_width_custom : undefined,
     );
-    css.width = "100%";
-    if (style.text_align === "center") {
-      css.marginLeft = "auto";
-      css.marginRight = "auto";
-    } else if (style.text_align === "right") {
-      css.marginLeft = "auto";
+    css.width = '100%';
+    if (style.text_align === 'center') {
+      css.marginLeft = 'auto';
+      css.marginRight = 'auto';
+    } else if (style.text_align === 'right') {
+      css.marginLeft = 'auto';
     }
   }
   return Object.keys(css).length ? css : undefined;
@@ -112,13 +121,14 @@ export function getTwoColumnColumnStyle(
 
   if (settings?.text_color) {
     style.color = settings.text_color;
-    (style as Record<string, string>)["--block-text-color"] = settings.text_color;
+    (style as Record<string, string>)['--block-text-color'] =
+      settings.text_color;
   }
 
   const fontFamily = resolveFontFamily(settings?.font_family);
   if (fontFamily) {
-    (style as Record<string, string>)["--block-font-body"] = fontFamily;
-    (style as Record<string, string>)["--block-font-display"] = fontFamily;
+    (style as Record<string, string>)['--block-font-body'] = fontFamily;
+    (style as Record<string, string>)['--block-font-display'] = fontFamily;
   }
 
   applyResponsiveFontSizeStyle(style, settings);
@@ -131,7 +141,7 @@ export function getTwoColumnColumnStyle(
       undefined,
       settings.max_width_custom,
     );
-    style.width = "100%";
+    style.width = '100%';
   }
 
   applyBlockMarginStyle(style, settings);
@@ -139,7 +149,9 @@ export function getTwoColumnColumnStyle(
   return style;
 }
 
-export function getTwoColumnBlockStyle(settings?: BlockSettings): CSSProperties {
+export function getTwoColumnBlockStyle(
+  settings?: BlockSettings,
+): CSSProperties {
   return getIntrinsicChildBoxStyle(settings, {
     clipOverflow: Boolean(settings?.border_radius),
   });
@@ -148,21 +160,21 @@ export function getTwoColumnBlockStyle(settings?: BlockSettings): CSSProperties 
 /** Padding and min-height belong on the colored/visual inner element, not the outer wrapper. */
 export function usesIntrinsicLayoutChildBox(blockType?: BlockType): boolean {
   return (
-    blockType === "accordion" ||
-    blockType === "announcement_banner" ||
-    blockType === "callout" ||
-    blockType === "cta_button" ||
-    blockType === "expert_attribution" ||
-    blockType === "form_embed" ||
-    blockType === "hero" ||
-    blockType === "multi_column_table" ||
-    blockType === "partner_promo" ||
-    blockType === "product_grid" ||
-    blockType === "recipe_grid" ||
-    blockType === "related_links" ||
-    blockType === "rich_text" ||
-    blockType === "table" ||
-    blockType === "two_column"
+    blockType === 'accordion' ||
+    blockType === 'announcement_banner' ||
+    blockType === 'callout' ||
+    blockType === 'cta_button' ||
+    blockType === 'expert_attribution' ||
+    blockType === 'form_embed' ||
+    blockType === 'hero' ||
+    blockType === 'multi_column_table' ||
+    blockType === 'partner_promo' ||
+    blockType === 'product_grid' ||
+    blockType === 'recipe_grid' ||
+    blockType === 'related_links' ||
+    blockType === 'rich_text' ||
+    blockType === 'table' ||
+    blockType === 'two_column'
   );
 }
 
@@ -172,11 +184,11 @@ export function getIntrinsicChildBoxStyle(
   options?: IntrinsicChildBoxOptions,
 ): CSSProperties {
   const style: CSSProperties = {
-    boxSizing: "border-box",
+    boxSizing: 'border-box',
   };
 
   if (options?.fullWidth !== false) {
-    style.width = "100%";
+    style.width = '100%';
   }
 
   if (options?.backgroundColor) {
@@ -201,7 +213,7 @@ export function getIntrinsicChildBoxStyle(
 }
 
 export function getRichTextStyle(
-  variant: RichTextBlockData["variant"],
+  variant: RichTextBlockData['variant'],
   settings?: BlockSettings,
 ): CSSProperties {
   return getIntrinsicChildBoxStyle(settings, {
@@ -210,7 +222,10 @@ export function getRichTextStyle(
   });
 }
 
-export function getHeroStyle(data: HeroBlockData, settings?: BlockSettings): CSSProperties {
+export function getHeroStyle(
+  data: HeroBlockData,
+  settings?: BlockSettings,
+): CSSProperties {
   return getIntrinsicChildBoxStyle(settings, {
     backgroundColor: resolveHeroBackgroundColor(data, settings),
     defaultBorderRadius: INTRINSIC_DEFAULT_BORDER_RADIUS.hero,
@@ -229,17 +244,21 @@ export function getAnnouncementBannerStyle(
   });
 }
 
-export function getCalloutStyle(data: CalloutBlockData, settings?: BlockSettings): CSSProperties {
+export function getCalloutStyle(
+  data: CalloutBlockData,
+  settings?: BlockSettings,
+): CSSProperties {
   return getIntrinsicChildBoxStyle(settings, {
     backgroundColor:
-      resolveCalloutBackgroundColor(data, settings) || resolveCalloutDefaultBackgroundColor(data),
+      resolveCalloutBackgroundColor(data, settings) ||
+      resolveCalloutDefaultBackgroundColor(data),
     defaultBorderRadius: INTRINSIC_DEFAULT_BORDER_RADIUS.callout,
   });
 }
 
 export function getPartnerPromoStyle(settings?: BlockSettings): CSSProperties {
   return getIntrinsicChildBoxStyle(settings, {
-    backgroundColor: settings?.background_color?.trim() || "#fff2ea",
+    backgroundColor: settings?.background_color?.trim() || '#fff2ea',
     defaultBorderRadius: INTRINSIC_DEFAULT_BORDER_RADIUS.partner_promo,
   });
 }
@@ -264,10 +283,13 @@ export function getExpertAttributionStyle(
   settings?: BlockSettings,
 ): CSSProperties {
   const explicitBg = settings?.background_color?.trim();
-  const isPlainPreset = preset === "milk_making_mama" || preset === "mother_box";
-  const isBoxedPreset = preset === "kerry_secker" || preset === "custom";
+  const isPlainPreset =
+    preset === 'milk_making_mama' || preset === 'mother_box';
+  const isBoxedPreset = preset === 'kerry_secker' || preset === 'custom';
   const style = getIntrinsicChildBoxStyle(settings, {
-    defaultBorderRadius: isBoxedPreset ? INTRINSIC_DEFAULT_BORDER_RADIUS.expert_attribution : undefined,
+    defaultBorderRadius: isBoxedPreset
+      ? INTRINSIC_DEFAULT_BORDER_RADIUS.expert_attribution
+      : undefined,
   });
 
   if (explicitBg) {
@@ -275,11 +297,11 @@ export function getExpertAttributionStyle(
   } else if (isBoxedPreset) {
     delete style.backgroundColor;
   } else if (isPlainPreset) {
-    style.backgroundColor = "transparent";
+    style.backgroundColor = 'transparent';
     delete style.border;
     style.borderWidth = 0;
-    style.borderStyle = "solid";
-    style.borderColor = "transparent";
+    style.borderStyle = 'solid';
+    style.borderColor = 'transparent';
   }
 
   if (isPlainPreset && !hasCustomPadding(settings)) {
@@ -305,8 +327,8 @@ export function getBlockWrapperStyle(
       settings?.max_width_custom,
       articleMaxWidthCustom,
     ),
-    width: "100%",
-    boxSizing: "border-box",
+    width: '100%',
+    boxSizing: 'border-box',
   };
 
   if (settings?.min_width_custom?.trim()) {
@@ -314,8 +336,8 @@ export function getBlockWrapperStyle(
   }
 
   applyBlockMarginStyle(style, settings);
-  if (style.marginLeft === undefined) style.marginLeft = "auto";
-  if (style.marginRight === undefined) style.marginRight = "auto";
+  if (style.marginLeft === undefined) style.marginLeft = 'auto';
+  if (style.marginRight === undefined) style.marginRight = 'auto';
 
   if (!paddingOnChild) {
     applyBlockPaddingStyle(style, settings);
@@ -330,7 +352,7 @@ export function getBlockWrapperStyle(
     if (radius) {
       style.borderRadius = radius;
     } else if (!backgroundOnChild && settings?.background_color) {
-      style.borderRadius = "8px";
+      style.borderRadius = '8px';
     }
 
     const shadow = resolveShadow(settings?.box_shadow);
@@ -343,13 +365,14 @@ export function getBlockWrapperStyle(
 
   if (settings?.text_color) {
     style.color = settings.text_color;
-    (style as Record<string, string>)["--block-text-color"] = settings.text_color;
+    (style as Record<string, string>)['--block-text-color'] =
+      settings.text_color;
   }
 
   const fontFamily = resolveFontFamily(settings?.font_family);
   if (fontFamily) {
-    (style as Record<string, string>)["--block-font-body"] = fontFamily;
-    (style as Record<string, string>)["--block-font-display"] = fontFamily;
+    (style as Record<string, string>)['--block-font-body'] = fontFamily;
+    (style as Record<string, string>)['--block-font-display'] = fontFamily;
   }
 
   applyResponsiveFontSizeStyle(style, settings);

@@ -1,1 +1,1 @@
-export { AdList } from "./ad-list";
+export { AdList } from './ad-list';

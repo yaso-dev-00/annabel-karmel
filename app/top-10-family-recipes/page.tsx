@@ -1,19 +1,22 @@
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
-import { familyRecipes, familyRecipesIntro } from "@/data/top-10-family-recipes-page";
-import { getRelatedArticles } from "@/data/related-articles";
-import type { Metadata } from "next";
-import styles from "./page.module.css";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
+import {
+  familyRecipes,
+  familyRecipesIntro,
+} from '@/data/top-10-family-recipes-page';
+import { getRelatedArticles } from '@/data/related-articles';
+import type { Metadata } from 'next';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Top 10 Most Popular Family Recipes | Annabel Karmel",
+  title: 'Top 10 Most Popular Family Recipes | Annabel Karmel',
   description:
     "Families all over the world rely on Annabel Karmel's recipes. Here are the top 10 most popular family recipes on our website.",
 };
 
-const relatedArticles = getRelatedArticles("/top-10-family-recipes");
+const relatedArticles = getRelatedArticles('/top-10-family-recipes');
 
 export default function Top10FamilyRecipesPage() {
   return (
@@ -25,19 +28,33 @@ export default function Top10FamilyRecipesPage() {
 
           <div className="mt-[40px] space-y-[60px]">
             {familyRecipes.map((recipe) => (
-              <section key={recipe.title} style={{ background: "#f3ebee" }}>
+              <section key={recipe.title} style={{ background: '#f3ebee' }}>
                 <a href={recipe.href} target="_blank" rel="noopener noreferrer">
-                  <img src={recipe.image} alt={recipe.imageAlt} className="w-full" />
+                  <img
+                    src={recipe.image}
+                    alt={recipe.imageAlt}
+                    className="w-full"
+                  />
                 </a>
-                <div style={{ padding: "16px 21px 21px" }} className="text-center">
+                <div
+                  style={{ padding: '16px 21px 21px' }}
+                  className="text-center"
+                >
                   <h2 className={styles.cardTitle}>{recipe.title}</h2>
                   <p className={`${styles.cardExcerpt} mt-[10px]`}>
                     {recipe.body}
                     <br />
-                    <span className={styles.postViews}>Post Views: {recipe.postViews}</span>
+                    <span className={styles.postViews}>
+                      Post Views: {recipe.postViews}
+                    </span>
                   </p>
                   <div className="mt-[20px] text-center">
-                    <a href={recipe.href} target="_blank" rel="noopener noreferrer" className={styles.readMore}>
+                    <a
+                      href={recipe.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.readMore}
+                    >
                       Read More
                     </a>
                   </div>
@@ -48,7 +65,9 @@ export default function Top10FamilyRecipesPage() {
 
           <div className="mt-[90px] text-center">
             <h2 className={styles.relatedTitle}>Related Articles</h2>
-            <p className={styles.relatedText}>Some more articles you might enjoy...</p>
+            <p className={styles.relatedText}>
+              Some more articles you might enjoy...
+            </p>
           </div>
         </article>
 

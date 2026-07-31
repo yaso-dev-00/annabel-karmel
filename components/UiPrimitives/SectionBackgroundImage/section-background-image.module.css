@@ -63,24 +63,24 @@
 }
 
 /* Selected device in PreviewViewport (frame may be CSS-shrunk below real width) */
-:global([data-preview-viewport="mobile"]) .desktopOnly,
-:global([data-preview-viewport="tablet"]) .desktopOnly {
+:global([data-preview-viewport='mobile']) .desktopOnly,
+:global([data-preview-viewport='tablet']) .desktopOnly {
   display: none !important;
 }
 
-:global([data-preview-viewport="mobile"]) .mobileOnly,
-:global([data-preview-viewport="tablet"]) .mobileOnly {
+:global([data-preview-viewport='mobile']) .mobileOnly,
+:global([data-preview-viewport='tablet']) .mobileOnly {
   display: block !important;
 }
 
-:global([data-preview-viewport="landscape_tablet"]) .desktopOnly,
-:global([data-preview-viewport="desktop"]) .desktopOnly,
-:global([data-preview-viewport="large_desktop"]) .desktopOnly {
+:global([data-preview-viewport='landscape_tablet']) .desktopOnly,
+:global([data-preview-viewport='desktop']) .desktopOnly,
+:global([data-preview-viewport='large_desktop']) .desktopOnly {
   display: block !important;
 }
 
-:global([data-preview-viewport="landscape_tablet"]) .mobileOnly,
-:global([data-preview-viewport="desktop"]) .mobileOnly,
-:global([data-preview-viewport="large_desktop"]) .mobileOnly {
+:global([data-preview-viewport='landscape_tablet']) .mobileOnly,
+:global([data-preview-viewport='desktop']) .mobileOnly,
+:global([data-preview-viewport='large_desktop']) .mobileOnly {
   display: none !important;
 }

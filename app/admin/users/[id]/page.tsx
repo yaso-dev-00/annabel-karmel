@@ -1,8 +1,8 @@
-import { UserDetailClient } from "@/components/Admin/UserEditor/user-detail-client";
-import { getAdminUserSeedById } from "@/data/admin-users";
-import { notFound } from "next/navigation";
+import { UserDetailClient } from '@/components/Admin/UserEditor/user-detail-client';
+import { getAdminUserSeedById } from '@/data/admin-users';
+import { notFound } from 'next/navigation';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 type PageProps = { params: Promise<{ id: string }> };

@@ -1,1 +1,1 @@
-export * from "./food-allergies-faq-accordion";
+export * from './food-allergies-faq-accordion';

@@ -6,7 +6,7 @@ import type {
   ChilledProductTheme,
   MealProductRetailerLogo,
   ProductHeroDimensions,
-} from "./chilled-product-page";
+} from './chilled-product-page';
 
 export type {
   ChilledProductAccordionItem as FrozenProductAccordionItem,

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   useEffect,
@@ -8,9 +8,10 @@ import {
   useRef,
   useState,
   type CSSProperties,
-} from "react";
-import { createPortal } from "react-dom";
-import styles from "./recipe-editor.module.css";
+} from 'react';
+import { createPortal } from 'react-dom';
+import { useIsClient } from '@/lib/use-is-client';
+import styles from './recipe-editor.module.css';
 
 export type RelationCatalogItem = {
   id: string;
@@ -35,12 +36,12 @@ export function RecipeRelationPicker({
   catalog,
   onChange,
   excludeId,
-  emptyLabel = "No items selected",
+  emptyLabel = 'No items selected',
 }: RecipeRelationPickerProps) {
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [menuStyle, setMenuStyle] = useState<CSSProperties>({});
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsClient();
   const rootRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -74,15 +75,11 @@ export function RecipeRelationPicker({
     });
   }, [catalog, selectedIds, excludeId, query]);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   useLayoutEffect(() => {
     if (!open || !rootRef.current) return;
 
     const updatePosition = () => {
-      const trigger = rootRef.current?.querySelector("button");
+      const trigger = rootRef.current?.querySelector('button');
       if (!trigger) return;
       const rect = trigger.getBoundingClientRect();
       const menuWidth = Math.min(300, window.innerWidth - 24);
@@ -90,14 +87,17 @@ export function RecipeRelationPicker({
       const spaceBelow = window.innerHeight - rect.bottom - 12;
       const spaceAbove = rect.top - 12;
       const openBelow = spaceBelow >= 180 || spaceBelow >= spaceAbove;
-      const maxHeight = Math.max(140, Math.min(280, openBelow ? spaceBelow : spaceAbove));
+      const maxHeight = Math.max(
+        140,
+        Math.min(280, openBelow ? spaceBelow : spaceAbove),
+      );
       const left = Math.min(
         Math.max(12, rect.right - menuWidth),
         window.innerWidth - menuWidth - 12,
       );
 
       setMenuStyle({
-        position: "fixed",
+        position: 'fixed',
         top: openBelow ? rect.bottom + gap : undefined,
         bottom: openBelow ? undefined : window.innerHeight - rect.top + gap,
         left,
@@ -108,11 +108,11 @@ export function RecipeRelationPicker({
     };
 
     updatePosition();
-    window.addEventListener("resize", updatePosition);
-    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
     return () => {
-      window.removeEventListener("resize", updatePosition);
-      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
     };
   }, [open, available.length, query]);
 
@@ -121,23 +121,26 @@ export function RecipeRelationPicker({
     searchRef.current?.focus();
     const onPointerDown = (event: MouseEvent) => {
       const target = event.target as Node;
-      if (rootRef.current?.contains(target) || menuRef.current?.contains(target)) {
+      if (
+        rootRef.current?.contains(target) ||
+        menuRef.current?.contains(target)
+      ) {
         return;
       }
       setOpen(false);
-      setQuery("");
+      setQuery('');
     };
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setOpen(false);
-        setQuery("");
+        setQuery('');
       }
     };
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
     return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
     };
   }, [open]);
 
@@ -145,7 +148,7 @@ export function RecipeRelationPicker({
     if (selectedIds.includes(id)) return;
     onChange([...selectedIds, id]);
     setOpen(false);
-    setQuery("");
+    setQuery('');
   };
 
   const remove = (id: string) => {
@@ -181,10 +184,15 @@ export function RecipeRelationPicker({
                 aria-label={`Search ${label}`}
               />
             </div>
-            <ul id={listId} className={styles.addPickerList} role="listbox" aria-label={label}>
+            <ul
+              id={listId}
+              className={styles.addPickerList}
+              role="listbox"
+              aria-label={label}
+            >
               {available.length === 0 ? (
                 <li className={styles.addPickerEmpty}>
-                  {query.trim() ? "No matches" : "Nothing left to add"}
+                  {query.trim() ? 'No matches' : 'Nothing left to add'}
                 </li>
               ) : (
                 available.map((item) => (
@@ -194,9 +202,13 @@ export function RecipeRelationPicker({
                       className={styles.addPickerOption}
                       onClick={() => add(item.id)}
                     >
-                      <span className={styles.relationOptionTitle}>{item.title}</span>
+                      <span className={styles.relationOptionTitle}>
+                        {item.title}
+                      </span>
                       {item.slug ? (
-                        <span className={styles.relationOptionSlug}>{item.slug}</span>
+                        <span className={styles.relationOptionSlug}>
+                          {item.slug}
+                        </span>
                       ) : null}
                     </button>
                   </li>
@@ -223,7 +235,7 @@ export function RecipeRelationPicker({
             disabled={available.length === 0 && !open}
             onClick={() => {
               setOpen((prev) => !prev);
-              setQuery("");
+              setQuery('');
             }}
           >
             <span>+ Add</span>

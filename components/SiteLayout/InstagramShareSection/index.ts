@@ -1,1 +1,1 @@
-export * from "./instagram-share-section";
+export * from './instagram-share-section';

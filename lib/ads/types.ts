@@ -1,6 +1,7 @@
-export type AdStatus = "draft" | "published" | "scheduled" | "private" | "disabled";
+export type AdStatus =
+  'draft' | 'published' | 'scheduled' | 'private' | 'disabled';
 
-export type AdPlacementId = "header" | "footer";
+export type AdPlacementId = 'header' | 'footer';
 
 export type SiteAd = {
   id: string;

@@ -1,24 +1,20 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import {
-  createAdApi,
-  deleteAdApi,
-  updateAdApi,
-} from "@/lib/admin/ads-client";
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import { createAdApi, deleteAdApi, updateAdApi } from '@/lib/admin/ads-client';
 import {
   applyAdStatus,
   buildAdSavePayload,
   getAdStatusPatch,
   isAdDisabled,
   resolveAdStatus,
-} from "@/lib/admin/ad-status";
-import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
-import { ConfirmModal } from "@/components/Admin/Ui/ConfirmModal";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import type { AdPlacementId, AdStatus, SiteAd } from "@/lib/ads/types";
-import type { AdviceArticleStatus } from "@/lib/content-blocks/types";
+} from '@/lib/admin/ad-status';
+import { ArticleStatusField } from '@/components/Admin/Ui/ArticleStatusField';
+import { ConfirmModal } from '@/components/Admin/Ui/ConfirmModal';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import type { AdPlacementId, AdStatus, SiteAd } from '@/lib/ads/types';
+import type { AdviceArticleStatus } from '@/lib/content-blocks/types';
 
 type AdEditorProps = {
   initialAd: SiteAd;
@@ -26,8 +22,8 @@ type AdEditorProps = {
 };
 
 const PLACEMENT_OPTIONS: { value: AdPlacementId; label: string }[] = [
-  { value: "header", label: "Header" },
-  { value: "footer", label: "Footer" },
+  { value: 'header', label: 'Header' },
+  { value: 'footer', label: 'Footer' },
 ];
 
 export function AdEditor({ initialAd, isNew }: AdEditorProps) {
@@ -39,12 +35,17 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [widthInput, setWidthInput] = useState(String(initialAd.width));
   const [heightInput, setHeightInput] = useState(String(initialAd.height));
-  const [sortOrderInput, setSortOrderInput] = useState(String(initialAd.sortOrder));
+  const [sortOrderInput, setSortOrderInput] = useState(
+    String(initialAd.sortOrder),
+  );
 
-  const update = useCallback(<K extends keyof SiteAd>(key: K, value: SiteAd[K]) => {
-    setAd((prev) => ({ ...prev, [key]: value }));
-    setDirty(true);
-  }, []);
+  const update = useCallback(
+    <K extends keyof SiteAd>(key: K, value: SiteAd[K]) => {
+      setAd((prev) => ({ ...prev, [key]: value }));
+      setDirty(true);
+    },
+    [],
+  );
 
   const syncNumericInputs = (next: SiteAd) => {
     setWidthInput(String(next.width));
@@ -53,12 +54,12 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
   };
 
   const commitNumericField = (
-    key: "width" | "height" | "sortOrder",
+    key: 'width' | 'height' | 'sortOrder',
     raw: string,
     fallback: number,
     setInput: (value: string) => void,
   ) => {
-    const parsed = raw.trim() === "" ? fallback : Number.parseInt(raw, 10);
+    const parsed = raw.trim() === '' ? fallback : Number.parseInt(raw, 10);
     const next = Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
     setInput(String(next));
     update(key, next);
@@ -88,7 +89,7 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
         setAd(created);
         syncNumericInputs(created);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.replace(`/admin/ads/${created.id}/edit`);
         router.refresh();
       } else {
@@ -96,18 +97,24 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
         setAd(updated);
         syncNumericInputs(updated);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.refresh();
       }
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Save failed. Please try again.';
       setMessage(detail);
     } finally {
       setSaving(false);
     }
   };
 
-  const handleStatusChange = async (status: AdviceArticleStatus, scheduledAt?: string | null) => {
+  const handleStatusChange = async (
+    status: AdviceArticleStatus,
+    scheduledAt?: string | null,
+  ) => {
     const next = applyAdStatus(ad, status as AdStatus, scheduledAt);
     setAd(next);
 
@@ -120,16 +127,19 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
         syncNumericInputs(updated);
         setDirty(false);
         setMessage(
-          status === "disabled"
-            ? "Advertisement disabled."
-            : status === "published"
-              ? "Advertisement published."
-              : "Status saved.",
+          status === 'disabled'
+            ? 'Advertisement disabled.'
+            : status === 'published'
+              ? 'Advertisement published.'
+              : 'Status saved.',
         );
         router.refresh();
       } catch (error) {
         setDirty(true);
-        const detail = error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+        const detail =
+          error instanceof Error
+            ? error.message
+            : 'Failed to save status. Try Save draft.';
         setMessage(detail);
       } finally {
         setSaving(false);
@@ -146,10 +156,13 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
     setMessage(null);
     try {
       await deleteAdApi(ad.id);
-      router.push("/admin/ads");
+      router.push('/admin/ads');
       router.refresh();
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Failed to delete advertisement.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Failed to delete advertisement.';
       setMessage(detail);
       setSaving(false);
       setConfirmDelete(false);
@@ -164,12 +177,16 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
     <div className="editorSections">
       <div className="editorPageHeader">
         <div>
-          <h1 className="cardTitle">{ad.title || "Untitled"}</h1>
-          <p className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}>
-            {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
+          <h1 className="cardTitle">{ad.title || 'Untitled'}</h1>
+          <p className={`statusBar ${dirty && !message ? 'statusDirty' : ''}`}>
+            {message
+              ? message
+              : dirty
+                ? 'Unsaved changes'
+                : 'All changes saved'}
           </p>
         </div>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {!isNew && ad.id ? (
             <button
               type="button"
@@ -180,7 +197,12 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
               Delete
             </button>
           ) : null}
-          <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+          <button
+            type="button"
+            className="btn btnSecondary"
+            onClick={saveDraft}
+            disabled={saving}
+          >
             Save draft
           </button>
           <button
@@ -203,7 +225,7 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
         />
 
         <div className="metaGrid">
-          <div className="field" style={{ gridColumn: "1 / -1" }}>
+          <div className="field" style={{ gridColumn: '1 / -1' }}>
             <label className="fieldLabel" htmlFor="ad-title">
               Title
             </label>
@@ -211,16 +233,16 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
               id="ad-title"
               className="fieldInput"
               value={ad.title}
-              onChange={(e) => update("title", e.target.value)}
+              onChange={(e) => update('title', e.target.value)}
             />
           </div>
 
-          <div className="field" style={{ gridColumn: "1 / -1" }}>
+          <div className="field" style={{ gridColumn: '1 / -1' }}>
             <label className="fieldLabel">Banner image</label>
             <ImageField
               value={ad.image}
               showAlt={false}
-              onChange={(src) => update("image", src)}
+              onChange={(src) => update('image', src)}
             />
             {ad.image ? (
               <div style={{ marginTop: 12 }}>
@@ -231,18 +253,18 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
                   width={ad.width || 728}
                   height={ad.height || 200}
                   style={{
-                    display: "block",
-                    maxWidth: "100%",
-                    height: "auto",
+                    display: 'block',
+                    maxWidth: '100%',
+                    height: 'auto',
                     borderRadius: 8,
-                    background: "#f3f1f2",
+                    background: '#f3f1f2',
                   }}
                 />
               </div>
             ) : null}
           </div>
 
-          <div className="field" style={{ gridColumn: "1 / -1" }}>
+          <div className="field" style={{ gridColumn: '1 / -1' }}>
             <label className="fieldLabel" htmlFor="ad-href">
               Link URL
             </label>
@@ -250,12 +272,12 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
               id="ad-href"
               className="fieldInput"
               value={ad.href}
-              onChange={(e) => update("href", e.target.value)}
+              onChange={(e) => update('href', e.target.value)}
               placeholder="https://… or /relative-path"
             />
           </div>
 
-          <div className="field" style={{ gridColumn: "1 / -1" }}>
+          <div className="field" style={{ gridColumn: '1 / -1' }}>
             <label className="fieldLabel" htmlFor="ad-aria-label">
               Accessible label
             </label>
@@ -263,7 +285,7 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
               id="ad-aria-label"
               className="fieldInput"
               value={ad.ariaLabel}
-              onChange={(e) => update("ariaLabel", e.target.value)}
+              onChange={(e) => update('ariaLabel', e.target.value)}
               placeholder="Short description for screen readers"
             />
           </div>
@@ -281,12 +303,14 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
               value={widthInput}
               onChange={(e) => {
                 const raw = e.target.value;
-                if (raw !== "" && !/^\d+$/.test(raw)) return;
+                if (raw !== '' && !/^\d+$/.test(raw)) return;
                 setWidthInput(raw);
                 setDirty(true);
-                if (raw !== "") update("width", Number.parseInt(raw, 10));
+                if (raw !== '') update('width', Number.parseInt(raw, 10));
               }}
-              onBlur={() => commitNumericField("width", widthInput, 728, setWidthInput)}
+              onBlur={() =>
+                commitNumericField('width', widthInput, 728, setWidthInput)
+              }
             />
           </div>
 
@@ -303,12 +327,14 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
               value={heightInput}
               onChange={(e) => {
                 const raw = e.target.value;
-                if (raw !== "" && !/^\d+$/.test(raw)) return;
+                if (raw !== '' && !/^\d+$/.test(raw)) return;
                 setHeightInput(raw);
                 setDirty(true);
-                if (raw !== "") update("height", Number.parseInt(raw, 10));
+                if (raw !== '') update('height', Number.parseInt(raw, 10));
               }}
-              onBlur={() => commitNumericField("height", heightInput, 200, setHeightInput)}
+              onBlur={() =>
+                commitNumericField('height', heightInput, 200, setHeightInput)
+              }
             />
           </div>
 
@@ -325,22 +351,41 @@ export function AdEditor({ initialAd, isNew }: AdEditorProps) {
               value={sortOrderInput}
               onChange={(e) => {
                 const raw = e.target.value;
-                if (raw !== "" && !/^\d+$/.test(raw)) return;
+                if (raw !== '' && !/^\d+$/.test(raw)) return;
                 setSortOrderInput(raw);
                 setDirty(true);
-                if (raw !== "") update("sortOrder", Number.parseInt(raw, 10));
+                if (raw !== '') update('sortOrder', Number.parseInt(raw, 10));
               }}
-              onBlur={() => commitNumericField("sortOrder", sortOrderInput, 0, setSortOrderInput)}
+              onBlur={() =>
+                commitNumericField(
+                  'sortOrder',
+                  sortOrderInput,
+                  0,
+                  setSortOrderInput,
+                )
+              }
             />
           </div>
 
           <div className="field">
             <span className="fieldLabel">Placements</span>
-            <div style={{ display: "flex", gap: 16, marginTop: 8, flexWrap: "wrap" }}>
+            <div
+              style={{
+                display: 'flex',
+                gap: 16,
+                marginTop: 8,
+                flexWrap: 'wrap',
+              }}
+            >
               {PLACEMENT_OPTIONS.map((option) => (
                 <label
                   key={option.value}
-                  style={{ display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    cursor: 'pointer',
+                  }}
                 >
                   <input
                     type="checkbox"

@@ -1,1 +1,1 @@
-export * from "./listing-pagination-scroll";
+export * from './listing-pagination-scroll';

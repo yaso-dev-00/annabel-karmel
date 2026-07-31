@@ -1,1 +1,1 @@
-export * from "./ways-to-serve-carousel";
+export * from './ways-to-serve-carousel';

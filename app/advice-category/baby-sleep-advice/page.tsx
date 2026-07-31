@@ -1,15 +1,15 @@
-import { AdviceCategoryListing } from "@/components/ArticleScreen/AdviceCategoryListing";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { AdviceCategoryListing } from '@/components/ArticleScreen/AdviceCategoryListing';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   babySleepAdviceIntro,
   babySleepAdviceListingArticles,
-} from "@/data/baby-sleep-advice-listing";
-import type { Metadata } from "next";
+} from '@/data/baby-sleep-advice-listing';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Baby Sleep Advice & Tips | Annabel Karmel",
+  title: 'Baby Sleep Advice & Tips | Annabel Karmel',
   description: babySleepAdviceIntro,
 };
 

@@ -38,7 +38,7 @@
 }
 
 .methodList li::before {
-  content: counter(step) ".";
+  content: counter(step) '.';
   position: absolute;
   left: 0;
   font-weight: 600;

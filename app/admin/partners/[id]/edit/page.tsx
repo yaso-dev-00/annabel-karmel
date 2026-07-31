@@ -1,9 +1,9 @@
-import { AdminShell } from "@/components/Admin/AdminShell";
-import { PartnerPageEditor } from "@/components/Admin/PartnerPageEditor/partner-page-editor";
-import { getPartnerPageById } from "@/lib/admin/partners-store";
-import { notFound } from "next/navigation";
+import { AdminShell } from '@/components/Admin/AdminShell';
+import { PartnerPageEditor } from '@/components/Admin/PartnerPageEditor/partner-page-editor';
+import { getPartnerPageById } from '@/lib/admin/partners-store';
+import { notFound } from 'next/navigation';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 type PageProps = { params: Promise<{ id: string }> };

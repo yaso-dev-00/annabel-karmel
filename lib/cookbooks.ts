@@ -1,5 +1,5 @@
-import { cookbookDetailsBySlug } from "@/data/cookbook-details";
-import { ourBooksProducts, type OurBooksProduct } from "@/data/our-books-page";
+import { cookbookDetailsBySlug } from '@/data/cookbook-details';
+import { ourBooksProducts, type OurBooksProduct } from '@/data/our-books-page';
 
 export type CookbookPageData = OurBooksProduct & {
   detailBody: string;
@@ -19,8 +19,9 @@ export function getCookbookBySlug(slug: string): CookbookPageData | null {
 
   const details = cookbookDetailsBySlug[slug];
   const detailBody = details?.detailBody ?? product.body;
-  const detailBodyHighlights = details?.detailBodyHighlights ?? product.bodyHighlights;
-  const metaDescription = detailBody.split("\n\n")[0] ?? product.subtitle;
+  const detailBodyHighlights =
+    details?.detailBodyHighlights ?? product.bodyHighlights;
+  const metaDescription = detailBody.split('\n\n')[0] ?? product.subtitle;
 
   return {
     ...product,

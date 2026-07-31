@@ -1,23 +1,21 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { matchesAdminListSearch } from "@/lib/admin/format-admin-list";
-import {
-  formatAdminUserFullName,
-  type AdminUser,
-} from "@/lib/admin/users/types";
-import { getMergedAdminUsers } from "@/lib/admin/users/users-storage";
-import styles from "./user-list.module.css";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { matchesAdminListSearch } from '@/lib/admin/format-admin-list';
+import { formatAdminUserFullName } from '@/lib/admin/users/types';
+import { getMergedAdminUsers } from '@/lib/admin/users/users-storage';
+import { useIsClient } from '@/lib/use-is-client';
+import styles from './user-list.module.css';
 
 const PAGE_SIZE = 20;
 
 function formatRegisteredDate(iso: string): string {
   const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "—";
+  if (Number.isNaN(d.getTime())) return '—';
   const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
   return `${y}/${m}/${day}`;
 }
 
@@ -35,7 +33,7 @@ function ClickableTableRow({
       className="tableRowClickable"
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -49,14 +47,14 @@ function ClickableTableRow({
 }
 
 export function UserList() {
-  const [users, setUsers] = useState<AdminUser[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [appliedSearch, setAppliedSearch] = useState("");
+  const isClient = useIsClient();
+  const users = useMemo(
+    () => (isClient ? getMergedAdminUsers() : []),
+    [isClient],
+  );
+  const [searchQuery, setSearchQuery] = useState('');
+  const [appliedSearch, setAppliedSearch] = useState('');
   const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    setUsers(getMergedAdminUsers());
-  }, []);
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>
@@ -184,11 +182,16 @@ export function UserList() {
               </tr>
             ) : (
               pageUsers.map((user) => (
-                <ClickableTableRow key={user.id} href={`/admin/users/${user.id}`}>
+                <ClickableTableRow
+                  key={user.id}
+                  href={`/admin/users/${user.id}`}
+                >
                   <td className={styles.usernameCell}>{user.username}</td>
                   <td>{formatAdminUserFullName(user)}</td>
                   <td>{user.email}</td>
-                  <td className={styles.dateCell}>{formatRegisteredDate(user.registeredAt)}</td>
+                  <td className={styles.dateCell}>
+                    {formatRegisteredDate(user.registeredAt)}
+                  </td>
                 </ClickableTableRow>
               ))
             )}

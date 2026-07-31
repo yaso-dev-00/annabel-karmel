@@ -1,5 +1,8 @@
-import type { RecipeListingItem, RecipeTaxonomyKind } from "@/data/recipe-taxonomies";
-import { getRecipeListing } from "@/lib/recipe-listings";
+import type {
+  RecipeListingItem,
+  RecipeTaxonomyKind,
+} from '@/data/recipe-taxonomies';
+import { getRecipeListing } from '@/lib/recipe-listings';
 
 export type RecipeSearchFilters = {
   age?: string;
@@ -25,13 +28,19 @@ type FilterDimension = {
 
 function getActiveDimensions(filters: RecipeSearchFilters): FilterDimension[] {
   const dimensions: FilterDimension[] = [];
-  if (filters.age) dimensions.push({ kind: "recipe-category", slug: filters.age });
-  if (filters.mealTime) dimensions.push({ kind: "meal-time", slug: filters.mealTime });
-  if (filters.freeFrom) dimensions.push({ kind: "allergen", slug: filters.freeFrom });
+  if (filters.age)
+    dimensions.push({ kind: 'recipe-category', slug: filters.age });
+  if (filters.mealTime)
+    dimensions.push({ kind: 'meal-time', slug: filters.mealTime });
+  if (filters.freeFrom)
+    dimensions.push({ kind: 'allergen', slug: filters.freeFrom });
   return dimensions;
 }
 
-function mergeItem(existing: RecipeListingItem, next: RecipeListingItem): RecipeListingItem {
+function mergeItem(
+  existing: RecipeListingItem,
+  next: RecipeListingItem,
+): RecipeListingItem {
   return {
     slug: existing.slug,
     title: existing.title || next.title,
@@ -45,7 +54,9 @@ function mergeItem(existing: RecipeListingItem, next: RecipeListingItem): Recipe
  * Search recipes across taxonomy dimensions. Demo: intersects scraped JSON lists by slug.
  * API: replace this function body with a fetch to your backend using the same filters.
  */
-export async function searchRecipes(filters: RecipeSearchFilters): Promise<RecipeSearchResult> {
+export async function searchRecipes(
+  filters: RecipeSearchFilters,
+): Promise<RecipeSearchResult> {
   const page = Math.max(1, filters.page ?? 1);
   const dimensions = getActiveDimensions(filters);
 
@@ -78,7 +89,9 @@ export async function searchRecipes(filters: RecipeSearchFilters): Promise<Recip
 
   if (filters.q?.trim()) {
     const query = filters.q.trim().toLowerCase();
-    results = results.filter((item) => item.title.toLowerCase().includes(query));
+    results = results.filter((item) =>
+      item.title.toLowerCase().includes(query),
+    );
   }
 
   const total = results.length;
@@ -101,8 +114,10 @@ export function hasSecondaryFilters(
 
   if (activeCount <= 1) return false;
 
-  if (primaryKind === "recipe-category") return Boolean(filters.mealTime || filters.freeFrom);
-  if (primaryKind === "meal-time") return Boolean(filters.age || filters.freeFrom);
+  if (primaryKind === 'recipe-category')
+    return Boolean(filters.mealTime || filters.freeFrom);
+  if (primaryKind === 'meal-time')
+    return Boolean(filters.age || filters.freeFrom);
   return Boolean(filters.age || filters.mealTime);
 }
 

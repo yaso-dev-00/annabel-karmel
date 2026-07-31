@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
 import {
   createAdviceArticleApi,
   updateAdviceArticleApi,
-} from "@/lib/admin/advice-articles-client";
+} from '@/lib/admin/advice-articles-client';
 import {
   applyAdviceArticleStatus,
   buildAdviceArticleSavePayload,
@@ -15,33 +15,47 @@ import {
   isAdviceArticlePreviewable,
   isAdviceArticlePublic,
   resolveAdviceArticleStatus,
-} from "@/lib/admin/advice-article-status";
-import { ArticleStatusField } from "@/components/Admin/Ui/ArticleStatusField";
-import { ImageField } from "@/components/Admin/Ui/ImageField";
-import { MaxWidthField } from "@/components/Admin/Ui/MaxWidthField";
-import { BlockEditorCanvas, BlockEditorLivePreview, BlockEditorRoot } from "@/components/Admin/BlockEditor/block-editor";
-import styles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import type { AdviceArticle, AdviceArticleStatus, MaxWidthPreset } from "@/lib/content-blocks/types";
-import { SAMPLE_ARTICLE_ID } from "@/lib/content-blocks/types";
+} from '@/lib/admin/advice-article-status';
+import { ArticleStatusField } from '@/components/Admin/Ui/ArticleStatusField';
+import { ImageField } from '@/components/Admin/Ui/ImageField';
+import { MaxWidthField } from '@/components/Admin/Ui/MaxWidthField';
+import {
+  BlockEditorCanvas,
+  BlockEditorLivePreview,
+  BlockEditorRoot,
+} from '@/components/Admin/BlockEditor/block-editor';
+import styles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import type {
+  AdviceArticle,
+  AdviceArticleStatus,
+  MaxWidthPreset,
+} from '@/lib/content-blocks/types';
+import { SAMPLE_ARTICLE_ID } from '@/lib/content-blocks/types';
 
-import { ADVICE_CATEGORY_OPTIONS } from "@/lib/content-blocks/advice-categories";
+import { ADVICE_CATEGORY_OPTIONS } from '@/lib/content-blocks/advice-categories';
 
 type AdviceArticleEditorProps = {
   initialArticle: AdviceArticle;
   isNew?: boolean;
 };
 
-export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEditorProps) {
+export function AdviceArticleEditor({
+  initialArticle,
+  isNew,
+}: AdviceArticleEditorProps) {
   const router = useRouter();
   const [article, setArticle] = useState(initialArticle);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const update = useCallback(<K extends keyof AdviceArticle>(key: K, value: AdviceArticle[K]) => {
-    setArticle((prev) => ({ ...prev, [key]: value }));
-    setDirty(true);
-  }, []);
+  const update = useCallback(
+    <K extends keyof AdviceArticle>(key: K, value: AdviceArticle[K]) => {
+      setArticle((prev) => ({ ...prev, [key]: value }));
+      setDirty(true);
+    },
+    [],
+  );
 
   const save = async (publish = false) => {
     setSaving(true);
@@ -52,25 +66,31 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
         const created = await createAdviceArticleApi(payload);
         setArticle(created);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.replace(`/admin/advice/${created.id}/edit`);
         router.refresh();
       } else {
         const updated = await updateAdviceArticleApi(article.id, payload);
         setArticle(updated);
         setDirty(false);
-        setMessage(publish ? "Published!" : "Saved.");
+        setMessage(publish ? 'Published!' : 'Saved.');
         router.refresh();
       }
     } catch (error) {
-      const detail = error instanceof Error ? error.message : "Save failed. Please try again.";
+      const detail =
+        error instanceof Error
+          ? error.message
+          : 'Save failed. Please try again.';
       setMessage(detail);
     } finally {
       setSaving(false);
     }
   };
 
-  const handleStatusChange = async (status: AdviceArticleStatus, scheduledAt?: string | null) => {
+  const handleStatusChange = async (
+    status: AdviceArticleStatus,
+    scheduledAt?: string | null,
+  ) => {
     const next = applyAdviceArticleStatus(article, status, scheduledAt);
     setArticle(next);
 
@@ -78,20 +98,26 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
       setSaving(true);
       setMessage(null);
       try {
-        const updated = await updateAdviceArticleApi(article.id, getAdviceArticleStatusPatch(next));
+        const updated = await updateAdviceArticleApi(
+          article.id,
+          getAdviceArticleStatusPatch(next),
+        );
         setArticle(updated);
         setDirty(false);
         setMessage(
-          status === "disabled"
-            ? "Article disabled."
-            : status === "published"
-              ? "Article published."
-              : "Status saved.",
+          status === 'disabled'
+            ? 'Article disabled.'
+            : status === 'published'
+              ? 'Article published.'
+              : 'Status saved.',
         );
         router.refresh();
       } catch (error) {
         setDirty(true);
-        const detail = error instanceof Error ? error.message : "Failed to save status. Try Save draft.";
+        const detail =
+          error instanceof Error
+            ? error.message
+            : 'Failed to save status. Try Save draft.';
         setMessage(detail);
       } finally {
         setSaving(false);
@@ -110,8 +136,8 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
   return (
     <BlockEditorRoot
       blocks={article.content_blocks}
-      onChange={(blocks) => update("content_blocks", blocks)}
-      contentMaxWidth={article.content_max_width ?? "default"}
+      onChange={(blocks) => update('content_blocks', blocks)}
+      contentMaxWidth={article.content_max_width ?? 'default'}
       contentMaxWidthCustom={article.content_max_width_custom}
       excludeArticleSlug={article.slug || undefined}
       editorContext="advice"
@@ -119,16 +145,26 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
       <div className="editorSections">
         <div className="editorPageHeader">
           <div>
-            <h1 className="cardTitle">{article.title || "Untitled"}</h1>
-            <p className={`statusBar ${dirty && !message ? "statusDirty" : ""}`}>
-              {message ? message : dirty ? "Unsaved changes" : "All changes saved"}
+            <h1 className="cardTitle">{article.title || 'Untitled'}</h1>
+            <p
+              className={`statusBar ${dirty && !message ? 'statusDirty' : ''}`}
+            >
+              {message
+                ? message
+                : dirty
+                  ? 'Unsaved changes'
+                  : 'All changes saved'}
             </p>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             {article.id && article.slug ? (
               previewable ? (
                 <Link
-                  href={isAdviceArticlePublic(article) ? `/advice/${article.slug}` : `/admin/advice/${article.id}/preview`}
+                  href={
+                    isAdviceArticlePublic(article)
+                      ? `/advice/${article.slug}`
+                      : `/admin/advice/${article.id}/preview`
+                  }
                   className="btn btnGhost"
                   target="_blank"
                 >
@@ -145,10 +181,20 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
                 </button>
               )
             ) : null}
-            <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+            <button
+              type="button"
+              className="btn btnSecondary"
+              onClick={saveDraft}
+              disabled={saving}
+            >
               Save draft
             </button>
-            <button type="button" className="btn btnPrimary" onClick={publish} disabled={saving || isAdviceArticleDisabled(article)}>
+            <button
+              type="button"
+              className="btn btnPrimary"
+              onClick={publish}
+              disabled={saving || isAdviceArticleDisabled(article)}
+            >
               Publish
             </button>
           </div>
@@ -166,17 +212,32 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
               <div className="metaGrid">
                 <div className="field">
                   <label className="fieldLabel">Title</label>
-                  <input className="fieldInput" value={article.title} onChange={(e) => update("title", e.target.value)} />
+                  <input
+                    className="fieldInput"
+                    value={article.title}
+                    onChange={(e) => update('title', e.target.value)}
+                  />
                 </div>
                 <div className="field">
                   <label className="fieldLabel">Slug</label>
-                  <input className="fieldInput" value={article.slug} onChange={(e) => update("slug", e.target.value)} placeholder="my-article-slug" />
+                  <input
+                    className="fieldInput"
+                    value={article.slug}
+                    onChange={(e) => update('slug', e.target.value)}
+                    placeholder="my-article-slug"
+                  />
                 </div>
                 <div className="field">
                   <label className="fieldLabel">Category</label>
-                  <select className="fieldSelect" value={article.category_slug} onChange={(e) => update("category_slug", e.target.value)}>
+                  <select
+                    className="fieldSelect"
+                    value={article.category_slug}
+                    onChange={(e) => update('category_slug', e.target.value)}
+                  >
                     {ADVICE_CATEGORY_OPTIONS.map((c) => (
-                      <option key={c.value} value={c.value}>{c.label}</option>
+                      <option key={c.value} value={c.value}>
+                        {c.label}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -186,7 +247,7 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
                   </label>
                   <MaxWidthField
                     id="content-max-width"
-                    preset={article.content_max_width ?? "default"}
+                    preset={article.content_max_width ?? 'default'}
                     customValue={article.content_max_width_custom}
                     selectClassName="fieldSelect"
                     inputClassName="fieldInput"
@@ -196,21 +257,23 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
                         ...prev,
                         content_max_width: preset,
                         content_max_width_custom:
-                          preset === "custom" ? prev.content_max_width_custom : undefined,
+                          preset === 'custom'
+                            ? prev.content_max_width_custom
+                            : undefined,
                       }));
                       setDirty(true);
                     }}
                     onCustomChange={(value) => {
                       setArticle((prev) => ({
                         ...prev,
-                        content_max_width: "custom",
+                        content_max_width: 'custom',
                         content_max_width_custom: value,
                       }));
                       setDirty(true);
                     }}
                   />
                 </div>
-                <div className="field" style={{ gridColumn: "1 / -1" }}>
+                <div className="field" style={{ gridColumn: '1 / -1' }}>
                   <label className="fieldLabel">Listing image</label>
                   <ImageField
                     value={article.listing_image}
@@ -223,7 +286,9 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
                       }));
                       setDirty(true);
                     }}
-                    onAltChange={(altVal) => update("listing_image_alt", altVal)}
+                    onAltChange={(altVal) =>
+                      update('listing_image_alt', altVal)
+                    }
                   />
                 </div>
                 <div className="field">
@@ -231,7 +296,9 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
                     <input
                       type="checkbox"
                       checked={article.show_instagram_share}
-                      onChange={(e) => update("show_instagram_share", e.target.checked)}
+                      onChange={(e) =>
+                        update('show_instagram_share', e.target.checked)
+                      }
                     />
                     <span>Show Instagram share section</span>
                   </label>
@@ -244,11 +311,20 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
               <div className="cardForm">
                 <div className="field">
                   <label className="fieldLabel">SEO title</label>
-                  <input className="fieldInput" value={article.seo_title} onChange={(e) => update("seo_title", e.target.value)} />
+                  <input
+                    className="fieldInput"
+                    value={article.seo_title}
+                    onChange={(e) => update('seo_title', e.target.value)}
+                  />
                 </div>
                 <div className="field">
                   <label className="fieldLabel">SEO description</label>
-                  <textarea className="fieldTextarea" value={article.seo_description} onChange={(e) => update("seo_description", e.target.value)} rows={3} />
+                  <textarea
+                    className="fieldTextarea"
+                    value={article.seo_description}
+                    onChange={(e) => update('seo_description', e.target.value)}
+                    rows={3}
+                  />
                 </div>
               </div>
             </div>
@@ -258,8 +334,12 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
               <div className="cardForm">
                 {article.content_blocks.length === 0 && isNew ? (
                   <p className="mutedNote">
-                    Start adding blocks below, or{" "}
-                    <Link href={`/admin/advice/${SAMPLE_ARTICLE_ID}/edit`} className="inlineLink" style={{ color: "#b34769" }}>
+                    Start adding blocks below, or{' '}
+                    <Link
+                      href={`/admin/advice/${SAMPLE_ARTICLE_ID}/edit`}
+                      className="inlineLink"
+                      style={{ color: '#b34769' }}
+                    >
                       view the sample article
                     </Link>
                     .
@@ -270,14 +350,27 @@ export function AdviceArticleEditor({ initialArticle, isNew }: AdviceArticleEdit
             </div>
           </div>
 
-          <aside className={styles.editorPreviewColumn} aria-label="Live preview">
+          <aside
+            className={styles.editorPreviewColumn}
+            aria-label="Live preview"
+          >
             <BlockEditorLivePreview
               fullscreenActions={
                 <>
-                  <button type="button" className="btn btnSecondary" onClick={saveDraft} disabled={saving}>
+                  <button
+                    type="button"
+                    className="btn btnSecondary"
+                    onClick={saveDraft}
+                    disabled={saving}
+                  >
                     Save draft
                   </button>
-                  <button type="button" className="btn btnPrimary" onClick={publish} disabled={saving}>
+                  <button
+                    type="button"
+                    className="btn btnPrimary"
+                    onClick={publish}
+                    disabled={saving}
+                  >
                     Publish
                   </button>
                 </>

@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminListToolbar } from "@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar";
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AdminListToolbar } from '@/components/Admin/Ui/AdminListToolbar/admin-list-toolbar';
 import {
   ADVICE_ARTICLE_STATUS_LABELS,
   ADVICE_ARTICLE_STATUSES,
   getAdviceArticleStatusBadgeClass,
   isAdviceArticleDisabled,
   resolveAdviceArticleStatus,
-} from "@/lib/admin/advice-article-status";
+} from '@/lib/admin/advice-article-status';
 import {
   formatAdminListDate,
   humanizeSlug,
   matchesAdminListSearch,
-} from "@/lib/admin/format-admin-list";
-import type { AdviceArticle } from "@/lib/content-blocks/types";
-import { SAMPLE_ARTICLE_SLUG } from "@/lib/content-blocks/types";
+} from '@/lib/admin/format-admin-list';
+import type { AdviceArticle } from '@/lib/content-blocks/types';
+import { SAMPLE_ARTICLE_SLUG } from '@/lib/content-blocks/types';
 
 type AdviceArticleListProps = {
   articles: AdviceArticle[];
@@ -44,10 +44,10 @@ function ClickableTableRow({
 
   return (
     <tr
-      className={`tableRowClickable${className ? ` ${className}` : ""}`}
+      className={`tableRowClickable${className ? ` ${className}` : ''}`}
       onClick={() => router.push(href)}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           router.push(href);
         }
@@ -61,12 +61,12 @@ function ClickableTableRow({
 }
 
 export function AdviceArticleList({ articles }: AdviceArticleListProps) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   const statusOptions = useMemo(
     () => [
-      { value: "all", label: "All statuses" },
+      { value: 'all', label: 'All statuses' },
       ...ADVICE_ARTICLE_STATUSES.map((status) => ({
         value: status,
         label: ADVICE_ARTICLE_STATUS_LABELS[status],
@@ -76,13 +76,21 @@ export function AdviceArticleList({ articles }: AdviceArticleListProps) {
   );
 
   const filteredArticles = useMemo(() => {
-    const sample = articles.find((article) => article.slug === SAMPLE_ARTICLE_SLUG);
-    const rest = articles.filter((article) => article.slug !== SAMPLE_ARTICLE_SLUG);
+    const sample = articles.find(
+      (article) => article.slug === SAMPLE_ARTICLE_SLUG,
+    );
+    const rest = articles.filter(
+      (article) => article.slug !== SAMPLE_ARTICLE_SLUG,
+    );
 
     const matchesFilters = (article: AdviceArticle) => {
       const status = resolveAdviceArticleStatus(article);
-      const matchesStatus = statusFilter === "all" || status === statusFilter;
-      const matchesSearch = matchesAdminListSearch(searchQuery, article.title, article.slug);
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
+      const matchesSearch = matchesAdminListSearch(
+        searchQuery,
+        article.title,
+        article.slug,
+      );
       return matchesStatus && matchesSearch;
     };
 
@@ -127,16 +135,22 @@ export function AdviceArticleList({ articles }: AdviceArticleListProps) {
                 <ClickableTableRow
                   key={article.id}
                   href={`/admin/advice/${article.id}/edit`}
-                  className={isDisabled ? "tableRowDisabled" : undefined}
+                  className={isDisabled ? 'tableRowDisabled' : undefined}
                 >
                   <td className="tableTitleCell">
                     <span className="tableTitleMain">
                       {article.title}
-                      {isSample ? <span className="badge badgeSample">Sample</span> : null}
+                      {isSample ? (
+                        <span className="badge badgeSample">Sample</span>
+                      ) : null}
                     </span>
-                    <span className="tableTitlePath">/advice/{article.slug}</span>
+                    <span className="tableTitlePath">
+                      /advice/{article.slug}
+                    </span>
                     {isDisabled ? (
-                      <span className="tableRowDisabledNote">Hidden from site</span>
+                      <span className="tableRowDisabledNote">
+                        Hidden from site
+                      </span>
                     ) : null}
                   </td>
                   <td>

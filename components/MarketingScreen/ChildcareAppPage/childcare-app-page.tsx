@@ -1,15 +1,18 @@
-import Image from "next/image";
-import type { CSSProperties, ReactNode } from "react";
+import Image from 'next/image';
+import type { CSSProperties, ReactNode } from 'react';
 
-import { ChildcareExpertCarousel, ChildcareRecipeCarousel } from "@/components/MarketingScreen/ChildcareAppCarousels";
-import { EmpowerFormSelect } from "@/components/MarketingScreen/EmpowerFormSelect";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import {
+  ChildcareExpertCarousel,
+  ChildcareRecipeCarousel,
+} from '@/components/MarketingScreen/ChildcareAppCarousels';
+import { EmpowerFormSelect } from '@/components/MarketingScreen/EmpowerFormSelect';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
 import {
   MarketingArrowIcon,
   MarketingCheckIcon,
   MarketingCtaButton,
   MarketingWaveDivider,
-} from "@/components/MarketingScreen/MarketingPrimitives";
+} from '@/components/MarketingScreen/MarketingPrimitives';
 import {
   childcareAssets,
   childcareAwards,
@@ -24,16 +27,16 @@ import {
   childcareRecipeHighlights,
   childcareStats,
   childcareWeaning,
-} from "@/data/childcare-app-page";
-import { childcareImageSizes } from "@/data/childcare-image-sizes";
-import styles from "./childcare-app-page.module.css";
+} from '@/data/childcare-app-page';
+import { childcareImageSizes } from '@/data/childcare-image-sizes';
+import styles from './childcare-app-page.module.css';
 
 function FillImage({
   src,
   alt,
   wrapperClassName,
   imageClassName,
-  sizes = "100vw",
+  sizes = '100vw',
   priority = false,
 }: {
   src: string;
@@ -44,7 +47,10 @@ function FillImage({
   priority?: boolean;
 }) {
   return (
-    <div className={wrapperClassName} aria-hidden={alt === "" ? true : undefined}>
+    <div
+      className={wrapperClassName}
+      aria-hidden={alt === '' ? true : undefined}
+    >
       <Image
         src={src}
         alt={alt}
@@ -68,8 +74,8 @@ function SplitSection({
   reverse = false,
   cta,
   children,
-  contentClassName = "",
-  imageClassName = "",
+  contentClassName = '',
+  imageClassName = '',
   imageSizes,
 }: {
   title: string;
@@ -87,7 +93,9 @@ function SplitSection({
 }) {
   return (
     <section className={styles.splitSection}>
-      <div className={`${styles.sectionShell} ${reverse ? styles.splitGridReverse : ""} ${styles.splitGrid}`}>
+      <div
+        className={`${styles.sectionShell} ${reverse ? styles.splitGridReverse : ''} ${styles.splitGrid}`}
+      >
         <div className={styles.splitMedia}>
           <Image
             src={image}
@@ -111,25 +119,30 @@ function SplitSection({
 
 export function ChildcareAppPageContent() {
   const formStyle = {
-    "--form-bg": `url(${childcareAssets.formBg})`,
+    '--form-bg': `url(${childcareAssets.formBg})`,
   } as CSSProperties;
 
   const oneStopStyle = {
-    "--one-stop-wave-bg": `url(${childcareAssets.oneStopWaveBg})`,
+    '--one-stop-wave-bg': `url(${childcareAssets.oneStopWaveBg})`,
   } as CSSProperties;
 
   const weaningStyle = {
-    "--weaning-frame-bg": `url(${childcareAssets.weaningFrameBg})`,
+    '--weaning-frame-bg': `url(${childcareAssets.weaningFrameBg})`,
   } as CSSProperties;
 
   const quoteStyle = {
-    "--quote-vector-bg": `url(${childcareAssets.quoteVectorBg})`,
+    '--quote-vector-bg': `url(${childcareAssets.quoteVectorBg})`,
   } as CSSProperties;
 
   return (
     <main className={styles.page}>
-      <section className={styles.heroShell} aria-labelledby="childcare-hero-heading">
-        <div className={`${styles.sectionShell} px-0 md:px-5 ${styles.heroCard}`}>
+      <section
+        className={styles.heroShell}
+        aria-labelledby="childcare-hero-heading"
+      >
+        <div
+          className={`${styles.sectionShell} px-0 md:px-5 ${styles.heroCard}`}
+        >
           <FillImage
             src={childcareAssets.heroDesktop}
             alt=""
@@ -143,7 +156,10 @@ export function ChildcareAppPageContent() {
               {childcareHero.title}
             </h1>
             <div className={styles.sectionCta}>
-              <MarketingCtaButton href={childcareHero.ctaHref} label={childcareHero.ctaLabel} />
+              <MarketingCtaButton
+                href={childcareHero.ctaHref}
+                label={childcareHero.ctaLabel}
+              />
             </div>
           </div>
           <div className={styles.heroImageWrap}>
@@ -160,7 +176,10 @@ export function ChildcareAppPageContent() {
         </div>
       </section>
 
-      <section className={styles.awardsSection} aria-label="Awards and recognition">
+      <section
+        className={styles.awardsSection}
+        aria-label="Awards and recognition"
+      >
         <div className={styles.awardsGrid}>
           {childcareAwards.map((award) => (
             <Image
@@ -185,7 +204,11 @@ export function ChildcareAppPageContent() {
         imageHeight={childcareAssets.happyFamiliesHeight}
         cta={
           <div className={styles.sectionCta}>
-            <MarketingCtaButton href="#request-a-demo" label={childcareProfessionals.ctaLabel} block />
+            <MarketingCtaButton
+              href="#request-a-demo"
+              label={childcareProfessionals.ctaLabel}
+              block
+            />
           </div>
         }
       />
@@ -226,14 +249,23 @@ export function ChildcareAppPageContent() {
         </SplitSection>
       </section>
 
-      <section className={styles.recipesSection} aria-labelledby="childcare-recipes-heading">
-        <h2 id="childcare-recipes-heading" className={`${styles.displayHeading} ${styles.recipesHeading}`}>
+      <section
+        className={styles.recipesSection}
+        aria-labelledby="childcare-recipes-heading"
+      >
+        <h2
+          id="childcare-recipes-heading"
+          className={`${styles.displayHeading} ${styles.recipesHeading}`}
+        >
           Recipes that grow with your family
         </h2>
         <ChildcareRecipeCarousel />
       </section>
 
-      <section className={styles.splitSection} aria-labelledby="childcare-highlights-heading">
+      <section
+        className={styles.splitSection}
+        aria-labelledby="childcare-highlights-heading"
+      >
         <div className={`${styles.sectionShell} ${styles.splitGrid}`}>
           <div className={styles.splitMedia}>
             <Image
@@ -251,7 +283,11 @@ export function ChildcareAppPageContent() {
             </h2>
             {childcareRecipeHighlights.map((item) => (
               <div key={item.title} className={styles.highlightBlock}>
-                <h3 className={`${styles.highlightBlockTitle} ${styles.body22}`}>{item.title}</h3>
+                <h3
+                  className={`${styles.highlightBlockTitle} ${styles.body22}`}
+                >
+                  {item.title}
+                </h3>
                 <p className={styles.body18}>{item.body}</p>
               </div>
             ))}
@@ -266,7 +302,9 @@ export function ChildcareAppPageContent() {
       >
         <div className={styles.sectionShell}>
           <div className={styles.weaningIntroDesktop}>
-            <h2 className={styles.weaningTitle}>{childcareWeaning.desktopTitle}</h2>
+            <h2 className={styles.weaningTitle}>
+              {childcareWeaning.desktopTitle}
+            </h2>
             <p className={styles.weaningBody}>{childcareWeaning.desktopBody}</p>
           </div>
           <div className={styles.weaningIntroMobile}>
@@ -298,15 +336,25 @@ export function ChildcareAppPageContent() {
         </div>
       </section>
 
-      <section className={styles.expertSection} aria-labelledby="childcare-expert-heading">
-        <h2 id="childcare-expert-heading" className={`${styles.displayHeading} ${styles.expertHeading}`}>
+      <section
+        className={styles.expertSection}
+        aria-labelledby="childcare-expert-heading"
+      >
+        <h2
+          id="childcare-expert-heading"
+          className={`${styles.displayHeading} ${styles.expertHeading}`}
+        >
           Empowering your nannies and childcare professionals
         </h2>
         <div className={styles.expertCarouselWrap}>
           <ChildcareExpertCarousel />
         </div>
         <div className={`${styles.sectionCta} mt-[20px]! md:mt-[30px]!`}>
-          <MarketingCtaButton href="#request-a-demo" label="Find out more" block />
+          <MarketingCtaButton
+            href="#request-a-demo"
+            label="Find out more"
+            block
+          />
         </div>
       </section>
 
@@ -315,14 +363,17 @@ export function ChildcareAppPageContent() {
         style={oneStopStyle}
         aria-labelledby="childcare-stats-heading"
       >
-        <h2 id="childcare-stats-heading" className={`${styles.displayHeading} ${styles.statsHeading}`}>
+        <h2
+          id="childcare-stats-heading"
+          className={`${styles.displayHeading} ${styles.statsHeading}`}
+        >
           How the app is encouraging healthier eating habits
         </h2>
         <div className={styles.statsGrid}>
           {childcareStats.map((stat) => (
             <article
               key={stat.label}
-              className={`${styles.statCard} ${stat.centerOnMobile ? styles.statCardCenterMobile : ""}`}
+              className={`${styles.statCard} ${stat.centerOnMobile ? styles.statCardCenterMobile : ''}`}
             >
               <Image
                 src={stat.icon}
@@ -332,7 +383,10 @@ export function ChildcareAppPageContent() {
                 className={styles.statIcon}
                 sizes={childcareImageSizes.statIcon}
               />
-              <p className={styles.statValue} style={{ color: stat.valueColor }}>
+              <p
+                className={styles.statValue}
+                style={{ color: stat.valueColor }}
+              >
                 {stat.value}
               </p>
               <p className={styles.statLabel}>{stat.label}</p>
@@ -342,12 +396,19 @@ export function ChildcareAppPageContent() {
         <p className={styles.statsFootnote}>*Active app users</p>
       </section>
 
-      <section className={styles.quoteSection} aria-labelledby="childcare-quote-heading">
+      <section
+        className={styles.quoteSection}
+        aria-labelledby="childcare-quote-heading"
+      >
         <div className={styles.sectionShell}>
           <div className={styles.quoteCard} style={quoteStyle}>
             <div className={styles.quoteGrid}>
               <div className={styles.quoteCopy}>
-                <svg className={styles.quoteIcon} viewBox="0 0 512 512" aria-hidden="true">
+                <svg
+                  className={styles.quoteIcon}
+                  viewBox="0 0 512 512"
+                  aria-hidden="true"
+                >
                   <path d="M464 256h-80v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8c-88.4 0-160 71.6-160 160v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48zm-288 0H96v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8C71.6 32 0 103.6 0 192v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48z" />
                 </svg>
                 <h2 id="childcare-quote-heading" className="sr-only">
@@ -372,7 +433,10 @@ export function ChildcareAppPageContent() {
         </div>
       </section>
 
-      <section className={styles.howSection} aria-labelledby="childcare-how-heading">
+      <section
+        className={styles.howSection}
+        aria-labelledby="childcare-how-heading"
+      >
         <div className={styles.howGrid}>
           <div className={styles.howImage}>
             <Image
@@ -410,7 +474,11 @@ export function ChildcareAppPageContent() {
               ))}
             </ol>
             <div className={styles.howCta}>
-              <MarketingCtaButton href="#request-a-demo" label="Request a demo" block />
+              <MarketingCtaButton
+                href="#request-a-demo"
+                label="Request a demo"
+                block
+              />
             </div>
           </div>
         </div>
@@ -436,7 +504,13 @@ export function ChildcareAppPageContent() {
             />
 
             <div className={styles.formGridTwo}>
-              <input className={styles.formField} type="text" name="company" placeholder="Company name*" required />
+              <input
+                className={styles.formField}
+                type="text"
+                name="company"
+                placeholder="Company name*"
+                required
+              />
               <EmpowerFormSelect
                 name="company_size"
                 options={childcareCompanySizeOptions}
@@ -447,28 +521,67 @@ export function ChildcareAppPageContent() {
             </div>
 
             <div className={styles.formGridTwo}>
-              <input className={styles.formField} type="text" name="first_name" placeholder="First name*" required />
-              <input className={styles.formField} type="text" name="last_name" placeholder="Last name*" required />
+              <input
+                className={styles.formField}
+                type="text"
+                name="first_name"
+                placeholder="First name*"
+                required
+              />
+              <input
+                className={styles.formField}
+                type="text"
+                name="last_name"
+                placeholder="Last name*"
+                required
+              />
             </div>
 
-            <input className={styles.formField} type="text" name="job_title" placeholder="Job title*" required />
+            <input
+              className={styles.formField}
+              type="text"
+              name="job_title"
+              placeholder="Job title*"
+              required
+            />
 
             <div className={styles.formGridTwo}>
-              <input className={styles.formField} type="email" name="email" placeholder="Business email*" required />
-              <input className={styles.formField} type="tel" name="phone" placeholder="Contact number" />
+              <input
+                className={styles.formField}
+                type="email"
+                name="email"
+                placeholder="Business email*"
+                required
+              />
+              <input
+                className={styles.formField}
+                type="tel"
+                name="phone"
+                placeholder="Contact number"
+              />
             </div>
 
-            <textarea className={styles.formTextarea} name="message" placeholder="Message..." rows={4} />
+            <textarea
+              className={styles.formTextarea}
+              name="message"
+              placeholder="Message..."
+              rows={4}
+            />
 
             <p className={styles.formDisclaimer}>
-              By submitting this form, you agree that we may use the data you provide to contact you with information
-              related to your request/submission and Annabel Karmel&apos;s products and marketing. You can unsubscribe from
-              these communications at any time by clicking the unsubscribe link in the email. Your data will be used
-              subject to Annabel Karmel&apos;s privacy policy.
+              By submitting this form, you agree that we may use the data you
+              provide to contact you with information related to your
+              request/submission and Annabel Karmel&apos;s products and
+              marketing. You can unsubscribe from these communications at any
+              time by clicking the unsubscribe link in the email. Your data will
+              be used subject to Annabel Karmel&apos;s privacy policy.
             </p>
 
             <div className={`${styles.formActions} ${styles.sectionCta}`}>
-              <button type="submit" className={`${styles.ctaButton} ${styles.formSubmit}`}>
+              <button
+                type="submit"
+                className={`${styles.ctaButton} ${styles.formSubmit}`}
+              >
                 <span>Submit</span>
                 <MarketingArrowIcon />
               </button>

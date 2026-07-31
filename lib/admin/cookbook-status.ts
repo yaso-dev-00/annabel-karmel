@@ -1,5 +1,8 @@
-import type { AdviceArticle, AdviceArticleStatus } from "@/lib/content-blocks/types";
-import type { Cookbook, CookbookStatus } from "@/lib/cookbooks/types";
+import type {
+  AdviceArticle,
+  AdviceArticleStatus,
+} from '@/lib/content-blocks/types';
+import type { Cookbook, CookbookStatus } from '@/lib/cookbooks/types';
 import {
   ADVICE_ARTICLE_STATUS_HINTS,
   ADVICE_ARTICLE_STATUS_LABELS,
@@ -13,7 +16,7 @@ import {
   isAdviceArticlePublic,
   normalizeAdviceArticle,
   resolveAdviceArticleStatus,
-} from "@/lib/admin/advice-article-status";
+} from '@/lib/admin/advice-article-status';
 
 export const COOKBOOK_STATUSES = ADVICE_ARTICLE_STATUSES;
 export const COOKBOOK_STATUS_LABELS = ADVICE_ARTICLE_STATUS_LABELS;
@@ -31,15 +34,18 @@ export function buildCookbookSavePayload(
   cookbook: Cookbook,
   options?: { publish?: boolean },
 ): Cookbook {
-  return buildAdviceArticleSavePayload(asAdvice(cookbook), options) as unknown as Cookbook;
+  return buildAdviceArticleSavePayload(
+    asAdvice(cookbook),
+    options,
+  ) as unknown as Cookbook;
 }
 
 export function getCookbookStatusPatch(
   cookbook: Cookbook,
-): Pick<Cookbook, "status" | "published_at" | "scheduled_at"> {
+): Pick<Cookbook, 'status' | 'published_at' | 'scheduled_at'> {
   return getAdviceArticleStatusPatch(asAdvice(cookbook)) as Pick<
     Cookbook,
-    "status" | "published_at" | "scheduled_at"
+    'status' | 'published_at' | 'scheduled_at'
   >;
 }
 

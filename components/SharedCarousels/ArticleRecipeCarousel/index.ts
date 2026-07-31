@@ -1,1 +1,1 @@
-export * from "./article-recipe-carousel";
+export * from './article-recipe-carousel';

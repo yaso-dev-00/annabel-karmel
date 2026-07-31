@@ -1,20 +1,20 @@
-import { EggQuestionsAccordion } from "@/components/ArticleScreen/EggQuestionsAccordion";
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
-import { RelatedArticlesCarousel } from "@/components/SharedCarousels/RelatedArticlesCarousel";
-import { SiteFooter } from "@/components/SiteLayout/SiteFooter";
-import { SiteHeader } from "@/components/SiteLayout/SiteHeader";
+import { EggQuestionsAccordion } from '@/components/ArticleScreen/EggQuestionsAccordion';
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
+import { RelatedArticlesCarousel } from '@/components/SharedCarousels/RelatedArticlesCarousel';
+import { SiteFooter } from '@/components/SiteLayout/SiteFooter';
+import { SiteHeader } from '@/components/SiteLayout/SiteHeader';
 import {
   motherBoxUrl,
   pregnancyIntroParagraphs,
   pregnancyMonthRelatedArticles,
   pregnancyTrimesterAccordionItems,
-} from "@/data/pregnancy-month-month-page";
-import type { Metadata } from "next";
-import Link from "next/link";
-import styles from "./page.module.css";
+} from '@/data/pregnancy-month-month-page';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: "Your pregnancy month-by-month | Annabel Karmel",
+  title: 'Your pregnancy month-by-month | Annabel Karmel',
   description:
     "A trimester-by-trimester guide to your baby's development and the changes you and your body will encounter throughout pregnancy.",
 };
@@ -35,12 +35,18 @@ export default function PregnancyMonthMonthPage() {
 
           <p className={styles.attribution}>
             <strong>
-              Alexis and Beccy are the duo behind{" "}
-              <Link href={motherBoxUrl} className={styles.attributionLink} target="_blank" rel="noreferrer">
+              Alexis and Beccy are the duo behind{' '}
+              <Link
+                href={motherBoxUrl}
+                className={styles.attributionLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 The Mother Box
-              </Link>{" "}
-              – a complete package of pregnancy, birth and postnatal gifts, courses and workshops carefully created to
-              nurture, heal and empower new mums.
+              </Link>{' '}
+              – a complete package of pregnancy, birth and postnatal gifts,
+              courses and workshops carefully created to nurture, heal and
+              empower new mums.
             </strong>
           </p>
 

@@ -7,8 +7,6 @@
   color: #3a3a3a;
 }
 
-
-
 .partner {
   margin: 30px 0px 0px;
   font-family: var(--font-body);
@@ -82,22 +80,19 @@
   .relatedText,
   .note {
     text-align: center;
-     
   }
 
-  .title{
-     padding: 0px 10px !important;
+  .title {
+    padding: 0px 10px !important;
   }
-  .sectionTitle{
+  .sectionTitle {
     padding: 0px 10px !important;
   }
   .relatedText {
     font-size: 17px;
     margin-top: 25px;
   }
-  .protecting{
-    padding-top:50px !important;
+  .protecting {
+    padding-top: 50px !important;
   }
- 
-
 }

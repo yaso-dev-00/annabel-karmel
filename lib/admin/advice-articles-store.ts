@@ -1,8 +1,11 @@
-import seedStore from "@/data/cms/advice-articles.seed.json";
-import type { AdviceArticle, AdviceArticlesStore } from "@/lib/content-blocks/types";
-import { isAdviceArticlePublic } from "@/lib/admin/advice-article-status";
-import { readCmsStoreRaw, writeCmsStoreRaw } from "@/lib/admin/cms-store-io";
-import { sanitizeAdviceArticle } from "@/lib/content-blocks/sanitize-settings";
+import seedStore from '@/data/cms/advice-articles.seed.json';
+import type {
+  AdviceArticle,
+  AdviceArticlesStore,
+} from '@/lib/content-blocks/types';
+import { isAdviceArticlePublic } from '@/lib/admin/advice-article-status';
+import { readCmsStoreRaw, writeCmsStoreRaw } from '@/lib/admin/cms-store-io';
+import { sanitizeAdviceArticle } from '@/lib/content-blocks/sanitize-settings';
 
 async function readStore(): Promise<AdviceArticlesStore> {
   let raw: string;
@@ -39,25 +42,31 @@ export async function getAllAdviceArticles(): Promise<AdviceArticle[]> {
   return store.articles.slice().sort((a, b) => a.title.localeCompare(b.title));
 }
 
-export async function getAdviceArticleById(id: string): Promise<AdviceArticle | null> {
+export async function getAdviceArticleById(
+  id: string,
+): Promise<AdviceArticle | null> {
   const store = await readStore();
   return store.articles.find((article) => article.id === id) ?? null;
 }
 
-export async function getPublishedAdviceArticleBySlug(slug: string): Promise<AdviceArticle | null> {
+export async function getPublishedAdviceArticleBySlug(
+  slug: string,
+): Promise<AdviceArticle | null> {
   const store = await readStore();
   const article = store.articles.find((item) => item.slug === slug);
   if (!article || !isAdviceArticlePublic(article)) return null;
   return article;
 }
 
-export async function getAdviceArticleBySlug(slug: string): Promise<AdviceArticle | null> {
+export async function getAdviceArticleBySlug(
+  slug: string,
+): Promise<AdviceArticle | null> {
   const store = await readStore();
   return store.articles.find((item) => item.slug === slug) ?? null;
 }
 
 export async function createAdviceArticle(
-  input: Omit<AdviceArticle, "id" | "created_at" | "updated_at">,
+  input: Omit<AdviceArticle, 'id' | 'created_at' | 'updated_at'>,
 ): Promise<AdviceArticle> {
   const store = await readStore();
   const now = new Date().toISOString();
@@ -74,7 +83,7 @@ export async function createAdviceArticle(
 
 export async function updateAdviceArticle(
   id: string,
-  input: Partial<Omit<AdviceArticle, "id" | "created_at">>,
+  input: Partial<Omit<AdviceArticle, 'id' | 'created_at'>>,
 ): Promise<AdviceArticle | null> {
   const store = await readStore();
   const index = store.articles.findIndex((article) => article.id === id);

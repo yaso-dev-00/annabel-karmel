@@ -1,7 +1,7 @@
 .title {
   margin: 30px 0 0;
   font-family: var(--font-display);
-  font-size: 40px ;
+  font-size: 40px;
   line-height: 50px !important;
   font-weight: 500;
   color: #3a3a3a;
@@ -9,7 +9,7 @@
 }
 
 .body {
-  margin: 40px 0 0 ;
+  margin: 40px 0 0;
   font-family: var(--font-body);
   font-size: 22px;
   line-height: 1.42;
@@ -17,7 +17,7 @@
 }
 
 .subheading {
-  margin: 80px 0 0 ;
+  margin: 80px 0 0;
   font-family: var(--font-display);
   font-size: 40px;
   line-height: 50px;
@@ -84,16 +84,15 @@
 
 @media (max-width: 900px) {
   .title,
-  
   .subheading,
   .recipeExcerpt,
   .relatedTitle,
   .relatedText {
     padding: 0 10px;
   }
-.body{
-  padding: 0 10px !important;
-}
+  .body {
+    padding: 0 10px !important;
+  }
   .title {
     font-size: 42px;
   }
@@ -102,5 +101,4 @@
     font-size: 17px;
     margin-top: 25px;
   }
-  
 }

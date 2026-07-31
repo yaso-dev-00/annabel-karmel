@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   closestCenter,
@@ -9,29 +9,29 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { useMemo, useState } from "react";
-import { ExpandCollapseAllButtons } from "@/components/Admin/BlockEditor/expand-collapse-all-buttons";
-import { StableDndContext } from "@/components/Admin/BlockEditor/stable-dnd-context";
-import blockStyles from "@/components/Admin/BlockEditor/block-editor.module.css";
-import { ConfirmModal } from "@/components/Admin/Ui/ConfirmModal";
-import { HomepageSectionFields } from "@/components/Admin/HomepageEditor/section-fields";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { useMemo, useState } from 'react';
+import { ExpandCollapseAllButtons } from '@/components/Admin/BlockEditor/expand-collapse-all-buttons';
+import { StableDndContext } from '@/components/Admin/BlockEditor/stable-dnd-context';
+import blockStyles from '@/components/Admin/BlockEditor/block-editor.module.css';
+import { ConfirmModal } from '@/components/Admin/Ui/ConfirmModal';
+import { HomepageSectionFields } from '@/components/Admin/HomepageEditor/section-fields';
 import {
   HOMEPAGE_SECTION_LABELS,
   isHomepageSectionLocked,
   type HomepageSection,
   type HomepageSectionType,
-} from "@/lib/homepage/types";
-import { createDefaultHomepageSections } from "@/lib/homepage/create-default-homepage";
-import styles from "./homepage-editor.module.css";
+} from '@/lib/homepage/types';
+import { createDefaultHomepageSections } from '@/lib/homepage/create-default-homepage';
+import styles from './homepage-editor.module.css';
 
 type HomepageSectionsEditorProps = {
   sections: HomepageSection[];
@@ -41,26 +41,26 @@ type HomepageSectionsEditorProps = {
 
 function sectionMeta(section: HomepageSection): string {
   switch (section.type) {
-    case "hero":
+    case 'hero':
       return `${section.data.slides.length} slides`;
-    case "recipe_finder":
-      return "Default";
-    case "latest_recipes":
+    case 'recipe_finder':
+      return 'Default';
+    case 'latest_recipes':
       return `${section.data.recipes.length} recipes`;
-    case "recipe_app":
+    case 'recipe_app':
       return `${section.data.bullets.length} bullets`;
-    case "expert_ranges":
+    case 'expert_ranges':
       return `${section.data.cards.length} cards`;
-    case "cookbooks":
+    case 'cookbooks':
       return `${section.data.books.length} books`;
-    case "collabs":
+    case 'collabs':
       return `${section.data.cards.length} cards`;
-    case "partners":
+    case 'partners':
       return `${section.data.logos.length} logos`;
-    case "instagram":
+    case 'instagram':
       return `${section.data.posts.length} posts`;
     default:
-      return "";
+      return '';
   }
 }
 
@@ -76,7 +76,7 @@ function SectionDragChrome({
   return (
     <div className={styles.accordionEditorItemHeader}>
       <span
-        className={`${blockStyles.dragHandle}${locked ? ` ${styles.dragHandleDisabled}` : ""}`}
+        className={`${blockStyles.dragHandle}${locked ? ` ${styles.dragHandleDisabled}` : ''}`}
         aria-hidden
       >
         ⠿
@@ -103,7 +103,14 @@ function SortableHomepageSection({
   onDelete: () => void;
 }) {
   const locked = isHomepageSectionLocked(section.type);
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: section.id,
     disabled: locked,
     animateLayoutChanges: () => false,
@@ -114,7 +121,7 @@ function SortableHomepageSection({
     <div
       ref={setNodeRef}
       data-editor-item={section.id}
-      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ""}${locked ? ` ${styles.accordionEditorItemLocked}` : ""}${isDragging ? ` ${styles.accordionEditorItemDragging}` : ""}`}
+      className={`${styles.accordionEditorItem}${expanded ? ` ${styles.accordionEditorItemOpen}` : ''}${locked ? ` ${styles.accordionEditorItemLocked}` : ''}${isDragging ? ` ${styles.accordionEditorItemDragging}` : ''}`}
       style={{
         transform: CSS.Translate.toString(transform),
         transition,
@@ -123,7 +130,10 @@ function SortableHomepageSection({
     >
       <div className={styles.accordionEditorItemHeader}>
         {locked ? (
-          <span className={`${blockStyles.dragHandle} ${styles.dragHandleDisabled}`} aria-hidden>
+          <span
+            className={`${blockStyles.dragHandle} ${styles.dragHandleDisabled}`}
+            aria-hidden
+          >
             ⠿
           </span>
         ) : (
@@ -148,20 +158,22 @@ function SortableHomepageSection({
           onClick={onToggle}
         >
           <span className={styles.accordionEditorTitle}>{title}</span>
-          <span className={styles.accordionEditorMeta}>{sectionMeta(section)}</span>
+          <span className={styles.accordionEditorMeta}>
+            {sectionMeta(section)}
+          </span>
         </button>
         <div className={styles.accordionEditorHeaderActions}>
           <button
             type="button"
             className={blockStyles.iconBtn}
             aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
-            title={expanded ? "Collapse" : "Expand"}
+            title={expanded ? 'Collapse' : 'Expand'}
             onClick={(e) => {
               e.stopPropagation();
               onToggle();
             }}
           >
-            {expanded ? "▲" : "▼"}
+            {expanded ? '▲' : '▼'}
           </button>
           {!locked ? (
             <button
@@ -220,19 +232,24 @@ export function HomepageSectionsEditor({
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
-  const sortableIds = useMemo(() => sections.map((section) => section.id), [sections]);
+  const sortableIds = useMemo(
+    () => sections.map((section) => section.id),
+    [sections],
+  );
   const activeSection = activeId
     ? (sections.find((section) => section.id === activeId) ?? null)
     : null;
 
   const missingTypes = useMemo(() => {
     const present = new Set(sections.map((section) => section.type));
-    return (Object.keys(HOMEPAGE_SECTION_LABELS) as HomepageSectionType[]).filter(
-      (type) => type !== "recipe_finder" && !present.has(type),
-    );
+    return (
+      Object.keys(HOMEPAGE_SECTION_LABELS) as HomepageSectionType[]
+    ).filter((type) => type !== 'recipe_finder' && !present.has(type));
   }, [sections]);
 
   const defaultsByType = useMemo(() => {
@@ -279,7 +296,8 @@ export function HomepageSectionsEditor({
     }
   };
 
-  const pendingSection = sections.find((section) => section.id === pendingDeleteId) ?? null;
+  const pendingSection =
+    sections.find((section) => section.id === pendingDeleteId) ?? null;
 
   return (
     <div className="card">
@@ -287,13 +305,15 @@ export function HomepageSectionsEditor({
         <div>
           <h2 className="cardSectionTitle">Homepage sections</h2>
           <p className={styles.sectionHint}>
-            Drag the handle to reorder. Search recipes stays locked after Hero. Trash deletes a
-            section.
+            Drag the handle to reorder. Search recipes stays locked after Hero.
+            Trash deletes a section.
           </p>
         </div>
         <ExpandCollapseAllButtons
           label="sections"
-          onExpandAll={() => setExpandedIds(new Set(sections.map((section) => section.id)))}
+          onExpandAll={() =>
+            setExpandedIds(new Set(sections.map((section) => section.id)))
+          }
           onCollapseAll={() => setExpandedIds(new Set())}
         />
       </div>
@@ -305,7 +325,10 @@ export function HomepageSectionsEditor({
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancel}
       >
-        <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={sortableIds}
+          strategy={verticalListSortingStrategy}
+        >
           <div className={styles.sectionList}>
             {sections.map((section) => (
               <SortableHomepageSection
@@ -314,7 +337,9 @@ export function HomepageSectionsEditor({
                 expanded={expandedIds.has(section.id)}
                 onToggle={() => toggle(section.id)}
                 onChange={(next) =>
-                  onChange(sections.map((item) => (item.id === next.id ? next : item)))
+                  onChange(
+                    sections.map((item) => (item.id === next.id ? next : item)),
+                  )
                 }
                 onDelete={() => setPendingDeleteId(section.id)}
               />
@@ -324,7 +349,9 @@ export function HomepageSectionsEditor({
 
         <DragOverlay dropAnimation={null}>
           {activeSection ? (
-            <div className={`${styles.accordionEditorItem} ${styles.accordionEditorItemOverlay}`}>
+            <div
+              className={`${styles.accordionEditorItem} ${styles.accordionEditorItemOverlay}`}
+            >
               <SectionDragChrome
                 title={HOMEPAGE_SECTION_LABELS[activeSection.type]}
                 meta={sectionMeta(activeSection)}
@@ -345,7 +372,7 @@ export function HomepageSectionsEditor({
             defaultValue=""
             onChange={(e) => {
               const type = e.target.value as HomepageSectionType;
-              e.target.value = "";
+              e.target.value = '';
               if (!type) return;
               const template = defaultsByType.get(type);
               if (!template) return;
@@ -376,12 +403,14 @@ export function HomepageSectionsEditor({
         message={
           pendingSection
             ? `Remove “${HOMEPAGE_SECTION_LABELS[pendingSection.type]}” from the homepage? You can re-add it later.`
-            : ""
+            : ''
         }
         confirmLabel="Delete"
         onConfirm={() => {
           if (!pendingDeleteId) return;
-          onChange(sections.filter((section) => section.id !== pendingDeleteId));
+          onChange(
+            sections.filter((section) => section.id !== pendingDeleteId),
+          );
           setPendingDeleteId(null);
         }}
         onCancel={() => setPendingDeleteId(null)}

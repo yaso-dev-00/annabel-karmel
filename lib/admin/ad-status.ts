@@ -1,5 +1,8 @@
-import type { AdviceArticle, AdviceArticleStatus } from "@/lib/content-blocks/types";
-import type { AdStatus, SiteAd } from "@/lib/ads/types";
+import type {
+  AdviceArticle,
+  AdviceArticleStatus,
+} from '@/lib/content-blocks/types';
+import type { AdStatus, SiteAd } from '@/lib/ads/types';
 import {
   ADVICE_ARTICLE_STATUS_HINTS,
   ADVICE_ARTICLE_STATUS_LABELS,
@@ -13,7 +16,7 @@ import {
   isAdviceArticlePublic,
   normalizeAdviceArticle,
   resolveAdviceArticleStatus,
-} from "@/lib/admin/advice-article-status";
+} from '@/lib/admin/advice-article-status';
 
 export const AD_STATUSES = ADVICE_ARTICLE_STATUSES;
 export const AD_STATUS_LABELS = ADVICE_ARTICLE_STATUS_LABELS;
@@ -27,16 +30,22 @@ export function resolveAdStatus(ad: SiteAd): AdStatus {
   return resolveAdviceArticleStatus(asAdvice(ad)) as AdStatus;
 }
 
-export function buildAdSavePayload(ad: SiteAd, options?: { publish?: boolean }): SiteAd {
-  return buildAdviceArticleSavePayload(asAdvice(ad), options) as unknown as SiteAd;
+export function buildAdSavePayload(
+  ad: SiteAd,
+  options?: { publish?: boolean },
+): SiteAd {
+  return buildAdviceArticleSavePayload(
+    asAdvice(ad),
+    options,
+  ) as unknown as SiteAd;
 }
 
 export function getAdStatusPatch(
   ad: SiteAd,
-): Pick<SiteAd, "status" | "published_at" | "scheduled_at"> {
+): Pick<SiteAd, 'status' | 'published_at' | 'scheduled_at'> {
   return getAdviceArticleStatusPatch(asAdvice(ad)) as Pick<
     SiteAd,
-    "status" | "published_at" | "scheduled_at"
+    'status' | 'published_at' | 'scheduled_at'
   >;
 }
 

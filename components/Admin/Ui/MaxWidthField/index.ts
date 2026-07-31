@@ -1,1 +1,1 @@
-export { MaxWidthField } from "./max-width-field";
+export { MaxWidthField } from './max-width-field';

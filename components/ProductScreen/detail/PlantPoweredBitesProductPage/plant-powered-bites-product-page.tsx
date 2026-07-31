@@ -1,29 +1,40 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react';
 
-import { InstagramShareSection } from "@/components/SiteLayout/InstagramShareSection";
+import { InstagramShareSection } from '@/components/SiteLayout/InstagramShareSection';
 import {
   SectionBackgroundImage,
   SingleSectionBackgroundImage,
-} from "@/components/UiPrimitives/SectionBackgroundImage";
-import { WaysToServeCarousel } from "@/components/SharedCarousels/WaysToServeCarousel";
-import { CAROUSEL_SLIDE, useSnapCarousel } from "@/components/hooks/useSnapCarousel";
+} from '@/components/UiPrimitives/SectionBackgroundImage';
+import { WaysToServeCarousel } from '@/components/SharedCarousels/WaysToServeCarousel';
+import {
+  CAROUSEL_SLIDE,
+  useSnapCarousel,
+} from '@/components/hooks/useSnapCarousel';
 import type {
   PlantPoweredBitesAccordionItem,
   PlantPoweredBitesCarouselSlide,
   PlantPoweredBitesPageData,
-} from "@/data/plant-powered-bites-product-page";
-import styles from "./plant-powered-bites-product-page.module.css";
+} from '@/data/plant-powered-bites-product-page';
+import { descriptionParagraphs } from '@/lib/products/description-paragraphs';
+import styles from './plant-powered-bites-product-page.module.css';
 
 const PREPARE_LABELS = [
-  "Cook from frozen:",
-  "Pan fry:",
-  "Oven:",
-  "Air fryer:",
+  'Cook from frozen:',
+  'Pan fry:',
+  'Oven:',
+  'Air fryer:',
 ] as const;
 
 function renderInlineBold(text: string) {
@@ -39,7 +50,7 @@ function renderInlineBold(text: string) {
 }
 
 function renderAccordionParagraph(paragraph: string) {
-  if (paragraph.startsWith("Caution:")) {
+  if (paragraph.startsWith('Caution:')) {
     return <strong>{paragraph.trim()}</strong>;
   }
 
@@ -62,7 +73,7 @@ function AccordionChevron({ open }: { open: boolean }) {
   return (
     <svg
       aria-hidden
-      className={`${styles.accordionChevron}${open ? ` ${styles.accordionChevronOpen}` : ""}`}
+      className={`${styles.accordionChevron}${open ? ` ${styles.accordionChevronOpen}` : ''}`}
       width="13"
       height="17"
       viewBox="0 0 13 17"
@@ -89,7 +100,7 @@ function ProductAccordionItem({
     <div className={styles.accordionItem}>
       <button
         type="button"
-        className={`${styles.accordionSummary}${open ? ` ${styles.accordionSummaryOpen}` : ""}`}
+        className={`${styles.accordionSummary}${open ? ` ${styles.accordionSummaryOpen}` : ''}`}
         aria-expanded={open}
         onClick={onToggle}
       >
@@ -123,7 +134,9 @@ function ProductAccordionItem({
                   </tbody>
                 </table>
                 {item.table.footnote ? (
-                  <p className={styles.nutritionFootnote}>{item.table.footnote}</p>
+                  <p className={styles.nutritionFootnote}>
+                    {item.table.footnote}
+                  </p>
                 ) : null}
               </>
             ) : (
@@ -140,7 +153,11 @@ function ProductAccordionItem({
   );
 }
 
-function ProductAccordion({ items }: { items: PlantPoweredBitesAccordionItem[] }) {
+function ProductAccordion({
+  items,
+}: {
+  items: PlantPoweredBitesAccordionItem[];
+}) {
   const [openTitle, setOpenTitle] = useState<string | null>(null);
 
   const toggle = (title: string) => {
@@ -171,36 +188,48 @@ function ProductCarousel({
   arrowRight: string;
 }) {
   const visibleSlides = slides.filter((slide) => slide.src.trim().length > 0);
-  const carousel = useSnapCarousel({
+  const {
+    carouselRef,
+    trackRef,
+    x,
+    index,
+    indexRef,
+    measure,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnd,
+    handleCardClickCapture,
+    animateToIndex,
+  } = useSnapCarousel({
     itemCount: visibleSlides.length,
-    cardSelector: ".plant-powered-carousel-slide",
-    controlsSelector: "button",
+    cardSelector: '.plant-powered-carousel-slide',
+    controlsSelector: 'button',
     dragThreshold: 2,
     touchDragThreshold: 1,
     rubberBandFactor: 0.35,
     touchMomentumFactor: 0.3,
   });
 
-  const indexRef = useRef(0);
-  const animateToIndexRef = useRef(carousel.animateToIndex);
+  const animateToIndexRef = useRef(animateToIndex);
 
-  indexRef.current = carousel.index;
-  animateToIndexRef.current = carousel.animateToIndex;
+  useLayoutEffect(() => {
+    animateToIndexRef.current = animateToIndex;
+  }, [animateToIndex]);
 
   const goTo = useCallback(
     (next: number) => {
       const total = visibleSlides.length;
       if (total <= 0) return;
       const wrapped = ((next % total) + total) % total;
-      if (wrapped === carousel.index) return;
-      carousel.animateToIndex(wrapped, CAROUSEL_SLIDE);
+      if (wrapped === index) return;
+      animateToIndex(wrapped, CAROUSEL_SLIDE);
     },
-    [carousel, visibleSlides.length],
+    [animateToIndex, index, visibleSlides.length],
   );
 
   useEffect(() => {
-    carousel.measure();
-  }, [carousel.measure, visibleSlides.length]);
+    measure();
+  }, [measure, visibleSlides.length]);
 
   useEffect(() => {
     if (visibleSlides.length <= 1) return;
@@ -218,26 +247,26 @@ function ProductCarousel({
     <div className={styles.carouselStage}>
       <div className={styles.carouselFrame}>
         <div
-          ref={carousel.carouselRef}
+          ref={carouselRef}
           className={styles.carouselViewport}
           aria-live="polite"
-          onPointerDownCapture={carousel.handlePointerDown}
-          onPointerMoveCapture={carousel.handlePointerMove}
-          onPointerUpCapture={carousel.handlePointerEnd}
-          onPointerCancelCapture={carousel.handlePointerEnd}
+          onPointerDownCapture={handlePointerDown}
+          onPointerMoveCapture={handlePointerMove}
+          onPointerUpCapture={handlePointerEnd}
+          onPointerCancelCapture={handlePointerEnd}
         >
           <motion.div
-            ref={carousel.trackRef}
+            ref={trackRef}
             className={styles.carouselTrack}
-            style={{ x: carousel.x }}
+            style={{ x }}
             initial={false}
           >
             {visibleSlides.map((slide, slideIndex) => (
               <div
                 key={`${slide.src}-${slideIndex}`}
                 className={`plant-powered-carousel-slide ${styles.carouselSlideItem}`}
-                aria-hidden={slideIndex !== carousel.index}
-                onClickCapture={carousel.handleCardClickCapture}
+                aria-hidden={slideIndex !== index}
+                onClickCapture={handleCardClickCapture}
               >
                 <Image
                   src={slide.src}
@@ -248,7 +277,7 @@ function ProductCarousel({
                   priority={slideIndex === 0}
                   sizes="(min-width: 1024px) 580px, (min-width: 768px) 460px, 400px"
                   draggable={false}
-                  onLoad={carousel.measure}
+                  onLoad={measure}
                 />
               </div>
             ))}
@@ -262,10 +291,16 @@ function ProductCarousel({
         aria-label="Previous image"
         onPointerDown={(event) => {
           event.stopPropagation();
-          goTo(carousel.index - 1);
+          goTo(index - 1);
         }}
       >
-        <Image src={arrowLeft} alt="" width={39} height={38} className={styles.carouselArrowIcon} />
+        <Image
+          src={arrowLeft}
+          alt=""
+          width={39}
+          height={38}
+          className={styles.carouselArrowIcon}
+        />
       </button>
       <button
         type="button"
@@ -273,10 +308,16 @@ function ProductCarousel({
         aria-label="Next image"
         onPointerDown={(event) => {
           event.stopPropagation();
-          goTo(carousel.index + 1);
+          goTo(index + 1);
         }}
       >
-        <Image src={arrowRight} alt="" width={39} height={38} className={styles.carouselArrowIcon} />
+        <Image
+          src={arrowRight}
+          alt=""
+          width={39}
+          height={38}
+          className={styles.carouselArrowIcon}
+        />
       </button>
 
       <div className={styles.carouselDots}>
@@ -284,9 +325,9 @@ function ProductCarousel({
           <button
             key={item.src}
             type="button"
-            className={`${styles.carouselDot}${dotIndex === carousel.index ? ` ${styles.carouselDotActive}` : ""}`}
+            className={`${styles.carouselDot}${dotIndex === index ? ` ${styles.carouselDotActive}` : ''}`}
             aria-label={`Show image ${dotIndex + 1}`}
-            aria-current={dotIndex === carousel.index ? "true" : undefined}
+            aria-current={dotIndex === index ? 'true' : undefined}
             onClick={() => goTo(dotIndex)}
           />
         ))}
@@ -297,8 +338,16 @@ function ProductCarousel({
 
 function WaveShapeBottom() {
   return (
-    <div className={styles.shapeBottom} aria-hidden="true" data-negative="false">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+    <div
+      className={styles.shapeBottom}
+      aria-hidden="true"
+      data-negative="false"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1000 100"
+        preserveAspectRatio="none"
+      >
         <path
           className={styles.shapeFill}
           d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"
@@ -308,19 +357,19 @@ function WaveShapeBottom() {
   );
 }
 
-const RETAILER_FALLBACK_COLOR = "#00843d";
+const RETAILER_FALLBACK_COLOR = '#00843d';
 
 function productThemeStyle(data: PlantPoweredBitesPageData): CSSProperties {
   return {
-    "--section-fallback": data.theme.detailColor,
-    "--accordion-bg": data.theme.accordionBg,
-    "--discover-btn-bg": data.theme.discoverButtonBg,
-    "--discover-btn-color": data.theme.discoverButtonColor,
+    '--section-fallback': data.theme.detailColor,
+    '--accordion-bg': data.theme.accordionBg,
+    '--discover-btn-bg': data.theme.discoverButtonBg,
+    '--discover-btn-color': data.theme.discoverButtonColor,
   } as CSSProperties;
 }
 
 function ProductHeading({ id, title }: { id: string; title: string }) {
-  const lines = title.split("\n");
+  const lines = title.split('\n');
 
   return (
     <h1 id={id} className={styles.pageHeading}>
@@ -334,10 +383,17 @@ function ProductHeading({ id, title }: { id: string; title: string }) {
   );
 }
 
-export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPoweredBitesPageData }) {
+export function PlantPoweredBitesProductPageContent({
+  data,
+}: {
+  data: PlantPoweredBitesPageData;
+}) {
   return (
     <main className={styles.page}>
-      <section className={`${styles.fullBleed} leading-0`} aria-label={data.heroAlt}>
+      <section
+        className={`${styles.fullBleed} leading-0`}
+        aria-label={data.heroAlt}
+      >
         {data.assets.heroDesktop.trim() ? (
           <Image
             src={data.assets.heroDesktop}
@@ -376,7 +432,9 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
           desktopPosition="top center"
           mobilePosition="top center"
         />
-        <div className={`${styles.sectionContent} ${styles.inner} ${styles.detailInner}`}>
+        <div
+          className={`${styles.sectionContent} ${styles.inner} ${styles.detailInner}`}
+        >
           <header className={styles.detailHeader}>
             <ProductHeading id={data.headingId} title={data.hero.title} />
             <p className={styles.detailIntro}>{data.hero.intro}</p>
@@ -415,13 +473,11 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
                 ) : null}
               </div>
 
-              {(Array.isArray(data.description) ? data.description : [data.description]).map(
-                (paragraph) => (
-                  <p key={paragraph} className={styles.description}>
-                    {paragraph}
-                  </p>
-                ),
-              )}
+              {descriptionParagraphs(data.description).map((paragraph) => (
+                <p key={paragraph} className={styles.description}>
+                  {paragraph}
+                </p>
+              ))}
 
               <ProductAccordion items={data.accordion} />
             </div>
@@ -441,7 +497,10 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
         />
         <div className={`${styles.sectionContent} ${styles.inner}`}>
           <div className={styles.retailerRow}>
-            <h2 id={`${data.slug}-retailer-heading`} className={styles.sectionHeading}>
+            <h2
+              id={`${data.slug}-retailer-heading`}
+              className={styles.sectionHeading}
+            >
               {data.retailer.heading}
             </h2>
             <a href={data.retailer.logoHref} target="_blank" rel="noreferrer">
@@ -475,10 +534,12 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
           fit="cover"
           position="top center"
           unoptimized={true}
-         
         />
         <div className={`${styles.sectionContent} ${styles.inner}`}>
-          <h2 id={`${data.slug}-why-not-try-heading`} className={styles.sectionHeading}>
+          <h2
+            id={`${data.slug}-why-not-try-heading`}
+            className={styles.sectionHeading}
+          >
             Why not try
           </h2>
           <div className={styles.relatedGrid}>
@@ -504,7 +565,9 @@ export function PlantPoweredBitesProductPageContent({ data }: { data: PlantPower
         <WaveShapeBottom />
       </section>
 
-      <InstagramShareSection className={`${styles.fullBleed} bg-white pt-[90px] pb-10 md:pb-16`} />
+      <InstagramShareSection
+        className={`${styles.fullBleed} bg-white pt-[90px] pb-10 md:pb-16`}
+      />
     </main>
   );
 }

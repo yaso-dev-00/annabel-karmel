@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from 'react';
 
-import styles from "@/components/MarketingScreen/EmpowerYourEmployeesPage/empower-your-employees-page.module.css";
+import styles from '@/components/MarketingScreen/EmpowerYourEmployeesPage/empower-your-employees-page.module.css';
 
 type EmpowerFormSelectProps = {
   name: string;
@@ -21,7 +21,7 @@ export function EmpowerFormSelect({
 }: EmpowerFormSelectProps) {
   const listId = useId();
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -35,12 +35,12 @@ export function EmpowerFormSelect({
       }
     };
 
-    document.addEventListener("mousedown", handlePointerDown);
-    document.addEventListener("touchstart", handlePointerDown);
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('touchstart', handlePointerDown);
 
     return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('touchstart', handlePointerDown);
     };
   }, [isOpen]);
 
@@ -59,20 +59,25 @@ export function EmpowerFormSelect({
         onClick={() => setIsOpen((open) => !open)}
       >
         <span
-          className={`${styles.formSelectValue} ${value ? styles.formSelectValueFilled : ""}`}
+          className={`${styles.formSelectValue} ${value ? styles.formSelectValueFilled : ''}`}
         >
           {selectedLabel}
         </span>
       </button>
       {isOpen ? (
-        <ul id={listId} className={styles.formSelectList} role="listbox" aria-label={ariaLabel}>
+        <ul
+          id={listId}
+          className={styles.formSelectList}
+          role="listbox"
+          aria-label={ariaLabel}
+        >
           {options.map((option) => (
             <li key={option} role="presentation">
               <button
                 type="button"
                 role="option"
                 aria-selected={value === option}
-                className={`${styles.formSelectOption} ${value === option ? styles.formSelectOptionSelected : ""}`}
+                className={`${styles.formSelectOption} ${value === option ? styles.formSelectOptionSelected : ''}`}
                 onClick={() => {
                   setValue(option);
                   setIsOpen(false);

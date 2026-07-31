@@ -1,10 +1,10 @@
-import { createDefaultHomepageDocument } from "@/lib/homepage/create-default-homepage";
-import type { HomepageDocument, HomepageStore } from "@/lib/homepage/types";
+import { createDefaultHomepageDocument } from '@/lib/homepage/create-default-homepage';
+import type { HomepageDocument, HomepageStore } from '@/lib/homepage/types';
 import {
   readHomepageCmsStoreRaw,
   writeHomepageCmsStoreRaw,
-} from "@/lib/admin/homepage-cms-store-io";
-import { sanitizeHomepageDocument } from "@/lib/admin/sanitize-homepage";
+} from '@/lib/admin/homepage-cms-store-io';
+import { sanitizeHomepageDocument } from '@/lib/admin/sanitize-homepage';
 
 async function readStore(): Promise<HomepageStore> {
   let raw: string;
@@ -22,7 +22,9 @@ async function readStore(): Promise<HomepageStore> {
   }
 
   return {
-    homepage: sanitizeHomepageDocument(store.homepage ?? createDefaultHomepageDocument()),
+    homepage: sanitizeHomepageDocument(
+      store.homepage ?? createDefaultHomepageDocument(),
+    ),
   };
 }
 
@@ -36,8 +38,8 @@ export async function getHomepageDocument(): Promise<HomepageDocument> {
 }
 
 export async function updateHomepageDocument(
-  input: Partial<Omit<HomepageDocument, "id" | "created_at">> & {
-    sections?: HomepageDocument["sections"];
+  input: Partial<Omit<HomepageDocument, 'id' | 'created_at'>> & {
+    sections?: HomepageDocument['sections'];
   },
 ): Promise<HomepageDocument> {
   const store = await readStore();

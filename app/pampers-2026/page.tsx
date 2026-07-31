@@ -1,10 +1,13 @@
-import { PartnerPublicPage, generatePartnerPageMetadata } from "@/lib/admin/partner-public-page";
-import type { Metadata } from "next";
+import {
+  PartnerPublicPage,
+  generatePartnerPageMetadata,
+} from '@/lib/admin/partner-public-page';
+import type { Metadata } from 'next';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-const SLUG = "pampers-2026";
+const SLUG = 'pampers-2026';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generatePartnerPageMetadata(SLUG);

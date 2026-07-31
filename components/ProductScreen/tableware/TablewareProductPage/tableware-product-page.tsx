@@ -1,26 +1,42 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import { TablewareFeaturesSection } from "@/components/ProductScreen/tableware/TablewareFeaturesSection";
-import { TablewareProductCard } from "@/components/ProductScreen/tableware/TablewareProductCard";
-import { CAROUSEL_DRAG_RELEASE, CAROUSEL_SLIDE, useSnapCarousel } from "@/components/hooks/useSnapCarousel";
-import type { TablewareColorSwatch, TablewareProductPageData } from "@/data/tableware-product-page";
+import { TablewareFeaturesSection } from '@/components/ProductScreen/tableware/TablewareFeaturesSection';
+import { TablewareProductCard } from '@/components/ProductScreen/tableware/TablewareProductCard';
+import {
+  CAROUSEL_DRAG_RELEASE,
+  CAROUSEL_SLIDE,
+  useSnapCarousel,
+} from '@/components/hooks/useSnapCarousel';
+import type {
+  TablewareColorSwatch,
+  TablewareProductPageData,
+} from '@/data/tableware-product-page';
 import {
   getCompleteSetProducts,
   tablewareProductSharedAssets,
-} from "@/data/tableware-product-page";
-import { tablewareProductHref, tablewareAssets } from "@/data/tableware-page";
-import type { TablewareProduct, TablewareSwatchColor } from "@/data/tableware-page";
-import styles from "./tableware-product-page.module.css";
+} from '@/data/tableware-product-page';
+import { tablewareProductHref, tablewareAssets } from '@/data/tableware-page';
+import type {
+  TablewareProduct,
+  TablewareSwatchColor,
+} from '@/data/tableware-page';
+import styles from './tableware-product-page.module.css';
 
 const SWATCH_BORDER: Record<TablewareSwatchColor, string> = {
-  "soft-sage": "#b4c7a3",
-  "warm-stone": "#f0e1da",
-  blushberry: "#bc7f7a",
+  'soft-sage': '#b4c7a3',
+  'warm-stone': '#f0e1da',
+  blushberry: '#bc7f7a',
 };
 
 export type TablewareProductPageContentProps = {
@@ -38,13 +54,13 @@ function GalleryChevron({
   iconClassName,
   strokeWidth,
 }: {
-  direction: "prev" | "next";
+  direction: 'prev' | 'next';
   iconClassName?: string;
   strokeWidth?: number;
 }) {
   const iconClass = iconClassName ?? styles.galleryNavIcon;
-  const stroke = strokeWidth ?? (direction === "prev" ? 2.25 : 2.5);
-  if (direction === "prev") {
+  const stroke = strokeWidth ?? (direction === 'prev' ? 2.25 : 2.5);
+  if (direction === 'prev') {
     return (
       <svg aria-hidden viewBox="0 0 24 24" className={iconClass}>
         <path
@@ -73,11 +89,27 @@ function GalleryChevron({
   );
 }
 
-function ProductGallery({ images }: { images: TablewareProductPageData["gallery"] }) {
-  const carousel = useSnapCarousel({
+function ProductGallery({
+  images,
+}: {
+  images: TablewareProductPageData['gallery'];
+}) {
+  const {
+    carouselRef,
+    trackRef,
+    x,
+    index,
+    indexRef,
+    measure,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnd,
+    handleCardClickCapture,
+    animateToIndex,
+  } = useSnapCarousel({
     itemCount: images.length,
-    cardSelector: ".tableware-gallery-slide",
-    controlsSelector: "button",
+    cardSelector: '.tableware-gallery-slide',
+    controlsSelector: 'button',
     dragThreshold: 2,
     touchDragThreshold: 1,
     rubberBandFactor: 0.35,
@@ -87,9 +119,14 @@ function ProductGallery({ images }: { images: TablewareProductPageData["gallery"
   const [isThumbsDragging, setIsThumbsDragging] = useState(false);
   const thumbsRef = useRef<HTMLDivElement>(null);
   const thumbButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
-  const animateToIndexRef = useRef(carousel.animateToIndex);
-  const measureRef = useRef(carousel.measure);
-  const indexRef = useRef(carousel.index);
+  const animateToIndexRef = useRef(animateToIndex);
+  const measureRef = useRef(measure);
+
+  useLayoutEffect(() => {
+    animateToIndexRef.current = animateToIndex;
+    measureRef.current = measure;
+  }, [animateToIndex, measure]);
+
   const thumbDragRef = useRef({
     pointerId: null as number | null,
     startX: 0,
@@ -108,21 +145,20 @@ function ProductGallery({ images }: { images: TablewareProductPageData["gallery"
     }
   }, []);
 
-  animateToIndexRef.current = carousel.animateToIndex;
-  measureRef.current = carousel.measure;
-  indexRef.current = carousel.index;
+  const selectSlide = useCallback(
+    (index: number) => {
+      if (index < 0 || index >= images.length || index === indexRef.current) {
+        return;
+      }
 
-  const selectSlide = useCallback((index: number) => {
-    if (index < 0 || index >= images.length || index === indexRef.current) {
-      return;
-    }
-
-    measureRef.current();
-    window.requestAnimationFrame(() => {
       measureRef.current();
-      animateToIndexRef.current(index, CAROUSEL_SLIDE);
-    });
-  }, [images.length]);
+      window.requestAnimationFrame(() => {
+        measureRef.current();
+        animateToIndexRef.current(index, CAROUSEL_SLIDE);
+      });
+    },
+    [images.length],
+  );
 
   const goTo = useCallback(
     (next: number) => {
@@ -133,116 +169,132 @@ function ProductGallery({ images }: { images: TablewareProductPageData["gallery"
   );
 
   useEffect(() => {
-    carousel.measure();
-  }, [carousel.measure, images.length]);
+    measure();
+  }, [images.length, measure]);
 
   useEffect(() => {
-    const thumb = thumbButtonRefs.current[carousel.index];
-    thumb?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-  }, [carousel.index]);
+    const thumb = thumbButtonRefs.current[index];
+    thumb?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
+  }, [index]);
 
   useEffect(() => {
     return () => stopThumbMomentum();
   }, [stopThumbMomentum]);
 
-  const onThumbsPointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    const element = thumbsRef.current;
-    if (!element) return;
+  const onThumbsPointerDown = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      const element = thumbsRef.current;
+      if (!element) return;
 
-    stopThumbMomentum();
-    thumbScrollVelocityRef.current = 0;
-    thumbLastSampleRef.current = { x: event.clientX, t: performance.now() };
+      stopThumbMomentum();
+      thumbScrollVelocityRef.current = 0;
+      thumbLastSampleRef.current = { x: event.clientX, t: performance.now() };
 
-    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-thumb-index]");
-    const pressedIndex = button ? Number(button.dataset.thumbIndex) : -1;
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
+        '[data-thumb-index]',
+      );
+      const pressedIndex = button ? Number(button.dataset.thumbIndex) : -1;
 
-    thumbDragRef.current = {
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      scrollLeft: element.scrollLeft,
-      isDragging: false,
-      pressedIndex,
-    };
-  }, [stopThumbMomentum]);
+      thumbDragRef.current = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        scrollLeft: element.scrollLeft,
+        isDragging: false,
+        pressedIndex,
+      };
+    },
+    [stopThumbMomentum],
+  );
 
-  const onThumbsPointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    const state = thumbDragRef.current;
-    if (state.pointerId !== event.pointerId) return;
+  const onThumbsPointerMove = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      const state = thumbDragRef.current;
+      if (state.pointerId !== event.pointerId) return;
 
-    const element = thumbsRef.current;
-    if (!element) return;
+      const element = thumbsRef.current;
+      if (!element) return;
 
-    const deltaX = event.clientX - state.startX;
-    if (!state.isDragging && Math.abs(deltaX) > 4) {
-      state.isDragging = true;
-      state.pressedIndex = -1;
-      setIsThumbsDragging(true);
-      element.setPointerCapture(event.pointerId);
-    }
-
-    if (state.isDragging) {
-      const now = performance.now();
-      const lastSample = thumbLastSampleRef.current;
-      const elapsed = now - lastSample.t;
-      if (elapsed > 0 && elapsed < 40) {
-        thumbScrollVelocityRef.current = (lastSample.x - event.clientX) / elapsed;
+      const deltaX = event.clientX - state.startX;
+      if (!state.isDragging && Math.abs(deltaX) > 4) {
+        state.isDragging = true;
+        state.pressedIndex = -1;
+        setIsThumbsDragging(true);
+        element.setPointerCapture(event.pointerId);
       }
-      thumbLastSampleRef.current = { x: event.clientX, t: now };
 
-      element.scrollLeft = state.scrollLeft - deltaX;
-      event.preventDefault();
-    }
-  }, []);
+      if (state.isDragging) {
+        const now = performance.now();
+        const lastSample = thumbLastSampleRef.current;
+        const elapsed = now - lastSample.t;
+        if (elapsed > 0 && elapsed < 40) {
+          thumbScrollVelocityRef.current =
+            (lastSample.x - event.clientX) / elapsed;
+        }
+        thumbLastSampleRef.current = { x: event.clientX, t: now };
 
-  const onThumbsPointerEnd = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
-    const state = thumbDragRef.current;
-    if (state.pointerId !== event.pointerId) return;
+        element.scrollLeft = state.scrollLeft - deltaX;
+        event.preventDefault();
+      }
+    },
+    [],
+  );
 
-    const element = thumbsRef.current;
-    if (element?.hasPointerCapture(event.pointerId)) {
-      element.releasePointerCapture(event.pointerId);
-    }
+  const onThumbsPointerEnd = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      const state = thumbDragRef.current;
+      if (state.pointerId !== event.pointerId) return;
 
-    const pressedIndex = state.pressedIndex;
-    const wasDragging = state.isDragging;
+      const element = thumbsRef.current;
+      if (element?.hasPointerCapture(event.pointerId)) {
+        element.releasePointerCapture(event.pointerId);
+      }
 
-    state.pointerId = null;
-    state.isDragging = false;
-    state.pressedIndex = -1;
-    setIsThumbsDragging(false);
+      const pressedIndex = state.pressedIndex;
+      const wasDragging = state.isDragging;
 
-    if (!wasDragging && pressedIndex >= 0) {
-      selectSlide(pressedIndex);
-      return;
-    }
+      state.pointerId = null;
+      state.isDragging = false;
+      state.pressedIndex = -1;
+      setIsThumbsDragging(false);
 
-    if (!wasDragging) {
-      return;
-    }
-
-    if (!element) {
-      return;
-    }
-
-    let velocity = thumbScrollVelocityRef.current * 16;
-    const friction = 0.92;
-    const minVelocity = 0.35;
-
-    const tick = () => {
-      if (Math.abs(velocity) < minVelocity) {
-        thumbMomentumRafRef.current = null;
+      if (!wasDragging && pressedIndex >= 0) {
+        selectSlide(pressedIndex);
         return;
       }
 
-      element.scrollLeft += velocity;
-      velocity *= friction;
-      thumbMomentumRafRef.current = window.requestAnimationFrame(tick);
-    };
+      if (!wasDragging) {
+        return;
+      }
 
-    if (Math.abs(velocity) >= minVelocity) {
-      thumbMomentumRafRef.current = window.requestAnimationFrame(tick);
-    }
-  }, [selectSlide]);
+      if (!element) {
+        return;
+      }
+
+      let velocity = thumbScrollVelocityRef.current * 16;
+      const friction = 0.92;
+      const minVelocity = 0.35;
+
+      const tick = () => {
+        if (Math.abs(velocity) < minVelocity) {
+          thumbMomentumRafRef.current = null;
+          return;
+        }
+
+        element.scrollLeft += velocity;
+        velocity *= friction;
+        thumbMomentumRafRef.current = window.requestAnimationFrame(tick);
+      };
+
+      if (Math.abs(velocity) >= minVelocity) {
+        thumbMomentumRafRef.current = window.requestAnimationFrame(tick);
+      }
+    },
+    [selectSlide],
+  );
 
   if (images.length === 0) {
     return null;
@@ -252,37 +304,37 @@ function ProductGallery({ images }: { images: TablewareProductPageData["gallery"
     <div className={styles.gallery}>
       <div className={styles.galleryFrame}>
         <div
-          ref={carousel.carouselRef}
+          ref={carouselRef}
           className={styles.galleryMainViewport}
           aria-live="polite"
-          onPointerDownCapture={carousel.handlePointerDown}
-          onPointerMoveCapture={carousel.handlePointerMove}
-          onPointerUpCapture={carousel.handlePointerEnd}
-          onPointerCancelCapture={carousel.handlePointerEnd}
+          onPointerDownCapture={handlePointerDown}
+          onPointerMoveCapture={handlePointerMove}
+          onPointerUpCapture={handlePointerEnd}
+          onPointerCancelCapture={handlePointerEnd}
         >
           <motion.div
-            ref={carousel.trackRef}
+            ref={trackRef}
             className={styles.galleryMainTrack}
-            style={{ x: carousel.x }}
+            style={{ x }}
             initial={false}
           >
             {images.map((image, slideIndex) => (
               <div
                 key={`${image.src}-${slideIndex}`}
                 className={`tableware-gallery-slide ${styles.galleryMainSlide}`}
-                aria-hidden={slideIndex !== carousel.index}
-                onClickCapture={carousel.handleCardClickCapture}
+                aria-hidden={slideIndex !== index}
+                onClickCapture={handleCardClickCapture}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={image.src}
                   alt={image.alt}
                   className={styles.galleryMainImage}
-                  loading={slideIndex === 0 ? "eager" : "lazy"}
+                  loading={slideIndex === 0 ? 'eager' : 'lazy'}
                   decoding="async"
                   draggable={false}
                   onDragStart={(event) => event.preventDefault()}
-                  onLoad={carousel.measure}
+                  onLoad={measure}
                 />
               </div>
             ))}
@@ -296,7 +348,7 @@ function ProductGallery({ images }: { images: TablewareProductPageData["gallery"
               aria-label="Previous image"
               onPointerDown={(event) => {
                 event.stopPropagation();
-                goTo(carousel.index - 1);
+                goTo(index - 1);
               }}
             >
               <GalleryChevron direction="prev" />
@@ -307,7 +359,7 @@ function ProductGallery({ images }: { images: TablewareProductPageData["gallery"
               aria-label="Next image"
               onPointerDown={(event) => {
                 event.stopPropagation();
-                goTo(carousel.index + 1);
+                goTo(index + 1);
               }}
             >
               <GalleryChevron direction="next" />
@@ -319,23 +371,23 @@ function ProductGallery({ images }: { images: TablewareProductPageData["gallery"
       {images.length > 1 ? (
         <div
           ref={thumbsRef}
-          className={`${styles.galleryThumbs}${isThumbsDragging ? ` ${styles.galleryThumbsDragging}` : ""}`}
+          className={`${styles.galleryThumbs}${isThumbsDragging ? ` ${styles.galleryThumbsDragging}` : ''}`}
           onPointerDown={onThumbsPointerDown}
           onPointerMove={onThumbsPointerMove}
           onPointerUp={onThumbsPointerEnd}
           onPointerCancel={onThumbsPointerEnd}
         >
-          {images.map((image, index) => (
+          {images.map((image, thumbIndex) => (
             <button
-              key={`${image.src}-${index}`}
+              key={`${image.src}-${thumbIndex}`}
               ref={(element) => {
-                thumbButtonRefs.current[index] = element;
+                thumbButtonRefs.current[thumbIndex] = element;
               }}
               type="button"
-              data-thumb-index={index}
-              className={`${styles.galleryThumb}${index === carousel.index ? ` ${styles.galleryThumbActive}` : ""}`}
-              aria-label={`Show image ${index + 1}`}
-              aria-current={index === carousel.index ? "true" : undefined}
+              data-thumb-index={thumbIndex}
+              className={`${styles.galleryThumb}${thumbIndex === index ? ` ${styles.galleryThumbActive}` : ''}`}
+              aria-label={`Show image ${thumbIndex + 1}`}
+              aria-current={thumbIndex === index ? 'true' : undefined}
             >
               <Image
                 src={image.src}
@@ -361,10 +413,21 @@ function CompleteSetCarousel({
   products: TablewareProduct[];
   disableLinks?: boolean;
 }) {
-  const carousel = useSnapCarousel({
+  const {
+    carouselRef,
+    trackRef,
+    x,
+    index,
+    measure,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerEnd,
+    handleCardClickCapture,
+    animateToIndex,
+  } = useSnapCarousel({
     itemCount: products.length,
-    cardSelector: ".tableware-complete-set-slide",
-    controlsSelector: "button, a",
+    cardSelector: '.tableware-complete-set-slide',
+    controlsSelector: 'button, a',
     dragThreshold: 2,
     touchDragThreshold: 1,
     rubberBandFactor: 0.35,
@@ -372,25 +435,19 @@ function CompleteSetCarousel({
     dragReleaseTransition: CAROUSEL_DRAG_RELEASE,
   });
 
-  const indexRef = useRef(0);
-  const animateToIndexRef = useRef(carousel.animateToIndex);
-
-  indexRef.current = carousel.index;
-  animateToIndexRef.current = carousel.animateToIndex;
-
   const goTo = useCallback(
     (next: number) => {
       const total = products.length;
       const wrapped = ((next % total) + total) % total;
-      if (wrapped === carousel.index) return;
-      carousel.animateToIndex(wrapped, CAROUSEL_SLIDE);
+      if (wrapped === index) return;
+      animateToIndex(wrapped, CAROUSEL_SLIDE);
     },
-    [carousel, products.length],
+    [animateToIndex, index, products.length],
   );
 
   useEffect(() => {
-    carousel.measure();
-  }, [carousel.measure, products.length]);
+    measure();
+  }, [measure, products.length]);
 
   if (products.length === 0) {
     return null;
@@ -399,20 +456,25 @@ function CompleteSetCarousel({
   return (
     <div className={styles.carouselStage}>
       <div
-        ref={carousel.carouselRef}
+        ref={carouselRef}
         className={styles.carouselViewport}
         aria-live="polite"
-        onPointerDownCapture={carousel.handlePointerDown}
-        onPointerMoveCapture={carousel.handlePointerMove}
-        onPointerUpCapture={carousel.handlePointerEnd}
-        onPointerCancelCapture={carousel.handlePointerEnd}
+        onPointerDownCapture={handlePointerDown}
+        onPointerMoveCapture={handlePointerMove}
+        onPointerUpCapture={handlePointerEnd}
+        onPointerCancelCapture={handlePointerEnd}
       >
-        <motion.div ref={carousel.trackRef} className={styles.carouselTrack} style={{ x: carousel.x }} initial={false}>
+        <motion.div
+          ref={trackRef}
+          className={styles.carouselTrack}
+          style={{ x }}
+          initial={false}
+        >
           {products.map((product) => (
             <div
               key={product.slug}
               className={`tableware-complete-set-slide ${styles.carouselSlide}`}
-              onClickCapture={carousel.handleCardClickCapture}
+              onClickCapture={handleCardClickCapture}
             >
               <TablewareProductCard
                 product={product}
@@ -432,10 +494,14 @@ function CompleteSetCarousel({
             aria-label="Previous products"
             onPointerDown={(event) => {
               event.stopPropagation();
-              goTo(carousel.index - 1);
+              goTo(index - 1);
             }}
           >
-            <GalleryChevron direction="prev" iconClassName={styles.carouselArrowIcon} strokeWidth={3} />
+            <GalleryChevron
+              direction="prev"
+              iconClassName={styles.carouselArrowIcon}
+              strokeWidth={3}
+            />
           </button>
           <button
             type="button"
@@ -443,10 +509,14 @@ function CompleteSetCarousel({
             aria-label="Next products"
             onPointerDown={(event) => {
               event.stopPropagation();
-              goTo(carousel.index + 1);
+              goTo(index + 1);
             }}
           >
-            <GalleryChevron direction="next" iconClassName={styles.carouselArrowIcon} strokeWidth={3} />
+            <GalleryChevron
+              direction="next"
+              iconClassName={styles.carouselArrowIcon}
+              strokeWidth={3}
+            />
           </button>
         </>
       ) : null}
@@ -459,7 +529,10 @@ export function TablewareProductPageContent({
   previewMode = false,
   onSwatchSelect,
 }: TablewareProductPageContentProps) {
-  const completeSetProducts = getCompleteSetProducts(data.completeSetSlugs, data.slug);
+  const completeSetProducts = getCompleteSetProducts(
+    data.completeSetSlugs,
+    data.slug,
+  );
 
   const growLogo = (
     <Image
@@ -477,7 +550,7 @@ export function TablewareProductPageContent({
       <section className={styles.heroSection} aria-label={data.title}>
         <div className={`${styles.container} ${styles.heroGrid}`}>
           <ProductGallery
-            key={`${data.slug}-${data.activeSwatchKey ?? data.activeColor}-${data.gallery.map((image) => image.src).join("|")}`}
+            key={`${data.slug}-${data.activeSwatchKey ?? data.activeColor}-${data.gallery.map((image) => image.src).join('|')}`}
             images={data.gallery}
           />
 
@@ -496,7 +569,11 @@ export function TablewareProductPageContent({
               <strong>Colour |</strong> {data.activeColorLabel}
             </p>
 
-            <div className={styles.colorSwatches} role="list" aria-label="Colour options">
+            <div
+              className={styles.colorSwatches}
+              role="list"
+              aria-label="Colour options"
+            >
               {data.swatches.map((swatch, index) => {
                 const swatchKey = swatch.slug.trim() || `swatch-${index}`;
                 const isActive = data.activeSwatchKey
@@ -506,16 +583,18 @@ export function TablewareProductPageContent({
                 const swatchSrc = isActive
                   ? tablewareAssets.swatchImagesActive[swatch.color]
                   : tablewareAssets.swatchImages[swatch.color];
-                const className = `${styles.colorSwatch} ${styles[swatch.color]}${isActive ? ` ${styles.colorSwatchActive}` : ""}`;
+                const className = `${styles.colorSwatch} ${styles[swatch.color]}${isActive ? ` ${styles.colorSwatchActive}` : ''}`;
                 const style = useHexSwatch
                   ? ({
                       backgroundColor: swatch.hex,
-                      backgroundImage: "none",
-                      borderColor: isActive ? swatch.hex : "transparent",
+                      backgroundImage: 'none',
+                      borderColor: isActive ? swatch.hex : 'transparent',
                     } as const)
                   : ({
                       backgroundImage: `url(${swatchSrc})`,
-                      borderColor: isActive ? SWATCH_BORDER[swatch.color] : "transparent",
+                      borderColor: isActive
+                        ? SWATCH_BORDER[swatch.color]
+                        : 'transparent',
                     } as const);
 
                 if (previewMode) {
@@ -541,7 +620,7 @@ export function TablewareProductPageContent({
                     className={className}
                     style={style}
                     aria-label={`${swatch.label} colour`}
-                    aria-current={isActive ? "true" : undefined}
+                    aria-current={isActive ? 'true' : undefined}
                   />
                 );
               })}
@@ -571,7 +650,10 @@ export function TablewareProductPageContent({
         </div>
       </section>
 
-      <section className={styles.descriptionSection} aria-label="Product description">
+      <section
+        className={styles.descriptionSection}
+        aria-label="Product description"
+      >
         <div className={`${styles.container} ${styles.descriptionInner}`}>
           {data.description.map((paragraph) => (
             <p key={paragraph} className={styles.descriptionParagraph}>
@@ -587,19 +669,26 @@ export function TablewareProductPageContent({
         headingId="tableware-product-features-heading"
       />
 
-      <section className={styles.specsSection} aria-label="Materials, dimensions and care">
+      <section
+        className={styles.specsSection}
+        aria-label="Materials, dimensions and care"
+      >
         <div className={styles.container}>
           <div className={styles.specsCard}>
             <div className={styles.specsGrid}>
               <div className={styles.specsBlock}>
-                <h3 className={styles.specsHeading}>{data.materials.heading}</h3>
+                <h3 className={styles.specsHeading}>
+                  {data.materials.heading}
+                </h3>
                 <ul className={styles.specsList}>
                   {data.materials.items.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
                 {data.dimensions.items.length > 0 ? (
-                  <ul className={`${styles.specsList} ${styles.specsDimensionsList}`}>
+                  <ul
+                    className={`${styles.specsList} ${styles.specsDimensionsList}`}
+                  >
                     {data.dimensions.items.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
@@ -634,19 +723,28 @@ export function TablewareProductPageContent({
 
       <section className={styles.distributorSection} aria-label="Distribution">
         <div className={styles.container}>
-          <p className={styles.distributorText} dangerouslySetInnerHTML={{ __html: data.distributorHtml }} />
+          <p
+            className={styles.distributorText}
+            dangerouslySetInnerHTML={{ __html: data.distributorHtml }}
+          />
         </div>
       </section>
 
       {completeSetProducts.length > 0 ? (
-        <section className={styles.completeSetSection} aria-labelledby="complete-set-heading">
+        <section
+          className={styles.completeSetSection}
+          aria-labelledby="complete-set-heading"
+        >
           <div className={styles.container}>
             <h2 id="complete-set-heading" className={styles.completeSetHeading}>
               Complete your set
             </h2>
           </div>
           <div className={styles.completeSetCarouselWrap}>
-            <CompleteSetCarousel products={completeSetProducts} disableLinks={previewMode} />
+            <CompleteSetCarousel
+              products={completeSetProducts}
+              disableLinks={previewMode}
+            />
           </div>
         </section>
       ) : null}
